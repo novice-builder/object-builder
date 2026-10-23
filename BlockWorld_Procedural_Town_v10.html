@@ -237,7 +237,44 @@ function buildTown(){
  if(w>6){block(glass,x-w*.27,y+h*.55,front,1.15,1.15,.14);block(glass,x+w*.27,y+h*.55,front,1.15,1.15,.14)}
  if(enabled('townClutter')){for(let t=0;t<3;t++){const tx=x+(rand(x,z,t+10)-.5)*(w+5),tz=z+d/2+2+rand(x,z,t+20)*3;if(inside(tx,tz))put(sphereGeo,grass[t%2],tx,yAt(tx,tz)+.35,tz,.65,.6,.65)}}
  n++;
- }}
+ }
+ // When the OSM export has no mapped house footprints, make believable
+ // suburban houses beside residential road centerlines instead.
+ if(n===0){
+   const candidates=[],spacing=quality==='high'?23:quality==='low'?36:29;
+   for(const road of mapData.roads||[]){
+     if(!['residential','living_street','unclassified','tertiary','service'].includes(road.t))continue;
+     for(let j=1;j<(road.p||[]).length;j++){
+       const [ax,az]=road.p[j-1],[bx,bz]=road.p[j],len=Math.hypot(bx-ax,bz-az);
+       if(len<14)continue;
+       const dx=(bx-ax)/len,dz=(bz-az)/len,nx=dz,nz=-dx;
+       for(let dist=9;dist<len-6;dist+=spacing){
+         for(const side of [-1,1]){
+           if(rand(ax+dist,az,side)<.18)continue;
+           const offset=Math.max(12,(road.w||7)/2+9)+rand(ax,dist,side)*4;
+           const x=ax+dx*dist+nx*side*offset,z=az+dz*dist+nz*side*offset;
+           if(!inside(x,z,15)||nearRoad(x,z)<7)continue;
+           if(candidates.some(q=>Math.hypot(q[0]-x,q[1]-z)<16))continue;
+           candidates.push([x,z,Math.atan2(dx,dz)]);
+         }
+       }
+     }
+   }
+   const maxHouses=Math.floor((quality==='high'?280:quality==='low'?75:165)*density);
+   for(const [x,z,angle] of candidates.slice(0,maxHouses)){
+     const k=rand(x,z),w=9+rand(x,z,1)*4,d=10+rand(x,z,2)*5;
+     const h=3.2+rand(x,z,3)*1.5,y=yAt(x,z);
+     const group=new THREE.Group();group.position.set(x,0,z);group.rotation.y=angle;townRoot.add(group);
+     const wall=new THREE.Mesh(boxGeo,paint[Math.floor(k*paint.length)]);wall.position.set(0,y+h/2,0);wall.scale.set(w,h,d);group.add(wall);
+     const roof=new THREE.Mesh(new THREE.ConeGeometry(1,1,4),roofs[Math.floor(rand(x,z,5)*roofs.length)]);roof.geometry.rotateY(Math.PI/4);
+     const rh=1.5+rand(x,z,6);roof.position.set(0,y+h+rh/2,0);roof.scale.set((w+1.4)*.71,rh,(d+1.4)*.71);group.add(roof);
+     const front=new THREE.Mesh(boxGeo,door);front.scale.set(1.05,2.1,.16);front.position.set(0,y+1.05,d/2+.08);group.add(front);
+     for(const side of [-1,1]){const win=new THREE.Mesh(boxGeo,glass);win.scale.set(1.4,1.2,.18);win.position.set(side*w*.29,y+h*.61,d/2+.09);group.add(win)}
+     n++;
+   }
+ }
+ $('townStatus').dataset.houses=String(n);
+ }
  if(enabled('townTrees')||enabled('townClutter')){
  const span=(crop.x1-crop.x0)*(crop.z1-crop.z0),count=Math.min(Math.floor((span/360)*density),quality==='high'?1200:quality==='low'?180:650);
  const tree=(x,z,r=1)=>{
@@ -258,7 +295,7 @@ function buildTown(){
  }
  }
  }
- $('townStatus').textContent='Town generated: '+townRoot.children.length+' scenic meshes · OSM-based placement + estimated details.';
+ $('townStatus').textContent='Town generated: '+townRoot.children.length+' scenic meshes · '+($('townStatus').dataset.houses||'0')+' houses · OSM-based placement + estimated details.';
 }
 $('generateTown').onclick=()=>{buildTown();toast('Cartoon town generated')};
 $('randomTown').onclick=()=>{$('townSeed').value=(Number($('townSeed').value)||42)+1;buildTown()};
