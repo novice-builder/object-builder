@@ -1,102 +1,198 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>BlockWorld • Auto House Generator v2</title><style>
-:root{font-family:system-ui,-apple-system,sans-serif;color:#eaf2f6;background:#0b1721}*{box-sizing:border-box}body{margin:0}.top{display:flex;gap:9px;align-items:center;padding:12px 15px;background:#122b3b;flex-wrap:wrap}h1{font-size:17px;margin:0 12px 0 0}.top button,.panel button,.panel select,.panel input{border:1px solid #517589;border-radius:9px;padding:10px;background:#21465e;color:#fff;font:inherit}.panel input[type=number]{width:86px;background:#f7fafc;color:#111}.panel input[type=range]{width:100%}.panel button.primary,.top button.primary{background:#2386a5}button:disabled{opacity:.42}.app{display:grid;grid-template-columns:310px minmax(0,1fr);height:calc(100dvh - 58px)}.panel{overflow:auto;padding:13px;background:#142838;border-right:1px solid #375467}.sect{border:1px solid #426074;border-radius:12px;padding:12px;margin-bottom:11px}.sect h2{font-size:14px;margin:0 0 10px}.sect p,.hint{color:#b3cad6;font-size:12px;line-height:1.5}.row{display:flex;align-items:center;justify-content:space-between;gap:9px;margin:8px 0}.row label{font-size:12px}.buttons{display:flex;flex-wrap:wrap;gap:6px}.buttons button{font-size:12px;padding:8px}.workspace{position:relative;min-width:0;background:#dfe9ea;display:grid;grid-template-columns:1fr 1fr}.viewport{position:relative;min-width:0;overflow:hidden}.viewport+ .viewport{border-left:2px solid #718391}.viewport canvas{width:100%;height:100%;display:block;touch-action:none}.viewTitle{position:absolute;left:10px;top:9px;background:#0f2b3bdc;color:white;border-radius:8px;padding:6px 9px;font-size:12px;pointer-events:none}.status{font-size:12px;line-height:1.5;color:#bed8e5;min-height:28px}.foot{font-size:11px;color:#a9c6d3}.sel{background:#3196bc!important}input[type=file]{display:none}@media(max-width:850px){.app{display:flex;flex-direction:column;height:auto;min-height:calc(100dvh - 58px)}.panel{order:2;max-height:none}.workspace{order:1;min-height:52dvh;height:52dvh}.top{padding:8px}.viewport{min-height:0}}
-</style></head><body><header class="top"><h1>BLOCKWORLD · AUTO HOUSE v2</h1><button id="loadBtn" class="primary">Import floor plan</button><input id="imageFile" type="file" accept="image/*"><button id="detectBtn" class="primary">Detect walls → Generate</button><button id="projectBtn">Save project</button><button id="openProjectBtn">Open project</button><input id="projectFile" type="file" accept=".json"></header><div class="app"><aside class="panel">
-<section class="sect"><h2>1 · Recognition</h2><div class="row"><label>Dark-line threshold</label><input id="threshold" type="number" min="30" max="220" value="125"></div><div class="row"><label>Minimum wall length (px)</label><input id="minLen" type="number" min="8" max="300" value="35"></div><div class="row"><label>Minimum wall thickness (px)</label><input id="minThick" type="number" min="2" max="35" value="7"></div><div class="row"><label>Wall straightening</label><input id="snapPx" type="number" min="2" max="40" value="11"></div><p>Automatically detects long heavy horizontal and vertical strokes. Thin furniture lines and curved door swings are usually excluded. Inspect the overlay for errors.</p><div class="row"><label>Show source image</label><input id="showImage" type="checkbox" checked></div><div class="row"><label>Detected wall count</label><strong id="wallCount">0</strong></div></section>
-<section class="sect"><h2>2 · Dimension calibration</h2><p>Choose <b>Measure</b>, then tap two walls in the floor-plan preview. Enter their real-world separation. The complete wall network rescales together, preserving connections and snapping to 100 mm.</p><div class="buttons"><button id="measureBtn">Measure between walls</button><button id="editBtn">Select/edit walls</button><button id="deleteBtn">Delete selected wall</button></div><div class="row"><label>Measured separation (m)</label><input id="realDist" type="number" min="0.2" max="60" step="0.1" value="4.0"></div><div class="buttons"><button id="applyScaleBtn" class="primary">Apply dimension</button><button id="clearMeasureBtn">Clear selection</button></div><div class="status" id="measurement">Select two walls to calibrate.</div><p>After calibration, selected wall endpoints can be nudged together on the shared grid.</p><div class="buttons"><button data-move="-0.1,0">← 100 mm</button><button data-move="0,-0.1">↑ 100 mm</button><button data-move="0.1,0">→ 100 mm</button><button data-move="0,0.1">↓ 100 mm</button></div></section>
-<section class="sect"><h2>3 · House construction</h2><div class="row"><label>Story count</label><select id="stories"><option value="1">Single story</option><option value="2">Two stories</option></select></div><div class="row"><label>Wall height (m)</label><input id="wallHeight" type="number" min="2" max="4" step="0.1" value="2.7"></div><div class="row"><label>Wall thickness (m)</label><input id="wallThickness" type="number" min="0.1" max="0.4" step="0.1" value="0.2"></div><div class="row"><label>Roof pitch (degrees)</label><input id="roofPitch" type="number" min="5" max="45" step="0.5" value="22.5"></div><div class="row"><label>Roof overhang (m)</label><input id="overhang" type="number" min="0" max="1.5" step="0.1" value="0.5"></div><div class="row"><label>Roof</label><select id="roofStyle"><option value="hip">Hip / pyramid</option><option value="gable">Gable</option><option value="flat">Flat</option></select></div><div class="row"><label>Show roof</label><input id="showRoof" type="checkbox" checked></div><div class="row"><label>Show 3D walls</label><input id="showWalls" type="checkbox" checked></div><div class="buttons"><button id="rebuildBtn" class="primary">Regenerate 3D</button><button id="resetViewBtn">Fit 3D view</button></div><p>Roof footprint is estimated from the outer extents. Complex L-shaped and multi-pitch roofs need correction; they aren't reliably inferred from a plan without roof elevations.</p></section>
-<section class="sect"><h2>4 · Openings & corrections</h2><p>Choose a wall, then add a door or window opening centered on that wall. Doors and windows are manual corrections in this version; curved symbols are not yet reliably classified.</p><div class="buttons"><button id="doorBtn">Add door</button><button id="windowBtn">Add window</button><button id="removeOpenBtn">Remove openings</button></div><p id="openingStatus" class="status"></p></section>
-<div class="foot">Experimental image-to-geometry recognition. Best with high-contrast architectural plans. Geometry is illustrative, not suitable for construction measurements.</div>
-</aside><main class="workspace"><div class="viewport"><canvas id="plan"></canvas><div class="viewTitle">2D recognition · tap walls to select</div></div><div class="viewport"><canvas id="three"></canvas><div class="viewTitle">3D house · drag to orbit · pinch to zoom</div></div></main></div>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#101e2c"><title>BlockWorld · Wall Picker</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#c8d8e0;font:14px system-ui,-apple-system,Arial;touch-action:none}
+#bar{position:absolute;z-index:5;top:0;left:0;right:0;padding:calc(env(safe-area-inset-top) + 8px) 8px 8px;display:flex;gap:6px;background:#102b3a;align-items:center}
+button{border:1px solid #688999;border-radius:9px;color:#f4faff;background:#264c60;padding:10px 10px;font:inherit;white-space:nowrap;min-height:40px;flex:1}
+button.selected{background:#158a98;border-color:#58c8cf}button.danger{background:#9a4848;border-color:#e19898}button:active{filter:brightness(1.2)}
+#opacityWrap{position:absolute;z-index:8;top:calc(env(safe-area-inset-top) + 64px);left:8px;background:#102b3a;color:white;padding:14px;border-radius:12px;box-shadow:0 6px 20px #0005;display:none;width:min(290px,90vw)}
+#opacityWrap.open{display:block}input[type=range]{width:100%}
+#view{position:absolute;inset:0;overflow:hidden}
+#plan,#three{width:100%;height:100%;display:block;touch-action:none}#three{display:none}
+#hint{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 12px);left:12px;right:12px;pointer-events:none;text-align:center;color:#fff;background:#172d3cce;padding:9px;border-radius:9px;font-size:12px}
+#status{position:absolute;z-index:3;top:calc(env(safe-area-inset-top) + 64px);left:8px;pointer-events:none;color:#fff;background:#172d3ccc;border-radius:7px;padding:6px 9px;font-size:12px;max-width:78vw}
+#file{display:none}
+</style></head><body>
+<div id="bar"><button id="upload">Upload</button><button id="opacity">Opacity</button><button id="mode">Edit / 3D</button><button id="action">Add wall</button></div>
+<div id="opacityWrap"><div>Floor-plan opacity: <span id="opValue">75%</span></div><input type="range" id="op" min="0" max="100" value="75"></div>
+<input id="file" type="file" accept="image/*">
+<div id="view"><canvas id="plan"></canvas><canvas id="three"></canvas></div>
+<div id="status">Upload a floor plan to start</div>
+<div id="hint">Edit: tap a dark straight line to create a wall · two-finger drag to move · pinch to zoom</div>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js';
-const $=id=>document.getElementById(id),canvas=$('plan'),ctx=canvas.getContext('2d'),three=$('three');
-let image=null,imgW=0,imgH=0,walls=[],openings=[],scale=.025,selected=[],mode='edit',view={zoom:1,ox:0,oy:0},sourceURL='',lastImage=null;
-const clamp=(x,a,b)=>Math.max(a,Math.min(b,x)),grid=n=>Math.round(n*10)/10;
-function info(msg){$('measurement').textContent=msg}
-function resize(){let r=canvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(r.width*d);canvas.height=Math.round(r.height*d);let q=three.getBoundingClientRect();renderer.setSize(q.width,q.height,false);camera.aspect=Math.max(.1,q.width/q.height);camera.updateProjectionMatrix();draw2D()}
-function imagePoint(x,y){const r=canvas.getBoundingClientRect(),f=Math.min(r.width/imgW,r.height/imgH)*view.zoom,px=r.width/2-imgW*f/2+view.ox,py=r.height/2-imgH*f/2+view.oy;return{x:(x-px)/f,y:(y-py)/f}}
-function screenPoint(x,y){const r=canvas.getBoundingClientRect(),f=Math.min(r.width/imgW,r.height/imgH)*view.zoom;return{x:r.width/2-imgW*f/2+view.ox+x*f,y:r.height/2-imgH*f/2+view.oy+y*f}}
-function detect(){if(!image){info('Import an image first.');return}
- const maxSide=1400,fac=Math.min(1,maxSide/Math.max(image.width,image.height));imgW=Math.round(image.width*fac);imgH=Math.round(image.height*fac);
- const temp=document.createElement('canvas');temp.width=imgW;temp.height=imgH;const c=temp.getContext('2d',{willReadFrequently:true});c.fillStyle='#fff';c.fillRect(0,0,imgW,imgH);c.drawImage(image,0,0,imgW,imgH);lastImage=temp;
- const pixels=c.getImageData(0,0,imgW,imgH).data,mask=new Uint8Array(imgW*imgH),thr=+$('threshold').value;
- for(let y=0;y<imgH;y++)for(let x=0;x<imgW;x++){const k=(y*imgW+x)*4;const light=pixels[k]*.299+pixels[k+1]*.587+pixels[k+2]*.114;mask[y*imgW+x]=light<thr?1:0}
- const minLength=+$('minLen').value,minThick=+$('minThick').value;
- // Extract thick, persistent runs from both scan directions; this filters furniture outline strokes.
- let scan=[];const stride=2;
- for(const orientation of ['h','v']){
- const outer=orientation==='h'?imgH:imgW,inner=orientation==='h'?imgW:imgH;
- for(let a=0;a<outer;a+=stride){let start=-1;
-  for(let b=0;b<=inner;b++){const x=orientation==='h'?b:a,y=orientation==='h'?a:b;
-    const val=b<inner?mask[y*imgW+x]:0;
-    if(val&&start<0)start=b;
-    else if(!val&&start>=0){const run=b-start;
-      if(run>=minLength){let ok=0;for(let t=start+4;t<b-4;t+=Math.max(2,Math.floor(run/14))){let width=1;for(let dir of [-1,1]){for(let n=1;n<30;n++){const xx=orientation==='h'?t:a+dir*n,yy=orientation==='h'?a+dir*n:t;if(xx<0||xx>=imgW||yy<0||yy>=imgH||!mask[yy*imgW+xx])break;width++}}if(width>=minThick)ok++}
-        if(ok>=2)scan.push({axis:orientation,fixed:a,lo:start,hi:b,weight:run});
-      }start=-1}
+const $=id=>document.getElementById(id);
+const canvas=$('plan'),ctx=canvas.getContext('2d'),three=$('three');
+let image=null,pixels=null,imgW=0,imgH=0,walls=[],editing=true,deleting=false,alpha=.75;
+let zoom=1,tx=0,ty=0,base=1,barBottom=70;
+let pointers=new Map(),lastDistance=0,panPoint=null;
+const wallHeight=2.7,wallThickness=.18;
+let worldScale=.03; // provisional 30 mm per plan pixel, no dimension calibration yet
+const renderer=new THREE.WebGLRenderer({canvas:three,antialias:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.7));
+renderer.setClearColor(0xc8d8e0);
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(53,1,.1,1000);
+scene.add(new THREE.HemisphereLight(0xffffff,0x6e7983,2.1));
+const sun=new THREE.DirectionalLight(0xffffff,2);sun.position.set(30,70,40);scene.add(sun);
+const grid=new THREE.GridHelper(80,80,0xa6b8bd,0xbacbd0);scene.add(grid);
+let wallGroup=new THREE.Group();scene.add(wallGroup);
+let yaw=.75,pitch=.85,distance=24,target=new THREE.Vector3(),orbitPointers=new Map(),orbitLast=null;
+const status=s=>$('status').textContent=s;
+function resize(){
+ const dpr=Math.min(devicePixelRatio||1,2),width=innerWidth,height=innerHeight;
+ canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);
+ canvas.style.width=width+'px';canvas.style.height=height+'px';
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();
+ barBottom=$('bar').getBoundingClientRect().bottom;
+ if(image&&base===1)fitImage();else draw();
+}
+function fitImage(){if(!image)return;const availH=innerHeight-barBottom-30; zoom=1;base=Math.min((innerWidth-26)/imgW,availH/imgH);tx=(innerWidth-imgW*base)/2;ty=barBottom+12+(availH-imgH*base)/2;draw();}
+function point(x,y){return{x:(x-tx)/(base*zoom),y:(y-ty)/(base*zoom)}}
+function draw(){
+ if(!editing)return;
+ ctx.clearRect(0,0,innerWidth,innerHeight);ctx.fillStyle='#eef2f3';ctx.fillRect(0,0,innerWidth,innerHeight);
+ if(!image)return;
+ ctx.save();ctx.translate(tx,ty);ctx.scale(base*zoom,base*zoom);
+ ctx.globalAlpha=alpha;ctx.drawImage(image,0,0);ctx.globalAlpha=1;
+ ctx.lineCap='butt';ctx.lineJoin='miter';
+ for(const wall of walls){
+  ctx.beginPath();ctx.moveTo(wall.x1,wall.y1);ctx.lineTo(wall.x2,wall.y2);
+  ctx.lineWidth=Math.max(2.5,wall.width||4);ctx.strokeStyle='#00b7e8bb';ctx.stroke();
+  ctx.strokeStyle='#004d63';ctx.lineWidth=Math.max(1,(wall.width||4)*.32);ctx.stroke();
+  for(const [x,y] of [[wall.x1,wall.y1],[wall.x2,wall.y2]]){ctx.beginPath();ctx.arc(x,y,3.2,0,Math.PI*2);ctx.fillStyle='#ffbc2d';ctx.fill()}
+ }
+ ctx.restore();
+}
+function dark(x,y){if(!pixels)return false;x=Math.round(x);y=Math.round(y);if(x<0||x>=imgW||y<0||y>=imgH)return false;const o=(y*imgW+x)*4;return pixels[o]*.299+pixels[o+1]*.587+pixels[o+2]*.114<115&&pixels[o+3]>100}
+function runAt(x,y,axis){
+ const coord=axis==='h'?x:y,other=axis==='h'?y:x,limit=axis==='h'?imgW:imgH;
+ const test=(n,r)=>axis==='h'?dark(n,r):dark(r,n);
+ let best=null;
+ for(let shift=-4;shift<=4;shift++){
+  const row=Math.round(other+shift),c=Math.round(coord);
+  if(!test(c,row))continue;
+  let lo=c,hi=c;
+  // Allow at most a single light pixel in a black line, not a missing doorway.
+  while(lo>0&&(test(lo-1,row)||(lo>1&&test(lo-2,row))))lo-=test(lo-1,row)?1:2;
+  while(hi<limit-1&&(test(hi+1,row)||(hi<limit-2&&test(hi+2,row))))hi+=test(hi+1,row)?1:2;
+  const length=hi-lo+1;
+  if(!best||length>best.length)best={lo,hi,row,length,axis};
+ }
+ return best;
+}
+function snapped(p){
+ const limit=11,ends=walls.flatMap(w=>[[w.x1,w.y1],[w.x2,w.y2]]);
+ let closest=null,d=limit;
+ for(const q of ends){const dd=Math.hypot(q[0]-p[0],q[1]-p[1]);if(dd<d){d=dd;closest=q}}
+ return closest||p;
+}
+function selectLine(ix,iy){
+ if(!pixels)return null;
+ let nearest=null,closest=16;
+ for(let y=Math.max(0,Math.floor(iy-16));y<=Math.min(imgH-1,Math.ceil(iy+16));y++)
+  for(let x=Math.max(0,Math.floor(ix-16));x<=Math.min(imgW-1,Math.ceil(ix+16));x++){
+    if(!dark(x,y))continue;
+    const d=Math.hypot(x-ix,y-iy);
+    if(d<closest){closest=d;nearest=[x,y]}
   }
- }
- }
- // Cluster overlapping/adjacent runs by axis and position into wall centerlines.
- scan.sort((a,b)=>a.axis.localeCompare(b.axis)||a.fixed-b.fixed||a.lo-b.lo);
- let clusters=[];const tolerance=+$('snapPx').value;
- for(const run of scan){let match=clusters.find(k=>k.axis===run.axis&&Math.abs(k.fixed-run.fixed)<=Math.max(tolerance,Math.round(minThick*1.6))&&run.lo<=k.hi+tolerance&&run.hi>=k.lo-tolerance);
- if(match){match.lo=Math.min(match.lo,run.lo);match.hi=Math.max(match.hi,run.hi);match.fixed=(match.fixed*match.n+run.fixed)/(match.n+1);match.n++}else clusters.push({...run,n:1})}
- clusters=clusters.filter(k=>k.n>=2&&k.hi-k.lo>=minLength);
- // Prune thin/short subsidiary lines and merge collinear wall sections.
- clusters.sort((a,b)=>(b.n*(b.hi-b.lo))-(a.n*(a.hi-a.lo)));
- const res=[];for(const k of clusters){if(res.length>=450)break;const close=res.find(r=>r.axis===k.axis&&Math.abs(r.fixed-k.fixed)<tolerance&&k.lo<=r.hi+tolerance&&k.hi>=r.lo-tolerance);if(close){close.lo=Math.min(close.lo,k.lo);close.hi=Math.max(close.hi,k.hi);close.n+=k.n}else res.push({...k})}
- // Plan screenshots contain UI margins. Remove extreme outlying marks using the dominant ink footprint.
- let result=res.filter(k=>(k.hi-k.lo)>minLength&&k.n>=Math.max(2,Math.ceil(minThick/stride*.55)));
- // Identify thick architectural segments; very long heavy horizontal and vertical runs prioritized.
- const fw=result.filter(k=>k.axis==='h').map(k=>k.fixed),fv=result.filter(k=>k.axis==='v').map(k=>k.fixed);
- walls=result.map((k,i)=>({id:i,a:k.axis==='h'?[k.lo,k.fixed]:[k.fixed,k.lo],b:k.axis==='h'?[k.hi,k.fixed]:[k.fixed,k.hi],axis:k.axis,source:true}));
- selected=[];openings=[];scale=.025;view.zoom=1;view.ox=view.oy=0;
- $('wallCount').textContent=walls.length;info('Detected '+walls.length+' wall segments. Select two walls and set their known distance to calibrate.');fit3D();draw2D();rebuild3D();
- }
-function draw2D(){const rect=canvas.getBoundingClientRect(),d=canvas.width/Math.max(1,rect.width);ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,rect.width,rect.height);ctx.fillStyle='#f4f5f3';ctx.fillRect(0,0,rect.width,rect.height);
- if(!imgW||!imgH)return;
- const p=screenPoint(0,0),q=screenPoint(imgW,imgH);if($('showImage').checked&&lastImage){ctx.globalAlpha=.32;ctx.drawImage(lastImage,p.x,p.y,q.x-p.x,q.y-p.y);ctx.globalAlpha=1}
- for(const w of walls){const a=screenPoint(...w.a),b=screenPoint(...w.b),sel=selected.includes(w.id);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=sel?'#e44b32':'#0873ad';ctx.lineWidth=sel?5:2.5;ctx.lineCap='round';ctx.stroke();if(sel){ctx.fillStyle='#e44b32';for(const pt of [a,b]){ctx.beginPath();ctx.arc(pt.x,pt.y,4,0,2*Math.PI);ctx.fill()}}}
- for(const op of openings){const w=walls.find(x=>x.id===op.wall);if(!w)continue;const mid=screenPoint((w.a[0]+w.b[0])/2,(w.a[1]+w.b[1])/2);ctx.fillStyle=op.type==='door'?'#e7b53c':'#25a4bd';ctx.fillRect(mid.x-6,mid.y-6,12,12)}
+ if(!nearest)return null;
+ const [x,y]=nearest;
+ const h=runAt(x,y,'h'),v=runAt(x,y,'v');
+ const candidates=[h,v].filter(r=>r&&r.length>=8);
+ if(!candidates.length)return null;
+ candidates.sort((a,b)=>b.length-a.length);
+ const r=candidates[0],axis=r.axis;
+ // Estimate center of thick strokes, preserving exact observed endpoints.
+ const p1=axis==='h'?[r.lo,r.row]:[r.row,r.lo],p2=axis==='h'?[r.hi,r.row]:[r.row,r.hi];
+ let a=snapped(p1),b=snapped(p2);
+ if(Math.hypot(b[0]-a[0],b[1]-a[1])<8)return null;
+ return{x1:a[0],y1:a[1],x2:b[0],y2:b[1],width:Math.max(2,Math.min(13,estimateWidth(r)))};
 }
-canvas.addEventListener('pointerdown',e=>{if(!walls.length)return;const r=canvas.getBoundingClientRect(),pt=imagePoint(e.clientX-r.left,e.clientY-r.top);let w=null,dist=Infinity;
- for(const a of walls){let dx=a.b[0]-a.a[0],dy=a.b[1]-a.a[1],u=clamp(((pt.x-a.a[0])*dx+(pt.y-a.a[1])*dy)/(dx*dx+dy*dy||1),0,1),di=Math.hypot(pt.x-a.a[0]-u*dx,pt.y-a.a[1]-u*dy);if(di<dist){dist=di;w=a}}
- if(dist>Math.max(18,14/view.zoom)||!w)return;
- if(mode==='measure'){if(selected.includes(w.id))selected=selected.filter(id=>id!==w.id);else selected=[...selected.slice(-1),w.id];if(selected.length===2){let a=walls.find(x=>x.id===selected[0]),b=walls.find(x=>x.id===selected[1]);const mid=w=>[(w.a[0]+w.b[0])/2,(w.a[1]+w.b[1])/2];const [p,q]=[mid(a),mid(b)];info('Current approximate separation: '+(Math.hypot(p[0]-q[0],p[1]-q[1])*scale).toFixed(2)+' m. Enter true distance and Apply dimension.')}}else selected=[w.id];draw2D();});
-function calibrate(){if(selected.length!==2){info('First select two walls using Measure.');return}const [a,b]=selected.map(id=>walls.find(w=>w.id===id)),mid=w=>[(w.a[0]+w.b[0])/2,(w.a[1]+w.b[1])/2];const p=mid(a),q=mid(b);const sep=Math.hypot(p[0]-q[0],p[1]-q[1]),target=+$('realDist').value;if(sep<2||target<=0)return;scale=target/sep;info('Calibrated: '+scale.toFixed(5)+' m per image pixel. Model dimensions are rounded to 100 mm.');rebuild3D()}
-const scene=new THREE.Scene();scene.background=new THREE.Color(0xc4dce4);scene.add(new THREE.HemisphereLight(0xffffff,0x8fa4af,2.2));const sun=new THREE.DirectionalLight(0xffffff,2);sun.position.set(50,90,35);scene.add(sun);let house=new THREE.Group();scene.add(house);const renderer=new THREE.WebGLRenderer({canvas:three,antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7));renderer.outputColorSpace=THREE.SRGBColorSpace;const camera=new THREE.PerspectiveCamera(52,1,.1,1000);let spin=.65,tilt=.85,distance=40,target=new THREE.Vector3(0,0,0);
-function moveCam(){camera.position.set(target.x+distance*Math.sin(tilt)*Math.cos(spin),target.y+distance*Math.cos(tilt),target.z+distance*Math.sin(tilt)*Math.sin(spin));camera.lookAt(target)}
-function makeBox(mat,x,y,z,w,h,depth,rot=0){const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,depth),mat);mesh.position.set(x,y,z);mesh.rotation.y=rot;house.add(mesh)}
-function rebuild3D(){while(house.children.length){const n=house.children.pop();n.parent=null;n.geometry?.dispose();if(Array.isArray(n.material)){n.material.forEach(m=>m.dispose())}else n.material?.dispose()}
- if(!walls.length)return;const X=walls.flatMap(w=>[w.a[0],w.b[0]]),Y=walls.flatMap(w=>[w.a[1],w.b[1]]);let minX=Math.min(...X),maxX=Math.max(...X),minY=Math.min(...Y),maxY=Math.max(...Y),cx=(minX+maxX)/2,cy=(minY+maxY)/2;const px=(x)=>grid((x-cx)*scale),pz=(y)=>grid((y-cy)*scale),height=+$('wallHeight').value,thick=+$('wallThickness').value,stories=+$('stories').value;
- const mWall=new THREE.MeshLambertMaterial({color:0xe7d7bc}),mFloor=new THREE.MeshLambertMaterial({color:0xb4afa5}),mRoof=new THREE.MeshLambertMaterial({color:0x9e5147,side:THREE.DoubleSide}),mGlass=new THREE.MeshLambertMaterial({color:0x78b8cf,transparent:true,opacity:.77});
- const lx=Math.max(.3,grid((maxX-minX)*scale)),lz=Math.max(.3,grid((maxY-minY)*scale));makeBox(mFloor,0,-.09,0,lx,.18,lz);
- for(let story=0;story<stories;story++)for(const w of walls){let x1=px(w.a[0]),z1=pz(w.a[1]),x2=px(w.b[0]),z2=pz(w.b[1]),length=Math.hypot(x2-x1,z2-z1);if(length<.1)continue;const angle=Math.atan2(x2-x1,z2-z1),open=openings.find(o=>o.wall===w.id),base=story*height;
- if(open){const ow=Math.min(open.type==='door'?0.9:1.4,length*.65),remain=(length-ow)/2,dx=(x2-x1)/length,dz=(z2-z1)/length;for(const sign of [-1,1]){let mx=(x1+x2)/2+sign*dx*(ow/2+remain/2),mz=(z1+z2)/2+sign*dz*(ow/2+remain/2);makeBox(mWall,mx,base+height/2,mz,remain,height,thick,angle)}if(open.type==='door'){makeBox(mWall,(x1+x2)/2,base+height-.2,(z1+z2)/2,ow,.4,thick,angle)}else{makeBox(mWall,(x1+x2)/2,base+.48,(z1+z2)/2,ow,.96,thick,angle);makeBox(mWall,(x1+x2)/2,base+height-.3,(z1+z2)/2,ow,.6,thick,angle);makeBox(mGlass,(x1+x2)/2,base+1.55,(z1+z2)/2,ow,1.2,.045,angle)}}
- else makeBox(mWall,(x1+x2)/2,base+height/2,(z1+z2)/2,length,height,thick,angle)
- }
- if(stories===2)makeBox(mFloor,0,height+.04,0,lx,.18,lz);
- if($('showRoof').checked){const over=+$('overhang').value,pitch=(+$('roofPitch').value)*Math.PI/180,W=lx+over*2,D=lz+over*2,base=height*stories+.14,style=$('roofStyle').value;
- const putTri=(a,b,c)=>{const geom=new THREE.BufferGeometry();geom.setAttribute('position',new THREE.Float32BufferAttribute([...a,...b,...c],3));geom.computeVertexNormals();house.add(new THREE.Mesh(geom,mRoof))};
- const putQuad=(a,b,c,d)=>{putTri(a,b,c);putTri(a,c,d)};
- if(style==='flat')makeBox(mRoof,0,base+.07,0,W,.14,D);
- else if(style==='gable'){
- if(W>=D){const rise=D/2*Math.tan(pitch),r=[[-W/2,base+rise,0],[W/2,base+rise,0]];putQuad([-W/2,base,-D/2],[W/2,base,-D/2],r[1],r[0]);putQuad(r[0],r[1],[W/2,base,D/2],[-W/2,base,D/2]);}
- else {const rise=W/2*Math.tan(pitch),r=[[0,base+rise,-D/2],[0,base+rise,D/2]];putQuad([-W/2,base,-D/2],r[0],r[1],[-W/2,base,D/2]);putQuad(r[0],[W/2,base,-D/2],[W/2,base,D/2],r[1]);}
- }else{const half=Math.min(W,D)/2,rise=half*Math.tan(pitch);if(W>=D){let a=[-W/2+half,base+rise,0],b=[W/2-half,base+rise,0];putTri([-W/2,base,-D/2],a,[-W/2,base,D/2]);putTri([W/2,base,-D/2],[W/2,base,D/2],b);putQuad([-W/2,base,-D/2],[W/2,base,-D/2],b,a);putQuad(a,b,[W/2,base,D/2],[-W/2,base,D/2]);}else{let a=[0,base+rise,-D/2+half],b=[0,base+rise,D/2-half];putTri([-W/2,base,-D/2],[W/2,base,-D/2],a);putTri([-W/2,base,D/2],b,[W/2,base,D/2]);putQuad([-W/2,base,-D/2],a,b,[-W/2,base,D/2]);putQuad(a,[W/2,base,-D/2],[W/2,base,D/2],b)}}
- }
- for(const child of house.children){if(child.material===mWall)child.visible=$('showWalls').checked;}
- house.userData.bounds=Math.max(lx,lz);moveCam();
+function estimateWidth(r){
+ const x=r.axis==='h'?Math.round((r.lo+r.hi)/2):r.row;
+ const y=r.axis==='h'?r.row:Math.round((r.lo+r.hi)/2);
+ let neg=0,pos=0;
+ for(let k=1;k<=18;k++){if(r.axis==='h'?dark(x,y-k):dark(x-k,y))neg++;else break}
+ for(let k=1;k<=18;k++){if(r.axis==='h'?dark(x,y+k):dark(x+k,y))pos++;else break}
+ return 1+neg+pos;
 }
-function fit3D(){const len=(house.userData.bounds||15);distance=Math.max(15,len*1.8);target.y=(+$('wallHeight').value)*(+$('stories').value)*.55;moveCam()}
-let dragging=false,oldX=0,oldY=0;three.addEventListener('pointerdown',e=>{dragging=true;oldX=e.clientX;oldY=e.clientY;three.setPointerCapture(e.pointerId)});three.addEventListener('pointermove',e=>{if(!dragging)return;spin-=(e.clientX-oldX)*.009;tilt=clamp(tilt+(e.clientY-oldY)*.009,.14,1.52);oldX=e.clientX;oldY=e.clientY;moveCam()});three.addEventListener('pointerup',()=>dragging=false);three.addEventListener('wheel',e=>{e.preventDefault();distance=clamp(distance*(e.deltaY>0?1.09:.91),2,250);moveCam()},{passive:false});
-$('loadBtn').onclick=()=>$('imageFile').click();$('detectBtn').onclick=detect;$('imageFile').onchange=e=>{const f=e.target.files?.[0];if(!f)return;let u=URL.createObjectURL(f),im=new Image();im.onload=()=>{image=im;sourceURL=u;detect();URL.revokeObjectURL(u)};im.src=u};
-$('measureBtn').onclick=()=>{mode='measure';selected=[];info('Tap two walls on the plan.')};$('editBtn').onclick=()=>{mode='edit';selected=[];info('Tap one wall to select it.');draw2D()};$('applyScaleBtn').onclick=calibrate;$('clearMeasureBtn').onclick=()=>{selected=[];draw2D()};$('rebuildBtn').onclick=rebuild3D;$('resetViewBtn').onclick=fit3D;
-$('deleteBtn').onclick=()=>{walls=walls.filter(w=>!selected.includes(w.id));selected=[];$('wallCount').textContent=walls.length;draw2D();rebuild3D()};
-for(const btn of document.querySelectorAll('[data-move]'))btn.onclick=()=>{if(selected.length!==1||!walls.length){info('Select one wall first.');return}const [dx,dz]=btn.dataset.move.split(',').map(Number),w=walls.find(x=>x.id===selected[0]),sx=Math.round(dx/scale),sy=Math.round(dz/scale);if(!w)return;const previous=[w.a.slice(),w.b.slice()];for(const x of walls){for(const key of ['a','b']){if(previous.some(p=>Math.hypot(x[key][0]-p[0],x[key][1]-p[1])<7)){x[key][0]+=sx;x[key][1]+=sy}}}draw2D();rebuild3D()};
-$('doorBtn').onclick=()=>addOpen('door');$('windowBtn').onclick=()=>addOpen('window');function addOpen(type){if(selected.length!==1){$('openingStatus').textContent='Select one wall first.';return}openings=openings.filter(o=>o.wall!==selected[0]);openings.push({wall:selected[0],type});$('openingStatus').textContent=type+' added to selected wall';draw2D();rebuild3D()}$('removeOpenBtn').onclick=()=>{openings=openings.filter(o=>!selected.includes(o.wall));draw2D();rebuild3D()};
-for(const id of ['wallHeight','wallThickness','roofPitch','overhang','roofStyle','stories','showRoof','showWalls'])$(id).onchange=rebuild3D;$('showImage').onchange=draw2D;
-$('projectBtn').onclick=()=>{const data={version:2,walls,openings,scale,settings:Object.fromEntries(['wallHeight','wallThickness','roofPitch','overhang','roofStyle','stories'].map(id=>[id,$(id).value]))};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));a.download='BlockWorld_House_Project.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)};$('openProjectBtn').onclick=()=>$('projectFile').click();$('projectFile').onchange=async e=>{let f=e.target.files?.[0];if(!f)return;try{let p=JSON.parse(await f.text());walls=p.walls||[];openings=p.openings||[];scale=p.scale||.025;for(const [k,v] of Object.entries(p.settings||{}))if($(k))$(k).value=v;imgW=1200;imgH=1500;lastImage=null;$('wallCount').textContent=walls.length;resize();fit3D();rebuild3D();info('Project loaded. Original plan image is not embedded in JSON.')}catch(err){info('Cannot open project: '+err.message)}};
-window.addEventListener('resize',resize);resize();moveCam();renderer.setAnimationLoop(()=>{renderer.render(scene,camera)});
+function distanceSegment(x,y,w){const vx=w.x2-w.x1,vy=w.y2-w.y1,l=vx*vx+vy*vy,t=Math.max(0,Math.min(1,((x-w.x1)*vx+(y-w.y1)*vy)/(l||1)));return Math.hypot(x-(w.x1+t*vx),y-(w.y1+t*vy))}
+function editTap(x,y){
+ const p=point(x,y);
+ if(deleting){
+  let best=-1,dist=12/(base*zoom);
+  walls.forEach((w,i)=>{const d=distanceSegment(p.x,p.y,w);if(d<dist){best=i;dist=d}});
+  if(best>=0){walls.splice(best,1);status(walls.length+' walls · removed');draw();build3D()}
+  return;
+ }
+ const w=selectLine(p.x,p.y);
+ if(!w){status('No continuous dark line found here');return}
+ if(walls.some(a=>distanceSegment(w.x1,w.y1,a)<5&&distanceSegment(w.x2,w.y2,a)<5)){status('Already selected');return}
+ walls.push(w);
+ status(walls.length+' walls · tap another dark line');
+ draw();build3D();
+}
+function build3D(){
+ while(wallGroup.children.length){const o=wallGroup.children.pop();o.geometry?.dispose();o.material?.dispose()}
+ const cx=imgW/2,cy=imgH/2;
+ for(const w of walls){
+  const x1=(w.x1-cx)*worldScale,z1=(w.y1-cy)*worldScale,x2=(w.x2-cx)*worldScale,z2=(w.y2-cy)*worldScale;
+  const length=Math.hypot(x2-x1,z2-z1);
+  if(length<.05)continue;
+  const obj=new THREE.Mesh(new THREE.BoxGeometry(length,wallHeight,wallThickness),new THREE.MeshLambertMaterial({color:0xf2e8d7}));
+  obj.position.set((x1+x2)/2,wallHeight/2,(z1+z2)/2);obj.rotation.y=-Math.atan2(z2-z1,x2-x1);wallGroup.add(obj);
+ }
+ const range=Math.max(imgW,imgH)*worldScale;
+ distance=Math.max(13,range*1.4);target.set(0,0,0);updateCamera();
+}
+function updateCamera(){pitch=Math.max(.15,Math.min(1.5,pitch));camera.position.set(target.x+distance*Math.sin(pitch)*Math.sin(yaw),target.y+distance*Math.cos(pitch),target.z+distance*Math.sin(pitch)*Math.cos(yaw));camera.lookAt(target)}
+function render(){requestAnimationFrame(render);if(!editing)renderer.render(scene,camera)}
+render();
+function toggleMode(){
+ editing=!editing;canvas.style.display=editing?'block':'none';three.style.display=editing?'none':'block';
+ $('mode').classList.toggle('selected',!editing);
+ $('hint').textContent=editing?'Edit: tap a dark straight line · two-finger drag to pan · pinch to zoom':'3D: drag to orbit · pinch to zoom · walls only';
+ if(editing)draw();else{updateCamera();renderer.render(scene,camera)}
+}
+$('mode').onclick=toggleMode;
+$('action').onclick=()=>{
+ deleting=!deleting;$('action').textContent=deleting?'Delete wall':'Add wall';
+ $('action').classList.toggle('danger',deleting);
+ status(deleting?'Tap an added wall to remove it':'Tap a dark floor-plan line to add a wall');
+};
+$('opacity').onclick=()=>{$('opacityWrap').classList.toggle('open');$('opacity').classList.toggle('selected')};
+$('op').oninput=e=>{alpha=+e.target.value/100;$('opValue').textContent=e.target.value+'%';draw()};
+$('upload').onclick=()=>$('file').click();
+$('file').onchange=e=>{
+ const f=e.target.files[0];if(!f)return;
+ const url=URL.createObjectURL(f),img=new Image();
+ img.onload=()=>{
+  image=img;imgW=img.naturalWidth;imgH=img.naturalHeight;
+  // Bound scanning cost for large screenshots while keeping ratios.
+  const c=document.createElement('canvas');c.width=imgW;c.height=imgH;
+  const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(img,0,0);
+  pixels=cx.getImageData(0,0,imgW,imgH).data;
+  walls=[];base=1;fitImage();build3D();status('Loaded '+imgW+' × '+imgH+' · tap lines to add walls');
+  URL.revokeObjectURL(url);
+ };
+ img.onerror=()=>status('Could not read this image');
+ img.src=url;e.target.value='';
+};
+canvas.addEventListener('pointerdown',e=>{canvas.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY});if(pointers.size===2){const p=[...pointers.values()];lastDistance=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);panPoint={x:(p[0].x+p[1].x)/2,y:(p[0].y+p[1].y)/2}}});
+canvas.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;const p=pointers.get(e.pointerId);p.x=e.clientX;p.y=e.clientY;
+ if(pointers.size===2){const pts=[...pointers.values()],mid={x:(pts[0].x+pts[1].x)/2,y:(pts[0].y+pts[1].y)/2},dist=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
+ if(panPoint){tx+=mid.x-panPoint.x;ty+=mid.y-panPoint.y}
+ if(lastDistance>0&&dist>0){const before=point(mid.x,mid.y);zoom=Math.max(.3,Math.min(12,zoom*dist/lastDistance));tx=mid.x-before.x*base*zoom;ty=mid.y-before.y*base*zoom}
+ panPoint=mid;lastDistance=dist;draw() }
+});
+function finish(e){const p=pointers.get(e.pointerId);if(!p)return;const one=pointers.size===1;pointers.delete(e.pointerId);if(one&&Math.hypot(e.clientX-p.sx,e.clientY-p.sy)<12&&image)editTap(e.clientX,e.clientY);if(pointers.size<2){panPoint=null;lastDistance=0}}
+canvas.addEventListener('pointerup',finish);canvas.addEventListener('pointercancel',e=>pointers.delete(e.pointerId));
+canvas.addEventListener('wheel',e=>{e.preventDefault();const before=point(e.clientX,e.clientY);zoom=Math.max(.3,Math.min(12,zoom*(e.deltaY<0?1.13:.89)));tx=e.clientX-before.x*base*zoom;ty=e.clientY-before.y*base*zoom;draw()},{passive:false});
+three.addEventListener('pointerdown',e=>{three.setPointerCapture(e.pointerId);orbitPointers.set(e.pointerId,{x:e.clientX,y:e.clientY})});
+three.addEventListener('pointermove',e=>{if(!orbitPointers.has(e.pointerId))return;const p=orbitPointers.get(e.pointerId);if(orbitPointers.size===1){yaw-=(e.clientX-p.x)*.008;pitch+=(e.clientY-p.y)*.008;updateCamera()}else{const pts=[...orbitPointers.values()];if(orbitLast){const prev=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y),next=Math.hypot(e.clientX-pts[1].x,e.clientY-pts[1].y);if(prev>0&&next>0){distance=Math.max(3,Math.min(250,distance*prev/next));updateCamera()}}orbitLast=true}p.x=e.clientX;p.y=e.clientY});
+three.addEventListener('pointerup',e=>{orbitPointers.delete(e.pointerId);orbitLast=null});
+three.addEventListener('pointercancel',e=>{orbitPointers.delete(e.pointerId);orbitLast=null});
+three.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(3,Math.min(250,distance*(e.deltaY>0?1.13:.88)));updateCamera()},{passive:false});
+window.addEventListener('resize',resize);resize();updateCamera();
 </script></body></html>
