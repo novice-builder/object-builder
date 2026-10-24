@@ -148,7 +148,7 @@ $('reset').onclick=()=>{player.set(7.5,1.65,13.2);heading=.65;elevation=.48;orbi
 const canvas=renderer.domElement;let canvasPointer=null,pointerX=0,pointerY=0,pinch=0;
 canvas.addEventListener('pointerdown',e=>{if(canvasPointer!==null)return;canvasPointer=e.pointerId;pointerX=e.clientX;pointerY=e.clientY;canvas.setPointerCapture(e.pointerId)});
 canvas.addEventListener('pointermove',e=>{if(e.pointerId!==canvasPointer)return;const dx=e.clientX-pointerX,dy=e.clientY-pointerY;
- if(!walk&&dragMode==='pan'){const step=orbitDist*.0018,vertical=step/Math.max(.25,Math.sin(elevation));player.x+=-dx*step*Math.cos(heading)+dy*vertical*Math.sin(heading);player.z+=dx*step*Math.sin(heading)+dy*vertical*Math.cos(heading);player.x=T.MathUtils.clamp(player.x,-50.9,50.9);player.z=T.MathUtils.clamp(player.z,-50.9,50.9)}
+ if(!walk&&dragMode==='pan'){const step=orbitDist*.0018,vertical=step/Math.max(.25,Math.sin(elevation));player.x+=-dx*step*Math.cos(heading)-dy*vertical*Math.sin(heading);player.z+=dx*step*Math.sin(heading)-dy*vertical*Math.cos(heading);player.x=T.MathUtils.clamp(player.x,-50.9,50.9);player.z=T.MathUtils.clamp(player.z,-50.9,50.9)}
  else{heading-=dx*.0058;elevation=T.MathUtils.clamp(elevation+(walk?-1:1)*dy*.0048,walk?-1.25:.07,walk?1.25:1.4)}
  pointerX=e.clientX;pointerY=e.clientY});
 function endCanvasPointer(e){if(canvasPointer===e.pointerId)canvasPointer=null}
