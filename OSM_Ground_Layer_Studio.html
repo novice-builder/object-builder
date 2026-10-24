@@ -122,7 +122,7 @@ function tick(t){
    const side=turn;
    const a=cam.az*Math.PI/180;
    cam.px=Math.max(0,Math.min(geo.W,cam.px+(Math.sin(a)*forward+Math.cos(a)*side)*(+$('walkSpeed').value)*dt));
-   cam.py=Math.max(0,Math.min(geo.H,cam.py(-Math.cos(a)*forward+Math.sin(a)*side)*(+$('walkSpeed').value)*dt));
+   cam.py=Math.max(0,Math.min(geo.H,cam.py+(-Math.cos(a)*forward+Math.sin(a)*side)*(+$('walkSpeed').value)*dt));
    updateCam();
  }
  requestAnimationFrame(tick)
