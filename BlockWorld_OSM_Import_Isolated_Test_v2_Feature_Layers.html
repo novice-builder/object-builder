@@ -1,0 +1,100 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>BlockWorld — Isolated OSM Import Test</title><style>
+:root{font:15px system-ui,-apple-system,Segoe UI,sans-serif;color:#ecf5fd;background:#0b1c2a}*{box-sizing:border-box}body{margin:0}main{max-width:1100px;margin:auto;padding:14px}h1{font-size:23px;margin:6px 0}p{color:#bed0dd;line-height:1.4}.panel{background:#153148;border:1px solid #577c96;border-radius:13px;padding:13px;margin:12px 0}button,.fileBtn{font:inherit;font-weight:700;color:#fff;background:#246c96;border:1px solid #8fcbec;border-radius:9px;padding:11px;cursor:pointer;min-height:46px;display:inline-flex;align-items:center;justify-content:center}button:focus-visible,.fileBtn:focus-within{outline:3px solid #ffdb77}.fileBtn{position:relative;overflow:hidden;background:#1d7859}.fileBtn input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;font-size:100px}.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}#state{padding:10px;border-radius:9px;background:#1c4158;white-space:pre-wrap}#cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:12px}.card{display:block;text-align:left;background:#17354b;border:2px solid #69879a;min-height:90px}.card.active{border-color:#7ff1a0;background:#26543f}.card small{display:block;color:#c6dae5;font-weight:400;margin-top:6px}#canvas{width:100%;height:auto;aspect-ratio: 3/2;background:#a4c68b;border-radius:10px;display:block;touch-action:pan-x pan-y}#log{background:#071622;color:#d4e4ee;border-radius:9px;padding:10px;white-space:pre-wrap;word-break:break-word;max-height:250px;overflow:auto;font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace}.muted{color:#afc8d9;font-size:12px}input[type=number]{width:82px;min-height:39px;color:white;background:#0c2537;border:1px solid #577c96;border-radius:7px;padding:5px}label{color:#dcebf6}
+</style></head><body><main><h1>BlockWorld · Standalone OSM Import Test v2</h1><p>Independent of Builder, Three.js, and external downloads. Choose a local <b>.osm / .xml / .geojson / .json</b> file. Each stage writes to the log below. Roads, paths, waterways, water areas, parks, buildings and mapped landmarks are drawn as separate flat layers.</p>
+<section class="panel"><div class="row"><label class="fileBtn">Choose OSM / GeoJSON file<input id="pick" type="file" accept=".osm,.xml,.geojson,.json,text/xml,application/xml,application/json,*/*"></label><button id="sample">Load built-in sample map</button><button id="reset">Clear maps</button></div><p class="muted">If the file picker opens but nothing happens after choosing a file, check the diagnostic log and file event counts. For testing you can also use the built-in sample.</p><div id="state" role="status">Ready — waiting for a file or sample map.</div><div id="cards"></div></section>
+<section class="panel"><div class="row"><strong>Preview of selected map</strong><label>Road width multiplier <input id="width" type="number" value="1" step="0.25" min="0.25" max="5"></label><button id="fit">Fit map</button><label><input type="checkbox" id="roadsOn" checked> Roads</label><label><input type="checkbox" id="pathsOn" checked> Paths</label><label><input type="checkbox" id="waterOn" checked> Water</label><label><input type="checkbox" id="landOn" checked> Landmarks</label><label><input type="checkbox" id="buildOn" checked> Buildings</label></div><canvas id="canvas" width="1200" height="800"></canvas><p class="muted">Map size includes the bounds of all imported mapped features. Only one map can be active. The preview auto-fits that map. Road polygons have curved joins and round endpoints, with locally generated ground/road texture.</p></section>
+<section class="panel"><div class="row"><strong>Diagnostics</strong><button id="copy">Copy log</button></div><div id="log" aria-live="polite"></div></section>
+</main><script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);const maps=[];let active=-1;let attempt=0;const lines=[];
+function log(message){let line=new Date().toLocaleTimeString()+'  '+message;lines.push(line);$('log').textContent=lines.join('\n');$('log').scrollTop=$('log').scrollHeight;console.log('[OSM Test]',message)}
+function status(s){$('state').textContent=s;log(s)}
+window.addEventListener('error',e=>status('JAVASCRIPT ERROR: '+e.message+' ('+e.filename+':'+e.lineno+')'));
+window.addEventListener('unhandledrejection',e=>status('PROMISE ERROR: '+String(e.reason)));
+function isRoad(tags){return !!tags.highway&& !['footway','steps','cycleway','path','pedestrian','bridleway','proposed','construction'].includes(tags.highway)}
+function roadWidth(t){let explicit=parseFloat(String(t.width||'').replace(',','.'));if(Number.isFinite(explicit)&&explicit>0)return explicit;let lanes=parseFloat(t.lanes);if(Number.isFinite(lanes)&&lanes>0)return Math.max(3,lanes*3.1);return ({motorway:12,trunk:10,primary:9,secondary:8,tertiary:7,residential:6,unclassified:6,service:4,living_street:4})[t.highway]||5}
+function distProj(lon,lat,origin){let rad=Math.PI/180;return [(lon-origin[0])*111320*Math.cos(origin[1]*rad),(lat-origin[1])*111320]}
+function isPath(t){return ['footway','steps','cycleway','path','pedestrian','bridleway','track','corridor'].includes(t.highway)}
+function classify(t,closed){
+ if(t.building)return 'buildings';
+ if(t.natural==='water'||t.water||['reservoir','basin','pond'].includes(t.landuse)||t.waterway==='riverbank')return 'waterAreas';
+ if(t.waterway)return 'waterways';
+ if(t.leisure==='park'||['grass','forest','recreation_ground','village_green','meadow'].includes(t.landuse)||['wood','scrub','grassland'].includes(t.natural)||t.leisure==='playground')return 'landmarks';
+ if(isPath(t))return 'paths';
+ if(isRoad(t))return 'roads';
+ if(t.amenity||t.tourism||t.historic||t.man_made)return 'landmarks';
+ return null;
+}
+function makeMap(name,raw){
+ const types=['roads','paths','waterways','waterAreas','landmarks','buildings'];
+ const features=types.flatMap(type=>(raw[type]||[]).map(f=>({...f,group:type})));
+ if(!features.length)throw Error('No supported map features found.');
+ const all=features.flatMap(f=>f.coords);
+ const origin=[(Math.min(...all.map(p=>p[0]))+Math.max(...all.map(p=>p[0])))/2,(Math.min(...all.map(p=>p[1]))+Math.max(...all.map(p=>p[1])))/2];
+ const projected=features.map(f=>({...f,points:f.coords.map(c=>distProj(c[0],c[1],origin))}));
+ const pts=projected.flatMap(f=>f.points);
+ const bounds=[Math.min(...pts.map(p=>p[0])),Math.min(...pts.map(p=>p[1])),Math.max(...pts.map(p=>p[0])),Math.max(...pts.map(p=>p[1]))];
+ const grouped=Object.fromEntries(types.map(type=>[type,projected.filter(f=>f.group===type)]));
+ return {name,...grouped,bounds,width:bounds[2]-bounds[0],height:bounds[3]-bounds[1],source:raw.source,nodeCount:raw.nodeCount||0};
+}
+function parseXML(txt){
+ log('Parsing OSM XML ('+txt.length+' characters)');
+ const doc=new DOMParser().parseFromString(txt,'application/xml');
+ const err=doc.getElementsByTagName('parsererror')[0];if(err)throw Error('Invalid XML: '+err.textContent.slice(0,240));
+ const nodeEls=[...doc.getElementsByTagName('node')],ways=[...doc.getElementsByTagName('way')];
+ const nodes=new Map();
+ for(const n of nodeEls){const lat=Number(n.getAttribute('lat')),lon=Number(n.getAttribute('lon'));if(Number.isFinite(lat)&&Number.isFinite(lon))nodes.set(n.getAttribute('id'),[lon,lat])}
+ const types=['roads','paths','waterways','waterAreas','landmarks','buildings'],data=Object.fromEntries(types.map(k=>[k,[]]));
+ let missing=0;
+ for(const w of ways){
+  const tags={};for(const t of w.getElementsByTagName('tag'))tags[t.getAttribute('k')]=t.getAttribute('v');
+  const coords=[];for(const nd of w.getElementsByTagName('nd')){const p=nodes.get(nd.getAttribute('ref'));if(p)coords.push(p);else missing++;}
+  const closed=coords.length>3&&coords[0][0]===coords.at(-1)[0]&&coords[0][1]===coords.at(-1)[1];
+  const type=classify(tags,closed);if(type&&coords.length>=(closed?3:2))data[type].push({coords,width:type==='roads'?roadWidth(tags):type==='paths'?2:type==='waterways'?Number(tags.width)||4:1,tags,closed});
+ }
+ // Standalone point landmarks (shops, schools, trees etc.) are displayed as points
+ for(const n of nodeEls){const tags={};for(const t of n.getElementsByTagName('tag'))tags[t.getAttribute('k')]=t.getAttribute('v');if(tags.amenity||tags.tourism||tags.historic||tags.natural==='tree'||tags.shop){const p=nodes.get(n.getAttribute('id'));if(p)data.landmarks.push({coords:[p],width:1,tags,closed:false,point:true})}}
+ // Multipolygon relations require assembly and are not yet rendered if their member ways are untagged.
+ log('XML contains '+nodeEls.length+' nodes, '+ways.length+' ways; missing node references '+missing);
+ log('Extracted: '+types.map(k=>k+'='+data[k].length).join(', '));
+ const rels=doc.getElementsByTagName('relation').length;if(rels)log('Note: '+rels+' relations found; complex multipolygon relations are not yet assembled.');
+ return {source:'OSM XML',nodeCount:nodes.size,...data};
+}
+function parseGeo(txt){
+ log('Parsing GeoJSON ('+txt.length+' characters)');
+ const json=JSON.parse(txt);
+ const features=json.type==='FeatureCollection'?json.features:json.type==='Feature'?[json]:[{geometry:json,properties:{}}];
+ const types=['roads','paths','waterways','waterAreas','landmarks','buildings'],data=Object.fromEntries(types.map(k=>[k,[]]));
+ for(const f of features){const t={...(f.properties||{})};if(!t.highway&&t.road)t.highway=t.road;if(!t.highway&&t.type==='road')t.highway='residential';const g=f.geometry||{};const type=classify(t,g.type==='Polygon'||g.type==='MultiPolygon');if(!type)continue;
+ let lines=[];
+ if(g.type==='LineString')lines=[g.coordinates];
+ else if(g.type==='MultiLineString'||g.type==='Polygon')lines=g.coordinates;
+ else if(g.type==='MultiPolygon')lines=g.coordinates.flat();
+ else if(g.type==='Point')lines=[[g.coordinates]];
+ for(const coords of lines)if(coords.length){data[type].push({coords:coords.map(p=>[p[0],p[1]]),width:type==='roads'?roadWidth(t):type==='paths'?2:4,tags:t,closed:/Polygon/.test(g.type),point:g.type==='Point'})}
+ }
+ log('GeoJSON features '+features.length+'; '+types.map(k=>k+'='+data[k].length).join(', '));
+ return {source:'GeoJSON',...data};
+}
+function counts(m){return ['roads','paths','waterways','waterAreas','landmarks','buildings'].map(k=>k+': '+m[k].length).join(' · ')}
+function select(i){active=i;cards();const m=maps[i];if(m){status('Selected '+m.name+' — '+counts(m)+'; map '+m.width.toFixed(0)+' × '+m.height.toFixed(0)+' metres');render();}else{status('No active map');render();}}
+function cards(){$('cards').replaceChildren();maps.forEach((m,i)=>{const b=document.createElement('button');b.type='button';b.className='card'+(active===i?' active':'');b.textContent=m.name+(active===i?' ✓':'');const small=document.createElement('small');small.textContent=m.source+' · '+counts(m)+' · '+Math.round(m.width)+' × '+Math.round(m.height)+' m';b.append(small);b.addEventListener('click',()=>select(i));$('cards').append(b);});}
+function put(name,parsed){const m=makeMap(name,parsed);maps.push(m);cards();status('Imported '+name+' successfully. Map card created: '+counts(m)+', '+Math.round(m.width)+' × '+Math.round(m.height)+' m. Tap its card to display.');}
+function reader(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onerror=()=>reject(r.error||Error('FileReader error'));r.onabort=()=>reject(Error('File read cancelled'));r.onload=()=>resolve(String(r.result||''));r.readAsText(file);});}
+$('pick').addEventListener('click',()=>log('File input tapped — native file picker requested'));
+$('pick').addEventListener('input',()=>log('File input event fired'));
+$('pick').addEventListener('change',async e=>{const n=++attempt;const file=e.target.files&&e.target.files[0];log('File CHANGE event #'+n+'; files='+e.target.files.length);if(!file){status('No file chosen');return;}status('Selected: '+file.name+' ('+file.size+' bytes). Reading...');try{const txt=await reader(file);log('FileReader completed: '+txt.length+' characters; begins '+JSON.stringify(txt.slice(0,85)));const format=txt.trimStart().startsWith('<')?'XML':txt.trimStart().startsWith('{')?'GeoJSON':'unknown';if(format==='unknown')throw Error('Unsupported file contents: expected XML or GeoJSON');put(file.name,format==='XML'?parseXML(txt):parseGeo(txt));}catch(err){status('IMPORT FAILED: '+(err.stack||err.message||String(err)));}finally{e.target.value='';}});
+$('sample').addEventListener('click',()=>{const o=[138.6,-34.8];let coord=(x,y)=>[o[0]+x/(111320*Math.cos(o[1]*Math.PI/180)),o[1]+y/111320];const raw={source:'Built-in diagnostic sample',roads:[{width:8,type:'primary',coords:[[0,0],[50,0],[105,18],[160,60],[235,70]].map(p=>coord(...p))},{width:6,type:'residential',coords:[[105,18],[112,-50],[155,-90],[230,-90]].map(p=>coord(...p))},{width:5,type:'service',coords:[[160,60],[145,115],[105,160]].map(p=>coord(...p))}]};try{put('Sample curved neighbourhood',raw);}catch(e){status('SAMPLE FAILED: '+e.message)}});
+$('reset').onclick=()=>{maps.length=0;active=-1;cards();render();status('All map cards cleared')};$('fit').onclick=render;$('width').addEventListener('change',render);$('copy').onclick=()=>{let str=lines.join('\n');if(navigator.clipboard?.writeText)navigator.clipboard.writeText(str).then(()=>status('Log copied')).catch(()=>{prompt('Copy log',str)});else prompt('Copy log',str)};
+function render(){
+ const canvas=$('canvas'),ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
+ ctx.clearRect(0,0,W,H);ctx.fillStyle='#96b982';ctx.fillRect(0,0,W,H);
+ const m=maps[active];if(!m){ctx.fillStyle='#27465c';ctx.font='bold 32px system-ui';ctx.textAlign='center';ctx.fillText('No map selected',W/2,H/2);return;}
+ const pad=55,k=Math.min((W-2*pad)/Math.max(m.width,10),(H-2*pad)/Math.max(m.height,10)),cx=(m.bounds[0]+m.bounds[2])/2,cy=(m.bounds[1]+m.bounds[3])/2;
+ const p=([x,y])=>[W/2+(x-cx)*k,H/2-(y-cy)*k];
+ let seed=1997;function rand(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;}
+ for(let j=0;j<3000;j++){const x=rand()*W,y=rand()*H;ctx.fillStyle=rand()>.5?'#adc99833':'#587c5533';ctx.fillRect(x,y,2+rand()*4,1+rand()*4)}
+ function path(f){ctx.beginPath();f.points.forEach((pt,i)=>{const [x,y]=p(pt);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});if(f.closed)ctx.closePath()}
+ function fill(arr,color){ctx.fillStyle=color;for(const f of arr){if(f.closed&&f.points.length>=3){path(f);ctx.fill()}}}
+ function stroke(arr,color,widthFactor=1){ctx.strokeStyle=color;ctx.lineCap='round';ctx.lineJoin='round';for(const f of arr){if(f.points.length<2)continue;path(f);ctx.lineWidth=Math.max(.8,(f.width||2)*widthFactor*k);ctx.stroke()}}
+ if($('landOn').checked)fill(m.landmarks,'#76a873');
