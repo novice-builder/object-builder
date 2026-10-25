@@ -1954,6 +1954,8 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 #workshopEditor.show{display:flex}
 #workshopEditor input{height:46px;min-width:85px}
 #workshopIconFile{display:none}
+/* House Studio placeholder artwork, within the unchanged card geometry. */
+.menuPlaceholderSvg{display:block;width:100%;max-width:120px;height:90px;max-height:100%}
 /* House Studio test: preserve the full popup footprint while leaving empty slots. */
 #workshopModal .libraryPreviewHint{visibility:hidden}
 #workshopModal .libraryPreviewActions button:disabled,
@@ -4916,24 +4918,45 @@ function buildGroundCards(){
    box.appendChild(wrap);
  });
 }
-function buildMapCards(){
- const box=$('#mapCards');if(!box)return;box.innerHTML='';
- const maps=finishedMaps();
- if(!maps.length){
-   box.innerHTML='';
-   return;
+// House Studio menu placeholders: only two lightweight cards per visible tab.
+// Real building materials and maps remain separate from these presentation cards.
+const MENU_PLACEHOLDER_ITEMS=Object.freeze([
+ Object.freeze({id:'card1',name:'Card 1'}),
+ Object.freeze({id:'card2',name:'Card 2'})
+]);
+const menuPlaceholderSelection=Object.create(null);
+function menuPlaceholderSvg(){
+ return '<svg class="menuPlaceholderSvg" viewBox="0 0 120 90" role="img" aria-label="Generic image preview" xmlns="http://www.w3.org/2000/svg">'+
+ '<rect x="13" y="7" width="94" height="64" rx="7" fill="#26485f" stroke="#a4c0d0" stroke-width="2"/>'+
+ '<circle cx="84" cy="26" r="8" fill="#a4c0d0"/>'+
+ '<path d="M21 60L46 33L64 49L76 39L99 60Z" fill="#7695a9"/>'+
+ '<path d="M21 60L46 33L64 49" fill="none" stroke="#afc4d1" stroke-width="2"/>'+
+ '<text x="60" y="84" text-anchor="middle" fill="#b4cbd9" font-family="sans-serif" font-size="11" font-weight="600" letter-spacing="1">PREVIEW</text>'+
+ '</svg>';
+}
+function drawMenuPlaceholderCards(host,tab,onOpen){
+ if(!host)return;
+ host.replaceChildren();
+ for(const item of MENU_PLACEHOLDER_ITEMS){
+  const wrap=document.createElement('div');wrap.className='libraryItemWrap';
+  const card=document.createElement('button');card.type='button';
+  card.className='libraryItemCard'+(menuPlaceholderSelection[tab]===item.id?' selected':'');
+  card.innerHTML='<div class="libraryVisual">'+menuPlaceholderSvg()+'</div><div class="libraryName">'+item.name+'</div>';
+  const pencil=document.createElement('button');pencil.type='button';pencil.className='libraryPencil';
+  pencil.setAttribute('aria-label','Open '+item.name+' placeholder');pencil.textContent='✎';
+  pencil.onclick=e=>{e.stopPropagation();onOpen(item.id,item.name)};
+  card.appendChild(pencil);
+  card.onclick=()=>{
+   if(menuPlaceholderSelection[tab]===item.id){onOpen(item.id,item.name);return;}
+   menuPlaceholderSelection[tab]=item.id;
+   drawMenuPlaceholderCards(host,tab,onOpen);
+  };
+  wrap.appendChild(card);host.appendChild(wrap);
  }
- maps.forEach((item,idx)=>{
-   const b=document.createElement('button');b.className='finishedItemCard libraryItemCard';b.type='button';
-   const name=item.name||`Map ${idx+1}`;
-   b.innerHTML=`<div class="finishedItemPreview">🗺️</div><div class="libraryName">${escapeHtml(name)}</div><div class="finishedItemMeta">Finished map</div>`;
-   b.onclick=()=>{
-     switchEditor('map');
-     if(item.data?.blocks)importData(item.data);
-     hidePanel('materialsPanel');
-   };
-   box.appendChild(b)
- })
+}
+
+function buildMapCards(){
+ drawMenuPlaceholderCards($('#mapCards'),'maps',()=>openBlankCardPreview());
 }
 function buildObjectCards(){
  const box=$('#objectCards');if(!box)return;box.innerHTML='';
@@ -4965,17 +4988,8 @@ function buildObjectCards(){
  })
 }
 function buildMaterialCards(){
- const box=$('#materialCards');if(!box)return;box.innerHTML='';
- blockListForLibrary().forEach(m=>{
-  const wrap=document.createElement('div');wrap.className='libraryItemWrap';
-  const b=document.createElement('button');b.type='button';b.className='libraryItemCard'+(librarySelection.kind==='block'&&librarySelection.id===m.id?' selected':'');
-  const meta=libraryMeta.blocks?.[m.id]||{},icon=meta.icon;
-  b.innerHTML=`<div class="libraryVisual">${icon?`<img class="libraryIconImage" src="${icon}">`:cubeThumbHtml(m)}</div><div class="libraryName">${escapeHtml(blockDisplayName(m))}</div>`;
-  b.appendChild(makePencil('block',m.id));b.onclick=()=>selectBlockFromLibrary(m);wrap.appendChild(b);box.appendChild(wrap);
- })
- centreAllLibraryCubeThumbnails();
+ drawMenuPlaceholderCards($('#materialCards'),'blocks',()=>openBlankCardPreview());
 }
-
 let libraryThumbResizeObserver=null;
 function ensureLibraryThumbResizeObserver(){
  if(libraryThumbResizeObserver)return;
@@ -5052,8 +5066,8 @@ function setBlockPreviewPlaceholderMode(blank){
  // Nonbreaking space retains the hint row's previous height and spacing.
  $('#libraryPreviewModal .libraryPreviewHint').textContent=blank?'\u00a0':'Drag to rotate';
 }
-function openBlankCardPreview(title){
- $('#libraryPreviewTitle').textContent=title||'Preview';
+function openBlankCardPreview(){
+ $('#libraryPreviewTitle').textContent='\u00a0'; // No title, same popup dimensions.
  const host=$('#libraryPreviewCubeHost'),ep=$('#libraryElementPreview');
  ep.style.display='none';ep.replaceChildren();
  host.style.display='block';host.replaceChildren();
@@ -5342,43 +5356,20 @@ function workshopStoreKey(tab){return 'blockworld.workshop02.'+tab}
 function workshopCatalogue(tab){
  if(!WORKSHOP_CLONE_TABS.includes(tab))return null;
  if(workshopCatalogues[tab])return workshopCatalogues[tab];
- let saved=null;
- try{saved=JSON.parse(localStorage.getItem(workshopStoreKey(tab))||'null')}catch{}
- if(!saved||!Array.isArray(saved.items)){
-  saved={selected:null,items:blockListForLibrary().map(m=>({
-   ...m,workshopName:blockDisplayName(m),
-   workshopIcon:libraryMeta.blocks?.[m.id]?.icon||null
-  }))};
- }
- return workshopCatalogues[tab]=saved;
+ // Discard legacy cloned materials/textures from this tab's storage.
+ const saved={selected:null,placeholderVersion:1,items:MENU_PLACEHOLDER_ITEMS.map(x=>({id:x.id,workshopName:x.name}))};
+ workshopCatalogues[tab]=saved;
+ workshopSave(tab);
+ return saved;
 }
 function workshopSave(tab){
  try{localStorage.setItem(workshopStoreKey(tab),JSON.stringify(workshopCatalogues[tab]))}
  catch(err){console.warn('Workshop clone storage unavailable',err)}
 }
 function workshopDraw(tab){
- const host=$('#'+tab+'Cards'),model=workshopCatalogue(tab);
- if(!host||!model)return;
- host.replaceChildren();
- for(const m of model.items){
-  const wrap=document.createElement('div');wrap.className='libraryItemWrap';
-  const b=document.createElement('button');b.type='button';
-  b.className='libraryItemCard'+(model.selected===m.id?' selected':'');
-  b.innerHTML='<div class="libraryVisual">'+(m.workshopIcon?
-   '<img class="libraryIconImage" src="'+m.workshopIcon+'" alt="">':cubeThumbHtml(m))+
-   '</div><div class="libraryName">'+escapeHtml(m.workshopName||m.name||String(m.id))+'</div>';
-  const pencil=document.createElement('button');pencil.type='button';
-  pencil.className='libraryPencil';pencil.setAttribute('aria-label','Preview and edit this clone');
-  pencil.textContent='✎';
-  pencil.onclick=e=>{e.stopPropagation();workshopOpen(tab,m.id)};
-  b.appendChild(pencil);
-  b.onclick=()=>{
-   if(model.selected===m.id){workshopOpen(tab,m.id);return}
-   model.selected=m.id;workshopSave(tab);workshopDraw(tab);
-  };
-  wrap.appendChild(b);host.appendChild(wrap);
- }
- centreAllLibraryCubeThumbnails();
+ const host=$('#'+tab+'Cards');
+ if(!host||!workshopCatalogue(tab))return;
+ drawMenuPlaceholderCards(host,tab,id=>workshopOpen(tab,id));
 }
 function renderWorkshopClones(tab){
  if(WORKSHOP_CLONE_TABS.includes(tab))workshopDraw(tab);
@@ -5399,7 +5390,7 @@ function workshopRefresh(){
  if(!workshopPreview)return;
  const {tab,id}=workshopPreview,m=workshopCatalogue(tab).items.find(m=>m.id===id);
  if(!m){workshopClose();return}
- $('#workshopTitle').textContent=m.workshopName||m.name||'Block';
+ $('#workshopTitle').textContent='\u00a0'; // Keep heading height, show no card name.
  $('#workshopHost').replaceChildren(); // House Studio test: keep preview stage blank, no 3D render.
  $('#workshopColour').value=/^#[0-9a-fA-F]{6}$/.test(m.c||'')?m.c:'#999999';
  workshopRotate();
@@ -6222,22 +6213,8 @@ function osmMapDialog(map,kind){
 }
 let osmSelectedCardId=null;
 function osmRenderCards(){
- const box=document.getElementById('mapCards');if(!box||!osmMapState)return;
+ // No imported-map thumbnails are added to the House Studio placeholder tabs.
  buildMapCards();
- for(const map of osmMapState.maps){
-  const wrap=document.createElement('div');wrap.className='libraryItemWrap';
-  const card=document.createElement('button');card.type='button';
-  card.className='libraryItemCard osmMapCard'+(osmSelectedCardId===map.id?' selected':'');
-  const visual=document.createElement('div');visual.className='libraryVisual osmCardPreview';visual.innerHTML=osmPreviewSvg(map);
-  const title=document.createElement('div');title.className='libraryName';title.textContent=map.name;
-  card.append(visual,title);
-  const pencil=document.createElement('button');pencil.type='button';pencil.className='libraryPencil';
-  pencil.setAttribute('aria-label','Map actions');pencil.textContent='✎';
-  pencil.onclick=e=>{e.stopPropagation();openBlankCardPreview(map.name);};
-  card.appendChild(pencil);
-  card.onclick=()=>{if(osmSelectedCardId!==map.id){osmSelectedCardId=map.id;osmRenderCards();return;}try{osmActivate(map);}catch(err){console.error('[OSM activation]',err);osmNotify('Map activation failed: '+(err&&err.message||String(err)),true);}};
-  wrap.appendChild(card);box.prepend(wrap);
- }
 }
 function osmNotify(message,failed=false){
  const status=document.getElementById('osmImportStatus');
@@ -6269,10 +6246,9 @@ async function osmHandleFile(){
   osmMapState.maps.push(map);
   osmRenderCards();
   setBuildMenuTab('maps',false);
-  const inserted=document.querySelectorAll('#mapCards .osmMapCard').length;
-  if(inserted<1)throw Error('Map parsed but its card could not be displayed');
-  osmNotify('Imported '+map.name+' · '+osmFeatureSummary(map)+' · '+Math.round(map.width)+' × '+Math.round(map.height)+' m. Select its card to display.');
-  toast('Map added. Select its card to activate.');
+  // The two visible cards are placeholders; imported map data stays in memory.
+  osmNotify('Imported '+map.name+' · '+osmFeatureSummary(map)+' · '+Math.round(map.width)+' × '+Math.round(map.height)+' m (not added to placeholder cards).');
+  toast('Map imported; cards are placeholders');
  }catch(err){
   osmNotify('Import failed: '+(err&&err.message||String(err)),true);
  }finally{osmImportedFile.value='';}
