@@ -1928,7 +1928,15 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 #mapCards .osmMapCard.selected .libraryPencil{display:flex}
 .osmCloneActions{display:grid;gap:8px;margin-bottom:12px}
 .osmCloneActions button{text-align:left}
-</style><style>.osmCropSettings{display:grid;gap:8px;margin:12px 0}.osmCropSettings label{display:grid;gap:6px}.osmLayerRow{display:flex;align-items:center;gap:8px;margin:5px 0}.osmLayerRow span{flex:1}.osmLayerRow button{min-height:26px;padding:3px 8px}.osmLayerRow input{min-height:0}</style><style id="workshop02-styles">
+</style><style>.osmCropSettings{display:grid;gap:8px;margin:12px 0}.osmCropSettings label{display:grid;gap:6px}.osmLayerRow{display:flex;align-items:center;gap:8px;margin:5px 0}.osmLayerRow span{flex:1}.osmLayerRow button{min-height:26px;padding:3px 8px}.osmLayerRow input{min-height:0}/* House Studio: six compact, evenly spaced top tabs; leave original panes/wiring intact. */
+#buildMenuTabs #objectsTabBtn,
+#buildMenuTabs #componentsTabBtn,
+#buildMenuTabs #groundTabBtn { display:none!important; }
+#buildMenuTabs { width:100%!important; display:flex!important; overflow:hidden!important; }
+#buildMenuTabs button { flex:1 1 0!important; width:0!important; min-width:0!important; padding:5px 2px!important; font-size:14px!important; text-align:center!important; }
+#buildMenuTabs button:first-child { padding-left:2px!important; }
+@media(max-width:360px) { #buildMenuTabs button { font-size:12.5px!important; padding:4px 1px!important; } }
+</style><style id="workshop02-styles">
 /* Match the actual Blocks catalogue rules, not generic two-column defaults. */
 #mapsCloneCards,#objectsCloneCards,#componentsCloneCards,#groundCloneCards{
  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
@@ -2328,15 +2336,15 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 <div id="materialsPanel">
  <div class="buildMenuTopRow">
    <div id="buildMenuTabs" class="buildMenuTabs" role="tablist" aria-label="Build menu">
-     <button id="mapsTabBtn" role="tab" aria-selected="false">Maps</button>
+     <button id="mapsTabBtn" role="tab" aria-selected="false">Tab 1</button>
      <button id="objectsTabBtn" role="tab" aria-selected="false">Objects</button>
      <button id="componentsTabBtn" role="tab" aria-selected="false">Components</button>
      <button id="groundTabBtn" role="tab" aria-selected="false">Ground</button>
-     <button id="blocksTabBtn" role="tab" aria-selected="true">Blocks</button>
-<button id="mapsCloneTabBtn" role="tab" aria-selected="false">Maps Clone</button>
-<button id="objectsCloneTabBtn" role="tab" aria-selected="false">Objects Clone</button>
-<button id="componentsCloneTabBtn" role="tab" aria-selected="false">Components Clone</button>
-<button id="groundCloneTabBtn" role="tab" aria-selected="false">Ground Clone</button>
+     <button id="blocksTabBtn" role="tab" aria-selected="true">Tab 2</button>
+<button id="mapsCloneTabBtn" role="tab" aria-selected="false">Tab 3</button>
+<button id="objectsCloneTabBtn" role="tab" aria-selected="false">Tab 4</button>
+<button id="componentsCloneTabBtn" role="tab" aria-selected="false">Tab 5</button>
+<button id="groundCloneTabBtn" role="tab" aria-selected="false">Tab 6</button>
    </div>
  </div>
 
@@ -5427,7 +5435,7 @@ $('#workshopDelete').onclick=()=>{
 window.__workshop02Debug={counts:()=>Object.fromEntries(WORKSHOP_CLONE_TABS.map(tab=>[tab,$('#'+tab+'Cards')?.children.length||0])),blocks:()=>$('#materialCards')?.children.length||0};
 
 function setBuildMenuTab(tab,remember=true){
- const valid=['maps','objects','components','blocks','ground','mapsClone','objectsClone','componentsClone','groundClone'];
+ const valid=['maps','blocks','mapsClone','objectsClone','componentsClone','groundClone'];
  if(!valid.includes(tab))tab='blocks';
  const pairs=[
   ['maps',$('#mapsTabBtn'),$('#mapsTabPanel')],
