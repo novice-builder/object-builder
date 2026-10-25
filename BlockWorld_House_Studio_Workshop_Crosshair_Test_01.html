@@ -1844,7 +1844,7 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 @media(pointer:fine) and (hover:hover){#desktopControls{display:block}}
 
 /* House Studio: 8 quick slots stay fixed; first three swap to selection modes in Move/Select. */
-body.clone-select-tools #cloneFaceBar{display:grid!important}
+body.clone-select-tools #cloneFaceBar{display:grid!important;position:absolute!important;z-index:18!important;bottom:var(--dockBottom)!important}
 #cloneFaceBar .cloneQuickSlot[data-sketch-select] span{font-size:12px!important;font-weight:750!important;letter-spacing:0!important;white-space:nowrap}
 /* v17.71 — 8 evenly spaced quick-action slots, two rows of four. */
 #cloneFaceBar{
@@ -2838,7 +2838,7 @@ function restore(s){
    state.baseGroundRemoved=!!raw.baseGroundRemoved;
    ground.visible=!state.baseGroundRemoved;
  }
- if(HOUSE_POINT_TEST){state.housePoints=Array.isArray(raw.housePoints)?raw.housePoints:[];restoreSketchTopology(raw.houseLines,raw.sketchVertices,raw.sketchNextId);state.sketchLineStart=null;state.selectedSketchLineId=null;state.selectedSketchWholeLine=false;renderHousePointMarkers();renderHouseLines();renderSketchLinePreview();}
+ if(HOUSE_POINT_TEST){state.housePoints=Array.isArray(raw.housePoints)?raw.housePoints:[];restoreSketchTopology(raw.houseLines,raw.sketchVertices,raw.sketchNextId);state.sketchLineStart=null;state.selectedSketchLineId=null;state.selectedSketchLineIds=[];renderHousePointMarkers();renderHouseLines();renderSketchLinePreview();}
  if(raw.groundTree)groundTreeRestore(raw.groundTree);else groundImportLegacyTiles(state.groundTiles);
  state.nextId=Math.max(1,...state.blocks.map(b=>b.id+1));
  state.selected=null;
@@ -4410,7 +4410,7 @@ renderer.domElement.addEventListener('pointerup',e=>{
    state.ghostCursor.x=e.clientX;state.ghostCursor.y=e.clientY;hoverGhost(e.clientX,e.clientY);
    return;
  }
- // Tapping a selected line again expands selection, regardless of elapsed time.
+ // Sketch taps follow the active Quick Select mode, regardless of tap timing.
  // The fast double-tap crosshair shortcut remains available on empty canvas only.
  if(HOUSE_POINT_TEST&&state.mode==='navigate'&&e.pointerType==='touch'&&
     pointers.size===1&&!p.movedEver&&total<TAP_MOVE_PX&&!p.longPressed){
@@ -4490,7 +4490,7 @@ function enterBuild(){
    selectBox.visible=false;refreshFaceOverlay();
  }
  state.mode='build';
- if(HOUSE_POINT_TEST){state.navCrosshairHidden=false;lastNavigateTouchTap=null;state.selectedSketchLineId=null;state.selectedSketchWholeLine=false;renderSketchSelection()}
+ if(HOUSE_POINT_TEST){state.navCrosshairHidden=false;lastNavigateTouchTap=null;state.selectedSketchLineId=null;state.selectedSketchLineIds=[];renderSketchSelection()}
  if(placementAnchorActive()){ghost.visible=false;updateAnchoredGhostVisual()}
  else if(HOUSE_POINT_TEST&&state.ghost){
    setGhost({...state.ghost}); // Restore the existing snapped world point, not the origin.
@@ -4653,7 +4653,7 @@ function loadEditorWorkspace(name){
  return d&&typeof d==='object'&&!Array.isArray(d)?d:blankEditorWorkspace();
 }
 function applyEditorWorkspace(d){
- state.selectedSketchLineId=null;state.selectedSketchWholeLine=false;
+ state.selectedSketchLineId=null;state.selectedSketchLineIds=[];
  state.blocks=cloneBlockData(d.blocks||[]);state.nextId=d.nextId||1;
  state.size=d.size||2;state.mat=d.mat||'brick';state.type=d.type||'solid';
  state.history=[...(d.history||[])];state.future=[...(d.future||[])];
