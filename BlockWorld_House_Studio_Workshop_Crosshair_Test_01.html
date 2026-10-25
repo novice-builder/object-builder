@@ -1843,6 +1843,9 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 #desktopContextMenu button{min-height:35px;font-size:11px;padding:6px 9px}#desktopControls .dtHint{padding:5px 8px;color:#c3dbe9;font-size:10px}
 @media(pointer:fine) and (hover:hover){#desktopControls{display:block}}
 
+/* House Studio: 8 quick slots stay fixed; first three swap to selection modes in Move/Select. */
+body.clone-select-tools #cloneFaceBar{display:grid!important}
+#cloneFaceBar .cloneQuickSlot[data-sketch-select] span{font-size:12px!important;font-weight:750!important;letter-spacing:0!important;white-space:nowrap}
 /* v17.71 — 8 evenly spaced quick-action slots, two rows of four. */
 #cloneFaceBar{
   grid-template-columns:repeat(4,minmax(0,1fr))!important;
@@ -2174,9 +2177,9 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 </div>
 
 <div id="cloneFaceBar" aria-label="Detached build tool controls">
-  <button class="cloneQuickSlot" type="button" data-sketch-tool="point" aria-label="Point tool"><span>Point</span></button>
-  <button class="cloneQuickSlot" type="button" data-sketch-tool="line" aria-label="Line tool"><span>Line</span></button>
-  <button class="cloneQuickSlot" type="button" aria-label="Quick slot 3"><span>+</span></button>
+  <button class="cloneQuickSlot" type="button" data-sketch-tool="point" data-sketch-select="individual" aria-label="Point tool"><span>Point</span></button>
+  <button class="cloneQuickSlot" type="button" data-sketch-tool="line" data-sketch-select="chain" aria-label="Line tool"><span>Line</span></button>
+  <button class="cloneQuickSlot" type="button" data-sketch-select="whole" aria-label="Quick slot 3"><span>+</span></button>
   <button class="cloneQuickSlot" type="button" aria-label="Quick slot 4"><span>+</span></button>
   
   <button class="cloneQuickSlot" type="button" aria-label="Quick slot 5"><span>+</span></button>
@@ -3164,9 +3167,17 @@ function cancelPendingSketchLine(notify=true){
  return true;
 }
 function syncSketchQuickSlots(){
- $$('.cloneQuickSlot[data-sketch-tool]').forEach(b=>{
-  const selected=b.dataset.sketchTool===state.activeSketchTool;
-  b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected));
+ const selecting=state.mode==='navigate';
+ const labels={individual:'Indiv.',chain:'Chain',whole:'Whole'};
+ const names={individual:'Individual segment selection',chain:'Chain selection',whole:'Whole straight line selection'};
+ $$('.cloneQuickSlot[data-sketch-select]').forEach(b=>{
+  const mode=b.dataset.sketchSelect;
+  const active=selecting?mode===state.sketchSelectMode:(!!b.dataset.sketchTool&&b.dataset.sketchTool===state.activeSketchTool);
+  const label=selecting?labels[mode]:(b.dataset.sketchTool==='point'?'Point':b.dataset.sketchTool==='line'?'Line':'+');
+  b.querySelector('span').textContent=label;
+  b.setAttribute('aria-label',selecting?names[mode]:(b.dataset.sketchTool?label+' tool':'Quick slot 3'));
+  b.setAttribute('aria-pressed',String(active));
+  b.classList.toggle('active',active);
  });
 }
 function setActiveSketchTool(tool){
@@ -5926,6 +5937,8 @@ $('#mobileMenu').onclick=()=>{
 
 function syncDetachedBuildTools(){
  document.body.classList.toggle('clone-build-tools',state.mode==='build');
+ document.body.classList.toggle('clone-select-tools',state.mode==='navigate');
+ syncSketchQuickSlots();
 }
 function cloneExtrudeSetValue(v){
  v=Math.max(0,Math.min(500,Math.round((+v||0)/10)*10));
@@ -5948,8 +5961,9 @@ const resetCloneFine=()=>{
 $('#cloneExtrudeFineSlider').addEventListener('change',resetCloneFine);
 
 $$('.cloneQuickSlot').forEach(b=>b.onclick=()=>{
- if(b.dataset.sketchTool){setActiveSketchTool(b.dataset.sketchTool);return;}
- b.classList.toggle('active'); // Remaining six placeholders unchanged.
+ if(state.mode==='navigate'&&b.dataset.sketchSelect){setSketchSelectionMode(b.dataset.sketchSelect);return;}
+ if(state.mode==='build'&&b.dataset.sketchTool){setActiveSketchTool(b.dataset.sketchTool);return;}
+ b.classList.toggle('active'); // Unassigned placeholders remain independent.
 });
 syncSketchQuickSlots();
 $('#moveSelectBtn').onclick=()=>{ $('#buildSizeMenu').classList.remove('show'); toggleNavigateMode(); };
