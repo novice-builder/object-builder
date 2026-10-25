@@ -2833,10 +2833,10 @@ function renderHousePointMarkers(){
   const p=state.housePoints[i];
   const ring=new THREE.Mesh(new THREE.RingGeometry(.026,.05,24),
     new THREE.MeshBasicMaterial({color:0x096d81,side:THREE.DoubleSide,depthTest:false,depthWrite:false}));
-  ring.rotation.x=-Math.PI/2;ring.position.set(p.x*BASE,.07,p.z*BASE);ring.renderOrder=510;housePointGroup.add(ring);
+  ring.rotation.x=-Math.PI/2;ring.position.set(p.x*BASE,0,p.z*BASE);ring.renderOrder=510;housePointGroup.add(ring);
   const dot=new THREE.Mesh(new THREE.CircleGeometry(.021,20),
     new THREE.MeshBasicMaterial({color:0xfff49f,side:THREE.DoubleSide,depthTest:false,depthWrite:false}));
-  dot.rotation.x=-Math.PI/2;dot.position.set(p.x*BASE,.071,p.z*BASE);dot.renderOrder=511;housePointGroup.add(dot);
+  dot.rotation.x=-Math.PI/2;dot.position.set(p.x*BASE,0,p.z*BASE);dot.renderOrder=511;housePointGroup.add(dot);
  }
 }
 function placeHousePointAt(x,z){
@@ -2917,7 +2917,7 @@ function setGhost(c){
  state.ghost=c;
  if(HOUSE_POINT_TEST){
    if(!c){ghost.visible=false;$('#placeBtn').disabled=true;return}
-   ghost.position.set(c.x*BASE,.075,c.z*BASE);
+   ghost.position.set(c.x*BASE,0,c.z*BASE);
    ghost.visible=state.mode==='build'&&!placementAnchorActive();
    $('#placeBtn').disabled=state.mode!=='build';
    return;
@@ -3285,7 +3285,7 @@ function renderAnchoredBlockPreview(){
  clearAnchoredPreview();
  if(HOUSE_POINT_TEST){
    const a=state.placementAnchor;
-   if(a){ghost.visible=true;ghost.position.set(a.bounds.minX*BASE,.075,a.bounds.minZ*BASE)}
+   if(a){ghost.visible=true;ghost.position.set(a.bounds.minX*BASE,0,a.bounds.minZ*BASE)}
    return;
  }
 
