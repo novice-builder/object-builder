@@ -6119,7 +6119,7 @@ const resetCloneFine=()=>{
 };
 $('#cloneExtrudeFineSlider').addEventListener('change',resetCloneFine);
 
-$('.cloneQuickSlot').forEach(b=>b.onclick=()=>{
+$$('.cloneQuickSlot').forEach(b=>b.onclick=()=>{
  if(state.mode==='navigate'&&b.dataset.sketchMove){startSketchMove();return;}
  if(state.mode==='navigate'&&b.dataset.sketchSelect){setSketchSelectionMode(b.dataset.sketchSelect);return;}
  if(state.mode==='build'&&b.dataset.sketchTool){setActiveSketchTool(b.dataset.sketchTool);return;}
