@@ -2429,7 +2429,7 @@ const mats=[
  {id:'floor',name:'Floorboards',c:'#ba8d58',c2:'#7d5d39',kind:'wood'}
 ];
 const HOUSE_POINT_TEST=true; // Separate Workshop-clone prototype: 10 cm grid points, not blocks
-const state={mode:'navigate',navMode:'pan',navCrosshairHidden:false,faceScope:'single',faceSelectSize:2,faceSelectionIds:[],selectedCellIds:[],size:2,mat:'brick',type:'solid',component:'',blocks:[],housePoints:[],houseLines:[],activeSketchTool:'point',sketchLineStart:null,nextId:1,selected:null,selectedFace:null,ghost:null,ghostCursor:{x:innerWidth*.5,y:innerHeight*.54},history:[],future:[],yaw:0,tilt:87*Math.PI/180,distance:6,target:new THREE.Vector3(0,0,0),moved:false,dragGroupIds:null,dragAccum:new THREE.Vector3(),dragCheckpointed:false,edgePointer:null,lastFrame:performance.now(),extrusionSession:null,extrudeFineBase:20,extrudePanelOpen:false,showRotateSlider:false,showZoomSlider:true,zoomUiValue:50,moveObjectMode:false,placementAnchor:null,anchorHandleDrag:null,anchorLiftDrag:null,customElements:[],customMaterials:[],activeCustomElement:null,activeGroundElement:null,groundTiles:[],nextGroundId:1,baseGroundRemoved:false,customTextureCache:new Map(),elementDraft:null,elementDraftSkin:null,elementSkinEditingFromBuilder:false,buildContext:'world',worldSession:null,editorContext:'map',editorWorkspaces:{}};
+const state={mode:'navigate',navMode:'pan',navCrosshairHidden:false,faceScope:'single',faceSelectSize:2,faceSelectionIds:[],selectedCellIds:[],size:2,mat:'brick',type:'solid',component:'',blocks:[],housePoints:[],houseLines:[],sketchVertices:[],sketchNextId:0,activeSketchTool:'point',sketchLineStart:null,nextId:1,selected:null,selectedFace:null,ghost:null,ghostCursor:{x:innerWidth*.5,y:innerHeight*.54},history:[],future:[],yaw:0,tilt:87*Math.PI/180,distance:6,target:new THREE.Vector3(0,0,0),moved:false,dragGroupIds:null,dragAccum:new THREE.Vector3(),dragCheckpointed:false,edgePointer:null,lastFrame:performance.now(),extrusionSession:null,extrudeFineBase:20,extrudePanelOpen:false,showRotateSlider:false,showZoomSlider:true,zoomUiValue:50,moveObjectMode:false,placementAnchor:null,anchorHandleDrag:null,anchorLiftDrag:null,customElements:[],customMaterials:[],activeCustomElement:null,activeGroundElement:null,groundTiles:[],nextGroundId:1,baseGroundRemoved:false,customTextureCache:new Map(),elementDraft:null,elementDraftSkin:null,elementSkinEditingFromBuilder:false,buildContext:'world',worldSession:null,editorContext:'map',editorWorkspaces:{}};
 const ZOOM_MIN=.12; let ZOOM_MAX=100;
 
 const scene=new THREE.Scene();const housePointGroup=new THREE.Group();housePointGroup.name='House Studio test points';scene.add(housePointGroup);const houseLineGroup=new THREE.Group();houseLineGroup.name='Sketch lines';scene.add(houseLineGroup);const houseLinePreviewGroup=new THREE.Group();houseLinePreviewGroup.name='Sketch preview';scene.add(houseLinePreviewGroup);scene.background=new THREE.Color(0x86c3e8);scene.fog=new THREE.Fog(0x86c3e8,45,115);
@@ -2792,6 +2792,7 @@ function snapshot(){
    blocks:state.blocks.map(({mesh,...b})=>b),
    housePoints:state.housePoints.map(p=>({...p})),
    houseLines:state.houseLines.map(l=>({...l})),
+   sketchVertices:state.sketchVertices.map(v=>({...v})),sketchNextId:state.sketchNextId,
    groundTiles:[],groundTree:groundTreeClone(groundTree),
    nextGroundId:state.nextGroundId,
    baseGroundRemoved:!!state.baseGroundRemoved
@@ -2834,7 +2835,7 @@ function restore(s){
    state.baseGroundRemoved=!!raw.baseGroundRemoved;
    ground.visible=!state.baseGroundRemoved;
  }
- if(HOUSE_POINT_TEST){state.housePoints=Array.isArray(raw.housePoints)?raw.housePoints:[];state.houseLines=normaliseSketchLines(raw.houseLines);state.sketchLineStart=null;renderHousePointMarkers();renderHouseLines();renderSketchLinePreview();}
+ if(HOUSE_POINT_TEST){state.housePoints=Array.isArray(raw.housePoints)?raw.housePoints:[];restoreSketchTopology(raw.houseLines,raw.sketchVertices,raw.sketchNextId);state.sketchLineStart=null;renderHousePointMarkers();renderHouseLines();renderSketchLinePreview();}
  if(raw.groundTree)groundTreeRestore(raw.groundTree);else groundImportLegacyTiles(state.groundTiles);
  state.nextId=Math.max(1,...state.blocks.map(b=>b.id+1));
  state.selected=null;
@@ -2862,10 +2863,87 @@ function renderHousePointMarkers(){
 }
 
 /* Shared sketch functions; each workspace owns its completed geometry. */
+/* Connected sketches. Line entities keep unique IDs; shared vertices are separately stored.
+   Explicit line endpoints join other endpoints or split existing segments to make T-junctions.
+   Two lines crossing at their interiors do not connect. */
 function normaliseSketchLines(lines){
  return Array.isArray(lines)?lines.filter(l=>[l?.x1,l?.z1,l?.x2,l?.z2].every(Number.isFinite))
-  .map(l=>({x1:Math.round(l.x1),z1:Math.round(l.z1),x2:Math.round(l.x2),z2:Math.round(l.z2)}))
+  .map(l=>({id:typeof l.id==='string'?l.id:null,
+   x1:Math.round(l.x1),z1:Math.round(l.z1),x2:Math.round(l.x2),z2:Math.round(l.z2),
+   v1:typeof l.v1==='string'?l.v1:null,v2:typeof l.v2==='string'?l.v2:null}))
   .filter(l=>l.x1!==l.x2||l.z1!==l.z2):[];
+}
+function nextSketchId(prefix){
+ let id;do{id=prefix+'-'+(++state.sketchNextId)}
+ while(state.sketchVertices.some(v=>v.id===id)||state.houseLines.some(l=>l.id===id));
+ return id;
+}
+function sketchGetOrCreateVertex(x,z){
+ let v=state.sketchVertices.find(v=>v.x===x&&v.z===z);
+ if(!v){v={id:nextSketchId('sv'),x,z};state.sketchVertices.push(v);}
+ return v;
+}
+function sketchPointOnSegmentInterior(l,x,z){
+ const dx=l.x2-l.x1,dz=l.z2-l.z1,px=x-l.x1,pz=z-l.z1;
+ if(px*dz!==pz*dx)return false;
+ const projection=px*dx+pz*dz,span=dx*dx+dz*dz;
+ return projection>0&&projection<span;
+}
+function sketchSplitExistingLinesAt(x,z,vertex){
+ for(const l of [...state.houseLines]){
+  if(!sketchPointOnSegmentInterior(l,x,z))continue;
+  const tail={id:nextSketchId('sl'),x1:x,z1:z,x2:l.x2,z2:l.z2,v1:vertex.id,v2:l.v2};
+  l.x2=x;l.z2=z;l.v2=vertex.id;
+  state.houseLines.push(tail);
+ }
+}
+function restoreSketchTopology(lines,vertices=[],counter=0){
+ const inputLines=normaliseSketchLines(lines);
+ const inputVertices=Array.isArray(vertices)?vertices:[];
+ state.sketchNextId=Number.isSafeInteger(counter)&&counter>=0?counter:0;
+ for(const item of [...inputLines,...inputVertices]){
+  const m=typeof item?.id==='string'&&/^(?:sv|sl)-(\d+)$/.exec(item.id);
+  if(m)state.sketchNextId=Math.max(state.sketchNextId,+m[1]);
+ }
+ state.sketchVertices=[];state.houseLines=[];
+ const used=new Set(),byId=new Map();
+ for(const v of inputVertices){
+  if(!Number.isFinite(v?.x)||!Number.isFinite(v?.z))continue;
+  const id=typeof v.id==='string'&&v.id&&!used.has(v.id)?v.id:nextSketchId('sv');
+  const clean={id,x:Math.round(v.x),z:Math.round(v.z)};
+  used.add(id);state.sketchVertices.push(clean);byId.set(id,clean);
+ }
+ for(const l of inputLines){
+  const id=l.id&&!used.has(l.id)?l.id:nextSketchId('sl');
+  used.add(id);state.houseLines.push({...l,id});
+ }
+ for(const l of state.houseLines){
+  for(const [key,x,z] of [['v1',l.x1,l.z1],['v2',l.x2,l.z2]]){
+   let v=byId.get(l[key]);
+   if(!v||v.x!==x||v.z!==z)v=sketchGetOrCreateVertex(x,z);
+   l[key]=v.id;
+  }
+ }
+ // Migrate older drafts that stored only coordinates. Old endpoint-on-line
+ // junctions become connected, but crossings without endpoints stay separate.
+ if(!inputVertices.length&&state.houseLines.length){
+  const positions=new Map();
+  for(const l of state.houseLines){
+   positions.set(l.x1+','+l.z1,{x:l.x1,z:l.z1});
+   positions.set(l.x2+','+l.z2,{x:l.x2,z:l.z2});
+  }
+  for(const p of positions.values())sketchSplitExistingLinesAt(p.x,p.z,sketchGetOrCreateVertex(p.x,p.z));
+ }
+ const referenced=new Set(state.houseLines.flatMap(l=>[l.v1,l.v2]));
+ state.sketchVertices=state.sketchVertices.filter(v=>referenced.has(v.id));
+}
+function sketchAddConnectedLine(x1,z1,x2,z2){
+ // Performed after a single checkpoint so splitting and placement undo together.
+ const a=sketchGetOrCreateVertex(x1,z1);
+ sketchSplitExistingLinesAt(x1,z1,a);
+ const b=sketchGetOrCreateVertex(x2,z2);
+ sketchSplitExistingLinesAt(x2,z2,b);
+ state.houseLines.push({id:nextSketchId('sl'),x1,z1,x2,z2,v1:a.id,v2:b.id});
 }
 function clearSketchMeshGroup(group){
  while(group.children.length){const mesh=group.children[0];group.remove(mesh);mesh.geometry?.dispose();mesh.material?.dispose();}
@@ -2928,7 +3006,7 @@ function placeSketchLineAt(x,z){
  }
  const a=state.sketchLineStart;
  if(a.x===x&&a.z===z){toast('Move the crosshair for the endpoint');return false;}
- checkpoint();state.houseLines.push({x1:a.x,z1:a.z,x2:x,z2:z});
+ checkpoint();sketchAddConnectedLine(a.x,a.z,x,z);
  state.sketchLineStart=null;renderHouseLines();renderSketchLinePreview();
  persistEditorWorkspace(state.editorContext);updateStatus();syncSharedUndo();updateModeUI();
  toast('Line placed · '+(Math.hypot(x-a.x,z-a.z)*BASE).toFixed(2)+' m');
@@ -4352,6 +4430,7 @@ function captureEditorWorkspace(){
   blocks:cloneBlockData(state.blocks),nextId:state.nextId,
   housePoints:state.housePoints.map(p=>({x:Math.round(p.x),z:Math.round(p.z)})),
   houseLines:state.houseLines.map(l=>({...l})),
+  sketchVertices:state.sketchVertices.map(v=>({...v})),sketchNextId:state.sketchNextId,
   crosshair:HOUSE_POINT_TEST&&state.ghost?{x:Math.round(state.ghost.x),z:Math.round(state.ghost.z)}:null,
   view:{
    yaw:state.yaw,tilt:state.tilt,distance:state.distance,
@@ -4370,7 +4449,7 @@ function persistEditorWorkspace(name){
  }
 }
 function blankEditorWorkspace(){return{
- blocks:[],nextId:1,housePoints:[],houseLines:[],crosshair:{x:0,z:0},view:null,
+ blocks:[],nextId:1,housePoints:[],houseLines:[],sketchVertices:[],sketchNextId:0,crosshair:{x:0,z:0},view:null,
  size:2,mat:'brick',type:'solid',component:'',history:[],future:[]
 }}
 function loadEditorWorkspace(name){
@@ -4385,7 +4464,7 @@ function applyEditorWorkspace(d){
  state.housePoints=Array.isArray(d.housePoints)
   ?d.housePoints.filter(p=>Number.isFinite(p?.x)&&Number.isFinite(p?.z))
    .map(p=>({x:Math.round(p.x),z:Math.round(p.z)})):[];
- state.houseLines=normaliseSketchLines(d.houseLines);state.sketchLineStart=null;
+ restoreSketchTopology(d.houseLines,d.sketchVertices,d.sketchNextId);state.sketchLineStart=null;
  renderHousePointMarkers();renderHouseLines();renderSketchLinePreview();
  $('#component').value=d.component||'';
  state.selected=null;state.selectedFace=null;state.faceSelectionIds=[];state.selectedCellIds=[];state.activeCustomElement=null;
@@ -5836,6 +5915,7 @@ function bwCurrentSavePackage(){
    if(HOUSE_POINT_TEST){
      data.housePoints=state.housePoints.map(p=>({x:Math.round(p.x),z:Math.round(p.z)}));
      data.houseLines=state.houseLines.map(l=>({...l}));
+     data.sketchVertices=state.sketchVertices.map(v=>({...v}));data.sketchNextId=state.sketchNextId;
      data.crosshair=state.ghost?{x:Math.round(state.ghost.x),z:Math.round(state.ghost.z)}:null;
    }
    data.buildBrushCells=state.size;
