@@ -1954,6 +1954,9 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 #workshopEditor.show{display:flex}
 #workshopEditor input{height:46px;min-width:85px}
 #workshopIconFile{display:none}
+/* House Studio test: preserve the full popup footprint while leaving empty slots. */
+#workshopModal .libraryPreviewHint{visibility:hidden}
+#workshopModal .libraryPreviewActions button:disabled{opacity:1!important;cursor:default}
 </style>
 </head>
 <body>
@@ -2234,10 +2237,10 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
   <div class="libraryPreviewHint">Drag to rotate</div>
   <div id="workshopEditor"><label>Clone color <input type="color" id="workshopColour"></label><button id="workshopApply" type="button" class="good">Apply</button></div>
   <div class="libraryActionGrid libraryPreviewActions">
-   <button id="workshopRename" type="button">Rename</button>
-   <button id="workshopEdit" type="button">Edit</button>
-   <button id="workshopIconBtn" type="button">Icon Settings</button>
-   <button id="workshopDelete" type="button" class="danger">Delete</button>
+   <button id="workshopRename" type="button" disabled aria-label="Placeholder 1"></button>
+   <button id="workshopEdit" type="button" disabled aria-label="Placeholder 2"></button>
+   <button id="workshopIconBtn" type="button" disabled aria-label="Placeholder 3"></button>
+   <button id="workshopDelete" type="button" disabled aria-label="Placeholder 4"></button>
   </div>
   <input type="file" accept="image/*" id="workshopIconFile">
  </div>
@@ -5387,8 +5390,7 @@ function workshopRefresh(){
  const {tab,id}=workshopPreview,m=workshopCatalogue(tab).items.find(m=>m.id===id);
  if(!m){workshopClose();return}
  $('#workshopTitle').textContent=m.workshopName||m.name||'Block';
- $('#workshopHost').innerHTML=m.workshopIcon?
-  '<div class="workshopIconPreview"><img alt="" src="'+m.workshopIcon+'"></div>':cubeThumbHtml(m,true);
+ $('#workshopHost').replaceChildren(); // House Studio test: keep preview stage blank, no 3D render.
  $('#workshopColour').value=/^#[0-9a-fA-F]{6}$/.test(m.c||'')?m.c:'#999999';
  workshopRotate();
 }
