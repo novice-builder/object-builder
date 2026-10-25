@@ -1831,6 +1831,14 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 }
 
 
+/* Finger-accessible, screen-fixed grip; canvas stays available for navigation. */
+#sketchDragHandle{display:none;position:fixed;z-index:28;left:max(12px,env(safe-area-inset-left));bottom:calc(var(--dockBottom,8px) + 175px);width:78px;height:78px;min-height:78px;border:2px solid #d2f6ff;border-radius:20px;box-shadow:0 0 0 3px #11354a99,0 9px 20px #0008;color:#fff;background:#197a9d;touch-action:none;user-select:none;-webkit-user-select:none;padding:5px;flex-direction:column;align-items:center;justify-content:center;gap:0}
+#sketchDragHandle.show{display:flex}
+#sketchDragHandle .sketchMoveArrows{font-size:36px;font-weight:900;line-height:38px}
+#sketchDragHandle span:last-child{font-size:11px;font-weight:850;letter-spacing:1px}
+#sketchDragHandle.dragging{background:#2d95bc!important;transform:scale(1.05)}
+#cloneFaceBar .cloneQuickSlot[data-sketch-move] span{font-size:12px!important;font-weight:800!important}
+#cloneFaceBar .cloneQuickSlot[data-sketch-move]:disabled{opacity:.42;filter:saturate(.4)}
 /* Desktop input reference, uses the existing builder palette */
 #desktopControls{display:none;position:fixed;z-index:22;left:9px;bottom:12px;width:252px;max-width:calc(100vw - 190px);background:#102b40ee;border:2px solid #ffffff54;border-radius:13px;box-shadow:0 6px 18px #0005;color:#fff;font-size:11px;overflow:hidden}
 #desktopControls summary{cursor:pointer;font-weight:800;padding:9px 11px;list-style:none;user-select:none}
@@ -2180,13 +2188,14 @@ body.clone-select-tools #cloneFaceBar{display:grid!important;position:absolute!i
   <button class="cloneQuickSlot" type="button" data-sketch-tool="point" data-sketch-select="individual" aria-label="Point tool"><span>Point</span></button>
   <button class="cloneQuickSlot" type="button" data-sketch-tool="line" data-sketch-select="chain" aria-label="Line tool"><span>Line</span></button>
   <button class="cloneQuickSlot" type="button" data-sketch-select="whole" aria-label="Quick slot 3"><span>+</span></button>
-  <button class="cloneQuickSlot" type="button" aria-label="Quick slot 4"><span>+</span></button>
+  <button class="cloneQuickSlot" type="button" data-sketch-move aria-label="Move selected lines" disabled><span>Move</span></button>
   
   <button class="cloneQuickSlot" type="button" aria-label="Quick slot 5"><span>+</span></button>
   <button class="cloneQuickSlot" type="button" aria-label="Quick slot 6"><span>+</span></button>
   <button class="cloneQuickSlot" type="button" aria-label="Quick slot 7"><span>+</span></button>
   <button class="cloneQuickSlot" type="button" aria-label="Quick slot 8"><span>+</span></button>
 </div>
+<button id="sketchDragHandle" type="button" aria-label="Drag selected lines" title="Drag here to move selected lines"><span class="sketchMoveArrows" aria-hidden="true">✥</span><span>DRAG</span></button>
 
 <div id="libraryActionModal" class="libraryOverlay" aria-hidden="true">
  <div class="libraryActionSheet">
@@ -3017,10 +3026,93 @@ function sketchSegmentMesh(x1,z1,x2,z2,preview=false){
 }
 function renderHouseLines(){
  clearSketchMeshGroup(houseLineGroup);
- for(const l of state.houseLines){const mesh=sketchSegmentMesh(l.x1,l.z1,l.x2,l.z2);if(mesh)houseLineGroup.add(mesh);}
+ for(const l of state.houseLines){
+  const mesh=sketchSegmentMesh(l.x1,l.z1,l.x2,l.z2);
+  if(mesh){mesh.userData.sketchLineId=l.id;houseLineGroup.add(mesh);}
+ }
+ sketchHideMovingSourceLines();
  renderSketchSelection();
 }
 
+/* Non-destructive movement: a fixed grip can drag repeatedly while the canvas
+   pans/orbits. Quantisation to 10 cm occurs only when the move is committed. */
+let sketchMovePreview=null,sketchDragPointer=null;
+function sketchHideMovingSourceLines(){
+ const ids=new Set(sketchMovePreview?.ids||[]);
+ for(const mesh of houseLineGroup.children)mesh.visible=!ids.has(mesh.userData.sketchLineId);
+}
+function sketchGroundAtScreen(x,y){
+ const r=renderer.domElement.getBoundingClientRect();
+ if(!r.width||!r.height)return null;
+ const v=new THREE.Vector2((x-r.left)/r.width*2-1,1-(y-r.top)/r.height*2);
+ const ray=new THREE.Raycaster();ray.setFromCamera(v,camera);
+ return ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0,1,0),0),new THREE.Vector3());
+}
+function startSketchMove(){
+ if(!HOUSE_POINT_TEST||state.mode!=='navigate')return false;
+ if(sketchMovePreview){cancelSketchMovePreview();return true;}
+ const ids=sketchSelectionIds();
+ if(!ids.length){toast('Select a line first');return false;}
+ sketchMovePreview={ids,dx:0,dz:0};
+ lastNavigateTouchTap=null;
+ sketchHideMovingSourceLines();renderSketchSelection();
+ updateModeUI();updateStatus();
+ toast('Drag the handle · pan/orbit as needed · tap canvas to place · X cancels');
+ return true;
+}
+function cancelSketchMovePreview(notify=true){
+ if(!sketchMovePreview)return false;
+ sketchMovePreview=null;sketchDragPointer=null;
+ $('#sketchDragHandle').classList.remove('dragging');
+ sketchHideMovingSourceLines();renderSketchSelection();
+ updateModeUI();updateStatus();
+ if(notify)toast('Line movement cancelled');
+ return true;
+}
+function commitSketchMovePreview(){
+ const move=sketchMovePreview;if(!move)return false;
+ const dx=Math.round(move.dx),dz=Math.round(move.dz),ids=new Set(move.ids);
+ if(!dx&&!dz){cancelSketchMovePreview(false);toast('No movement · lines remain selected');return true;}
+ checkpoint();
+ for(const l of state.houseLines){if(!ids.has(l.id))continue;l.x1+=dx;l.x2+=dx;l.z1+=dz;l.z2+=dz;}
+ // Only selected segments move; junctions reconnect at final snapped positions.
+ sketchConnectAllIntersections();
+ sketchMovePreview=null;sketchDragPointer=null;
+ state.selectedSketchLineIds=[];state.selectedSketchLineId=null;
+ renderHouseLines();persistEditorWorkspace(state.editorContext);
+ updateModeUI();updateStatus();syncSharedUndo();
+ toast('Moved '+ids.size+' segment'+(ids.size===1?'':'s')+' · snapped to 10 cm');
+ return true;
+}
+function initSketchDragHandle(){
+ const h=$('#sketchDragHandle');
+ h.addEventListener('pointerdown',e=>{
+  if(!sketchMovePreview||e.button!==0)return;
+  const world=sketchGroundAtScreen(e.clientX,e.clientY);if(!world)return;
+  e.preventDefault();e.stopPropagation();
+  h.setPointerCapture(e.pointerId);
+  sketchDragPointer={id:e.pointerId,origin:world,dx:sketchMovePreview.dx,dz:sketchMovePreview.dz};
+  h.classList.add('dragging');
+ });
+ h.addEventListener('pointermove',e=>{
+  const drag=sketchDragPointer,move=sketchMovePreview;
+  if(!drag||!move||drag.id!==e.pointerId)return;
+  e.preventDefault();
+  const world=sketchGroundAtScreen(e.clientX,e.clientY);if(!world)return;
+  move.dx=drag.dx+(world.x-drag.origin.x)/BASE;
+  move.dz=drag.dz+(world.z-drag.origin.z)/BASE;
+  sketchSelectionGroup.position.set(move.dx*BASE,0,move.dz*BASE);
+  updateStatus();
+ });
+ const finish=e=>{
+  if(sketchDragPointer?.id!==e.pointerId)return;
+  sketchDragPointer=null;h.classList.remove('dragging');
+  if(h.hasPointerCapture?.(e.pointerId))h.releasePointerCapture(e.pointerId);
+ };
+ h.addEventListener('pointerup',finish);
+ h.addEventListener('pointercancel',finish);
+}
+initSketchDragHandle();
 /* Tap-select: project 10 cm grid geometry to screen so thin lines are accessible by touch.
    Transient selection does not modify the saved line topology, crosshair or camera. */
 function sketchDistanceFromSegmentPx(x,y,a,b){
@@ -3092,6 +3184,7 @@ function sketchKeepChainConnected(ids){
 }
 function renderSketchSelection(){
  clearSketchMeshGroup(sketchSelectionGroup);
+ sketchSelectionGroup.position.set((sketchMovePreview?.dx||0)*BASE,0,(sketchMovePreview?.dz||0)*BASE);
  if(!HOUSE_POINT_TEST||state.mode!=='navigate')return;
  const ids=sketchSelectionIds(),selectedIds=new Set(ids),vertices=new Map();
  state.selectedSketchLineIds=ids;state.selectedSketchLineId=ids[0]||null;
@@ -3106,7 +3199,7 @@ function renderSketchSelection(){
    vertices.set(vertexId||x+','+z,{x,z,vertexId});
  }
  for(const {x,z,vertexId} of vertices.values()){
-  const joined=sketchVertexIsJoined(vertexId),color=joined?0x2ce8a1:0xffffff;
+  const joined=!sketchMovePreview&&sketchVertexIsJoined(vertexId),color=joined?0x2ce8a1:0xffffff;
   const ring=new THREE.Mesh(new THREE.RingGeometry(.027,.043,24),
     new THREE.MeshBasicMaterial({color,side:THREE.DoubleSide,depthTest:false,depthWrite:false}));
   ring.rotation.x=-Math.PI/2;ring.position.set(x*BASE,.033,z*BASE);ring.renderOrder=521;sketchSelectionGroup.add(ring);
