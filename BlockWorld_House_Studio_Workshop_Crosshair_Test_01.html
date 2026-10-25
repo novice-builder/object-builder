@@ -1928,14 +1928,10 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 #mapCards .osmMapCard.selected .libraryPencil{display:flex}
 .osmCloneActions{display:grid;gap:8px;margin-bottom:12px}
 .osmCloneActions button{text-align:left}
-</style><style>.osmCropSettings{display:grid;gap:8px;margin:12px 0}.osmCropSettings label{display:grid;gap:6px}.osmLayerRow{display:flex;align-items:center;gap:8px;margin:5px 0}.osmLayerRow span{flex:1}.osmLayerRow button{min-height:26px;padding:3px 8px}.osmLayerRow input{min-height:0}/* House Studio: six compact, evenly spaced top tabs; leave original panes/wiring intact. */
+</style><style>.osmCropSettings{display:grid;gap:8px;margin:12px 0}.osmCropSettings label{display:grid;gap:6px}.osmLayerRow{display:flex;align-items:center;gap:8px;margin:5px 0}.osmLayerRow span{flex:1}.osmLayerRow button{min-height:26px;padding:3px 8px}.osmLayerRow input{min-height:0}/* House Studio: hide only the three unwanted menu tabs; preserve original tab sizing. */
 #buildMenuTabs #objectsTabBtn,
 #buildMenuTabs #componentsTabBtn,
 #buildMenuTabs #groundTabBtn { display:none!important; }
-#buildMenuTabs { width:100%!important; display:flex!important; overflow:hidden!important; }
-#buildMenuTabs button { flex:1 1 0!important; width:0!important; min-width:0!important; padding:5px 2px!important; font-size:14px!important; text-align:center!important; }
-#buildMenuTabs button:first-child { padding-left:2px!important; }
-@media(max-width:360px) { #buildMenuTabs button { font-size:12.5px!important; padding:4px 1px!important; } }
 </style><style id="workshop02-styles">
 /* Match the actual Blocks catalogue rules, not generic two-column defaults. */
 #mapsCloneCards,#objectsCloneCards,#componentsCloneCards,#groundCloneCards{
