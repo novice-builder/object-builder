@@ -2824,7 +2824,7 @@ function toggleExtrudePanel(){
 }
 function syncSharedUndo(){
  if($('#sharedEbUndo')){$('#sharedEbUndo').disabled=!state.history.length;$('#sharedEbRedo').disabled=!state.future.length}
- if($('#deleteBtn')&&!placementAnchorActive()&&!state.extrusionSession)$('#deleteBtn').disabled=!(state.history.length||(HOUSE_POINT_TEST&&state.sketchLineStart));
+ if($('#deleteBtn')&&!placementAnchorActive()&&!state.extrusionSession)$('#deleteBtn').disabled=!(state.history.length||(HOUSE_POINT_TEST&&state.sketchLineStart)||(HOUSE_POINT_TEST&&state.mode==='navigate'&&sketchSelectionIds().length));
 }
 function checkpoint(){state.history.push(snapshot());if(state.history.length>80)state.history.shift();state.future.length=0;syncSharedUndo();}
 function restore(s){
@@ -3125,12 +3125,12 @@ function setSketchSelectionMode(mode){
   else if(mode==='whole'&&anchor)state.selectedSketchLineIds=sketchStraightLineSegments(anchor).map(l=>l.id);
   else state.selectedSketchLineIds=sketchKeepChainConnected(current);
  }
- renderSketchSelection();syncSketchQuickSlots();
+ renderSketchSelection();syncSketchQuickSlots();updateModeUI();
  toast({individual:'Individual segment selection',chain:'Chain selection - tap touching segments to add or remove',whole:'Whole straight-line selection'}[mode]);
 }
 function selectSketchLineAt(x,y,pointerType){
  const hit=sketchHitLine(x,y,pointerType==='mouse'?10:17);
- if(!hit){state.selectedSketchLineIds=[];renderSketchSelection();return;}
+ if(!hit){state.selectedSketchLineIds=[];renderSketchSelection();updateModeUI();return;}
  const mode=state.sketchSelectMode,selected=sketchSelectionIds();
  if(mode==='whole'){
   state.selectedSketchLineIds=sketchStraightLineSegments(hit).map(l=>l.id);
@@ -3148,7 +3148,23 @@ function selectSketchLineAt(x,y,pointerType){
   state.selectedSketchLineIds=[hit.id];
   toast('Individual segment selected');
  }
- renderSketchSelection();
+ renderSketchSelection();updateModeUI();
+}
+/* Delete only selected line segments; other joined lines remain in place.
+   One checkpoint makes individual, chain and whole-line deletions undoable. */
+function deleteSelectedSketchLines(){
+ if(!HOUSE_POINT_TEST||state.mode!=='navigate')return false;
+ const ids=new Set(sketchSelectionIds());
+ if(!ids.size)return false;
+ checkpoint();
+ state.houseLines=state.houseLines.filter(line=>!ids.has(line.id));
+ sketchConnectAllIntersections(); // Rebuild shared junctions and drop orphaned vertices.
+ state.selectedSketchLineIds=[];state.selectedSketchLineId=null;
+ renderHouseLines();
+ persistEditorWorkspace(state.editorContext);
+ updateStatus();syncSharedUndo();updateModeUI();
+ toast('Deleted '+ids.size+' selected line segment'+(ids.size===1?'':'s')+' · Undo to restore');
+ return true;
 }
 function renderSketchLinePreview(){
  clearSketchMeshGroup(houseLinePreviewGroup);
@@ -4501,7 +4517,11 @@ function updateModeUI(){
  $('#placeBtn').disabled=HOUSE_POINT_TEST?!(anchored||(build&&state.ghost)):!(anchored||faceExtruding||(build&&state.ghost&&(state.activeGroundElement||validBuildPlacementCandidate(state.ghost))));
  $('#selectGroup').style.display=nav&&state.navMode==='pan'&&!!state.selected?'block':'none';
  $('#faceBar').classList.remove('show');
- $('#deleteBtn').disabled=!(anchored||faceExtruding||state.history.length||(HOUSE_POINT_TEST&&state.sketchLineStart));
+ const sketchSelected=HOUSE_POINT_TEST&&nav&&sketchSelectionIds().length>0;
+ const deleteButton=$('#deleteBtn');
+ deleteButton.disabled=!(anchored||faceExtruding||state.history.length||(HOUSE_POINT_TEST&&state.sketchLineStart)||sketchSelected);
+ deleteButton.setAttribute('aria-label',sketchSelected?'Delete selected sketch lines':'Cancel or undo last action');
+ deleteButton.title=sketchSelected?'Delete selected lines':'Cancel / Undo';
  updatePlacementHandles();
 }
 function enterBuild(){
@@ -6012,6 +6032,7 @@ $('#placeBtn').onclick=()=>{
 $('#deleteBtn').onclick=()=>{
  if(placementAnchorActive()){cancelPlacementAnchor();return}
  if(state.extrusionSession){cancelFaceHandleExtrusion();updateModeUI();return}
+ if(deleteSelectedSketchLines())return;
  if(HOUSE_POINT_TEST&&state.sketchLineStart){cancelPendingSketchLine();return;}
  if(state.history.length){undo();updateModeUI();return}
 };
