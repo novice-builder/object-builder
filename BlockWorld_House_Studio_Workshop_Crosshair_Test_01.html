@@ -23,6 +23,8 @@ button.good{background:#246a4c}.danger{background:#7d3434!important}
 #topSpacer{flex:1}
 #top #undoBtn,#top #redoBtn,#top #helpBtn{min-width:58px;height:46px;min-height:46px;padding:7px 9px;border-radius:13px;font-size:12px}
 #top #helpBtn{min-width:46px;width:46px;font-size:18px}
+#freshReloadBtn{min-width:69px;flex-shrink:0;padding:7px 9px;white-space:nowrap;font-size:13px}
+@media(max-width:480px){#freshReloadBtn{min-width:60px;padding:7px 6px;font-size:12px}}
 #status{background:#102b40c9;border-radius:9px;padding:7px 9px;font-size:12px;white-space:nowrap}
 #mobileMenu{display:block;min-width:48px}
 #tools{display:none;position:absolute;z-index:31;left:8px;top:66px;width:min(88vw,330px);max-height:calc(100vh - 120px);overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;flex-direction:column;gap:7px;background:#0d273bf3;border:2px solid #ffffff59;border-radius:16px;padding:8px;box-shadow:0 14px 35px #0008}
@@ -1990,6 +1992,7 @@ body.clone-select-tools #cloneFaceBar{display:grid!important;position:absolute!i
 </svg></span><span>Build</span></button>
   <div id="title">House Studio — Crosshair Test</div>
   <div id="topSpacer"></div>
+  <button id="freshReloadBtn" class="builderTopButton" type="button" aria-label="Fresh reload latest House Studio version" title="Request the newest version, keeping local sketches">↻ Fresh</button>
   <button id="projectSaveBtn" class="builderTopButton" type="button" aria-label="Save current creation">Save</button>
   <div id="status">0 blocks</div>
 </div>
@@ -6141,7 +6144,7 @@ const resetCloneFine=()=>{
 $('#cloneExtrudeFineSlider').addEventListener('change',resetCloneFine);
 
 $$('.cloneQuickSlot').forEach(b=>b.onclick=()=>{
- if(state.mode==='navigate'&&b.dataset.sketchMove){startSketchMove();return;}
+ if(state.mode==='navigate'&&b.hasAttribute('data-sketch-move')){startSketchMove();return;}
  if(state.mode==='navigate'&&b.dataset.sketchSelect){setSketchSelectionMode(b.dataset.sketchSelect);return;}
  if(state.mode==='build'&&b.dataset.sketchTool){setActiveSketchTool(b.dataset.sketchTool);return;}
  b.classList.toggle('active'); // Unassigned placeholders remain independent.
@@ -6333,6 +6336,14 @@ function bwSaveCurrent(){
  }catch(err){console.error('Save failed',err);alert('Unable to save: '+err.message)}
 }
 $('#projectSaveBtn').addEventListener('click',bwSaveCurrent);
+$('#freshReloadBtn').addEventListener('click',()=>{
+ // A new URL causes Safari to request updated HTML without clearing saved workspace data.
+ // This is a cache-busting page reload, not a deletion of browser storage or a cache purge.
+ if(state.editorContext!=='block')persistEditorWorkspace(state.editorContext);
+ const url=new URL(window.location.href);
+ url.searchParams.set('fresh',String(Date.now()));
+ window.location.replace(url.href);
+});
 addEventListener('pagehide',()=>{if(state.editorContext!=='block')persistEditorWorkspace(state.editorContext);});
 
 $('#saveLibrary').onclick=saveCurrent;$('#exportBtn').onclick=()=>{const d=exportData();download(safeName(d.name)+'.blockobject',JSON.stringify(d,null,2));};$('#importBtn').onclick=()=>$('#importFile').click();$('#importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{importData(JSON.parse(await f.text()));hidePanel('libraryPanel');toast('Object imported')}catch(err){alert(err.message)}e.target.value='';};$('#newBtn').onclick=()=>{if(!confirm('Start a new blank object?'))return;endExtrusion();checkpoint();state.blocks=[];state.nextId=1;state.selected=null;state.selectedFace=null;state.faceSelectionIds=[];$('#objectNameInput').value='My Object';rebuildAll();fitObject();hidePanel('libraryPanel');};
