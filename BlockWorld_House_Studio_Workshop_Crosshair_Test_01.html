@@ -4254,7 +4254,7 @@ $('#matColourBtn').onclick=()=>$('#matEditColor').click();
 $('#matEditColor').oninput=()=>{$('#matColourSwatch').style.background=$('#matEditColor').value;updateMatCubeOnly();renderMatSlots()};
 $('#matTextureReset').onclick=()=>{const sl=selectedFaceSlot()||matSlot();if(sl){sl.x=sl.y=0;sl.zoom=1;matClampSlot(sl,matSelectedFace,Math.max(1,$('#matTexturePreview').clientWidth||210));updateMatEditor()}};
 $('#matRotateFace').onclick=()=>{const sl=selectedFaceSlot()||matSlot();if(!sl?.image)return toast('Choose a photo for this face first.');sl.rotations=sl.rotations||{};sl.rotations[matSelectedFace]=(matRotationFor(sl,matSelectedFace)+90)%360;matClampSlot(sl,matSelectedFace,Math.max(1,$('#matTexturePreview').clientWidth||210));updateMatEditor()};
-$('#matEditClose').onclick=()=>{ $('#materialEditorModal').classList.remove('show'); if(state.editorContext==='block')switchEditor('map'); };
+$('#matEditClose').onclick=()=>{ $('#materialEditorModal').classList.remove('show'); if(state.editorContext==='block')switchEditor('object'); };
 $('#materialEditorMenuBtn').onclick=()=>{$('#materialEditorModal').classList.remove('show');$('#tools').classList.add('open');};$('#matEditSave').onclick=saveCustomMaterial;
 
 
@@ -5745,6 +5745,11 @@ function bwCurrentSavePackage(){
    data.draft={name,color:$('#matEditColor')?.value||'#aaaaaa',textureSlots:matEditSlots.map(sl=>({name:sl.name,image:sl.image,x:sl.x||0,y:sl.y||0,zoom:sl.zoom||1,iw:sl.iw||0,ih:sl.ih||0,faces:[...(sl.faces||[])],rotations:{...(sl.rotations||{})}}))};
  }else{
    data.blocks=cloneBlockData(state.blocks).map(b=>({...b,s:1}));
+   // Project downloads must include sketches, not only the older voxel blocks.
+   if(HOUSE_POINT_TEST){
+     data.housePoints=state.housePoints.map(p=>({x:Math.round(p.x),z:Math.round(p.z)}));
+     data.crosshair=state.ghost?{x:Math.round(state.ghost.x),z:Math.round(state.ghost.z)}:null;
+   }
    data.buildBrushCells=state.size;
    data.component=$('#component')?.value||'';
    data.customMaterials=state.customMaterials;
