@@ -2478,6 +2478,20 @@ originLines.add(xline,zline);scene.add(originLines);
 // House Studio: the grid helpers' darker centre lines mark X/Z at y=0.
 // Suppress Workshop's separate raised red/blue ribbons so nothing covers drafted geometry.
 if(HOUSE_POINT_TEST)originLines.visible=false;
+// Permanent origin marker: 2.2 cm diameter, matching the crosshair's 2.2 cm stroke.
+// Its colour distinguishes the fixed (0,0) reference from the movable yellow cursor.
+// Draw on the ground plane, but over the grid and cursor to prevent occlusion.
+if(HOUSE_POINT_TEST){
+ const originDot=new THREE.Mesh(
+  new THREE.CircleGeometry(.011,32),
+  new THREE.MeshBasicMaterial({color:0xff6046,side:THREE.DoubleSide,depthTest:false,depthWrite:false})
+ );
+ originDot.name='House Studio origin dot (2.2 cm)';
+ originDot.rotation.x=-Math.PI/2;
+ originDot.position.set(0,0,0);
+ originDot.renderOrder=530;
+ scene.add(originDot);
+}
 const blockGroup=new THREE.Group();scene.add(blockGroup);
 const blockTopGridGroup=new THREE.Group();scene.add(blockTopGridGroup);
 const blockTopGridMaterial=new THREE.LineBasicMaterial({color:0x38576a,transparent:true,opacity:.55,depthWrite:false,depthTest:true});
