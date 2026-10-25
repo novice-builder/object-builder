@@ -2452,11 +2452,11 @@ function rebuildGrid(radiusCells=50){
  // angles the nearest side filled the foreground and appeared to move with orbit.
  if(ground.geometry)ground.geometry.dispose();
  ground.geometry=new THREE.PlaneGeometry(size,size);
- grid=new THREE.GridHelper(size,radiusCells*2,0x5b7d8e,0x8aa8b4);
+ grid=new THREE.GridHelper(size,radiusCells*2,0x173b50,0x8aa8b4);
  grid.material.transparent=true;grid.material.opacity=.42;grid.material.depthWrite=false;
  grid.position.y=.004;scene.add(grid);
  const coarseDiv=Math.max(2,Math.floor(radiusCells/5)*2);
- coarseGrid=new THREE.GridHelper(size,coarseDiv,0x36596b,0x5f7f8e);
+ coarseGrid=new THREE.GridHelper(size,coarseDiv,0x173b50,0x5f7f8e);
  coarseGrid.material.transparent=true;coarseGrid.material.opacity=.48;coarseGrid.material.depthWrite=false;
  coarseGrid.position.y=.005;scene.add(coarseGrid);
 }rebuildGrid(50);
@@ -2475,6 +2475,9 @@ const zline=new THREE.Mesh(
 );
 zline.rotation.x=-Math.PI/2;zline.position.set(0,axisY+.0002,0);
 originLines.add(xline,zline);scene.add(originLines);
+// House Studio: the grid helpers' darker centre lines mark X/Z at y=0.
+// Suppress Workshop's separate raised red/blue ribbons so nothing covers drafted geometry.
+if(HOUSE_POINT_TEST)originLines.visible=false;
 const blockGroup=new THREE.Group();scene.add(blockGroup);
 const blockTopGridGroup=new THREE.Group();scene.add(blockTopGridGroup);
 const blockTopGridMaterial=new THREE.LineBasicMaterial({color:0x38576a,transparent:true,opacity:.55,depthWrite:false,depthTest:true});
@@ -5815,7 +5818,7 @@ function osmValidate(data,name){
  return {name,...Object.fromEntries(Object.keys(osmBlankFeatures()).map(k=>[k,data[k]||[]])),bounds,width,height,id:'osm-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),relationCount:data.relationCount||0};
 }
 function osmSetMapGrid(width,height){if(grid){scene.remove(grid);grid.geometry?.dispose();}if(coarseGrid){scene.remove(coarseGrid);coarseGrid.geometry?.dispose();}const verts=[],strong=[];const step=Math.max(1,Math.pow(2,Math.ceil(Math.log2(Math.max(width,height)/110))));for(let x=-width/2,i=0;x<=width/2+1e-5;x+=step,i++){verts.push(x,.009,-height/2,x,.009,height/2);}for(let z=-height/2;z<=height/2+1e-5;z+=step){verts.push(-width/2,.009,z,width/2,.009,z);}const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));grid=new THREE.LineSegments(geo,new THREE.LineBasicMaterial({color:0x65859a,transparent:true,opacity:.4,depthWrite:false}));grid.name='Imported map grid';grid.renderOrder=1;grid.material.depthTest=true;scene.add(grid);coarseGrid=new THREE.Group();scene.add(coarseGrid);grid.visible=true;coarseGrid.visible=false;originLines.visible=false;}
-function osmDeactivate(){osmCompositeDispose();ground.visible=true;ground.material.colorWrite=true;ground.material.depthWrite=true;groundTileGroup.visible=true;osmDispose();osmMapState.activeId=null;osmMapState.roads=0;osmMapState.extent=0;if(osmMapState.groundTexture){osmMapState.groundTexture.dispose();osmMapState.groundTexture=null;}groundMat.map=null;groundMat.color.set(0xb3c693);groundMat.needsUpdate=true;ZOOM_MAX=100;rebuildGrid(50);originLines.visible=true;scene.fog=new THREE.Fog(0x86c3e8,45,115);camera.near=.01;camera.far=300;camera.updateProjectionMatrix();state.target.set(0,0,0);state.distance=18;updateCamera();document.getElementById('osmImportStatus').textContent='No active map · select a map card to activate';osmRenderCards();}
+function osmDeactivate(){osmCompositeDispose();ground.visible=true;ground.material.colorWrite=true;ground.material.depthWrite=true;groundTileGroup.visible=true;osmDispose();osmMapState.activeId=null;osmMapState.roads=0;osmMapState.extent=0;if(osmMapState.groundTexture){osmMapState.groundTexture.dispose();osmMapState.groundTexture=null;}groundMat.map=null;groundMat.color.set(0xb3c693);groundMat.needsUpdate=true;ZOOM_MAX=100;rebuildGrid(50);originLines.visible=!HOUSE_POINT_TEST;scene.fog=new THREE.Fog(0x86c3e8,45,115);camera.near=.01;camera.far=300;camera.updateProjectionMatrix();state.target.set(0,0,0);state.distance=18;updateCamera();document.getElementById('osmImportStatus').textContent='No active map · select a map card to activate';osmRenderCards();}
 
 // v17.87: Layer Lab v9's exclusive terrain compositing, partitioned into
 // editable 64 m quadtree-backed cells. All OSM source geometry stays editable.
