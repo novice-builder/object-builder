@@ -2429,10 +2429,10 @@ const mats=[
  {id:'floor',name:'Floorboards',c:'#ba8d58',c2:'#7d5d39',kind:'wood'}
 ];
 const HOUSE_POINT_TEST=true; // Separate Workshop-clone prototype: 10 cm grid points, not blocks
-const state={mode:'navigate',navMode:'pan',navCrosshairHidden:false,faceScope:'single',faceSelectSize:2,faceSelectionIds:[],selectedCellIds:[],size:2,mat:'brick',type:'solid',component:'',blocks:[],housePoints:[],houseLines:[],sketchVertices:[],sketchNextId:0,activeSketchTool:'point',sketchLineStart:null,nextId:1,selected:null,selectedFace:null,ghost:null,ghostCursor:{x:innerWidth*.5,y:innerHeight*.54},history:[],future:[],yaw:0,tilt:87*Math.PI/180,distance:6,target:new THREE.Vector3(0,0,0),moved:false,dragGroupIds:null,dragAccum:new THREE.Vector3(),dragCheckpointed:false,edgePointer:null,lastFrame:performance.now(),extrusionSession:null,extrudeFineBase:20,extrudePanelOpen:false,showRotateSlider:false,showZoomSlider:true,zoomUiValue:50,moveObjectMode:false,placementAnchor:null,anchorHandleDrag:null,anchorLiftDrag:null,customElements:[],customMaterials:[],activeCustomElement:null,activeGroundElement:null,groundTiles:[],nextGroundId:1,baseGroundRemoved:false,customTextureCache:new Map(),elementDraft:null,elementDraftSkin:null,elementSkinEditingFromBuilder:false,buildContext:'world',worldSession:null,editorContext:'map',editorWorkspaces:{}};
+const state={mode:'navigate',navMode:'pan',navCrosshairHidden:false,faceScope:'single',faceSelectSize:2,faceSelectionIds:[],selectedCellIds:[],size:2,mat:'brick',type:'solid',component:'',blocks:[],housePoints:[],houseLines:[],sketchVertices:[],sketchNextId:0,selectedSketchLineId:null,activeSketchTool:'point',sketchLineStart:null,nextId:1,selected:null,selectedFace:null,ghost:null,ghostCursor:{x:innerWidth*.5,y:innerHeight*.54},history:[],future:[],yaw:0,tilt:87*Math.PI/180,distance:6,target:new THREE.Vector3(0,0,0),moved:false,dragGroupIds:null,dragAccum:new THREE.Vector3(),dragCheckpointed:false,edgePointer:null,lastFrame:performance.now(),extrusionSession:null,extrudeFineBase:20,extrudePanelOpen:false,showRotateSlider:false,showZoomSlider:true,zoomUiValue:50,moveObjectMode:false,placementAnchor:null,anchorHandleDrag:null,anchorLiftDrag:null,customElements:[],customMaterials:[],activeCustomElement:null,activeGroundElement:null,groundTiles:[],nextGroundId:1,baseGroundRemoved:false,customTextureCache:new Map(),elementDraft:null,elementDraftSkin:null,elementSkinEditingFromBuilder:false,buildContext:'world',worldSession:null,editorContext:'map',editorWorkspaces:{}};
 const ZOOM_MIN=.12; let ZOOM_MAX=100;
 
-const scene=new THREE.Scene();const housePointGroup=new THREE.Group();housePointGroup.name='House Studio test points';scene.add(housePointGroup);const houseLineGroup=new THREE.Group();houseLineGroup.name='Sketch lines';scene.add(houseLineGroup);const houseLinePreviewGroup=new THREE.Group();houseLinePreviewGroup.name='Sketch preview';scene.add(houseLinePreviewGroup);scene.background=new THREE.Color(0x86c3e8);scene.fog=new THREE.Fog(0x86c3e8,45,115);
+const scene=new THREE.Scene();const housePointGroup=new THREE.Group();housePointGroup.name='House Studio test points';scene.add(housePointGroup);const houseLineGroup=new THREE.Group();houseLineGroup.name='Sketch lines';scene.add(houseLineGroup);const houseLinePreviewGroup=new THREE.Group();houseLinePreviewGroup.name='Sketch preview';scene.add(houseLinePreviewGroup);const sketchSelectionGroup=new THREE.Group();sketchSelectionGroup.name='Sketch selection';scene.add(sketchSelectionGroup);scene.background=new THREE.Color(0x86c3e8);scene.fog=new THREE.Fog(0x86c3e8,45,115);
 const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,.01,300);
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;document.body.insertBefore(renderer.domElement,document.body.firstChild);
 renderer.domElement.style.position='absolute';renderer.domElement.style.inset='0';renderer.domElement.style.zIndex='0';
@@ -2967,7 +2967,52 @@ function sketchSegmentMesh(x1,z1,x2,z2,preview=false){
 function renderHouseLines(){
  clearSketchMeshGroup(houseLineGroup);
  for(const l of state.houseLines){const mesh=sketchSegmentMesh(l.x1,l.z1,l.x2,l.z2);if(mesh)houseLineGroup.add(mesh);}
+ renderSketchSelection();
 }
+
+/* Tap-select: project 10 cm grid geometry to screen so thin lines are accessible by touch.
+   Transient selection does not modify the saved line topology, crosshair or camera. */
+function sketchDistanceFromSegmentPx(x,y,a,b){
+ const dx=b.x-a.x,dy=b.y-a.y,len=dx*dx+dy*dy;
+ const t=len>1e-10?Math.max(0,Math.min(1,((x-a.x)*dx+(y-a.y)*dy)/len)):0;
+ return Math.hypot(x-a.x-t*dx,y-a.y-t*dy);
+}
+function sketchHitLine(x,y,tolerance){
+ let candidate=null,min=tolerance;
+ for(const l of state.houseLines){
+  const p=projectWorldToScreen(new THREE.Vector3(l.x1*BASE,.028,l.z1*BASE));
+  const q=projectWorldToScreen(new THREE.Vector3(l.x2*BASE,.028,l.z2*BASE));
+  const distance=sketchDistanceFromSegmentPx(x,y,p,q);
+  if(distance<=min){min=distance;candidate=l;}
+ }
+ return candidate;
+}
+function sketchVertexIsJoined(id){
+ return state.houseLines.reduce((sum,l)=>sum+(l.v1===id?1:0)+(l.v2===id?1:0),0)>1;
+}
+function renderSketchSelection(){
+ clearSketchMeshGroup(sketchSelectionGroup);
+ if(!HOUSE_POINT_TEST||state.mode!=='navigate'||!state.selectedSketchLineId)return;
+ const l=state.houseLines.find(l=>l.id===state.selectedSketchLineId);
+ if(!l){state.selectedSketchLineId=null;return;}
+ const line=sketchSegmentMesh(l.x1,l.z1,l.x2,l.z2,true);
+ if(line){line.material.color.setHex(0xffc34f);line.material.opacity=1;line.material.transparent=false;line.renderOrder=520;line.position.y=.011;sketchSelectionGroup.add(line);}
+ for(const [x,z,vertexId] of [[l.x1,l.z1,l.v1],[l.x2,l.z2,l.v2]]){
+  const joined=sketchVertexIsJoined(vertexId),color=joined?0x2ce8a1:0xffffff;
+  const ring=new THREE.Mesh(new THREE.RingGeometry(.027,.043,24),
+    new THREE.MeshBasicMaterial({color,side:THREE.DoubleSide,depthTest:false,depthWrite:false}));
+  ring.rotation.x=-Math.PI/2;ring.position.set(x*BASE,.033,z*BASE);ring.renderOrder=521;sketchSelectionGroup.add(ring);
+  const dot=new THREE.Mesh(new THREE.CircleGeometry(.012,20),
+    new THREE.MeshBasicMaterial({color:joined?0x2ce8a1:0xffc34f,side:THREE.DoubleSide,depthTest:false,depthWrite:false}));
+  dot.rotation.x=-Math.PI/2;dot.position.set(x*BASE,.034,z*BASE);dot.renderOrder=522;sketchSelectionGroup.add(dot);
+ }
+}
+function selectSketchLineAt(x,y,pointerType){
+ const l=sketchHitLine(x,y,pointerType==='mouse'?10:17);
+ state.selectedSketchLineId=l?.id||null;renderSketchSelection();
+ if(l)toast('Line selected'+(sketchVertexIsJoined(l.v1)||sketchVertexIsJoined(l.v2)?' · green = joined':''));
+}
+
 function renderSketchLinePreview(){
  clearSketchMeshGroup(houseLinePreviewGroup);
  const a=state.sketchLineStart;
@@ -4243,7 +4288,8 @@ renderer.domElement.addEventListener('pointerup',e=>{
      else quickPlaceCurrentGhost();
    }else if(state.mode==='navigate'){
      if(state.extrusionSession)commitFaceHandleExtrusion();
-     else if(state.navMode==='pan')selectAt(e.clientX,e.clientY);
+     else if(HOUSE_POINT_TEST)selectSketchLineAt(e.clientX,e.clientY,e.pointerType);
+      else if(state.navMode==='pan')selectAt(e.clientX,e.clientY);
    }
  }
  if(state.anchorLiftDrag?.id===e.pointerId){
@@ -4295,7 +4341,7 @@ function enterBuild(){
    selectBox.visible=false;refreshFaceOverlay();
  }
  state.mode='build';
- if(HOUSE_POINT_TEST){state.navCrosshairHidden=false;lastNavigateTouchTap=null}
+ if(HOUSE_POINT_TEST){state.navCrosshairHidden=false;lastNavigateTouchTap=null;state.selectedSketchLineId=null;renderSketchSelection()}
  if(placementAnchorActive()){ghost.visible=false;updateAnchoredGhostVisual()}
  else if(HOUSE_POINT_TEST&&state.ghost){
    setGhost({...state.ghost}); // Restore the existing snapped world point, not the origin.
@@ -4305,7 +4351,7 @@ function enterBuild(){
 function enterNavigate(){
  state.mode='navigate';
  state.navMode='pan';
- if(HOUSE_POINT_TEST){state.navCrosshairHidden=false;lastNavigateTouchTap=null}
+ if(HOUSE_POINT_TEST){state.navCrosshairHidden=false;lastNavigateTouchTap=null;renderSketchSelection()}
  if(placementAnchorActive()){
    ghost.visible=false;
    renderAnchoredBlockPreview();
@@ -4458,6 +4504,7 @@ function loadEditorWorkspace(name){
  return d&&typeof d==='object'&&!Array.isArray(d)?d:blankEditorWorkspace();
 }
 function applyEditorWorkspace(d){
+ state.selectedSketchLineId=null;
  state.blocks=cloneBlockData(d.blocks||[]);state.nextId=d.nextId||1;
  state.size=d.size||2;state.mat=d.mat||'brick';state.type=d.type||'solid';
  state.history=[...(d.history||[])];state.future=[...(d.future||[])];
