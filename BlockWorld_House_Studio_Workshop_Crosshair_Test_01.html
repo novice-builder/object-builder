@@ -2907,7 +2907,7 @@ function cancelPendingSketchLine(notify=true){
  return true;
 }
 function syncSketchQuickSlots(){
- $('.cloneQuickSlot[data-sketch-tool]').forEach(b=>{
+ $$('.cloneQuickSlot[data-sketch-tool]').forEach(b=>{
   const selected=b.dataset.sketchTool===state.activeSketchTool;
   b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected));
  });
