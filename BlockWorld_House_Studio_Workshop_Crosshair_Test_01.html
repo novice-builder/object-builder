@@ -1956,7 +1956,8 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 #workshopIconFile{display:none}
 /* House Studio test: preserve the full popup footprint while leaving empty slots. */
 #workshopModal .libraryPreviewHint{visibility:hidden}
-#workshopModal .libraryPreviewActions button:disabled{opacity:1!important;cursor:default}
+#workshopModal .libraryPreviewActions button:disabled,
+#libraryPreviewModal .libraryPreviewActions button:disabled{opacity:1!important;cursor:default}
 </style>
 </head>
 <body>
@@ -5051,6 +5052,15 @@ function setBlockPreviewPlaceholderMode(blank){
  // Nonbreaking space retains the hint row's previous height and spacing.
  $('#libraryPreviewModal .libraryPreviewHint').textContent=blank?'\u00a0':'Drag to rotate';
 }
+function openBlankCardPreview(title){
+ $('#libraryPreviewTitle').textContent=title||'Preview';
+ const host=$('#libraryPreviewCubeHost'),ep=$('#libraryElementPreview');
+ ep.style.display='none';ep.replaceChildren();
+ host.style.display='block';host.replaceChildren();
+ setBlockPreviewPlaceholderMode(true);
+ $('#libraryPreviewModal').classList.add('show');
+ $('#libraryPreviewModal').setAttribute('aria-hidden','false');
+}
 function openBlockPreview(m){
  $('#libraryPreviewTitle').textContent=blockDisplayName(m);
  const host=$('#libraryPreviewCubeHost'),ep=$('#libraryElementPreview');
@@ -6223,7 +6233,7 @@ function osmRenderCards(){
   card.append(visual,title);
   const pencil=document.createElement('button');pencil.type='button';pencil.className='libraryPencil';
   pencil.setAttribute('aria-label','Map actions');pencil.textContent='✎';
-  pencil.onclick=e=>{e.stopPropagation();osmMapDialog(map,'actions');};
+  pencil.onclick=e=>{e.stopPropagation();openBlankCardPreview(map.name);};
   card.appendChild(pencil);
   card.onclick=()=>{if(osmSelectedCardId!==map.id){osmSelectedCardId=map.id;osmRenderCards();return;}try{osmActivate(map);}catch(err){console.error('[OSM activation]',err);osmNotify('Map activation failed: '+(err&&err.message||String(err)),true);}};
   wrap.appendChild(card);box.prepend(wrap);
