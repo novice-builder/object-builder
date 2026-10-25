@@ -1833,15 +1833,25 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 }
 
 
-/* Finger-accessible, screen-fixed grip; canvas stays available for navigation. */
-#sketchDragHandle{display:none;position:fixed;z-index:28;left:max(12px,env(safe-area-inset-left));bottom:calc(var(--dockBottom,8px) + 175px);width:78px;height:78px;min-height:78px;border:2px solid #d2f6ff;border-radius:20px;box-shadow:0 0 0 3px #11354a99,0 9px 20px #0008;color:#fff;background:#197a9d;touch-action:none;user-select:none;-webkit-user-select:none;padding:5px;flex-direction:column;align-items:center;justify-content:center;gap:0}
-#sketchDragHandle.show{display:flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;z-index:120!important}
-#sketchDragHandle{outline:2px solid #103a4d;outline-offset:2px}
-#sketchDragHandle .sketchMoveArrows{font-size:36px;font-weight:900;line-height:38px}
-#sketchDragHandle span:last-child{font-size:11px;font-weight:850;letter-spacing:1px}
-#sketchDragHandle.dragging{background:#2d95bc!important;transform:scale(1.05)}
-#cloneFaceBar .cloneQuickSlot[data-sketch-move] span{font-size:12px!important;font-weight:800!important}
-#cloneFaceBar .cloneQuickSlot[data-sketch-move]:disabled{opacity:.42;filter:saturate(.4)}
+/* Four screen-size-stable CAD translation arrows on the selected sketch. */
+#sketchMoveHandles{display:none;position:fixed;inset:0;z-index:28;pointer-events:none}
+#sketchMoveHandles.show{display:block}
+#sketchMoveHandles .sketchMoveArrow{
+ display:grid;position:absolute;width:70px!important;height:70px!important;
+ min-width:70px!important;min-height:70px!important;padding:18px!important;
+ transform:translate(-50%,-50%);border:0!important;border-radius:10px!important;
+ background:transparent!important;box-shadow:none!important;
+ color:#2e7697!important;place-items:center;touch-action:none!important;
+ pointer-events:auto;user-select:none;-webkit-user-select:none
+}
+#sketchMoveHandles .sketchMoveArrow .handleArrowSvg{
+ display:block;width:28px;height:20px;overflow:visible;pointer-events:none;
+ filter:drop-shadow(0 2px 3px #0007);transform-origin:50% 50%
+}
+#sketchMoveHandles .sketchMoveArrow.active,#sketchMoveHandles .sketchMoveArrow:active{
+ background:transparent!important;box-shadow:none!important;outline:none!important;
+ color:#2998c7!important
+}
 /* Desktop input reference, uses the existing builder palette */
 #desktopControls{display:none;position:fixed;z-index:22;left:9px;bottom:12px;width:252px;max-width:calc(100vw - 190px);background:#102b40ee;border:2px solid #ffffff54;border-radius:13px;box-shadow:0 6px 18px #0005;color:#fff;font-size:11px;overflow:hidden}
 #desktopControls summary{cursor:pointer;font-weight:800;padding:9px 11px;list-style:none;user-select:none}
@@ -2199,7 +2209,12 @@ body.clone-select-tools #cloneFaceBar{display:grid!important;position:absolute!i
   <button class="cloneQuickSlot" type="button" aria-label="Quick slot 7"><span>+</span></button>
   <button class="cloneQuickSlot" type="button" aria-label="Quick slot 8"><span>+</span></button>
 </div>
-<button id="sketchDragHandle" type="button" aria-label="Drag selected lines" title="Drag here to move selected lines"><span class="sketchMoveArrows" aria-hidden="true">✥</span><span>DRAG</span></button>
+<div id="sketchMoveHandles" aria-label="Move selected sketch lines">
+ <button type="button" class="sketchMoveArrow" data-sketch-axis="negX" aria-label="Move selection left"><svg class="handleArrowSvg" viewBox="0 0 48 32" aria-hidden="true"><path d="M3 16L17 4v7h27v10H17v7L3 16z" fill="currentColor" stroke="#f4fbff" stroke-width="2" stroke-linejoin="round"/></svg></button>
+ <button type="button" class="sketchMoveArrow" data-sketch-axis="posX" aria-label="Move selection right"><svg class="handleArrowSvg" viewBox="0 0 48 32" aria-hidden="true"><path d="M3 16L17 4v7h27v10H17v7L3 16z" fill="currentColor" stroke="#f4fbff" stroke-width="2" stroke-linejoin="round"/></svg></button>
+ <button type="button" class="sketchMoveArrow" data-sketch-axis="negZ" aria-label="Move selection backward"><svg class="handleArrowSvg" viewBox="0 0 48 32" aria-hidden="true"><path d="M3 16L17 4v7h27v10H17v7L3 16z" fill="currentColor" stroke="#f4fbff" stroke-width="2" stroke-linejoin="round"/></svg></button>
+ <button type="button" class="sketchMoveArrow" data-sketch-axis="posZ" aria-label="Move selection forward"><svg class="handleArrowSvg" viewBox="0 0 48 32" aria-hidden="true"><path d="M3 16L17 4v7h27v10H17v7L3 16z" fill="currentColor" stroke="#f4fbff" stroke-width="2" stroke-linejoin="round"/></svg></button>
+</div>
 
 <div id="libraryActionModal" class="libraryOverlay" aria-hidden="true">
  <div class="libraryActionSheet">
@@ -3046,31 +3061,32 @@ function sketchHideMovingSourceLines(){
  const ids=new Set(sketchMovePreview?.ids||[]);
  for(const mesh of houseLineGroup.children)mesh.visible=!ids.has(mesh.userData.sketchLineId);
 }
-/* Position the touch grip above a selected segment and follow the camera.
-   This changes only the interface; saved sketch geometry remains unchanged. */
-function positionSketchDragHandle(){
- const h=$('#sketchDragHandle'),move=sketchMovePreview;
- if(!h||!move||state.mode!=='navigate'||sketchDragPointer)return;
- const selected=new Set(move.ids);
- const anchor=state.houseLines.find(l=>selected.has(l.id));
- if(!anchor)return;
- const centre=new THREE.Vector3(((anchor.x1+anchor.x2)*.5+move.dx)*BASE,.035,((anchor.z1+anchor.z2)*.5+move.dz)*BASE);
- const p=projectWorldToScreen(centre),r=renderer.domElement.getBoundingClientRect();
- if(!Number.isFinite(p.x)||!Number.isFinite(p.y)||!r.width||!r.height)return;
- const w=78,hgt=78;
- const minX=r.left+10,maxX=Math.max(minX,r.right-w-10);
- const minY=r.top+96,maxY=Math.max(minY,r.bottom-hgt-185);
- h.style.left=Math.round(Math.max(minX,Math.min(maxX,p.x-w*.5)))+'px';
- h.style.top=Math.round(Math.max(minY,Math.min(maxY,p.y-hgt-24)))+'px';
- h.style.bottom='auto';
- h.style.right='auto';
-}
-function sketchGroundAtScreen(x,y){
- const r=renderer.domElement.getBoundingClientRect();
- if(!r.width||!r.height)return null;
- const v=new THREE.Vector2((x-r.left)/r.width*2-1,1-(y-r.top)/r.height*2);
- const ray=new THREE.Raycaster();ray.setFromCamera(v,camera);
- return ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0,1,0),0),new THREE.Vector3());
+/* Positions expand with zoom; at a distance the arrows remain at least
+   70 CSS pixels from the selection centre for reliable finger input. */
+function positionSketchMoveArrows(){
+ const move=sketchMovePreview;
+ if(!move||state.mode!=='navigate')return;
+ const ids=new Set(move.ids),lines=state.houseLines.filter(l=>ids.has(l.id));
+ if(!lines.length)return;
+ let minX=Infinity,maxX=-Infinity,minZ=Infinity,maxZ=-Infinity;
+ for(const l of lines){
+  minX=Math.min(minX,l.x1,l.x2);maxX=Math.max(maxX,l.x1,l.x2);
+  minZ=Math.min(minZ,l.z1,l.z2);maxZ=Math.max(maxZ,l.z1,l.z2);
+ }
+ minX+=move.dx;maxX+=move.dx;minZ+=move.dz;maxZ+=move.dz;
+ const cx=(minX+maxX)/2,cz=(minZ+maxZ)/2,centre=worldFromCells(cx,.3,cz);
+ const endpoints={
+  negX:worldFromCells(minX-.5,.3,cz),posX:worldFromCells(maxX+.5,.3,cz),
+  negZ:worldFromCells(cx,.3,minZ-.5),posZ:worldFromCells(cx,.3,maxZ+.5)
+ };
+ for(const axis of ['negX','posX','negZ','posZ']){
+  const el=$('#sketchMoveHandles [data-sketch-axis="'+axis+'"]');if(!el)continue;
+  setDirectionalHandle(el,endpoints[axis],axis,centre,70);
+  const x=parseFloat(el.style.left),y=parseFloat(el.style.top);
+  if(!Number.isFinite(x)||!Number.isFinite(y))continue;
+  el.style.left=Math.round(Math.max(36,Math.min(innerWidth-36,x)))+'px';
+  el.style.top=Math.round(Math.max(116,Math.min(Math.max(116,innerHeight-240),y)))+'px';
+ }
 }
 function startSketchMove(){
  if(!HOUSE_POINT_TEST||state.mode!=='navigate')return false;
@@ -3080,14 +3096,14 @@ function startSketchMove(){
  sketchMovePreview={ids,dx:0,dz:0};
  lastNavigateTouchTap=null;
  sketchHideMovingSourceLines();renderSketchSelection();
- updateModeUI();positionSketchDragHandle();updateStatus();
- toast('Drag the blue ✥ handle above the selection · tap to place · X cancels');
+ updateModeUI();positionSketchMoveArrows();updateStatus();
+ toast('Drag arrows to move · tap for 10 cm · ✓ confirms · X cancels');
  return true;
 }
 function cancelSketchMovePreview(notify=true){
  if(!sketchMovePreview)return false;
  sketchMovePreview=null;sketchDragPointer=null;
- $('#sketchDragHandle').classList.remove('dragging');
+ $('#sketchMoveHandles .sketchMoveArrow').forEach(h=>h.classList.remove('active'));
  sketchHideMovingSourceLines();renderSketchSelection();
  updateModeUI();updateStatus();
  if(notify)toast('Line movement cancelled');
@@ -3108,35 +3124,54 @@ function commitSketchMovePreview(){
  toast('Moved '+ids.size+' segment'+(ids.size===1?'':'s')+' · snapped to 10 cm');
  return true;
 }
-function initSketchDragHandle(){
- const h=$('#sketchDragHandle');
- if(!h){console.warn('Sketch Move drag handle not found');return false;}
- h.addEventListener('pointerdown',e=>{
-  if(!sketchMovePreview||e.button!==0)return;
-  const world=sketchGroundAtScreen(e.clientX,e.clientY);if(!world)return;
-  e.preventDefault();e.stopPropagation();
-  h.setPointerCapture(e.pointerId);
-  sketchDragPointer={id:e.pointerId,origin:world,dx:sketchMovePreview.dx,dz:sketchMovePreview.dz};
-  h.classList.add('dragging');
- });
- h.addEventListener('pointermove',e=>{
-  const drag=sketchDragPointer,move=sketchMovePreview;
-  if(!drag||!move||drag.id!==e.pointerId)return;
-  e.preventDefault();
-  const world=sketchGroundAtScreen(e.clientX,e.clientY);if(!world)return;
-  move.dx=drag.dx+(world.x-drag.origin.x)/BASE;
-  move.dz=drag.dz+(world.z-drag.origin.z)/BASE;
-  sketchSelectionGroup.position.set(move.dx*BASE,0,move.dz*BASE);
-  updateStatus();
- });
- const finish=e=>{
-  if(sketchDragPointer?.id!==e.pointerId)return;
-  sketchDragPointer=null;h.classList.remove('dragging');
-  if(h.hasPointerCapture?.(e.pointerId))h.releasePointerCapture(e.pointerId);
-  positionSketchDragHandle();
- };
- h.addEventListener('pointerup',finish);
- h.addEventListener('pointercancel',finish);
+/* Drag each arrow along its axis to move the whole selection by 10 cm cells.
+   Short taps advance one cell. Until the green tick, everything is preview-only. */
+function initSketchMoveArrows(){
+ const handles=$$('#sketchMoveHandles .sketchMoveArrow');
+ if(handles.length!==4)throw Error('Four move arrows required');
+ for(const h of handles){
+  h.addEventListener('pointerdown',e=>{
+   if(!sketchMovePreview||state.mode!=='navigate'||(e.pointerType==='mouse'&&e.button!==0))return;
+   e.preventDefault();e.stopPropagation();
+   const axis=h.dataset.sketchAxis,v=projectedAxisVector(axis);
+   sketchDragPointer={id:e.pointerId,axis,startX:e.clientX,startY:e.clientY,
+    dx:Math.round(sketchMovePreview.dx),dz:Math.round(sketchMovePreview.dz),
+    v,moved:false};
+   try{h.setPointerCapture(e.pointerId)}catch{}
+   h.classList.add('active');
+  });
+  h.addEventListener('pointermove',e=>{
+   const d=sketchDragPointer,move=sketchMovePreview;
+   if(!d||!move||d.id!==e.pointerId||d.axis!==h.dataset.sketchAxis)return;
+   e.preventDefault();e.stopPropagation();
+   const along=(e.clientX-d.startX)*d.v.x+(e.clientY-d.startY)*d.v.y;
+   const cells=Math.round(along/d.v.pixelsPerCell);
+   if(Math.hypot(e.clientX-d.startX,e.clientY-d.startY)>6)d.moved=true;
+   if(d.axis==='negX'||d.axis==='posX')move.dx=d.dx+(d.axis==='posX'?cells:-cells);
+   else move.dz=d.dz+(d.axis==='posZ'?cells:-cells);
+   sketchSelectionGroup.position.set(move.dx*BASE,0,move.dz*BASE);
+   positionSketchMoveArrows();updateStatus();
+  });
+  const finish=e=>{
+   const d=sketchDragPointer,move=sketchMovePreview;
+   if(!d||d.id!==e.pointerId||d.axis!==h.dataset.sketchAxis)return;
+   e.preventDefault();e.stopPropagation();
+   if(e.type==='pointercancel'){
+    if(move){move.dx=d.dx;move.dz=d.dz;}
+   }else if(!d.moved&&move){
+    if(d.axis==='posX')move.dx=d.dx+1;
+    else if(d.axis==='negX')move.dx=d.dx-1;
+    else if(d.axis==='posZ')move.dz=d.dz+1;
+    else if(d.axis==='negZ')move.dz=d.dz-1;
+   }
+   sketchDragPointer=null;h.classList.remove('active');
+   try{if(h.hasPointerCapture?.(e.pointerId))h.releasePointerCapture(e.pointerId)}catch{}
+   if(move)sketchSelectionGroup.position.set(move.dx*BASE,0,move.dz*BASE);
+   positionSketchMoveArrows();updateStatus();
+  };
+  h.addEventListener('pointerup',finish);
+  h.addEventListener('pointercancel',finish);
+ }
  return true;
 }
 /* Tap-select: project 10 cm grid geometry to screen so thin lines are accessible by touch.
@@ -4638,7 +4673,7 @@ renderer.domElement.addEventListener('wheel',e=>{
 },{passive:false});
 
 function updateModeUI(){
- $('#sketchDragHandle')?.classList.toggle('show',!!sketchMovePreview&&state.mode==='navigate');
+ $('#sketchMoveHandles')?.classList.toggle('show',!!sketchMovePreview&&state.mode==='navigate');
  if($('#desktopModeHint'))$('#desktopModeHint').textContent=state.mode==='build'?'Build mode':'Move / Select mode';
  const nav=state.mode==='navigate',build=state.mode==='build',anchored=placementAnchorActive(),faceExtruding=!!state.extrusionSession;
  $('#moveSelectBtn').classList.toggle('panActive',nav&&state.navMode==='pan');
@@ -6351,7 +6386,7 @@ $('#saveLibrary').onclick=saveCurrent;$('#exportBtn').onclick=()=>{const d=expor
 let toastTimer;function toast(t){let n=document.getElementById('toastTemp');if(!n){n=document.createElement('div');n.id='toastTemp';n.style.cssText='position:absolute;z-index:60;top:18%;left:50%;transform:translateX(-50%);background:#102b40e8;border:2px solid #ffffff55;border-radius:12px;padding:9px 13px;font-weight:750;pointer-events:none';document.body.appendChild(n);}n.textContent=t;n.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>n.style.display='none',1200);}
 function resize(){renderer.setSize(innerWidth,innerHeight);updateCamera();state.ghostCursor.x=Math.min(innerWidth-20,state.ghostCursor.x);state.ghostCursor.y=Math.min(innerHeight-30,state.ghostCursor.y);if(state.mode==='build')hoverGhost(state.ghostCursor.x,state.ghostCursor.y);}
 addEventListener('resize',resize);
-function animate(t){requestAnimationFrame(animate);const now=t||performance.now(),dt=Math.min(.05,(now-state.lastFrame)/1000||0);state.lastFrame=now;autoEdgePan(dt);if(typeof osmCompositeStream==='function')osmCompositeStream(now);if(sketchMovePreview&&!sketchDragPointer)positionSketchDragHandle();if(placementAnchorActive()||state.selectedFace)updatePlacementHandles();renderer.render(scene,camera);}
+function animate(t){requestAnimationFrame(animate);const now=t||performance.now(),dt=Math.min(.05,(now-state.lastFrame)/1000||0);state.lastFrame=now;autoEdgePan(dt);if(typeof osmCompositeStream==='function')osmCompositeStream(now);if(sketchMovePreview)positionSketchMoveArrows();if(placementAnchorActive()||state.selectedFace)updatePlacementHandles();renderer.render(scene,camera);}
 function getCurrentViewPosition(){
  return{
   yawDeg:+(state.yaw*180/Math.PI).toFixed(3),
@@ -6849,7 +6884,7 @@ window.__osm81Ready=true;
 window.__osm81Debug={getMapCount:()=>osmMapState.maps.length,getActiveId:()=>osmMapState.activeId,getMeshCount:()=>osmMapGroup.children.length,importText:(name,src)=>{const parsed=src.trimStart().startsWith('<')?osmParseXml(src):osmParseGeo(src);const map=osmValidate(parsed,name);osmMapState.maps.push(map);osmRenderCards();return map;},activate:i=>osmActivate(osmMapState.maps[i])};
 
 // Bind move controls after the full interface has been created.
-initSketchDragHandle();
+initSketchMoveArrows();
 if(HOUSE_POINT_TEST){
  // The sketch opens in Workspace 1 with its own saved points and view.
  // Keep the legacy block system available for future block-building workspaces.
