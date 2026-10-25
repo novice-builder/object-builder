@@ -2421,6 +2421,8 @@ const loading=$('#loading'), errBox=$('#startupError');
 function fail(msg){errBox.style.display='block';errBox.textContent=String(msg);loading.querySelector('.spinner').style.display='none';}
 if(!window.THREE){fail('The 3D engine could not load. This file needs an internet connection the first time it is opened.');return;}
 try{
+// Always initialise move state before editor startup and restoration.
+let sketchMovePreview=null,sketchDragPointer=null;
 const BASE=.1;
 const mats=[
  {id:'brick',name:'Red Brick',c:'#9f4938',c2:'#713226',kind:'brick'},
@@ -3036,7 +3038,6 @@ function renderHouseLines(){
 
 /* Non-destructive movement: a fixed grip can drag repeatedly while the canvas
    pans/orbits. Quantisation to 10 cm occurs only when the move is committed. */
-let sketchMovePreview=null,sketchDragPointer=null;
 function sketchHideMovingSourceLines(){
  const ids=new Set(sketchMovePreview?.ids||[]);
  for(const mesh of houseLineGroup.children)mesh.visible=!ids.has(mesh.userData.sketchLineId);
@@ -3086,6 +3087,7 @@ function commitSketchMovePreview(){
 }
 function initSketchDragHandle(){
  const h=$('#sketchDragHandle');
+ if(!h){console.warn('Sketch Move drag handle not found');return false;}
  h.addEventListener('pointerdown',e=>{
   if(!sketchMovePreview||e.button!==0)return;
   const world=sketchGroundAtScreen(e.clientX,e.clientY);if(!world)return;
@@ -3111,8 +3113,8 @@ function initSketchDragHandle(){
  };
  h.addEventListener('pointerup',finish);
  h.addEventListener('pointercancel',finish);
+ return true;
 }
-initSketchDragHandle();
 /* Tap-select: project 10 cm grid geometry to screen so thin lines are accessible by touch.
    Transient selection does not modify the saved line topology, crosshair or camera. */
 function sketchDistanceFromSegmentPx(x,y,a,b){
@@ -4612,7 +4614,7 @@ renderer.domElement.addEventListener('wheel',e=>{
 },{passive:false});
 
 function updateModeUI(){
- $('#sketchDragHandle').classList.toggle('show',!!sketchMovePreview&&state.mode==='navigate');
+ $('#sketchDragHandle')?.classList.toggle('show',!!sketchMovePreview&&state.mode==='navigate');
  if($('#desktopModeHint'))$('#desktopModeHint').textContent=state.mode==='build'?'Build mode':'Move / Select mode';
  const nav=state.mode==='navigate',build=state.mode==='build',anchored=placementAnchorActive(),faceExtruding=!!state.extrusionSession;
  $('#moveSelectBtn').classList.toggle('panActive',nav&&state.navMode==='pan');
@@ -6814,6 +6816,8 @@ function osmNotify(message,failed=false){
 window.__osm81Ready=true;
 window.__osm81Debug={getMapCount:()=>osmMapState.maps.length,getActiveId:()=>osmMapState.activeId,getMeshCount:()=>osmMapGroup.children.length,importText:(name,src)=>{const parsed=src.trimStart().startsWith('<')?osmParseXml(src):osmParseGeo(src);const map=osmValidate(parsed,name);osmMapState.maps.push(map);osmRenderCards();return map;},activate:i=>osmActivate(osmMapState.maps[i])};
 
+// Bind move controls after the full interface has been created.
+initSketchDragHandle();
 if(HOUSE_POINT_TEST){
  // The sketch opens in Workspace 1 with its own saved points and view.
  // Keep the legacy block system available for future block-building workspaces.
