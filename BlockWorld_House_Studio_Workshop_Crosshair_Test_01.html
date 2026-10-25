@@ -2429,7 +2429,7 @@ const mats=[
  {id:'floor',name:'Floorboards',c:'#ba8d58',c2:'#7d5d39',kind:'wood'}
 ];
 const HOUSE_POINT_TEST=true; // Separate Workshop-clone prototype: 10 cm grid points, not blocks
-const state={mode:'navigate',navMode:'pan',navCrosshairHidden:false,faceScope:'single',faceSelectSize:2,faceSelectionIds:[],selectedCellIds:[],size:2,mat:'brick',type:'solid',component:'',blocks:[],housePoints:[],houseLines:[],sketchVertices:[],sketchNextId:0,selectedSketchLineId:null,activeSketchTool:'point',sketchLineStart:null,nextId:1,selected:null,selectedFace:null,ghost:null,ghostCursor:{x:innerWidth*.5,y:innerHeight*.54},history:[],future:[],yaw:0,tilt:87*Math.PI/180,distance:6,target:new THREE.Vector3(0,0,0),moved:false,dragGroupIds:null,dragAccum:new THREE.Vector3(),dragCheckpointed:false,edgePointer:null,lastFrame:performance.now(),extrusionSession:null,extrudeFineBase:20,extrudePanelOpen:false,showRotateSlider:false,showZoomSlider:true,zoomUiValue:50,moveObjectMode:false,placementAnchor:null,anchorHandleDrag:null,anchorLiftDrag:null,customElements:[],customMaterials:[],activeCustomElement:null,activeGroundElement:null,groundTiles:[],nextGroundId:1,baseGroundRemoved:false,customTextureCache:new Map(),elementDraft:null,elementDraftSkin:null,elementSkinEditingFromBuilder:false,buildContext:'world',worldSession:null,editorContext:'map',editorWorkspaces:{}};
+const state={mode:'navigate',navMode:'pan',navCrosshairHidden:false,faceScope:'single',faceSelectSize:2,faceSelectionIds:[],selectedCellIds:[],size:2,mat:'brick',type:'solid',component:'',blocks:[],housePoints:[],houseLines:[],sketchVertices:[],sketchNextId:0,selectedSketchLineId:null,selectedSketchWholeLine:false,activeSketchTool:'point',sketchLineStart:null,nextId:1,selected:null,selectedFace:null,ghost:null,ghostCursor:{x:innerWidth*.5,y:innerHeight*.54},history:[],future:[],yaw:0,tilt:87*Math.PI/180,distance:6,target:new THREE.Vector3(0,0,0),moved:false,dragGroupIds:null,dragAccum:new THREE.Vector3(),dragCheckpointed:false,edgePointer:null,lastFrame:performance.now(),extrusionSession:null,extrudeFineBase:20,extrudePanelOpen:false,showRotateSlider:false,showZoomSlider:true,zoomUiValue:50,moveObjectMode:false,placementAnchor:null,anchorHandleDrag:null,anchorLiftDrag:null,customElements:[],customMaterials:[],activeCustomElement:null,activeGroundElement:null,groundTiles:[],nextGroundId:1,baseGroundRemoved:false,customTextureCache:new Map(),elementDraft:null,elementDraftSkin:null,elementSkinEditingFromBuilder:false,buildContext:'world',worldSession:null,editorContext:'map',editorWorkspaces:{}};
 const ZOOM_MIN=.12; let ZOOM_MAX=100;
 
 const scene=new THREE.Scene();const housePointGroup=new THREE.Group();housePointGroup.name='House Studio test points';scene.add(housePointGroup);const houseLineGroup=new THREE.Group();houseLineGroup.name='Sketch lines';scene.add(houseLineGroup);const houseLinePreviewGroup=new THREE.Group();houseLinePreviewGroup.name='Sketch preview';scene.add(houseLinePreviewGroup);const sketchSelectionGroup=new THREE.Group();sketchSelectionGroup.name='Sketch selection';scene.add(sketchSelectionGroup);scene.background=new THREE.Color(0x86c3e8);scene.fog=new THREE.Fog(0x86c3e8,45,115);
@@ -2835,7 +2835,7 @@ function restore(s){
    state.baseGroundRemoved=!!raw.baseGroundRemoved;
    ground.visible=!state.baseGroundRemoved;
  }
- if(HOUSE_POINT_TEST){state.housePoints=Array.isArray(raw.housePoints)?raw.housePoints:[];restoreSketchTopology(raw.houseLines,raw.sketchVertices,raw.sketchNextId);state.sketchLineStart=null;renderHousePointMarkers();renderHouseLines();renderSketchLinePreview();}
+ if(HOUSE_POINT_TEST){state.housePoints=Array.isArray(raw.housePoints)?raw.housePoints:[];restoreSketchTopology(raw.houseLines,raw.sketchVertices,raw.sketchNextId);state.sketchLineStart=null;state.selectedSketchLineId=null;state.selectedSketchWholeLine=false;renderHousePointMarkers();renderHouseLines();renderSketchLinePreview();}
  if(raw.groundTree)groundTreeRestore(raw.groundTree);else groundImportLegacyTiles(state.groundTiles);
  state.nextId=Math.max(1,...state.blocks.map(b=>b.id+1));
  state.selected=null;
@@ -3038,14 +3038,53 @@ function sketchHitLine(x,y,tolerance){
 function sketchVertexIsJoined(id){
  return state.houseLines.reduce((sum,l)=>sum+(l.v1===id?1:0)+(l.v2===id?1:0),0)>1;
 }
+/* The whole-line level follows only collinear segments through shared vertices.
+   Corners, T branches and perpendicular crossings never extend the selection. */
+function sketchStraightLineSegments(root){
+ const byVertex=new Map(),seen=new Set([root.id]),queue=[root],result=[];
+ for(const l of state.houseLines){
+  for(const id of [l.v1,l.v2]){
+   if(!id)continue;
+   if(!byVertex.has(id))byVertex.set(id,[]);
+   byVertex.get(id).push(l);
+  }
+ }
+ const dx=root.x2-root.x1,dz=root.z2-root.z1;
+ const collinear=l=>
+  dx*(l.z1-root.z1)===dz*(l.x1-root.x1)&&
+  dx*(l.z2-root.z1)===dz*(l.x2-root.x1);
+ while(queue.length){
+  const current=queue.shift();result.push(current);
+  for(const id of [current.v1,current.v2]){
+   for(const next of byVertex.get(id)||[]){
+    if(!seen.has(next.id)&&collinear(next)){
+     seen.add(next.id);queue.push(next);
+    }
+   }
+  }
+ }
+ return result;
+}
 function renderSketchSelection(){
  clearSketchMeshGroup(sketchSelectionGroup);
  if(!HOUSE_POINT_TEST||state.mode!=='navigate'||!state.selectedSketchLineId)return;
- const l=state.houseLines.find(l=>l.id===state.selectedSketchLineId);
- if(!l){state.selectedSketchLineId=null;return;}
- const line=sketchSegmentMesh(l.x1,l.z1,l.x2,l.z2,true);
- if(line){line.material.color.setHex(0xffc34f);line.material.opacity=1;line.material.transparent=false;line.renderOrder=520;line.position.y=.011;sketchSelectionGroup.add(line);}
- for(const [x,z,vertexId] of [[l.x1,l.z1,l.v1],[l.x2,l.z2,l.v2]]){
+ const selected=state.houseLines.find(l=>l.id===state.selectedSketchLineId);
+ if(!selected){state.selectedSketchLineId=null;state.selectedSketchWholeLine=false;return;}
+ const lines=state.selectedSketchWholeLine?sketchStraightLineSegments(selected):[selected];
+ const vertices=new Map();
+ for(const l of lines){
+  const line=sketchSegmentMesh(l.x1,l.z1,l.x2,l.z2,true);
+  if(line){
+   line.material.color.setHex(0xffc34f);
+   line.material.opacity=1;line.material.transparent=false;
+   line.renderOrder=520;line.position.y=.011;
+   sketchSelectionGroup.add(line);
+  }
+  for(const [x,z,vertexId] of [[l.x1,l.z1,l.v1],[l.x2,l.z2,l.v2]]){
+   vertices.set(vertexId||x+','+z,{x,z,vertexId});
+  }
+ }
+ for(const {x,z,vertexId} of vertices.values()){
   const joined=sketchVertexIsJoined(vertexId),color=joined?0x2ce8a1:0xffffff;
   const ring=new THREE.Mesh(new THREE.RingGeometry(.027,.043,24),
     new THREE.MeshBasicMaterial({color,side:THREE.DoubleSide,depthTest:false,depthWrite:false}));
@@ -3057,8 +3096,24 @@ function renderSketchSelection(){
 }
 function selectSketchLineAt(x,y,pointerType){
  const l=sketchHitLine(x,y,pointerType==='mouse'?10:17);
- state.selectedSketchLineId=l?.id||null;renderSketchSelection();
- if(l)toast('Line selected'+(sketchVertexIsJoined(l.v1)||sketchVertexIsJoined(l.v2)?' · green = joined':''));
+ if(!l){
+  state.selectedSketchLineId=null;state.selectedSketchWholeLine=false;
+  renderSketchSelection();return;
+ }
+ const previous=state.houseLines.find(s=>s.id===state.selectedSketchLineId);
+ const isSelected=l.id===state.selectedSketchLineId;
+ const isPartOfFull=!!(previous&&state.selectedSketchWholeLine&&
+   sketchStraightLineSegments(previous).some(s=>s.id===l.id));
+ if(isSelected||isPartOfFull){
+  state.selectedSketchWholeLine=true;
+  const count=sketchStraightLineSegments(previous||l).length;
+  toast('Full straight line selected ('+count+' segment'+(count===1?'':'s')+')');
+ }else{
+  state.selectedSketchLineId=l.id;state.selectedSketchWholeLine=false;
+  toast('Segment selected · tap again for full line'+
+    (sketchVertexIsJoined(l.v1)||sketchVertexIsJoined(l.v2)?' · green = joined':''));
+ }
+ renderSketchSelection();
 }
 
 function renderSketchLinePreview(){
@@ -4313,18 +4368,22 @@ renderer.domElement.addEventListener('pointerup',e=>{
    state.ghostCursor.x=e.clientX;state.ghostCursor.y=e.clientY;hoverGhost(e.clientX,e.clientY);
    return;
  }
- // Only stationary, single-finger taps in Move / Select participate.
- // The second nearby tap toggles visibility instead of selecting the map.
+ // Tapping a selected line again expands selection, regardless of elapsed time.
+ // The fast double-tap crosshair shortcut remains available on empty canvas only.
  if(HOUSE_POINT_TEST&&state.mode==='navigate'&&e.pointerType==='touch'&&
     pointers.size===1&&!p.movedEver&&total<TAP_MOVE_PX&&!p.longPressed){
-   const now=performance.now(),prior=lastNavigateTouchTap;
-   if(prior&&now-prior.time<=320&&Math.hypot(e.clientX-prior.x,e.clientY-prior.y)<=32){
-     state.navCrosshairHidden=!state.navCrosshairHidden;
-     ghost.visible=!!state.ghost&&!state.navCrosshairHidden&&!placementAnchorActive();
+   if(sketchHitLine(e.clientX,e.clientY,17)){
      lastNavigateTouchTap=null;
-     p.movedEver=true; // Suppress only the second tap's normal Select action.
    }else{
-     lastNavigateTouchTap={time:now,x:e.clientX,y:e.clientY};
+     const now=performance.now(),prior=lastNavigateTouchTap;
+     if(prior&&now-prior.time<=320&&Math.hypot(e.clientX-prior.x,e.clientY-prior.y)<=32){
+       state.navCrosshairHidden=!state.navCrosshairHidden;
+       ghost.visible=!!state.ghost&&!state.navCrosshairHidden&&!placementAnchorActive();
+       lastNavigateTouchTap=null;
+       p.movedEver=true; // Keep the blank-canvas crosshair gesture unchanged.
+     }else{
+       lastNavigateTouchTap={time:now,x:e.clientX,y:e.clientY};
+     }
    }
  }else if(e.pointerType==='touch'){
    lastNavigateTouchTap=null;
@@ -4389,7 +4448,7 @@ function enterBuild(){
    selectBox.visible=false;refreshFaceOverlay();
  }
  state.mode='build';
- if(HOUSE_POINT_TEST){state.navCrosshairHidden=false;lastNavigateTouchTap=null;state.selectedSketchLineId=null;renderSketchSelection()}
+ if(HOUSE_POINT_TEST){state.navCrosshairHidden=false;lastNavigateTouchTap=null;state.selectedSketchLineId=null;state.selectedSketchWholeLine=false;renderSketchSelection()}
  if(placementAnchorActive()){ghost.visible=false;updateAnchoredGhostVisual()}
  else if(HOUSE_POINT_TEST&&state.ghost){
    setGhost({...state.ghost}); // Restore the existing snapped world point, not the origin.
@@ -4552,7 +4611,7 @@ function loadEditorWorkspace(name){
  return d&&typeof d==='object'&&!Array.isArray(d)?d:blankEditorWorkspace();
 }
 function applyEditorWorkspace(d){
- state.selectedSketchLineId=null;
+ state.selectedSketchLineId=null;state.selectedSketchWholeLine=false;
  state.blocks=cloneBlockData(d.blocks||[]);state.nextId=d.nextId||1;
  state.size=d.size||2;state.mat=d.mat||'brick';state.type=d.type||'solid';
  state.history=[...(d.history||[])];state.future=[...(d.future||[])];
