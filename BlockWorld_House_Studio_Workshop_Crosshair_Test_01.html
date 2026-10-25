@@ -4215,7 +4215,7 @@ $('#materialEditorMenuBtn').onclick=()=>{$('#materialEditorModal').classList.rem
 
 /* Shared editor shell v17 */
 const EDITOR_LABELS={map:'Map Builder',object:'Object Builder',component:'Component Builder',block:'Block Editor'};
-const EDITOR_DRAFT_KEYS={map:'blockworld.editor.map.v17',object:'blockworld.editor.object.v17',component:'blockworld.editor.component.v17'};
+const EDITOR_DRAFT_KEYS={map:'house.crosshair-test.map.v1',object:'house.crosshair-test.object.v1',component:'house.crosshair-test.component.v1'};
 const EDITOR_DEFAULT_VIEW={yaw:0,tilt:87*Math.PI/180,distance:6,target:{x:0,y:0,z:0}};
 
 function captureEditorWorkspace(){
@@ -6232,7 +6232,12 @@ document.getElementById('osmClearBtn').addEventListener('click',()=>osmDeactivat
 window.__osm81Ready=true;
 window.__osm81Debug={getMapCount:()=>osmMapState.maps.length,getActiveId:()=>osmMapState.activeId,getMeshCount:()=>osmMapGroup.children.length,importText:(name,src)=>{const parsed=src.trimStart().startsWith('<')?osmParseXml(src):osmParseGeo(src);const map=osmValidate(parsed,name);osmMapState.maps.push(map);osmRenderCards();return map;},activate:i=>osmActivate(osmMapState.maps[i])};
 
-console.info('Renderer: 32³ storage regions, 8³ meshlets, 10 cm logical cells');loading.style.display='none';animate();
+if(HOUSE_POINT_TEST){
+ // Test opens with a blank point workspace and does not import saved Workshop blocks.
+ state.blocks=[];state.housePoints=[];state.activeCustomElement=null;state.activeGroundElement=null;
+ rebuildAll();renderHousePointMarkers();enterBuild();setInitialBuildGhost();updateModeUI();updateStatus();
+}
+console.info('House Studio crosshair test: 10 cm snapped points; Workshop 03 preserved');loading.style.display='none';animate();
 }catch(e){console.error(e);fail('Startup error:\n'+(e&&e.stack?e.stack:e));}
 })();
 </script>
