@@ -2016,9 +2016,9 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 </div>
 <div id="sharedElementBadge"><b id="sharedEbDims">0 cells</b></div>
 <div id="tools">
-  <button id="mapBuilderBtn" class="editorSwitchBtn" data-editor="map">🗺️ Map Builder</button>
-  <button id="objectBuilderBtn" class="editorSwitchBtn" data-editor="object">🧱 Object Builder</button>
-  <button id="componentBuilderBtn" class="editorSwitchBtn" data-editor="component">🧩 Component Builder</button>
+  <button id="mapBuilderBtn" class="editorSwitchBtn" data-editor="map">✏️ Workspace 1</button>
+  <button id="objectBuilderBtn" class="editorSwitchBtn" data-editor="object">📁 Workspace 2</button>
+  <button id="componentBuilderBtn" class="editorSwitchBtn" data-editor="component">📁 Workspace 3</button>
   <button id="blockEditorBtn" class="editorSwitchBtn" data-editor="block">🎨 Block Editor</button>
   <div class="menuDivider"></div>
   <button id="libraryBtn">📦 Build Library</button>
@@ -2839,8 +2839,8 @@ function restore(s){
  rebuildAll();
  rebuildGroundTiles();
 }
-function undo(){endExtrusion();if(!state.history.length)return;state.future.push(snapshot());restore(state.history.pop());syncSharedUndo();}
-function redo(){endExtrusion();if(!state.future.length)return;state.history.push(snapshot());restore(state.future.pop());syncSharedUndo();}
+function undo(){endExtrusion();if(!state.history.length)return;state.future.push(snapshot());restore(state.history.pop());syncSharedUndo();if(HOUSE_POINT_TEST)persistEditorWorkspace(state.editorContext);}
+function redo(){endExtrusion();if(!state.future.length)return;state.history.push(snapshot());restore(state.future.pop());syncSharedUndo();if(HOUSE_POINT_TEST)persistEditorWorkspace(state.editorContext);}
 
 
 function renderHousePointMarkers(){
@@ -2864,6 +2864,7 @@ function placeHousePointAt(x,z){
  checkpoint();
  state.housePoints.push({x,z});
  renderHousePointMarkers();
+ persistEditorWorkspace(state.editorContext);
  updateStatus();syncSharedUndo();
  toast('Point '+state.housePoints.length+': '+(x*BASE).toFixed(1)+' m, '+(z*BASE).toFixed(1)+' m');
  return true;
@@ -2990,12 +2991,13 @@ function originBuildCandidate(){
    ?{x,y:0,z,s,groundId:state.activeGroundElement.id}
    :{x,y:0,z,s,mat:state.mat,type:state.type,component:$('#component').value.trim()};
 }
-function syncGhostCursorToOrigin(){
+function syncGhostCursorToPoint(){
  const r=renderer.domElement.getBoundingClientRect();
- const p=new THREE.Vector3(0,0,0).project(camera);
+ const p=new THREE.Vector3(state.ghost?state.ghost.x*BASE:0,0,state.ghost?state.ghost.z*BASE:0).project(camera);
  state.ghostCursor.x=r.left+(p.x+1)*.5*r.width;
  state.ghostCursor.y=r.top+(1-p.y)*.5*r.height;
 }
+function syncGhostCursorToOrigin(){syncGhostCursorToPoint();}
 function setInitialBuildGhost(){
  if(state.activeCustomElement){recenterGhostCursor();return;}
  setGhost(originBuildCandidate());
@@ -4252,18 +4254,28 @@ $('#matColourBtn').onclick=()=>$('#matEditColor').click();
 $('#matEditColor').oninput=()=>{$('#matColourSwatch').style.background=$('#matEditColor').value;updateMatCubeOnly();renderMatSlots()};
 $('#matTextureReset').onclick=()=>{const sl=selectedFaceSlot()||matSlot();if(sl){sl.x=sl.y=0;sl.zoom=1;matClampSlot(sl,matSelectedFace,Math.max(1,$('#matTexturePreview').clientWidth||210));updateMatEditor()}};
 $('#matRotateFace').onclick=()=>{const sl=selectedFaceSlot()||matSlot();if(!sl?.image)return toast('Choose a photo for this face first.');sl.rotations=sl.rotations||{};sl.rotations[matSelectedFace]=(matRotationFor(sl,matSelectedFace)+90)%360;matClampSlot(sl,matSelectedFace,Math.max(1,$('#matTexturePreview').clientWidth||210));updateMatEditor()};
-$('#matEditClose').onclick=()=>{ $('#materialEditorModal').classList.remove('show'); if(state.editorContext==='block')switchEditor('object'); };
+$('#matEditClose').onclick=()=>{ $('#materialEditorModal').classList.remove('show'); if(state.editorContext==='block')switchEditor('map'); };
 $('#materialEditorMenuBtn').onclick=()=>{$('#materialEditorModal').classList.remove('show');$('#tools').classList.add('open');};$('#matEditSave').onclick=saveCustomMaterial;
 
 
 /* Shared editor shell v17 */
-const EDITOR_LABELS={map:'Map Builder',object:'Object Builder',component:'Component Builder',block:'Block Editor'};
+const EDITOR_LABELS={map:'Workspace 1',object:'Workspace 2',component:'Workspace 3',block:'Block Editor'};
 const EDITOR_DRAFT_KEYS={map:'house.crosshair-test.map.v1',object:'house.crosshair-test.object.v1',component:'house.crosshair-test.component.v1'};
 const EDITOR_DEFAULT_VIEW={yaw:0,tilt:87*Math.PI/180,distance:6,target:{x:0,y:0,z:0}};
 
+// The three workspaces share one engine, grid and material library, but have
+// independent sketch points, camera views, cursor positions and undo stacks.
+// Keep their historical internal IDs to preserve previously saved drafts.
 function captureEditorWorkspace(){
- return{
+ return {
   blocks:cloneBlockData(state.blocks),nextId:state.nextId,
+  housePoints:state.housePoints.map(p=>({x:Math.round(p.x),z:Math.round(p.z)})),
+  crosshair:HOUSE_POINT_TEST&&state.ghost?{x:Math.round(state.ghost.x),z:Math.round(state.ghost.z)}:null,
+  view:{
+   yaw:state.yaw,tilt:state.tilt,distance:state.distance,
+   target:{x:state.target.x,y:state.target.y,z:state.target.z},
+   zoomUiValue:state.zoomUiValue,mode:state.mode,navMode:state.navMode
+  },
   size:state.size,mat:state.mat,type:state.type,component:$('#component').value||'',
   history:[...state.history],future:[...state.future]
  };
@@ -4271,25 +4283,50 @@ function captureEditorWorkspace(){
 function persistEditorWorkspace(name){
  if(!['map','object','component'].includes(name))return;
  const data=captureEditorWorkspace();state.editorWorkspaces[name]=data;
- try{localStorage.setItem(EDITOR_DRAFT_KEYS[name],JSON.stringify({...data,history:[],future:[]}))}catch{}
+ try{localStorage.setItem(EDITOR_DRAFT_KEYS[name],JSON.stringify({...data,history:[],future:[]}))}catch(err){
+  console.warn('Could not persist workspace draft',err);
+ }
 }
-function blankEditorWorkspace(){return{blocks:[],nextId:1,size:2,mat:'brick',type:'solid',component:'',history:[],future:[]}}
+function blankEditorWorkspace(){return{
+ blocks:[],nextId:1,housePoints:[],crosshair:{x:0,z:0},view:null,
+ size:2,mat:'brick',type:'solid',component:'',history:[],future:[]
+}}
 function loadEditorWorkspace(name){
  let d=state.editorWorkspaces[name]||null;
  if(!d)try{d=JSON.parse(localStorage.getItem(EDITOR_DRAFT_KEYS[name])||'null')}catch{}
- return d||blankEditorWorkspace();
+ return d&&typeof d==='object'&&!Array.isArray(d)?d:blankEditorWorkspace();
 }
 function applyEditorWorkspace(d){
  state.blocks=cloneBlockData(d.blocks||[]);state.nextId=d.nextId||1;
  state.size=d.size||2;state.mat=d.mat||'brick';state.type=d.type||'solid';
  state.history=[...(d.history||[])];state.future=[...(d.future||[])];
+ state.housePoints=Array.isArray(d.housePoints)
+  ?d.housePoints.filter(p=>Number.isFinite(p?.x)&&Number.isFinite(p?.z))
+   .map(p=>({x:Math.round(p.x),z:Math.round(p.z)})):[];
+ renderHousePointMarkers();
  $('#component').value=d.component||'';
  state.selected=null;state.selectedFace=null;state.faceSelectionIds=[];state.selectedCellIds=[];state.activeCustomElement=null;
 }
-function resetSharedEditorView(){
- state.yaw=EDITOR_DEFAULT_VIEW.yaw;state.tilt=EDITOR_DEFAULT_VIEW.tilt;state.distance=EDITOR_DEFAULT_VIEW.distance;
- state.target.set(EDITOR_DEFAULT_VIEW.target.x,EDITOR_DEFAULT_VIEW.target.y,EDITOR_DEFAULT_VIEW.target.z);
- updateCamera();enterBuild();setInitialBuildGhost();
+function resetSharedEditorView(workspace=null){
+ const v=workspace?.view||null,t=v?.target||EDITOR_DEFAULT_VIEW.target;
+ state.yaw=Number.isFinite(v?.yaw)?v.yaw:EDITOR_DEFAULT_VIEW.yaw;
+ state.tilt=Number.isFinite(v?.tilt)?v.tilt:EDITOR_DEFAULT_VIEW.tilt;
+ state.distance=Number.isFinite(v?.distance)?v.distance:EDITOR_DEFAULT_VIEW.distance;
+ state.target.set(Number.isFinite(t.x)?t.x:0,Number.isFinite(t.y)?t.y:0,Number.isFinite(t.z)?t.z:0);
+ state.zoomUiValue=Number.isFinite(v?.zoomUiValue)?v.zoomUiValue:sliderFromDistance(state.distance);
+ updateCamera();
+ // Restore the cursor using snapped world coordinates, not stale screen pixels.
+ if(HOUSE_POINT_TEST&&Number.isFinite(workspace?.crosshair?.x)&&Number.isFinite(workspace?.crosshair?.z)){
+  setGhost({x:Math.round(workspace.crosshair.x),y:0,z:Math.round(workspace.crosshair.z),s:1,mat:state.mat,type:state.type});
+  syncGhostCursorToPoint();
+ }else setInitialBuildGhost();
+ // Hide-on-double-tap is temporary; it is not part of a saved workspace view.
+ state.navCrosshairHidden=false;lastNavigateTouchTap=null;
+ if(v?.mode==='navigate'){
+  enterNavigate();
+  state.navMode=v.navMode==='orbit'?'orbit':'pan';
+  updateModeUI();
+ }else enterBuild();
 }
 function syncEditorSwitcher(){
  $$('.editorSwitchBtn').forEach(b=>b.classList.toggle('active',b.dataset.editor===state.editorContext));
@@ -4310,8 +4347,9 @@ function switchEditor(name){
  state.editorContext=name;state.buildContext='world';
  document.body.classList.remove('element-context');$('#sharedElementBar').classList.remove('show');$('#sharedElementBadge').classList.remove('show');
  $('#materialsPanel').style.display='none';$('#libraryPanel').style.display='none';$('#settingsPanel').style.display='none';
- applyEditorWorkspace(loadEditorWorkspace(name));
- rebuildAll();setSize(state.size);setMat(state.mat);setType(state.type);resetSharedEditorView();syncEditorSwitcher();syncPrimaryMenuState();buildMaterialCards();buildElementCards();
+ const workspace=loadEditorWorkspace(name);
+ applyEditorWorkspace(workspace);
+ rebuildAll();setSize(state.size);setMat(state.mat);setType(state.type);resetSharedEditorView(workspace);syncEditorSwitcher();syncPrimaryMenuState();buildMaterialCards();buildElementCards();
 }
 
 /* Shared World / Element builder context */
@@ -5739,6 +5777,7 @@ function bwSaveCurrent(){
  }catch(err){console.error('Save failed',err);alert('Unable to save: '+err.message)}
 }
 $('#projectSaveBtn').addEventListener('click',bwSaveCurrent);
+addEventListener('pagehide',()=>{if(state.editorContext!=='block')persistEditorWorkspace(state.editorContext);});
 
 $('#saveLibrary').onclick=saveCurrent;$('#exportBtn').onclick=()=>{const d=exportData();download(safeName(d.name)+'.blockobject',JSON.stringify(d,null,2));};$('#importBtn').onclick=()=>$('#importFile').click();$('#importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{importData(JSON.parse(await f.text()));hidePanel('libraryPanel');toast('Object imported')}catch(err){alert(err.message)}e.target.value='';};$('#newBtn').onclick=()=>{if(!confirm('Start a new blank object?'))return;endExtrusion();checkpoint();state.blocks=[];state.nextId=1;state.selected=null;state.selectedFace=null;state.faceSelectionIds=[];$('#objectNameInput').value='My Object';rebuildAll();fitObject();hidePanel('libraryPanel');};
 
@@ -5774,9 +5813,10 @@ groundMat.transparent=false;
 groundMat.opacity=1;
 groundMat.needsUpdate=true;
 $$('#buildSizeMenu [data-buildsize]').forEach(b=>b.classList.toggle('active',+b.dataset.buildsize===state.size));updateStatus();setFaceSelectSize(state.size);state.showRotateSlider=false;state.showZoomSlider=true;$('#showRotateSlider').checked=false;$('#showZoomSlider').checked=true;updateBottomLayout();enterBuild();setInitialBuildGhost();state.editorContext='map';
-applyEditorWorkspace(loadEditorWorkspace('map'));
+const startingWorkspace=loadEditorWorkspace('map');
+applyEditorWorkspace(startingWorkspace);
 rebuildAll();setSize(state.size);setMat(state.mat);setType(state.type);
-resetSharedEditorView();syncEditorSwitcher();
+resetSharedEditorView(startingWorkspace);syncEditorSwitcher();
 // v17.74 — OSM map library, explicit single active map, and map-bounded ground/grid.
 const osmMapGroup=new THREE.Group();osmMapGroup.name='Selected OSM map';scene.add(osmMapGroup);
 var osmMapState={maps:[],activeId:null,roads:0,extent:0,groundTexture:null,roadMaterial:null};
@@ -6242,9 +6282,10 @@ window.__osm81Ready=true;
 window.__osm81Debug={getMapCount:()=>osmMapState.maps.length,getActiveId:()=>osmMapState.activeId,getMeshCount:()=>osmMapGroup.children.length,importText:(name,src)=>{const parsed=src.trimStart().startsWith('<')?osmParseXml(src):osmParseGeo(src);const map=osmValidate(parsed,name);osmMapState.maps.push(map);osmRenderCards();return map;},activate:i=>osmActivate(osmMapState.maps[i])};
 
 if(HOUSE_POINT_TEST){
- // Test opens with a blank point workspace and does not import saved Workshop blocks.
- state.blocks=[];state.housePoints=[];state.activeCustomElement=null;state.activeGroundElement=null;
- rebuildAll();renderHousePointMarkers();enterBuild();setInitialBuildGhost();updateModeUI();updateStatus();
+ // The sketch opens in Workspace 1 with its own saved points and view.
+ // Keep the legacy block system available for future block-building workspaces.
+ state.blocks=[];state.activeCustomElement=null;state.activeGroundElement=null;
+ rebuildAll();renderHousePointMarkers();updateModeUI();updateStatus();
 }
 console.info('House Studio crosshair test: 10 cm snapped points; Workshop 03 preserved');loading.style.display='none';animate();
 }catch(e){console.error(e);fail('Startup error:\n'+(e&&e.stack?e.stack:e));}
