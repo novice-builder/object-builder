@@ -2863,9 +2863,10 @@ function renderHousePointMarkers(){
 }
 
 /* Shared sketch functions; each workspace owns its completed geometry. */
-/* Connected sketches. Line entities keep unique IDs; shared vertices are separately stored.
-   Explicit line endpoints join other endpoints or split existing segments to make T-junctions.
-   Two lines crossing at their interiors do not connect. */
+/* Sketch topology v2: automatic joins for intersecting lines on the same 10 cm
+   lattice. New and saved sketches receive shared vertices at endpoint, T, and X
+   junctions, regardless of drawing order. Off-lattice diagonal intersections
+   are not rounded to an incorrect grid point. Each segment keeps its own ID. */
 function normaliseSketchLines(lines){
  return Array.isArray(lines)?lines.filter(l=>[l?.x1,l?.z1,l?.x2,l?.z2].every(Number.isFinite))
   .map(l=>({id:typeof l.id==='string'?l.id:null,
@@ -2883,67 +2884,114 @@ function sketchGetOrCreateVertex(x,z){
  if(!v){v={id:nextSketchId('sv'),x,z};state.sketchVertices.push(v);}
  return v;
 }
-function sketchPointOnSegmentInterior(l,x,z){
+function sketchPointOnSegment(l,x,z){
  const dx=l.x2-l.x1,dz=l.z2-l.z1,px=x-l.x1,pz=z-l.z1;
  if(px*dz!==pz*dx)return false;
- const projection=px*dx+pz*dz,span=dx*dx+dz*dz;
- return projection>0&&projection<span;
+ const projection=px*dx+pz*dz,length=dx*dx+dz*dz;
+ return projection>=0&&projection<=length;
 }
-function sketchSplitExistingLinesAt(x,z,vertex){
- for(const l of [...state.houseLines]){
-  if(!sketchPointOnSegmentInterior(l,x,z))continue;
-  const tail={id:nextSketchId('sl'),x1:x,z1:z,x2:l.x2,z2:l.z2,v1:vertex.id,v2:l.v2};
-  l.x2=x;l.z2=z;l.v2=vertex.id;
-  state.houseLines.push(tail);
+function sketchPointOnSegmentInterior(l,x,z){
+ if(!sketchPointOnSegment(l,x,z))return false;
+ return !(x===l.x1&&z===l.z1)&&!(x===l.x2&&z===l.z2);
+}
+function sketchLatticeCrossing(a,b){
+ const ax=a.x2-a.x1,az=a.z2-a.z1,bx=b.x2-b.x1,bz=b.z2-b.z1;
+ const den=ax*bz-az*bx;
+ if(!den)return null; // Parallel or collinear: handle overlapping endpoints separately.
+ const qx=b.x1-a.x1,qz=b.z1-a.z1;
+ const t=(qx*bz-qz*bx)/den,u=(qx*az-qz*ax)/den;
+ if(t<0||t>1||u<0||u>1)return null;
+ const xf=a.x1+t*ax,zf=a.z1+t*az;
+ const x=Math.round(xf),z=Math.round(zf);
+ // Geometry remains on the 10 cm grid; a diagonal crossing between cells is
+ // intentionally NOT silently snapped to a different grid intersection.
+ if(Math.abs(xf-x)>1e-8||Math.abs(zf-z)>1e-8)return null;
+ return sketchPointOnSegment(a,x,z)&&sketchPointOnSegment(b,x,z)?{x,z}:null;
+}
+function sketchConnectAllIntersections(){
+ const lines=state.houseLines;
+ if(!lines.length){state.sketchVertices=[];return;}
+ const at=lines.map(l=>new Map([
+  [l.x1+','+l.z1,{x:l.x1,z:l.z1}],
+  [l.x2+','+l.z2,{x:l.x2,z:l.z2}]
+ ]));
+ const add=(i,p)=>at[i].set(p.x+','+p.z,p);
+ for(let i=0;i<lines.length;i++)for(let j=i+1;j<lines.length;j++){
+  const a=lines[i],b=lines[j];
+  if(Math.max(a.x1,a.x2)<Math.min(b.x1,b.x2)||
+     Math.max(b.x1,b.x2)<Math.min(a.x1,a.x2)||
+     Math.max(a.z1,a.z2)<Math.min(b.z1,b.z2)||
+     Math.max(b.z1,b.z2)<Math.min(a.z1,a.z2))continue;
+  // Includes shared endpoints, T-junctions, and collinear overlapping lines.
+  for(const p of [{x:a.x1,z:a.z1},{x:a.x2,z:a.z2},
+                  {x:b.x1,z:b.z1},{x:b.x2,z:b.z2}]){
+   if(sketchPointOnSegment(a,p.x,p.z)&&sketchPointOnSegment(b,p.x,p.z)){
+    add(i,p);add(j,p);
+   }
+  }
+  // Full cross, including a crossing at the middle of both segments.
+  const intersection=sketchLatticeCrossing(a,b);
+  if(intersection){add(i,intersection);add(j,intersection);}
  }
+ // Reuse existing vertex IDs wherever possible; join only by true grid coordinate.
+ const verticesByPosition=new Map();
+ for(const v of state.sketchVertices){
+  const key=v.x+','+v.z;
+  if(!verticesByPosition.has(key))verticesByPosition.set(key,v);
+ }
+ const vertex=(x,z)=>{
+  const key=x+','+z;
+  if(!verticesByPosition.has(key)){
+   const v={id:nextSketchId('sv'),x,z};
+   verticesByPosition.set(key,v);
+   state.sketchVertices.push(v);
+  }
+  return verticesByPosition.get(key);
+ };
+ const result=[];
+ for(let i=0;i<lines.length;i++){
+  const line=lines[i],dx=line.x2-line.x1,dz=line.z2-line.z1;
+  const positions=[...at[i].values()].sort((p,q)=>
+   ((p.x-q.x)*dx+(p.z-q.z)*dz));
+  for(let j=0;j<positions.length-1;j++){
+   const p=positions[j],q=positions[j+1];
+   if(p.x===q.x&&p.z===q.z)continue;
+   const first=vertex(p.x,p.z),last=vertex(q.x,q.z);
+   result.push({id:j===0?line.id:nextSketchId('sl'),
+     x1:p.x,z1:p.z,x2:q.x,z2:q.z,v1:first.id,v2:last.id});
+  }
+ }
+ state.houseLines=result;
+ const activeIds=new Set(result.flatMap(l=>[l.v1,l.v2]));
+ state.sketchVertices=[...verticesByPosition.values()].filter(v=>activeIds.has(v.id));
 }
 function restoreSketchTopology(lines,vertices=[],counter=0){
  const inputLines=normaliseSketchLines(lines);
- const inputVertices=Array.isArray(vertices)?vertices:[];
+ const inputVerts=Array.isArray(vertices)?vertices:[];
  state.sketchNextId=Number.isSafeInteger(counter)&&counter>=0?counter:0;
- for(const item of [...inputLines,...inputVertices]){
-  const m=typeof item?.id==='string'&&/^(?:sv|sl)-(\d+)$/.exec(item.id);
-  if(m)state.sketchNextId=Math.max(state.sketchNextId,+m[1]);
+ for(const item of [...inputLines,...inputVerts]){
+  const match=typeof item?.id==='string'&&/^(?:sv|sl)-(\d+)$/.exec(item.id);
+  if(match)state.sketchNextId=Math.max(state.sketchNextId,+match[1]);
  }
- state.sketchVertices=[];state.houseLines=[];
- const used=new Set(),byId=new Map();
- for(const v of inputVertices){
-  if(!Number.isFinite(v?.x)||!Number.isFinite(v?.z))continue;
-  const id=typeof v.id==='string'&&v.id&&!used.has(v.id)?v.id:nextSketchId('sv');
-  const clean={id,x:Math.round(v.x),z:Math.round(v.z)};
-  used.add(id);state.sketchVertices.push(clean);byId.set(id,clean);
+ const ids=new Set();
+ state.sketchVertices=[];
+ for(const item of inputVerts){
+  if(!Number.isFinite(item?.x)||!Number.isFinite(item?.z))continue;
+  const x=Math.round(item.x),z=Math.round(item.z);
+  const id=typeof item.id==='string'&&item.id&&!ids.has(item.id)?item.id:nextSketchId('sv');
+  ids.add(id);state.sketchVertices.push({id,x,z});
  }
- for(const l of inputLines){
-  const id=l.id&&!used.has(l.id)?l.id:nextSketchId('sl');
-  used.add(id);state.houseLines.push({...l,id});
- }
- for(const l of state.houseLines){
-  for(const [key,x,z] of [['v1',l.x1,l.z1],['v2',l.x2,l.z2]]){
-   let v=byId.get(l[key]);
-   if(!v||v.x!==x||v.z!==z)v=sketchGetOrCreateVertex(x,z);
-   l[key]=v.id;
-  }
- }
- // Migrate older drafts that stored only coordinates. Old endpoint-on-line
- // junctions become connected, but crossings without endpoints stay separate.
- if(!inputVertices.length&&state.houseLines.length){
-  const positions=new Map();
-  for(const l of state.houseLines){
-   positions.set(l.x1+','+l.z1,{x:l.x1,z:l.z1});
-   positions.set(l.x2+','+l.z2,{x:l.x2,z:l.z2});
-  }
-  for(const p of positions.values())sketchSplitExistingLinesAt(p.x,p.z,sketchGetOrCreateVertex(p.x,p.z));
- }
- const referenced=new Set(state.houseLines.flatMap(l=>[l.v1,l.v2]));
- state.sketchVertices=state.sketchVertices.filter(v=>referenced.has(v.id));
+ state.houseLines=inputLines.map(l=>{
+  const id=l.id&&!ids.has(l.id)?l.id:nextSketchId('sl');
+  ids.add(id);return {...l,id};
+ });
+ sketchConnectAllIntersections();
 }
 function sketchAddConnectedLine(x1,z1,x2,z2){
- // Performed after a single checkpoint so splitting and placement undo together.
- const a=sketchGetOrCreateVertex(x1,z1);
- sketchSplitExistingLinesAt(x1,z1,a);
- const b=sketchGetOrCreateVertex(x2,z2);
- sketchSplitExistingLinesAt(x2,z2,b);
+ // Called after checkpoint: all induced splits undo as one user action.
+ const a=sketchGetOrCreateVertex(x1,z1),b=sketchGetOrCreateVertex(x2,z2);
  state.houseLines.push({id:nextSketchId('sl'),x1,z1,x2,z2,v1:a.id,v2:b.id});
+ sketchConnectAllIntersections();
 }
 function clearSketchMeshGroup(group){
  while(group.children.length){const mesh=group.children[0];group.remove(mesh);mesh.geometry?.dispose();mesh.material?.dispose();}
