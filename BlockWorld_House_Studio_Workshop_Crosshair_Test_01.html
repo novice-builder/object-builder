@@ -1868,11 +1868,7 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
   #cloneFaceBar{padding:10px 12px!important;column-gap:7px!important;row-gap:8px!important}
 }
 
-/* v17.81 self-contained OSM map library */
-#osm81Tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 12px;padding:9px;background:#173c58;border-radius:12px}
-#osm81Tools label{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 14px;border:2px solid #a0c5d2;border-radius:11px;background:#276d53;color:white;font-weight:800;position:relative;overflow:hidden;cursor:pointer}
-#osmImportFile{position:absolute;width:1px;height:1px;opacity:0;left:-200vw;top:0}
-#osmImportStatus{flex:1 1 100%;font-size:12px;line-height:1.5;white-space:pre-wrap}
+/* Tab 1 OSM import controls removed. */
 .osmMapCard{width:100%;min-height:160px;cursor:pointer}.osmCardPreview{width:100%;height:92px}.osmCardPreview svg{width:100%;height:100%;object-fit:contain}
 .osmCardMeta{font-size:11px;opacity:.83;text-align:center}.osmRemoveCard{position:absolute;right:5px;top:5px;z-index:2;min-height:29px;min-width:30px;padding:1px;color:#fff;background:#7d3434}
 #osmGlobalStatus{display:none;position:absolute;z-index:55;top:72px;left:10px;max-width:min(75vw,500px);background:#14364de8;color:#fff;border:1px solid #80c0ca;border-radius:8px;padding:8px 10px;font-size:12px;pointer-events:none}
@@ -2240,10 +2236,10 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
   <div class="libraryPreviewHint">Drag to rotate</div>
   <div id="workshopEditor"><label>Clone color <input type="color" id="workshopColour"></label><button id="workshopApply" type="button" class="good">Apply</button></div>
   <div class="libraryActionGrid libraryPreviewActions">
-   <button id="workshopRename" type="button" disabled aria-label="Placeholder 1"></button>
-   <button id="workshopEdit" type="button" disabled aria-label="Placeholder 2"></button>
-   <button id="workshopIconBtn" type="button" disabled aria-label="Placeholder 3"></button>
-   <button id="workshopDelete" type="button" disabled aria-label="Placeholder 4"></button>
+   <button id="workshopRename" type="button" disabled aria-label="Button 1 placeholder">Button 1</button>
+   <button id="workshopEdit" type="button" disabled aria-label="Button 2 placeholder">Button 2</button>
+   <button id="workshopIconBtn" type="button" disabled aria-label="Button 3 placeholder">Button 3</button>
+   <button id="workshopDelete" type="button" disabled aria-label="Button 4 placeholder">Button 4</button>
   </div>
   <input type="file" accept="image/*" id="workshopIconFile">
  </div>
@@ -2351,7 +2347,7 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
  </div>
 
  <div id="mapsTabPanel" class="buildMenuPane" role="tabpanel">
-   <div id="osm81Tools"><label for="osmImportFile">Import OSM / GeoJSON</label><input id="osmImportFile" type="file" accept=".osm,.xml,.geojson,.json,text/xml,application/json"><button id="osmClearBtn" type="button">Remove active map</button><div id="osmImportStatus" role="status">Select a local map file to create a card.</div></div><div id="mapCards" class="buildMenuCards"></div>
+   <div id="mapCards" class="buildMenuCards"></div>
  </div>
  <div id="objectsTabPanel" class="buildMenuPane" role="tabpanel">
    <div id="objectCards" class="buildMenuCards"></div>
@@ -4956,7 +4952,7 @@ function drawMenuPlaceholderCards(host,tab,onOpen){
 }
 
 function buildMapCards(){
- drawMenuPlaceholderCards($('#mapCards'),'maps',()=>openBlankCardPreview());
+ drawMenuPlaceholderCards($('#mapCards'),'maps',(_id,name)=>openBlankCardPreview(name));
 }
 function buildObjectCards(){
  const box=$('#objectCards');if(!box)return;box.innerHTML='';
@@ -4988,7 +4984,7 @@ function buildObjectCards(){
  })
 }
 function buildMaterialCards(){
- drawMenuPlaceholderCards($('#materialCards'),'blocks',()=>openBlankCardPreview());
+ drawMenuPlaceholderCards($('#materialCards'),'blocks',(_id,name)=>openBlankCardPreview(name));
 }
 let libraryThumbResizeObserver=null;
 function ensureLibraryThumbResizeObserver(){
@@ -5052,22 +5048,22 @@ let libraryPreviewRX=-24,libraryPreviewRY=38,libraryPreviewPointer=null;
 // non-interactive design placeholder. Element previews retain their old behaviour.
 function setBlockPreviewPlaceholderMode(blank){
  const labels=[
-  ['libraryPreviewRenameBtn','Rename'],
-  ['libraryPreviewEditBtn','Edit'],
-  ['libraryPreviewIconSettingsBtn','Icon Settings'],
-  ['libraryPreviewDeleteBtn','Delete']
+  ['libraryPreviewRenameBtn','Rename','Button 1'],
+  ['libraryPreviewEditBtn','Edit','Button 2'],
+  ['libraryPreviewIconSettingsBtn','Icon Settings','Button 3'],
+  ['libraryPreviewDeleteBtn','Delete','Button 4']
  ];
- for(const [id,label] of labels){
+ for(const [id,label,placeholder] of labels){
   const button=$('#'+id);
-  button.textContent=blank?'\u00a0':label;
+  button.textContent=blank?placeholder:label;
   button.disabled=blank;
-  button.setAttribute('aria-label',blank?'Reserved placeholder':label);
+  button.setAttribute('aria-label',blank?placeholder+' placeholder':label);
  }
  // Nonbreaking space retains the hint row's previous height and spacing.
  $('#libraryPreviewModal .libraryPreviewHint').textContent=blank?'\u00a0':'Drag to rotate';
 }
-function openBlankCardPreview(){
- $('#libraryPreviewTitle').textContent='\u00a0'; // No title, same popup dimensions.
+function openBlankCardPreview(name){
+ $('#libraryPreviewTitle').textContent=name||'Card'; // Match the selected placeholder card.
  const host=$('#libraryPreviewCubeHost'),ep=$('#libraryElementPreview');
  ep.style.display='none';ep.replaceChildren();
  host.style.display='block';host.replaceChildren();
@@ -5392,7 +5388,7 @@ function workshopRefresh(){
  if(!workshopPreview)return;
  const {tab,id}=workshopPreview,m=workshopCatalogue(tab).items.find(m=>m.id===id);
  if(!m){workshopClose();return}
- $('#workshopTitle').textContent='\u00a0'; // Keep heading height, show no card name.
+ $('#workshopTitle').textContent=m.workshopName||MENU_PLACEHOLDER_ITEMS.find(item=>item.id===id)?.name||'Card'; // Match the selected placeholder card.
  $('#workshopHost').replaceChildren(); // House Studio test: keep preview stage blank, no 3D render.
  $('#workshopColour').value=/^#[0-9a-fA-F]{6}$/.test(m.c||'')?m.c:'#999999';
  workshopRotate();
@@ -5768,7 +5764,6 @@ resetSharedEditorView();syncEditorSwitcher();
 // v17.74 — OSM map library, explicit single active map, and map-bounded ground/grid.
 const osmMapGroup=new THREE.Group();osmMapGroup.name='Selected OSM map';scene.add(osmMapGroup);
 var osmMapState={maps:[],activeId:null,roads:0,extent:0,groundTexture:null,roadMaterial:null};
-const osmImportedFile=document.getElementById('osmImportFile');
 function osmDispose(){for(const mat of osmMapState.extraMaterials||[])mat.dispose();osmMapState.extraMaterials=[];for(const m of [...osmMapGroup.children]){osmMapGroup.remove(m);m.geometry?.dispose();}if(osmMapState.roadMaterial){osmMapState.roadMaterial.map?.dispose();osmMapState.roadMaterial.dispose();osmMapState.roadMaterial=null;}}
 function osmRoadWidth(tags){const h=tags.highway||'residential';const defaults={motorway:12,trunk:11,primary:10,secondary:9,tertiary:8,residential:6.5,unclassified:6,service:4,track:3,footway:2,path:1.5,cycleway:2,pedestrian:5,living_street:5,steps:1.8};let w=Number(String(tags.width||'').replace(/m(?:et(?:er|re)s?)?$/i,'').trim());if(!Number.isFinite(w)||w<=0){const lanes=Number(tags.lanes);w=Number.isFinite(lanes)&&lanes>0?lanes*3.1:(defaults[h]||5);}return Math.max(1,Math.min(30,w));}
 function osmIsRoad(t){return !!t.highway&&!['proposed','construction','platform','raceway'].includes(t.highway)&&t.area!=='yes';}
@@ -5860,7 +5855,7 @@ function osmValidate(data,name){
  return {name,...Object.fromEntries(Object.keys(osmBlankFeatures()).map(k=>[k,data[k]||[]])),bounds,width,height,id:'osm-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),relationCount:data.relationCount||0};
 }
 function osmSetMapGrid(width,height){if(grid){scene.remove(grid);grid.geometry?.dispose();}if(coarseGrid){scene.remove(coarseGrid);coarseGrid.geometry?.dispose();}const verts=[],strong=[];const step=Math.max(1,Math.pow(2,Math.ceil(Math.log2(Math.max(width,height)/110))));for(let x=-width/2,i=0;x<=width/2+1e-5;x+=step,i++){verts.push(x,.009,-height/2,x,.009,height/2);}for(let z=-height/2;z<=height/2+1e-5;z+=step){verts.push(-width/2,.009,z,width/2,.009,z);}const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));grid=new THREE.LineSegments(geo,new THREE.LineBasicMaterial({color:0x65859a,transparent:true,opacity:.4,depthWrite:false}));grid.name='Imported map grid';grid.renderOrder=1;grid.material.depthTest=true;scene.add(grid);coarseGrid=new THREE.Group();scene.add(coarseGrid);grid.visible=true;coarseGrid.visible=false;originLines.visible=false;}
-function osmDeactivate(){osmCompositeDispose();ground.visible=true;ground.material.colorWrite=true;ground.material.depthWrite=true;groundTileGroup.visible=true;osmDispose();osmMapState.activeId=null;osmMapState.roads=0;osmMapState.extent=0;if(osmMapState.groundTexture){osmMapState.groundTexture.dispose();osmMapState.groundTexture=null;}groundMat.map=null;groundMat.color.set(0xb3c693);groundMat.needsUpdate=true;ZOOM_MAX=100;rebuildGrid(50);originLines.visible=!HOUSE_POINT_TEST;scene.fog=new THREE.Fog(0x86c3e8,45,115);camera.near=.01;camera.far=300;camera.updateProjectionMatrix();state.target.set(0,0,0);state.distance=18;updateCamera();document.getElementById('osmImportStatus').textContent='No active map · select a map card to activate';osmRenderCards();}
+function osmDeactivate(){osmCompositeDispose();ground.visible=true;ground.material.colorWrite=true;ground.material.depthWrite=true;groundTileGroup.visible=true;osmDispose();osmMapState.activeId=null;osmMapState.roads=0;osmMapState.extent=0;if(osmMapState.groundTexture){osmMapState.groundTexture.dispose();osmMapState.groundTexture=null;}groundMat.map=null;groundMat.color.set(0xb3c693);groundMat.needsUpdate=true;ZOOM_MAX=100;rebuildGrid(50);originLines.visible=!HOUSE_POINT_TEST;scene.fog=new THREE.Fog(0x86c3e8,45,115);camera.near=.01;camera.far=300;camera.updateProjectionMatrix();state.target.set(0,0,0);state.distance=18;updateCamera();osmRenderCards();}
 
 // v17.87: Layer Lab v9's exclusive terrain compositing, partitioned into
 // editable 64 m quadtree-backed cells. All OSM source geometry stays editable.
@@ -6227,38 +6222,6 @@ function osmNotify(message,failed=false){
  if(globalNotice){globalNotice.textContent=message;globalNotice.style.display=failed?'block':'none';globalNotice.style.borderColor='#e87e7e';}
  console[failed?'error':'info']('[OSM import]',message);
 }
-function osmReadLocalFile(file){
- return new Promise((resolve,reject)=>{
-  const reader=new FileReader();
-  reader.onload=()=>resolve(String(reader.result||''));
-  reader.onerror=()=>reject(reader.error||Error('Unable to read the selected file'));
-  reader.onabort=()=>reject(Error('File selection was cancelled'));
-  reader.readAsText(file);
- });
-}
-async function osmHandleFile(){
- const file=osmImportedFile.files&&osmImportedFile.files[0];
- if(!file){osmNotify('No file selected. Choose a map file and try again.',true);return;}
- osmNotify('Reading '+file.name+' ('+Math.round(file.size/1024)+' KB)…');
- try{
-  const src=await osmReadLocalFile(file);
-  if(!src.trim())throw Error('The selected file is empty');
-  const parsed=src.replace(/^\uFEFF/,'').trimStart().startsWith('<')?osmParseXml(src):osmParseGeo(src);
-  const map=osmValidate(parsed,file.name);
-  osmMapState.maps.push(map);
-  osmRenderCards();
-  setBuildMenuTab('maps',false);
-  // The two visible cards are placeholders; imported map data stays in memory.
-  osmNotify('Imported '+map.name+' · '+osmFeatureSummary(map)+' · '+Math.round(map.width)+' × '+Math.round(map.height)+' m (not added to placeholder cards).');
-  toast('Map imported; cards are placeholders');
- }catch(err){
-  osmNotify('Import failed: '+(err&&err.message||String(err)),true);
- }finally{osmImportedFile.value='';}
-}
-
-// A single change listener. No simulated click handler or transparent overlay.
-osmImportedFile.addEventListener('change',osmHandleFile);
-document.getElementById('osmClearBtn').addEventListener('click',()=>osmDeactivate());
 window.__osm81Ready=true;
 window.__osm81Debug={getMapCount:()=>osmMapState.maps.length,getActiveId:()=>osmMapState.activeId,getMeshCount:()=>osmMapGroup.children.length,importText:(name,src)=>{const parsed=src.trimStart().startsWith('<')?osmParseXml(src):osmParseGeo(src);const map=osmValidate(parsed,name);osmMapState.maps.push(map);osmRenderCards();return map;},activate:i=>osmActivate(osmMapState.maps[i])};
 
