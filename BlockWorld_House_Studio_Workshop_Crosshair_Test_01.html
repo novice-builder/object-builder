@@ -1833,7 +1833,8 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 
 /* Finger-accessible, screen-fixed grip; canvas stays available for navigation. */
 #sketchDragHandle{display:none;position:fixed;z-index:28;left:max(12px,env(safe-area-inset-left));bottom:calc(var(--dockBottom,8px) + 175px);width:78px;height:78px;min-height:78px;border:2px solid #d2f6ff;border-radius:20px;box-shadow:0 0 0 3px #11354a99,0 9px 20px #0008;color:#fff;background:#197a9d;touch-action:none;user-select:none;-webkit-user-select:none;padding:5px;flex-direction:column;align-items:center;justify-content:center;gap:0}
-#sketchDragHandle.show{display:flex}
+#sketchDragHandle.show{display:flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;z-index:120!important}
+#sketchDragHandle{outline:2px solid #103a4d;outline-offset:2px}
 #sketchDragHandle .sketchMoveArrows{font-size:36px;font-weight:900;line-height:38px}
 #sketchDragHandle span:last-child{font-size:11px;font-weight:850;letter-spacing:1px}
 #sketchDragHandle.dragging{background:#2d95bc!important;transform:scale(1.05)}
@@ -3042,6 +3043,25 @@ function sketchHideMovingSourceLines(){
  const ids=new Set(sketchMovePreview?.ids||[]);
  for(const mesh of houseLineGroup.children)mesh.visible=!ids.has(mesh.userData.sketchLineId);
 }
+/* Position the touch grip above a selected segment and follow the camera.
+   This changes only the interface; saved sketch geometry remains unchanged. */
+function positionSketchDragHandle(){
+ const h=$('#sketchDragHandle'),move=sketchMovePreview;
+ if(!h||!move||state.mode!=='navigate'||sketchDragPointer)return;
+ const selected=new Set(move.ids);
+ const anchor=state.houseLines.find(l=>selected.has(l.id));
+ if(!anchor)return;
+ const centre=new THREE.Vector3(((anchor.x1+anchor.x2)*.5+move.dx)*BASE,.035,((anchor.z1+anchor.z2)*.5+move.dz)*BASE);
+ const p=projectWorldToScreen(centre),r=renderer.domElement.getBoundingClientRect();
+ if(!Number.isFinite(p.x)||!Number.isFinite(p.y)||!r.width||!r.height)return;
+ const w=78,hgt=78;
+ const minX=r.left+10,maxX=Math.max(minX,r.right-w-10);
+ const minY=r.top+96,maxY=Math.max(minY,r.bottom-hgt-185);
+ h.style.left=Math.round(Math.max(minX,Math.min(maxX,p.x-w*.5)))+'px';
+ h.style.top=Math.round(Math.max(minY,Math.min(maxY,p.y-hgt-24)))+'px';
+ h.style.bottom='auto';
+ h.style.right='auto';
+}
 function sketchGroundAtScreen(x,y){
  const r=renderer.domElement.getBoundingClientRect();
  if(!r.width||!r.height)return null;
@@ -3057,8 +3077,8 @@ function startSketchMove(){
  sketchMovePreview={ids,dx:0,dz:0};
  lastNavigateTouchTap=null;
  sketchHideMovingSourceLines();renderSketchSelection();
- updateModeUI();updateStatus();
- toast('Drag the handle · pan/orbit as needed · tap canvas to place · X cancels');
+ updateModeUI();positionSketchDragHandle();updateStatus();
+ toast('Drag the blue ✥ handle above the selection · tap to place · X cancels');
  return true;
 }
 function cancelSketchMovePreview(notify=true){
@@ -3110,6 +3130,7 @@ function initSketchDragHandle(){
   if(sketchDragPointer?.id!==e.pointerId)return;
   sketchDragPointer=null;h.classList.remove('dragging');
   if(h.hasPointerCapture?.(e.pointerId))h.releasePointerCapture(e.pointerId);
+  positionSketchDragHandle();
  };
  h.addEventListener('pointerup',finish);
  h.addEventListener('pointercancel',finish);
@@ -6319,7 +6340,7 @@ $('#saveLibrary').onclick=saveCurrent;$('#exportBtn').onclick=()=>{const d=expor
 let toastTimer;function toast(t){let n=document.getElementById('toastTemp');if(!n){n=document.createElement('div');n.id='toastTemp';n.style.cssText='position:absolute;z-index:60;top:18%;left:50%;transform:translateX(-50%);background:#102b40e8;border:2px solid #ffffff55;border-radius:12px;padding:9px 13px;font-weight:750;pointer-events:none';document.body.appendChild(n);}n.textContent=t;n.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>n.style.display='none',1200);}
 function resize(){renderer.setSize(innerWidth,innerHeight);updateCamera();state.ghostCursor.x=Math.min(innerWidth-20,state.ghostCursor.x);state.ghostCursor.y=Math.min(innerHeight-30,state.ghostCursor.y);if(state.mode==='build')hoverGhost(state.ghostCursor.x,state.ghostCursor.y);}
 addEventListener('resize',resize);
-function animate(t){requestAnimationFrame(animate);const now=t||performance.now(),dt=Math.min(.05,(now-state.lastFrame)/1000||0);state.lastFrame=now;autoEdgePan(dt);if(typeof osmCompositeStream==='function')osmCompositeStream(now);if(placementAnchorActive()||state.selectedFace)updatePlacementHandles();renderer.render(scene,camera);}
+function animate(t){requestAnimationFrame(animate);const now=t||performance.now(),dt=Math.min(.05,(now-state.lastFrame)/1000||0);state.lastFrame=now;autoEdgePan(dt);if(typeof osmCompositeStream==='function')osmCompositeStream(now);if(sketchMovePreview&&!sketchDragPointer)positionSketchDragHandle();if(placementAnchorActive()||state.selectedFace)updatePlacementHandles();renderer.render(scene,camera);}
 function getCurrentViewPosition(){
  return{
   yawDeg:+(state.yaw*180/Math.PI).toFixed(3),
