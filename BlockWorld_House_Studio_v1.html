@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BlockWorld House Studio v1</title>
+<style>
+:root{color-scheme:dark;font:15px system-ui,-apple-system,sans-serif}*{box-sizing:border-box}body{margin:0;background:#0d1c28;color:#eaf5fb}main{max-width:980px;margin:auto;padding:12px 12px 50px}h1{font-size:23px;margin:4px 0}h2{font-size:17px;margin:4px 0 12px}p,.sub{color:#a9c8d8;line-height:1.45}.sub{font-size:13px;margin:7px 0}section{margin:12px 0;padding:14px;border:1px solid #355b72;border-radius:15px;background:#152d3d}label{display:block;color:#c7deea;font-size:13px}button,.button,select,input[type=number]{border:1px solid #60899b;border-radius:10px;background:#25495e;color:white;padding:10px;font:inherit;min-height:44px}button{cursor:pointer}button:disabled{opacity:.38;cursor:default}button.on,.primary{background:#167f91;border-color:#63d1dc}button:active{filter:brightness(1.2)}input[type=range]{width:100%;accent-color:#46c8d7;min-height:35px}input[type=number]{width:100%;font-size:16px}select{font-size:16px;width:100%}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1;min-width:72px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ctrl{min-width:0}.ctrl output{float:right;color:#efffff;font-weight:700}.canvasWrap{position:relative;border:1px solid #51778c;border-radius:13px;overflow:hidden;background:#d5e5e6;touch-action:none}.canvasWrap svg{display:block;width:100%;height:350px;touch-action:none;user-select:none}.canvasWrap canvas{display:block;width:100%;height:320px;touch-action:none}.pill{display:inline-block;border-radius:30px;background:#21465a;padding:5px 9px;font-size:12px;color:#d8edf9}#status{background:#213f50;padding:12px;border-radius:10px;min-height:42px;white-space:pre-wrap;font-size:13px;color:#d9f6fa}.foot{font-size:12px;color:#9cb8c6}input[type=file]{max-width:100%;font-size:13px}details{margin-top:12px}summary{cursor:pointer;padding:8px 0}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #91e8ef;outline-offset:2px}@media(min-width:780px){.workspace{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}.workspace section{margin:0}.canvasWrap svg,.canvasWrap canvas{height:420px}}
+</style></head><body><main>
+<header><h1>House Studio <span class="pill">v1 · touch-first</span></h1><p class="sub">Sketch at real dimensions. The optional <b>10 cm voxel → greedy mesh</b> conversion happens only when you choose Bake. The source plan stays editable.</p></header>
+<div class="workspace"><section>
+<h2>1 · Floor plan</h2>
+<div class="row" id="tools"><button data-tool="select" class="on">Select / drag</button><button data-tool="outline">New outline</button><button data-tool="partition">Interior wall</button><button data-tool="door">Add door</button><button data-tool="window">Add window</button></div>
+<p class="sub" id="hint">Drag corner dots to reshape. Tap a wall to select it, then use Door or Window to position an opening.</p>
+<div class="canvasWrap"><svg id="plan" viewBox="-1 -1 10 8" role="img" aria-label="Editable top-down house floor plan"></svg></div>
+<div class="row" style="margin-top:9px"><button id="finish" disabled>Close outline</button><button id="undo">Undo last</button><button id="reset">Reset house</button></div>
+<div class="grid" style="margin-top:12px"><label class="ctrl">Overall width (m)<input id="width" type="number" min="1" max="20" step="0.1" value="8"></label><label class="ctrl">Overall depth (m)<input id="depth" type="number" min="1" max="20" step="0.1" value="6"></label></div>
+<label style="margin-top:10px"><input id="snap" type="checkbox"> Snap sketch points to 10 cm (optional)</label>
+<p class="sub">The plan is freely editable; snapping is not required. For a new outline, tap its corners in order and then press Close outline.</p>
+</section>
+<section>
+<h2>2 · House controls and 3D preview</h2>
+<div class="grid">
+<label>Wall height (m)<input id="height" type="number" min="1.5" max="5" step="0.1" value="2.7"></label>
+<label>Wall thickness (m)<input id="thick" type="number" min="0.1" max="0.5" step="0.05" value="0.2"></label>
+<label>Roof type<select id="roof"><option value="gable">Gable</option><option value="flat">Flat</option></select></label>
+<label>Roof rise (m)<input id="rise" type="number" min="0.2" max="3" step="0.1" value="1.3"></label>
+</div>
+<details id="openingControls"><summary>Selected opening · edit position and size</summary><p class="sub" id="selectedOpening">Tap a door or window in the plan to select it.</p>
+<div class="grid"><label>Along wall (%)<input id="opPos" type="range" min="0" max="100" value="50"></label><label>Opening width (m)<input id="opWidth" type="number" min="0.4" max="3" step="0.1" value="0.9"></label><label>Opening height (m)<input id="opHeight" type="number" min="0.4" max="3" step="0.1" value="2.1"></label><label>Bottom above floor (m)<input id="opSill" type="number" min="0" max="3" step="0.1" value="0"></label></div><button id="removeOpening">Remove selected opening</button></details>
+<p class="sub">Drag the 3D view to orbit. Pinch to zoom, or use the + and − buttons. All measurements are metres.</p>
+<div class="canvasWrap"><canvas id="view" aria-label="Orbitable 3D house preview"></canvas></div>
+<div class="row" style="margin-top:9px"><button id="orbitLeft">↶ Rotate</button><button id="zoomIn">+ Zoom</button><button id="zoomOut">− Zoom</button><button id="orbitRight">Rotate ↷</button></div>
+</section></div>
+<section><h2>3 · Convert and export</h2>
+<p class="sub">Bake samples your finished house into 10 cm solid cells, removes interior cube faces, and merges adjacent visible faces into larger mesh rectangles. It does <b>not</b> export individual cubes.</p>
+<div class="row"><button class="primary" id="bake">Bake 10 cm mesh</button><button id="obj" disabled>Download .OBJ</button><button id="mtl" disabled>Download .MTL</button></div>
+<p id="status" aria-live="polite">Ready. Draw or edit the house before baking.</p>
+<div class="row"><button id="save">Save editable design (.json)</button><button id="load">Open design (.json)</button><input id="file" type="file" accept=".json,application/json" hidden></div>
+<p class="foot">Prototype limits: roof geometry is a simple flat or gable roof; the preview shows a bounding-box gable for nonrectangular plans, while the baked roof is clipped to the footprint. Bake limit: 650,000 sample cells to protect phones. Exported OBJ + MTL are for testing; map-studio import integration is a later step.</p>
+</section></main><script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+let model={outline:[{x:0,z:0},{x:8,z:0},{x:8,z:6},{x:0,z:6}],interior:[],openings:[],height:2.7,thick:.2,rise:1.3,roof:'gable'};
+let tool='select',drawing=[],start=null,drag=-1,chosen='e0',chosenOpening=-1,az=-.65,zoom=1,baked=null, history=[], pointer=null,gesture=new Map();
+const svg=$('plan'), canvas=$('view'),ctx=canvas.getContext('2d');
+const fmt=x=>(Math.round(x*100)/100).toString();
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const bounds=()=>{let a=model.outline;return {minX:Math.min(...a.map(p=>p.x)),maxX:Math.max(...a.map(p=>p.x)),minZ:Math.min(...a.map(p=>p.z)),maxZ:Math.max(...a.map(p=>p.z))}};
+const segments=()=>model.outline.map((a,i)=>({a,b:model.outline[(i+1)%model.outline.length],id:'e'+i})).concat(model.interior.map((w,i)=>({...w,id:'i'+i})));
+function currentSeg(id){return segments().find(s=>s.id===id)}
+function copy(){return JSON.parse(JSON.stringify(model))}
+function push(){history.push(copy());if(history.length>25)history.shift();baked=null;switchBake(false)}
+function switchBake(done){$('obj').disabled=!done;$('mtl').disabled=!done;if(!done&&baked===null)$('status').textContent='Design changed. Bake again when ready.'}
+function validation(){model.height=clamp(Number(model.height)||2.7,1.5,5);model.thick=clamp(Number(model.thick)||.2,.1,.5);model.rise=clamp(Number(model.rise)||1.3,.2,3)}
+function sync(){validation();['height','thick','rise','roof'].forEach(k=>$(k).value=model[k]);let b=bounds();$('width').value=fmt(b.maxX-b.minX);$('depth').value=fmt(b.maxZ-b.minZ);drawPlan();draw3D();syncOpening()}
+function svgElem(t,attrs,parent=svg){let el=document.createElementNS('http://www.w3.org/2000/svg',t);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));parent.appendChild(el);return el}
+function pointFrom(e){let p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;let ctm=svg.getScreenCTM();if(!ctm)return {x:0,z:0};let q=p.matrixTransform(ctm.inverse()),x=clamp(q.x,-1,21),z=clamp(q.y,-1,21);return {x:$('snap').checked?Math.round(x*10)/10:Math.round(x*100)/100,z:$('snap').checked?Math.round(z*10)/10:Math.round(z*100)/100}}
+function distPointLine(p,s){let dx=s.b.x-s.a.x,dz=s.b.z-s.a.z,len2=dx*dx+dz*dz||1,t=clamp(((p.x-s.a.x)*dx+(p.z-s.a.z)*dz)/len2,0,1),x=s.a.x+t*dx,z=s.a.z+t*dz;return {dist:Math.hypot(p.x-x,p.z-z),t}}
+function selectNearest(p){let best=null,dist=.4;segments().forEach(s=>{let x=distPointLine(p,s);if(x.dist<dist){best=s;dist=x.dist}});return best}
+function drawPlan(){svg.replaceChildren();let b=bounds(),pad=1.1;svg.setAttribute('viewBox',[b.minX-pad,b.minZ-pad,Math.max(3,b.maxX-b.minX+pad*2),Math.max(3,b.maxZ-b.minZ+pad*2)].join(' '));const g=svgElem('g',{});svgElem('rect',{x:b.minX-pad,y:b.minZ-pad,width:b.maxX-b.minX+pad*2,height:b.maxZ-b.minZ+pad*2,fill:'#e5f0ef'},g);
+for(let x=Math.floor(b.minX-pad);x<b.maxX+pad;x++)svgElem('path',{d:'M'+x+' '+(b.minZ-pad)+' V'+(b.maxZ+pad),stroke:'#cedddb','stroke-width':.013},g);
+for(let z=Math.floor(b.minZ-pad);z<b.maxZ+pad;z++)svgElem('path',{d:'M'+(b.minX-pad)+' '+z+' H'+(b.maxX+pad),stroke:'#cedddb','stroke-width':.013},g);
+let pts=model.outline.map(p=>p.x+','+p.z).join(' ');svgElem('polygon',{points:pts,fill:'#c4dfdf','fill-opacity':'.65',stroke:'none'},g);
+segments().forEach(s=>{let chosenStroke=chosen===s.id?'#ec8b30':'#173d50';svgElem('line',{x1:s.a.x,y1:s.a.z,x2:s.b.x,y2:s.b.z,stroke:chosenStroke,'stroke-width':model.thick*1.5,'stroke-linecap':'square'},g);
+svgElem('line',{x1:s.a.x,y1:s.a.z,x2:s.b.x,y2:s.b.z,stroke:'transparent','stroke-width':.35,'data-wall':s.id},g)});
+model.openings.forEach((o,i)=>{let s=currentSeg(o.wall);if(!s)return;let dx=s.b.x-s.a.x,dz=s.b.z-s.a.z,l=Math.hypot(dx,dz)||1,ux=dx/l,uz=dz/l,cx=s.a.x+dx*o.pos,cz=s.a.z+dz*o.pos,r=o.width/2;let color=o.kind==='door'?'#147e7a':'#4f83c5';
+svgElem('line',{x1:cx-ux*r,y1:cz-uz*r,x2:cx+ux*r,y2:cz+uz*r,stroke:chosenOpening===i?'#f7bd49':color,'stroke-width':.24,'stroke-linecap':'square','data-opening':i},g)});
+if(tool==='select')model.outline.forEach((p,i)=>svgElem('circle',{cx:p.x,cy:p.z,r:.14,fill:'#f9f9f2',stroke:'#116077','stroke-width':.05,'data-point':i},g));
+if(drawing.length){svgElem('polyline',{points:drawing.map(p=>p.x+','+p.z).join(' '),fill:'none',stroke:'#d25a31','stroke-width':.09,'stroke-dasharray':'.15 .1'},g);drawing.forEach(p=>svgElem('circle',{cx:p.x,cy:p.z,r:.1,fill:'#d25a31'},g))}
+if(start)svgElem('circle',{cx:start.x,cy:start.z,r:.13,fill:'#d25a31'},g);
+$('finish').disabled=!(tool==='outline'&&drawing.length>=3);
+}
+function positionInput(){let i=chosenOpening,o=model.openings[i];return o}
+function syncOpening(){let o=positionInput();$('selectedOpening').textContent=o?o.kind+' on wall '+o.wall:'Tap a door or window in the plan to select it.';for(let id of ['opPos','opWidth','opHeight','opSill'])$(id).disabled=!o;$('removeOpening').disabled=!o;if(o){$('opPos').value=Math.round(o.pos*100);$('opWidth').value=o.width;$('opHeight').value=o.height;$('opSill').value=o.sill}}
+function updateOpening(){let o=positionInput();if(!o)return;push();o.pos=clamp(Number($('opPos').value)/100,.02,.98);o.width=clamp(Number($('opWidth').value)||.9,.4,3);o.height=clamp(Number($('opHeight').value)||2,.4,model.height);o.sill=clamp(Number($('opSill').value)||0,0,model.height-o.height);sync()}
+svg.addEventListener('pointerdown',e=>{let p=pointFrom(e);pointer=p;let target=e.target;if(tool==='select'&&target.hasAttribute('data-point')){push();drag=Number(target.getAttribute('data-point'));svg.setPointerCapture(e.pointerId);return}
+if(tool==='select'&&target.hasAttribute('data-opening')){chosenOpening=Number(target.getAttribute('data-opening'));$('openingControls').open=true;sync();return}
+if(tool==='select'){let s=selectNearest(p);if(s){chosen=s.id;chosenOpening=-1;sync()}return}
+if(tool==='outline'){drawing.push(p);drawPlan();return}
+if(tool==='partition'){if(start){if(Math.hypot(start.x-p.x,start.z-p.z)>.1){push();model.interior.push({a:start,b:p});chosen='i'+(model.interior.length-1)}start=null;sync()}else{start=p;drawPlan()}return}
+if(tool==='door'||tool==='window'){let s=selectNearest(p);if(!s)return;push();let pos=distPointLine(p,s).t;model.openings.push({wall:s.id,kind:tool,pos,width:tool==='door'?.9:1.2,height:tool==='door'?2.1:1.2,sill:tool==='door'?0:.9});chosenOpening=model.openings.length-1;chosen=s.id;$('openingControls').open=true;sync()}});
+svg.addEventListener('pointermove',e=>{if(drag>=0&&svg.hasPointerCapture(e.pointerId)){let p=pointFrom(e);model.outline[drag]=p;baked=null;drawPlan();draw3D()}});
+function release(){if(drag>=0){drag=-1;sync()}}svg.addEventListener('pointerup',release);svg.addEventListener('pointercancel',release);
+$('tools').addEventListener('click',e=>{let b=e.target.closest('[data-tool]');if(!b)return;tool=b.dataset.tool;drawing=[];start=null;document.querySelectorAll('#tools button').forEach(x=>x.classList.toggle('on',x===b));$('hint').textContent={select:'Drag corner dots to reshape. Tap a wall to select or tap an opening to edit.',outline:'Tap the corners of a new floor outline in order, then Close outline.',partition:'Tap the start and end of an interior wall.',door:'Tap a wall where you want the door.',window:'Tap a wall where you want the window.'}[tool];drawPlan()});
+$('finish').onclick=()=>{if(drawing.length<3)return;push();model.outline=drawing;model.interior=[];model.openings=[];drawing=[];tool='select';document.querySelectorAll('#tools button').forEach(x=>x.classList.toggle('on',x.dataset.tool==='select'));sync()};
+$('undo').onclick=()=>{if(drawing.length){drawing.pop();drawPlan();return}if(start){start=null;drawPlan();return}if(history.length){model=history.pop();chosenOpening=-1;baked=null;sync();switchBake(false)}};
+$('reset').onclick=()=>{push();model={outline:[{x:0,z:0},{x:8,z:0},{x:8,z:6},{x:0,z:6}],interior:[],openings:[],height:2.7,thick:.2,rise:1.3,roof:'gable'};chosenOpening=-1;sync()};
+['height','thick','rise','roof'].forEach(id=>$(id).addEventListener('change',()=>{push();model[id]=id==='roof'?$(id).value:Number($(id).value);sync()}));
+['width','depth'].forEach(id=>$(id).addEventListener('change',()=>{let b=bounds(),old=id==='width'?b.maxX-b.minX:b.maxZ-b.minZ,desired=clamp(Number($(id).value)||old,1,20);if(!old)return;push();let k=desired/old,coord=id==='width'?'x':'z',lo=id==='width'?b.minX:b.minZ;model.outline.forEach(p=>p[coord]=lo+(p[coord]-lo)*k);model.interior.forEach(w=>{w.a[coord]=lo+(w.a[coord]-lo)*k;w.b[coord]=lo+(w.b[coord]-lo)*k});sync()}));
+['opPos','opWidth','opHeight','opSill'].forEach(id=>$(id).addEventListener('change',updateOpening));
+$('removeOpening').onclick=()=>{if(chosenOpening<0)return;push();model.openings.splice(chosenOpening,1);chosenOpening=-1;sync()};
+function addFace(out,vs,color){out.push({vs,color})}
+function wallBoxes(out){segments().forEach(s=>{let dx=s.b.x-s.a.x,dz=s.b.z-s.a.z,len=Math.hypot(dx,dz);if(len<.05)return;let us=[0,len],ys=[0,model.height],ops=model.openings.filter(o=>o.wall===s.id);ops.forEach(o=>{us.push(clamp(o.pos*len-o.width/2,0,len),clamp(o.pos*len+o.width/2,0,len));ys.push(clamp(o.sill,0,model.height),clamp(o.sill+o.height,0,model.height))});us=[...new Set(us)].sort((a,b)=>a-b);ys=[...new Set(ys)].sort((a,b)=>a-b);
+for(let i=0;i<us.length-1;i++)for(let j=0;j<ys.length-1;j++){let mid=(us[i]+us[i+1])/2,ym=(ys[j]+ys[j+1])/2;if(ops.some(o=>Math.abs(mid-o.pos*len)<o.width/2-.001&&ym>o.sill&&ym<o.sill+o.height))continue;
+let nx=-dz/len*model.thick/2,nz=dx/len*model.thick/2,base=(u,y,side)=>{let f=u/len;return [s.a.x+dx*f+nx*side,y,s.a.z+dz*f+nz*side]};let a=base(us[i],ys[j],1),b=base(us[i+1],ys[j],1),c=base(us[i+1],ys[j+1],1),d=base(us[i],ys[j+1],1),e=base(us[i],ys[j],-1),f=base(us[i+1],ys[j],-1),g=base(us[i+1],ys[j+1],-1),h=base(us[i],ys[j+1],-1);
+addFace(out,[a,b,c,d],1);addFace(out,[f,e,h,g],1);addFace(out,[d,c,g,h],1);addFace(out,[e,f,b,a],1);addFace(out,[e,a,d,h],1);addFace(out,[b,f,g,c],1)}})}
+function roofHeight(x,z){let b=bounds();if(model.roof==='flat')return model.height+.2;let alongX=b.maxX-b.minX>=b.maxZ-b.minZ;let t=alongX?(z-(b.minZ+b.maxZ)/2)/Math.max(.01,(b.maxZ-b.minZ)/2):(x-(b.minX+b.maxX)/2)/Math.max(.01,(b.maxX-b.minX)/2);return model.height+model.rise*(1-Math.abs(t))}
+function roofPreview(out){let b=bounds(),e=.15;if(model.roof==='flat'){let y=model.height+.2;addFace(out,[[b.minX-e,y,b.minZ-e],[b.maxX+e,y,b.minZ-e],[b.maxX+e,y,b.maxZ+e],[b.minX-e,y,b.maxZ+e]],2);return}
+let alongX=b.maxX-b.minX>=b.maxZ-b.minZ;
+if(alongX){let z=(b.minZ+b.maxZ)/2,x1=b.minX-e,x2=b.maxX+e,low=model.height-.02,peak=model.height+model.rise;addFace(out,[[x1,low,b.minZ-e],[x2,low,b.minZ-e],[x2,peak,z],[x1,peak,z]],2);addFace(out,[[x1,peak,z],[x2,peak,z],[x2,low,b.maxZ+e],[x1,low,b.maxZ+e]],2)}
+else{let x=(b.minX+b.maxX)/2,z1=b.minZ-e,z2=b.maxZ+e,low=model.height-.02,peak=model.height+model.rise;addFace(out,[[b.minX-e,low,z1],[x,peak,z1],[x,peak,z2],[b.minX-e,low,z2]],2);addFace(out,[[x,peak,z1],[b.maxX+e,low,z1],[b.maxX+e,low,z2],[x,peak,z2]],2)}}
+function draw3D(){let w=canvas.clientWidth||360,h=canvas.clientHeight||320,dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(w*dpr);canvas.height=Math.floor(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);ctx.fillStyle='#bcd9e4';ctx.fillRect(0,0,w,h);
+let b=bounds(),cx=(b.minX+b.maxX)/2,cz=(b.minZ+b.maxZ)/2,extent=Math.max(b.maxX-b.minX,b.maxZ-b.minZ,model.height+model.rise),scale=Math.min(w,h)*.73/Math.max(4,extent)/zoom;
+let cosa=Math.cos(az),sina=Math.sin(az),elev=.68;
+function project(p){let x=p[0]-cx,z=p[2]-cz,y=p[1];let xx=x*cosa-z*sina,depth=x*sina+z*cosa,yy=y*Math.cos(elev)-depth*Math.sin(elev);return {x:w/2+xx*scale,y:h*.77-yy*scale,depth:depth*Math.cos(elev)+y*Math.sin(elev)}}
+let faces=[];wallBoxes(faces);roofPreview(faces);faces=faces.map(f=>{let ps=f.vs.map(project);let A=ps[0],B=ps[1],C=ps[2],cross=(B.x-A.x)*(C.y-A.y)-(B.y-A.y)*(C.x-A.x);return {...f,ps,depth:ps.reduce((a,p)=>a+p.depth,0)/ps.length,cross}}).sort((a,b)=>a.depth-b.depth);
+faces.forEach(f=>{ctx.beginPath();f.ps.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();let k=Math.abs(f.cross)>0.3?1:.78;ctx.fillStyle=f.color===2?(k===1?'#a35b4f':'#8b4d45'):(k===1?'#dfd4bc':'#bfb39d');ctx.fill();ctx.strokeStyle=f.color===2?'#7a413c':'#8a877b';ctx.lineWidth=.7;ctx.stroke()});
+ctx.font='12px system-ui';ctx.fillStyle='#17384c';ctx.fillText('Editable geometry preview · drag to orbit',12,22)}
+canvas.addEventListener('pointerdown',e=>{gesture.set(e.pointerId,{x:e.clientX,y:e.clientY});canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener('pointermove',e=>{if(!gesture.has(e.pointerId))return;let last=gesture.get(e.pointerId),dx=e.clientX-last.x;gesture.set(e.pointerId,{x:e.clientX,y:e.clientY});if(gesture.size===1){az+=dx*.012;draw3D()}else if(gesture.size===2){let pts=[...gesture.values()];if(pts[0]!==last&&pts[1]!==last){zoom=clamp(zoom+(dx>0?-.01:.01),.45,3);draw3D()}}});
+function endPointer(e){gesture.delete(e.pointerId)}canvas.addEventListener('pointerup',endPointer);canvas.addEventListener('pointercancel',endPointer);
+$('orbitLeft').onclick=()=>{az-=.3;draw3D()};$('orbitRight').onclick=()=>{az+=.3;draw3D()};$('zoomIn').onclick=()=>{zoom=clamp(zoom*.85,.45,3);draw3D()};$('zoomOut').onclick=()=>{zoom=clamp(zoom*1.15,.45,3);draw3D()};
+function inside(x,z){let yes=false,a=model.outline;for(let i=0,j=a.length-1;i<a.length;j=i++){let p=a[i],q=a[j];if((p.z>z)!==(q.z>z)&&x<(q.x-p.x)*(z-p.z)/(q.z-p.z)+p.x)yes=!yes}return yes}
+function material(x,y,z){let wall=false;for(const s of segments()){let d=distPointLine({x,z},s);if(d.dist>model.thick/2)continue;let len=Math.hypot(s.b.x-s.a.x,s.b.z-s.a.z);let cut=model.openings.some(o=>o.wall===s.id&&Math.abs(d.t*len-o.pos*len)<o.width/2&&y>=o.sill&&y<o.sill+o.height);if(!cut&&y<model.height){wall=true;break}}
+if(wall)return 1;
+if(!inside(x,z))return 0;
+let roofY=roofHeight(x,z);if(y<=roofY&&y>roofY-.20&&y>=model.height-.15)return 2;
+return 0}
+function bake(){let b=bounds(),step=.1,min=[Math.floor((b.minX-.3)/step)*step,0,Math.floor((b.minZ-.3)/step)*step],max=[Math.ceil((b.maxX+.3)/step)*step,model.height+(model.roof==='gable'?model.rise:.2)+.3,Math.ceil((b.maxZ+.3)/step)*step],n=[0,1,2].map(i=>Math.ceil((max[i]-min[i])/step));let total=n[0]*n[1]*n[2];if(total>650000)throw Error('This design needs '+total.toLocaleString()+' sample cells (limit 650,000). Reduce house dimensions.');
+const volume=new Uint8Array(total),index=(x,y,z)=>x+n[0]*(y+n[1]*z);let filled=0;
+for(let z=0;z<n[2];z++)for(let y=0;y<n[1];y++)for(let x=0;x<n[0];x++){let m=material(min[0]+(x+.5)*step,min[1]+(y+.5)*step,min[2]+(z+.5)*step);volume[index(x,y,z)]=m;if(m)filled++}
+let verts=[],faces=[],dir=[0,0,0],mask=[],get=(p)=>p.every((v,i)=>v>=0&&v<n[i])?volume[index(...p)]:0;
+for(let d=0;d<3;d++){let u=(d+1)%3,v=(d+2)%3,nd=n[d],nu=n[u],nv=n[v];for(let slice=-1;slice<nd;slice++){mask.length=nu*nv;
+for(let j=0;j<nv;j++)for(let i=0;i<nu;i++){let p=[0,0,0];p[u]=i;p[v]=j;p[d]=slice;let a=get(p);p[d]=slice+1;let c=get(p);mask[i+j*nu]=a===c?0:(a? a:-c)}
+for(let j=0;j<nv;j++)for(let i=0;i<nu;){let m=mask[i+j*nu];if(!m){i++;continue}let width=1;while(i+width<nu&&mask[i+width+j*nu]===m)width++;let height=1;outer:while(j+height<nv){for(let k=0;k<width;k++)if(mask[i+k+(j+height)*nu]!==m)break outer;height++}
+let q=[0,0,0];q[d]=slice+1;q[u]=i;q[v]=j;let make=(du,dv)=>{let a=q.slice();a[u]+=du;a[v]+=dv;return a.map((value,k)=>Math.round((min[k]+value*step)*1000)/1000)};
+let corners=[make(0,0),make(width,0),make(width,height),make(0,height)];if(m<0)corners.reverse();
+let ids=corners.map(p=>{verts.push(p);return verts.length});faces.push({ids,material:Math.abs(m)});
+for(let j2=0;j2<height;j2++)for(let i2=0;i2<width;i2++)mask[i+i2+(j+j2)*nu]=0;i+=width}}}
+return {verts,faces,filled,total}}
+function objString(result){let lines=['# BlockWorld House Studio v1','mtllib house.mtl','o House'];result.verts.forEach(v=>lines.push('v '+v.join(' ')));let last=0;result.faces.forEach(f=>{if(f.material!==last){last=f.material;lines.push('usemtl '+(last===1?'Walls':'Roof'))}lines.push('f '+f.ids.join(' '))});return lines.join('\n')+'\n'}
+function mtlString(){return 'newmtl Walls\nKd 0.83 0.79 0.69\nKa 0.2 0.2 0.2\n\nnewmtl Roof\nKd 0.62 0.32 0.30\nKa 0.2 0.2 0.2\n'}
+function dl(text,name,type){let blob=new Blob([text],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
+$('bake').onclick=()=>{validation();$('status').textContent='Baking at 10 cm...';$('bake').disabled=true;setTimeout(()=>{try{baked=bake();$('status').textContent='Baked '+baked.filled.toLocaleString()+' occupied 10 cm cells into '+baked.faces.length.toLocaleString()+' merged visible quads ('+(baked.faces.length*2).toLocaleString()+' triangles). No individual cubes exported. Download OBJ and MTL together.';$('obj').disabled=false;$('mtl').disabled=false}catch(e){baked=null;$('status').textContent='Bake failed: '+e.message}finally{$('bake').disabled=false}},50)};
+$('obj').onclick=()=>{if(baked)dl(objString(baked),'house.obj','text/plain')};$('mtl').onclick=()=>dl(mtlString(),'house.mtl','text/plain');
+$('save').onclick=()=>dl(JSON.stringify({format:'BlockWorld-House-Studio-v1',model},null,2),'house-design.json','application/json');
+$('load').onclick=()=>$('file').click();$('file').addEventListener('change',async e=>{try{let data=JSON.parse(await e.target.files[0].text());if(!data.model||!Array.isArray(data.model.outline)||data.model.outline.length<3||data.model.outline.length>80||!data.model.outline.every(p=>Number.isFinite(p.x)&&Number.isFinite(p.z)&&Math.abs(p.x)<100&&Math.abs(p.z)<100))throw Error('Invalid house design');push();model=data.model;model.interior=Array.isArray(model.interior)?model.interior:[];model.openings=Array.isArray(model.openings)?model.openings:[];chosenOpening=-1;sync();$('status').textContent='Editable design loaded.'}catch(err){$('status').textContent='Could not load design: '+err.message}finally{e.target.value=''}});
+window.addEventListener('resize',()=>draw3D());
+sync();$('status').textContent='Ready. Sketch freely, then Bake 10 cm mesh when you want to export.';
+})();
+</script></body></html>
