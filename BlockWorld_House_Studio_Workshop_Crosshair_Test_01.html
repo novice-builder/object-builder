@@ -4940,7 +4940,7 @@ function drawMenuPlaceholderCards(host,tab,onOpen){
  for(const item of MENU_PLACEHOLDER_ITEMS){
   const wrap=document.createElement('div');wrap.className='libraryItemWrap';
   const card=document.createElement('button');card.type='button';
-  card.className='libraryItemCard'+(menuPlaceholderSelection[tab]===item.id?' selected':'');
+  card.className='libraryItemCard'+(tab==='maps'?' osmMapCard':'')+(menuPlaceholderSelection[tab]===item.id?' selected':'');
   card.innerHTML='<div class="libraryVisual">'+menuPlaceholderSvg()+'</div><div class="libraryName">'+item.name+'</div>';
   const pencil=document.createElement('button');pencil.type='button';pencil.className='libraryPencil';
   pencil.setAttribute('aria-label','Open '+item.name+' placeholder');pencil.textContent='✎';
@@ -5366,6 +5366,8 @@ function workshopSave(tab){
  try{localStorage.setItem(workshopStoreKey(tab),JSON.stringify(workshopCatalogues[tab]))}
  catch(err){console.warn('Workshop clone storage unavailable',err)}
 }
+// Clear all four legacy clone catalogues immediately on page load, not just when a tab is opened.
+WORKSHOP_CLONE_TABS.forEach(tab=>workshopCatalogue(tab));
 function workshopDraw(tab){
  const host=$('#'+tab+'Cards');
  if(!host||!workshopCatalogue(tab))return;
