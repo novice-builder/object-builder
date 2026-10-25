@@ -1868,6 +1868,7 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
   #cloneFaceBar{padding:10px 12px!important;column-gap:7px!important;row-gap:8px!important}
 }
 
+#cloneFaceBar .cloneQuickSlot[data-sketch-tool] span{font-size:12px!important;font-weight:750!important;letter-spacing:.1px!important}
 /* Legacy OSM card styles are unused after removing the Maps tab. */
 .osmMapCard{width:100%;min-height:160px;cursor:pointer}.osmCardPreview{width:100%;height:92px}.osmCardPreview svg{width:100%;height:100%;object-fit:contain}
 .osmCardMeta{font-size:11px;opacity:.83;text-align:center}.osmRemoveCard{position:absolute;right:5px;top:5px;z-index:2;min-height:29px;min-width:30px;padding:1px;color:#fff;background:#7d3434}
@@ -2173,8 +2174,8 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 </div>
 
 <div id="cloneFaceBar" aria-label="Detached build tool controls">
-  <button class="cloneQuickSlot" type="button" aria-label="Quick slot 1"><span>+</span></button>
-  <button class="cloneQuickSlot" type="button" aria-label="Quick slot 2"><span>+</span></button>
+  <button class="cloneQuickSlot" type="button" data-sketch-tool="point" aria-label="Point tool"><span>Point</span></button>
+  <button class="cloneQuickSlot" type="button" data-sketch-tool="line" aria-label="Line tool"><span>Line</span></button>
   <button class="cloneQuickSlot" type="button" aria-label="Quick slot 3"><span>+</span></button>
   <button class="cloneQuickSlot" type="button" aria-label="Quick slot 4"><span>+</span></button>
   
@@ -2428,10 +2429,10 @@ const mats=[
  {id:'floor',name:'Floorboards',c:'#ba8d58',c2:'#7d5d39',kind:'wood'}
 ];
 const HOUSE_POINT_TEST=true; // Separate Workshop-clone prototype: 10 cm grid points, not blocks
-const state={mode:'navigate',navMode:'pan',navCrosshairHidden:false,faceScope:'single',faceSelectSize:2,faceSelectionIds:[],selectedCellIds:[],size:2,mat:'brick',type:'solid',component:'',blocks:[],housePoints:[],nextId:1,selected:null,selectedFace:null,ghost:null,ghostCursor:{x:innerWidth*.5,y:innerHeight*.54},history:[],future:[],yaw:0,tilt:87*Math.PI/180,distance:6,target:new THREE.Vector3(0,0,0),moved:false,dragGroupIds:null,dragAccum:new THREE.Vector3(),dragCheckpointed:false,edgePointer:null,lastFrame:performance.now(),extrusionSession:null,extrudeFineBase:20,extrudePanelOpen:false,showRotateSlider:false,showZoomSlider:true,zoomUiValue:50,moveObjectMode:false,placementAnchor:null,anchorHandleDrag:null,anchorLiftDrag:null,customElements:[],customMaterials:[],activeCustomElement:null,activeGroundElement:null,groundTiles:[],nextGroundId:1,baseGroundRemoved:false,customTextureCache:new Map(),elementDraft:null,elementDraftSkin:null,elementSkinEditingFromBuilder:false,buildContext:'world',worldSession:null,editorContext:'map',editorWorkspaces:{}};
+const state={mode:'navigate',navMode:'pan',navCrosshairHidden:false,faceScope:'single',faceSelectSize:2,faceSelectionIds:[],selectedCellIds:[],size:2,mat:'brick',type:'solid',component:'',blocks:[],housePoints:[],houseLines:[],activeSketchTool:'point',sketchLineStart:null,nextId:1,selected:null,selectedFace:null,ghost:null,ghostCursor:{x:innerWidth*.5,y:innerHeight*.54},history:[],future:[],yaw:0,tilt:87*Math.PI/180,distance:6,target:new THREE.Vector3(0,0,0),moved:false,dragGroupIds:null,dragAccum:new THREE.Vector3(),dragCheckpointed:false,edgePointer:null,lastFrame:performance.now(),extrusionSession:null,extrudeFineBase:20,extrudePanelOpen:false,showRotateSlider:false,showZoomSlider:true,zoomUiValue:50,moveObjectMode:false,placementAnchor:null,anchorHandleDrag:null,anchorLiftDrag:null,customElements:[],customMaterials:[],activeCustomElement:null,activeGroundElement:null,groundTiles:[],nextGroundId:1,baseGroundRemoved:false,customTextureCache:new Map(),elementDraft:null,elementDraftSkin:null,elementSkinEditingFromBuilder:false,buildContext:'world',worldSession:null,editorContext:'map',editorWorkspaces:{}};
 const ZOOM_MIN=.12; let ZOOM_MAX=100;
 
-const scene=new THREE.Scene();const housePointGroup=new THREE.Group();housePointGroup.name='House Studio test points';scene.add(housePointGroup);scene.background=new THREE.Color(0x86c3e8);scene.fog=new THREE.Fog(0x86c3e8,45,115);
+const scene=new THREE.Scene();const housePointGroup=new THREE.Group();housePointGroup.name='House Studio test points';scene.add(housePointGroup);const houseLineGroup=new THREE.Group();houseLineGroup.name='Sketch lines';scene.add(houseLineGroup);const houseLinePreviewGroup=new THREE.Group();houseLinePreviewGroup.name='Sketch preview';scene.add(houseLinePreviewGroup);scene.background=new THREE.Color(0x86c3e8);scene.fog=new THREE.Fog(0x86c3e8,45,115);
 const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,.01,300);
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;document.body.insertBefore(renderer.domElement,document.body.firstChild);
 renderer.domElement.style.position='absolute';renderer.domElement.style.inset='0';renderer.domElement.style.zIndex='0';
@@ -2790,6 +2791,7 @@ function snapshot(){
  return JSON.stringify({
    blocks:state.blocks.map(({mesh,...b})=>b),
    housePoints:state.housePoints.map(p=>({...p})),
+   houseLines:state.houseLines.map(l=>({...l})),
    groundTiles:[],groundTree:groundTreeClone(groundTree),
    nextGroundId:state.nextGroundId,
    baseGroundRemoved:!!state.baseGroundRemoved
@@ -2818,7 +2820,7 @@ function toggleExtrudePanel(){
 }
 function syncSharedUndo(){
  if($('#sharedEbUndo')){$('#sharedEbUndo').disabled=!state.history.length;$('#sharedEbRedo').disabled=!state.future.length}
- if($('#deleteBtn')&&!placementAnchorActive()&&!state.extrusionSession)$('#deleteBtn').disabled=!state.history.length;
+ if($('#deleteBtn')&&!placementAnchorActive()&&!state.extrusionSession)$('#deleteBtn').disabled=!(state.history.length||(HOUSE_POINT_TEST&&state.sketchLineStart));
 }
 function checkpoint(){state.history.push(snapshot());if(state.history.length>80)state.history.shift();state.future.length=0;syncSharedUndo();}
 function restore(s){
@@ -2832,7 +2834,7 @@ function restore(s){
    state.baseGroundRemoved=!!raw.baseGroundRemoved;
    ground.visible=!state.baseGroundRemoved;
  }
- if(HOUSE_POINT_TEST){state.housePoints=Array.isArray(raw.housePoints)?raw.housePoints:[];renderHousePointMarkers();}
+ if(HOUSE_POINT_TEST){state.housePoints=Array.isArray(raw.housePoints)?raw.housePoints:[];state.houseLines=normaliseSketchLines(raw.houseLines);state.sketchLineStart=null;renderHousePointMarkers();renderHouseLines();renderSketchLinePreview();}
  if(raw.groundTree)groundTreeRestore(raw.groundTree);else groundImportLegacyTiles(state.groundTiles);
  state.nextId=Math.max(1,...state.blocks.map(b=>b.id+1));
  state.selected=null;
@@ -2858,6 +2860,85 @@ function renderHousePointMarkers(){
   dot.rotation.x=-Math.PI/2;dot.position.set(p.x*BASE,0,p.z*BASE);dot.renderOrder=511;housePointGroup.add(dot);
  }
 }
+
+/* Shared sketch functions; each workspace owns its completed geometry. */
+function normaliseSketchLines(lines){
+ return Array.isArray(lines)?lines.filter(l=>[l?.x1,l?.z1,l?.x2,l?.z2].every(Number.isFinite))
+  .map(l=>({x1:Math.round(l.x1),z1:Math.round(l.z1),x2:Math.round(l.x2),z2:Math.round(l.z2)}))
+  .filter(l=>l.x1!==l.x2||l.z1!==l.z2):[];
+}
+function clearSketchMeshGroup(group){
+ while(group.children.length){const mesh=group.children[0];group.remove(mesh);mesh.geometry?.dispose();mesh.material?.dispose();}
+}
+function sketchSegmentMesh(x1,z1,x2,z2,preview=false){
+ const ax=x1*BASE,az=z1*BASE,bx=x2*BASE,bz=z2*BASE,dx=bx-ax,dz=bz-az,length=Math.hypot(dx,dz);
+ if(length<1e-8)return null;
+ const w=preview?.009:.0075,nx=-dz/length*w,nz=dx/length*w,y=preview?.023:.016;
+ const geometry=new THREE.BufferGeometry();
+ geometry.setAttribute('position',new THREE.Float32BufferAttribute([
+  ax+nx,y,az+nz,ax-nx,y,az-nz,bx+nx,y,bz+nz,bx-nx,y,bz-nz
+ ],3));
+ geometry.setIndex([0,1,2,2,1,3]);geometry.computeVertexNormals();
+ const mesh=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({
+  color:preview?0xffd452:0x08788c,transparent:preview,opacity:preview?.85:1,
+  side:THREE.DoubleSide,depthTest:false,depthWrite:false
+ }));
+ mesh.renderOrder=preview?515:508;
+ return mesh;
+}
+function renderHouseLines(){
+ clearSketchMeshGroup(houseLineGroup);
+ for(const l of state.houseLines){const mesh=sketchSegmentMesh(l.x1,l.z1,l.x2,l.z2);if(mesh)houseLineGroup.add(mesh);}
+}
+function renderSketchLinePreview(){
+ clearSketchMeshGroup(houseLinePreviewGroup);
+ const a=state.sketchLineStart;
+ if(!HOUSE_POINT_TEST||state.activeSketchTool!=='line'||!a)return;
+ const dot=new THREE.Mesh(new THREE.CircleGeometry(.025,24),
+  new THREE.MeshBasicMaterial({color:0xffd452,side:THREE.DoubleSide,depthTest:false,depthWrite:false}));
+ dot.rotation.x=-Math.PI/2;dot.position.set(a.x*BASE,.024,a.z*BASE);dot.renderOrder=516;
+ houseLinePreviewGroup.add(dot);
+ const b=state.ghost;if(b){const mesh=sketchSegmentMesh(a.x,a.z,Math.round(b.x),Math.round(b.z),true);if(mesh)houseLinePreviewGroup.add(mesh);}
+}
+function cancelPendingSketchLine(notify=true){
+ if(!state.sketchLineStart)return false;
+ state.sketchLineStart=null;renderSketchLinePreview();updateModeUI();
+ if(notify)toast('Unfinished line cancelled');
+ return true;
+}
+function syncSketchQuickSlots(){
+ $('.cloneQuickSlot[data-sketch-tool]').forEach(b=>{
+  const selected=b.dataset.sketchTool===state.activeSketchTool;
+  b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected));
+ });
+}
+function setActiveSketchTool(tool){
+ if(tool!=='point'&&tool!=='line')return;
+ if(state.activeSketchTool!==tool)cancelPendingSketchLine(false);
+ state.activeSketchTool=tool;syncSketchQuickSlots();
+ if(state.mode!=='build')enterBuild();
+ renderSketchLinePreview();updateStatus();updateModeUI();
+}
+function placeSketchLineAt(x,z){
+ if(state.mode!=='build')return false;
+ x=Math.round(x);z=Math.round(z);
+ if(!state.sketchLineStart){
+  state.sketchLineStart={x,z};renderSketchLinePreview();updateModeUI();
+  toast('Line start set · choose the endpoint');return true;
+ }
+ const a=state.sketchLineStart;
+ if(a.x===x&&a.z===z){toast('Move the crosshair for the endpoint');return false;}
+ checkpoint();state.houseLines.push({x1:a.x,z1:a.z,x2:x,z2:z});
+ state.sketchLineStart=null;renderHouseLines();renderSketchLinePreview();
+ persistEditorWorkspace(state.editorContext);updateStatus();syncSharedUndo();updateModeUI();
+ toast('Line placed · '+(Math.hypot(x-a.x,z-a.z)*BASE).toFixed(2)+' m');
+ return true;
+}
+function placeSketchAtGhost(){
+ const c=state.ghost;if(!HOUSE_POINT_TEST||!c||state.mode!=='build')return false;
+ return state.activeSketchTool==='line'?placeSketchLineAt(c.x,c.z):placeHousePointAt(c.x,c.z);
+}
+
 function placeHousePointAt(x,z){
  if(state.mode!=='build')return false;
  x=Math.round(x);z=Math.round(z);
@@ -2936,12 +3017,12 @@ function candidateFromHit(hit){if(HOUSE_POINT_TEST)return{x:snapCell(hit.point.x
 function setGhost(c){
  state.ghost=c;
  if(HOUSE_POINT_TEST){
-   if(!c){ghost.visible=false;$('#placeBtn').disabled=true;return}
+   if(!c){ghost.visible=false;$('#placeBtn').disabled=true;renderSketchLinePreview();return}
    ghost.position.set(c.x*BASE,0,c.z*BASE);
    // Keep the 10 cm snapped world position visible while navigating the map.
    ghost.visible=!placementAnchorActive() && (state.mode==='build'||(state.mode==='navigate'&&!state.navCrosshairHidden));
    $('#placeBtn').disabled=state.mode!=='build';
-   return;
+   renderSketchLinePreview();return;
  }
 
  if(!c){ghost.visible=false;if($('#placeBtn'))$('#placeBtn').disabled=true;return;}
@@ -3005,7 +3086,7 @@ function setInitialBuildGhost(){
 }
 function dragGhostBy(dx,dy){state.ghostCursor.x=Math.max(20,Math.min(innerWidth-20,state.ghostCursor.x+dx));state.ghostCursor.y=Math.max(70,Math.min(innerHeight-30,state.ghostCursor.y+dy));hoverGhost(state.ghostCursor.x,state.ghostCursor.y);}
 function place(){
- if(HOUSE_POINT_TEST)return placeHousePoint();
+ if(HOUSE_POINT_TEST)return placeSketchAtGhost();
  if(state.activeCustomElement)return placeCustomElement();
  if(state.activeGroundElement){
    if(state.mode!=='build'||!state.ghost)return false;
@@ -3742,7 +3823,7 @@ function cancelFaceHandleExtrusion(){
 let pointers=new Map(),primary=null,buildDrag=null;
 function armBuildLongPress(pointerId){
  const p=pointers.get(pointerId);
- if(!p||p.longPressCancelled||state.mode!=='build'||placementAnchorActive())return;
+ if(!p||p.longPressCancelled||state.mode!=='build'||placementAnchorActive()||HOUSE_POINT_TEST)return;
  if(p.anchorTimer)clearTimeout(p.anchorTimer);
  p.anchorTimer=setTimeout(()=>{
    const live=pointers.get(pointerId);
@@ -3830,7 +3911,7 @@ function desktopShowMenu(x,y){
 // Raycast against the fixed ground plane so blocks placed during editing never
 // become a new, higher surface underneath the cursor.
 function desktopExtendBuildDrag(e,p){
- if(state.mode!=='build'||state.activeCustomElement||!p.buildStartGhost)return false;
+ if(state.mode!=='build'||state.activeCustomElement||!p.buildStartGhost||HOUSE_POINT_TEST)return false;
  const start=p.buildStartGhost;
  const surface=raycastAt(e.clientX,e.clientY,false);
  if(!surface)return true;
@@ -3861,7 +3942,7 @@ function desktopExtendBuildDrag(e,p){
 }
 function desktopNudgeGhost(dx,dz){
  if(!state.ghost)return;
- const step=Math.max(1,state.size||1);
+ const step=HOUSE_POINT_TEST?1:Math.max(1,state.size||1);
  setGhost({...state.ghost,x:state.ghost.x+dx*step,z:state.ghost.z+dz*step});
 }
 function desktopNudgeAnchor(axis,delta){
@@ -3875,7 +3956,7 @@ function desktopKeyEvent(e){
  if(e.target.closest('input,textarea,select,[contenteditable]'))return;
  const k=e.key.toLowerCase(),mod=e.ctrlKey||e.metaKey;
  if(mod&&k==='z'){e.preventDefault();if(e.shiftKey)redo();else undo();updateModeUI();return;}
- if(k==='escape'){e.preventDefault();$('#desktopContextMenu').style.display='none';if(state.extrusionSession)cancelFaceHandleExtrusion();else if(placementAnchorActive()&&typeof cancelPlacementAnchor==='function')cancelPlacementAnchor();else{state.selected=null;state.selectedFace=null;state.desktopWholeBody=false;state.desktopBoxIds=null;refreshSelection();}return;}
+ if(k==='escape'){e.preventDefault();$('#desktopContextMenu').style.display='none';if(HOUSE_POINT_TEST&&state.sketchLineStart){cancelPendingSketchLine();return;}if(state.extrusionSession)cancelFaceHandleExtrusion();else if(placementAnchorActive()&&typeof cancelPlacementAnchor==='function')cancelPlacementAnchor();else{state.selected=null;state.selectedFace=null;state.desktopWholeBody=false;state.desktopBoxIds=null;refreshSelection();}return;}
  if(k==='delete'||k==='backspace'){e.preventDefault();if(state.selected)deleteSelected();else if(placementAnchorActive()&&typeof cancelPlacementAnchor==='function')cancelPlacementAnchor();return;}
  if(e.code==='Space'){
   e.preventDefault();if(e.repeat||desktopSpaceDown)return;
@@ -3921,7 +4002,7 @@ renderer.domElement.addEventListener('pointerdown',e=>{
 
      const gh=raycastAt(e.clientX,e.clientY,false);
      buildDrag=gh&&state.ghost?{startPoint:gh.point.clone(),startGhost:{...state.ghost}}:null;
-     if(e.pointerType==='mouse'&&buildDrag&&!state.activeCustomElement){
+     if(!HOUSE_POINT_TEST&&e.pointerType==='mouse'&&buildDrag&&!state.activeCustomElement){
        p.buildStartGhost={...buildDrag.startGhost};p.buildStartPoint=buildDrag.startPoint.clone();p.desktopShapeStarted=false;
      }
      if(e.pointerType!=='mouse')armBuildLongPress(e.pointerId);
@@ -4124,7 +4205,7 @@ function updateModeUI(){
  $('#placeBtn').disabled=HOUSE_POINT_TEST?!(anchored||(build&&state.ghost)):!(anchored||faceExtruding||(build&&state.ghost&&(state.activeGroundElement||validBuildPlacementCandidate(state.ghost))));
  $('#selectGroup').style.display=nav&&state.navMode==='pan'&&!!state.selected?'block':'none';
  $('#faceBar').classList.remove('show');
- $('#deleteBtn').disabled=!(anchored||faceExtruding||state.history.length);
+ $('#deleteBtn').disabled=!(anchored||faceExtruding||state.history.length||(HOUSE_POINT_TEST&&state.sketchLineStart));
  updatePlacementHandles();
 }
 function enterBuild(){
@@ -4270,6 +4351,7 @@ function captureEditorWorkspace(){
  return {
   blocks:cloneBlockData(state.blocks),nextId:state.nextId,
   housePoints:state.housePoints.map(p=>({x:Math.round(p.x),z:Math.round(p.z)})),
+  houseLines:state.houseLines.map(l=>({...l})),
   crosshair:HOUSE_POINT_TEST&&state.ghost?{x:Math.round(state.ghost.x),z:Math.round(state.ghost.z)}:null,
   view:{
    yaw:state.yaw,tilt:state.tilt,distance:state.distance,
@@ -4288,7 +4370,7 @@ function persistEditorWorkspace(name){
  }
 }
 function blankEditorWorkspace(){return{
- blocks:[],nextId:1,housePoints:[],crosshair:{x:0,z:0},view:null,
+ blocks:[],nextId:1,housePoints:[],houseLines:[],crosshair:{x:0,z:0},view:null,
  size:2,mat:'brick',type:'solid',component:'',history:[],future:[]
 }}
 function loadEditorWorkspace(name){
@@ -4303,7 +4385,8 @@ function applyEditorWorkspace(d){
  state.housePoints=Array.isArray(d.housePoints)
   ?d.housePoints.filter(p=>Number.isFinite(p?.x)&&Number.isFinite(p?.z))
    .map(p=>({x:Math.round(p.x),z:Math.round(p.z)})):[];
- renderHousePointMarkers();
+ state.houseLines=normaliseSketchLines(d.houseLines);state.sketchLineStart=null;
+ renderHousePointMarkers();renderHouseLines();renderSketchLinePreview();
  $('#component').value=d.component||'';
  state.selected=null;state.selectedFace=null;state.faceSelectionIds=[];state.selectedCellIds=[];state.activeCustomElement=null;
 }
@@ -4334,6 +4417,7 @@ function syncEditorSwitcher(){
 }
 function switchEditor(name){
  if(!EDITOR_LABELS[name])return;
+ if(HOUSE_POINT_TEST)cancelPendingSketchLine(false);
  $('#tools').classList.remove('open');
  // Block Editor is specialised, but navigation stays in the same shared editor system.
  if(name==='block'){
@@ -5183,7 +5267,7 @@ function applyLibraryPreviewRotation(){
 })(); 
 function ceRenderSaved(){buildElementCards()}
 function ceInitFull(){ceInit();buildMaterialCards();buildElementCards()}
-function updateStatus(){const txt=HOUSE_POINT_TEST?`${state.housePoints.length} points · 10 cm snapping · crosshair test`:`${state.blocks.length} fine cells · ${Math.round(state.size*10)} cm build`;$('#status').textContent=txt;if(state.buildContext==='element')sharedElementDimensions();}
+function updateStatus(){const txt=HOUSE_POINT_TEST?`${state.housePoints.length} points · ${state.houseLines.length} lines · ${state.activeSketchTool==='line'?'Line':'Point'} · 10 cm`:`${state.blocks.length} fine cells · ${Math.round(state.size*10)} cm build`;$('#status').textContent=txt;if(state.buildContext==='element')sharedElementDimensions();}
 function showPanel(id){
  ['materialsPanel','libraryPanel','settingsPanel'].forEach(x=>$('#'+x).style.display=x===id?'block':'none');
  if(id==='libraryPanel')renderLibrary();
@@ -5599,9 +5683,11 @@ const resetCloneFine=()=>{
 };
 $('#cloneExtrudeFineSlider').addEventListener('change',resetCloneFine);
 
-$$('.cloneQuickSlot').forEach(b=>b.onclick=()=>{
- b.classList.toggle('active');
+$('.cloneQuickSlot').forEach(b=>b.onclick=()=>{
+ if(b.dataset.sketchTool){setActiveSketchTool(b.dataset.sketchTool);return;}
+ b.classList.toggle('active'); // Remaining six placeholders unchanged.
 });
+syncSketchQuickSlots();
 $('#moveSelectBtn').onclick=()=>{ $('#buildSizeMenu').classList.remove('show'); toggleNavigateMode(); };
 $('#moveObjectBtn').onclick=toggleMoveObjectMode;
 $('#buildBtn').onclick=()=>{
@@ -5622,6 +5708,7 @@ $('#placeBtn').onclick=()=>{
 $('#deleteBtn').onclick=()=>{
  if(placementAnchorActive()){cancelPlacementAnchor();return}
  if(state.extrusionSession){cancelFaceHandleExtrusion();updateModeUI();return}
+ if(HOUSE_POINT_TEST&&state.sketchLineStart){cancelPendingSketchLine();return;}
  if(state.history.length){undo();updateModeUI();return}
 };
 $('#recordViewBtn').onclick=recordCurrentView;
@@ -5748,6 +5835,7 @@ function bwCurrentSavePackage(){
    // Project downloads must include sketches, not only the older voxel blocks.
    if(HOUSE_POINT_TEST){
      data.housePoints=state.housePoints.map(p=>({x:Math.round(p.x),z:Math.round(p.z)}));
+     data.houseLines=state.houseLines.map(l=>({...l}));
      data.crosshair=state.ghost?{x:Math.round(state.ghost.x),z:Math.round(state.ghost.z)}:null;
    }
    data.buildBrushCells=state.size;
@@ -6290,7 +6378,7 @@ if(HOUSE_POINT_TEST){
  // The sketch opens in Workspace 1 with its own saved points and view.
  // Keep the legacy block system available for future block-building workspaces.
  state.blocks=[];state.activeCustomElement=null;state.activeGroundElement=null;
- rebuildAll();renderHousePointMarkers();updateModeUI();updateStatus();
+ rebuildAll();renderHousePointMarkers();renderHouseLines();syncSketchQuickSlots();updateModeUI();updateStatus();
 }
 console.info('House Studio crosshair test: 10 cm snapped points; Workshop 03 preserved');loading.style.display='none';animate();
 }catch(e){console.error(e);fail('Startup error:\n'+(e&&e.stack?e.stack:e));}
