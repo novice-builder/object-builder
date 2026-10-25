@@ -2833,7 +2833,7 @@ function toggleExtrudePanel(){
 }
 function syncSharedUndo(){
  if($('#sharedEbUndo')){$('#sharedEbUndo').disabled=!state.history.length;$('#sharedEbRedo').disabled=!state.future.length}
- if($('#deleteBtn')&&!placementAnchorActive()&&!state.extrusionSession)$('#deleteBtn').disabled=!(state.history.length||(HOUSE_POINT_TEST&&state.sketchLineStart)||(HOUSE_POINT_TEST&&state.mode==='navigate'&&sketchSelectionIds().length));
+ if($('#deleteBtn')&&!placementAnchorActive()&&!state.extrusionSession)$('#deleteBtn').disabled=!(sketchMovePreview||state.history.length||(HOUSE_POINT_TEST&&state.sketchLineStart)||(HOUSE_POINT_TEST&&state.mode==='navigate'&&sketchSelectionIds().length));
 }
 function checkpoint(){state.history.push(snapshot());if(state.history.length>80)state.history.shift();state.future.length=0;syncSharedUndo();}
 function restore(s){
@@ -4548,7 +4548,7 @@ renderer.domElement.addEventListener('pointerup',e=>{
  }
  // Sketch taps follow the active Quick Select mode, regardless of tap timing.
  // The fast double-tap crosshair shortcut remains available on empty canvas only.
- if(HOUSE_POINT_TEST&&state.mode==='navigate'&&e.pointerType==='touch'&&
+ if(HOUSE_POINT_TEST&&state.mode==='navigate'&&!sketchMovePreview&&e.pointerType==='touch'&&
     pointers.size===1&&!p.movedEver&&total<TAP_MOVE_PX&&!p.longPressed){
    if(sketchHitLine(e.clientX,e.clientY,17)){
      lastNavigateTouchTap=null;
@@ -4567,6 +4567,13 @@ renderer.domElement.addEventListener('pointerup',e=>{
    lastNavigateTouchTap=null;
  }
  if(e.pointerType==='mouse'&&e.shiftKey&&total<TAP_MOVE_PX){selectAt(e.clientX,e.clientY);desktopConnectedSelection();p.movedEver=true;}
+ if(sketchMovePreview&&state.mode==='navigate'&&pointers.size===1&&!p.movedEver&&total<TAP_MOVE_PX&&!p.longPressed){
+   commitSketchMovePreview();
+   pointers.delete(e.pointerId);if(primary===e.pointerId)primary=null;
+   if(!pointers.size){buildDrag=null;state.dragGroupIds=null;state.edgePointer=null;state.dragAccum.set(0,0,0);state.dragCheckpointed=false;}
+   updatePlacementHandles();
+   return;
+ }
  if(pointers.size===1&&!p.movedEver&&total<TAP_MOVE_PX&&!p.longPressed){
    if(state.mode==='build'){
      if(placementAnchorActive())confirmPlacementAnchor();
@@ -5692,7 +5699,7 @@ function applyLibraryPreviewRotation(){
 })(); 
 function ceRenderSaved(){buildElementCards()}
 function ceInitFull(){ceInit();buildMaterialCards();buildElementCards()}
-function updateStatus(){const txt=HOUSE_POINT_TEST?`${state.housePoints.length} points · ${state.houseLines.length} lines · ${state.activeSketchTool==='line'?'Line':'Point'} · 10 cm`:`${state.blocks.length} fine cells · ${Math.round(state.size*10)} cm build`;$('#status').textContent=txt;if(state.buildContext==='element')sharedElementDimensions();}
+function updateStatus(){const txt=sketchMovePreview?'MOVE · drag handle · tap canvas to snap/place · X cancels':HOUSE_POINT_TEST?`${state.housePoints.length} points · ${state.houseLines.length} lines · ${state.activeSketchTool==='line'?'Line':'Point'} · 10 cm`:`${state.blocks.length} fine cells · ${Math.round(state.size*10)} cm build`;$('#status').textContent=txt;if(state.buildContext==='element')sharedElementDimensions();}
 function showPanel(id){
  ['materialsPanel','libraryPanel','settingsPanel'].forEach(x=>$('#'+x).style.display=x===id?'block':'none');
  if(id==='libraryPanel')renderLibrary();
@@ -6110,7 +6117,8 @@ const resetCloneFine=()=>{
 };
 $('#cloneExtrudeFineSlider').addEventListener('change',resetCloneFine);
 
-$$('.cloneQuickSlot').forEach(b=>b.onclick=()=>{
+$('.cloneQuickSlot').forEach(b=>b.onclick=()=>{
+ if(state.mode==='navigate'&&b.dataset.sketchMove){startSketchMove();return;}
  if(state.mode==='navigate'&&b.dataset.sketchSelect){setSketchSelectionMode(b.dataset.sketchSelect);return;}
  if(state.mode==='build'&&b.dataset.sketchTool){setActiveSketchTool(b.dataset.sketchTool);return;}
  b.classList.toggle('active'); // Unassigned placeholders remain independent.
@@ -6129,11 +6137,13 @@ $$('#buildSizeMenu [data-buildsize]').forEach(b=>b.onclick=()=>{
 });$('#faceSizeBtn').onclick=toggleFaceSizeMenu;$$('#faceSizeMenu [data-facesize]').forEach(b=>b.onclick=()=>setFaceSelectSize(b.dataset.facesize));$('#joinedFacesBtn').onclick=()=>setFaceScope(state.faceScope==='connected'?'single':'connected');$('#extrudeBtn').onclick=()=>{};$$('#sizeBtns button').forEach(b=>b.onclick=()=>setSize(b.dataset.size));$$('.typeBtn').forEach(b=>b.onclick=()=>setType(b.dataset.type));
 $('#component').oninput=e=>state.component=e.target.value;
 $('#placeBtn').onclick=()=>{
+ if(commitSketchMovePreview())return;
  if(placementAnchorActive())confirmPlacementAnchor();
  else if(state.extrusionSession)commitFaceHandleExtrusion();
  else if(state.mode==='build')quickPlaceCurrentGhost();
 };
 $('#deleteBtn').onclick=()=>{
+ if(cancelSketchMovePreview())return;
  if(placementAnchorActive()){cancelPlacementAnchor();return}
  if(state.extrusionSession){cancelFaceHandleExtrusion();updateModeUI();return}
  if(deleteSelectedSketchLines())return;
