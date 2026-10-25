@@ -1868,7 +1868,7 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
   #cloneFaceBar{padding:10px 12px!important;column-gap:7px!important;row-gap:8px!important}
 }
 
-/* Tab 1 OSM import controls removed. */
+/* Legacy OSM card styles are unused after removing the Maps tab. */
 .osmMapCard{width:100%;min-height:160px;cursor:pointer}.osmCardPreview{width:100%;height:92px}.osmCardPreview svg{width:100%;height:100%;object-fit:contain}
 .osmCardMeta{font-size:11px;opacity:.83;text-align:center}.osmRemoveCard{position:absolute;right:5px;top:5px;z-index:2;min-height:29px;min-width:30px;padding:1px;color:#fff;background:#7d3434}
 #osmGlobalStatus{display:none;position:absolute;z-index:55;top:72px;left:10px;max-width:min(75vw,500px);background:#14364de8;color:#fff;border:1px solid #80c0ca;border-radius:8px;padding:8px 10px;font-size:12px;pointer-events:none}
@@ -2256,7 +2256,7 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
    <button id="libraryPreviewRenameBtn">Rename</button>
    <button id="libraryPreviewEditBtn">Edit</button>
    <button id="libraryPreviewIconSettingsBtn">Icon Settings</button>
-   <button id="libraryPreviewDeleteBtn" class="danger">Delete</button>
+   <button id="libraryPreviewDeleteBtn">Delete</button>
   </div>
  </div>
 </div>
@@ -2334,21 +2334,17 @@ body.placement-anchored #placeBtn{outline:2px solid #a8f1cb;outline-offset:1px}
 <div id="materialsPanel">
  <div class="buildMenuTopRow">
    <div id="buildMenuTabs" class="buildMenuTabs" role="tablist" aria-label="Build menu">
-     <button id="mapsTabBtn" role="tab" aria-selected="false">Tab 1</button>
      <button id="objectsTabBtn" role="tab" aria-selected="false">Objects</button>
      <button id="componentsTabBtn" role="tab" aria-selected="false">Components</button>
      <button id="groundTabBtn" role="tab" aria-selected="false">Ground</button>
-     <button id="blocksTabBtn" role="tab" aria-selected="true">Tab 2</button>
-<button id="mapsCloneTabBtn" role="tab" aria-selected="false">Tab 3</button>
-<button id="objectsCloneTabBtn" role="tab" aria-selected="false">Tab 4</button>
-<button id="componentsCloneTabBtn" role="tab" aria-selected="false">Tab 5</button>
-<button id="groundCloneTabBtn" role="tab" aria-selected="false">Tab 6</button>
+     <button id="blocksTabBtn" role="tab" aria-selected="true">Tab 1</button>
+<button id="mapsCloneTabBtn" role="tab" aria-selected="false">Tab 2</button>
+<button id="objectsCloneTabBtn" role="tab" aria-selected="false">Tab 3</button>
+<button id="componentsCloneTabBtn" role="tab" aria-selected="false">Tab 4</button>
+<button id="groundCloneTabBtn" role="tab" aria-selected="false">Tab 5</button>
    </div>
  </div>
 
- <div id="mapsTabPanel" class="buildMenuPane" role="tabpanel">
-   <div id="mapCards" class="buildMenuCards"></div>
- </div>
  <div id="objectsTabPanel" class="buildMenuPane" role="tabpanel">
    <div id="objectCards" class="buildMenuCards"></div>
  </div>
@@ -5451,10 +5447,9 @@ $('#workshopDelete').onclick=()=>{
 window.__workshop02Debug={counts:()=>Object.fromEntries(WORKSHOP_CLONE_TABS.map(tab=>[tab,$('#'+tab+'Cards')?.children.length||0])),blocks:()=>$('#materialCards')?.children.length||0};
 
 function setBuildMenuTab(tab,remember=true){
- const valid=['maps','blocks','mapsClone','objectsClone','componentsClone','groundClone'];
+ const valid=['blocks','mapsClone','objectsClone','componentsClone','groundClone'];
  if(!valid.includes(tab))tab='blocks';
  const pairs=[
-  ['maps',$('#mapsTabBtn'),$('#mapsTabPanel')],
   ['objects',$('#objectsTabBtn'),$('#objectsTabPanel')],
   ['components',$('#componentsTabBtn'),$('#componentsTabPanel')],
   ['ground',$('#groundTabBtn'),$('#groundTabPanel')],
@@ -5471,8 +5466,6 @@ function setBuildMenuTab(tab,remember=true){
    pane.classList.toggle('active',active);
  });
  if(WORKSHOP_CLONE_TABS.includes(tab))requestAnimationFrame(()=>renderWorkshopClones(tab));
-  if(tab==='maps')buildMapCards();
- if(tab==='maps'&&window.__osm81Ready)osmRenderCards();
  if(tab==='objects')buildObjectCards();
  if(tab==='components')buildElementCards();
  if(tab==='ground')buildGroundCards();
@@ -5481,7 +5474,6 @@ function setBuildMenuTab(tab,remember=true){
  }
  if(remember)try{localStorage.setItem(BUILD_MENU_TAB_KEY,tab)}catch{}
 }
-$('#mapsTabBtn').onclick=()=>setBuildMenuTab('maps');
 $('#objectsTabBtn').onclick=()=>setBuildMenuTab('objects');
 $('#componentsTabBtn').onclick=()=>setBuildMenuTab('components');
 $('#blocksTabBtn').onclick=()=>setBuildMenuTab('blocks');
