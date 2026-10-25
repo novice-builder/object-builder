@@ -5030,13 +5030,31 @@ function openLibraryPreviewActions(kind,id){
  if(kind==='block')openBlockPreview(item);else openElementPreview(item);
 }
 let libraryPreviewRX=-24,libraryPreviewRY=38,libraryPreviewPointer=null;
+// House Studio: block-card pencil popup remains the same size but is an empty,
+// non-interactive design placeholder. Element previews retain their old behaviour.
+function setBlockPreviewPlaceholderMode(blank){
+ const labels=[
+  ['libraryPreviewRenameBtn','Rename'],
+  ['libraryPreviewEditBtn','Edit'],
+  ['libraryPreviewIconSettingsBtn','Icon Settings'],
+  ['libraryPreviewDeleteBtn','Delete']
+ ];
+ for(const [id,label] of labels){
+  const button=$('#'+id);
+  button.textContent=blank?'\u00a0':label;
+  button.disabled=blank;
+  button.setAttribute('aria-label',blank?'Reserved placeholder':label);
+ }
+ // Nonbreaking space retains the hint row's previous height and spacing.
+ $('#libraryPreviewModal .libraryPreviewHint').textContent=blank?'\u00a0':'Drag to rotate';
+}
 function openBlockPreview(m){
  $('#libraryPreviewTitle').textContent=blockDisplayName(m);
  const host=$('#libraryPreviewCubeHost'),ep=$('#libraryElementPreview');
- ep.style.display='none';host.style.display='block';
- host.innerHTML=cubeThumbHtml(m,true);
- libraryPreviewRX=-24;libraryPreviewRY=38;
- applyLibraryPreviewRotation();
+ ep.style.display='none';ep.innerHTML='';
+ host.style.display='block';
+ host.innerHTML=''; // Remove the 3D preview, preserving the 300px preview container.
+ setBlockPreviewPlaceholderMode(true);
  $('#libraryPreviewModal').classList.add('show');
  $('#libraryPreviewModal').setAttribute('aria-hidden','false');
 }
@@ -5045,6 +5063,7 @@ function openElementPreview(def){
  const host=$('#libraryPreviewCubeHost'),ep=$('#libraryElementPreview');
  host.style.display='none';host.innerHTML='';
  ep.style.display='grid';ep.innerHTML=elementThumbSVG(def);
+ setBlockPreviewPlaceholderMode(false);
  $('#libraryPreviewModal').classList.add('show');
  $('#libraryPreviewModal').setAttribute('aria-hidden','false');
 }
