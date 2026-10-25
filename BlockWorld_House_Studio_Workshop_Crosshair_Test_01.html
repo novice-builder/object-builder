@@ -2854,8 +2854,8 @@ function restore(s){
  rebuildAll();
  rebuildGroundTiles();
 }
-function undo(){endExtrusion();if(!state.history.length)return;state.future.push(snapshot());restore(state.history.pop());syncSharedUndo();if(HOUSE_POINT_TEST)persistEditorWorkspace(state.editorContext);}
-function redo(){endExtrusion();if(!state.future.length)return;state.history.push(snapshot());restore(state.future.pop());syncSharedUndo();if(HOUSE_POINT_TEST)persistEditorWorkspace(state.editorContext);}
+function undo(){cancelSketchMovePreview(false);endExtrusion();if(!state.history.length)return;state.future.push(snapshot());restore(state.history.pop());syncSharedUndo();if(HOUSE_POINT_TEST)persistEditorWorkspace(state.editorContext);}
+function redo(){cancelSketchMovePreview(false);endExtrusion();if(!state.future.length)return;state.history.push(snapshot());restore(state.future.pop());syncSharedUndo();if(HOUSE_POINT_TEST)persistEditorWorkspace(state.editorContext);}
 
 
 function renderHousePointMarkers(){
@@ -3222,6 +3222,7 @@ function setSketchSelectionMode(mode){
  toast({individual:'Individual segment selection',chain:'Chain selection - tap touching segments to add or remove',whole:'Whole straight-line selection'}[mode]);
 }
 function selectSketchLineAt(x,y,pointerType){
+ if(sketchMovePreview)return;
  const hit=sketchHitLine(x,y,pointerType==='mouse'?10:17);
  if(!hit){state.selectedSketchLineIds=[];renderSketchSelection();updateModeUI();return;}
  const mode=state.sketchSelectMode,selected=sketchSelectionIds();
@@ -3246,6 +3247,7 @@ function selectSketchLineAt(x,y,pointerType){
 /* Delete only selected line segments; other joined lines remain in place.
    One checkpoint makes individual, chain and whole-line deletions undoable. */
 function deleteSelectedSketchLines(){
+ if(sketchMovePreview)return false;
  if(!HOUSE_POINT_TEST||state.mode!=='navigate')return false;
  const ids=new Set(sketchSelectionIds());
  if(!ids.size)return false;
@@ -3276,11 +3278,14 @@ function cancelPendingSketchLine(notify=true){
  return true;
 }
 function syncSketchQuickSlots(){
- const selecting=state.mode==='navigate';
+ const selecting=state.mode==='navigate',moving=!!sketchMovePreview;
+ const b=$('#cloneFaceBar .cloneQuickSlot[data-sketch-move]');
+ if(b){b.querySelector('span').textContent=selecting?'Move':'+';b.disabled=!selecting||(!moving&&!sketchSelectionIds().length);b.classList.toggle('active',moving);b.setAttribute('aria-pressed',String(moving));}
  const labels={individual:'Indiv.',chain:'Chain',whole:'Whole'};
  const names={individual:'Individual segment selection',chain:'Chain selection',whole:'Whole straight line selection'};
  $$('.cloneQuickSlot[data-sketch-select]').forEach(b=>{
   const mode=b.dataset.sketchSelect;
+  b.disabled=selecting&&moving;
   const active=selecting?mode===state.sketchSelectMode:(!!b.dataset.sketchTool&&b.dataset.sketchTool===state.activeSketchTool);
   const label=selecting?labels[mode]:(b.dataset.sketchTool==='point'?'Point':b.dataset.sketchTool==='line'?'Line':'+');
   b.querySelector('span').textContent=label;
@@ -4600,6 +4605,7 @@ renderer.domElement.addEventListener('wheel',e=>{
 },{passive:false});
 
 function updateModeUI(){
+ $('#sketchDragHandle').classList.toggle('show',!!sketchMovePreview&&state.mode==='navigate');
  if($('#desktopModeHint'))$('#desktopModeHint').textContent=state.mode==='build'?'Build mode':'Move / Select mode';
  const nav=state.mode==='navigate',build=state.mode==='build',anchored=placementAnchorActive(),faceExtruding=!!state.extrusionSession;
  $('#moveSelectBtn').classList.toggle('panActive',nav&&state.navMode==='pan');
@@ -4607,17 +4613,21 @@ function updateModeUI(){
  $('#buildBtn').classList.toggle('active',build);
  $('#orbitIndicator').textContent=isSketch2DWorkspace()?'2D':'Orbit';
  $('#orbitIndicator').classList.toggle('show',isSketch2DWorkspace()||(nav&&state.navMode==='orbit'));
- $('#placeBtn').disabled=HOUSE_POINT_TEST?!(anchored||(build&&state.ghost)):!(anchored||faceExtruding||(build&&state.ghost&&(state.activeGroundElement||validBuildPlacementCandidate(state.ghost))));
+ $('#placeBtn').disabled=HOUSE_POINT_TEST?!(sketchMovePreview||anchored||(build&&state.ghost)):!(anchored||faceExtruding||(build&&state.ghost&&(state.activeGroundElement||validBuildPlacementCandidate(state.ghost))));
  $('#selectGroup').style.display=nav&&state.navMode==='pan'&&!!state.selected?'block':'none';
  $('#faceBar').classList.remove('show');
  const sketchSelected=HOUSE_POINT_TEST&&nav&&sketchSelectionIds().length>0;
  const deleteButton=$('#deleteBtn');
- deleteButton.disabled=!(anchored||faceExtruding||state.history.length||(HOUSE_POINT_TEST&&state.sketchLineStart)||sketchSelected);
- deleteButton.setAttribute('aria-label',sketchSelected?'Delete selected sketch lines':'Cancel or undo last action');
- deleteButton.title=sketchSelected?'Delete selected lines':'Cancel / Undo';
+ deleteButton.disabled=!(sketchMovePreview||anchored||faceExtruding||state.history.length||(HOUSE_POINT_TEST&&state.sketchLineStart)||sketchSelected);
+ deleteButton.setAttribute('aria-label',sketchMovePreview?'Cancel moving lines':sketchSelected?'Delete selected sketch lines':'Cancel or undo last action');
+ deleteButton.title=sketchMovePreview?'Cancel move':sketchSelected?'Delete selected lines':'Cancel / Undo';
+ $('#placeBtn').title=sketchMovePreview?'Snap and place moved lines':'Place';
+ $('#placeBtn').setAttribute('aria-label',sketchMovePreview?'Place moved sketch lines':'Place');
+ syncSketchQuickSlots();
  updatePlacementHandles();
 }
 function enterBuild(){
+ cancelSketchMovePreview(false);
  if(!placementAnchorActive())endExtrusion();
  state.moveObjectMode=false;
  state.navMode='pan';
@@ -4831,6 +4841,7 @@ function syncEditorSwitcher(){
 }
 function switchEditor(name){
  if(!EDITOR_LABELS[name])return;
+ cancelSketchMovePreview(false);
  if(HOUSE_POINT_TEST)cancelPendingSketchLine(false);
  $('#tools').classList.remove('open');
  // Block Editor is specialised, but navigation stays in the same shared editor system.
