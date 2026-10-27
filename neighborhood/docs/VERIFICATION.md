@@ -1,6 +1,6 @@
 # Verification — 27 October 2026
 
-Milestone 1 is implemented as an isolated prototype, not a finished game. No actual Lenovo tablet or iPhone was available. The owner has not approved the appearance. Remote publication was blocked by automatic approval review because uploading the generated work to the public repository was not explicitly approved. The development branch and commits exist locally; the download package includes the complete source and a Git bundle.
+Milestone 1 is implemented as an isolated prototype, not a finished game. No actual Lenovo tablet or iPhone was available. The owner has not approved the appearance. Automatic approval review initially held public publication pending explicit owner approval. The owner approved publication on 27 October 2026, and the development branch is now published on GitHub. Main and existing releases remain unchanged. The branch contains the complete source, offline HTML, tests and screenshots.
 
 ## Observed checks
 

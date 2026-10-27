@@ -4,6 +4,8 @@ A small first-person creative neighborhood for the first family play test. Four 
 
 ## Play without developer tools
 
+Open the [game file on GitHub](https://github.com/novice-builder/object-builder/blob/codex/blockworld-playable-prototype/BlockWorld_Neighborhood_01.html), then choose **Download raw file** (the down-arrow icon). Open the downloaded HTML in Chrome. The file page itself displays source code; it does not run the game.
+
 Use the separately named `BlockWorld_Neighborhood_01.html` in the repository root. Download the actual file, then open it in a recent browser. The HTML includes its renderer, game code, icons and generated textures. No runtime Internet, account, ads, purchases or audio service is needed. This release contains no voice recordings.
 
 On the Lenovo tablet, try Chrome in landscape. Download the file locally, then use Downloads / Files → Open with Chrome (exact choices depend on the Android version and file manager). If it shows HTML text, it is being previewed rather than executed. See [TESTING.md](docs/TESTING.md) for an alternative local-network test and the offline checklist. Android file handling and actual tablet compatibility still need the owner's test. This is not an APK or installable PWA.
