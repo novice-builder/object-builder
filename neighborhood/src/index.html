@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"
+    />
+    <meta name="theme-color" content="#356b61" />
+    <title>Little Block Lane · BlockWorld Neighborhood 01</title>
+    <style>
+      /* STYLES */
+    </style>
+  </head>
+  <body>
+    <canvas
+      id="world"
+      aria-label="Your neighborhood. Drag to look around."
+    ></canvas>
+    <div id="hud">
+      <header>
+        <div class="brand">
+          <span class="brand-mark">▥</span>
+          <div>
+            <b>LITTLE BLOCK LANE</b><small>Your own little world</small>
+          </div>
+        </div>
+        <div class="header-actions">
+          <span id="saved" aria-live="polite">Ready</span
+          ><button
+            id="home"
+            aria-label="Return home"
+            title="Return home"
+          ></button
+          ><button
+            id="speaker"
+            aria-label="Replay hint"
+            title="Replay hint"
+          ></button
+          ><button
+            id="menu"
+            aria-label="Open grown-up menu"
+            title="Grown-up menu"
+          ></button>
+        </div>
+      </header>
+      <div id="crosshair" aria-hidden="true">+</div>
+      <div id="toast" role="status" aria-live="polite"></div>
+      <div id="context"><button id="use"></button></div>
+      <div id="buildHud" hidden>
+        <div id="palette" role="group" aria-label="Building pieces"></div>
+        <span id="buildHint">Look at a clear space · tap +</span>
+      </div>
+      <div
+        id="joystick"
+        role="application"
+        aria-label="Move joystick. Slide up to walk forward."
+      >
+        <span class="north">▲</span>
+        <div id="knob"></div>
+        <span class="joy-label">MOVE</span>
+      </div>
+      <div id="actions">
+        <button
+          id="build"
+          aria-label="Toggle building"
+          aria-pressed="false"
+        ></button
+        ><button id="undo" aria-label="Undo last building action"></button
+        ><button
+          id="remove"
+          aria-label="Remove your targeted piece"
+          hidden
+        ></button
+        ><button id="place" aria-label="Place selected piece" hidden></button
+        ><button id="jump" aria-label="Jump"></button>
+      </div>
+      <div id="lookHint">Drag to look</div>
+      <pre id="stats" hidden></pre>
+    </div>
+    <div id="welcome" class="overlay">
+      <section
+        class="welcome-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="welcomeTitle"
+      >
+        <span class="eyebrow">BLOCKWORLD · NEIGHBORHOOD 01</span>
+        <h1 id="welcomeTitle">Little Block<br /><em>Lane.</em></h1>
+        <p>A little place. Big ideas.</p>
+        <div class="welcome-pictures">
+          <span>⌂<small>Your house</small></span
+          ><span>▦<small>Make things</small></span
+          ><span>▥<small>Build anything</small></span>
+        </div>
+        <button id="play" class="primary">Let’s play <span>➜</span></button>
+        <p class="tiny">
+          Move with the round stick. Drag to look.<br />Unlimited blocks. No
+          rush. Just play.
+        </p>
+        <span class="release">A small first adventure · v0.1</span>
+      </section>
+    </div>
+    <div id="craft" class="overlay" hidden>
+      <section
+        class="card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="craftTitle"
+      >
+        <button class="close" data-close aria-label="Close crafting">×</button
+        ><span class="eyebrow">YOUR WORKBENCH</span>
+        <h2 id="craftTitle">What shall we make?</h2>
+        <p>Choose a picture, then find a spot for it.</p>
+        <div id="recipes"></div>
+        <p class="tiny">Wood and stone are always ready to use. ∞</p>
+      </section>
+    </div>
+    <div id="settings" class="overlay" hidden>
+      <section
+        class="card settings"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="settingsTitle"
+      >
+        <button class="close" data-close aria-label="Close menu">×</button
+        ><span class="eyebrow">FOR GROWN-UPS</span>
+        <h2 id="settingsTitle">Take a little pause</h2>
+        <p id="saveStatus">Progress saves on this browser when available.</p>
+        <div class="menu-grid">
+          <button id="export">↓ Export save</button
+          ><label class="file-button"
+            >↑ Import save<input
+              id="import"
+              type="file"
+              accept=".json,application/json" /></label
+          ><button id="fullscreen">⛶ Full screen</button
+          ><button id="diagnostics">Performance</button
+          ><button id="quality">Quality: gentle</button
+          ><button id="subtitles">Hints: on</button>
+        </div>
+        <div class="instructions">
+          <b>How to play</b>
+          <p>
+            Left stick: walk · drag the world: look · ↑: jump.<br />Door
+            picture: open / close. Table picture: craft.<br />Hammer: build ·
+            choose a piece · +: place · −: remove your pieces · ↶: undo.
+          </p>
+          <p>
+            Desktop: WASD / arrows, drag to look, Space jump, E use, B build, F
+            place, R remove, Z undo. Esc closes a menu.
+          </p>
+          <p>
+            There are no voice recordings yet. The speaker replays a written
+            hint. Progress belongs to this browser / file location. Export a
+            backup before moving the game.
+          </p>
+          <p id="offlineNote">
+            This game contains its renderer and art. It makes no network
+            requests.
+          </p>
+        </div>
+        <button id="resume" class="primary">Back to play ➜</button>
+        <div id="importError" role="alert"></div>
+      </section>
+    </div>
+    <div id="fatal" class="overlay" hidden>
+      <section class="card">
+        <h2>We couldn’t start the world</h2>
+        <p id="fatalMessage">
+          Please try a recent Chrome browser with WebGL enabled.
+        </p>
+      </section>
+    </div>
+    <noscript
+      >This game needs JavaScript. Open this HTML file in Chrome.</noscript
+    >
+    <script>
+      /* GAME */
+    </script>
+  </body>
+</html>

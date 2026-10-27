@@ -1,0 +1,15 @@
+{
+  "welcome": {"text":"Welcome home! There is a whole little world to build.","file":null},
+  "move": {"text":"Move with the round stick. Drag the sky to look around.","file":null},
+  "home": {"text":"This is your house. Come inside!","file":null},
+  "door": {"text":"Tap the door picture to open your door.","file":null},
+  "craft": {"text":"Choose a picture. What shall we make?","file":null},
+  "made": {"text":"You made it! Now find a lovely spot for it.","file":null},
+  "build": {"text":"Choose a block, look at a clear space, and tap plus.","file":null},
+  "placed": {"text":"A new piece for your world!","file":null},
+  "undo": {"text":"You can undo your last building step.","file":null},
+  "hint": {"text":"Would you like to build a little garden wall?","file":null},
+  "gather": {"text":"Look for something special on our walk.","file":null},
+  "tryAgain": {"text":"Let us try together. Take your time.","file":null},
+  "success": {"text":"You worked it out!","file":null}
+}
