@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-27T08:23:27.579Z",
+  "browser": "154.0.8037.57",
+  "renderer": "Chromium headless / ANGLE SwiftShader software graphics",
+  "results": [
+    "standalone startup has WebGL scene and four distinct houses",
+    "W walks toward the home, closed door stops entry, use opens it, walking enters",
+    "jump rises and returns to floor; menu pauses movement and releases held input",
+    "actual nearby crafting table opens illustrated recipes and makes a bench",
+    "build button places selected cell, remove recovers it, undo restores it",
+    "autosave/reload preserves building, crafted inventory and open door",
+    "export produces JSON; malformed import leaves current game intact",
+    "offline interaction works with network disabled and no asset requests",
+    "800-piece stress save loads and remains functional",
+    "touch controls, camera, cancel, and layout at 1024×600",
+    "touch controls, camera, cancel, and layout at 600×960",
+    "touch controls, camera, cancel, and layout at 390×844"
+  ],
+  "baseline": {
+    "fps": 23,
+    "drawCalls": 28,
+    "triangles": 4928,
+    "geometries": 31,
+    "textures": 2,
+    "heapMB": 11.4,
+    "rebuildMs": 0.2,
+    "firstFrameMs": 136,
+    "frameP95": 233.3,
+    "blocks": 3
+  },
+  "stress": {
+    "fps": 7,
+    "drawCalls": 10,
+    "triangles": 3060,
+    "geometries": 6,
+    "textures": 0,
+    "heapMB": 13.2,
+    "rebuildMs": 1.5,
+    "firstFrameMs": 55,
+    "frameP95": 233.3,
+    "blocks": 800
+  },
+  "mobileResults": [
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "stats": {
+        "fps": 9,
+        "drawCalls": 31,
+        "triangles": 5034,
+        "geometries": 19,
+        "textures": 1,
+        "heapMB": 6.2,
+        "rebuildMs": 0.1,
+        "firstFrameMs": 286,
+        "frameP95": 166.7,
+        "blocks": 1
+      }
+    },
+    {
+      "viewport": {
+        "width": 600,
+        "height": 960
+      },
+      "stats": {
+        "fps": 7,
+        "drawCalls": 23,
+        "triangles": 4876,
+        "geometries": 16,
+        "textures": 1,
+        "heapMB": 6.2,
+        "rebuildMs": 0.1,
+        "firstFrameMs": 271,
+        "frameP95": 99.9,
+        "blocks": 1
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stats": {
+        "fps": 19,
+        "drawCalls": 22,
+        "triangles": 4872,
+        "geometries": 16,
+        "textures": 1,
+        "heapMB": 7.5,
+        "rebuildMs": 0.2,
+        "firstFrameMs": 233,
+        "frameP95": 66.5,
+        "blocks": 1
+      }
+    }
+  ],
+  "requests": [
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1"
+  ],
+  "errors": []
+}

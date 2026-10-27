@@ -353,7 +353,16 @@ export function makeWorld(scene) {
     roof.rotation.y = h.angle;
     scene.add(roof);
     // A flat underside makes jumping inside predictable. No invisible facade wall.
-    put(0, 3.015, 0, w + 0.8, 0.09, d + 0.8, h.roof, true);
+    put(
+      0,
+      3.015,
+      0,
+      h.style === "shed" ? w : w + 0.8,
+      0.09,
+      h.style === "shed" ? d : d + 0.8,
+      h.style === "shed" ? h.wall : h.roof,
+      true,
+    );
     for (const x of [-w / 2, w / 2])
       put(x, 1.5, front + 0.08, 0.13, 3, 0.14, white);
     // Porch canopy and columns, grounded directly at path height.

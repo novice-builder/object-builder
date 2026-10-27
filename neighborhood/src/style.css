@@ -672,3 +672,9 @@ p {
     font-size: 10px;
   }
 }
+
+@media (max-width: 430px) {
+  #lookHint {
+    display: none;
+  }
+}
