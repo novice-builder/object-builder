@@ -1,41 +1,70 @@
-// Activate a touch button on pointer release. Some mobile browsers omit the
-// synthesized click after canceled multi-touch / camera gestures. Preserve
-// native keyboard and mouse click behavior and suppress only duplicate touch clicks.
+// Safari may emit MouseEvent clicks with no pointerType after pointerup.
+// Handle a touch once, preserving native mouse/keyboard actions and horizontal scrolling.
 export function installTouchButtons(root = document) {
-  const presses = new Map(),
-    activated = new WeakMap();
+  const presses = new Map();
+  let firing = false,
+    lastTouchFinish = -Infinity;
   root.addEventListener(
     "pointerdown",
     (e) => {
+      if (e.pointerType === "touch") lastTouchFinish = -Infinity;
       const button = e.target.closest?.("button");
       if (e.pointerType === "touch" && button && !button.disabled)
-        presses.set(e.pointerId, { button, x: e.clientX, y: e.clientY });
+        presses.set(e.pointerId, {
+          button,
+          x: e.clientX,
+          y: e.clientY,
+          moved: false,
+        });
+    },
+    true,
+  );
+  root.addEventListener(
+    "pointermove",
+    (e) => {
+      const p = presses.get(e.pointerId);
+      if (p && Math.hypot(e.clientX - p.x, e.clientY - p.y) > 10)
+        p.moved = true;
     },
     true,
   );
   root.addEventListener(
     "pointercancel",
-    (e) => presses.delete(e.pointerId),
+    (e) => {
+      const p = presses.get(e.pointerId);
+      if (p) {
+        lastTouchFinish = performance.now();
+      }
+      presses.delete(e.pointerId);
+    },
     true,
   );
   root.addEventListener(
     "pointerup",
     (e) => {
-      const press = presses.get(e.pointerId);
+      // World taps can open dialogs or preview controls beneath the finger too.
+      if (e.pointerType === "touch" && e.target.closest?.("#world"))
+        lastTouchFinish = performance.now();
+      const p = presses.get(e.pointerId);
       presses.delete(e.pointerId);
-      if (!press) return;
-      const r = press.button.getBoundingClientRect();
+      if (!p) return;
+      lastTouchFinish = performance.now();
+      const r = p.button.getBoundingClientRect();
       if (
-        !press.button.disabled &&
-        Math.hypot(e.clientX - press.x, e.clientY - press.y) < 24 &&
+        !p.moved &&
+        !p.button.disabled &&
         e.clientX >= r.left &&
         e.clientX <= r.right &&
         e.clientY >= r.top &&
         e.clientY <= r.bottom
       ) {
-        activated.set(press.button, performance.now());
         e.preventDefault();
-        press.button.click();
+        firing = true;
+        try {
+          p.button.click();
+        } finally {
+          firing = false;
+        }
       }
     },
     true,
@@ -43,13 +72,11 @@ export function installTouchButtons(root = document) {
   root.addEventListener(
     "click",
     (e) => {
-      const button = e.target.closest?.("button"),
-        last = button && activated.get(button);
-      if (
-        e.pointerType === "touch" &&
-        last !== undefined &&
-        performance.now() - last < 1200
-      ) {
+      const touchClick =
+        e.pointerType === "touch" ||
+        e.sourceCapabilities?.firesTouchEvents ||
+        (!e.pointerType && e.detail > 0);
+      if (!firing && touchClick && performance.now() - lastTouchFinish < 1200) {
         e.preventDefault();
         e.stopImmediatePropagation();
       }

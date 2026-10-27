@@ -7,7 +7,7 @@
       content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"
     />
     <meta name="theme-color" content="#356b61" />
-    <title>Little Block Lane · BlockWorld Neighborhood 01</title>
+    <title>Little Block Lane · BlockWorld Neighborhood 02</title>
     <style>
       /* STYLES */
     </style>
@@ -47,9 +47,13 @@
       <div id="crosshair" aria-hidden="true">+</div>
       <div id="toast" role="status" aria-live="polite"></div>
       <div id="context"><button id="use"></button></div>
-      <div id="buildHud" hidden>
-        <div id="palette" role="group" aria-label="Building pieces"></div>
-        <span id="buildHint">Look at a clear space · tap +</span>
+      <div id="buildHud">
+        <div
+          id="palette"
+          role="group"
+          aria-label="Hotbar: swipe to choose a piece"
+        ></div>
+        <span id="buildHint">Empty hand · tap a door or table</span>
       </div>
       <div
         id="joystick"
@@ -61,20 +65,31 @@
         <span class="joy-label">MOVE</span>
       </div>
       <div id="actions">
-        <button
-          id="build"
-          aria-label="Toggle building"
-          aria-pressed="false"
-        ></button
-        ><button id="undo" aria-label="Undo last building action"></button
+        <button id="undo" aria-label="Undo last building action"></button
         ><button
           id="remove"
           aria-label="Remove your targeted piece"
           hidden
         ></button
-        ><button id="place" aria-label="Place selected piece" hidden></button
+        ><button id="place" aria-label="Place at crosshair" hidden></button
         ><button id="jump" aria-label="Jump"></button>
       </div>
+      <div id="placementControls" hidden>
+        <div id="placementStatus" role="status"></div>
+        <div class="placement-buttons">
+          <button id="cancelPlace" aria-label="Cancel placement"></button>
+          <button id="rotate90" aria-label="Rotate preview 90 degrees"></button>
+          <button
+            id="rotateFine"
+            aria-label="Rotate preview 15 degrees"
+          ></button>
+          <button
+            id="confirmPlace"
+            aria-label="Confirm object placement"
+          ></button>
+        </div>
+      </div>
+      <div id="holdIndicator" hidden aria-hidden="true"></div>
       <div id="lookHint">Drag to look</div>
       <pre id="stats" hidden></pre>
     </div>
@@ -85,7 +100,7 @@
         aria-modal="true"
         aria-labelledby="welcomeTitle"
       >
-        <span class="eyebrow">BLOCKWORLD · NEIGHBORHOOD 01</span>
+        <span class="eyebrow">BLOCKWORLD · NEIGHBORHOOD 02</span>
         <h1 id="welcomeTitle">Little Block<br /><em>Lane.</em></h1>
         <p>A little place. Big ideas.</p>
         <div class="welcome-pictures">
@@ -98,7 +113,7 @@
           Move with the round stick. Drag to look.<br />Unlimited blocks. No
           rush. Just play.
         </p>
-        <span class="release">A small first adventure · v0.1</span>
+        <span class="release">Touch & play · v0.2</span>
       </section>
     </div>
     <div id="craft" class="overlay" hidden>
@@ -127,7 +142,15 @@
         ><span class="eyebrow">FOR GROWN-UPS</span>
         <h2 id="settingsTitle">Take a little pause</h2>
         <p id="saveStatus">Progress saves on this browser when available.</p>
+        <p id="settingsFeedback" role="status" aria-live="polite">
+          Choose a setting below.
+        </p>
         <div class="menu-grid">
+          <button id="placementMode">Placement: Direct touch</button>
+          <button id="autoStep" aria-pressed="false">Auto-step: off</button>
+          <button id="edgeProtection" aria-pressed="false">
+            Edge protection: off
+          </button>
           <button id="export">↓ Export save</button
           ><label class="file-button"
             >↑ Import save<input
@@ -139,16 +162,34 @@
           ><button id="quality">Quality: gentle</button
           ><button id="subtitles">Hints: on</button>
         </div>
+        <pre id="menuStats" hidden aria-label="Live performance readings"></pre>
+        <details id="backupFallback" hidden>
+          <summary>Backup text (if saving a file is unavailable)</summary>
+          <textarea
+            id="backupText"
+            readonly
+            aria-label="Save backup JSON"
+            rows="5"
+          ></textarea>
+          <button id="copyBackup">Copy backup text</button>
+        </details>
         <div class="instructions">
           <b>How to play</b>
           <p>
-            Left stick: walk · drag the world: look · ↑: jump.<br />Door
-            picture: open / close. Table picture: craft.<br />Hammer: build ·
-            choose a piece · +: place · −: remove your pieces · ↶: undo.
+            Left stick: walk · drag the world: look · ↑: jump.<br />
+            Choose a hotbar picture, then tap a spot to build. Swipe the bar for
+            more.<br />
+            Empty hand: tap a door or table. Hold a built piece to put it away.
+            ↶: undo.<br />
+            Furniture: tap a spot, rotate the preview, then tap the tick.<br />
+            Auto-step and edge protection are independent options. With edge
+            protection on, Jump or choose Hand to step off a ledge.
           </p>
           <p>
-            Desktop: WASD / arrows, drag to look, Space jump, E use, B build, F
-            place, R remove, Z undo. Esc closes a menu.
+            Desktop: WASD / arrows, drag to look, Space jump, E use, 0 empty
+            hand, 1–7 pieces, F place, R remove (or rotate a preview), Shift+R
+            fine rotation, Enter confirm, Z undo. Esc cancels a preview or
+            opens/closes the menu.
           </p>
           <p>
             There are no voice recordings yet. The speaker replays a written

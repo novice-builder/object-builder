@@ -536,8 +536,8 @@ export function makeWorld(scene) {
     batches,
   };
 }
-export function doorBox(door, open = door.open) {
-  const a = door.baseAngle + (open ? -Math.PI / 2 : 0),
+export function doorBox(door, open = door.open, swing = door.swing ?? -1) {
+  const a = door.baseAngle + (open ? (swing * Math.PI) / 2 : 0),
     c = Math.cos(a),
     s = Math.sin(a),
     cx = door.hinge.x + (c * door.width) / 2,

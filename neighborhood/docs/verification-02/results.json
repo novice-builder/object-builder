@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-27T11:20:39.682Z",
+  "browser": "154.0.8037.57",
+  "renderer": "Chromium / ANGLE SwiftShader, mobile and iPhone-UA emulation; not physical iPhone Safari",
+  "results": [
+    "01 baseline save opens in 02 without losing progress or changing static neighborhood geometry",
+    "permanent hotbar includes empty hand; direct mode has no persistent ghost or crosshair",
+    "ordinary direct tap places immediately, a drag only looks, and a stationary hold removes once",
+    "holding empty ground and cancelling a touch never place a block",
+    "crafting produces an item; its exact translucent preview rotates without consuming inventory, and Cancel is safe",
+    "explicit furniture confirmation preserves orientation through save/reload and Undo",
+    "all four doors work from both sides, including a Safari-shaped duplicate click and closed-door collision",
+    "empty hand can tap the door panel and crafting table directly",
+    "crosshair is optional; tapping the world does not build in this mode, Place does",
+    "scrollable hotbar, multi-touch walk/look and clean layout 390x844",
+    "furniture preview, rotation and confirmation fit 390x844",
+    "every setting gives visible feedback; unavailable fullscreen/export have iPhone fallback 390x844",
+    "scrollable hotbar, multi-touch walk/look and clean layout 844x390",
+    "furniture preview, rotation and confirmation fit 844x390",
+    "every setting gives visible feedback; unavailable fullscreen/export have iPhone fallback 844x390",
+    "scrollable hotbar, multi-touch walk/look and clean layout 1024x600",
+    "furniture preview, rotation and confirmation fit 1024x600",
+    "every setting gives visible feedback; unavailable fullscreen/export have iPhone fallback 1024x600"
+  ],
+  "errors": [],
+  "requests": [
+    "http://localhost:8080/baseline?test=1",
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1",
+    "http://localhost:8080/?test=1"
+  ],
+  "releaseSha256": "3926418bfaa953fd68fcf463c1fd7424a77bdce7738e55a56ab860d343000815",
+  "baselineSha256": "f056eb09efe09b59c949805a3c467ea40f39fc209c5556733aad588e6c7c45c6"
+}

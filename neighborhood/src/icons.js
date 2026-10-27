@@ -5,6 +5,12 @@ const stroke = (s) =>
     `<g stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">${s}</g>`,
   );
 export const icons = {
+  hand: stroke(
+    '<path d="M14 25V15q0-5 4-5t4 5v8-14q0-5 4-5t4 5v14-11q0-4 4-4t4 4v15q0 13-12 15h-5q-5-1-8-7L7 25q-2-4 1-6t6 6z"/>',
+  ),
+  rotate: stroke('<path d="M36 16A16 16 0 1 0 40 31M36 5v12H24"/>'),
+  confirm: stroke('<path d="M8 25l10 11L40 12"/>'),
+  cancel: stroke('<path d="M12 12l24 24M36 12L12 36"/>'),
   home: stroke('<path d="M5 22L24 6l19 16M10 20v22h28V20M20 42V28h9v14"/>'),
   speaker: stroke(
     '<path d="M6 19h9L26 9v30L15 29H6zM33 16q9 8 0 16M38 10q15 14 0 28"/>',
@@ -42,6 +48,7 @@ export const icons = {
   ),
 };
 export const names = {
+  hand: "Hand",
   wood: "Wood",
   brick: "Brick",
   stone: "Stone",

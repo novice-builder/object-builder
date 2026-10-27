@@ -23,6 +23,9 @@ import { icons, names } from "./icons.js";
 import { Voice } from "./dialogue.js";
 import { blockTexture } from "./textures.js";
 import { installTouchButtons } from "./touch-buttons.js";
+import { installWorldGestures } from "./gestures.js";
+import { detailedPiece } from "./pieces.js";
+import { doorOperation } from "./doors.js";
 const $ = (id) => document.getElementById(id),
   SAVE_KEY = "blockworld.neighborhood.01",
   bootStart = performance.now();
@@ -62,7 +65,8 @@ let state = freshState(),
   history = new BuildHistory(),
   started = false,
   modal = "welcome",
-  building = false,
+  pending = null,
+  worldGestures = null,
   target = null,
   aim = null,
   saveOK = true,
@@ -75,10 +79,39 @@ let saveTimer;
 const keys = new Set(),
   stick = { x: 0, y: 0 };
 let joyPointer = null,
-  lookPointer = null,
-  lastLook = null,
-  totalLook = 0,
-  returnFocus = null;
+  returnFocus = null,
+  lastContextSignature = null,
+  lastPaletteSelection = null;
+const PREFS_KEY = "blockworld.neighborhood.controls.v2";
+const preferences = {
+  placement: "direct",
+  autoStep: false,
+  edgeProtection: false,
+  quality: false,
+  subtitles: true,
+};
+try {
+  const saved = JSON.parse(localStorage.getItem(PREFS_KEY) || "{}");
+  for (const k of ["autoStep", "edgeProtection", "quality", "subtitles"])
+    if (typeof saved[k] === "boolean") preferences[k] = saved[k];
+  if (saved.placement === "crosshair") preferences.placement = "crosshair";
+} catch {}
+function savePreferences() {
+  try {
+    localStorage.setItem(PREFS_KEY, JSON.stringify(preferences));
+  } catch {
+    settingsFeedback(
+      "Controls updated for this session; this browser cannot remember settings here.",
+    );
+  }
+}
+function settingsFeedback(text) {
+  $("settingsFeedback").textContent = text;
+}
+function ndcAt(x, y) {
+  return new T.Vector2((x / innerWidth) * 2 - 1, 1 - (y / innerHeight) * 2);
+}
+
 const dynamicGroup = new T.Group();
 scene.add(dynamicGroup);
 let dynamicRayMeshes = [];
@@ -115,6 +148,7 @@ function notice(text) {
   notice.timer = setTimeout(() => ($("toast").style.opacity = 0), 3600);
 }
 const voice = new Voice(notice);
+voice.subtitles = preferences.subtitles;
 function syncPlayer() {
   state.player = {
     x: player.x,
@@ -123,7 +157,11 @@ function syncPlayer() {
     yaw: player.yaw,
     pitch: player.pitch,
   };
-  for (const d of world.doors) state.doors[d.id] = d.open;
+  state.doorSwings ??= {};
+  for (const d of world.doors) {
+    state.doors[d.id] = d.open;
+    state.doorSwings[d.id] = d.swing ?? -1;
+  }
 }
 function save() {
   clearTimeout(saveTimer);
@@ -154,15 +192,20 @@ function rebuildSolids() {
   solidCache = [
     ...world.solids,
     ...world.doors.map((d) => doorBox(d)),
-    ...state.blocks.map(cellBox),
+    ...state.blocks.map((b) => ({
+      ...cellBox(b),
+      step: COMMON.includes(b.type),
+    })),
   ];
 }
 function applyState(next) {
+  cancelPlacement();
   state = next;
   player = { ...state.player, vy: 0, grounded: state.player.y === 0 };
   for (const d of world.doors) {
     d.open = state.doors[d.id] === true;
-    d.pivot.rotation.y = d.baseAngle + (d.open ? -Math.PI / 2 : 0);
+    d.swing = state.doorSwings?.[d.id] === 1 ? 1 : -1;
+    d.pivot.rotation.y = d.baseAngle + (d.open ? (d.swing * Math.PI) / 2 : 0);
   }
   history = new BuildHistory();
   rebuildSolids();
@@ -218,37 +261,11 @@ function rebuildPieces() {
     dynamicRayMeshes.push(mesh);
   }
   for (const b of state.blocks.filter((b) => SPECIAL.includes(b.type))) {
-    const group = new T.Group();
-    group.position.set(b.x, b.y, b.z);
+    const group = detailedPiece(b, commonGeometry, decorMat);
     dynamicGroup.add(group);
-    const box = (x, y, z, w, h, d, c) => {
-      const mesh = new T.Mesh(commonGeometry, decorMat(c));
-      mesh.position.set(x, y, z);
-      mesh.scale.set(w, h, d);
-      mesh.userData.block = b;
-      group.add(mesh);
-      dynamicRayMeshes.push(mesh);
-    };
-    if (b.type === "flowers") {
-      box(0.5, 0.16, 0.5, 0.6, 0.32, 0.6, 0xb47a50);
-      box(0.5, 0.48, 0.5, 0.06, 0.64, 0.06, 0x568859);
-      box(0.5, 0.78, 0.5, 0.46, 0.18, 0.46, 0xdd9b83);
-      box(0.5, 0.89, 0.5, 0.18, 0.06, 0.18, 0xf5d47b);
-    }
-    if (b.type === "lantern") {
-      box(0.5, 0.06, 0.5, 0.55, 0.12, 0.55, 0x5f746e);
-      box(0.5, 0.46, 0.5, 0.4, 0.7, 0.4, 0xf6ce73);
-      box(0.5, 0.87, 0.5, 0.6, 0.12, 0.6, 0x5f746e);
-      for (const x of [0.27, 0.73])
-        for (const z of [0.27, 0.73])
-          box(x, 0.46, z, 0.06, 0.75, 0.06, 0x5f746e);
-    }
-    if (b.type === "bench") {
-      box(0.5, 0.47, 0.5, 0.94, 0.12, 0.64, 0xad7c50);
-      box(0.5, 0.77, 0.77, 0.94, 0.4, 0.1, 0xad7c50);
-      for (const x of [0.12, 0.88])
-        for (const z of [0.25, 0.72]) box(x, 0.22, z, 0.1, 0.44, 0.1, 0x66766a);
-    }
+    group.traverse((m) => {
+      if (m.isMesh) dynamicRayMeshes.push(m);
+    });
   }
   dynamicGroup.updateMatrixWorld(true);
   rebuildSolids();
@@ -340,53 +357,122 @@ function rayBoxNear(r, b) {
   const p = r.intersectBox(tempBox, tempHit);
   return p ? r.origin.distanceTo(p) : Infinity;
 }
-function place(ndc) {
-  if (!building || modal) return false;
-  targetAt(ndc);
-  const reason = placementReason(
-    aim,
-    state,
-    [...world.solids, ...world.doors.map((d) => doorBox(d))],
-    player,
-  );
+const previewGroup = new T.Group();
+scene.add(previewGroup);
+const previewMaterials = new Map();
+function previewMat(color) {
+  if (!previewMaterials.has(color))
+    previewMaterials.set(
+      color,
+      new T.MeshLambertMaterial({
+        color,
+        transparent: true,
+        opacity: 0.58,
+        depthWrite: false,
+      }),
+    );
+  return previewMaterials.get(color);
+}
+function placementObstacles() {
+  return [...world.solids, ...world.doors.map((d) => doorBox(d))];
+}
+function commitPiece(b) {
+  const reason = placementReason(b, state, placementObstacles(), player);
   if (reason) {
     notice(reason);
     return false;
   }
-  const b = { ...aim };
-  state.blocks.push(b);
-  if (SPECIAL.includes(b.type)) state.inventory[b.type]--;
-  history.record({ kind: "place", block: b });
+  const piece = { ...b };
+  state.blocks.push(piece);
+  if (SPECIAL.includes(piece.type)) state.inventory[piece.type]--;
+  history.record({ kind: "place", block: piece });
   rebuildPieces();
   updatePalette();
   scheduleSave();
   voice.play("placed");
-  notice("✓ " + names[b.type] + " placed");
+  notice("✓ " + names[piece.type] + " placed");
   return true;
 }
-function remove() {
-  if (!building || modal) return false;
-  targetAt();
-  if (!target) {
-    notice("Point at one of your pieces");
+function cancelPlacement() {
+  pending = null;
+  previewGroup.clear();
+  $("placementControls").hidden = true;
+}
+function renderPreview() {
+  previewGroup.clear();
+  if (!pending) return;
+  previewGroup.add(detailedPiece(pending, commonGeometry, previewMat));
+  const reason = placementReason(pending, state, placementObstacles(), player);
+  $("confirmPlace").disabled = !!reason;
+  $("placementStatus").textContent =
+    reason || `${names[pending.type]} · ${pending.rotation}°`;
+  $("placementControls").hidden = false;
+}
+function place(ndc) {
+  if (modal || state.selected === "hand") return false;
+  targetAt(ndc);
+  const reason = placementReason(aim, state, placementObstacles(), player);
+  if (reason) {
+    notice(reason);
     return false;
   }
-  const b = { ...target };
-  state.blocks = state.blocks.filter((a) => key(a) !== key(b));
-  if (SPECIAL.includes(b.type)) state.inventory[b.type]++;
-  history.record({ kind: "remove", block: b });
+  if (SPECIAL.includes(aim.type)) {
+    const rotation =
+      pending?.type === aim.type
+        ? pending.rotation
+        : (((Math.round((player.yaw + Math.PI) / (Math.PI / 2)) * 90) % 360) +
+            360) %
+          360;
+    pending = { ...aim, rotation };
+    renderPreview();
+    notice("Turn it, then tap the tick to place");
+    return true;
+  }
+  return commitPiece(aim);
+}
+function confirmPlacement() {
+  if (modal || !pending) return false;
+  const b = { ...pending };
+  if (!commitPiece(b)) return false;
+  cancelPlacement();
+  return true;
+}
+function rotatePlacement(degrees = 90) {
+  if (!pending) return;
+  pending.rotation = (((pending.rotation + degrees) % 360) + 360) % 360;
+  renderPreview();
+}
+function removePiece(b) {
+  if (modal || !b) return false;
+  const index = state.blocks.findIndex((p) => key(p) === key(b));
+  if (index < 0) return false;
+  const piece = { ...state.blocks[index] };
+  state.blocks.splice(index, 1);
+  if (SPECIAL.includes(piece.type)) state.inventory[piece.type]++;
+  history.record({ kind: "remove", block: piece });
   rebuildPieces();
   updatePalette();
   scheduleSave();
   notice("Piece put away");
   return true;
 }
+function remove(ndc) {
+  if (modal) return false;
+  targetAt(ndc);
+  if (!target) {
+    notice("Hold one of your pieces to put it away");
+    return false;
+  }
+  return removePiece(target);
+}
 function undo() {
   if (modal) return false;
-  const result = history.undo(state, player, [
-    ...world.solids,
-    ...world.doors.map((d) => doorBox(d)),
-  ]);
+  if (pending) {
+    cancelPlacement();
+    notice("Preview cancelled");
+    return true;
+  }
+  const result = history.undo(state, player, placementObstacles());
   if (result) {
     rebuildPieces();
     updatePalette();
@@ -402,22 +488,63 @@ function undo() {
   return result;
 }
 function updatePalette() {
-  $("palette").innerHTML = ITEMS.map(
-    (t) =>
-      `<button data-item="${t}" aria-label="Choose ${names[t]}${SPECIAL.includes(t) ? ", " + state.inventory[t] + " available" : ", unlimited"}" aria-pressed="${state.selected === t}">${icons[t]}<small>${names[t]}</small><span class="count">${COMMON.includes(t) ? "∞" : state.inventory[t]}</span></button>`,
-  ).join("");
-  $("undo").disabled = history.past.length === 0;
+  const palette = $("palette"),
+    scroll = palette.scrollLeft;
+  if (!palette.children.length)
+    palette.innerHTML = ["hand", ...ITEMS]
+      .map(
+        (t) =>
+          `<button data-item="${t}" aria-label="Choose ${names[t]}">${icons[t]}<small>${names[t]}</small><span class="count"></span></button>`,
+      )
+      .join("");
+  for (const button of palette.children) {
+    const t = button.dataset.item;
+    button.setAttribute("aria-pressed", String(state.selected === t));
+    button.querySelector(".count").textContent = COMMON.includes(t)
+      ? "∞"
+      : SPECIAL.includes(t)
+        ? state.inventory[t]
+        : "";
+  }
+  palette.scrollLeft = scroll;
+  if (state.selected !== lastPaletteSelection) {
+    lastPaletteSelection = state.selected;
+    ensureSelectedVisible();
+  }
+  $("undo").disabled = !pending && !history.past.length;
+  updateInteractionUI();
 }
-function toggleBuild(force) {
-  building = force ?? !building;
-  $("buildHud").hidden = !building;
-  $("place").hidden = !building;
-  $("remove").hidden = !building;
-  $("build").setAttribute("aria-pressed", String(building));
-  $("lookHint").textContent = building
-    ? "Drag to aim · tap a space to build"
-    : "Drag to look";
-  if (building) voice.play("build");
+function ensureSelectedVisible() {
+  const palette = $("palette"),
+    button = palette.querySelector(`[data-item="${state.selected}"]`);
+  if (!button) return;
+  const p = palette.getBoundingClientRect(),
+    b = button.getBoundingClientRect();
+  if (b.right > p.right - 8) palette.scrollLeft += b.right - p.right + 8;
+  else if (b.left < p.left + 8) palette.scrollLeft += b.left - p.left - 8;
+}
+function updateInteractionUI() {
+  const cross = preferences.placement === "crosshair";
+  $("crosshair").hidden = !cross;
+  $("place").hidden = !cross || state.selected === "hand";
+  $("remove").hidden = !cross;
+  $("placementMode").textContent =
+    "Placement: " + (cross ? "Crosshair" : "Direct touch");
+  $("autoStep").textContent =
+    "Auto-step: " + (preferences.autoStep ? "on" : "off");
+  $("autoStep").setAttribute("aria-pressed", String(preferences.autoStep));
+  $("edgeProtection").textContent =
+    "Edge protection: " + (preferences.edgeProtection ? "on" : "off");
+  $("edgeProtection").setAttribute(
+    "aria-pressed",
+    String(preferences.edgeProtection),
+  );
+  $("buildHint").textContent =
+    state.selected === "hand"
+      ? "Empty hand · tap a door or table"
+      : cross
+        ? "Aim with + · use Place"
+        : "Tap to place · hold a piece to put it away";
 }
 function jump() {
   if (started && !modal && player.grounded) {
@@ -453,22 +580,55 @@ function nearestUse() {
   return best ? { kind: "door", door: best } : null;
 }
 function toggleDoor(d) {
-  const next = doorBox(d, !d.open);
-  if (
-    overlaps(bodyBox(player), next) ||
-    state.blocks.some((b) => overlaps(cellBox(b), next))
-  ) {
-    notice("Make a little room for the door");
+  const result = doorOperation(d, player, state.blocks);
+  if (!result.ok) {
+    notice(result.message);
     return false;
   }
-  d.open = !d.open;
+  d.open = result.open;
+  d.swing = result.swing;
   state.doors[d.id] = d.open;
-  d.pivot.rotation.y = d.baseAngle + (d.open ? -Math.PI / 2 : 0);
+  state.doorSwings ??= {};
+  state.doorSwings[d.id] = d.swing;
+  d.pivot.rotation.y = d.baseAngle + (d.open ? (d.swing * Math.PI) / 2 : 0);
   rebuildSolids();
+  lastContextSignature = null;
   scheduleSave();
   if (d.open) voice.play("home");
   else notice("Door closed");
   return true;
+}
+function interactAt(ndc) {
+  updateCamera();
+  ray.setFromCamera(ndc, camera);
+  const candidates = [];
+  for (const door of world.doors) {
+    const distance = rayBoxNear(ray.ray, doorBox(door));
+    if (distance < 3 && Math.abs(player.y) < 2)
+      candidates.push({ kind: "door", door, distance });
+  }
+  const tableBox = {
+    minX: world.table.x - 0.7,
+    maxX: world.table.x + 0.7,
+    minZ: world.table.z - 0.55,
+    maxZ: world.table.z + 0.55,
+    minY: 0.75,
+    maxY: 1.05,
+  };
+  const distance = rayBoxNear(ray.ray, tableBox);
+  if (distance < 2.7) candidates.push({ kind: "table", distance });
+  const candidate = candidates.sort((a, b) => a.distance - b.distance)[0];
+  if (!candidate) return;
+  // Jamb/wall occlusion is tested before the candidate surface.
+  if (
+    world.solids.some((b) => rayBoxNear(ray.ray, b) < candidate.distance - 0.12)
+  )
+    return;
+  if (candidate.kind === "door") toggleDoor(candidate.door);
+  else {
+    openModal("craft");
+    voice.play("craft");
+  }
 }
 function use() {
   if (modal) return;
@@ -487,7 +647,7 @@ function craft(type) {
   state.inventory[type]++;
   state.selected = type;
   closeModal();
-  toggleBuild(true);
+  cancelPlacement();
   updatePalette();
   scheduleSave();
   voice.play("made");
@@ -524,8 +684,7 @@ function clearInput() {
   keys.clear();
   stick.x = stick.y = 0;
   joyPointer = null;
-  lookPointer = null;
-  lastLook = null;
+  worldGestures?.cancel();
   $("knob").style.transform = "none";
 }
 function openModal(id) {
@@ -553,13 +712,13 @@ function start() {
   if (!saveOK)
     notice("Use the grown-up menu to export your progress before closing");
   $("world").focus();
+  updateInteractionUI();
 }
 function setupUI() {
   for (const id of [
     "home",
     "speaker",
     "menu",
-    "build",
     "undo",
     "remove",
     "place",
@@ -567,30 +726,53 @@ function setupUI() {
   ])
     $(id).innerHTML =
       icons[id] +
-      (["build", "undo", "remove", "place", "jump"].includes(id)
-        ? `<small>${{ build: "Build", undo: "Undo", remove: "Away", place: "Place", jump: "Jump" }[id]}</small>`
+      (["undo", "remove", "place", "jump"].includes(id)
+        ? `<small>${{ undo: "Undo", remove: "Away", place: "Place", jump: "Jump" }[id]}</small>`
         : "");
+  for (const [id, icon, label] of [
+    ["cancelPlace", "cancel", "Cancel"],
+    ["rotate90", "rotate", "90°"],
+    ["rotateFine", "rotate", "15°"],
+    ["confirmPlace", "confirm", "Place"],
+  ])
+    $(id).innerHTML = icons[icon] + `<small>${label}</small>`;
   $("recipes").innerHTML = SPECIAL.map(
     (t) =>
       `<button data-recipe="${t}" aria-label="Craft ${names[t]}">${icons[t]}<b>${names[t]}</b><small>${t === "lantern" ? "Stone + wood" : t === "flowers" ? "A little garden" : "Wood + wood"}<br>∞ → ${names[t]}</small></button>`,
   ).join("");
   $("play").onclick = start;
-  $("home").onclick = home;
-  $("speaker").onclick = () => voice.replay();
+  $("home").onclick = () => {
+    cancelPlacement();
+    home();
+  };
+  $("speaker").onclick = () => {
+    const subtitles = voice.subtitles;
+    voice.subtitles = true;
+    voice.replay();
+    voice.subtitles = subtitles;
+  };
   $("menu").onclick = () => openModal("settings");
   $("resume").onclick = closeModal;
   document
     .querySelectorAll("[data-close]")
     .forEach((b) => (b.onclick = closeModal));
-  $("build").onclick = () => toggleBuild();
   $("jump").onclick = jump;
   $("place").onclick = () => place();
-  $("remove").onclick = remove;
+  $("remove").onclick = () => remove();
   $("undo").onclick = undo;
   $("use").onclick = use;
+  $("cancelPlace").onclick = () => {
+    cancelPlacement();
+    updatePalette();
+    notice("Preview cancelled");
+  };
+  $("rotate90").onclick = () => rotatePlacement(90);
+  $("rotateFine").onclick = () => rotatePlacement(15);
+  $("confirmPlace").onclick = confirmPlacement;
   $("palette").onclick = (e) => {
     const b = e.target.closest("[data-item]");
     if (!b) return;
+    cancelPlacement();
     state.selected = b.dataset.item;
     updatePalette();
     scheduleSave();
@@ -605,58 +787,202 @@ function setupUI() {
     const b = e.target.closest("[data-recipe]");
     if (b) craft(b.dataset.recipe);
   };
-  $("export").onclick = () => {
-    save();
-    const url = URL.createObjectURL(
-        new Blob([JSON.stringify(state, null, 2)], {
-          type: "application/json",
-        }),
-      ),
-      a = document.createElement("a");
-    a.href = url;
-    a.download = "Little-Block-Lane-save.json";
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 2000);
-  };
+  $("import").addEventListener("click", () =>
+    settingsFeedback(
+      "Choose a saved JSON file. Progress stays unchanged until a valid save is selected.",
+    ),
+  );
+  $("import").addEventListener("cancel", () =>
+    settingsFeedback("Import cancelled. Your current progress is unchanged."),
+  );
   $("import").onchange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     try {
       if (file.size > 250000) throw Error("That file is too large");
-      const next = validateSave(JSON.parse(await file.text()), world.solids);
-      applyState(next);
+      applyState(validateSave(JSON.parse(await file.text()), world.solids));
       save();
-      $("importError").textContent = "Save opened. Your neighborhood is ready.";
+      settingsFeedback("Save opened. Your neighborhood is ready.");
     } catch (err) {
-      $("importError").textContent = "Could not open save: " + err.message;
+      settingsFeedback("Could not open save: " + err.message);
     }
     e.target.value = "";
   };
-  $("fullscreen").onclick = async () => {
-    try {
-      if (document.fullscreenElement) await document.exitFullscreen();
-      else if (document.documentElement.requestFullscreen)
-        await document.documentElement.requestFullscreen();
-      else
-        $("importError").textContent =
-          "Use your browser full-screen option on this device.";
-    } catch {
-      $("importError").textContent =
-        "Use your browser full-screen option on this device.";
-    }
-  };
+  $("export").onclick = exportSave;
+  $("copyBackup").onclick = copyBackup;
+  $("fullscreen").onclick = toggleFullscreen;
+  const fullscreenAvailable =
+    !!document.documentElement.requestFullscreen &&
+    document.fullscreenEnabled !== false;
+  $("fullscreen").textContent = fullscreenAvailable
+    ? "Full screen"
+    : "Full screen: unavailable";
   $("diagnostics").onclick = () => {
-    $("stats").hidden = !$("stats").hidden;
+    const visible = $("stats").hidden;
+    $("stats").hidden = !visible;
+    $("menuStats").hidden = !visible;
+    $("diagnostics").textContent = "Performance: " + (visible ? "on" : "off");
+    settingsFeedback(
+      visible
+        ? "Performance readings are shown below and during play."
+        : "Performance readings hidden.",
+    );
   };
   $("quality").onclick = () => {
-    highQuality = !highQuality;
-    renderer.setPixelRatio(Math.min(devicePixelRatio, highQuality ? 1.5 : 1));
-    $("quality").textContent = "Quality: " + (highQuality ? "crisp" : "gentle");
+    preferences.quality = !preferences.quality;
+    applyPreferences();
+    savePreferences();
+    settingsFeedback(
+      preferences.quality
+        ? devicePixelRatio > 1
+          ? "Crisp picture selected. Choose gentle if play feels slow."
+          : "Crisp selected. On this screen the resolution stays the same."
+        : "Gentle picture selected for smoother play.",
+    );
   };
   $("subtitles").onclick = () => {
-    voice.subtitles = !voice.subtitles;
-    $("subtitles").textContent = "Hints: " + (voice.subtitles ? "on" : "off");
+    preferences.subtitles = !preferences.subtitles;
+    applyPreferences();
+    savePreferences();
+    settingsFeedback(
+      "Written hints " +
+        (preferences.subtitles
+          ? "on."
+          : "off. The speaker button can still replay a hint."),
+    );
   };
+  $("placementMode").onclick = () => {
+    preferences.placement =
+      preferences.placement === "direct" ? "crosshair" : "direct";
+    cancelPlacement();
+    applyPreferences();
+    savePreferences();
+    settingsFeedback(
+      preferences.placement === "direct"
+        ? "Direct touch: choose a piece and tap its spot. Hold a built piece to remove it."
+        : "Crosshair: aim at the centre +, then press Place. Furniture still needs confirmation.",
+    );
+  };
+  for (const id of ["autoStep", "edgeProtection"])
+    $(id).onclick = () => {
+      preferences[id] = !preferences[id];
+      applyPreferences();
+      savePreferences();
+      settingsFeedback(
+        id === "autoStep"
+          ? preferences[id]
+            ? "Auto-step on: walk onto building blocks up to one metre, when there is room above."
+            : "Auto-step off: use Jump to climb."
+          : preferences[id]
+            ? "Edge protection on while holding a building piece. Jump or choose Hand to leave an edge."
+            : "Edge protection off: you can walk off edges normally.",
+      );
+    };
+  applyPreferences();
+}
+function applyPreferences() {
+  highQuality = preferences.quality;
+  voice.subtitles = preferences.subtitles;
+  renderer.setPixelRatio(Math.min(devicePixelRatio, highQuality ? 1.5 : 1));
+  $("quality").textContent = "Quality: " + (highQuality ? "crisp" : "gentle");
+  $("subtitles").textContent = "Hints: " + (voice.subtitles ? "on" : "off");
+  updateInteractionUI();
+}
+async function exportSave() {
+  save();
+  const text = JSON.stringify(state, null, 2);
+  $("backupText").value = text;
+  $("backupFallback").hidden = false;
+  const ios =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const file = new File([text], "Little-Block-Lane-save.json", {
+    type: "application/json",
+  });
+  if (ios && navigator.canShare?.({ files: [file] }) && navigator.share) {
+    settingsFeedback(
+      "Opening the share sheet. Choose Save to Files to keep a backup.",
+    );
+    try {
+      await navigator.share({
+        files: [file],
+        title: "Little Block Lane backup",
+      });
+      settingsFeedback(
+        "Sharing finished. Check Files for your backup; the backup text is also available below.",
+      );
+      return;
+    } catch (error) {
+      if (error.name === "AbortError") {
+        settingsFeedback(
+          "Share cancelled. Browser progress is unchanged; backup text is available below.",
+        );
+        return;
+      }
+    }
+  }
+  if (ios) {
+    $("backupFallback").open = true;
+    settingsFeedback(
+      "This iPhone browser may not save files from a local HTML game. Copy the backup text below if no download appears.",
+    );
+  } else
+    settingsFeedback(
+      "Download requested. Check Downloads; backup text is available below if needed.",
+    );
+  try {
+    const url = URL.createObjectURL(file),
+      a = document.createElement("a");
+    a.href = url;
+    a.download = file.name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } catch {
+    $("backupFallback").open = true;
+    settingsFeedback(
+      "File download is unavailable here. Use the backup text below.",
+    );
+  }
+}
+async function copyBackup() {
+  try {
+    if (!navigator.clipboard?.writeText) throw Error();
+    await navigator.clipboard.writeText($("backupText").value);
+    settingsFeedback(
+      "Backup text copied. Paste it into a text file to keep it.",
+    );
+  } catch {
+    $("backupText").focus();
+    $("backupText").select();
+    settingsFeedback(
+      "Backup text selected. Use your device’s Copy command to keep it.",
+    );
+  }
+}
+async function toggleFullscreen() {
+  if (
+    !document.documentElement.requestFullscreen ||
+    document.fullscreenEnabled === false
+  ) {
+    settingsFeedback(
+      "Fullscreen is unavailable in this browser on iPhone. Keep playing here; landscape gives more room.",
+    );
+    return;
+  }
+  try {
+    if (document.fullscreenElement) await document.exitFullscreen();
+    else await document.documentElement.requestFullscreen();
+    $("fullscreen").textContent = document.fullscreenElement
+      ? "Exit full screen"
+      : "Full screen";
+    settingsFeedback(
+      document.fullscreenElement ? "Full screen is on." : "Full screen is off.",
+    );
+  } catch {
+    settingsFeedback(
+      "This browser did not allow fullscreen. Keep playing here, or rotate to landscape.",
+    );
+  }
 }
 setupUI();
 installTouchButtons();
@@ -693,45 +1019,57 @@ for (const type of ["pointerup", "pointercancel", "lostpointercapture"])
   });
 const canvas = $("world");
 canvas.tabIndex = -1;
-canvas.addEventListener("pointerdown", (e) => {
-  if (modal || lookPointer !== null) return;
-  e.preventDefault();
-  lookPointer = e.pointerId;
-  canvas.setPointerCapture(e.pointerId);
-  lastLook = { x: e.clientX, y: e.clientY, start: performance.now() };
-  totalLook = 0;
-});
-canvas.addEventListener("pointermove", (e) => {
-  if (e.pointerId !== lookPointer || !lastLook) return;
-  const dx = e.clientX - lastLook.x,
-    dy = e.clientY - lastLook.y;
-  totalLook += Math.abs(dx) + Math.abs(dy);
-  player.yaw -= dx * 0.004;
-  player.pitch = clamp(player.pitch - dy * 0.0035, -1.3, 1.3);
-  lastLook.x = e.clientX;
-  lastLook.y = e.clientY;
-});
-canvas.addEventListener("pointerup", (e) => {
-  if (e.pointerId !== lookPointer || !lastLook) return;
-  if (building && totalLook < 9 && performance.now() - lastLook.start < 500)
-    place(
-      new T.Vector2(
-        (e.clientX / innerWidth) * 2 - 1,
-        1 - (e.clientY / innerHeight) * 2,
-      ),
-    );
-  lookPointer = null;
-  lastLook = null;
-  scheduleSave();
-});
-for (const type of ["pointercancel", "lostpointercapture"])
-  canvas.addEventListener(type, (e) => {
-    if (e.pointerId === lookPointer) {
-      lookPointer = null;
-      lastLook = null;
+let holdOrigin = null;
+worldGestures = installWorldGestures(canvas, {
+  canStart: () => started && !modal,
+  onStart: (press) => {
+    holdOrigin = {
+      x: player.x,
+      y: player.y,
+      z: player.z,
+      yaw: player.yaw,
+      pitch: player.pitch,
+    };
+    targetAt(ndcAt(press.x, press.y));
+    holdOrigin.key = target ? key(target) : null;
+    if (target) {
+      $("holdIndicator").hidden = false;
+      $("holdIndicator").style.left = press.x + "px";
+      $("holdIndicator").style.top = press.y + "px";
     }
-  });
-canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+  },
+  onIndicator: () => {
+    $("holdIndicator").hidden = true;
+  },
+  onHold: (x, y) => {
+    if (
+      !holdOrigin ||
+      Math.hypot(
+        player.x - holdOrigin.x,
+        player.y - holdOrigin.y,
+        player.z - holdOrigin.z,
+      ) > 0.08 ||
+      Math.abs(player.yaw - holdOrigin.yaw) +
+        Math.abs(player.pitch - holdOrigin.pitch) >
+        0.01
+    )
+      return;
+    targetAt(ndcAt(x, y));
+    if (target && key(target) === holdOrigin.key) {
+      cancelPlacement();
+      removePiece(target);
+    }
+  },
+  onTap: (x, y) => {
+    if (state.selected === "hand") interactAt(ndcAt(x, y));
+    else if (preferences.placement === "direct") place(ndcAt(x, y));
+  },
+  onLook: (dx, dy) => {
+    player.yaw -= dx * 0.004;
+    player.pitch = clamp(player.pitch - dy * 0.0035, -1.3, 1.3);
+  },
+  onEnd: scheduleSave,
+});
 addEventListener("keydown", (e) => {
   if (modal) {
     if (e.code === "Escape") {
@@ -768,15 +1106,23 @@ addEventListener("keydown", (e) => {
   const fn = {
     Space: jump,
     KeyE: use,
-    KeyB: () => toggleBuild(),
+    KeyB: () => {
+      state.selected = state.selected === "hand" ? "wood" : "hand";
+      cancelPlacement();
+      updatePalette();
+      scheduleSave();
+    },
     KeyF: () => place(),
-    KeyR: remove,
+    KeyR: () => (pending ? rotatePlacement(e.shiftKey ? 15 : 90) : remove()),
+    Enter: confirmPlacement,
     KeyZ: undo,
-    Escape: () => openModal("settings"),
+    Escape: () => (pending ? cancelPlacement() : openModal("settings")),
   };
   fn[e.code]?.();
-  if (/^Digit[1-7]$/.test(e.code)) {
-    state.selected = ITEMS[Number(e.code.at(-1)) - 1];
+  if (/^Digit[0-7]$/.test(e.code)) {
+    cancelPlacement();
+    state.selected =
+      e.code === "Digit0" ? "hand" : ITEMS[Number(e.code.at(-1)) - 1];
     updatePalette();
     scheduleSave();
   }
@@ -797,6 +1143,7 @@ addEventListener("resize", () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
+  ensureSelectedVisible();
 });
 canvas.addEventListener("webglcontextlost", (e) => {
   e.preventDefault();
@@ -812,7 +1159,8 @@ let previous = performance.now(),
   frames = 0,
   frameTimes = [],
   loadedMs = 0,
-  lastTarget = 0;
+  lastTarget = 0,
+  lastPreviewCheck = 0;
 function frame(now) {
   requestAnimationFrame(frame);
   const elapsed = now - previous,
@@ -827,7 +1175,18 @@ function frame(now) {
       (keys.has("KeyD") || keys.has("ArrowRight") ? 1 : 0) -
       (keys.has("KeyA") || keys.has("ArrowLeft") ? 1 : 0) +
       stick.x;
-    movePlayer(player, { forward, right }, dt, solidCache);
+    movePlayer(
+      player,
+      {
+        forward,
+        right,
+        autoStep: preferences.autoStep,
+        edgeProtection: preferences.edgeProtection && state.selected !== "hand",
+        allowDrop: keys.has("ShiftLeft") || keys.has("ShiftRight"),
+      },
+      dt,
+      solidCache,
+    );
     if (forward || right || player.vy) dirty = true;
     if (dirty && now - lastSave > 2200) save();
   }
@@ -836,13 +1195,26 @@ function frame(now) {
     lastTarget = now;
     nearby = nearestUse();
     $("use").disabled = !nearby;
-    if (nearby)
-      $("use").innerHTML =
-        nearby.kind === "table"
-          ? icons.table + "<span>Make something</span>"
-          : icons.door +
-            `<span>${nearby.door.open ? "Close" : "Open"} door</span>`;
-    if (building) {
+    const signature =
+      nearby?.kind === "table"
+        ? "table"
+        : nearby?.kind === "door"
+          ? `${nearby.door.id}:${nearby.door.open}`
+          : "none";
+    if (signature !== lastContextSignature) {
+      lastContextSignature = signature;
+      if (nearby)
+        $("use").innerHTML =
+          nearby.kind === "table"
+            ? icons.table + "<span>Make something</span>"
+            : icons.door +
+              `<span>${nearby.door.open ? "Close" : "Open"} door</span>`;
+    }
+    if (
+      preferences.placement === "crosshair" &&
+      state.selected !== "hand" &&
+      !pending
+    ) {
       targetAt();
       const reason = placementReason(
         aim,
@@ -850,7 +1222,7 @@ function frame(now) {
         [...world.solids, ...world.doors.map((d) => doorBox(d))],
         player,
       );
-      ghost.visible = !!aim;
+      ghost.visible = !!aim && COMMON.includes(state.selected);
       outline.visible = !!target;
       if (aim) {
         ghost.position.set(aim.x + 0.5, aim.y + 0.5, aim.z + 0.5);
@@ -860,11 +1232,29 @@ function frame(now) {
         outline.position.set(target.x + 0.5, target.y + 0.5, target.z + 0.5);
     }
   }
-  if (!building || modal) {
+  if (
+    preferences.placement !== "crosshair" ||
+    state.selected === "hand" ||
+    pending ||
+    modal
+  ) {
     ghost.visible = false;
     outline.visible = false;
   }
   if (modal) $("use").disabled = true;
+  previewGroup.visible = !modal;
+  if (pending && now - lastPreviewCheck > 150) {
+    lastPreviewCheck = now;
+    const reason = placementReason(
+      pending,
+      state,
+      placementObstacles(),
+      player,
+    );
+    $("confirmPlace").disabled = !!reason;
+    $("placementStatus").textContent =
+      reason || `${names[pending.type]} · ${pending.rotation}°`;
+  }
   renderer.render(scene, camera);
   if (!loadedMs) loadedMs = performance.now() - bootStart;
   frames++;
@@ -891,6 +1281,7 @@ function frame(now) {
     };
     $("stats").textContent =
       `${lastStats.fps} fps · p95 ${lastStats.frameP95 ?? "—"} ms\n${lastStats.drawCalls} calls · ${lastStats.triangles.toLocaleString()} triangles\n${lastStats.geometries} geometries · ${lastStats.textures} textures\nJS heap ${lastStats.heapMB ?? "unavailable"} MB (not GPU memory)\nLast build ${lastStats.rebuildMs} ms\nFirst frame ${lastStats.firstFrameMs} ms\nPieces ${state.blocks.length} / ${MAX_BLOCKS}\n${saveOK ? "Browser save available" : "Export needed to keep progress"}\nGentle quality: ${highQuality ? "off" : "on"}`;
+    $("menuStats").textContent = $("stats").textContent;
     frames = 0;
     stamp = now;
   }
@@ -902,6 +1293,11 @@ window.blockworld = {
   snapshot: () => structuredClone({ ...state, player: { ...player } }),
   stats: () => ({ ...lastStats }),
   ready: true,
+  controls: () => ({
+    ...preferences,
+    pending: pending ? { ...pending } : null,
+    ghost: ghost.visible,
+  }),
 };
 if (new URLSearchParams(location.search).get("test") === "1")
   window.blockworld.test = {
@@ -922,6 +1318,9 @@ if (new URLSearchParams(location.search).get("test") === "1")
         box: doorBox(d),
         center: d.center,
         baseAngle: d.baseAngle,
+        swing: d.swing ?? -1,
+        hinge: d.hinge,
+        width: d.width,
       })),
       solids: world.solids,
       road: world.road,
@@ -968,6 +1367,18 @@ if (new URLSearchParams(location.search).get("test") === "1")
       applyState(freshState());
       save();
     },
-    getBuilding: () => building,
+    getBuilding: () => state.selected !== "hand",
+    confirmPlacement,
+    rotatePlacement,
+    toggleDoor: (id) => toggleDoor(world.doors.find((d) => d.id === id)),
+    project(x, y, z) {
+      updateCamera();
+      const v = new T.Vector3(x, y, z).project(camera);
+      return {
+        x: ((v.x + 1) * innerWidth) / 2,
+        y: ((1 - v.y) * innerHeight) / 2,
+        z: v.z,
+      };
+    },
     getModal: () => modal,
   };

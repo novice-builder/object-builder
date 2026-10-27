@@ -8,14 +8,23 @@ export const SPECIAL = ["flowers", "lantern", "bench"];
 export const ITEMS = [...COMMON, ...SPECIAL];
 export const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 export const key = (b) => `${b.x},${b.y},${b.z}`;
-export const cellBox = (b) => ({
-  minX: b.x,
-  minY: b.y,
-  minZ: b.z,
-  maxX: b.x + 1,
-  maxY: b.y + 1,
-  maxZ: b.z + 1,
-});
+export const cellBox = (b) => {
+  const angle = ((b.rotation || 0) * Math.PI) / 180,
+    c = Math.abs(Math.cos(angle)),
+    s = Math.abs(Math.sin(angle));
+  const padX =
+    b.type === "bench" ? Math.max(0, (0.94 * c + 0.64 * s - 1) / 2) : 0;
+  const padZ =
+    b.type === "bench" ? Math.max(0, (0.94 * s + 0.64 * c - 1) / 2) : 0;
+  return {
+    minX: b.x - padX,
+    minY: b.y,
+    minZ: b.z - padZ,
+    maxX: b.x + 1 + padX,
+    maxY: b.y + 1,
+    maxZ: b.z + 1 + padZ,
+  };
+};
 export const bodyBox = (p) => ({
   minX: p.x - RADIUS,
   minY: p.y + 0.001,
@@ -39,10 +48,25 @@ export function freshState() {
     version: 1,
     blocks: [],
     inventory: { flowers: 0, lantern: 0, bench: 0 },
-    selected: "wood",
+    selected: "hand",
     player: { ...HOME },
     doors: {},
+    doorSwings: {},
   };
+}
+export function supportHeight(p, solids) {
+  let top = 0;
+  for (const b of solids)
+    if (
+      b.maxY <= p.y + 0.02 &&
+      b.maxY > top &&
+      p.x + RADIUS > b.minX + 0.01 &&
+      p.x - RADIUS < b.maxX - 0.01 &&
+      p.z + RADIUS > b.minZ + 0.01 &&
+      p.z - RADIUS < b.maxZ - 0.01
+    )
+      top = b.maxY;
+  return top;
 }
 export function movePlayer(p, input, dt, solids) {
   // Fixed small substeps prevent tunnelling at low frame rates. No step teleporting.
@@ -60,7 +84,33 @@ export function movePlayer(p, input, dt, solids) {
     ]) {
       const old = p[axis];
       p[axis] = clamp(old + speed * h, -LIMIT + 0.4, LIMIT - 0.4);
-      if (collides(p, solids)) p[axis] = old;
+      if (collides(p, solids)) {
+        const hits = solids.filter((b) => overlaps(bodyBox(p), b)),
+          oldY = p.y;
+        const top = Math.max(...hits.map((b) => b.maxY));
+        if (
+          input.autoStep &&
+          p.grounded &&
+          (p.vy || 0) <= 0 &&
+          hits.every((b) => b.step) &&
+          top > oldY &&
+          top - oldY <= 1.001
+        ) {
+          p.y = top;
+          if (collides(p, solids)) {
+            p.y = oldY;
+            p[axis] = old;
+          }
+        } else p[axis] = old;
+      }
+      if (
+        input.edgeProtection &&
+        p.grounded &&
+        !input.allowDrop &&
+        p.y > 0.35 &&
+        supportHeight(p, solids) < p.y - 0.35
+      )
+        p[axis] = old;
     }
     p.vy = (p.vy || 0) - 16 * h;
     const oldY = p.y;
@@ -160,8 +210,23 @@ export function validateSave(data, staticSolids = []) {
     if (staticSolids.some((a) => overlaps(cellBox(b), a)))
       throw Error("A saved piece overlaps the neighborhood");
     seen.add(key(b));
-    s.blocks.push({ x: b.x, y: b.y, z: b.z, type: b.type });
+    const rotation = b.rotation ?? 0;
+    if (!Number.isFinite(rotation) || Math.abs(rotation) > 36000)
+      throw Error("The piece rotation is invalid");
+    s.blocks.push({
+      x: b.x,
+      y: b.y,
+      z: b.z,
+      type: b.type,
+      ...(SPECIAL.includes(b.type)
+        ? { rotation: ((rotation % 360) + 360) % 360 }
+        : {}),
+    });
   }
+  for (let i = 0; i < s.blocks.length; i++)
+    for (let j = 0; j < i; j++)
+      if (overlaps(cellBox(s.blocks[i]), cellBox(s.blocks[j])))
+        throw Error("Saved pieces overlap");
   for (const t of SPECIAL) {
     const v = data.inventory?.[t] ?? 0;
     if (!Number.isInteger(v) || v < 0 || v > 999)
@@ -185,10 +250,13 @@ export function validateSave(data, staticSolids = []) {
       pitch: clamp(p.pitch, -1.3, 1.3),
     };
   }
-  if (ITEMS.includes(data.selected)) s.selected = data.selected;
+  if (data.selected === "hand" || ITEMS.includes(data.selected))
+    s.selected = data.selected;
   // Door names are allow-listed by the world, never trusted as object properties.
-  for (const id of ["home", "peach", "sage", "rose"])
+  for (const id of ["home", "peach", "sage", "rose"]) {
     s.doors[id] = data.doors?.[id] === true;
+    s.doorSwings[id] = data.doorSwings?.[id] === 1 ? 1 : -1;
+  }
   if (collides(s.player, [...staticSolids, ...s.blocks.map(cellBox)]))
     s.player = { ...HOME };
   return s;
