@@ -137,7 +137,7 @@ test("save roundtrip preserves special inventory, selection, door and pose; malf
   }
 });
 test("all houses have an upright, usable opening and a correctly oriented door at both angles", () => {
-  assert.equal(HOUSES.length, 4);
+  assert.equal(HOUSES.length, 16);
   assert.equal(new Set(HOUSES.map((h) => h.style)).size, 3);
   for (const h of HOUSES) {
     const d = world.doors.find((d) => d.id === h.id);
@@ -159,9 +159,9 @@ test("driveways align with the actual entrances, reach the road and houses do no
   for (const [i, h] of HOUSES.entries()) {
     const p = localToWorld(h, -1.4, h.d / 2),
       d = world.drives[i];
-    assert.ok(Math.abs(p.x - d.x) < 1e-6);
-    assert.ok(p.z >= d.z0 - 0.001 && p.z <= d.z1 + 0.001);
-    assert.ok(d.z1 - d.z0 > 2);
+    assert.ok(Math.hypot(p.x-d.entry.x,p.z-d.entry.z)<1e-6);
+    const nx=Math.sin(h.angle), nz=Math.cos(h.angle);
+    assert.ok((d.end.x-p.x)*nx+(d.end.z-p.z)*nz>-.01,`${h.id} driveway points out of its facade`);
   }
   for (let i = 0; i < HOUSES.length; i++)
     for (let j = 0; j < i; j++) {

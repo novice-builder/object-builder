@@ -1,6 +1,8 @@
+import { WORLD } from "./world-config.js";
+import { SpatialIndex } from "./spatial.js";
 // World units are metres. Block coordinates are cell minima; player y is feet.
-export const LIMIT = 31,
-  MAX_BLOCKS = 800,
+export const LIMIT = WORLD.halfSize,
+  MAX_BLOCKS = WORLD.maxBlocks,
   RADIUS = 0.28,
   HEIGHT = 1.65;
 export const COMMON = ["wood", "brick", "stone", "glass"];
@@ -83,7 +85,8 @@ export const collides = (p, solids) =>
 export const HOME = { x: -14.4, y: 0, z: -1.2, yaw: 0, pitch: 0 };
 export function freshState() {
   return {
-    version: 1,
+    version: WORLD.saveVersion,
+    world: WORLD.id,
     blocks: [],
     inventory: { flowers: 0, lantern: 0, bench: 0 },
     selected: "hand",
@@ -220,11 +223,11 @@ export function placementReason(
     b.z < -LIMIT ||
     b.z >= LIMIT ||
     b.y < 0 ||
-    b.y > 9
+    b.y >= WORLD.buildHeight
   )
-    return "Build inside the garden, up to ten blocks high";
+    return "Build inside the world, up to 24 blocks high";
   if (state.blocks.length >= MAX_BLOCKS)
-    return "Your garden is full. Remove a piece to make room";
+    return "Your world is full. Remove a piece to make room";
   const bb = cellBox(b);
   if (
     staticSolids.some((s) => overlaps(bb, s)) ||
@@ -257,29 +260,46 @@ export function placementReason(
 export function validateSave(data, staticSolids = []) {
   if (
     !data ||
-    data.version !== 1 ||
+    ![1, WORLD.saveVersion].includes(data.version) ||
+    (data.version === WORLD.saveVersion && data.world !== WORLD.id) ||
     !Array.isArray(data.blocks) ||
     data.blocks.length > MAX_BLOCKS
   )
     throw Error("This is not a supported BlockWorld save");
+  const legacy = data.version === 1;
+  if (legacy && data.blocks.length > 800)
+    throw Error("Older saves support up to 800 pieces");
   const s = freshState(),
-    seen = new Set();
+    seen = new Set(),
+    blockIndex = new SpatialIndex(4),
+    staticIndex = new SpatialIndex();
+  for (const b of staticSolids) staticIndex.add(b);
   for (const b of data.blocks) {
     if (
       !b ||
       !ITEMS.includes(b.type) ||
       ![b.x, b.y, b.z].every(Number.isInteger) ||
       b.y < 0 ||
-      b.y > 9 ||
+      b.y >= WORLD.buildHeight ||
       b.x < -LIMIT ||
       b.x >= LIMIT ||
       b.z < -LIMIT ||
       b.z >= LIMIT ||
+      (legacy &&
+        (Math.abs(b.x) > 31 ||
+          b.x === 31 ||
+          Math.abs(b.z) > 31 ||
+          b.z === 31 ||
+          b.y > 9)) ||
       seen.has(key(b))
     )
       throw Error("The save contains an invalid piece");
-    if (staticSolids.some((a) => overlaps(cellBox(b), a)))
+    if (staticIndex.query(cellBox(b)).some((a) => overlaps(cellBox(b), a)))
       throw Error("A saved piece overlaps the neighborhood");
+    const shape = cellBox(b);
+    if (blockIndex.query(shape).some((a) => overlaps(shape, a)))
+      throw Error("Saved pieces overlap");
+    blockIndex.add(shape);
     seen.add(key(b));
     const rotation = b.rotation ?? 0;
     if (!Number.isFinite(rotation) || Math.abs(rotation) > 36000)
@@ -294,10 +314,6 @@ export function validateSave(data, staticSolids = []) {
         : {}),
     });
   }
-  for (let i = 0; i < s.blocks.length; i++)
-    for (let j = 0; j < i; j++)
-      if (overlaps(cellBox(s.blocks[i]), cellBox(s.blocks[j])))
-        throw Error("Saved pieces overlap");
   for (const t of SPECIAL) {
     const v = data.inventory?.[t] ?? 0;
     if (!Number.isInteger(v) || v < 0 || v > 999)
@@ -311,7 +327,7 @@ export function validateSave(data, staticSolids = []) {
     Math.abs(p.x) < LIMIT &&
     Math.abs(p.z) < LIMIT &&
     p.y >= 0 &&
-    p.y <= 11
+    p.y <= WORLD.buildHeight + 2
   ) {
     s.player = {
       x: p.x,
@@ -324,7 +340,11 @@ export function validateSave(data, staticSolids = []) {
   if (data.selected === "hand" || ITEMS.includes(data.selected))
     s.selected = data.selected;
   // Door names are allow-listed by the world, never trusted as object properties.
-  for (const id of ["home", "peach", "sage", "rose"]) {
+  for (const id of Object.keys(data.doors || {}).filter(
+    (id) =>
+      /^[a-z][a-z0-9-]{0,39}$/.test(id) &&
+      !["constructor", "prototype"].includes(id),
+  )) {
     s.doors[id] = data.doors?.[id] === true;
     s.doorSwings[id] = data.doorSwings?.[id] === 1 ? 1 : -1;
   }

@@ -81,9 +81,13 @@ export function updateDoors(
   automatic,
   now,
   dt,
+  nearbyObstacles = null,
 ) {
   let changed = false;
   for (const d of doors) {
+    const nearby = nearbyObstacles?.(d);
+    const localBlocks = nearby?.blocks ?? blocks,
+      localSolids = nearby?.solids ?? staticSolids;
     const closeBy = near(d, p, DOOR_HOLD_DISTANCE);
     if (closeBy) d.leaveSince = null;
     else {
@@ -93,14 +97,14 @@ export function updateDoors(
     if (automatic && !d.manualHold && now - d.lastAttempt > 0.3) {
       if (near(d, p, DOOR_OPEN_DISTANCE) && !d.targetOpen) {
         d.lastAttempt = now;
-        requestDoor(d, true, p, blocks, staticSolids);
+        requestDoor(d, true, p, localBlocks, localSolids);
       } else if (
         !closeBy &&
         d.targetOpen &&
         now - d.leaveSince > DOOR_CLOSE_DELAY
       ) {
         d.lastAttempt = now;
-        requestDoor(d, false, p, blocks, staticSolids);
+        requestDoor(d, false, p, localBlocks, localSolids);
       }
     }
     const target = d.targetOpen ? d.swing * HALF_PI : 0;
@@ -111,7 +115,7 @@ export function updateDoors(
     const steps = Math.max(1, Math.ceil(Math.abs(travel) / 0.02));
     for (let i = 0; i < steps && Math.abs(travel) > 1e-8; i++) {
       const next = d.angle + travel / steps;
-      if (!sweepClear(d, d.angle, next, p, blocks, staticSolids)) {
+      if (!sweepClear(d, d.angle, next, p, localBlocks, localSolids)) {
         d.blocked = true;
         // A player returning during closing wins. Reopen safely on the next tick.
         if (!d.targetOpen) {

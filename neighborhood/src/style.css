@@ -1004,3 +1004,48 @@ button:active {
 .settingsScroll .file-button {
   touch-action: pan-y;
 }
+
+/* Compact exploration map: modal only, keeping the play view unobstructed. */
+.map-card {
+  max-width: 580px;
+  max-height: 94dvh;
+  overflow: auto;
+}
+#mapCanvas {
+  display: block;
+  width: min(100%, 55dvh);
+  height: auto;
+  margin: 0 auto;
+  border-radius: 18px;
+}
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: center;
+  font-size: 13px;
+  color: #3d6659;
+}
+#mapPosition {
+  font-size: 13px;
+  text-align: center;
+  margin: 10px 0;
+}
+#mapButton {
+  font-size: 25px;
+}
+@media (max-width: 450px) {
+  .brand small,
+  #saved {
+    display: none;
+  }
+  .header-actions {
+    gap: 4px;
+  }
+}
+/* Medium tablet width: reserve the existing action row plus a 16px gap. */
+@media (min-width: 651px) and (max-width: 1000px) and (min-height: 551px) {
+  #placementControls {
+    bottom: calc(116px + 80px + 16px + env(safe-area-inset-bottom));
+  }
+}

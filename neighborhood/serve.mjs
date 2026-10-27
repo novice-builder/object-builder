@@ -1,7 +1,7 @@
 import http from "node:http";
 import { readFile } from "node:fs/promises";
 const game = await readFile(
-  new URL("../BlockWorld_Neighborhood_03.html", import.meta.url),
+  new URL("../BlockWorld_Neighborhood_04.html", import.meta.url),
 );
 http
   .createServer((req, res) => {

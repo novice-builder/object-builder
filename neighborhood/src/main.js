@@ -1,4 +1,8 @@
 import * as T from "three";
+import { WORLD, LANDMARKS } from "./world-config.js";
+import { SpatialIndex, around } from "./spatial.js";
+import { BuildChunks } from "./build-chunks.js";
+import { installMap } from "./map.js";
 import {
   COMMON,
   SPECIAL,
@@ -27,7 +31,7 @@ import { installWorldGestures } from "./gestures.js";
 import { detailedPiece } from "./pieces.js";
 import { initializeDoor, requestDoor, updateDoors } from "./doors.js";
 const $ = (id) => document.getElementById(id),
-  SAVE_KEY = "blockworld.neighborhood.01",
+  SAVE_KEY = WORLD.saveKey,
   bootStart = performance.now();
 function fail(message) {
   $("fatal").hidden = false;
@@ -49,7 +53,7 @@ try {
 }
 const scene = new T.Scene();
 scene.background = new T.Color(0xb5d9df);
-scene.fog = new T.Fog(0xb5d9df, 42, 93);
+scene.fog = new T.Fog(0xb5d9df, WORLD.fogNear, WORLD.fogFar);
 scene.add(new T.HemisphereLight(0xfff7df, 0x6a8970, 2.3));
 const sun = new T.DirectionalLight(0xffe5b1, 1.9);
 sun.position.set(-25, 40, 18);
@@ -57,7 +61,12 @@ scene.add(sun);
 renderer.outputColorSpace = T.SRGBColorSpace;
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1));
 renderer.setSize(innerWidth, innerHeight);
-const camera = new T.PerspectiveCamera(67, innerWidth / innerHeight, 0.06, 110);
+const camera = new T.PerspectiveCamera(
+  67,
+  innerWidth / innerHeight,
+  0.06,
+  WORLD.cameraFar,
+);
 camera.rotation.order = "YXZ";
 const world = makeWorld(scene);
 let state = freshState(),
@@ -82,7 +91,7 @@ let joyPointer = null,
   returnFocus = null,
   lastContextSignature = null,
   lastPaletteSelection = null;
-const PREFS_KEY = "blockworld.neighborhood.controls.v3";
+const PREFS_KEY = WORLD.preferencesKey;
 const preferences = {
   placement: "direct",
   automaticDoors: true,
@@ -93,11 +102,11 @@ const preferences = {
 try {
   const raw = localStorage.getItem(PREFS_KEY);
   const saved = JSON.parse(
-    raw || localStorage.getItem("blockworld.neighborhood.controls.v2") || "{}",
+    raw || localStorage.getItem("blockworld.neighborhood.controls.v3") || "{}",
   );
   for (const k of ["quality", "subtitles"])
     if (typeof saved[k] === "boolean") preferences[k] = saved[k];
-  if (raw)
+  if (raw || localStorage.getItem("blockworld.neighborhood.controls.v3"))
     for (const k of ["edgeProtection", "automaticDoors"])
       if (typeof saved[k] === "boolean") preferences[k] = saved[k];
   if (saved.placement === "crosshair") preferences.placement = "crosshair";
@@ -193,16 +202,52 @@ function scheduleSave() {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(save, 350);
 }
+const staticIndex = new SpatialIndex(),
+  blockIndex = new SpatialIndex(8),
+  blockShapes = new Map();
+for (const b of world.solids) staticIndex.add(b);
 let solidCache = [];
 function rebuildSolids() {
-  solidCache = [
-    ...world.solids,
-    ...world.doors.map((d) => doorBox(d)),
-    ...state.blocks.map((b) => ({
-      ...cellBox(b),
-      step: COMMON.includes(b.type),
-    })),
+  // Door colliders move every frame; fixed scenery and player pieces stay indexed.
+  solidCache = localSolids(player);
+}
+function localSolids(p, r = 2) {
+  const region = around(p, r);
+  return [
+    ...staticIndex.query(region),
+    ...blockIndex.query(region),
+    ...world.doors
+      .filter((d) => Math.hypot(d.center.x - p.x, d.center.z - p.z) < r + 3)
+      .map((d) => doorBox(d)),
   ];
+}
+function indexBlocks() {
+  for (const b of blockShapes.values()) blockIndex.remove(b);
+  blockShapes.clear();
+  for (const b of state.blocks) {
+    const shape = { ...cellBox(b), piece: b };
+    blockShapes.set(key(b), shape);
+    blockIndex.add(shape);
+  }
+}
+function editIndex(b, present) {
+  const old = blockShapes.get(key(b));
+  if (old) blockIndex.remove(old);
+  blockShapes.delete(key(b));
+  if (present) {
+    const shape = { ...cellBox(b), piece: b };
+    blockShapes.set(key(b), shape);
+    blockIndex.add(shape);
+  }
+}
+function doorObstacles(d) {
+  return {
+    solids: staticIndex.query(around({ ...d.center, y: 0 }, 3)),
+    blocks: blockIndex
+      .query(around({ ...d.center, y: 0 }, 3))
+      .map((b) => b.piece)
+      .filter(Boolean),
+  };
 }
 function applyState(next) {
   cancelPlacement();
@@ -216,6 +261,7 @@ function applyState(next) {
     );
   }
   history = new BuildHistory();
+  indexBlocks();
   rebuildSolids();
   if (collides(player, solidCache)) player = { ...HOME, vy: 0, grounded: true };
   rebuildPieces();
@@ -225,6 +271,22 @@ function restore() {
   let raw;
   try {
     raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) {
+      const old = localStorage.getItem("blockworld.neighborhood.01");
+      if (old) {
+        try {
+          const migrated = validateSave(JSON.parse(old), world.solids);
+          raw = JSON.stringify(migrated);
+          notice(
+            "Your old builds were copied into 04. Neighborhood 03’s save is unchanged.",
+          );
+        } catch {
+          notice(
+            "Your 03 save was kept untouched. Import an exported backup when ready.",
+          );
+        }
+      }
+    }
   } catch {
     saveOK = false;
   }
@@ -239,43 +301,22 @@ function restore() {
     }
   } else applyState(state);
 }
-function rebuildPieces() {
+const buildChunks = new BuildChunks(
+  dynamicGroup,
+  commonGeometry,
+  buildMaterials,
+  decorMat,
+);
+function rebuildPieces(changed = null, present = false) {
   const start = performance.now();
-  dynamicGroup.traverse((m) => {
-    if (m.isInstancedMesh) m.dispose();
-  });
-  dynamicGroup.clear();
-  dynamicRayMeshes = [];
-  // One cube draw call per material. Geometry/materials are shared, never rebuilt per frame.
-  const dummy = new T.Object3D();
-  for (const type of COMMON) {
-    const blocks = state.blocks.filter((b) => b.type === type);
-    if (!blocks.length) continue;
-    const mesh = new T.InstancedMesh(
-      commonGeometry,
-      buildMaterials[type],
-      blocks.length,
-    );
-    blocks.forEach((b, i) => {
-      dummy.position.set(b.x + 0.5, b.y + 0.5, b.z + 0.5);
-      dummy.scale.set(1, 1, 1);
-      dummy.rotation.set(0, 0, 0);
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i, dummy.matrix);
-    });
-    mesh.userData.blocks = blocks;
-    mesh.computeBoundingSphere();
-    dynamicGroup.add(mesh);
-    dynamicRayMeshes.push(mesh);
+  if (changed) {
+    buildChunks.update(changed, present);
+    editIndex(changed, present);
+  } else {
+    buildChunks.reset(state.blocks);
+    indexBlocks();
   }
-  for (const b of state.blocks.filter((b) => SPECIAL.includes(b.type))) {
-    const group = detailedPiece(b, commonGeometry, decorMat);
-    dynamicGroup.add(group);
-    group.traverse((m) => {
-      if (m.isMesh) dynamicRayMeshes.push(m);
-    });
-  }
-  dynamicGroup.updateMatrixWorld(true);
+  dynamicRayMeshes = buildChunks.rayMeshes();
   rebuildSolids();
   lastRebuild = performance.now() - start;
 }
@@ -314,21 +355,30 @@ function targetAt(ndc = center) {
   for (const hit of hits) {
     // Static walls/doors occlude building rays even though they cannot be removed.
     if (
-      world.solids.some((s) => rayBoxNear(ray.ray, s) < hit.distance - 0.02) ||
+      staticIndex
+        .query(around(player, 8))
+        .some((s) => rayBoxNear(ray.ray, s) < hit.distance - 0.02) ||
       world.doors.some(
         (d) => rayBoxNear(ray.ray, doorBox(d)) < hit.distance - 0.02,
       )
     )
       break;
     const b =
-      hit.object.userData.blocks?.[hit.instanceId] || hit.object.userData.block;
+      hit.object.userData.faceBlocks?.[hit.faceIndex] ||
+      hit.object.userData.blocks?.[hit.instanceId] ||
+      hit.object.userData.block;
     if (b) {
       target = b;
       const normal = hit.face.normal
         .clone()
         .transformDirection(hit.object.matrixWorld);
       if (hit.object.isInstancedMesh) {
-        /* cube instances have translation only */
+        const matrix = new T.Matrix4();
+        hit.object.getMatrixAt(hit.instanceId, matrix);
+        normal
+          .copy(hit.face.normal)
+          .transformDirection(matrix)
+          .transformDirection(hit.object.matrixWorld);
       }
       const point = hit.point.clone().addScaledVector(normal, 0.015);
       aim = {
@@ -399,7 +449,14 @@ function previewMat(color) {
   return previewMaterials.get(color);
 }
 function placementObstacles() {
-  return [...world.solids, ...world.doors.map((d) => doorBox(d))];
+  return [
+    ...staticIndex.query(around(player, 9)),
+    ...world.doors
+      .filter(
+        (d) => Math.hypot(d.center.x - player.x, d.center.z - player.z) < 12,
+      )
+      .map((d) => doorBox(d)),
+  ];
 }
 function commitPiece(b) {
   const reason = placementReason(b, state, placementObstacles(), player);
@@ -411,7 +468,7 @@ function commitPiece(b) {
   state.blocks.push(piece);
   if (SPECIAL.includes(piece.type)) state.inventory[piece.type]--;
   history.record({ kind: "place", block: piece });
-  rebuildPieces();
+  rebuildPieces(piece, true);
   updatePalette();
   scheduleSave();
   voice.play("placed");
@@ -477,7 +534,7 @@ function removePiece(b) {
   state.blocks.splice(index, 1);
   if (SPECIAL.includes(piece.type)) state.inventory[piece.type]++;
   history.record({ kind: "remove", block: piece });
-  rebuildPieces();
+  rebuildPieces(piece, false);
   updatePalette();
   scheduleSave();
   notice("Piece put away");
@@ -499,9 +556,10 @@ function undo() {
     notice("Preview cancelled");
     return true;
   }
+  const action = history.past.at(-1);
   const result = history.undo(state, player, placementObstacles());
   if (result) {
-    rebuildPieces();
+    rebuildPieces(action.block, action.kind === "remove");
     updatePalette();
     scheduleSave();
     voice.play("undo");
@@ -602,11 +660,7 @@ function nearestUse() {
   if (dist < 2.65) {
     const delta = table.clone().sub(eye).normalize(),
       r = new T.Ray(eye, delta);
-    if (
-      ![...world.solids, ...world.doors.map((d) => doorBox(d))].some(
-        (b) => rayBoxNear(r, b) < dist - 0.8,
-      )
-    )
+    if (!placementObstacles().some((b) => rayBoxNear(r, b) < dist - 0.8))
       return { kind: "table" };
   }
   let best = null,
@@ -625,8 +679,8 @@ function toggleDoor(d, desiredOpen = !d.targetOpen) {
     d,
     desiredOpen,
     player,
-    state.blocks,
-    world.solids,
+    doorObstacles(d).blocks,
+    doorObstacles(d).solids,
     true,
   );
   if (!result.ok) {
@@ -664,7 +718,9 @@ function interactAt(ndc) {
   if (!candidate) return false;
   // Jamb/wall occlusion is tested before the candidate surface.
   if (
-    world.solids.some((b) => rayBoxNear(ray.ray, b) < candidate.distance - 0.12)
+    staticIndex
+      .query(around(player, 8))
+      .some((b) => rayBoxNear(ray.ray, b) < candidate.distance - 0.12)
   )
     return false;
   if (candidate.kind === "door") toggleDoor(candidate.door);
@@ -714,7 +770,7 @@ function home() {
       for (let x = -radius; x <= radius && !found; x++)
         for (const z of [-radius, radius]) {
           const p = { ...player, x: HOME.x + x, z: HOME.z + z };
-          if (!collides(p, solidCache)) {
+          if (!collides(p, localSolids(p))) {
             player = p;
             found = true;
             break;
@@ -800,6 +856,10 @@ function setupUI() {
     voice.subtitles = subtitles;
   };
   $("menu").onclick = () => openModal("settings");
+  $("mapButton").onclick = () => {
+    openModal("map");
+    map.draw();
+  };
   $("resume").onclick = closeModal;
   document
     .querySelectorAll("[data-close]")
@@ -864,7 +924,7 @@ function setupUI() {
     const file = e.target.files[0];
     if (!file) return;
     try {
-      if (file.size > 250000) throw Error("That file is too large");
+      if (file.size > WORLD.maxSaveBytes) throw Error("That file is too large");
       applyState(validateSave(JSON.parse(await file.text()), world.solids));
       save();
       settingsFeedback("Save opened. Your neighborhood is ready.");
@@ -973,7 +1033,7 @@ async function exportSave() {
   const ios =
     /iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  const file = new File([text], "Little-Block-Lane-save.json", {
+  const file = new File([text], "BlockWorld-04-save.json", {
     type: "application/json",
   });
   if (ios && navigator.canShare?.({ files: [file] }) && navigator.share) {
@@ -1061,6 +1121,7 @@ async function toggleFullscreen() {
     );
   }
 }
+const map = installMap(world, () => player);
 setupUI();
 installTouchButtons();
 restore();
@@ -1255,6 +1316,7 @@ function frame(now) {
         preferences.automaticDoors,
         now / 1000,
         dt,
+        doorObstacles,
       )
     ) {
       rebuildSolids();
@@ -1268,6 +1330,7 @@ function frame(now) {
       (keys.has("KeyD") || keys.has("ArrowRight") ? 1 : 0) -
       (keys.has("KeyA") || keys.has("ArrowLeft") ? 1 : 0) +
       stick.x;
+    rebuildSolids();
     movePlayer(
       player,
       {
@@ -1307,12 +1370,7 @@ function frame(now) {
       !pending
     ) {
       targetAt();
-      const reason = placementReason(
-        aim,
-        state,
-        [...world.solids, ...world.doors.map((d) => doorBox(d))],
-        player,
-      );
+      const reason = placementReason(aim, state, placementObstacles(), player);
       ghost.visible = !!aim && COMMON.includes(state.selected);
       outline.visible = !!target;
       if (aim) {
@@ -1369,6 +1427,11 @@ function frame(now) {
         ? +sorted[Math.floor((sorted.length - 1) * 0.95)].toFixed(1)
         : null,
       blocks: state.blocks.length,
+      activeSolids: solidCache.length,
+      staticSolids: world.solids.length,
+      staticChunks: world.staticRender.chunks,
+      buildChunks: buildChunks.groups.size,
+      chunksRebuilt: buildChunks.rebuilt,
     };
     $("stats").textContent =
       `${lastStats.fps} fps · p95 ${lastStats.frameP95 ?? "—"} ms\n${lastStats.drawCalls} calls · ${lastStats.triangles.toLocaleString()} triangles\n${lastStats.geometries} geometries · ${lastStats.textures} textures\nJS heap ${lastStats.heapMB ?? "unavailable"} MB (not GPU memory)\nLast build ${lastStats.rebuildMs} ms\nFirst frame ${lastStats.firstFrameMs} ms\nPieces ${state.blocks.length} / ${MAX_BLOCKS}\n${saveOK ? "Browser save available" : "Export needed to keep progress"}\nGentle quality: ${highQuality ? "off" : "on"}`;
@@ -1402,6 +1465,14 @@ if (new URLSearchParams(location.search).get("test") === "1")
       updateCamera();
     },
     world: () => ({
+      config: WORLD,
+      landmarks: LANDMARKS,
+      roads: world.roads,
+      trails: world.trails,
+      clearings: world.clearings,
+      pond: world.pond,
+      staticRender: world.staticRender,
+      treeCount: world.treeCount,
       houses: world.houses,
       doors: world.doors.map((d) => ({
         id: d.id,
@@ -1438,7 +1509,7 @@ if (new URLSearchParams(location.search).get("test") === "1")
       if (reason) return reason;
       state.blocks.push({ ...b });
       history.record({ kind: "place", block: { ...b } });
-      rebuildPieces();
+      rebuildPieces(b, true);
       updatePalette();
       scheduleSave();
       return "";
@@ -1461,6 +1532,13 @@ if (new URLSearchParams(location.search).get("test") === "1")
       applyState(freshState());
       save();
     },
+    load(data) {
+      applyState(validateSave(data, world.solids));
+    },
+    chunkInfo: () => ({
+      rebuilt: buildChunks.rebuilt,
+      groups: [...buildChunks.groups].map(([key, g]) => ({ key, id: g.uuid })),
+    }),
     getBuilding: () => state.selected !== "hand",
     confirmPlacement,
     rotatePlacement,
@@ -1476,6 +1554,7 @@ if (new URLSearchParams(location.search).get("test") === "1")
           preferences.automaticDoors,
           performance.now() / 1000 + i * 0.016,
           0.016,
+          doorObstacles,
         );
         rebuildSolids();
         movePlayer(
