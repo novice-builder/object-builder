@@ -339,3 +339,15 @@ test("an obstruction in the middle of the swing prevents closing even when both 
   );
   assert.equal(d.targetOpen, true);
 });
+
+test("a partial-overhang landing can recover toward the platform without disabling protection", () => {
+  const solids = [cellBox({ x: 0, y: 0, z: 0 })],
+    p = actor({ x: 0.5, y: 1, z: 1.15, yaw: 0 });
+  advance(p, { forward: 1, edgeProtection: true }, solids, 0.35);
+  assert.equal(p.y, 1);
+  assert.ok(p.z < 0.9, "walk inward from an imperfect landing");
+  p.yaw = Math.PI;
+  advance(p, { forward: 1, edgeProtection: true }, solids, 1);
+  assert.equal(p.y, 1);
+  assert.ok(p.z < 0.91, "walking back out is guarded");
+});

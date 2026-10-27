@@ -6,7 +6,7 @@
 
 - **Automatic doors start ON.** Walk toward a house and its door swings away from you when that side is clear. Move clear and it closes after a short delay. It stays open while you're nearby or in the doorway. A returning player interrupts closing safely.
 - You can still **tap a door or its gold button** to operate it manually, with or without a material selected. A manual close is not immediately undone by proximity: tap it open again, or step clear and approach again. **Menu → Automatic doors** switches automatic behavior on/off; enabling it resets a previous manual-close override.
-- **Edge protection starts ON** and applies during ordinary walking, whether or not a material is selected. The small **shield / Edge on** button beside Undo and Jump toggles it immediately. ON stops walking off elevated platforms; **Jump deliberately** to leave one. OFF permits normal walking off edges. Your 03 choice is remembered.
+- **Edge protection starts ON** and applies during ordinary walking, whether or not a material is selected. The small **shield / Edge on** button beside Undo and Jump toggles it immediately. ON stops walking off elevated platforms; **Jump deliberately** to leave one. OFF permits normal walking off edges. Your 03 choice is remembered. Landing partly over an edge still allows walking back toward support.
 - **Automatic climbing is removed.** Old climbing preferences cannot switch it back on. Use Jump to climb blocks.
 - The **Hand slot is gone**. Tap a material to select it, and tap the selected material again to deselect it. With nothing selected, normal object interactions remain available. The hotbar stays horizontally scrollable. Long-press removal, Undo and furniture previews/rotation/confirmation remain.
 

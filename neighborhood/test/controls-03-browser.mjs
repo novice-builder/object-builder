@@ -263,6 +263,36 @@ try {
   await check(
     "manual mode opens, walks through, closes and reopens every door on both sides; metadata-free clicks do not reverse the action",
     async () => {
+      // A parent/child can touch Open while walking into the auto trigger radius.
+      const homeDoor = await p.evaluate(() => blockworld.test.world().doors[0]);
+      await p.evaluate(() => blockworld.test.fresh());
+      await pose(p, {
+        x: homeDoor.center.x,
+        z: homeDoor.center.z + 2.5,
+        yaw: 0,
+      });
+      await p.waitForFunction(() =>
+        document.getElementById("use").textContent.includes("Open"),
+      );
+      const button = await p.locator("#use").boundingBox();
+      await touch(p, "touchStart", [
+        {
+          x: button.x + button.width / 2,
+          y: button.y + button.height / 2,
+          id: 9,
+        },
+      ]);
+      await pose(p, { x: homeDoor.center.x, z: homeDoor.center.z + 2, yaw: 0 });
+      await p.waitForFunction(
+        () => blockworld.test.world().doors[0].targetOpen,
+      );
+      await touch(p, "touchEnd", []);
+      assert.equal(
+        await p.evaluate(() => blockworld.test.world().doors[0].targetOpen),
+        true,
+        "Open pressed before proximity activation must not turn into Close on release",
+      );
+
       await automatic(p, false);
       await p.evaluate(() => blockworld.test.fresh());
       const doors = await p.evaluate(() => blockworld.test.world().doors);

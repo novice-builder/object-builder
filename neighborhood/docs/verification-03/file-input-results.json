@@ -1,0 +1,27 @@
+{
+  "results": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "nativeFileChooserActivations": 9
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "nativeFileChooserActivations": 9
+    },
+    {
+      "viewport": {
+        "width": 428,
+        "height": 760
+      },
+      "nativeFileChooserActivations": 9
+    }
+  ],
+  "activations": 27,
+  "physicalIPhoneVerified": false
+}

@@ -1,0 +1,78 @@
+{
+  "checks": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "Open",
+      "points": 9
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "Close",
+      "points": 9
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "Make",
+      "points": 9
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "state": "Open",
+      "points": 9
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "state": "Close",
+      "points": 9
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "state": "Make",
+      "points": 9
+    },
+    {
+      "viewport": {
+        "width": 428,
+        "height": 760
+      },
+      "state": "Open",
+      "points": 9
+    },
+    {
+      "viewport": {
+        "width": 428,
+        "height": 760
+      },
+      "state": "Close",
+      "points": 9
+    },
+    {
+      "viewport": {
+        "width": 428,
+        "height": 760
+      },
+      "state": "Make",
+      "points": 9
+    }
+  ],
+  "activations": 81,
+  "physicalIPhoneVerified": false
+}

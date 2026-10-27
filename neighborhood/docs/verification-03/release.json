@@ -1,0 +1,12 @@
+{
+  "release": "BlockWorld_Neighborhood_03.html",
+  "releaseSha256": "bd61e35f3b218c101ab209556166295dcfb8708445222805ef9edecdf2d0a585",
+  "bytes": 554012,
+  "observedCoreTestCount": 21,
+  "mobileScenarios": 15,
+  "buttonTouchPoints": 864,
+  "contextButtonTouchPoints": 81,
+  "nativeImportTouchPoints": 27,
+  "totalTouchPoints": 972,
+  "physicalIPhoneVerified": false
+}

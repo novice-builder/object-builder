@@ -1,0 +1,110 @@
+{
+  "top-edge": 1,
+  "centre": 2,
+  "bottom-edge": 2,
+  "pointerTrace": [
+    {
+      "type": "pointerdown",
+      "x": 279,
+      "y": 251.77374267578125,
+      "rect": {
+        "x": 201,
+        "y": 251.09375,
+        "width": 156,
+        "height": 68,
+        "top": 251.09375,
+        "right": 357,
+        "bottom": 319.09375,
+        "left": 201
+      },
+      "target": "BUTTON"
+    },
+    {
+      "type": "pointerup",
+      "x": 279,
+      "y": 251.77374267578125,
+      "rect": {
+        "x": 201,
+        "y": 251.09375,
+        "width": 156,
+        "height": 68,
+        "top": 251.09375,
+        "right": 357,
+        "bottom": 319.09375,
+        "left": 201
+      },
+      "target": "BUTTON"
+    },
+    {
+      "type": "pointerdown",
+      "x": 279,
+      "y": 304.09375,
+      "rect": {
+        "x": 201,
+        "y": 270.09375,
+        "width": 156,
+        "height": 68,
+        "top": 270.09375,
+        "right": 357,
+        "bottom": 338.09375,
+        "left": 201
+      },
+      "target": "BUTTON"
+    },
+    {
+      "type": "pointerup",
+      "x": 279,
+      "y": 304.09375,
+      "rect": {
+        "x": 201,
+        "y": 270.09375,
+        "width": 156,
+        "height": 68,
+        "top": 270.09375,
+        "right": 357,
+        "bottom": 338.09375,
+        "left": 201
+      },
+      "target": "BUTTON"
+    },
+    {
+      "type": "pointerdown",
+      "x": 279,
+      "y": 320.41375732421875,
+      "rect": {
+        "x": 201,
+        "y": 251.09375,
+        "width": 156,
+        "height": 68,
+        "top": 251.09375,
+        "right": 357,
+        "bottom": 319.09375,
+        "left": 201
+      },
+      "target": "BUTTON"
+    },
+    {
+      "type": "pointerup",
+      "x": 279,
+      "y": 320.41375732421875,
+      "rect": {
+        "x": 201,
+        "y": 251.09375,
+        "width": 156,
+        "height": 68,
+        "top": 251.09375,
+        "right": 357,
+        "bottom": 319.09375,
+        "left": 201
+      },
+      "target": "BUTTON"
+    }
+  ],
+  "doorAfterTouch": true,
+  "doorAfterMetadataFreeClick": false,
+  "edgeWithHand": {
+    "enabled": true,
+    "selected": "hand",
+    "y": 0
+  }
+}

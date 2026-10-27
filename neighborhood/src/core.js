@@ -127,6 +127,16 @@ export function safeFooting(p, solids) {
     ),
   );
 }
+function recoveryDistance(p, solids) {
+  let distance = Infinity;
+  for (const b of solids) {
+    if (b.maxY > p.y + 0.025 || b.maxY < p.y - 0.3) continue;
+    const dx = Math.max(b.minX + 0.12 - p.x, 0, p.x - (b.maxX - 0.12));
+    const dz = Math.max(b.minZ + 0.12 - p.z, 0, p.z - (b.maxZ - 0.12));
+    distance = Math.min(distance, dx * dx + dz * dz);
+  }
+  return distance;
+}
 export function movePlayer(p, input, dt, solids) {
   // Fixed small substeps prevent tunnelling at low frame rates. No step teleporting.
   const steps = Math.ceil(Math.min(dt, 0.1) / 0.012),
@@ -156,8 +166,16 @@ export function movePlayer(p, input, dt, solids) {
         !input.allowDrop &&
         p.y > 0.35 &&
         !safeFooting(p, solids)
-      )
-        p[axis] = old;
+      ) {
+        const before = { ...p, [axis]: old };
+        // A jump can land with partial overhang. Permit recovery toward support,
+        // rather than freezing the player just outside the safe walking region.
+        if (
+          safeFooting(before, solids) ||
+          recoveryDistance(p, solids) >= recoveryDistance(before, solids) - 1e-6
+        )
+          p[axis] = old;
+      }
     }
     p.vy = (p.vy || 0) - 16 * h;
     const oldY = p.y;

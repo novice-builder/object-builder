@@ -620,10 +620,10 @@ function nearestUse() {
   }
   return best ? { kind: "door", door: best } : null;
 }
-function toggleDoor(d) {
+function toggleDoor(d, desiredOpen = !d.targetOpen) {
   const result = requestDoor(
     d,
-    !d.targetOpen,
+    desiredOpen,
     player,
     state.blocks,
     world.solids,
@@ -674,13 +674,17 @@ function interactAt(ndc) {
   }
   return true;
 }
-function use() {
+function use(intent = null) {
   if (modal) return;
   nearby = nearestUse();
   if (nearby?.kind === "table") {
     openModal("craft");
     voice.play("craft");
-  } else if (nearby?.kind === "door") toggleDoor(nearby.door);
+  } else if (nearby?.kind === "door")
+    toggleDoor(
+      nearby.door,
+      intent?.id === nearby.door.id ? intent.open : !nearby.door.targetOpen,
+    );
 }
 function craft(type) {
   if (!SPECIAL.includes(type) || modal !== "craft") return false;
@@ -805,7 +809,22 @@ function setupUI() {
   $("place").onclick = () => place();
   $("remove").onclick = () => remove();
   $("undo").onclick = undo;
-  $("use").onclick = use;
+  let useIntent = null;
+  $("use").addEventListener("pointerdown", () => {
+    const item = nearestUse();
+    useIntent =
+      item?.kind === "door"
+        ? { id: item.door.id, open: !item.door.targetOpen }
+        : null;
+  });
+  $("use").addEventListener("pointercancel", () => {
+    useIntent = null;
+  });
+  $("use").onclick = () => {
+    const intent = useIntent;
+    useIntent = null;
+    use(intent);
+  };
   $("cancelPlace").onclick = () => {
     cancelPlacement();
     updatePalette();
