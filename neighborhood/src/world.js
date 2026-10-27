@@ -371,26 +371,27 @@ export function makeWorld(scene) {
       put(x, 1.27, front + 1.28, 0.12, 2.54, 0.12, white, true);
     // Door uses a vertical hinge, with local axes inherited from the facade.
     const pivot = new T.Group(),
-      p = localToWorld(h, doorX - doorW / 2, front + 0.03);
+      p = localToWorld(h, doorX - doorW / 2 + 0.07, front + 0.03);
+    const leafWidth = doorW - 0.14;
     pivot.position.set(p.x, 0, p.z);
     pivot.rotation.y = h.angle;
     const panel = new T.Mesh(
-      new T.BoxGeometry(doorW - 0.08, 2.3, 0.1),
+      new T.BoxGeometry(leafWidth, 2.3, 0.1),
       material(0x94684c),
     );
-    panel.position.set(doorW / 2, 1.15, 0);
+    panel.position.set(leafWidth / 2, 1.15, 0);
     pivot.add(panel);
     const inset = new T.Mesh(
       new T.BoxGeometry(0.78, 0.7, 0.11),
       material(0xb6cfbd),
     );
-    inset.position.set(doorW / 2, 1.66, 0);
+    inset.position.set(leafWidth / 2, 1.66, 0);
     pivot.add(inset);
     const knob = new T.Mesh(
       new T.SphereGeometry(0.055, 6, 5),
       material(0xffdc76),
     );
-    knob.position.set(doorW - 0.22, 1, 0.09);
+    knob.position.set(leafWidth - 0.18, 1, 0.09);
     pivot.add(knob);
     scene.add(pivot);
     const center = localToWorld(h, doorX, front);
@@ -401,7 +402,7 @@ export function makeWorld(scene) {
       open: false,
       center,
       hinge: p,
-      width: doorW,
+      width: leafWidth,
       height: 2.3,
     });
     // Cozy, deliberately sparse interiors keep a clear route through each house.
@@ -536,20 +537,4 @@ export function makeWorld(scene) {
     batches,
   };
 }
-export function doorBox(door, open = door.open, swing = door.swing ?? -1) {
-  const a = door.baseAngle + (open ? (swing * Math.PI) / 2 : 0),
-    c = Math.cos(a),
-    s = Math.sin(a),
-    cx = door.hinge.x + (c * door.width) / 2,
-    cz = door.hinge.z - (s * door.width) / 2;
-  const wx = (Math.abs(c) * door.width) / 2 + Math.abs(s) * 0.065,
-    dz = (Math.abs(s) * door.width) / 2 + Math.abs(c) * 0.065;
-  return {
-    minX: cx - wx,
-    maxX: cx + wx,
-    minZ: cz - dz,
-    maxZ: cz + dz,
-    minY: 0,
-    maxY: 2.3,
-  };
-}
+export { doorBox } from "./door-geometry.js";

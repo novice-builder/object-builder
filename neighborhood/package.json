@@ -1,12 +1,12 @@
 {
   "name": "blockworld-neighborhood",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "test": "node --test test/core.test.mjs test/interactions.test.mjs",
-    "test:browser": "node test/interactions-browser.mjs",
+    "test": "node --test test/core.test.mjs test/controls-03.test.mjs",
+    "test:browser": "node test/controls-03-browser.mjs && node test/file-input-03.mjs && node test/menu-scroll-03.mjs",
     "serve": "node serve.mjs",
     "format": "prettier --write src test build.mjs serve.mjs",
     "test:baseline": "node test/browser.mjs"

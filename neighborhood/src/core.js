@@ -33,13 +33,51 @@ export const bodyBox = (p) => ({
   maxY: p.y + HEIGHT,
   maxZ: p.z + RADIUS,
 });
-export const overlaps = (a, b) =>
-  a.minX < b.maxX - 1e-5 &&
-  a.maxX > b.minX + 1e-5 &&
-  a.minY < b.maxY - 1e-5 &&
-  a.maxY > b.minY + 1e-5 &&
-  a.minZ < b.maxZ - 1e-5 &&
-  a.maxZ > b.minZ + 1e-5;
+function rectangle(b) {
+  return (
+    b.obb ?? {
+      cx: (b.minX + b.maxX) / 2,
+      cz: (b.minZ + b.maxZ) / 2,
+      c: 1,
+      s: 0,
+      halfW: (b.maxX - b.minX) / 2,
+      halfD: (b.maxZ - b.minZ) / 2,
+    }
+  );
+}
+export function overlaps(a, b) {
+  if (
+    !(
+      a.minX < b.maxX - 1e-5 &&
+      a.maxX > b.minX + 1e-5 &&
+      a.minY < b.maxY - 1e-5 &&
+      a.maxY > b.minY + 1e-5 &&
+      a.minZ < b.maxZ - 1e-5 &&
+      a.maxZ > b.minZ + 1e-5
+    )
+  )
+    return false;
+  if (!a.obb && !b.obb) return true;
+  const A = rectangle(a),
+    B = rectangle(b),
+    dx = B.cx - A.cx,
+    dz = B.cz - A.cz;
+  for (const [x, z] of [
+    [A.c, -A.s],
+    [A.s, A.c],
+    [B.c, -B.s],
+    [B.s, B.c],
+  ]) {
+    const ra =
+      A.halfW * Math.abs(x * A.c - z * A.s) +
+      A.halfD * Math.abs(x * A.s + z * A.c);
+    const rb =
+      B.halfW * Math.abs(x * B.c - z * B.s) +
+      B.halfD * Math.abs(x * B.s + z * B.c);
+    if (Math.abs(dx * x + dz * z) >= ra + rb - 1e-5) return false;
+  }
+  return true;
+}
 export const collides = (p, solids) =>
   solids.some((b) => overlaps(bodyBox(p), b));
 export const HOME = { x: -14.4, y: 0, z: -1.2, yaw: 0, pitch: 0 };
@@ -68,6 +106,27 @@ export function supportHeight(p, solids) {
       top = b.maxY;
   return top;
 }
+export function safeFooting(p, solids) {
+  if (p.y <= 0.35) return true;
+  // Four small probes under the player's feet. Adjacent blocks can jointly
+  // support them, so seams are walkable while true platform edges stop motion.
+  return [-0.12, 0.12].every((dx) =>
+    [-0.12, 0.12].every((dz) =>
+      solids.some((b) => {
+        if (b.maxY > p.y + 0.025 || b.maxY < p.y - 0.3) return false;
+        const probe = {
+          minX: p.x + dx - 0.001,
+          maxX: p.x + dx + 0.001,
+          minZ: p.z + dz - 0.001,
+          maxZ: p.z + dz + 0.001,
+          minY: b.maxY - 0.003,
+          maxY: b.maxY + 0.003,
+        };
+        return overlaps(probe, b);
+      }),
+    ),
+  );
+}
 export function movePlayer(p, input, dt, solids) {
   // Fixed small substeps prevent tunnelling at low frame rates. No step teleporting.
   const steps = Math.ceil(Math.min(dt, 0.1) / 0.012),
@@ -78,37 +137,25 @@ export function movePlayer(p, input, dt, solids) {
   const dx = ((-Math.sin(p.yaw) * f + Math.cos(p.yaw) * s) * 3.4) / n;
   const dz = ((-Math.cos(p.yaw) * f - Math.sin(p.yaw) * s) * 3.4) / n;
   for (let i = 0; i < steps; i++) {
+    const support = supportHeight(p, solids);
+    if ((p.vy || 0) <= 0 && p.y >= support - 0.002 && p.y - support < 0.035) {
+      p.y = support;
+      p.vy = 0;
+      p.grounded = true;
+    }
     for (const [axis, speed] of [
       ["x", dx],
       ["z", dz],
     ]) {
       const old = p[axis];
       p[axis] = clamp(old + speed * h, -LIMIT + 0.4, LIMIT - 0.4);
-      if (collides(p, solids)) {
-        const hits = solids.filter((b) => overlaps(bodyBox(p), b)),
-          oldY = p.y;
-        const top = Math.max(...hits.map((b) => b.maxY));
-        if (
-          input.autoStep &&
-          p.grounded &&
-          (p.vy || 0) <= 0 &&
-          hits.every((b) => b.step) &&
-          top > oldY &&
-          top - oldY <= 1.001
-        ) {
-          p.y = top;
-          if (collides(p, solids)) {
-            p.y = oldY;
-            p[axis] = old;
-          }
-        } else p[axis] = old;
-      }
+      if (collides(p, solids)) p[axis] = old;
       if (
         input.edgeProtection &&
         p.grounded &&
         !input.allowDrop &&
         p.y > 0.35 &&
-        supportHeight(p, solids) < p.y - 0.35
+        !safeFooting(p, solids)
       )
         p[axis] = old;
     }
@@ -132,6 +179,12 @@ export function movePlayer(p, input, dt, solids) {
       if (p.y < 0 || collides(p, solids)) p.y = oldY;
       p.vy = 0;
     } else p.grounded = false;
+    const floor = supportHeight(p, solids);
+    if (p.vy <= 0 && p.y >= floor - 0.002 && p.y - floor < 0.035) {
+      p.y = floor;
+      p.vy = 0;
+      p.grounded = true;
+    }
   }
 }
 export function placementReason(

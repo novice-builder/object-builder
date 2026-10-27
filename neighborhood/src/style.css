@@ -935,3 +935,72 @@ p {
     flex: 1;
   }
 }
+/* Pointer targets remain stationary throughout a press. */
+button:active {
+  transform: none;
+}
+#guardToggle {
+  min-width: 48px;
+  width: 52px;
+}
+#guardToggle[aria-pressed="true"] {
+  background: #c8ddc2;
+  outline: 2px solid #fffaeb;
+}
+#guardToggle small {
+  font-size: 10px;
+}
+
+/* Feedback owns layout space; it never covers the scrollable button rows. */
+.card.settings {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 20px;
+}
+.settings > :not(.settingsScroll) {
+  flex-shrink: 0;
+}
+.settingsScroll {
+  min-height: 0;
+  overflow: auto;
+  touch-action: pan-y;
+  padding: 4px 0;
+}
+#settingsFeedback {
+  position: static;
+  z-index: auto;
+  margin: 8px 0;
+  padding: 9px;
+  min-height: 40px;
+}
+.settings h2 {
+  margin: 6px 0;
+  font-size: 26px;
+}
+#saveStatus {
+  margin: 6px 0;
+  font-size: 11px;
+}
+@media (orientation: landscape) and (min-width: 650px) and (max-height: 550px) {
+  /* Reserve real layout columns for the stick and the three gameplay buttons. */
+  #placementControls {
+    left: calc(136px + env(safe-area-inset-left));
+    right: calc(220px + env(safe-area-inset-right));
+    width: auto;
+    max-width: none;
+    transform: none;
+  }
+  #placementStatus {
+    flex-basis: 40px;
+    font-size: 9px;
+  }
+  .placement-buttons {
+    gap: 4px;
+  }
+}
+/* A swipe may start on a menu control; taps still activate the same full target. */
+.settingsScroll button,
+.settingsScroll .file-button {
+  touch-action: pan-y;
+}

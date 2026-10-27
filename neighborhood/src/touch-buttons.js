@@ -1,21 +1,33 @@
-// Safari may emit MouseEvent clicks with no pointerType after pointerup.
-// Handle a touch once, preserving native mouse/keyboard actions and horizontal scrolling.
+// The browser's pointer target is the hit-test result, including CSS transforms,
+// visual viewport scaling and button children. Do not reject it using a second
+// coordinate/rectangle test. A native compatibility click may have NO metadata.
 export function installTouchButtons(root = document) {
   const presses = new Map();
   let firing = false,
-    lastTouchFinish = -Infinity;
+    suppressUntil = 0;
   root.addEventListener(
     "pointerdown",
     (e) => {
-      if (e.pointerType === "touch") lastTouchFinish = -Infinity;
+      suppressUntil = 0;
       const button = e.target.closest?.("button");
-      if (e.pointerType === "touch" && button && !button.disabled)
+      if (
+        (e.pointerType === "touch" || e.pointerType === "pen") &&
+        button &&
+        !button.disabled
+      )
         presses.set(e.pointerId, {
           button,
           x: e.clientX,
           y: e.clientY,
           moved: false,
         });
+    },
+    true,
+  );
+  root.addEventListener(
+    "keydown",
+    () => {
+      suppressUntil = 0;
     },
     true,
   );
@@ -31,10 +43,7 @@ export function installTouchButtons(root = document) {
   root.addEventListener(
     "pointercancel",
     (e) => {
-      const p = presses.get(e.pointerId);
-      if (p) {
-        lastTouchFinish = performance.now();
-      }
+      if (presses.has(e.pointerId)) suppressUntil = performance.now() + 900;
       presses.delete(e.pointerId);
     },
     true,
@@ -42,22 +51,16 @@ export function installTouchButtons(root = document) {
   root.addEventListener(
     "pointerup",
     (e) => {
-      // World taps can open dialogs or preview controls beneath the finger too.
-      if (e.pointerType === "touch" && e.target.closest?.("#world"))
-        lastTouchFinish = performance.now();
       const p = presses.get(e.pointerId);
       presses.delete(e.pointerId);
-      if (!p) return;
-      lastTouchFinish = performance.now();
-      const r = p.button.getBoundingClientRect();
       if (
-        !p.moved &&
-        !p.button.disabled &&
-        e.clientX >= r.left &&
-        e.clientX <= r.right &&
-        e.clientY >= r.top &&
-        e.clientY <= r.bottom
-      ) {
+        (e.pointerType === "touch" || e.pointerType === "pen") &&
+        e.target.closest?.("#world")
+      )
+        suppressUntil = performance.now() + 900;
+      if (!p) return;
+      suppressUntil = performance.now() + 900;
+      if (!p.moved && !p.button.disabled && p.button.isConnected !== false) {
         e.preventDefault();
         firing = true;
         try {
@@ -72,11 +75,10 @@ export function installTouchButtons(root = document) {
   root.addEventListener(
     "click",
     (e) => {
-      const touchClick =
-        e.pointerType === "touch" ||
-        e.sourceCapabilities?.firesTouchEvents ||
-        (!e.pointerType && e.detail > 0);
-      if (!firing && touchClick && performance.now() - lastTouchFinish < 1200) {
+      // Keep export anchors, text fields and native file pickers functional. Any new
+      // pointerdown/keydown starts a new intentional action and clears suppression.
+      const control = e.target.closest?.("button,summary,.file-button");
+      if (!firing && control && performance.now() < suppressUntil) {
         e.preventDefault();
         e.stopImmediatePropagation();
       }

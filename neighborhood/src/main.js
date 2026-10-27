@@ -25,7 +25,7 @@ import { blockTexture } from "./textures.js";
 import { installTouchButtons } from "./touch-buttons.js";
 import { installWorldGestures } from "./gestures.js";
 import { detailedPiece } from "./pieces.js";
-import { doorOperation } from "./doors.js";
+import { initializeDoor, requestDoor, updateDoors } from "./doors.js";
 const $ = (id) => document.getElementById(id),
   SAVE_KEY = "blockworld.neighborhood.01",
   bootStart = performance.now();
@@ -82,18 +82,24 @@ let joyPointer = null,
   returnFocus = null,
   lastContextSignature = null,
   lastPaletteSelection = null;
-const PREFS_KEY = "blockworld.neighborhood.controls.v2";
+const PREFS_KEY = "blockworld.neighborhood.controls.v3";
 const preferences = {
   placement: "direct",
-  autoStep: false,
-  edgeProtection: false,
+  automaticDoors: true,
+  edgeProtection: true,
   quality: false,
   subtitles: true,
 };
 try {
-  const saved = JSON.parse(localStorage.getItem(PREFS_KEY) || "{}");
-  for (const k of ["autoStep", "edgeProtection", "quality", "subtitles"])
+  const raw = localStorage.getItem(PREFS_KEY);
+  const saved = JSON.parse(
+    raw || localStorage.getItem("blockworld.neighborhood.controls.v2") || "{}",
+  );
+  for (const k of ["quality", "subtitles"])
     if (typeof saved[k] === "boolean") preferences[k] = saved[k];
+  if (raw)
+    for (const k of ["edgeProtection", "automaticDoors"])
+      if (typeof saved[k] === "boolean") preferences[k] = saved[k];
   if (saved.placement === "crosshair") preferences.placement = "crosshair";
 } catch {}
 function savePreferences() {
@@ -203,9 +209,11 @@ function applyState(next) {
   state = next;
   player = { ...state.player, vy: 0, grounded: state.player.y === 0 };
   for (const d of world.doors) {
-    d.open = state.doors[d.id] === true;
-    d.swing = state.doorSwings?.[d.id] === 1 ? 1 : -1;
-    d.pivot.rotation.y = d.baseAngle + (d.open ? (d.swing * Math.PI) / 2 : 0);
+    initializeDoor(
+      d,
+      state.doors[d.id] === true,
+      state.doorSwings?.[d.id] === 1 ? 1 : -1,
+    );
   }
   history = new BuildHistory();
   rebuildSolids();
@@ -352,10 +360,27 @@ function targetAt(ndc = center) {
 const tempBox = new T.Box3(),
   tempHit = new T.Vector3();
 function rayBoxNear(r, b) {
+  if (b.obb) {
+    const o = b.obb,
+      dx = r.origin.x - o.cx,
+      dz = r.origin.z - o.cz;
+    const local = new T.Ray(
+      new T.Vector3(dx * o.c - dz * o.s, r.origin.y, dx * o.s + dz * o.c),
+      new T.Vector3(
+        r.direction.x * o.c - r.direction.z * o.s,
+        r.direction.y,
+        r.direction.x * o.s + r.direction.z * o.c,
+      ),
+    );
+    tempBox.min.set(-o.halfW, b.minY, -o.halfD);
+    tempBox.max.set(o.halfW, b.maxY, o.halfD);
+    const hit = local.intersectBox(tempBox, tempHit);
+    return hit ? local.origin.distanceTo(hit) : Infinity;
+  }
   tempBox.min.set(b.minX, b.minY, b.minZ);
   tempBox.max.set(b.maxX, b.maxY, b.maxZ);
-  const p = r.intersectBox(tempBox, tempHit);
-  return p ? r.origin.distanceTo(p) : Infinity;
+  const hit = r.intersectBox(tempBox, tempHit);
+  return hit ? r.origin.distanceTo(hit) : Infinity;
 }
 const previewGroup = new T.Group();
 scene.add(previewGroup);
@@ -397,6 +422,7 @@ function cancelPlacement() {
   pending = null;
   previewGroup.clear();
   $("placementControls").hidden = true;
+  updateInteractionUI();
 }
 function renderPreview() {
   previewGroup.clear();
@@ -407,6 +433,7 @@ function renderPreview() {
   $("placementStatus").textContent =
     reason || `${names[pending.type]} · ${pending.rotation}°`;
   $("placementControls").hidden = false;
+  updateInteractionUI();
 }
 function place(ndc) {
   if (modal || state.selected === "hand") return false;
@@ -491,12 +518,10 @@ function updatePalette() {
   const palette = $("palette"),
     scroll = palette.scrollLeft;
   if (!palette.children.length)
-    palette.innerHTML = ["hand", ...ITEMS]
-      .map(
-        (t) =>
-          `<button data-item="${t}" aria-label="Choose ${names[t]}">${icons[t]}<small>${names[t]}</small><span class="count"></span></button>`,
-      )
-      .join("");
+    palette.innerHTML = ITEMS.map(
+      (t) =>
+        `<button data-item="${t}" aria-label="Choose ${names[t]}">${icons[t]}<small>${names[t]}</small><span class="count"></span></button>`,
+    ).join("");
   for (const button of palette.children) {
     const t = button.dataset.item;
     button.setAttribute("aria-pressed", String(state.selected === t));
@@ -526,13 +551,29 @@ function ensureSelectedVisible() {
 function updateInteractionUI() {
   const cross = preferences.placement === "crosshair";
   $("crosshair").hidden = !cross;
-  $("place").hidden = !cross || state.selected === "hand";
-  $("remove").hidden = !cross;
+  $("place").hidden = !cross || state.selected === "hand" || !!pending;
+  $("remove").hidden = !cross || !!pending;
   $("placementMode").textContent =
     "Placement: " + (cross ? "Crosshair" : "Direct touch");
-  $("autoStep").textContent =
-    "Auto-step: " + (preferences.autoStep ? "on" : "off");
-  $("autoStep").setAttribute("aria-pressed", String(preferences.autoStep));
+  $("automaticDoors").textContent =
+    "Automatic doors: " + (preferences.automaticDoors ? "on" : "off");
+  $("automaticDoors").setAttribute(
+    "aria-pressed",
+    String(preferences.automaticDoors),
+  );
+  $("guardToggle").innerHTML =
+    icons.shield +
+    `<small>Edge ${preferences.edgeProtection ? "on" : "off"}</small>`;
+  $("guardToggle").setAttribute(
+    "aria-pressed",
+    String(preferences.edgeProtection),
+  );
+  $("guardToggle").setAttribute(
+    "aria-label",
+    "Edge protection " +
+      (preferences.edgeProtection ? "on" : "off") +
+      ". Tap to toggle.",
+  );
   $("edgeProtection").textContent =
     "Edge protection: " + (preferences.edgeProtection ? "on" : "off");
   $("edgeProtection").setAttribute(
@@ -541,10 +582,10 @@ function updateInteractionUI() {
   );
   $("buildHint").textContent =
     state.selected === "hand"
-      ? "Empty hand · tap a door or table"
+      ? "Tap a material to build · tap it again to deselect"
       : cross
         ? "Aim with + · use Place"
-        : "Tap to place · hold a piece to put it away";
+        : "Tap to place · tap selected material to deselect";
 }
 function jump() {
   if (started && !modal && player.grounded) {
@@ -580,22 +621,24 @@ function nearestUse() {
   return best ? { kind: "door", door: best } : null;
 }
 function toggleDoor(d) {
-  const result = doorOperation(d, player, state.blocks);
+  const result = requestDoor(
+    d,
+    !d.targetOpen,
+    player,
+    state.blocks,
+    world.solids,
+    true,
+  );
   if (!result.ok) {
     notice(result.message);
     return false;
   }
-  d.open = result.open;
-  d.swing = result.swing;
-  state.doors[d.id] = d.open;
+  state.doors[d.id] = d.targetOpen;
   state.doorSwings ??= {};
   state.doorSwings[d.id] = d.swing;
-  d.pivot.rotation.y = d.baseAngle + (d.open ? (d.swing * Math.PI) / 2 : 0);
-  rebuildSolids();
   lastContextSignature = null;
   scheduleSave();
-  if (d.open) voice.play("home");
-  else notice("Door closed");
+  notice(d.targetOpen ? "Door opening" : "Door closing");
   return true;
 }
 function interactAt(ndc) {
@@ -618,17 +661,18 @@ function interactAt(ndc) {
   const distance = rayBoxNear(ray.ray, tableBox);
   if (distance < 2.7) candidates.push({ kind: "table", distance });
   const candidate = candidates.sort((a, b) => a.distance - b.distance)[0];
-  if (!candidate) return;
+  if (!candidate) return false;
   // Jamb/wall occlusion is tested before the candidate surface.
   if (
     world.solids.some((b) => rayBoxNear(ray.ray, b) < candidate.distance - 0.12)
   )
-    return;
+    return false;
   if (candidate.kind === "door") toggleDoor(candidate.door);
   else {
     openModal("craft");
     voice.play("craft");
   }
+  return true;
 }
 function use() {
   if (modal) return;
@@ -756,6 +800,7 @@ function setupUI() {
   document
     .querySelectorAll("[data-close]")
     .forEach((b) => (b.onclick = closeModal));
+  $("guardToggle").onclick = toggleGuard;
   $("jump").onclick = jump;
   $("place").onclick = () => place();
   $("remove").onclick = () => remove();
@@ -773,7 +818,8 @@ function setupUI() {
     const b = e.target.closest("[data-item]");
     if (!b) return;
     cancelPlacement();
-    state.selected = b.dataset.item;
+    state.selected =
+      state.selected === b.dataset.item ? "hand" : b.dataset.item;
     updatePalette();
     scheduleSave();
     if (SPECIAL.includes(state.selected) && !state.inventory[state.selected])
@@ -863,22 +909,34 @@ function setupUI() {
         : "Crosshair: aim at the centre +, then press Place. Furniture still needs confirmation.",
     );
   };
-  for (const id of ["autoStep", "edgeProtection"])
-    $(id).onclick = () => {
-      preferences[id] = !preferences[id];
-      applyPreferences();
-      savePreferences();
-      settingsFeedback(
-        id === "autoStep"
-          ? preferences[id]
-            ? "Auto-step on: walk onto building blocks up to one metre, when there is room above."
-            : "Auto-step off: use Jump to climb."
-          : preferences[id]
-            ? "Edge protection on while holding a building piece. Jump or choose Hand to leave an edge."
-            : "Edge protection off: you can walk off edges normally.",
-      );
-    };
+  $("edgeProtection").onclick = toggleGuard;
+  $("automaticDoors").onclick = () => {
+    preferences.automaticDoors = !preferences.automaticDoors;
+    if (preferences.automaticDoors)
+      for (const d of world.doors) {
+        d.manualHold = false;
+        d.lastAttempt = -Infinity;
+        d.leaveSince = null;
+      }
+    applyPreferences();
+    savePreferences();
+    settingsFeedback(
+      preferences.automaticDoors
+        ? "Automatic doors on: approach to open; they close after you move clear."
+        : "Automatic doors off: tap a door or its button to open and close it.",
+    );
+  };
   applyPreferences();
+}
+function toggleGuard() {
+  preferences.edgeProtection = !preferences.edgeProtection;
+  applyPreferences();
+  savePreferences();
+  const text = preferences.edgeProtection
+    ? "Edge protection on. Jump deliberately to leave a platform."
+    : "Edge protection off. Walking off an edge is allowed.";
+  if (modal === "settings") settingsFeedback(text);
+  else notice(text);
 }
 function applyPreferences() {
   highQuality = preferences.quality;
@@ -1061,8 +1119,10 @@ worldGestures = installWorldGestures(canvas, {
     }
   },
   onTap: (x, y) => {
-    if (state.selected === "hand") interactAt(ndcAt(x, y));
-    else if (preferences.placement === "direct") place(ndcAt(x, y));
+    const ndc = ndcAt(x, y);
+    if (interactAt(ndc)) return;
+    if (state.selected !== "hand" && preferences.placement === "direct")
+      place(ndc);
   },
   onLook: (dx, dy) => {
     player.yaw -= dx * 0.004;
@@ -1167,6 +1227,20 @@ function frame(now) {
     dt = Math.min(0.08, elapsed / 1000);
   previous = now;
   if (started && !modal && !document.hidden) {
+    if (
+      updateDoors(
+        world.doors,
+        player,
+        state.blocks,
+        world.solids,
+        preferences.automaticDoors,
+        now / 1000,
+        dt,
+      )
+    ) {
+      rebuildSolids();
+      dirty = true;
+    }
     const forward =
       (keys.has("KeyW") || keys.has("ArrowUp") ? 1 : 0) -
       (keys.has("KeyS") || keys.has("ArrowDown") ? 1 : 0) -
@@ -1180,9 +1254,7 @@ function frame(now) {
       {
         forward,
         right,
-        autoStep: preferences.autoStep,
-        edgeProtection: preferences.edgeProtection && state.selected !== "hand",
-        allowDrop: keys.has("ShiftLeft") || keys.has("ShiftRight"),
+        edgeProtection: preferences.edgeProtection,
       },
       dt,
       solidCache,
@@ -1319,6 +1391,9 @@ if (new URLSearchParams(location.search).get("test") === "1")
         center: d.center,
         baseAngle: d.baseAngle,
         swing: d.swing ?? -1,
+        angle: d.angle,
+        targetOpen: d.targetOpen,
+        blocked: d.blocked,
         hinge: d.hinge,
         width: d.width,
       })),
@@ -1371,6 +1446,28 @@ if (new URLSearchParams(location.search).get("test") === "1")
     confirmPlacement,
     rotatePlacement,
     toggleDoor: (id) => toggleDoor(world.doors.find((d) => d.id === id)),
+    simulate(input, seconds) {
+      const n = Math.ceil(seconds / 0.016);
+      for (let i = 0; i < n; i++) {
+        updateDoors(
+          world.doors,
+          player,
+          state.blocks,
+          world.solids,
+          preferences.automaticDoors,
+          performance.now() / 1000 + i * 0.016,
+          0.016,
+        );
+        rebuildSolids();
+        movePlayer(
+          player,
+          { ...input, edgeProtection: preferences.edgeProtection },
+          0.016,
+          solidCache,
+        );
+      }
+      updateCamera();
+    },
     project(x, y, z) {
       updateCamera();
       const v = new T.Vector3(x, y, z).project(camera);

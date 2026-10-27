@@ -7,7 +7,7 @@
       content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"
     />
     <meta name="theme-color" content="#356b61" />
-    <title>Little Block Lane · BlockWorld Neighborhood 02</title>
+    <title>Little Block Lane · BlockWorld Neighborhood 03</title>
     <style>
       /* STYLES */
     </style>
@@ -65,6 +65,11 @@
         <span class="joy-label">MOVE</span>
       </div>
       <div id="actions">
+        <button
+          id="guardToggle"
+          aria-label="Toggle edge protection"
+          aria-pressed="true"
+        ></button>
         <button id="undo" aria-label="Undo last building action"></button
         ><button
           id="remove"
@@ -100,7 +105,7 @@
         aria-modal="true"
         aria-labelledby="welcomeTitle"
       >
-        <span class="eyebrow">BLOCKWORLD · NEIGHBORHOOD 02</span>
+        <span class="eyebrow">BLOCKWORLD · NEIGHBORHOOD 03</span>
         <h1 id="welcomeTitle">Little Block<br /><em>Lane.</em></h1>
         <p>A little place. Big ideas.</p>
         <div class="welcome-pictures">
@@ -113,7 +118,7 @@
           Move with the round stick. Drag to look.<br />Unlimited blocks. No
           rush. Just play.
         </p>
-        <span class="release">Touch & play · v0.2</span>
+        <span class="release">Play & safety · v0.3</span>
       </section>
     </div>
     <div id="craft" class="overlay" hidden>
@@ -145,64 +150,74 @@
         <p id="settingsFeedback" role="status" aria-live="polite">
           Choose a setting below.
         </p>
-        <div class="menu-grid">
-          <button id="placementMode">Placement: Direct touch</button>
-          <button id="autoStep" aria-pressed="false">Auto-step: off</button>
-          <button id="edgeProtection" aria-pressed="false">
-            Edge protection: off
-          </button>
-          <button id="export">↓ Export save</button
-          ><label class="file-button"
-            >↑ Import save<input
-              id="import"
-              type="file"
-              accept=".json,application/json" /></label
-          ><button id="fullscreen">⛶ Full screen</button
-          ><button id="diagnostics">Performance</button
-          ><button id="quality">Quality: gentle</button
-          ><button id="subtitles">Hints: on</button>
+        <div class="settingsScroll">
+          <div class="menu-grid">
+            <button id="placementMode">Placement: Direct touch</button>
+            <button id="automaticDoors" aria-pressed="true">
+              Automatic doors: on
+            </button>
+            <button id="edgeProtection" aria-pressed="true">
+              Edge protection: on
+            </button>
+            <button id="export">↓ Export save</button
+            ><label class="file-button"
+              >↑ Import save<input
+                id="import"
+                type="file"
+                accept=".json,application/json" /></label
+            ><button id="fullscreen">⛶ Full screen</button
+            ><button id="diagnostics">Performance</button
+            ><button id="quality">Quality: gentle</button
+            ><button id="subtitles">Hints: on</button>
+          </div>
+          <pre
+            id="menuStats"
+            hidden
+            aria-label="Live performance readings"
+          ></pre>
+          <details id="backupFallback" hidden>
+            <summary>Backup text (if saving a file is unavailable)</summary>
+            <textarea
+              id="backupText"
+              readonly
+              aria-label="Save backup JSON"
+              rows="5"
+            ></textarea>
+            <button id="copyBackup">Copy backup text</button>
+          </details>
+          <div class="instructions">
+            <b>How to play</b>
+            <p>
+              Left stick: walk · drag the world: look · ↑: jump.<br />
+              Choose a hotbar picture, then tap a spot to build. Swipe the bar
+              for more.<br />
+              Tap the selected material again to deselect. Tap a door or table
+              to use it. Hold a built piece to put it away. ↶: undo.<br />
+              Furniture: tap a spot, rotate the preview, then tap the tick.<br />
+              Doors open automatically on approach unless switched off in
+              Settings. Edge protection starts on. Use its small gameplay toggle
+              to change it. Jump deliberately to leave an edge. Climbing is
+              disabled.
+            </p>
+            <p>
+              Desktop: WASD / arrows, drag to look, Space jump, E use, 0 empty
+              hand, 1–7 pieces, F place, R remove (or rotate a preview), Shift+R
+              fine rotation, Enter confirm, Z undo. Esc cancels a preview or
+              opens/closes the menu.
+            </p>
+            <p>
+              There are no voice recordings yet. The speaker replays a written
+              hint. Progress belongs to this browser / file location. Export a
+              backup before moving the game.
+            </p>
+            <p id="offlineNote">
+              This game contains its renderer and art. It makes no network
+              requests.
+            </p>
+          </div>
+          <button id="resume" class="primary">Back to play ➜</button>
+          <div id="importError" role="alert"></div>
         </div>
-        <pre id="menuStats" hidden aria-label="Live performance readings"></pre>
-        <details id="backupFallback" hidden>
-          <summary>Backup text (if saving a file is unavailable)</summary>
-          <textarea
-            id="backupText"
-            readonly
-            aria-label="Save backup JSON"
-            rows="5"
-          ></textarea>
-          <button id="copyBackup">Copy backup text</button>
-        </details>
-        <div class="instructions">
-          <b>How to play</b>
-          <p>
-            Left stick: walk · drag the world: look · ↑: jump.<br />
-            Choose a hotbar picture, then tap a spot to build. Swipe the bar for
-            more.<br />
-            Empty hand: tap a door or table. Hold a built piece to put it away.
-            ↶: undo.<br />
-            Furniture: tap a spot, rotate the preview, then tap the tick.<br />
-            Auto-step and edge protection are independent options. With edge
-            protection on, Jump or choose Hand to step off a ledge.
-          </p>
-          <p>
-            Desktop: WASD / arrows, drag to look, Space jump, E use, 0 empty
-            hand, 1–7 pieces, F place, R remove (or rotate a preview), Shift+R
-            fine rotation, Enter confirm, Z undo. Esc cancels a preview or
-            opens/closes the menu.
-          </p>
-          <p>
-            There are no voice recordings yet. The speaker replays a written
-            hint. Progress belongs to this browser / file location. Export a
-            backup before moving the game.
-          </p>
-          <p id="offlineNote">
-            This game contains its renderer and art. It makes no network
-            requests.
-          </p>
-        </div>
-        <button id="resume" class="primary">Back to play ➜</button>
-        <div id="importError" role="alert"></div>
       </section>
     </div>
     <div id="fatal" class="overlay" hidden>

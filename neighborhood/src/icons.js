@@ -5,6 +5,9 @@ const stroke = (s) =>
     `<g stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">${s}</g>`,
   );
 export const icons = {
+  shield: stroke(
+    '<path d="M24 5l16 6v12q0 14-16 21Q8 37 8 23V11zM16 24l6 6 12-14"/>',
+  ),
   hand: stroke(
     '<path d="M14 25V15q0-5 4-5t4 5v8-14q0-5 4-5t4 5v14-11q0-4 4-4t4 4v15q0 13-12 15h-5q-5-1-8-7L7 25q-2-4 1-6t6 6z"/>',
   ),
