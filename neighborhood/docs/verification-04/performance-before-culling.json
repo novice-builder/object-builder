@@ -1,0 +1,228 @@
+{
+  "browser": "154.0.8037.57",
+  "renderer": "Linux headless Chromium, ANGLE SwiftShader software GPU; not Lenovo/iPhone",
+  "viewport": {
+    "width": 800,
+    "height": 600
+  },
+  "dpr": 1,
+  "date": "2026-10-27T21:28:41.171Z",
+  "releaseSha256": "8bbdbaca5dd7b3bfa5031a6e4108faee0c30a7442def559a52034a6707f06165",
+  "samples": [
+    {
+      "name": "3-home",
+      "frames": 117,
+      "seconds": 5.008700000000093,
+      "fps": 23.359354722781923,
+      "p50": 33.400000000000546,
+      "p95": 83.30000000000018,
+      "p99": 83.39999999999964,
+      "over50ms": 40,
+      "stats": {
+        "fps": 24,
+        "drawCalls": 29,
+        "triangles": 5014,
+        "geometries": 12,
+        "textures": 0,
+        "heapMB": 6.1,
+        "rebuildMs": 0.1,
+        "firstFrameMs": 395,
+        "frameP95": 83.4,
+        "blocks": 0
+      },
+      "simulateOneSecondCPUms": 1.3999999999068677,
+      "touchReleaseToNextRAFms": 64.3000000002794
+    },
+    {
+      "name": "4-home",
+      "frames": 72,
+      "seconds": 5.0244,
+      "fps": 14.330069262001434,
+      "p50": 66.69999999999982,
+      "p95": 133.4000000000001,
+      "p99": 150,
+      "over50ms": 48,
+      "stats": {
+        "fps": 15,
+        "drawCalls": 57,
+        "triangles": 18731,
+        "geometries": 58,
+        "textures": 2,
+        "heapMB": 18.4,
+        "rebuildMs": 0.2,
+        "firstFrameMs": 441,
+        "frameP95": 149.9,
+        "blocks": 0,
+        "activeSolids": 2,
+        "staticSolids": 714,
+        "staticChunks": 141,
+        "buildChunks": 0,
+        "chunksRebuilt": 0
+      },
+      "simulateOneSecondCPUms": 6.399999999906868,
+      "touchReleaseToNextRAFms": 79.79999999981374
+    },
+    {
+      "name": "4-village",
+      "frames": 104,
+      "seconds": 5.038700000000186,
+      "fps": 20.640244507511095,
+      "p50": 50,
+      "p95": 66.79999999999927,
+      "p99": 83.40000000000146,
+      "over50ms": 47,
+      "stats": {
+        "fps": 21,
+        "drawCalls": 48,
+        "triangles": 12422,
+        "geometries": 80,
+        "textures": 6,
+        "heapMB": 28.6,
+        "rebuildMs": 0.2,
+        "firstFrameMs": 441,
+        "frameP95": 116.8,
+        "blocks": 0,
+        "activeSolids": 1,
+        "staticSolids": 714,
+        "staticChunks": 141,
+        "buildChunks": 0,
+        "chunksRebuilt": 0
+      },
+      "simulateOneSecondCPUms": 8.100000000093132,
+      "touchReleaseToNextRAFms": 31.100000000093132
+    },
+    {
+      "name": "4-park",
+      "frames": 98,
+      "seconds": 5.059799999999999,
+      "fps": 19.368354480414247,
+      "p50": 50,
+      "p95": 83.40000000000146,
+      "p99": 116.60000000000218,
+      "over50ms": 48,
+      "stats": {
+        "fps": 20,
+        "drawCalls": 86,
+        "triangles": 22277,
+        "geometries": 103,
+        "textures": 9,
+        "heapMB": 15.4,
+        "rebuildMs": 0.2,
+        "firstFrameMs": 441,
+        "frameP95": 83.3,
+        "blocks": 0,
+        "activeSolids": 1,
+        "staticSolids": 714,
+        "staticChunks": 141,
+        "buildChunks": 0,
+        "chunksRebuilt": 0
+      },
+      "simulateOneSecondCPUms": 2.1999999997206032,
+      "touchReleaseToNextRAFms": 90
+    },
+    {
+      "name": "4-woods",
+      "frames": 119,
+      "seconds": 5.048900000000278,
+      "fps": 23.56949038404275,
+      "p50": 33.400000000001455,
+      "p95": 83.39999999999782,
+      "p99": 83.40000000000146,
+      "over50ms": 40,
+      "stats": {
+        "fps": 25,
+        "drawCalls": 7,
+        "triangles": 5208,
+        "geometries": 103,
+        "textures": 9,
+        "heapMB": 26.5,
+        "rebuildMs": 0.2,
+        "firstFrameMs": 441,
+        "frameP95": 83.4,
+        "blocks": 0,
+        "activeSolids": 1,
+        "staticSolids": 714,
+        "staticChunks": 141,
+        "buildChunks": 0,
+        "chunksRebuilt": 0
+      },
+      "simulateOneSecondCPUms": 6.2999999998137355,
+      "touchReleaseToNextRAFms": 24.600000000093132
+    },
+    {
+      "name": "4-12000-pieces",
+      "frames": 7,
+      "seconds": 5.162099999999999,
+      "fps": 1.3560372716530098,
+      "p50": 683.4000000000015,
+      "p95": 1516.7000000000044,
+      "p99": 1516.7000000000044,
+      "over50ms": 7,
+      "stats": {
+        "fps": 1,
+        "drawCalls": 28,
+        "triangles": 147920,
+        "geometries": 123,
+        "textures": 14,
+        "heapMB": 16.7,
+        "rebuildMs": 19.4,
+        "firstFrameMs": 441,
+        "frameP95": 83.4,
+        "blocks": 12000,
+        "activeSolids": 1,
+        "staticSolids": 714,
+        "staticChunks": 141,
+        "buildChunks": 2,
+        "chunksRebuilt": 2
+      },
+      "simulateOneSecondCPUms": 3.7000000001862645,
+      "touchReleaseToNextRAFms": 757.0999999996275
+    }
+  ],
+  "readyMs3": 642.0744860000001,
+  "readyMs4": 640.0060949999988,
+  "stressLoad": {
+    "ms": 339.59999999962747,
+    "blocks": 12000
+  },
+  "stressEdit": {
+    "target": {
+      "x": -57,
+      "y": 0,
+      "z": 60,
+      "type": "glass"
+    },
+    "removed": true,
+    "undone": true,
+    "targetMs": 12.699999999720603,
+    "removeMs": 19.399999999906868,
+    "undoMs": 2.7000000001862645,
+    "before": {
+      "rebuilt": 2,
+      "groups": [
+        {
+          "key": "-4,2",
+          "id": "995a1d0d-f88e-48b9-9300-e47b9eb86945"
+        },
+        {
+          "key": "-3,2",
+          "id": "3fa8dd9d-63f5-4c93-a7fc-481639b65434"
+        }
+      ]
+    },
+    "after": {
+      "rebuilt": 4,
+      "groups": [
+        {
+          "key": "-4,2",
+          "id": "995a1d0d-f88e-48b9-9300-e47b9eb86945"
+        },
+        {
+          "key": "-3,2",
+          "id": "9cd84976-c8c8-4bd4-9ff6-922df18f3374"
+        }
+      ]
+    },
+    "unaffectedChunksKept": 1
+  }
+}

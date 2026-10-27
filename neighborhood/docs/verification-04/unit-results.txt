@@ -1,0 +1,64 @@
+
+> blockworld-neighborhood@0.4.0 test
+> node test/core.test.mjs && node test/controls-03.test.mjs && node test/world-04.test.mjs
+
+✔ forward and strafe agree with camera at four headings; diagonal speed is normalized (1.249406ms)
+✔ wall collision cannot tunnel through a thin wall at low FPS and permits sliding (0.903093ms)
+✔ jump lands on a built block, hits ceilings, and cannot jump through them (2.277418ms)
+✔ placement prevents overlaps, self-entombment, floating pieces, long reach and capacity overflow (3.626184ms)
+✔ undo returns consumed crafted items; removed pieces cannot be restored over player or closed door (0.329627ms)
+✔ save roundtrip preserves special inventory, selection, door and pose; malformed imports are rejected (2.795931ms)
+✔ all houses have an upright, usable opening and a correctly oriented door at both angles (3.142404ms)
+✔ driveways align with the actual entrances, reach the road and houses do not intersect each other (0.355907ms)
+✔ world mesh transforms are finite and scales are positive (79.313561ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 100.405004
+✔ 02 failure: guard must work even with no material selected, and stay stable at high/low frame rates (33.087944ms)
+✔ guard allows Jump, stops a second walking fall after landing, and OFF allows walking down (3.046259ms)
+✔ automatic climbing is removed even when an old saved caller supplies autoStep=true (0.746477ms)
+✔ OBB narrow phase rejects false AABB obstruction inside the swung leaf bounding box (0.289727ms)
+✔ every door automatically opens away from either approach, animates safely, stays open nearby, then closes after a delay (126.451157ms)
+✔ walk through, safe close and reopen from inside/outside every house without passing a closed leaf (608.245927ms)
+✔ closing refuses doorway occupancy and a blocked sweep, and reopens if a player returns mid-close (1.713452ms)
+✔ automatic OFF leaves closed doors closed; manual close has a near-player latch rather than immediately reopening (9.119843ms)
+✔ all parts of a browser-targeted button activate once despite rectangle differences and metadata-free compatibility clicks (1.718209ms)
+✔ leaf collision follows the rendered leaf at closed, intermediate and fully open angles (1.198626ms)
+✔ an obstruction in the middle of the swing prevents closing even when both endpoints are clear (1.158426ms)
+✔ a partial-overhang landing can recover toward the platform without disabling protection (0.651332ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 793.746711
+12000-piece validation ms 35.50140799999997
+✔ 250 m bounds and authored districts contain varied non-overlapping buildings clear of roads and trails (67.327018ms)
+✔ every front walkway clears walls, porch posts and landscaping (24.431547ms)
+✔ road and path junctions form one connected exploration network (0.543509ms)
+✔ spatial collision candidates match exhaustive collision including chunk edges (53.763108ms)
+✔ 12,000-piece save validates with local overlap queries; 03 migration leaves source immutable (47.8786ms)
+✔ larger coordinates and height work while boundaries, reach and fixed scenery stay protected (0.447815ms)
+✔ ordinary edits preserve distant chunk meshes and crafted parts remain targetable (1.608274ms)
+✔ batched crafted items exactly match preview bounds at fine and quarter-turn rotations and raycast to their original piece (4.712091ms)
+✔ hidden-face meshing preserves exposed faces and picking across chunk seams after removal and restoration (0.708798ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 212.063407
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

@@ -1,0 +1,19 @@
+{
+  "results": [
+    "12000 pieces persist across reopening",
+    "real download exports 12000-piece versioned JSON larger than old import limit",
+    "large exported file imports through real file input and restores every piece",
+    "invalid import leaves current progress unchanged",
+    "older exported save imports as a copy without altering 03 browser progress",
+    "reopening retains migrated 04 state and untouched 03 key",
+    "real Home button returns from the distant orchard without changing builds or 03 progress"
+  ],
+  "fileProtocol": {
+    "tested": false,
+    "blocked": true,
+    "reason": "Managed Chromium URL policy rejected file:// navigation: ERR_BLOCKED_BY_ADMINISTRATOR. Policy was not changed."
+  },
+  "exportBytes": 955919,
+  "errors": [],
+  "releaseSha256": "7e57b8de5047233ce208f177a2d8a5861aba1653b7472a91fef5a389e71ffd48"
+}

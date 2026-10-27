@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-28",
+  "file": "BlockWorld_Neighborhood_04.html",
+  "bytes": 577900,
+  "sha256": "7e57b8de5047233ce208f177a2d8a5861aba1653b7472a91fef5a389e71ffd48",
+  "approvedStableBaseline": "03",
+  "baselineSha256": "bd61e35f3b218c101ab209556166295dcfb8708445222805ef9edecdf2d0a585",
+  "unitTests": 30,
+  "mobileScenarios": 19,
+  "buttonPointActivations": 1197,
+  "saveScenarios": 7,
+  "physicalDeviceVerified": false,
+  "fileProtocol": {
+    "tested": false,
+    "blocked": true,
+    "reason": "Managed Chromium URL policy rejected file:// navigation: ERR_BLOCKED_BY_ADMINISTRATOR. Policy was not changed."
+  }
+}
