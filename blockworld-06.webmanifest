@@ -1,0 +1,18 @@
+{
+  "name": "Little Block Lane 06",
+  "short_name": "BlockWorld 06",
+  "id": "/object-builder/BlockWorld_Neighborhood_06.html",
+  "start_url": "/object-builder/BlockWorld_Neighborhood_06.html",
+  "scope": "/object-builder/",
+  "display": "fullscreen",
+  "background_color": "#eaf0db",
+  "theme_color": "#234b40",
+  "icons": [
+    {
+      "src": "./blockworld-06-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
