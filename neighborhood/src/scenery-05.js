@@ -12,15 +12,17 @@ export function makeOuterScenery({
   drives,
   houses,
   clearings,
+  treeAllowed,
+  treePositions,
 }) {
   const wood = 0x946647,
     cream = 0xfff5d9;
   // Three distinct gathering spaces, not repeated housing layouts.
   box(-8, 0.006, -197, 70, 0.012, 18, 0xd7c8a9);
   for (const x of [-32, -8, 16]) {
-    box(x, 0.25, -197, 3, 0.5, 3, 0xb5ad96, true);
-    box(x, 0.54, -197, 2.6, 0.08, 2.6, 0x6b9d67);
-    bench(x, -192, Math.PI);
+    box(x, 0.25, -205.5, 3, 0.5, 3, 0xb5ad96, true);
+    box(x, 0.54, -205.5, 2.6, 0.08, 2.6, 0x6b9d67);
+    bench(x === -8 ? -16 : x, -190, 0);
   }
   // A pergola in the north square, with an unobstructed walking aisle.
   for (const x of [-5, 5])
@@ -45,24 +47,6 @@ export function makeOuterScenery({
           i % 2 ? 0xe6b073 : 0xe0bbbc,
         );
     }
-  // Lake park has a circular picnic garden and a low play course.
-  disk(197, 84, 15, 12, 0xa7be7f, 0.012);
-  for (let i = 0; i < 6; i++) {
-    const a = (i * Math.PI) / 3;
-    bench(197 + Math.cos(a) * 11, 84 + Math.sin(a) * 9, -a);
-  }
-  for (let i = 0; i < 5; i++)
-    box(
-      193 + i * 1.5,
-      0.15 + i * 0.08,
-      80,
-      1,
-      0.3 + i * 0.16,
-      1,
-      [0x447c80, 0xc78264, 0xb5ad96][i % 3],
-      true,
-    );
-  box(201, 0.012, 88, 5, 0.02, 4, 0xe4ce9b);
   // Pond water is deliberately decorative/shallow, retaining approved flat physics.
   for (const p of OUTER_PONDS) {
     disk(p.x, p.z, p.rx + 1.6, p.rz + 1.6, 0xd7c8a9, 0.008);
@@ -188,6 +172,8 @@ export function makeOuterScenery({
     ])
       if (!blocked(x + dx, z + dz)) treeSpots.push({ x: x + dx, z: z + dz });
   for (const [i, p] of treeSpots.entries()) {
+    if (!treeAllowed(p.x, p.z)) continue;
+    treePositions.push({ x: p.x, z: p.z });
     const height = p.fruit ? 2.2 : 2.8 + (i % 4) * 0.4;
     box(p.x, height / 2, p.z, 0.4, height, 0.4, wood, true);
     const conifer = !p.fruit && i % 3 === 0,

@@ -1,0 +1,8 @@
+{
+  "releaseSha256": "db94d70972a654dbc155b0a294a3d0f56e98726ec888fbe0c342276ee469b60b",
+  "geometries": 411,
+  "boxes": 7791,
+  "allAttributesFinite": true,
+  "allBoundingSpheresFinite": true,
+  "allBoxVolumesPositive": true
+}

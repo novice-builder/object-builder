@@ -1,0 +1,758 @@
+{
+  "buildings": 72,
+  "doors": 84,
+  "rollerDoors": 12,
+  "trees": 582,
+  "solids": 3530,
+  "lots": [
+    {
+      "x": -70,
+      "z": 61,
+      "w": 36,
+      "d": 30,
+      "subtle": true
+    },
+    {
+      "x": 8,
+      "z": 61,
+      "w": 27,
+      "d": 27
+    },
+    {
+      "x": -161,
+      "z": -218,
+      "w": 36,
+      "d": 28,
+      "subtle": true
+    },
+    {
+      "x": 214,
+      "z": -232,
+      "w": 36,
+      "d": 20,
+      "subtle": true
+    },
+    {
+      "x": -234,
+      "z": -111,
+      "w": 22,
+      "d": 24,
+      "subtle": true
+    },
+    {
+      "x": 151,
+      "z": 234,
+      "w": 36,
+      "d": 20,
+      "subtle": true
+    },
+    {
+      "id": "north-lot-2",
+      "x": -52,
+      "z": -159,
+      "w": 17,
+      "d": 16,
+      "angle": 0,
+      "street": "north",
+      "roadZ": -143,
+      "subtle": true
+    },
+    {
+      "id": "north-lot-6",
+      "x": 36,
+      "z": -159,
+      "w": 17,
+      "d": 16,
+      "angle": 0,
+      "street": "north",
+      "roadZ": -143,
+      "subtle": true
+    },
+    {
+      "id": "north-lot-1",
+      "x": -74,
+      "z": -127,
+      "w": 17,
+      "d": 16,
+      "angle": 3.141592653589793,
+      "street": "north",
+      "roadZ": -143,
+      "subtle": true
+    },
+    {
+      "id": "north-lot-5",
+      "x": 14,
+      "z": -127,
+      "w": 17,
+      "d": 16,
+      "angle": 3.141592653589793,
+      "street": "north",
+      "roadZ": -143,
+      "subtle": true
+    },
+    {
+      "id": "north-lot-8",
+      "x": 80,
+      "z": -127,
+      "w": 17,
+      "d": 16,
+      "angle": 3.141592653589793,
+      "street": "north",
+      "roadZ": -143,
+      "subtle": true
+    },
+    {
+      "id": "south-lot-0",
+      "x": -90,
+      "z": 112,
+      "w": 17,
+      "d": 16,
+      "angle": 0,
+      "street": "south",
+      "roadZ": 128,
+      "subtle": true
+    },
+    {
+      "id": "south-lot-3",
+      "x": -18,
+      "z": 112,
+      "w": 17,
+      "d": 16,
+      "angle": 0,
+      "street": "south",
+      "roadZ": 128,
+      "subtle": true
+    },
+    {
+      "id": "south-lot-6",
+      "x": 54,
+      "z": 112,
+      "w": 17,
+      "d": 16,
+      "angle": 0,
+      "street": "south",
+      "roadZ": 128,
+      "subtle": true
+    },
+    {
+      "id": "south-lot-1",
+      "x": -66,
+      "z": 144,
+      "w": 17,
+      "d": 16,
+      "angle": 3.141592653589793,
+      "street": "south",
+      "roadZ": 128,
+      "subtle": true
+    },
+    {
+      "id": "south-lot-4",
+      "x": 6,
+      "z": 144,
+      "w": 17,
+      "d": 16,
+      "angle": 3.141592653589793,
+      "street": "south",
+      "roadZ": 128,
+      "subtle": true
+    },
+    {
+      "id": "elm-lot",
+      "x": -150,
+      "z": -98,
+      "w": 12,
+      "d": 14,
+      "angle": 1.5707963267948966,
+      "street": "elm",
+      "roadX": -137,
+      "subtle": true
+    }
+  ],
+  "rooms": [
+    {
+      "house": "birch",
+      "name": "Side room",
+      "x": -214.75,
+      "z": -33.75,
+      "y": 0
+    },
+    {
+      "house": "acacia",
+      "name": "Side room",
+      "x": -214.75,
+      "z": 56.25,
+      "y": 0
+    },
+    {
+      "house": "north-house",
+      "name": "Side room",
+      "x": -50.25,
+      "z": -216.25,
+      "y": 0
+    },
+    {
+      "house": "clay-yard",
+      "name": "Side room",
+      "x": 207.25,
+      "z": -111.25,
+      "y": 0
+    },
+    {
+      "house": "farm-cottage",
+      "name": "Side room",
+      "x": -40.75,
+      "z": 214.75,
+      "y": 0
+    },
+    {
+      "house": "north-n-1",
+      "name": "Back room",
+      "x": -75.4,
+      "z": -158.3,
+      "y": 0
+    },
+    {
+      "house": "north-n-1",
+      "name": "Upper landing",
+      "x": -69.2,
+      "z": -159.45,
+      "y": 3.2
+    },
+    {
+      "house": "north-n-1",
+      "name": "Upstairs bedroom",
+      "x": -75.4,
+      "z": -158.3,
+      "y": 3.2
+    },
+    {
+      "house": "north-n-1",
+      "name": "Entrance",
+      "x": -75.4,
+      "z": -149.1,
+      "y": 0
+    },
+    {
+      "house": "north-n-3",
+      "name": "Back room",
+      "x": -31.4,
+      "z": -162.3,
+      "y": 0
+    },
+    {
+      "house": "north-n-3",
+      "name": "Entrance",
+      "x": -31.4,
+      "z": -155.1,
+      "y": 0
+    },
+    {
+      "house": "north-n-4",
+      "name": "Entrance",
+      "x": -9.4,
+      "z": -156.1,
+      "y": 0
+    },
+    {
+      "house": "north-n-5",
+      "name": "Back room",
+      "x": 12.6,
+      "z": -163.3,
+      "y": 0
+    },
+    {
+      "house": "north-n-5",
+      "name": "Upper landing",
+      "x": 18.8,
+      "z": -164.45,
+      "y": 3.2
+    },
+    {
+      "house": "north-n-5",
+      "name": "Upstairs bedroom",
+      "x": 12.6,
+      "z": -163.3,
+      "y": 3.2
+    },
+    {
+      "house": "north-n-5",
+      "name": "Entrance",
+      "x": 12.6,
+      "z": -154.1,
+      "y": 0
+    },
+    {
+      "house": "north-n-7",
+      "name": "Entrance",
+      "x": 56.6,
+      "z": -155.1,
+      "y": 0
+    },
+    {
+      "house": "north-n-8",
+      "name": "Entrance",
+      "x": 78.6,
+      "z": -151.1,
+      "y": 0
+    },
+    {
+      "house": "north-s-0",
+      "name": "Back room",
+      "x": -94.6,
+      "z": -124.7,
+      "y": 0
+    },
+    {
+      "house": "north-s-0",
+      "name": "Entrance",
+      "x": -94.6,
+      "z": -129.9,
+      "y": 0
+    },
+    {
+      "house": "north-s-2",
+      "name": "Entrance",
+      "x": -50.6,
+      "z": -129.9,
+      "y": 0
+    },
+    {
+      "house": "north-s-3",
+      "name": "Back room",
+      "x": -28.6,
+      "z": -123.7,
+      "y": 0
+    },
+    {
+      "house": "north-s-3",
+      "name": "Entrance",
+      "x": -28.6,
+      "z": -130.9,
+      "y": 0
+    },
+    {
+      "house": "north-s-4",
+      "name": "Entrance",
+      "x": -6.6,
+      "z": -129.9,
+      "y": 0
+    },
+    {
+      "house": "north-s-6",
+      "name": "Back room",
+      "x": 37.4,
+      "z": -124.7,
+      "y": 0
+    },
+    {
+      "house": "north-s-6",
+      "name": "Entrance",
+      "x": 37.4,
+      "z": -129.9,
+      "y": 0
+    },
+    {
+      "house": "north-s-7",
+      "name": "Entrance",
+      "x": 59.4,
+      "z": -130.9,
+      "y": 0
+    },
+    {
+      "house": "south-n-1",
+      "name": "Entrance",
+      "x": -67.4,
+      "z": 115.9,
+      "y": 0
+    },
+    {
+      "house": "south-n-2",
+      "name": "Entrance",
+      "x": -43.4,
+      "z": 114.9,
+      "y": 0
+    },
+    {
+      "house": "south-n-4",
+      "name": "Entrance",
+      "x": 4.6,
+      "z": 114.9,
+      "y": 0
+    },
+    {
+      "house": "south-n-5",
+      "name": "Entrance",
+      "x": 28.6,
+      "z": 115.9,
+      "y": 0
+    },
+    {
+      "house": "south-n-7",
+      "name": "Entrance",
+      "x": 76.6,
+      "z": 115.9,
+      "y": 0
+    },
+    {
+      "house": "south-s-0",
+      "name": "Back room",
+      "x": -84.6,
+      "z": 146.3,
+      "y": 0
+    },
+    {
+      "house": "south-s-0",
+      "name": "Entrance",
+      "x": -84.6,
+      "z": 141.1,
+      "y": 0
+    },
+    {
+      "house": "south-s-2",
+      "name": "Back room",
+      "x": -40.6,
+      "z": 148.3,
+      "y": 0
+    },
+    {
+      "house": "south-s-2",
+      "name": "Upper landing",
+      "x": -46.8,
+      "z": 149.45,
+      "y": 3.2
+    },
+    {
+      "house": "south-s-2",
+      "name": "Upstairs bedroom",
+      "x": -40.6,
+      "z": 148.3,
+      "y": 3.2
+    },
+    {
+      "house": "south-s-2",
+      "name": "Entrance",
+      "x": -40.6,
+      "z": 139.1,
+      "y": 0
+    },
+    {
+      "house": "south-s-3",
+      "name": "Back room",
+      "x": -16.6,
+      "z": 147.3,
+      "y": 0
+    },
+    {
+      "house": "south-s-3",
+      "name": "Entrance",
+      "x": -16.6,
+      "z": 140.1,
+      "y": 0
+    },
+    {
+      "house": "south-s-5",
+      "name": "Back room",
+      "x": 31.4,
+      "z": 148.3,
+      "y": 0
+    },
+    {
+      "house": "south-s-5",
+      "name": "Upper landing",
+      "x": 25.2,
+      "z": 149.45,
+      "y": 3.2
+    },
+    {
+      "house": "south-s-5",
+      "name": "Upstairs bedroom",
+      "x": 31.4,
+      "z": 148.3,
+      "y": 3.2
+    },
+    {
+      "house": "south-s-5",
+      "name": "Entrance",
+      "x": 31.4,
+      "z": 139.1,
+      "y": 0
+    },
+    {
+      "house": "south-s-6",
+      "name": "Back room",
+      "x": 55.4,
+      "z": 146.3,
+      "y": 0
+    },
+    {
+      "house": "south-s-6",
+      "name": "Entrance",
+      "x": 55.4,
+      "z": 141.1,
+      "y": 0
+    },
+    {
+      "house": "south-s-7",
+      "name": "Entrance",
+      "x": 79.4,
+      "z": 140.1,
+      "y": 0
+    },
+    {
+      "house": "linden-library",
+      "name": "Back room",
+      "x": 61.4,
+      "z": -190.7,
+      "y": 0
+    },
+    {
+      "house": "linden-library",
+      "name": "Entrance",
+      "x": 61.4,
+      "z": -199.9,
+      "y": 0
+    },
+    {
+      "house": "willow-workshop",
+      "name": "Entrance",
+      "x": -110.4,
+      "z": 114.9,
+      "y": 0
+    },
+    {
+      "house": "manor",
+      "name": "Back room",
+      "x": 110.3,
+      "z": 14.6,
+      "y": 0
+    },
+    {
+      "house": "manor",
+      "name": "Upper landing",
+      "x": 111.45,
+      "z": 25.8,
+      "y": 3.2
+    },
+    {
+      "house": "manor",
+      "name": "Upstairs bedroom",
+      "x": 110.3,
+      "z": 14.6,
+      "y": 3.2
+    },
+    {
+      "house": "manor",
+      "name": "Entrance",
+      "x": 95.1,
+      "z": 14.6,
+      "y": 0
+    },
+    {
+      "house": "garden-cafe",
+      "name": "Entrance",
+      "x": 113.4,
+      "z": -29.4,
+      "y": 0
+    },
+    {
+      "house": "elm-0",
+      "name": "Back room",
+      "x": -118.2,
+      "z": -29.4,
+      "y": 0
+    },
+    {
+      "house": "elm-0",
+      "name": "Entrance",
+      "x": -124.4,
+      "z": -29.4,
+      "y": 0
+    },
+    {
+      "house": "elm-1",
+      "name": "Back room",
+      "x": -118.2,
+      "z": -53.4,
+      "y": 0
+    },
+    {
+      "house": "elm-1",
+      "name": "Entrance",
+      "x": -124.4,
+      "z": -53.4,
+      "y": 0
+    },
+    {
+      "house": "elm-2",
+      "name": "Back room",
+      "x": -116.7,
+      "z": -77.4,
+      "y": 0
+    },
+    {
+      "house": "elm-2",
+      "name": "Upper landing",
+      "x": -115.55,
+      "z": -71.2,
+      "y": 3.2
+    },
+    {
+      "house": "elm-2",
+      "name": "Upstairs bedroom",
+      "x": -116.7,
+      "z": -77.4,
+      "y": 3.2
+    },
+    {
+      "house": "elm-2",
+      "name": "Entrance",
+      "x": -125.9,
+      "z": -77.4,
+      "y": 0
+    },
+    {
+      "house": "elm-3",
+      "name": "Back room",
+      "x": -118.2,
+      "z": -101.4,
+      "y": 0
+    },
+    {
+      "house": "elm-3",
+      "name": "Entrance",
+      "x": -124.4,
+      "z": -101.4,
+      "y": 0
+    },
+    {
+      "house": "elm-4",
+      "name": "Back room",
+      "x": -118.2,
+      "z": -123.4,
+      "y": 0
+    },
+    {
+      "house": "elm-4",
+      "name": "Entrance",
+      "x": -124.4,
+      "z": -123.4,
+      "y": 0
+    }
+  ],
+  "stairs": [
+    {
+      "minX": -70.025,
+      "maxX": -68.375,
+      "minZ": -158.6,
+      "maxZ": -149.4,
+      "minY": 0,
+      "maxY": 3.2,
+      "ramp": {
+        "cx": -69.2,
+        "cz": -154,
+        "c": 1,
+        "s": 0,
+        "width": 1.65,
+        "length": 9.2,
+        "rise": 3.2
+      }
+    },
+    {
+      "minX": 17.975,
+      "maxX": 19.625,
+      "minZ": -163.6,
+      "maxZ": -154.4,
+      "minY": 0,
+      "maxY": 3.2,
+      "ramp": {
+        "cx": 18.8,
+        "cz": -159,
+        "c": 1,
+        "s": 0,
+        "width": 1.65,
+        "length": 9.2,
+        "rise": 3.2
+      }
+    },
+    {
+      "minX": -47.625,
+      "maxX": -45.974999999999994,
+      "minZ": 139.4,
+      "maxZ": 148.6,
+      "minY": 0,
+      "maxY": 3.2,
+      "ramp": {
+        "cx": -46.8,
+        "cz": 144,
+        "c": -1,
+        "s": 1.2246467991473532e-16,
+        "width": 1.65,
+        "length": 9.2,
+        "rise": 3.2
+      }
+    },
+    {
+      "minX": 24.375,
+      "maxX": 26.025,
+      "minZ": 139.4,
+      "maxZ": 148.6,
+      "minY": 0,
+      "maxY": 3.2,
+      "ramp": {
+        "cx": 25.2,
+        "cz": 144,
+        "c": -1,
+        "s": 1.2246467991473532e-16,
+        "width": 1.65,
+        "length": 9.2,
+        "rise": 3.2
+      }
+    },
+    {
+      "minX": 95.4,
+      "maxX": 110.6,
+      "minZ": 24.975,
+      "maxZ": 26.625,
+      "minY": 0,
+      "maxY": 3.2,
+      "ramp": {
+        "cx": 103,
+        "cz": 25.8,
+        "c": 6.123233995736766e-17,
+        "s": -1,
+        "width": 1.65,
+        "length": 15.2,
+        "rise": 3.2
+      }
+    },
+    {
+      "minX": -125.6,
+      "maxX": -116.4,
+      "minZ": -72.025,
+      "maxZ": -70.375,
+      "minY": 0,
+      "maxY": 3.2,
+      "ramp": {
+        "cx": -121,
+        "cz": -71.2,
+        "c": 6.123233995736766e-17,
+        "s": -1,
+        "width": 1.65,
+        "length": 9.2,
+        "rise": 3.2
+      }
+    }
+  ],
+  "roads": 7,
+  "trails": 29,
+  "staticRender": {
+    "chunks": 407,
+    "triangles": 135751,
+    "hidden": 0
+  },
+  "doorRender": {
+    "partsBefore": 324,
+    "meshesAfter": 84,
+    "sharedGeometries": 3
+  }
+}

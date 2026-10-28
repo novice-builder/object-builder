@@ -47,7 +47,24 @@ function rectangle(b) {
     }
   );
 }
+export function rampHeight(b, x, z) {
+  if (!b.ramp) return null;
+  const r = b.ramp,
+    dx = x - r.cx,
+    dz = z - r.cz,
+    lx = dx * r.c - dz * r.s,
+    lz = dx * r.s + dz * r.c;
+  if (Math.abs(lx) > r.width / 2 + 0.001 || Math.abs(lz) > r.length / 2 + 0.001)
+    return null;
+  return clamp((r.length / 2 - lz) / r.length, 0, 1) * r.rise;
+}
 export function overlaps(a, b) {
+  // Stair collision is a continuous inclined surface beneath visible small treads.
+  if (b.ramp) {
+    const y = rampHeight(b, (a.minX + a.maxX) / 2, (a.minZ + a.maxZ) / 2);
+    return y !== null && a.minY < y - 1e-5 && a.maxY > b.minY;
+  }
+  if (a.ramp) return overlaps(b, a);
   if (
     !(
       a.minX < b.maxX - 1e-5 &&
@@ -97,7 +114,10 @@ export function freshState() {
 }
 export function supportHeight(p, solids) {
   let top = 0;
-  for (const b of solids)
+  for (const original of solids) {
+    const surface = rampHeight(original, p.x, p.z),
+      b = surface === null ? original : { ...original, maxY: surface };
+    if (original.ramp && surface === null) continue;
     if (
       b.maxY <= p.y + 0.02 &&
       b.maxY > top &&
@@ -107,6 +127,7 @@ export function supportHeight(p, solids) {
       p.z - RADIUS < b.maxZ - 0.01
     )
       top = b.maxY;
+  }
   return top;
 }
 export function safeFooting(p, solids) {
@@ -116,6 +137,8 @@ export function safeFooting(p, solids) {
   return [-0.12, 0.12].every((dx) =>
     [-0.12, 0.12].every((dz) =>
       solids.some((b) => {
+        const rampY = rampHeight(b, p.x + dx, p.z + dz);
+        if (b.ramp) return rampY !== null && Math.abs(rampY - p.y) < 0.3;
         if (b.maxY > p.y + 0.025 || b.maxY < p.y - 0.3) return false;
         const probe = {
           minX: p.x + dx - 0.001,
@@ -163,7 +186,28 @@ export function movePlayer(p, input, dt, solids) {
     ]) {
       const old = p[axis];
       p[axis] = clamp(old + speed * h, -LIMIT + 0.4, LIMIT - 0.4);
-      if (collides(p, solids)) p[axis] = old;
+      const beforeY = p.y;
+      if (p.grounded) {
+        for (const b of solids) {
+          const y = rampHeight(b, p.x, p.z),
+            previous = rampHeight(
+              b,
+              axis === "x" ? old : p.x,
+              axis === "z" ? old : p.z,
+            );
+          if (
+            y !== null &&
+            y - p.y <= 0.09 &&
+            y - p.y >= -0.12 &&
+            (previous !== null || p.y < 0.1 || Math.abs(p.y - b.maxY) < 0.1)
+          )
+            p.y = y;
+        }
+      }
+      if (collides(p, solids)) {
+        p[axis] = old;
+        p.y = beforeY;
+      }
       if (
         input.edgeProtection &&
         p.grounded &&
@@ -192,7 +236,7 @@ export function movePlayer(p, input, dt, solids) {
       // Resolve precisely onto the nearest crossed top/bottom surface.
       const hits = solids.filter((b) => overlaps(bodyBox(p), b));
       if (p.vy < 0) {
-        p.y = Math.max(...hits.map((b) => b.maxY));
+        p.y = Math.max(...hits.map((b) => rampHeight(b, p.x, p.z) ?? b.maxY));
         p.grounded = true;
       } else {
         p.y = Math.min(...hits.map((b) => b.minY)) - HEIGHT - 0.002;
@@ -231,7 +275,7 @@ export function placementReason(
     return "Your world is full. Remove a piece to make room";
   const bb = cellBox(b);
   if (
-    staticSolids.some((s) => overlaps(bb, s)) ||
+    staticSolids.some((s) => overlaps(bb, s.ramp ? { ...s, ramp: null } : s)) ||
     state.blocks.some((s) => overlaps(bb, cellBox(s)))
   )
     return "Find a clear space";
@@ -261,9 +305,10 @@ export function placementReason(
 export function validateSave(data, staticSolids = []) {
   if (
     !data ||
-    ![1, 2, WORLD.saveVersion].includes(data.version) ||
+    ![1, 2, 3, WORLD.saveVersion].includes(data.version) ||
     (data.version === WORLD.saveVersion && data.world !== WORLD.id) ||
     (data.version === 2 && data.world !== "little-block-world-04") ||
+    (data.version === 3 && data.world !== "little-block-world-05") ||
     !Array.isArray(data.blocks) ||
     data.blocks.length > MAX_BLOCKS
   )
@@ -298,7 +343,11 @@ export function validateSave(data, staticSolids = []) {
       seen.has(key(b))
     )
       throw Error("The save contains an invalid piece");
-    if (staticIndex.query(cellBox(b)).some((a) => overlaps(cellBox(b), a)))
+    if (
+      staticIndex
+        .query(cellBox(b))
+        .some((a) => overlaps(cellBox(b), a.ramp ? { ...a, ramp: null } : a))
+    )
       throw Error("A saved piece overlaps the neighborhood");
     const shape = cellBox(b);
     if (blockIndex.query(shape).some((a) => overlaps(shape, a)))

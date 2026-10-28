@@ -1,3 +1,4 @@
+import { GamepadInput } from "./gamepad.js";
 import * as T from "three";
 import { WORLD, LANDMARKS, WALK_SPEEDS } from "./world-config.js";
 import { SpatialIndex, around } from "./spatial.js";
@@ -68,7 +69,9 @@ const camera = new T.PerspectiveCamera(
   WORLD.cameraFar,
 );
 camera.rotation.order = "YXZ";
-const world = makeWorld(scene);
+const worldGroup = new T.Group();
+scene.add(worldGroup);
+let world = makeWorld(worldGroup);
 let state = freshState(),
   player = { ...HOME, vy: 0, grounded: true },
   history = new BuildHistory(),
@@ -104,6 +107,7 @@ try {
   const raw = localStorage.getItem(PREFS_KEY);
   const saved = JSON.parse(
     raw ||
+      localStorage.getItem("blockworld.neighborhood.controls.v5") ||
       localStorage.getItem("blockworld.neighborhood.controls.v4") ||
       localStorage.getItem("blockworld.neighborhood.controls.v3") ||
       "{}",
@@ -112,6 +116,7 @@ try {
     if (typeof saved[k] === "boolean") preferences[k] = saved[k];
   if (
     raw ||
+    localStorage.getItem("blockworld.neighborhood.controls.v5") ||
     localStorage.getItem("blockworld.neighborhood.controls.v4") ||
     localStorage.getItem("blockworld.neighborhood.controls.v3")
   )
@@ -277,20 +282,91 @@ function applyState(next) {
   rebuildPieces();
   updatePalette();
 }
+function disposeWorld(group) {
+  const geometries = new Set(),
+    materials = new Set(),
+    textures = new Set();
+  group.traverse((o) => {
+    if (o.isMesh) {
+      geometries.add(o.geometry);
+      for (const m of Array.isArray(o.material) ? o.material : [o.material]) {
+        materials.add(m);
+        if (m.map) textures.add(m.map);
+      }
+    }
+  });
+  for (const x of geometries) x.dispose();
+  for (const x of materials) x.dispose();
+  for (const x of textures) x.dispose();
+  group.clear();
+}
+function loadProgress(data) {
+  const checked = validateSave(data);
+  // Most saves fit unchanged: retain current geometry and avoid world rebuilding.
+  const properties = world.houses
+    .filter((h) => h.designed)
+    .map((h) => {
+      const r = Math.max(h.w, h.d) / 2 + (h.garage ? 6 : 2);
+      return {
+        minX: h.x - r,
+        maxX: h.x + r,
+        minZ: h.z - r,
+        maxZ: h.z + r,
+        minY: 0,
+        maxY: 10,
+      };
+    });
+  const reservesProperty = checked.blocks.some((b) =>
+    properties.some((p) => overlaps(cellBox(b), p)),
+  );
+  const intersectsStatic = (index, b) =>
+    index
+      .query(cellBox(b))
+      .some((s) => overlaps(cellBox(b), s.ramp ? { ...s, ramp: null } : s));
+  if (
+    !reservesProperty &&
+    !checked.blocks.some((b) => intersectsStatic(staticIndex, b))
+  ) {
+    // Structure/inventory/piece overlap were already validated. This indexed
+    // check proves static clearance; applyState also resolves the player pose.
+    applyState(checked);
+    return;
+  }
+  const candidateGroup = new T.Group();
+  let candidate;
+  try {
+    candidate = makeWorld(candidateGroup, checked.blocks);
+    const candidateIndex = new SpatialIndex();
+    for (const b of candidate.solids) candidateIndex.add(b);
+    if (checked.blocks.some((b) => intersectsStatic(candidateIndex, b)))
+      throw Error("A saved piece overlaps the neighborhood");
+  } catch (error) {
+    disposeWorld(candidateGroup);
+    throw error;
+  }
+  disposeWorld(worldGroup);
+  for (const child of [...candidateGroup.children]) worldGroup.add(child);
+  world = candidate;
+  for (const b of [...staticIndex.entries.keys()]) staticIndex.remove(b);
+  for (const b of world.solids) staticIndex.add(b);
+  map.rebuild(world);
+  applyState(checked);
+}
 function restore() {
   let raw;
   try {
     raw = localStorage.getItem(SAVE_KEY);
     if (!raw) {
       const old =
+        localStorage.getItem("blockworld.neighborhood.05") ||
         localStorage.getItem("blockworld.neighborhood.04") ||
         localStorage.getItem("blockworld.neighborhood.01");
       if (old) {
         try {
-          const migrated = validateSave(JSON.parse(old), world.solids);
+          const migrated = validateSave(JSON.parse(old));
           raw = JSON.stringify(migrated);
           notice(
-            "Your old builds were copied into 05. The previous save is unchanged.",
+            "Your old builds were copied into 06. The previous save is unchanged.",
           );
         } catch {
           notice(
@@ -304,7 +380,7 @@ function restore() {
   }
   if (raw) {
     try {
-      applyState(validateSave(JSON.parse(raw), world.solids));
+      loadProgress(JSON.parse(raw));
     } catch {
       notice(
         "The last save could not be read. Your exported backups can still be imported.",
@@ -868,6 +944,10 @@ function setupUI() {
     voice.subtitles = subtitles;
   };
   $("menu").onclick = () => openModal("settings");
+  $("minimapButton").onclick = () => {
+    openModal("map");
+    map.draw();
+  };
   $("mapButton").onclick = () => {
     openModal("map");
     map.draw();
@@ -937,7 +1017,7 @@ function setupUI() {
     if (!file) return;
     try {
       if (file.size > WORLD.maxSaveBytes) throw Error("That file is too large");
-      applyState(validateSave(JSON.parse(await file.text()), world.solids));
+      loadProgress(JSON.parse(await file.text()));
       save();
       settingsFeedback("Save opened. Your neighborhood is ready.");
     } catch (err) {
@@ -1064,7 +1144,7 @@ async function exportSave() {
   const ios =
     /iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  const file = new File([text], "BlockWorld-05-save.json", {
+  const file = new File([text], "BlockWorld-06-save.json", {
     type: "application/json",
   });
   if (ios && navigator.canShare?.({ files: [file] }) && navigator.share) {
@@ -1325,6 +1405,76 @@ canvas.addEventListener("webglcontextlost", (e) => {
     "The graphics context was lost. Progress was saved when possible. Close and reopen the game to continue.",
   );
 });
+const gamepadInput = new GamepadInput();
+function readController(dt) {
+  let input;
+  try {
+    input = gamepadInput.read(navigator.getGamepads?.());
+  } catch {
+    input = gamepadInput.read([]);
+  }
+  for (const button of input.pressed) {
+    if (button === 9) {
+      if (!started) $("play").click();
+      else if (modal) closeModal();
+      else openModal("settings");
+      continue;
+    }
+    if (modal) {
+      if (button === 1 && started) {
+        closeModal();
+        continue;
+      }
+      const buttons = [...$(modal).querySelectorAll("button")].filter(
+        (b) => !b.disabled && b.offsetParent !== null,
+      );
+      if ([12, 13, 14, 15].includes(button) && buttons.length) {
+        const i = buttons.indexOf(document.activeElement),
+          step = [12, 14].includes(button) ? -1 : 1;
+        buttons[(i + step + buttons.length) % buttons.length].focus();
+      }
+      if (button === 0) {
+        const focused = buttons.includes(document.activeElement)
+          ? document.activeElement
+          : buttons.find((b) => b.id === (!started ? "play" : "resume")) ||
+            buttons[0];
+        focused?.click();
+      }
+      continue;
+    }
+    if (button === 0) jump();
+    if (button === 2) use();
+    if (button === 1) {
+      if (pending) cancelPlacement();
+      else {
+        state.selected = "hand";
+        updatePalette();
+        scheduleSave();
+      }
+    }
+    if (button === 3 && pending) rotatePlacement(90);
+    if (button === 7) {
+      if (pending) confirmPlacement();
+      else place();
+    }
+    if (button === 6) remove();
+    if (button === 8) undo();
+    if ([4, 5, 14, 15].includes(button)) {
+      const items = ["hand", ...ITEMS],
+        i = items.indexOf(state.selected),
+        delta = [4, 14].includes(button) ? -1 : 1;
+      cancelPlacement();
+      state.selected = items[(i + delta + items.length) % items.length];
+      updatePalette();
+      scheduleSave();
+    }
+  }
+  if (started && !modal) {
+    player.yaw -= input.lookX * dt * 1.8;
+    player.pitch = clamp(player.pitch - input.lookY * dt * 1.4, -1.3, 1.3);
+  }
+  return input;
+}
 let previous = performance.now(),
   stamp = previous,
   frames = 0,
@@ -1337,6 +1487,9 @@ function frame(now) {
   const elapsed = now - previous,
     dt = Math.min(0.08, elapsed / 1000);
   previous = now;
+  const controller = document.hidden
+    ? { forward: 0, right: 0 }
+    : readController(dt);
   if (started && !modal && !document.hidden) {
     if (
       updateDoors(
@@ -1357,11 +1510,13 @@ function frame(now) {
     const forward =
       (keys.has("KeyW") || keys.has("ArrowUp") ? 1 : 0) -
       (keys.has("KeyS") || keys.has("ArrowDown") ? 1 : 0) -
-      stick.y;
+      stick.y +
+      controller.forward;
     const right =
       (keys.has("KeyD") || keys.has("ArrowRight") ? 1 : 0) -
       (keys.has("KeyA") || keys.has("ArrowLeft") ? 1 : 0) +
-      stick.x;
+      stick.x +
+      controller.right;
     rebuildSolids();
     movePlayer(
       player,
@@ -1395,7 +1550,7 @@ function frame(now) {
           nearby.kind === "table"
             ? icons.table + "<span>Make something</span>"
             : icons.door +
-              `<span>${nearby.door.open ? "Close" : "Open"} door</span>`;
+              `<span>${nearby.door.open ? "Close" : "Open"} ${nearby.door.kind === "roller" ? "garage" : "door"}</span>`;
     }
     if (
       preferences.placement === "crosshair" &&
@@ -1423,7 +1578,7 @@ function frame(now) {
     ghost.visible = false;
     outline.visible = false;
   }
-  if (modal) $("use").disabled = true;
+  if (modal || pending) $("use").disabled = true;
   previewGroup.visible = !modal;
   if (pending && now - lastPreviewCheck > 150) {
     lastPreviewCheck = now;
@@ -1436,6 +1591,11 @@ function frame(now) {
     $("confirmPlace").disabled = !!reason;
     $("placementStatus").textContent =
       reason || `${names[pending.type]} · ${pending.rotation}°`;
+  }
+  map.update(now, started && !modal);
+  if (modal === "map" && now - lastTarget > 100) {
+    map.draw();
+    lastTarget = now;
   }
   world.staticRender.updateVisibility(camera, WORLD.fogFar);
   renderer.render(scene, camera);
@@ -1501,6 +1661,11 @@ if (new URLSearchParams(location.search).get("test") === "1")
     },
     world: () => ({
       config: WORLD,
+      rooms: world.rooms,
+      omitted: world.omitted,
+      treePositions: world.treePositions,
+      doorRender: world.doorRender,
+      mapStats: map.stats(),
       ponds: world.ponds,
       outerScenery: world.outerScenery,
       landmarks: LANDMARKS,
@@ -1516,6 +1681,7 @@ if (new URLSearchParams(location.search).get("test") === "1")
       houses: world.houses,
       doors: world.doors.map((d) => ({
         id: d.id,
+        kind: d.kind || "swing",
         open: d.open,
         box: doorBox(d),
         center: d.center,
@@ -1604,7 +1770,7 @@ if (new URLSearchParams(location.search).get("test") === "1")
       save();
     },
     load(data) {
-      applyState(validateSave(data, world.solids));
+      loadProgress(data);
     },
     chunkInfo: () => ({
       rebuilt: buildChunks.rebuilt,

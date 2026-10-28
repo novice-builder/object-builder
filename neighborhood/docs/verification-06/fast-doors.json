@@ -1,0 +1,338 @@
+[
+  {
+    "id": "home",
+    "crossed": -5.074399999999978
+  },
+  {
+    "id": "peach",
+    "crossed": -4.911199999999974
+  },
+  {
+    "id": "sage",
+    "crossed": -5.074400000000082
+  },
+  {
+    "id": "rose",
+    "crossed": -4.911200000000047
+  },
+  {
+    "id": "orchid",
+    "crossed": -5.074399999999933
+  },
+  {
+    "id": "orchid-garage",
+    "crossed": -5.019999999999934
+  },
+  {
+    "id": "cedar",
+    "crossed": -5.074399999999915
+  },
+  {
+    "id": "sunflower",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "sunflower-garage",
+    "crossed": -5.020000000000195
+  },
+  {
+    "id": "bluebell",
+    "crossed": -3.8776000000001716
+  },
+  {
+    "id": "maple",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "maple-garage",
+    "crossed": -5.020000000000195
+  },
+  {
+    "id": "fern",
+    "crossed": -2.8984000000001515
+  },
+  {
+    "id": "bakery",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "market",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "pottery",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "workshop",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "workshop-garage",
+    "crossed": -5.020000000000195
+  },
+  {
+    "id": "willow",
+    "crossed": -2.8984000000001515
+  },
+  {
+    "id": "pavilion",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "juniper",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "birch",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "copper",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "lavender",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "lavender-garage",
+    "crossed": -5.019999999997708
+  },
+  {
+    "id": "acacia",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "riverside",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "north-house",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "north-bakery",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "north-hall",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "north-clock",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "weavers",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "clay-yard",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "makers",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "greenhouse",
+    "crossed": -3.877599999997983
+  },
+  {
+    "id": "lake-house",
+    "crossed": -5.0743999999999545
+  },
+  {
+    "id": "east-house",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "beacon-house",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "farm-home",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "farm-shop",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "red-barn",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "farm-cottage",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "orchard-barn",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "pond-cabin",
+    "crossed": -4.911199999997734
+  },
+  {
+    "id": "trail-hut",
+    "crossed": -3.877599999997983
+  },
+  {
+    "id": "north-n-1",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "north-n-3",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "north-n-4",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "north-n-4-garage",
+    "crossed": -5.019999999997708
+  },
+  {
+    "id": "north-n-5",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "north-n-7",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "north-n-8",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "north-n-8-garage",
+    "crossed": -5.019999999997708
+  },
+  {
+    "id": "north-s-0",
+    "crossed": -5.074399999998249
+  },
+  {
+    "id": "north-s-0-garage",
+    "crossed": -5.019999999998248
+  },
+  {
+    "id": "north-s-2",
+    "crossed": -5.074399999998249
+  },
+  {
+    "id": "north-s-3",
+    "crossed": -5.074399999997979
+  },
+  {
+    "id": "north-s-4",
+    "crossed": -5.074399999998249
+  },
+  {
+    "id": "north-s-4-garage",
+    "crossed": -5.019999999998248
+  },
+  {
+    "id": "north-s-6",
+    "crossed": -5.074399999998249
+  },
+  {
+    "id": "north-s-7",
+    "crossed": -5.074399999997979
+  },
+  {
+    "id": "south-n-1",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "south-n-2",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "south-n-4",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "south-n-4-garage",
+    "crossed": -5.020000000000195
+  },
+  {
+    "id": "south-n-5",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "south-n-7",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "south-s-0",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "south-s-0-garage",
+    "crossed": -5.019999999997708
+  },
+  {
+    "id": "south-s-2",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "south-s-3",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "south-s-5",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "south-s-6",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "south-s-7",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "linden-library",
+    "crossed": -5.074399999997695
+  },
+  {
+    "id": "willow-workshop",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "willow-workshop-garage",
+    "crossed": -5.020000000000195
+  },
+  {
+    "id": "manor",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "garden-cafe",
+    "crossed": -5.074400000000196
+  },
+  {
+    "id": "elm-0",
+    "crossed": -5.0743999999996845
+  },
+  {
+    "id": "elm-1",
+    "crossed": -5.0743999999996845
+  },
+  {
+    "id": "elm-2",
+    "crossed": -5.074399999999287
+  },
+  {
+    "id": "elm-3",
+    "crossed": -5.0743999999996845
+  },
+  {
+    "id": "elm-4",
+    "crossed": -5.0743999999996845
+  }
+]

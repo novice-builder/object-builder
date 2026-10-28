@@ -1,0 +1,18 @@
+{
+  "release": "BlockWorld_Neighborhood_06.html",
+  "bytes": 612581,
+  "sha256": "db94d70972a654dbc155b0a294a3d0f56e98726ec888fbe0c342276ee469b60b",
+  "date": "2026-10-28",
+  "branch": "codex/neighborhood-06-town",
+  "startingCommit": "4872cd7f9503a6bed38292325510591b39d29062",
+  "baseline05sha256": "31567c3fa6df2679fc9dd87a32663eabc4345ca241882a51857301dd92a274b9",
+  "physicalDeviceTested": false,
+  "unitTests": 41,
+  "browserScenarios": 18,
+  "buttonPointActivations": 735,
+  "newFeatureScenarios": 10,
+  "saveNavigationScenarios": 9,
+  "direct04CompatibilityScenarios": 1,
+  "pixelEqualityViews": 6,
+  "screenshots": 26
+}

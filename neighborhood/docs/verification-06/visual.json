@@ -1,0 +1,26 @@
+{
+  "captures": [
+    "world-top-down",
+    "linden-eye",
+    "willowstreet-eye",
+    "manor-eye",
+    "lot-eye",
+    "interior-eye",
+    "home-eye",
+    "west-eye",
+    "north-eye",
+    "makers-eye",
+    "lake-eye",
+    "farm-eye",
+    "pond-eye",
+    "beacon-eye",
+    "meadow-eye",
+    "west-overview",
+    "north-overview",
+    "farm-overview",
+    "lake-overview",
+    "map"
+  ],
+  "errors": [],
+  "releaseSha256": "db94d70972a654dbc155b0a294a3d0f56e98726ec888fbe0c342276ee469b60b"
+}

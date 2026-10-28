@@ -1,3 +1,15 @@
+import {
+  TOWN_BUILDINGS,
+  TOWN_LOTS,
+  TOWN_ROAD_SPINES,
+  PARK_PATHS,
+  NEW_LANDMARKS,
+} from "./town-06.js";
+import { makeDesignedHouse, addGarage } from "./buildings-06.js";
+import { cellBox, overlaps } from "./core.js";
+import { SpatialIndex } from "./spatial.js";
+import { makeTownParks } from "./parks-06.js";
+import { batchDoorLeaves } from "./door-render.js";
 import * as T from "three";
 import { WORLD, LANDMARKS } from "./world-config.js";
 import {
@@ -60,13 +72,35 @@ export const HOUSES = [
     style: "shed",
   },
   ...EXTRA_BUILDINGS,
+  ...TOWN_BUILDINGS,
 ];
 export function localToWorld(h, x, z) {
   const c = Math.cos(h.angle),
     s = Math.sin(h.angle);
   return { x: h.x + x * c + z * s, z: h.z - x * s + z * c };
 }
-export function makeWorld(scene) {
+export function makeWorld(scene, protectedBlocks = []) {
+  const protectedIndex = new SpatialIndex(8);
+  for (const b of protectedBlocks) protectedIndex.add(cellBox(b));
+  const reserved = (b) => protectedIndex.query(b).some((a) => overlaps(a, b));
+  const omitted = [];
+  const houses = HOUSES.filter((h) => {
+    if (!h.designed) return true;
+    const r = Math.max(h.w, h.d) / 2 + (h.garage ? 6 : 2);
+    const blocked = reserved({
+      minX: h.x - r,
+      maxX: h.x + r,
+      minZ: h.z - r,
+      maxZ: h.z + r,
+      minY: 0,
+      maxY: 10,
+    });
+    if (blocked) omitted.push(h.id);
+    return !blocked;
+  });
+  const rooms = [],
+    treePositions = [];
+  let adaptable = false;
   const solids = [],
     doors = [],
     batches = new Map(),
@@ -80,6 +114,25 @@ export function makeWorld(scene) {
   };
   const matrix = new T.Object3D();
   function box(x, y, z, w, h, d, color, solid = false, angle = 0) {
+    const reserveW =
+        (Math.abs(Math.cos(angle)) * w + Math.abs(Math.sin(angle)) * d) / 2 +
+        0.1,
+      reserveD =
+        (Math.abs(Math.sin(angle)) * w + Math.abs(Math.cos(angle)) * d) / 2 +
+        0.1;
+    if (
+      adaptable &&
+      h > 0.03 &&
+      reserved({
+        minX: x - reserveW,
+        maxX: x + reserveW,
+        minZ: z - reserveD,
+        maxZ: z + reserveD,
+        minY: y - h / 2,
+        maxY: y + h / 2,
+      })
+    )
+      return;
     if (!batches.has(color)) batches.set(color, []);
     batches.get(color).push({ x, y, z, w, h, d, angle });
     if (solid) {
@@ -151,6 +204,18 @@ export function makeWorld(scene) {
   // Curved road ribbon, adapted from Terrain Walk / Procedural Town.
   const roads = ROAD_LINES.map(smoothLine),
     trails = TRAIL_LINES.map(smoothLine);
+  // Branch ends are projected onto the actual smoothed collector, so they meet.
+  for (const spine of TOWN_ROAD_SPINES.filter((_, i) => i !== 2)) {
+    const line = smoothLine(spine);
+    for (const at of [0, line.length - 1]) {
+      const p = line[at],
+        q = distanceToLine(p[0], p[1], roads[2]).point;
+      if (at === 0) line.unshift([q.x, q.z]);
+      else line.push([q.x, q.z]);
+    }
+    roads.push(line);
+  }
+  trails.push(...PARK_PATHS.map(smoothLine), smoothLine(TOWN_ROAD_SPINES[2]));
   const road = roads[0];
   function ribbon(points, width, color, y) {
     const v = [],
@@ -182,7 +247,17 @@ export function makeWorld(scene) {
     ribbon(line, 7.4, 0xdecda9, 0.014);
     ribbon(line, 5, 0x687578, 0.024);
   }
-  for (const line of trails) ribbon(line, 2.4, 0xd5bf94, 0.018);
+  for (const line of trails) ribbon(line, 2.4, 0xd5bf94, 0.019);
+  // Open polylines can rejoin their own middle (the original loops do).
+  // Treat those joins like multi-line intersections when trimming markings.
+  const selfJunctions = [];
+  for (const line of roads)
+    for (const end of [0, line.length - 1]) {
+      const p = line[end],
+        rest = end === 0 ? line.slice(5) : line.slice(0, -5);
+      if (rest.length > 1 && distanceToLine(p[0], p[1], rest).distance < 2.5)
+        selfJunctions.push({ x: p[0], z: p[1] });
+    }
   // Dashes use cumulative distance so closely sampled bends keep an even rhythm.
   for (const road of roads) {
     let travelled = 0,
@@ -195,28 +270,41 @@ export function makeWorld(scene) {
         length = Math.hypot(dx, dz);
       while (nextDash < travelled + length) {
         const t = (nextDash - travelled) / length;
-        box(
-          a[0] + dx * t,
-          0.031,
-          a[1] + dz * t,
-          0.1,
-          0.012,
-          1.1,
-          0xf3e6be,
-          false,
-          Math.atan2(dx, dz),
-        );
+        const dashX = a[0] + dx * t,
+          dashZ = a[1] + dz * t;
+        if (
+          !selfJunctions.some(
+            (p) => Math.hypot(dashX - p.x, dashZ - p.z) < 5.5,
+          ) &&
+          !roads.some(
+            (other) =>
+              other !== road &&
+              distanceToLine(dashX, dashZ, other).distance < 5.5,
+          )
+        )
+          box(
+            a[0] + dx * t,
+            0.031,
+            a[1] + dz * t,
+            0.1,
+            0.012,
+            1.1,
+            0xf3e6be,
+            false,
+            Math.atan2(dx, dz),
+          );
         nextDash += 3.5;
       }
       travelled += length;
     }
   }
   // Drives reach the sidewalk: all are ground overlays, with no raised trip edges.
-  const drives = HOUSES.map((h) => {
+  const drives = houses.map((h) => {
     const entry = localToWorld(h, -1.4, h.d / 2),
       apron = localToWorld(h, -1.4, h.d / 2 + 2.5),
-      options =
-        h.route === "trail"
+      options = h.street
+        ? [roads[{ north: 4, south: 5, elm: 6 }[h.street]]]
+        : h.route === "trail"
           ? trails
           : h.shop
             ? [...roads, trails[4]]
@@ -278,7 +366,7 @@ export function makeWorld(scene) {
     }
     return { entry, end, points, w: h.shop ? 2.8 : 2.4 };
   });
-  for (const h of HOUSES) {
+  for (const h of houses) {
     const { w, d } = h,
       front = d / 2,
       wallH = 3,
@@ -288,6 +376,22 @@ export function makeWorld(scene) {
       const p = localToWorld(h, x, z);
       box(p.x, y, p.z, bw, bh, bd, c, solid, h.angle);
     };
+    adaptable = !!h.designed;
+    if (h.designed) {
+      makeDesignedHouse({
+        h,
+        put,
+        local: (x, z) => localToWorld(h, x, z),
+        scene,
+        material,
+        doors,
+        solids,
+        label,
+        rooms,
+      });
+      adaptable = false;
+      continue;
+    }
     put(0, 0.006, 0, w, 0.012, d, 0xd5b893);
     // Thin, real wall pieces around door/window openings, rather than glass pasted on solid walls.
     function wallWithWindow(z) {
@@ -329,7 +433,22 @@ export function makeWorld(scene) {
     }
     wallWithWindow(front);
     wallWithWindow(-front);
-    put(-w / 2, 1.5, 0, 0.22, 3, d, h.wall, true);
+    if (h.wing) {
+      // A full-height opening joins the real side room to the main room.
+      const az = -front + 2.75;
+      for (const [a, b] of [
+        [-front, az - 0.9],
+        [az + 0.9, front],
+      ])
+        if (b > a) put(-w / 2, 1.5, (a + b) / 2, 0.22, 3, b - a, h.wall, true);
+      put(-w / 2, 2.72, az, 0.22, 0.56, 1.8, h.wall, true);
+      rooms.push({
+        house: h.id,
+        name: "Side room",
+        ...localToWorld(h, -w / 2 - 2.25, az),
+        y: 0,
+      });
+    } else put(-w / 2, 1.5, 0, 0.22, 3, d, h.wall, true);
     if ((h.d > 8 || h.bay) && EXTRA_BUILDINGS.some((b) => b.id === h.id)) {
       // Genuine side-window openings on long footprints, with fitted glazing.
       const windows = h.d > 10 ? [-2.6, 2.6] : [0],
@@ -340,7 +459,7 @@ export function makeWorld(scene) {
         put(w / 2, 1.5, (start + end) / 2, 0.22, 3, end - start, h.wall, true);
         put(w / 2, 0.525, z, 0.22, 1.05, 1.6, h.wall, true);
         put(w / 2, 2.625, z, 0.22, 0.75, 1.6, h.wall, true);
-        put(w / 2, 1.65, z, 0.1, 1.2, 1.6, glass, true);
+        if (!h.bay) put(w / 2, 1.65, z, 0.1, 1.2, 1.6, glass, true);
         for (const zz of [z - half, z, z + half])
           put(w / 2 + 0.01, 1.65, zz, 0.29, 1.32, 0.065, white);
         for (const yy of [1.05, 1.65, 2.25])
@@ -528,7 +647,7 @@ export function makeWorld(scene) {
       h.style === "shed" ? w : w + 0.8,
       0.09,
       h.style === "shed" ? d : d + 0.8,
-      h.style === "shed" ? h.wall : h.roof,
+      white,
       true,
     );
     for (const x of [-w / 2, w / 2])
@@ -632,16 +751,15 @@ export function makeWorld(scene) {
       put(-w / 2 + 1.15, 0.78, -front + 0.65, 1.4, 0.17, 0.48, white);
       put(w / 2 - 0.9, 0.45, -front + 0.9, 1.1, 0.9, 0.7, wood, true);
     }
-    if (h.garage) {
-      const gx = -w / 2 - 2.1,
-        gz = front - 2.7;
-      // Attached closed garage: lower mass, correctly facing its separate drive.
-      put(gx, 1.25, gz, 4.2, 2.5, 5.4, h.wall, true);
-      put(gx, 2.58, gz, 4.6, 0.18, 5.8, h.roof, true);
-      put(gx, 1.1, front + 0.015, 3.3, 2.2, 0.06, 0xd7d4c4);
-      for (let y = 0.35; y < 2.2; y += 0.35)
-        put(gx, y, front + 0.055, 3.25, 0.035, 0.025, 0xa7afa3);
-    }
+    if (h.garage)
+      addGarage({
+        scene,
+        material,
+        doors,
+        h,
+        put,
+        local: (x, z) => localToWorld(h, x, z),
+      });
     if (h.carport) {
       const gx = -w / 2 - 2.1,
         gz = front - 2.7;
@@ -654,7 +772,10 @@ export function makeWorld(scene) {
     if (h.wing) {
       const gx = -w / 2 - 2.25,
         gz = -front + 2.75;
-      put(gx, 1.65, gz, 4.5, 3.3, 5.5, h.wall, true);
+      put(gx, 0.007, gz, 4.5, 0.014, 5.5, 0xd5b893);
+      put(gx - 2.25, 1.65, gz, 0.22, 3.3, 5.5, h.wall, true);
+      for (const zz of [gz - 2.75, gz + 2.75])
+        put(gx, 1.65, zz, 4.5, 3.3, 0.22, h.wall, true);
       put(gx, 3.4, gz, 4.9, 0.2, 5.9, h.roof, true);
       put(gx, 1.7, gz + 2.78, 2.6, 1.25, 0.08, glass);
       for (const x of [gx - 1.33, gx, gx + 1.33])
@@ -663,14 +784,19 @@ export function makeWorld(scene) {
         put(gx, y, gz + 2.84, 2.73, 0.065, 0.1, white);
     }
     if (h.bay) {
+      adaptable = true;
       put(w / 2 + 0.32, 0.525, 0, 0.64, 1.05, 1.9, h.wall, true);
       put(w / 2 + 0.64, 1.65, 0, 0.08, 1.2, 1.8, glass, true);
       for (const z of [-0.87, 0.87])
         put(w / 2 + 0.32, 1.65, z, 0.64, 1.2, 0.08, glass, true);
-      put(w / 2 + 0.34, 2.35, 0, 0.9, 0.18, 2.15, h.roof, true);
+      put(w / 2 + 0.34, 3.015, 0, 0.9, 0.09, 2.15, white, true);
+      put(w / 2 + 0.64, 2.625, 0, 0.1, 0.75, 1.8, h.wall, true);
+      for (const z of [-0.87, 0.87])
+        put(w / 2 + 0.32, 2.625, z, 0.64, 0.75, 0.1, h.wall, true);
       for (const z of [-0.9, 0, 0.9])
         put(w / 2 + 0.7, 1.65, z, 0.1, 1.35, 0.065, white);
     }
+    adaptable = false;
     if (h.chimney)
       put(w / 2 - 1, 4.2, -front * 0.3, 0.8, 2.4, 0.8, 0xc78264, true);
     if (h.tower) {
@@ -678,7 +804,9 @@ export function makeWorld(scene) {
         tz = -front + 1.8;
       put(tx, 3.4, tz, 3.6, 6.8, 3.6, h.wall, true);
       for (const z of [tz - 1.83, tz + 1.83]) {
-        put(tx, 5.1, z, 1.1, 1.5, 0.08, glass);
+        put(tx, 5.1, z, 1.5, 1.5, 0.08, white);
+        put(tx, 5.3, z + (z > tz ? 0.06 : -0.06), 0.08, 0.58, 0.1, wood);
+        put(tx + 0.22, 5.1, z + (z > tz ? 0.06 : -0.06), 0.48, 0.08, 0.1, wood);
         for (const xx of [tx - 0.58, tx + 0.58])
           put(xx, 5.1, z, 0.08, 1.65, 0.12, white);
       }
@@ -690,7 +818,8 @@ export function makeWorld(scene) {
       scene.add(m);
     }
     if (h.garden) {
-      const side = h.garage ? w / 2 + 2 : -w / 2 - 2;
+      adaptable = !!h.wing;
+      const side = h.garage || h.wing ? w / 2 + 2 : -w / 2 - 2;
       put(side, 0.18, 0, 2.3, 0.36, d * 0.75, 0x5a8b62, true);
       for (let i = 0; i < 4; i++)
         put(
@@ -707,6 +836,7 @@ export function makeWorld(scene) {
         put(0, 0.64, -front - 2.2, w * 0.65, 0.12, 1, 0x6b9d67);
       }
     }
+    adaptable = false;
     // Doorstep marker and mailbox each have a vertical post and a horizontal box.
     put(0.55, 0.05, front + 0.5, 0.8, 0.09, 0.6, h.roof);
     const mailbox = localToWorld(h, 2.15, front + 2.1);
@@ -749,8 +879,48 @@ export function makeWorld(scene) {
     [13, 29],
     [-2, 19],
   ];
+  function treeAllowed(x, z) {
+    if (
+      roads.some((l) => distanceToLine(x, z, l).distance < 4.8) ||
+      trails.some((l) => distanceToLine(x, z, l).distance < 2.1)
+    )
+      return false;
+    if (drives.some((d) => distanceToLine(x, z, d.points).distance < 2.2))
+      return false;
+    if (
+      houses.some((h) => {
+        const p = localToWorld(
+          { ...h, angle: -h.angle, x: 0, z: 0 },
+          x - h.x,
+          z - h.z,
+        );
+        return (
+          Math.abs(p.x) < h.w / 2 + (h.garage || h.wing ? 6 : 2.8) &&
+          Math.abs(p.z) < h.d / 2 + 3
+        );
+      })
+    )
+      return false;
+    if (
+      [...TOWN_LOTS].some(
+        (f) =>
+          Math.abs(x - f.x) < f.w / 2 + 2 && Math.abs(z - f.z) < f.d / 2 + 2,
+      )
+    )
+      return false;
+    return !reserved({
+      minX: x - 2,
+      maxX: x + 2,
+      minZ: z - 2,
+      maxZ: z + 2,
+      minY: 0,
+      maxY: 7,
+    });
+  }
   const crowns = [];
   for (const [i, [x, z]] of treeSpots.entries()) {
+    if (!treeAllowed(x, z)) continue;
+    treePositions.push({ x, z });
     const height = 2.5 + (i % 3) * 0.25;
     box(x, height / 2, z, 0.42, height, 0.42, 0x846244, true);
     crowns.push({
@@ -845,6 +1015,17 @@ export function makeWorld(scene) {
     labels.push(face);
   }
   function bench(x, z, angle = 0) {
+    if (
+      reserved({
+        minX: x - 1.4,
+        maxX: x + 1.4,
+        minZ: z - 1.4,
+        maxZ: z + 1.4,
+        minY: 0,
+        maxY: 1.5,
+      })
+    )
+      return;
     const p = (dx, y, dz, w, h, d, c, solid = true) => {
       const pt = localToWorld({ x, z, angle }, dx, dz);
       box(pt.x, y, pt.z, w, h, d, c, solid, angle);
@@ -854,46 +1035,61 @@ export function makeWorld(scene) {
     for (const dx of [-0.75, 0.75]) p(dx, 0.23, 0, 0.12, 0.46, 0.5, 0x5b7072);
   }
   for (const x of [40, 58]) bench(x, -26, Math.PI / 2);
-  // Park: a walk-through playhouse, reachable low stepping platforms, sand and swings.
-  box(65, 0.005, 46, 25, 0.01, 25, 0xa7be7f);
-  box(71, 0.014, 48, 9, 0.018, 8, 0xe4ce9b);
-  for (const x of [61, 67]) box(x, 1.8, 39, 0.22, 3.6, 0.22, wood, true);
-  box(64, 3.55, 39, 6.6, 0.22, 0.22, wood, true);
-  for (const x of [63, 65]) {
-    for (const dx of [-0.32, 0.32])
-      box(x + dx, 2.28, 39, 0.035, 2.4, 0.035, 0x5b7072);
-    box(x, 1.06, 39, 0.85, 0.16, 0.5, 0xad6c51, true);
-  }
-  for (let i = 0; i < 4; i++)
-    box(
-      58 + i * 1.6,
-      0.15 + i * 0.1,
-      49,
-      1.1,
-      0.3 + i * 0.2,
-      1.1,
-      [0xad6c51, 0x447c80, 0xe6b073, 0x6b7690][i],
-      true,
-    );
-  box(71, 0.55, 48, 2, 1.1, 2, 0xc5bea7, true);
-  for (const dx of [-1.1, 1.1])
-    for (const dz of [-1.1, 1.1])
-      box(76 + dx, 1.2, 41 + dz, 0.16, 2.4, 0.16, wood, true);
-  box(76, 2.45, 41, 2.7, 0.18, 2.7, 0x447c80, true);
-  bench(58, 41, Math.PI / 2);
-  bench(73, 56, Math.PI);
   // Wide, open building clearings remain free of generated scenery.
   const clearings = [
-    { x: -59, z: 61, w: 44, d: 32 },
+    { x: -70, z: 61, w: 36, d: 30, subtle: true },
     { x: 8, z: 61, w: 27, d: 27 },
     ...OUTER_CLEARINGS,
   ];
   for (const f of clearings) {
-    box(f.x, 0.004, f.z, f.w, 0.008, f.d, 0xa7be7f);
+    const nearest = trails
+      .map((l) => distanceToLine(f.x, f.z, l))
+      .sort((a, b) => a.distance - b.distance)[0].point;
+    const dx = nearest.x - f.x,
+      dz = nearest.z - f.z,
+      edge = Math.min(
+        Math.abs(dx) > 1e-6 ? f.w / 2 / Math.abs(dx) : Infinity,
+        Math.abs(dz) > 1e-6 ? f.d / 2 / Math.abs(dz) : Infinity,
+      );
+    if (edge < 1) {
+      const access = [
+        [nearest.x, nearest.z],
+        [f.x + dx * edge, f.z + dz * edge],
+      ];
+      trails.push(access);
+      ribbon(access, 2.4, 0xd5bf94, 0.019);
+    }
+    box(f.x, 0.004, f.z, f.w, 0.008, f.d, f.subtle ? 0x96ba76 : 0xa7be7f);
     for (const dx of [-f.w / 2, f.w / 2])
       for (const dz of [-f.d / 2, f.d / 2])
         box(f.x + dx, 0.18, f.z + dz, 0.22, 0.36, 0.22, wood);
   }
+  for (const f of TOWN_LOTS) {
+    clearings.push(f);
+    const streetZ = f.roadZ ?? f.z,
+      signZ = f.roadX ? f.z - 6 : f.z + (streetZ - f.z) * 0.45;
+    box(f.x, 0.005, f.z, f.w, 0.01, f.d, 0x96ba76);
+    ribbon(
+      f.roadX
+        ? [
+            [f.x + f.w / 2, f.z],
+            [f.roadX - 3.3, f.z],
+          ]
+        : [
+            [f.x, f.z + (streetZ > f.z ? f.d / 2 : -f.d / 2)],
+            [f.x, streetZ + (streetZ > f.z ? -3.3 : 3.3)],
+          ],
+      2.4,
+      0xc5bea7,
+      0.032,
+    );
+    box(f.x - f.w / 2 + 0.4, 0.45, signZ, 0.12, 0.9, 0.12, wood);
+    box(f.x - f.w / 2 + 0.4, 0.82, signZ, 1.2, 0.5, 0.08, 0x447c80);
+    label("BUILD", f.x - f.w / 2 + 0.4, 0.83, signZ + 0.05, 0, 1.1);
+  }
+  adaptable = true;
+  makeTownParks({ box, bench, ribbon, material, scene, reserved });
+  adaptable = false;
   // Shallow ornamental pond and a stepping-stone crossing; no deep-water mechanics.
   const pond = { x: 18, z: -101, rx: 16, rz: 10 };
   const disk = (x, z, rx, rz, color, y = 0.02) => {
@@ -909,13 +1105,13 @@ export function makeWorld(scene) {
   for (let i = 0; i < 9; i++)
     box(
       18 + (i % 2 ? 0.3 : -0.3),
-      0.1,
+      0.035,
       -110 + i * 2.25,
       1.25,
-      0.2,
+      0.018,
       1.45,
       0xb5ad96,
-      true,
+      false,
     );
   bench(38, -103, Math.PI / 2);
   bench(10, -116, Math.PI);
@@ -928,7 +1124,7 @@ export function makeWorld(scene) {
       94 + Math.sin(a) * (7 + Math.floor(i / 6) * 4),
     ]);
   }
-  bench(81, 94);
+  bench(81, 100);
   box(81, 0.015, 97, 3, 0.03, 2, 0xe0bbbc);
   // Deterministic vegetation avoids every house, garage, drive, path and play/build area.
   const excluded = (x, z) => {
@@ -1012,6 +1208,8 @@ export function makeWorld(scene) {
     box(x, 0.74, z, 0.12, 0.17, 0.12, 0x946647);
   }
   for (const [i, [x, z]] of [...trees, ...orchard].entries()) {
+    if (!treeAllowed(x, z)) continue;
+    treePositions.push({ x, z });
     const orchardTree = i >= trees.length,
       h = orchardTree ? 2.2 : 2.6 + (i % 4) * 0.35;
     box(x, h / 2, z, 0.38, h, 0.38, wood, true);
@@ -1030,6 +1228,7 @@ export function makeWorld(scene) {
       for (const dx of [-1, 1])
         box(x + dx, h + 0.5, z + 0.5, 0.22, 0.22, 0.22, 0xc78264);
   }
+  adaptable = true;
   const outerScenery = makeOuterScenery({
     scene,
     box,
@@ -1040,17 +1239,33 @@ export function makeWorld(scene) {
     roads,
     trails,
     drives,
-    houses: HOUSES,
+    houses,
+    treeAllowed,
+    treePositions,
     clearings,
   });
+  adaptable = false;
   // Trail markers and district signs make the route recognizable at walking height.
   for (const l of LANDMARKS.filter((l) => l.id !== "home")) {
+    adaptable = NEW_LANDMARKS.some((n) => n.id === l.id);
     const x = l.signX ?? (l.id === "pond" ? 39 : l.x + 4),
       z = l.signZ ?? (l.id === "pond" ? -94 : l.z + 4);
+    if (
+      reserved({
+        minX: x - 2,
+        maxX: x + 2,
+        minZ: z - 1,
+        maxZ: z + 1,
+        minY: 0,
+        maxY: 2.2,
+      })
+    )
+      continue;
     box(x, 0.9, z, 0.14, 1.8, 0.14, wood, true);
     box(x, 1.7, z, 3.8, 0.8, 0.12, 0x447c80);
     label(l.name.toUpperCase(), x, 1.72, z + 0.075, 0, 3.6);
   }
+  adaptable = false;
   for (const [color, list] of batches) {
     const mesh = new T.InstancedMesh(boxGeometry, material(color), list.length);
     list.forEach((p, i) => {
@@ -1070,6 +1285,7 @@ export function makeWorld(scene) {
   ground.rotation.x = -Math.PI / 2;
   ground.updateMatrixWorld();
   scene.add(ground);
+  const doorRender = batchDoorLeaves(doors);
   const staticRender = batchStaticWorld(
     scene,
     new Set([...doors.map((d) => d.pivot), ground, ...labels]),
@@ -1077,20 +1293,26 @@ export function makeWorld(scene) {
   return {
     config: WORLD,
     roads,
+    selfJunctions,
     trails,
     clearings,
     pond,
     ponds: [pond, ...OUTER_PONDS],
     outerScenery,
     staticRender,
-    treeCount: trees.length + orchard.length + outerScenery.trees,
+    doorRender,
+    treeCount: treePositions.length,
+    treePositions,
+    rooms,
+    omitted,
     solids,
     doors,
     table,
     ground,
     road,
     drives,
-    houses: HOUSES,
+    houses,
+    treeAllowed,
     batches,
   };
 }

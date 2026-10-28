@@ -1,0 +1,69 @@
+
+> blockworld-neighborhood@0.6.0 test
+> node test/core-06.test.mjs && node test/controls-06.test.mjs && node test/world-06.test.mjs
+
+✔ forward and strafe agree with camera at four headings; diagonal speed is normalized (1.248113ms)
+✔ wall collision cannot tunnel through a thin wall at low FPS and permits sliding (5.656795ms)
+✔ jump lands on a built block, hits ceilings, and cannot jump through them (1.648687ms)
+✔ placement prevents overlaps, self-entombment, floating pieces, long reach and capacity overflow (1.136144ms)
+✔ undo returns consumed crafted items; removed pieces cannot be restored over player or closed door (0.324179ms)
+✔ save roundtrip preserves special inventory, selection, door and pose; malformed imports are rejected (4.988176ms)
+✔ all houses have an upright, usable opening and a correctly oriented door at both angles (45.672893ms)
+✔ driveways align with the actual entrances, reach the road and houses do not intersect each other (0.757412ms)
+✔ world mesh transforms are finite and scales are positive (435.113357ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 503.619312
+✔ 02 failure: guard must work even with no material selected, and stay stable at high/low frame rates (60.342239ms)
+✔ guard allows Jump, stops a second walking fall after landing, and OFF allows walking down (1.512892ms)
+✔ automatic climbing is removed even when an old saved caller supplies autoStep=true (0.548107ms)
+✔ OBB narrow phase rejects false AABB obstruction inside the swung leaf bounding box (0.34457ms)
+✔ every door automatically opens away from either approach, animates safely, stays open nearby, then closes after a delay (8194.157496ms)
+✔ walk through, safe close and reopen from inside/outside every house without passing a closed leaf (64714.161447ms)
+✔ closing refuses doorway occupancy and a blocked sweep, and reopens if a player returns mid-close (19.317964ms)
+✔ automatic OFF leaves closed doors closed; manual close has a near-player latch rather than immediately reopening (105.178611ms)
+✔ all parts of a browser-targeted button activate once despite rectangle differences and metadata-free compatibility clicks (42.106134ms)
+✔ leaf collision follows the rendered leaf at closed, intermediate and fully open angles (9.997999ms)
+✔ an obstruction in the middle of the swing prevents closing even when both endpoints are clear (8.782384ms)
+✔ a partial-overhang landing can recover toward the platform without disabling protection (0.953319ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 73171.426504
+✔ 500m layout is dense and varied (1.86897ms)
+✔ building footprints clear roads, trails and one another (835.058661ms)
+✔ front walks clear solid obstructions (18.96379ms)
+✔ road and path network is connected (12.862456ms)
+✔ all trees clear roads, trails and driveways and have solid trunks (76.944046ms)
+✔ vacant frontages have clear placeable centres and road setbacks (15.843172ms)
+✔ all swing and roller doors auto/manual operate safely from both sides (503.275799ms)
+✔ Fast movement passes every open door from both sides; closed doors stop it (470.578588ms)
+✔ roller closing refuses player occupancy (0.85474ms)
+✔ staircases ascend and descend smoothly with edge protection (248.727884ms)
+✔ room waypoints stand in clear supported spaces (1.203435ms)
+✔ 05 migration reserves conflicting town property without losing blocks (685.678799ms)
+✔ invalid schemas rejected and large 12k structure restores (607.115663ms)
+✔ ground-floor rooms and former closed wings have walkable interior routes (363.834746ms)
+✔ every walking trail has a continuous unobstructed centre route (30.020107ms)
+✔ standard controller axes clamp/deadzone and buttons activate once per press (2.23953ms)
+✔ each roller refuses saved-piece obstructions and reopens on a returning player (8.041386ms)
+✔ centre markings leave clear junctions including self-rejoining roads (4.572191ms)
+✔ relocated public furniture yields to compatible saved creations (501.218612ms)
+✔ every two-storey envelope closes the side-wall/ceiling seam (0.938156ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4450.455363

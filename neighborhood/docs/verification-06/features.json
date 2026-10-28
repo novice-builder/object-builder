@@ -1,0 +1,15 @@
+{
+  "results": [
+    "real 05 runtime build in new property imports/reopens with blocks retained and whole house omitted; old key unchanged",
+    "minimap pose/heading updates without static-map rebuild; idle frames do not redraw",
+    "circular minimap opens and closes existing full map",
+    "actual runtime ascent/descent through all 6 staircases with guard on",
+    "eleven town, parks, lots, interior, stairs and bay-window screenshots captured",
+    "dock clearance, actual central camera drag and five minimap touch points 390x844",
+    "dock clearance, actual central camera drag and five minimap touch points 844x390",
+    "dock clearance, actual central camera drag and five minimap touch points 428x760",
+    "dock clearance, actual central camera drag and five minimap touch points 800x600",
+    "keyboard walking, mouse camera, simulated standard controller walking/look/jump/menu/hotbar all activate through real input handlers"
+  ],
+  "releaseSha256": "db94d70972a654dbc155b0a294a3d0f56e98726ec888fbe0c342276ee469b60b"
+}

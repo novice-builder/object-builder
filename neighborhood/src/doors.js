@@ -6,7 +6,16 @@ const HALF_PI = Math.PI / 2,
 export const DOOR_OPEN_DISTANCE = 2.25,
   DOOR_HOLD_DISTANCE = 3.1,
   DOOR_CLOSE_DELAY = 1.2;
+export function renderDoor(d) {
+  if (d.kind === "roller") {
+    const f = Math.max(0, Math.min(1, d.angle / HALF_PI));
+    d.leaf.scale.y = Math.max(0.001, 1 - f);
+    d.leaf.position.y = f * d.height;
+    d.pivot.rotation.y = d.baseAngle;
+  } else d.pivot.rotation.y = d.baseAngle + d.angle;
+}
 export function initializeDoor(d, open = false, swing = -1) {
+  if (d.kind === "roller") swing = 1;
   Object.assign(d, {
     open,
     targetOpen: open,
@@ -17,7 +26,7 @@ export function initializeDoor(d, open = false, swing = -1) {
     lastAttempt: -Infinity,
     blocked: false,
   });
-  d.pivot.rotation.y = d.baseAngle + d.angle;
+  renderDoor(d);
 }
 function near(d, p, radius) {
   return (
@@ -49,7 +58,13 @@ export function requestDoor(
       (p.x - d.center.x) * Math.sin(d.baseAngle) +
       (p.z - d.center.z) * Math.cos(d.baseAngle);
     const preferred =
-      Math.abs(from) > 0.01 ? (d.swing ?? -1) : side >= 0 ? 1 : -1;
+      d.kind === "roller"
+        ? 1
+        : Math.abs(from) > 0.01
+          ? (d.swing ?? -1)
+          : side >= 0
+            ? 1
+            : -1;
     for (const swing of Math.abs(from) > 0.01
       ? [preferred]
       : [preferred, -preferred]) {
@@ -89,9 +104,10 @@ export function updateDoors(
     holdDistance = Math.max(DOOR_HOLD_DISTANCE, openDistance + 0.85);
   let changed = false;
   for (const d of doors) {
-    const nearby = nearbyObstacles?.(d);
-    const localBlocks = nearby?.blocks ?? blocks,
-      localSolids = nearby?.solids ?? staticSolids;
+    // Only query a door's neighborhood when an operation or animation needs it.
+    let cached;
+    const obstacles = () =>
+      (cached ??= nearbyObstacles?.(d) ?? { blocks, solids: staticSolids });
     const closeBy = near(d, p, holdDistance);
     if (closeBy) d.leaveSince = null;
     else {
@@ -101,14 +117,14 @@ export function updateDoors(
     if (automatic && !d.manualHold && now - d.lastAttempt > 0.3) {
       if (near(d, p, openDistance) && !d.targetOpen) {
         d.lastAttempt = now;
-        requestDoor(d, true, p, localBlocks, localSolids);
+        requestDoor(d, true, p, obstacles().blocks, obstacles().solids);
       } else if (
         !closeBy &&
         d.targetOpen &&
         now - d.leaveSince > DOOR_CLOSE_DELAY
       ) {
         d.lastAttempt = now;
-        requestDoor(d, false, p, localBlocks, localSolids);
+        requestDoor(d, false, p, obstacles().blocks, obstacles().solids);
       }
     }
     const target = d.targetOpen ? d.swing * HALF_PI : 0;
@@ -119,7 +135,9 @@ export function updateDoors(
     const steps = Math.max(1, Math.ceil(Math.abs(travel) / 0.02));
     for (let i = 0; i < steps && Math.abs(travel) > 1e-8; i++) {
       const next = d.angle + travel / steps;
-      if (!sweepClear(d, d.angle, next, p, localBlocks, localSolids)) {
+      if (
+        !sweepClear(d, d.angle, next, p, obstacles().blocks, obstacles().solids)
+      ) {
         d.blocked = true;
         // A player returning during closing wins. Reopen safely on the next tick.
         if (!d.targetOpen) {
@@ -133,7 +151,7 @@ export function updateDoors(
       d.blocked = false;
       changed = true;
     }
-    d.pivot.rotation.y = d.baseAngle + d.angle;
+    renderDoor(d);
   }
   return changed;
 }

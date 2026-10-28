@@ -1,0 +1,8 @@
+{
+  "results": [
+    "actual 04 runtime schema2 12000-piece save copies directly to 06 and reopens, preserving inventory/selection and the old key"
+  ],
+  "releaseSha256": "db94d70972a654dbc155b0a294a3d0f56e98726ec888fbe0c342276ee469b60b",
+  "baseline04Sha256": "7e57b8de5047233ce208f177a2d8a5861aba1653b7472a91fef5a389e71ffd48",
+  "errors": []
+}

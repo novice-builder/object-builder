@@ -492,10 +492,10 @@ export const OUTER_TRAILS = [
   ],
 ];
 export const OUTER_CLEARINGS = [
-  { x: -127, z: -209, w: 44, d: 32 },
-  { x: 213, z: -208, w: 44, d: 34 },
-  { x: -214, z: -123, w: 30, d: 35 },
-  { x: 151, z: 209, w: 50, d: 35 },
+  { x: -161, z: -218, w: 36, d: 28, subtle: true },
+  { x: 214, z: -232, w: 36, d: 20, subtle: true },
+  { x: -234, z: -111, w: 22, d: 24, subtle: true },
+  { x: 151, z: 234, w: 36, d: 20, subtle: true },
 ];
 export const OUTER_PONDS = [
   { x: -167, z: 197, rx: 23, rz: 14 },
@@ -558,20 +558,20 @@ export const OUTER_LANDMARKS = [
     id: "north-meadow",
     name: "North meadow",
     icon: "▦",
-    x: -127,
-    z: -209,
+    x: -161,
+    z: -218,
     color: "#a9b774",
-    signX: -101,
-    signZ: -208,
+    signX: -182,
+    signZ: -218,
   },
   {
     id: "east-meadow",
     name: "East meadow",
     icon: "▦",
     x: 151,
-    z: 209,
+    z: 234,
     color: "#a9b774",
-    signX: 180,
-    signZ: 210,
+    signX: 173,
+    signZ: 234,
   },
 ];

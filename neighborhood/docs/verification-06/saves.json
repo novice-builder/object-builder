@@ -1,0 +1,22 @@
+{
+  "results": [
+    "actual 05 runtime exports a valid 12000-piece baseline",
+    "06 automatically copies 05 large progress before 03, with all structures, selection and inventory intact",
+    "large progress and Fast preference survive reopening without changing old saves/settings",
+    "06 exports a large versioned build including new outer-world coordinates",
+    "real file-input import restores every 06 piece and outer coordinate",
+    "invalid schema, world, duplicates and invalid legacy bounds are rejected atomically",
+    "manual 05 import migrates all 12000 pieces without altering its original browser key",
+    "03 exports remain importable; Home works from the far outer meadow without deleting builds",
+    "reopening restores the final imported 06 state while 03/05 remain unchanged"
+  ],
+  "errors": [],
+  "fileProtocol": {
+    "tested": false,
+    "blocked": true,
+    "reason": "Managed Chromium rejects file:// via URL policy; policy was not changed."
+  },
+  "exportBytes05": 966017,
+  "exportBytes06": 968144,
+  "releaseSha256": "db94d70972a654dbc155b0a294a3d0f56e98726ec888fbe0c342276ee469b60b"
+}

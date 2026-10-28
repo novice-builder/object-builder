@@ -1,23 +1,24 @@
-# BlockWorld Neighborhood 05 — experimental scaling release
+# BlockWorld Neighborhood 06 — a fuller town
 
-**Neighborhood 04 remains the stable playable version.** Its HTML and earlier releases are unchanged. 05 is developed on `codex/neighborhood-05-scale` from the 04 branch.
+06 retains the 500 × 500 m world and builds coherent Linden, Willow and Elm residential streets, frontage lots, accessible side rooms and garages, six stair-equipped residences, Magnolia manor and landscaped parks. A cached circular minimap opens the full map; contextual actions sit beside the gameplay controls. Standard Xbox-style browser gamepad input complements touch, mouse and keyboard.
 
-[Play guide and device checklist](docs/WORLD_05.md) · [Architecture and 04/05 comparison](docs/VERIFICATION_05.md)
+[Play guide and tablet checklist](docs/WORLD_06.md) · [Architecture and defects](docs/VERIFICATION_06.md) · [Measured comparison and screenshots](docs/verification-06/SUMMARY.md)
 
-The world expands to 500 × 500 metres while retaining the original districts. New west homes, northern village, makers district, lake park, farm, woodland, ponds and meadows are connected by roads/trails. Grown-up settings offer Normal, Quick and Fast walking. 05 uses separate saves with validated imports from 04 and older versions.
+Earlier standalone releases are unchanged. **04 remains the stable playable version; 03 is the approved core baseline.** 05 and 06 remain separate candidates until device feedback. Source history is retained on each release branch.
 
 ```sh
 npm ci
 npm run build
 npm test
 npm run test:browser
-node test/world-05-saves.mjs
-node test/world-05-visual.mjs
-node test/world-05-fog.mjs
-node test/world-05-performance.mjs
+node test/world-06-features.mjs
+node test/world-06-saves.mjs
+node test/world-06-compatibility.mjs
+node test/world-06-visual.mjs
+node test/world-06-fog.mjs
+node test/world-06-performance.mjs
+node test/world-06-motion.mjs
 npm run serve
 ```
 
-Output: `../BlockWorld_Neighborhood_05.html`, a standalone offline file. Browser scripts use Playwright and Chromium; run performance without other browser workloads. Software-renderer measurements do not verify iPhone or Lenovo performance.
-
-Earlier source remains on the versioned branches; guides and evidence for 03/04 remain in `docs/`.
+Output: `../BlockWorld_Neighborhood_06.html`. No network assets are required during play. Browser scripts use Playwright and Chromium. Run performance by itself; measurements on this Linux software renderer do not verify physical iPhone, Lenovo or Xbox controller performance.
