@@ -1,0 +1,751 @@
+{
+  "results": [
+    "500 m bounds, 40 buildings, three ponds and retained controls load offline",
+    "all 40 doors operate automatically/manual from both sides with passage and closed-leaf collision",
+    "walking-speed buttons activate across their faces, show feedback and persist",
+    "Fast automatic approach clears every door without walking through a closed leaf",
+    "Fast walking, Jump, independent edge guard and intentional descent still work",
+    "manual contextual door touch works once; metadata-free follow-up click does not reverse it",
+    "full hit areas for header, gameplay and hotbar 390x844",
+    "grown-up settings and map remain usable 390x844",
+    "outer-area direct building, removal, Undo and crafting preview 390x844",
+    "full hit areas for header, gameplay and hotbar 844x390",
+    "grown-up settings and map remain usable 844x390",
+    "outer-area direct building, removal, Undo and crafting preview 844x390",
+    "full hit areas for header, gameplay and hotbar 428x760",
+    "grown-up settings and map remain usable 428x760",
+    "outer-area direct building, removal, Undo and crafting preview 428x760",
+    "full hit areas for header, gameplay and hotbar 800x600",
+    "grown-up settings and map remain usable 800x600",
+    "outer-area direct building, removal, Undo and crafting preview 800x600"
+  ],
+  "buttonChecks": [
+    {
+      "label": "speed settings",
+      "id": "normal",
+      "points": 9
+    },
+    {
+      "label": "speed settings",
+      "id": "quick",
+      "points": 9
+    },
+    {
+      "label": "speed settings",
+      "id": "fast",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "home",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "mapButton",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "speaker",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "menu",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "wood",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "brick",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "stone",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "glass",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "flowers",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "lantern",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "bench",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "guardToggle",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "undo",
+      "points": 9
+    },
+    {
+      "label": "gameplay 390",
+      "id": "jump",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "normal",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "quick",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "fast",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "placementMode",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "automaticDoors",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "edgeProtection",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "export",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "fullscreen",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "diagnostics",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "quality",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "subtitles",
+      "points": 9
+    },
+    {
+      "label": "settings 390",
+      "id": "resume",
+      "points": 9
+    },
+    {
+      "label": "map 390",
+      "points": 9
+    },
+    {
+      "label": "craft 390",
+      "points": 9
+    },
+    {
+      "label": "craft 390",
+      "id": "flowers",
+      "points": 9
+    },
+    {
+      "label": "craft 390",
+      "id": "lantern",
+      "points": 9
+    },
+    {
+      "label": "craft 390",
+      "id": "bench",
+      "points": 9
+    },
+    {
+      "label": "preview 390",
+      "id": "cancelPlace",
+      "points": 9
+    },
+    {
+      "label": "preview 390",
+      "id": "rotate90",
+      "points": 9
+    },
+    {
+      "label": "preview 390",
+      "id": "rotateFine",
+      "points": 9
+    },
+    {
+      "label": "preview 390",
+      "id": "confirmPlace",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "home",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "mapButton",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "speaker",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "menu",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "wood",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "brick",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "stone",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "glass",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "flowers",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "lantern",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "bench",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "guardToggle",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "undo",
+      "points": 9
+    },
+    {
+      "label": "gameplay 844",
+      "id": "jump",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "normal",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "quick",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "fast",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "placementMode",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "automaticDoors",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "edgeProtection",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "export",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "fullscreen",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "diagnostics",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "quality",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "subtitles",
+      "points": 9
+    },
+    {
+      "label": "settings 844",
+      "id": "resume",
+      "points": 9
+    },
+    {
+      "label": "map 844",
+      "points": 9
+    },
+    {
+      "label": "craft 844",
+      "points": 9
+    },
+    {
+      "label": "craft 844",
+      "id": "flowers",
+      "points": 9
+    },
+    {
+      "label": "craft 844",
+      "id": "lantern",
+      "points": 9
+    },
+    {
+      "label": "craft 844",
+      "id": "bench",
+      "points": 9
+    },
+    {
+      "label": "preview 844",
+      "id": "cancelPlace",
+      "points": 9
+    },
+    {
+      "label": "preview 844",
+      "id": "rotate90",
+      "points": 9
+    },
+    {
+      "label": "preview 844",
+      "id": "rotateFine",
+      "points": 9
+    },
+    {
+      "label": "preview 844",
+      "id": "confirmPlace",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "home",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "mapButton",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "speaker",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "menu",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "wood",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "brick",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "stone",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "glass",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "flowers",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "lantern",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "bench",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "guardToggle",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "undo",
+      "points": 9
+    },
+    {
+      "label": "gameplay 428",
+      "id": "jump",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "normal",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "quick",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "fast",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "placementMode",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "automaticDoors",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "edgeProtection",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "export",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "fullscreen",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "diagnostics",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "quality",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "subtitles",
+      "points": 9
+    },
+    {
+      "label": "settings 428",
+      "id": "resume",
+      "points": 9
+    },
+    {
+      "label": "map 428",
+      "points": 9
+    },
+    {
+      "label": "craft 428",
+      "points": 9
+    },
+    {
+      "label": "craft 428",
+      "id": "flowers",
+      "points": 9
+    },
+    {
+      "label": "craft 428",
+      "id": "lantern",
+      "points": 9
+    },
+    {
+      "label": "craft 428",
+      "id": "bench",
+      "points": 9
+    },
+    {
+      "label": "preview 428",
+      "id": "cancelPlace",
+      "points": 9
+    },
+    {
+      "label": "preview 428",
+      "id": "rotate90",
+      "points": 9
+    },
+    {
+      "label": "preview 428",
+      "id": "rotateFine",
+      "points": 9
+    },
+    {
+      "label": "preview 428",
+      "id": "confirmPlace",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "home",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "mapButton",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "speaker",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "menu",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "wood",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "brick",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "stone",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "glass",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "flowers",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "lantern",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "bench",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "guardToggle",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "undo",
+      "points": 9
+    },
+    {
+      "label": "gameplay 800",
+      "id": "jump",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "normal",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "quick",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "fast",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "placementMode",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "automaticDoors",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "edgeProtection",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "export",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "fullscreen",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "diagnostics",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "quality",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "subtitles",
+      "points": 9
+    },
+    {
+      "label": "settings 800",
+      "id": "resume",
+      "points": 9
+    },
+    {
+      "label": "map 800",
+      "points": 9
+    },
+    {
+      "label": "craft 800",
+      "points": 9
+    },
+    {
+      "label": "craft 800",
+      "id": "flowers",
+      "points": 9
+    },
+    {
+      "label": "craft 800",
+      "id": "lantern",
+      "points": 9
+    },
+    {
+      "label": "craft 800",
+      "id": "bench",
+      "points": 9
+    },
+    {
+      "label": "preview 800",
+      "id": "cancelPlace",
+      "points": 9
+    },
+    {
+      "label": "preview 800",
+      "id": "rotate90",
+      "points": 9
+    },
+    {
+      "label": "preview 800",
+      "id": "rotateFine",
+      "points": 9
+    },
+    {
+      "label": "preview 800",
+      "id": "confirmPlace",
+      "points": 9
+    }
+  ],
+  "buttonPointActivations": 1323,
+  "errors": [],
+  "browser": "154.0.8037.57",
+  "releaseSha256": "31567c3fa6df2679fc9dd87a32663eabc4345ca241882a51857301dd92a274b9"
+}

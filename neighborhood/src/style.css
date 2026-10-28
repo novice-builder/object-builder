@@ -1049,3 +1049,25 @@ button:active {
     bottom: calc(116px + 80px + 16px + env(safe-area-inset-bottom));
   }
 }
+
+.speed-settings {
+  margin: 0 0 14px;
+  color: #345e53;
+  font-size: 13px;
+}
+.speed-presets {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.speed-presets button {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  padding: 10px 4px;
+  touch-action: pan-y;
+}
+.speed-presets button[aria-pressed="true"] {
+  background: #c8ddc2;
+  outline: 2px solid #6c9885;
+}

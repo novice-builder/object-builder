@@ -1,3 +1,4 @@
+import { OUTER_BUILDINGS, OUTER_ROADS, OUTER_TRAILS } from "./expansion-05.js";
 // Authored lots, not a random building grid. The first four homes stay in place.
 export const EXTRA_BUILDINGS = [
   {
@@ -172,6 +173,7 @@ export const EXTRA_BUILDINGS = [
     porch: 4,
     garden: 2,
   },
+  ...OUTER_BUILDINGS,
 ];
 export const ROAD_LINES = [
   [
@@ -205,6 +207,7 @@ export const ROAD_LINES = [
     [92, -52],
     [115, -53],
   ],
+  ...OUTER_ROADS,
 ];
 export const TRAIL_LINES = [
   [
@@ -261,6 +264,7 @@ export const TRAIL_LINES = [
     [37, -103],
     [47, -90],
   ],
+  ...OUTER_TRAILS,
 ];
 export function distanceToLine(x, z, line) {
   let best = Infinity,

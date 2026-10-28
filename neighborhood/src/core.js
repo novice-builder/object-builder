@@ -1,4 +1,4 @@
-import { WORLD } from "./world-config.js";
+import { WORLD, walkingSpeed } from "./world-config.js";
 import { SpatialIndex } from "./spatial.js";
 // World units are metres. Block coordinates are cell minima; player y is feet.
 export const LIMIT = WORLD.halfSize,
@@ -144,11 +144,12 @@ export function movePlayer(p, input, dt, solids) {
   // Fixed small substeps prevent tunnelling at low frame rates. No step teleporting.
   const steps = Math.ceil(Math.min(dt, 0.1) / 0.012),
     h = Math.min(dt, 0.1) / steps;
+  const speed = walkingSpeed(input.walkSpeed);
   let f = clamp(input.forward || 0, -1, 1),
     s = clamp(input.right || 0, -1, 1),
     n = Math.max(1, Math.hypot(f, s));
-  const dx = ((-Math.sin(p.yaw) * f + Math.cos(p.yaw) * s) * 3.4) / n;
-  const dz = ((-Math.cos(p.yaw) * f - Math.sin(p.yaw) * s) * 3.4) / n;
+  const dx = ((-Math.sin(p.yaw) * f + Math.cos(p.yaw) * s) * speed) / n;
+  const dz = ((-Math.cos(p.yaw) * f - Math.sin(p.yaw) * s) * speed) / n;
   for (let i = 0; i < steps; i++) {
     const support = supportHeight(p, solids);
     if ((p.vy || 0) <= 0 && p.y >= support - 0.002 && p.y - support < 0.035) {
@@ -260,13 +261,15 @@ export function placementReason(
 export function validateSave(data, staticSolids = []) {
   if (
     !data ||
-    ![1, WORLD.saveVersion].includes(data.version) ||
+    ![1, 2, WORLD.saveVersion].includes(data.version) ||
     (data.version === WORLD.saveVersion && data.world !== WORLD.id) ||
+    (data.version === 2 && data.world !== "little-block-world-04") ||
     !Array.isArray(data.blocks) ||
     data.blocks.length > MAX_BLOCKS
   )
     throw Error("This is not a supported BlockWorld save");
-  const legacy = data.version === 1;
+  const legacy = data.version === 1,
+    old04 = data.version === 2;
   if (legacy && data.blocks.length > 800)
     throw Error("Older saves support up to 800 pieces");
   const s = freshState(),
@@ -291,6 +294,7 @@ export function validateSave(data, staticSolids = []) {
           Math.abs(b.z) > 31 ||
           b.z === 31 ||
           b.y > 9)) ||
+      (old04 && (b.x < -125 || b.x >= 125 || b.z < -125 || b.z >= 125)) ||
       seen.has(key(b))
     )
       throw Error("The save contains an invalid piece");

@@ -67,6 +67,7 @@ export function batchStaticWorld(scene, excluded) {
     vertexColors: true,
     side: T.FrontSide,
   });
+  const renderChunks = [];
   let triangles = 0;
   for (const [key, c] of chunks) {
     const g = new T.BufferGeometry();
@@ -77,6 +78,7 @@ export function batchStaticWorld(scene, excluded) {
     const mesh = new T.Mesh(g, material);
     mesh.name = `scenery ${key}`;
     scene.add(mesh);
+    renderChunks.push(mesh);
     triangles += c.positions.length / 9;
   }
   // Some materials are still used by animated door meshes; keep those shared.
@@ -86,5 +88,34 @@ export function batchStaticWorld(scene, excluded) {
   });
   for (const g of geometries) g.dispose();
   for (const mat of materials) if (!used.has(mat)) mat.dispose();
-  return { chunks: chunks.size, triangles };
+  return {
+    chunks: chunks.size,
+    triangles,
+    hidden: 0,
+    updateVisibility(camera, fogFar, enabled = true) {
+      const inverse = camera.matrixWorldInverse.elements;
+      let hidden = 0;
+      for (const mesh of renderChunks) {
+        const sphere = mesh.geometry.boundingSphere,
+          c = sphere.center;
+        const nearDepth =
+          -(
+            inverse[2] * c.x +
+            inverse[6] * c.y +
+            inverse[10] * c.z +
+            inverse[14]
+          ) - sphere.radius;
+        // Three.js linear fog uses view-space depth. A 10 cm margin keeps
+        // every partially fogged vertex, independent of heading or FOV.
+        mesh.visible = !enabled || nearDepth <= fogFar + 0.1;
+        if (!mesh.visible) hidden++;
+      }
+      this.hidden = hidden;
+      return hidden;
+    },
+    showAll() {
+      for (const mesh of renderChunks) mesh.visible = true;
+      this.hidden = 0;
+    },
+  };
 }

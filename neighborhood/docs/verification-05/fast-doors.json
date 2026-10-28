@@ -1,0 +1,162 @@
+[
+  {
+    "id": "home",
+    "crossed": -2.574400000000008
+  },
+  {
+    "id": "peach",
+    "crossed": -2.5744000000000025
+  },
+  {
+    "id": "sage",
+    "crossed": -2.5744000000000007
+  },
+  {
+    "id": "rose",
+    "crossed": -2.5743999999999687
+  },
+  {
+    "id": "orchid",
+    "crossed": -2.5743999999999616
+  },
+  {
+    "id": "cedar",
+    "crossed": -2.5743999999999527
+  },
+  {
+    "id": "sunflower",
+    "crossed": -2.5744000000001144
+  },
+  {
+    "id": "bluebell",
+    "crossed": -2.574400000000196
+  },
+  {
+    "id": "maple",
+    "crossed": -2.574400000000196
+  },
+  {
+    "id": "fern",
+    "crossed": -2.574400000000196
+  },
+  {
+    "id": "bakery",
+    "crossed": -2.574400000000196
+  },
+  {
+    "id": "market",
+    "crossed": -2.574400000000196
+  },
+  {
+    "id": "pottery",
+    "crossed": -2.574400000000196
+  },
+  {
+    "id": "workshop",
+    "crossed": -2.574400000000196
+  },
+  {
+    "id": "willow",
+    "crossed": -2.574400000000196
+  },
+  {
+    "id": "pavilion",
+    "crossed": -2.574400000000196
+  },
+  {
+    "id": "juniper",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "birch",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "copper",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "lavender",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "acacia",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "riverside",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "north-house",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "north-bakery",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "north-hall",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "north-clock",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "weavers",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "clay-yard",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "makers",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "greenhouse",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "lake-house",
+    "crossed": -2.574399999999918
+  },
+  {
+    "id": "east-house",
+    "crossed": -2.574400000000196
+  },
+  {
+    "id": "beacon-house",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "farm-home",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "farm-shop",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "red-barn",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "farm-cottage",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "orchard-barn",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "pond-cabin",
+    "crossed": -2.574399999997695
+  },
+  {
+    "id": "trail-hut",
+    "crossed": -2.574399999997695
+  }
+]

@@ -1,5 +1,5 @@
 import * as T from "three";
-import { WORLD, LANDMARKS } from "./world-config.js";
+import { WORLD, LANDMARKS, WALK_SPEEDS } from "./world-config.js";
 import { SpatialIndex, around } from "./spatial.js";
 import { BuildChunks } from "./build-chunks.js";
 import { installMap } from "./map.js";
@@ -98,17 +98,27 @@ const preferences = {
   edgeProtection: true,
   quality: false,
   subtitles: true,
+  walkSpeed: "normal",
 };
 try {
   const raw = localStorage.getItem(PREFS_KEY);
   const saved = JSON.parse(
-    raw || localStorage.getItem("blockworld.neighborhood.controls.v3") || "{}",
+    raw ||
+      localStorage.getItem("blockworld.neighborhood.controls.v4") ||
+      localStorage.getItem("blockworld.neighborhood.controls.v3") ||
+      "{}",
   );
   for (const k of ["quality", "subtitles"])
     if (typeof saved[k] === "boolean") preferences[k] = saved[k];
-  if (raw || localStorage.getItem("blockworld.neighborhood.controls.v3"))
+  if (
+    raw ||
+    localStorage.getItem("blockworld.neighborhood.controls.v4") ||
+    localStorage.getItem("blockworld.neighborhood.controls.v3")
+  )
     for (const k of ["edgeProtection", "automaticDoors"])
       if (typeof saved[k] === "boolean") preferences[k] = saved[k];
+  if (Object.prototype.hasOwnProperty.call(WALK_SPEEDS, saved.walkSpeed))
+    preferences.walkSpeed = saved.walkSpeed;
   if (saved.placement === "crosshair") preferences.placement = "crosshair";
 } catch {}
 function savePreferences() {
@@ -272,17 +282,19 @@ function restore() {
   try {
     raw = localStorage.getItem(SAVE_KEY);
     if (!raw) {
-      const old = localStorage.getItem("blockworld.neighborhood.01");
+      const old =
+        localStorage.getItem("blockworld.neighborhood.04") ||
+        localStorage.getItem("blockworld.neighborhood.01");
       if (old) {
         try {
           const migrated = validateSave(JSON.parse(old), world.solids);
           raw = JSON.stringify(migrated);
           notice(
-            "Your old builds were copied into 04. Neighborhood 03’s save is unchanged.",
+            "Your old builds were copied into 05. The previous save is unchanged.",
           );
         } catch {
           notice(
-            "Your 03 save was kept untouched. Import an exported backup when ready.",
+            "Your previous save was kept untouched. Import an exported backup when ready.",
           );
         }
       }
@@ -988,6 +1000,17 @@ function setupUI() {
         : "Crosshair: aim at the centre +, then press Place. Furniture still needs confirmation.",
     );
   };
+  document.querySelectorAll("[data-walk-speed]").forEach(
+    (button) =>
+      (button.onclick = () => {
+        preferences.walkSpeed = button.dataset.walkSpeed;
+        applyPreferences();
+        savePreferences();
+        settingsFeedback(
+          `Walking speed: ${button.textContent}. Jump height is unchanged.`,
+        );
+      }),
+  );
   $("edgeProtection").onclick = toggleGuard;
   $("automaticDoors").onclick = () => {
     preferences.automaticDoors = !preferences.automaticDoors;
@@ -1018,6 +1041,14 @@ function toggleGuard() {
   else notice(text);
 }
 function applyPreferences() {
+  document
+    .querySelectorAll("[data-walk-speed]")
+    .forEach((b) =>
+      b.setAttribute(
+        "aria-pressed",
+        String(b.dataset.walkSpeed === preferences.walkSpeed),
+      ),
+    );
   highQuality = preferences.quality;
   voice.subtitles = preferences.subtitles;
   renderer.setPixelRatio(Math.min(devicePixelRatio, highQuality ? 1.5 : 1));
@@ -1033,7 +1064,7 @@ async function exportSave() {
   const ios =
     /iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  const file = new File([text], "BlockWorld-04-save.json", {
+  const file = new File([text], "BlockWorld-05-save.json", {
     type: "application/json",
   });
   if (ios && navigator.canShare?.({ files: [file] }) && navigator.share) {
@@ -1317,6 +1348,7 @@ function frame(now) {
         now / 1000,
         dt,
         doorObstacles,
+        preferences.walkSpeed,
       )
     ) {
       rebuildSolids();
@@ -1337,6 +1369,7 @@ function frame(now) {
         forward,
         right,
         edgeProtection: preferences.edgeProtection,
+        walkSpeed: preferences.walkSpeed,
       },
       dt,
       solidCache,
@@ -1404,6 +1437,7 @@ function frame(now) {
     $("placementStatus").textContent =
       reason || `${names[pending.type]} · ${pending.rotation}°`;
   }
+  world.staticRender.updateVisibility(camera, WORLD.fogFar);
   renderer.render(scene, camera);
   if (!loadedMs) loadedMs = performance.now() - bootStart;
   frames++;
@@ -1430,6 +1464,7 @@ function frame(now) {
       activeSolids: solidCache.length,
       staticSolids: world.solids.length,
       staticChunks: world.staticRender.chunks,
+      fogHiddenChunks: world.staticRender.hidden,
       buildChunks: buildChunks.groups.size,
       chunksRebuilt: buildChunks.rebuilt,
     };
@@ -1466,12 +1501,17 @@ if (new URLSearchParams(location.search).get("test") === "1")
     },
     world: () => ({
       config: WORLD,
+      ponds: world.ponds,
+      outerScenery: world.outerScenery,
       landmarks: LANDMARKS,
       roads: world.roads,
       trails: world.trails,
       clearings: world.clearings,
       pond: world.pond,
-      staticRender: world.staticRender,
+      staticRender: {
+        chunks: world.staticRender.chunks,
+        triangles: world.staticRender.triangles,
+      },
       treeCount: world.treeCount,
       houses: world.houses,
       doors: world.doors.map((d) => ({
@@ -1514,10 +1554,41 @@ if (new URLSearchParams(location.search).get("test") === "1")
       scheduleSave();
       return "";
     },
+    fogAudit(enabled = true) {
+      updateCamera();
+      world.staticRender.updateVisibility(camera, WORLD.fogFar, enabled);
+      renderer.render(scene, camera);
+      const png = renderer.domElement.toDataURL("image/png"),
+        info = {
+          calls: renderer.info.render.calls,
+          triangles: renderer.info.render.triangles,
+          hidden: world.staticRender.hidden,
+        };
+      world.staticRender.updateVisibility(camera, WORLD.fogFar);
+      return { png, ...info };
+    },
+    survey() {
+      const oldFog = scene.fog,
+        c = new T.OrthographicCamera(-266, 266, 266, -266, 0.1, 1200);
+      c.position.set(0, 600, 0);
+      c.up.set(0, 0, -1);
+      c.lookAt(0, 0, 0);
+      c.updateMatrixWorld();
+      scene.fog = null;
+      world.staticRender.showAll();
+      try {
+        renderer.render(scene, c);
+        return renderer.domElement.toDataURL("image/png");
+      } finally {
+        scene.fog = oldFog;
+        world.staticRender.updateVisibility(camera, WORLD.fogFar);
+      }
+    },
     overview(x = 35, y = 31, z = 42, tx = 0, ty = 0, tz = 1) {
       camera.position.set(x, y, z);
       camera.lookAt(tx, ty, tz);
       camera.updateMatrixWorld();
+      world.staticRender.updateVisibility(camera, WORLD.fogFar);
       renderer.render(scene, camera);
       return renderer.domElement.toDataURL("image/png");
     },
@@ -1555,11 +1626,16 @@ if (new URLSearchParams(location.search).get("test") === "1")
           performance.now() / 1000 + i * 0.016,
           0.016,
           doorObstacles,
+          preferences.walkSpeed,
         );
         rebuildSolids();
         movePlayer(
           player,
-          { ...input, edgeProtection: preferences.edgeProtection },
+          {
+            ...input,
+            edgeProtection: preferences.edgeProtection,
+            walkSpeed: preferences.walkSpeed,
+          },
           0.016,
           solidCache,
         );

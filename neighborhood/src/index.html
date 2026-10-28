@@ -7,7 +7,7 @@
       content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"
     />
     <meta name="theme-color" content="#356b61" />
-    <title>Little Block Lane · BlockWorld Neighborhood 04</title>
+    <title>Little Block Lane · BlockWorld Neighborhood 05</title>
     <style>
       /* STYLES */
     </style>
@@ -107,7 +107,7 @@
         aria-modal="true"
         aria-labelledby="welcomeTitle"
       >
-        <span class="eyebrow">BLOCKWORLD · NEIGHBORHOOD 04</span>
+        <span class="eyebrow">BLOCKWORLD · NEIGHBORHOOD 05</span>
         <h1 id="welcomeTitle">Little Block<br /><em>Lane.</em></h1>
         <p>A whole little world to discover.</p>
         <div class="welcome-pictures">
@@ -120,7 +120,7 @@
           Move with the round stick. Drag to look.<br />Unlimited blocks. No
           rush. Just play.
         </p>
-        <span class="release">Explore & build · v0.4</span>
+        <span class="release">Scaling experiment · v0.5</span>
       </section>
     </div>
     <div id="map" class="overlay" hidden>
@@ -138,11 +138,7 @@
           aria-label="World map showing your position and landmarks"
         ></canvas>
         <p id="mapPosition"></p>
-        <div class="map-legend">
-          <span>⌂ Home</span><span>▥ Village</span><span>⚑ Park</span
-          ><span>≈ Pond</span><span>♠ Woods</span><span>▦ Build</span
-          ><span>● Orchard</span>
-        </div>
+        <div class="map-legend" id="mapLegend"></div>
         <p class="tiny">North is at the top. Follow the paths and signs.</p>
       </section>
     </div>
@@ -176,6 +172,20 @@
           Choose a setting below.
         </p>
         <div class="settingsScroll">
+          <div class="speed-settings">
+            <b>Walking speed</b>
+            <div class="speed-presets" role="group" aria-label="Walking speed">
+              <button data-walk-speed="normal" aria-pressed="true">
+                Normal · 1×
+              </button>
+              <button data-walk-speed="quick" aria-pressed="false">
+                Quick · 1.5×
+              </button>
+              <button data-walk-speed="fast" aria-pressed="false">
+                Fast · 2×
+              </button>
+            </div>
+          </div>
           <div class="menu-grid">
             <button id="placementMode">Placement: Direct touch</button>
             <button id="automaticDoors" aria-pressed="true">
@@ -232,7 +242,7 @@
             </p>
             <p>
               There are no voice recordings yet. The speaker replays a written
-              hint. Neighborhood 04 saves separately from 03. Your previous
+              hint. Neighborhood 05 saves separately from 03. Your previous
               builds are copied on first opening when this browser can find
               them. Progress belongs to this browser / file location. Export a
               backup before moving the game.

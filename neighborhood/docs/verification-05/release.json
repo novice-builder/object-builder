@@ -1,0 +1,21 @@
+{
+  "clientDate": "2026-10-28",
+  "file": "BlockWorld_Neighborhood_05.html",
+  "bytes": 590892,
+  "sha256": "31567c3fa6df2679fc9dd87a32663eabc4345ca241882a51857301dd92a274b9",
+  "stableBaseline": "BlockWorld_Neighborhood_04.html",
+  "baselineSha256": "7e57b8de5047233ce208f177a2d8a5861aba1653b7472a91fef5a389e71ffd48",
+  "startingCommit": "32f47a3bc78f5b39340866a6203c8b34b9278b59",
+  "unitTests": 34,
+  "browserScenarios": 18,
+  "buttonPointActivations": 1323,
+  "saveNavigationScenarios": 9,
+  "pixelEqualityViews": 6,
+  "screenshotViews": 15,
+  "physicalDeviceVerified": false,
+  "fileProtocol": {
+    "tested": false,
+    "blocked": true,
+    "reason": "Managed Chromium rejects file:// via URL policy; policy was not changed."
+  }
+}

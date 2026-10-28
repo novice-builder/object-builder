@@ -1,4 +1,5 @@
 import { bodyBox, cellBox, overlaps } from "./core.js";
+import { walkingSpeed } from "./world-config.js";
 import { doorSolidAt } from "./door-geometry.js";
 const HALF_PI = Math.PI / 2,
   SPEED = HALF_PI / 0.65;
@@ -82,20 +83,23 @@ export function updateDoors(
   now,
   dt,
   nearbyObstacles = null,
+  walkSpeed = "normal",
 ) {
+  const openDistance = (DOOR_OPEN_DISTANCE * walkingSpeed(walkSpeed)) / 3.4,
+    holdDistance = Math.max(DOOR_HOLD_DISTANCE, openDistance + 0.85);
   let changed = false;
   for (const d of doors) {
     const nearby = nearbyObstacles?.(d);
     const localBlocks = nearby?.blocks ?? blocks,
       localSolids = nearby?.solids ?? staticSolids;
-    const closeBy = near(d, p, DOOR_HOLD_DISTANCE);
+    const closeBy = near(d, p, holdDistance);
     if (closeBy) d.leaveSince = null;
     else {
       d.leaveSince ??= now;
       d.manualHold = false;
     }
     if (automatic && !d.manualHold && now - d.lastAttempt > 0.3) {
-      if (near(d, p, DOOR_OPEN_DISTANCE) && !d.targetOpen) {
+      if (near(d, p, openDistance) && !d.targetOpen) {
         d.lastAttempt = now;
         requestDoor(d, true, p, localBlocks, localSolids);
       } else if (

@@ -39,7 +39,7 @@ const html = template
     "<body>",
     () => `<body>\n<!-- Included Three.js license:\n${license}\n-->`,
   );
-await writeFile("../BlockWorld_Neighborhood_04.html", html);
+await writeFile("../BlockWorld_Neighborhood_05.html", html);
 console.log(
   `Built standalone offline HTML: ${(Buffer.byteLength(html) / 1024).toFixed(1)} KiB. No runtime dependencies.`,
 );

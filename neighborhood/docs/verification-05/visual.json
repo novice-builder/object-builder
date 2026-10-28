@@ -1,0 +1,21 @@
+{
+  "captures": [
+    "world-top-down",
+    "home-eye",
+    "west-eye",
+    "north-eye",
+    "makers-eye",
+    "lake-eye",
+    "farm-eye",
+    "pond-eye",
+    "beacon-eye",
+    "meadow-eye",
+    "west-overview",
+    "north-overview",
+    "farm-overview",
+    "lake-overview",
+    "map"
+  ],
+  "errors": [],
+  "releaseSha256": "31567c3fa6df2679fc9dd87a32663eabc4345ca241882a51857301dd92a274b9"
+}

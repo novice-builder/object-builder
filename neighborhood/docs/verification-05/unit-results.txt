@@ -1,0 +1,63 @@
+
+> blockworld-neighborhood@0.5.0 test
+> node test/core-05.test.mjs && node test/controls-03.test.mjs && node test/world-05.test.mjs
+
+✔ forward and strafe agree with camera at four headings; diagonal speed is normalized (1.848236ms)
+✔ wall collision cannot tunnel through a thin wall at low FPS and permits sliding (2.340307ms)
+✔ jump lands on a built block, hits ceilings, and cannot jump through them (5.038173ms)
+✔ placement prevents overlaps, self-entombment, floating pieces, long reach and capacity overflow (3.551423ms)
+✔ undo returns consumed crafted items; removed pieces cannot be restored over player or closed door (0.706915ms)
+✔ save roundtrip preserves special inventory, selection, door and pose; malformed imports are rejected (9.896486ms)
+✔ all houses have an upright, usable opening and a correctly oriented door at both angles (31.156971ms)
+✔ driveways align with the actual entrances, reach the road and houses do not intersect each other (8.973635ms)
+✔ world mesh transforms are finite and scales are positive (368.148595ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 479.688619
+✔ 02 failure: guard must work even with no material selected, and stay stable at high/low frame rates (66.450634ms)
+✔ guard allows Jump, stops a second walking fall after landing, and OFF allows walking down (15.662336ms)
+✔ automatic climbing is removed even when an old saved caller supplies autoStep=true (0.944653ms)
+✔ OBB narrow phase rejects false AABB obstruction inside the swung leaf bounding box (0.332341ms)
+✔ every door automatically opens away from either approach, animates safely, stays open nearby, then closes after a delay (1792.65657ms)
+✔ walk through, safe close and reopen from inside/outside every house without passing a closed leaf (8189.963068ms)
+✔ closing refuses doorway occupancy and a blocked sweep, and reopens if a player returns mid-close (5.625359ms)
+✔ automatic OFF leaves closed doors closed; manual close has a near-player latch rather than immediately reopening (33.787144ms)
+✔ all parts of a browser-targeted button activate once despite rectangle differences and metadata-free compatibility clicks (1.662215ms)
+✔ leaf collision follows the rendered leaf at closed, intermediate and fully open angles (2.644456ms)
+✔ an obstruction in the middle of the swing prevents closing even when both endpoints are clear (1.033527ms)
+✔ a partial-overhang landing can recover toward the platform without disabling protection (0.753456ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10153.151396
+12000-piece validation ms 86.32267599999977
+✔ 500 m bounds and authored districts contain varied non-overlapping buildings clear of roads and trails (711.178793ms)
+✔ every front walkway clears walls, porch posts and landscaping (207.78256ms)
+✔ road and path junctions form one connected exploration network (2.632248ms)
+✔ spatial collision candidates match exhaustive collision including chunk edges (721.882938ms)
+✔ 12,000-piece save validates with local overlap queries; 03 migration leaves source immutable (96.963364ms)
+✔ larger coordinates and height work while boundaries, reach and fixed scenery stay protected (0.659133ms)
+✔ ordinary edits preserve distant chunk meshes and crafted parts remain targetable (1.762797ms)
+✔ batched crafted items exactly match preview bounds at fine and quarter-turn rotations and raycast to their original piece (6.456101ms)
+✔ hidden-face meshing preserves exposed faces and picking across chunk seams after removal and restoration (0.782409ms)
+✔ 04 buildings, roads, trails, entrance paths and all old collidable scenery are retained exactly (44.504887ms)
+✔ all walking presets have the correct normalized speed, unchanged jump height and safe thin-wall/edge collision (15.383577ms)
+✔ 04 saves migrate without mutation or block loss; old bounds and world IDs are still validated (1.430877ms)
+✔ Fast automatic door approach and inside passage remain collidable and safe at every building (4011.393575ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5832.500499

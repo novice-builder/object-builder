@@ -7,6 +7,9 @@ export function installMap(world, getPlayer) {
     scale = (size - pad * 2) / (WORLD.halfSize * 2),
     px = (x) => pad + (x + WORLD.halfSize) * scale;
   canvas.width = canvas.height = size;
+  document.getElementById("mapLegend").innerHTML = LANDMARKS.map(
+    (l) => `<span>${l.icon} ${l.name}</span>`,
+  ).join("");
   function line(points, width, color) {
     ctx.beginPath();
     points.forEach((p, i) =>
@@ -37,9 +40,19 @@ export function installMap(world, getPlayer) {
         );
       }
       ctx.fillStyle = "#72aebc";
-      ctx.beginPath();
-      ctx.ellipse(px(18), px(-101), 16 * scale, 10 * scale, 0, 0, Math.PI * 2);
-      ctx.fill();
+      for (const p of world.ponds) {
+        ctx.beginPath();
+        ctx.ellipse(
+          px(p.x),
+          px(p.z),
+          p.rx * scale,
+          p.rz * scale,
+          0,
+          0,
+          Math.PI * 2,
+        );
+        ctx.fill();
+      }
       for (const h of world.houses) {
         ctx.save();
         ctx.translate(px(h.x), px(h.z));

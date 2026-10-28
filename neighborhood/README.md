@@ -1,21 +1,23 @@
-# BlockWorld Neighborhood 04
+# BlockWorld Neighborhood 05 — experimental scaling release
 
-A standalone offline exploration/building game. **Neighborhood 03 remains the user-approved stable gameplay baseline and is unchanged.**
+**Neighborhood 04 remains the stable playable version.** Its HTML and earlier releases are unchanged. 05 is developed on `codex/neighborhood-05-scale` from the 04 branch.
 
-[Download / play instructions and tablet checklist](docs/WORLD_04.md) · [Architecture and verification](docs/VERIFICATION_04.md)
+[Play guide and device checklist](docs/WORLD_05.md) · [Architecture and 04/05 comparison](docs/VERIFICATION_05.md)
 
-The 250 × 250 m world contains the original lane, a varied residential loop, village square, play park, woodland pond, building meadows and orchard. Approved 03 controls are retained. 04 progress is versioned separately and older saves can be copied/imported.
+The world expands to 500 × 500 metres while retaining the original districts. New west homes, northern village, makers district, lake park, farm, woodland, ponds and meadows are connected by roads/trails. Grown-up settings offer Normal, Quick and Fast walking. 05 uses separate saves with validated imports from 04 and older versions.
 
 ```sh
 npm ci
 npm run build
 npm test
 npm run test:browser
-node test/world-04-saves.mjs
-node test/world-04-performance.mjs
+node test/world-05-saves.mjs
+node test/world-05-visual.mjs
+node test/world-05-fog.mjs
+node test/world-05-performance.mjs
 npm run serve
 ```
 
-Build output: `../BlockWorld_Neighborhood_04.html`; no external runtime assets. Browser scripts use Playwright and `/usr/bin/chromium`. Automated results do not establish real Lenovo/iPhone performance.
+Output: `../BlockWorld_Neighborhood_05.html`, a standalone offline file. Browser scripts use Playwright and Chromium; run performance without other browser workloads. Software-renderer measurements do not verify iPhone or Lenovo performance.
 
-Earlier instructions/evidence remain in `docs/CONTROLS_03.md`, `docs/VERIFICATION_03.md` and the versioned verification directories.
+Earlier source remains on the versioned branches; guides and evidence for 03/04 remain in `docs/`.

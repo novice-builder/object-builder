@@ -1,0 +1,31 @@
+{
+  "config": {
+    "id": "little-block-world-05",
+    "saveVersion": 3,
+    "halfSize": 250,
+    "buildHeight": 24,
+    "maxBlocks": 12000,
+    "maxSaveBytes": 4000000,
+    "chunkSize": 24,
+    "fogNear": 75,
+    "fogFar": 155,
+    "cameraFar": 190,
+    "saveKey": "blockworld.neighborhood.05",
+    "preferencesKey": "blockworld.neighborhood.controls.v5"
+  },
+  "buildings": 40,
+  "treesIncludingOriginalTwelve": 603,
+  "staticSolids": 1844,
+  "staticChunks": 375,
+  "staticTriangles": 98880,
+  "ponds": 3,
+  "clearings": 6,
+  "roads": 4,
+  "trails": 15,
+  "landmarks": 15,
+  "outerScenery": {
+    "trees": 349,
+    "groves": 7,
+    "ponds": 2
+  }
+}

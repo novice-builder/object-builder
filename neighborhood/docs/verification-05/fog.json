@@ -1,0 +1,84 @@
+{
+  "results": [
+    {
+      "name": "home",
+      "identicalPixels": true,
+      "before": {
+        "calls": 72,
+        "triangles": 25411
+      },
+      "after": {
+        "calls": 53,
+        "triangles": 19665,
+        "hiddenChunks": 77
+      }
+    },
+    {
+      "name": "village",
+      "identicalPixels": true,
+      "before": {
+        "calls": 74,
+        "triangles": 20737
+      },
+      "after": {
+        "calls": 61,
+        "triangles": 17128,
+        "hiddenChunks": 57
+      }
+    },
+    {
+      "name": "woods",
+      "identicalPixels": true,
+      "before": {
+        "calls": 52,
+        "triangles": 12973
+      },
+      "after": {
+        "calls": 52,
+        "triangles": 12973,
+        "hiddenChunks": 0
+      }
+    },
+    {
+      "name": "open",
+      "identicalPixels": true,
+      "before": {
+        "calls": 75,
+        "triangles": 17241
+      },
+      "after": {
+        "calls": 56,
+        "triangles": 15715,
+        "hiddenChunks": 31
+      }
+    },
+    {
+      "name": "north",
+      "identicalPixels": true,
+      "before": {
+        "calls": 24,
+        "triangles": 6889
+      },
+      "after": {
+        "calls": 24,
+        "triangles": 6889,
+        "hiddenChunks": 0
+      }
+    },
+    {
+      "name": "east",
+      "identicalPixels": true,
+      "before": {
+        "calls": 53,
+        "triangles": 12624
+      },
+      "after": {
+        "calls": 42,
+        "triangles": 10424,
+        "hiddenChunks": 181
+      }
+    }
+  ],
+  "releaseSha256": "31567c3fa6df2679fc9dd87a32663eabc4345ca241882a51857301dd92a274b9",
+  "errors": []
+}

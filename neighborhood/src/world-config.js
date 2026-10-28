@@ -1,8 +1,9 @@
+import { OUTER_LANDMARKS } from "./expansion-05.js";
 // Shared metres-based limits: generation, physics, saves, rendering and map.
 export const WORLD = Object.freeze({
-  id: "little-block-world-04",
-  saveVersion: 2,
-  halfSize: 125,
+  id: "little-block-world-05",
+  saveVersion: 3,
+  halfSize: 250,
   buildHeight: 24,
   maxBlocks: 12000,
   maxSaveBytes: 4000000,
@@ -10,9 +11,18 @@ export const WORLD = Object.freeze({
   fogNear: 75,
   fogFar: 155,
   cameraFar: 190,
-  saveKey: "blockworld.neighborhood.04",
-  preferencesKey: "blockworld.neighborhood.controls.v4",
+  saveKey: "blockworld.neighborhood.05",
+  preferencesKey: "blockworld.neighborhood.controls.v5",
 });
+export const WALK_SPEEDS = Object.freeze({
+  normal: 3.4,
+  quick: 5.1,
+  fast: 6.8,
+});
+export const walkingSpeed = (preset) =>
+  typeof WALK_SPEEDS[preset] === "number"
+    ? WALK_SPEEDS[preset]
+    : WALK_SPEEDS.normal;
 export const LANDMARKS = [
   { id: "home", name: "Home", icon: "⌂", x: -14.4, z: -1.2, color: "#cc9168" },
   {
@@ -56,4 +66,5 @@ export const LANDMARKS = [
     z: 94,
     color: "#b89c78",
   },
+  ...OUTER_LANDMARKS,
 ];

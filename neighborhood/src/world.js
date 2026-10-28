@@ -7,6 +7,8 @@ import {
   distanceToLine,
   smoothLine,
 } from "./districts.js";
+import { OUTER_CLEARINGS, OUTER_PONDS } from "./expansion-05.js";
+import { makeOuterScenery } from "./scenery-05.js";
 import { batchStaticWorld } from "./world-render.js";
 export const HOUSES = [
   {
@@ -213,11 +215,14 @@ export function makeWorld(scene) {
   const drives = HOUSES.map((h) => {
     const entry = localToWorld(h, -1.4, h.d / 2),
       apron = localToWorld(h, -1.4, h.d / 2 + 2.5),
-      options = h.shop
-        ? [...roads, trails[4]]
-        : h.id === "willow" || h.id === "pavilion"
+      options =
+        h.route === "trail"
           ? trails
-          : roads;
+          : h.shop
+            ? [...roads, trails[4]]
+            : h.id === "willow" || h.id === "pavilion"
+              ? trails
+              : roads;
     const nearest = options
       .map((l) => ({
         ...distanceToLine(apron.x, apron.z, l),
@@ -225,11 +230,13 @@ export function makeWorld(scene) {
       }))
       .sort((a, b) => a.distance - b.distance)[0];
     let end =
+      h.approach ||
       {
         bakery: { x: 44, z: -34 },
         market: { x: 60, z: -34 },
         pottery: { x: 39, z: -25 },
-      }[h.id] || nearest.point;
+      }[h.id] ||
+      nearest.point;
     if (nearest.isRoad && !["bakery", "market", "pottery"].includes(h.id)) {
       const dx = apron.x - end.x,
         dz = apron.z - end.z,
@@ -248,7 +255,7 @@ export function makeWorld(scene) {
     ];
     ribbon(points, h.shop ? 2.8 : 2.4, 0xc5bea7, 0.032);
     // Garages have their own real driveway, aligned to the facade.
-    if (h.garage) {
+    if (h.garage || h.carport) {
       const g = localToWorld(h, -h.w / 2 - 2.1, h.d / 2 + 0.15);
       let e = roads
         .map((l) => distanceToLine(g.x, g.z, l))
@@ -323,7 +330,7 @@ export function makeWorld(scene) {
     wallWithWindow(front);
     wallWithWindow(-front);
     put(-w / 2, 1.5, 0, 0.22, 3, d, h.wall, true);
-    if (h.d > 8 && EXTRA_BUILDINGS.some((b) => b.id === h.id)) {
+    if ((h.d > 8 || h.bay) && EXTRA_BUILDINGS.some((b) => b.id === h.id)) {
       // Genuine side-window openings on long footprints, with fitted glazing.
       const windows = h.d > 10 ? [-2.6, 2.6] : [0],
         half = 0.8;
@@ -404,6 +411,41 @@ export function makeWorld(scene) {
           ),
         );
         g.setIndex([0, 1, 2, 0, 2, 3, 0, 3, 4]);
+        g.computeVertexNormals();
+        const m = material(h.wall).clone();
+        m.side = T.DoubleSide;
+        const mesh = new T.Mesh(g, m);
+        mesh.position.set(h.x, 0, h.z);
+        mesh.rotation.y = h.angle;
+        scene.add(mesh);
+      }
+    } else if (h.style === "gambrel") {
+      const xs = [-edge, -edge * 0.56, 0, edge * 0.56, edge],
+        ys = [eave, 4.45, 5.4, 4.45, eave];
+      for (let i = 1; i < xs.length; i++)
+        quad(
+          [xs[i - 1], ys[i - 1], depth],
+          [xs[i], ys[i], depth],
+          [xs[i], ys[i], -depth],
+          [xs[i - 1], ys[i - 1], -depth],
+        );
+      const wallTop = eave + ((4.45 - eave) * 0.4) / (edge * 0.44);
+      for (const z of [-front, front]) {
+        const points = [
+          [-w / 2, 3, z],
+          [w / 2, 3, z],
+          [w / 2, wallTop, z],
+          [edge * 0.56, 4.45, z],
+          [0, 5.4, z],
+          [-edge * 0.56, 4.45, z],
+          [-w / 2, wallTop, z],
+        ];
+        const g = new T.BufferGeometry();
+        g.setAttribute(
+          "position",
+          new T.Float32BufferAttribute(points.flat(), 3),
+        );
+        g.setIndex([0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 5, 6]);
         g.computeVertexNormals();
         const m = material(h.wall).clone();
         m.side = T.DoubleSide;
@@ -600,6 +642,53 @@ export function makeWorld(scene) {
       for (let y = 0.35; y < 2.2; y += 0.35)
         put(gx, y, front + 0.055, 3.25, 0.035, 0.025, 0xa7afa3);
     }
+    if (h.carport) {
+      const gx = -w / 2 - 2.1,
+        gz = front - 2.7;
+      put(gx, 2.55, gz, 4.6, 0.18, 5.8, h.roof, true);
+      for (const dx of [-1.9, 1.9])
+        for (const dz of [-2.35, 2.35])
+          put(gx + dx, 1.22, gz + dz, 0.16, 2.44, 0.16, wood, true);
+      put(gx, 0.008, gz, 4.2, 0.016, 5.4, 0xc5bea7);
+    }
+    if (h.wing) {
+      const gx = -w / 2 - 2.25,
+        gz = -front + 2.75;
+      put(gx, 1.65, gz, 4.5, 3.3, 5.5, h.wall, true);
+      put(gx, 3.4, gz, 4.9, 0.2, 5.9, h.roof, true);
+      put(gx, 1.7, gz + 2.78, 2.6, 1.25, 0.08, glass);
+      for (const x of [gx - 1.33, gx, gx + 1.33])
+        put(x, 1.7, gz + 2.84, 0.065, 1.38, 0.1, white);
+      for (const y of [1.05, 2.35])
+        put(gx, y, gz + 2.84, 2.73, 0.065, 0.1, white);
+    }
+    if (h.bay) {
+      put(w / 2 + 0.32, 0.525, 0, 0.64, 1.05, 1.9, h.wall, true);
+      put(w / 2 + 0.64, 1.65, 0, 0.08, 1.2, 1.8, glass, true);
+      for (const z of [-0.87, 0.87])
+        put(w / 2 + 0.32, 1.65, z, 0.64, 1.2, 0.08, glass, true);
+      put(w / 2 + 0.34, 2.35, 0, 0.9, 0.18, 2.15, h.roof, true);
+      for (const z of [-0.9, 0, 0.9])
+        put(w / 2 + 0.7, 1.65, z, 0.1, 1.35, 0.065, white);
+    }
+    if (h.chimney)
+      put(w / 2 - 1, 4.2, -front * 0.3, 0.8, 2.4, 0.8, 0xc78264, true);
+    if (h.tower) {
+      const tx = w / 2 + 1.8,
+        tz = -front + 1.8;
+      put(tx, 3.4, tz, 3.6, 6.8, 3.6, h.wall, true);
+      for (const z of [tz - 1.83, tz + 1.83]) {
+        put(tx, 5.1, z, 1.1, 1.5, 0.08, glass);
+        for (const xx of [tx - 0.58, tx + 0.58])
+          put(xx, 5.1, z, 0.08, 1.65, 0.12, white);
+      }
+      const pos = localToWorld(h, tx, tz),
+        g = new T.ConeGeometry(2.7, 1.8, 4),
+        m = new T.Mesh(g, material(h.roof));
+      m.position.set(pos.x, 7.7, pos.z);
+      m.rotation.y = h.angle + Math.PI / 4;
+      scene.add(m);
+    }
     if (h.garden) {
       const side = h.garage ? w / 2 + 2 : -w / 2 - 2;
       put(side, 0.18, 0, 2.3, 0.36, d * 0.75, 0x5a8b62, true);
@@ -687,9 +776,11 @@ export function makeWorld(scene) {
     scene.add(mesh);
   }
   // A readable hedge boundary enclosing the full 250 m world.
-  for (let i = -124; i <= 124; i += 4) {
-    for (const z of [-125, 125]) box(i, 0.7, z, 4, 1.4, 1.4, 0x5a8b62);
-    for (const x of [-125, 125]) box(x, 0.7, i, 1.4, 1.4, 4, 0x5a8b62);
+  for (let i = -WORLD.halfSize + 1; i <= WORLD.halfSize - 1; i += 4) {
+    for (const z of [-WORLD.halfSize, WORLD.halfSize])
+      box(i, 0.7, z, 4, 1.4, 1.4, 0x5a8b62);
+    for (const x of [-WORLD.halfSize, WORLD.halfSize])
+      box(x, 0.7, i, 1.4, 1.4, 4, 0x5a8b62);
   }
   // Park bench and flowers near the bend.
   box(1, 0.48, 15, 2, 0.15, 0.65, wood, true);
@@ -795,6 +886,7 @@ export function makeWorld(scene) {
   const clearings = [
     { x: -59, z: 61, w: 44, d: 32 },
     { x: 8, z: 61, w: 27, d: 27 },
+    ...OUTER_CLEARINGS,
   ];
   for (const f of clearings) {
     box(f.x, 0.004, f.z, f.w, 0.008, f.d, 0xa7be7f);
@@ -842,7 +934,7 @@ export function makeWorld(scene) {
   const excluded = (x, z) => {
     if (Math.abs(x) < 32 && Math.abs(z) < 32) return true;
     if (
-      HOUSES.some((h) => {
+      HOUSES.slice(0, 16).some((h) => {
         const c = Math.abs(Math.cos(h.angle)),
           ss = Math.abs(Math.sin(h.angle));
         return (
@@ -853,16 +945,24 @@ export function makeWorld(scene) {
     )
       return true;
     if (
-      [...roads, ...trails].some((l) => distanceToLine(x, z, l).distance < 5.2)
+      [...roads.slice(0, 2), ...trails.slice(0, 6)].some(
+        (l) => distanceToLine(x, z, l).distance < 5.2,
+      )
     )
       return true;
-    if (drives.some((d) => distanceToLine(x, z, d.points).distance < 3))
+    if (
+      drives
+        .slice(0, 16)
+        .some((d) => distanceToLine(x, z, d.points).distance < 3)
+    )
       return true;
     if (
-      clearings.some(
-        (f) =>
-          Math.abs(x - f.x) < f.w / 2 + 3 && Math.abs(z - f.z) < f.d / 2 + 3,
-      )
+      clearings
+        .slice(0, 2)
+        .some(
+          (f) =>
+            Math.abs(x - f.x) < f.w / 2 + 3 && Math.abs(z - f.z) < f.d / 2 + 3,
+        )
     )
       return true;
     if (
@@ -930,10 +1030,23 @@ export function makeWorld(scene) {
       for (const dx of [-1, 1])
         box(x + dx, h + 0.5, z + 0.5, 0.22, 0.22, 0.22, 0xc78264);
   }
+  const outerScenery = makeOuterScenery({
+    scene,
+    box,
+    material,
+    label,
+    bench,
+    disk,
+    roads,
+    trails,
+    drives,
+    houses: HOUSES,
+    clearings,
+  });
   // Trail markers and district signs make the route recognizable at walking height.
   for (const l of LANDMARKS.filter((l) => l.id !== "home")) {
-    const x = l.id === "pond" ? 39 : l.x + 4,
-      z = l.id === "pond" ? -94 : l.z + 4;
+    const x = l.signX ?? (l.id === "pond" ? 39 : l.x + 4),
+      z = l.signZ ?? (l.id === "pond" ? -94 : l.z + 4);
     box(x, 0.9, z, 0.14, 1.8, 0.14, wood, true);
     box(x, 1.7, z, 3.8, 0.8, 0.12, 0x447c80);
     label(l.name.toUpperCase(), x, 1.72, z + 0.075, 0, 3.6);
@@ -967,8 +1080,10 @@ export function makeWorld(scene) {
     trails,
     clearings,
     pond,
+    ponds: [pond, ...OUTER_PONDS],
+    outerScenery,
     staticRender,
-    treeCount: trees.length + orchard.length,
+    treeCount: trees.length + orchard.length + outerScenery.trees,
     solids,
     doors,
     table,
