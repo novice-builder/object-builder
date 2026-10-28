@@ -10,7 +10,7 @@ The original 16 building definitions, two roads, six trails and entrance paths a
 
 Twenty-four new lots form the outer districts. Generation uses four roof forms including new gambrel barns, attached service wings, carports, bay projections, chimneys and towers. Layout tests check primary building separation from roads/trails and body clearance along every entrance walkway; an additional footprint audit covers garages, wings, towers and bay projections. Authored routes form one connected network. Screenshots include a complete orthographic top-down survey and views from the districts. The survey temporarily disables fog solely for inspection; the gameplay camera is unchanged.
 
-Schema 3 / `little-block-world-05` / separate 05 storage identifiers protect older progress. Compatible schema-1 and 04 schema-2 imports are validated against their original limits and copied. All validation completes before replacing active state. Export/import/reopen tests use real browser downloads and file-input imports, including 12,000 pieces, outer coordinates, invalid data and unchanged 03/04 keys/settings.
+Schema 3 / `little-block-world-05` / separate 05 storage identifiers protect older progress. Compatible schema-1 and 04 schema-2 imports have their block coordinates validated against their original limits and are copied. All validation completes before replacing active state. Export/import/reopen tests use real browser downloads and file-input imports, including 12,000 pieces, outer coordinates, invalid data and unchanged 03/04 keys/settings.
 
 ## Movement safety
 
@@ -24,7 +24,7 @@ The existing 24 m static geometry batches, vertex colours, spatial collision ind
 
 An initial paired profile showed unnecessary draw calls from scenery wholly beyond the opaque end of the existing fog. A conservative visibility check now omits a static chunk only when its entire bounding sphere is past the fog's view-space depth, with an extra 10 cm margin. It uses camera depth, not radial distance, matching Three.js fog. Partially fogged geometry keeps full detail. Moving doors, player pieces, physics and save data are unaffected.
 
-The optimisation is small and is supported by measurements: the Home audit reduced 72 calls / 25,387 triangles to 53 calls / 19,665 triangles. Six representative viewpoints produced **identical PNG pixels** with this culling enabled and disabled. This does not establish physical-device visual approval. The before-optimisation performance report is retained with its distinct artifact hash, and the final release receives a separate paired comparison.
+The optimisation is small and is supported by measurements: the Home audit reduced 72 calls / 25,411 triangles to 53 calls / 19,665 triangles. Six representative viewpoints produced **identical PNG pixels** with this culling enabled and disabled. This does not establish physical-device visual approval. The before-optimisation performance report is retained with its distinct artifact hash, and the final release receives a separate paired comparison.
 
 The resident-world model is still practical to investigate at this scale. Identified future pressure points are startup geometry construction, retained buffers/canvas textures, static scene traversal, and synchronous meshing of a densely populated player-build chunk. A larger map alone does not show which of these needs streaming. Additional geometry visible beyond the former boundary also makes some matched views more expensive; these are not dimension-only benchmarks.
 
