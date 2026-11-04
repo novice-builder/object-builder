@@ -24,3 +24,13 @@ This is an implementation programme, not a claim that any stage is complete.
 Implemented pinned TypeScript 5.9.3, Vite 6.4.1 and Three.js 0.160.1 infrastructure, a bounded fixed-step loop, renderer bootstrap, architecture boundaries, isolated manifest/cache generation and source/lockfile provenance. Runtime/build dependencies are locked. No deployment workflows were added.
 
 Executed: `npm run check` (2 deterministic tests passed, TypeScript passed, 49 original repository files byte-identical, production build passed); `npm run test:browser` (1 Chromium touch-capable smoke test passed; no page errors or legacy save-key access). Physical devices and full PWA install/update behavior are not yet qualified. The built app is an architecture foundation, not the mechanical prototype.
+
+## Stage 2 — mechanical prototype
+
+Migrated frozen 06 modules and retained all 41 upstream deterministic cases. New TypeScript layers provide movement/touch routing, first-person camera, automatic/manual door controls, build picking with oriented occlusion, unlimited materials/decorations, rotated previews, removal and 100-command undo/redo. The prototype uses the actual 06 environment; no old save keys are read.
+
+Executed: TypeScript passed; 46 deterministic tests passed (41 retained + 5 new); build passed with all 49 original files byte-identical. Four browser scenarios passed for legacy-key preservation, real touch placement/rotation/undo/redo, drag/cancel, and ledges/door approach. Additional provenance and long-press checks are recorded with the checkpoint once run. These are desktop Chromium tests, not physical Android/iOS qualification.
+
+Limitations: session-only progress at this checkpoint; world selection and persistent instances are Stage 3. Stage 4 cameras, flight and ambient activity are not yet implemented. Production bundle is about 539 kB before gzip / 147 kB gzip; Vite's 500 kB advisory is recorded, not suppressed.
+
+Additional executed checks: frozen-source provenance test passed; real Chromium long-press removal/release suppression/Undo scenario passed. Stage 2 checkpoint therefore has 47 deterministic cases verified and five browser scenarios verified across the two browser runs.
