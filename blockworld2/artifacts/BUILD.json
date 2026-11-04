@@ -1,0 +1,16 @@
+{
+  "prototype": "BlockWorld 2.0 Home & Square",
+  "sourceCommit": "1354e3f7cef02613f047657663425794994e4312",
+  "sourceDirty": false,
+  "buildId": "4a746264947e4691",
+  "archive": "blockworld2-prototype.zip",
+  "archiveBytes": 174013,
+  "archiveSha256": "b41df09c26d76516fa014f3396271176d7cc912a7125f1655fe60fc51aa4becb",
+  "validation": {
+    "deterministicTestsPassed": 59,
+    "browserScenariosPassed": 14,
+    "repeatCleanBuildsByteIdentical": true,
+    "zipCrcAndManifestHashesVerified": true
+  },
+  "deployed": false
+}

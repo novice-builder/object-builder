@@ -14,6 +14,8 @@ The final package additionally reruns offline and visual checks after redistribu
 
 Final packaging checks: offline and visual/mobile-layout scenarios passed again (2/2). [Town overview](screenshots/slice-overview.png) and [furnished home](screenshots/home-interior.png) preserve the inspected rendered evidence.
 
+Clean-source packaging: two consecutive production builds from commit `1354e3f7cef02613f047657663425794994e4312` produced byte-identical output across all 10 files. The archive passed ZIP CRC verification and every release-manifest SHA-256 check. See ../artifacts/BUILD.json for the exact archive digest and size. It is stored for recovery and review; it is not deployed.
+
 ## Environment and limits
 
 Tests ran on Linux Chromium with touch input dispatch and ANGLE SwiftShader, at a primary 1024×600 viewport plus 844×390 and 390×844 layout checks. Node runtime is available in the cloud; dependencies and lockfile are committed. No physical Lenovo, iPhone/Safari/WebKit, actual tablet storage exhaustion/eviction, install prompt, update-across-OS-restart, thermal or sustained mobile FPS result is claimed.
