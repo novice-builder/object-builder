@@ -34,3 +34,11 @@ Executed: TypeScript passed; 46 deterministic tests passed (41 retained + 5 new)
 Limitations: session-only progress at this checkpoint; world selection and persistent instances are Stage 3. Stage 4 cameras, flight and ambient activity are not yet implemented. Production bundle is about 539 kB before gzip / 147 kB gzip; Vite's 500 kB advisory is recorded, not suppressed.
 
 Additional executed checks: frozen-source provenance test passed; real Chromium long-press removal/release suppression/Undo scenario passed. Stage 2 checkpoint therefore has 47 deterministic cases verified and five browser scenarios verified across the two browser runs.
+
+## Stage 3 — world/save architecture complete
+
+Implemented independent instances, create/select/resume/rename/duplicate, transactional IndexedDB writes with revision conflict protection, three previous checkpoints, corruption recovery without overwriting damaged records, portable backup download/file-input import, legacy schemas 1–4 adapter/raw-source retention and separate player/world/preferences payloads. World geometry is validated before scene replacement. Occupied Home arrivals resolve to clear ground.
+
+Executed against this stage: TypeScript and production build passed; preservation check passed for 49 original files; 7 focused deterministic storage/arrival tests passed; all 9 browser scenarios passed. Browser scenarios include switching/reload, rename/duplicate, real backup download/import, invalid import, conflicting tabs/save-copy, and a closed-storage failure with unsaved-build export. A premature asynchronous UI assertion was corrected to wait for the rendered result, then the full browser suite passed.
+
+The 47 Stage 2 deterministic checks plus 7 new storage/arrival cases have been run (54 total cases across the staged runs). No physical Lenovo, Safari/WebKit, real disk-full or storage eviction result is claimed. See SAVES.md for remaining recovery/installation limitations.
