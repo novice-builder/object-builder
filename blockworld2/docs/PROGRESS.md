@@ -18,3 +18,9 @@ A dedicated branch and this checkpoint are stored through the connected GitHub A
 4. Integrated Home/Square prototype, only after earlier gates pass.
 
 This is an implementation programme, not a claim that any stage is complete.
+
+## Stage 1 — foundation complete
+
+Implemented pinned TypeScript 5.9.3, Vite 6.4.1 and Three.js 0.160.1 infrastructure, a bounded fixed-step loop, renderer bootstrap, architecture boundaries, isolated manifest/cache generation and source/lockfile provenance. Runtime/build dependencies are locked. No deployment workflows were added.
+
+Executed: `npm run check` (2 deterministic tests passed, TypeScript passed, 49 original repository files byte-identical, production build passed); `npm run test:browser` (1 Chromium touch-capable smoke test passed; no page errors or legacy save-key access). Physical devices and full PWA install/update behavior are not yet qualified. The built app is an architecture foundation, not the mechanical prototype.

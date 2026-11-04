@@ -1,0 +1,15 @@
+{
+  "name": "blockworld2", "version": "0.1.0", "private": true, "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "test:browser": "playwright test",
+    "preserve": "node tools/preserve.mjs",
+    "build": "npm run typecheck && npm run preserve && vite build && node tools/release.mjs",
+    "preview": "vite preview --host 0.0.0.0",
+    "check": "npm run test && npm run build"
+  },
+  "dependencies": { "three": "0.160.1" },
+  "devDependencies": { "@playwright/test": "1.56.1", "@types/node": "24.10.1", "@types/three": "0.160.0", "fake-indexeddb": "6.2.4", "tsx": "4.20.6", "typescript": "5.9.3", "vite": "6.4.1" }
+}

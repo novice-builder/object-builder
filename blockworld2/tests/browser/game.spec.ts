@@ -1,0 +1,2 @@
+import {test,expect} from '@playwright/test';
+test('isolated application boots without accessing legacy save keys',async({page})=>{const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await expect(page.locator('#status')).toContainText('Foundation ready');await expect(page.locator('#world')).toBeVisible();expect(await page.evaluate(()=>Object.keys(localStorage).some(k=>k.startsWith('blockworld.neighborhood')))).toBe(false);expect(errors).toEqual([]);});
