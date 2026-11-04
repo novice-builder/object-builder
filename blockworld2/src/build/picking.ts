@@ -1,3 +1,27 @@
-import * as T from 'three';
+import * as T from "three";
 /** Port of 06 rayBoxNear: opened door leaves use the exact oriented shape. */
-export function rayBoxNear(ray:T.Ray,b:any){const box=new T.Box3(),hit=new T.Vector3();if(b.obb){const o=b.obb,dx=ray.origin.x-o.cx,dz=ray.origin.z-o.cz;const local=new T.Ray(new T.Vector3(dx*o.c-dz*o.s,ray.origin.y,dx*o.s+dz*o.c),new T.Vector3(ray.direction.x*o.c-ray.direction.z*o.s,ray.direction.y,ray.direction.x*o.s+ray.direction.z*o.c));box.min.set(-o.halfW,b.minY,-o.halfD);box.max.set(o.halfW,b.maxY,o.halfD);const h=local.intersectBox(box,hit);return h?local.origin.distanceTo(h):Infinity;}box.min.set(b.minX,b.minY,b.minZ);box.max.set(b.maxX,b.maxY,b.maxZ);const h=ray.intersectBox(box,hit);return h?ray.origin.distanceTo(h):Infinity;}
+export function rayBoxNear(ray: T.Ray, b: any) {
+  const box = new T.Box3(),
+    hit = new T.Vector3();
+  if (b.obb) {
+    const o = b.obb,
+      dx = ray.origin.x - o.cx,
+      dz = ray.origin.z - o.cz;
+    const local = new T.Ray(
+      new T.Vector3(dx * o.c - dz * o.s, ray.origin.y, dx * o.s + dz * o.c),
+      new T.Vector3(
+        ray.direction.x * o.c - ray.direction.z * o.s,
+        ray.direction.y,
+        ray.direction.x * o.s + ray.direction.z * o.c,
+      ),
+    );
+    box.min.set(-o.halfW, b.minY, -o.halfD);
+    box.max.set(o.halfW, b.maxY, o.halfD);
+    const h = local.intersectBox(box, hit);
+    return h ? local.origin.distanceTo(h) : Infinity;
+  }
+  box.min.set(b.minX, b.minY, b.minZ);
+  box.max.set(b.maxX, b.maxY, b.maxZ);
+  const h = ray.intersectBox(box, hit);
+  return h ? ray.origin.distanceTo(h) : Infinity;
+}

@@ -16,7 +16,11 @@ import {
 import { WORLD } from "../src/legacy06/world-config.js";
 import { distanceToLine } from "../src/legacy06/districts.js";
 import { SpatialIndex, around } from "../src/legacy06/spatial.js";
-import { initializeDoor, requestDoor, updateDoors } from "../src/legacy06/doors.js";
+import {
+  initializeDoor,
+  requestDoor,
+  updateDoors,
+} from "../src/legacy06/doors.js";
 const w = makeWorld(new T.Scene()),
   index = new SpatialIndex();
 for (const b of w.solids) index.add(b);
@@ -398,4 +402,22 @@ test("relocated public furniture yields to compatible saved creations", () => {
     candidate = makeWorld(new T.Scene(), s.blocks);
   assert.deepEqual(validateSave(s, candidate.solids).blocks, s.blocks);
 });
-test('every two-storey envelope closes the side-wall/ceiling seam',()=>{for(const h of w.houses.filter(h=>h.storeys===2))for(const x of [-h.w/2,h.w/2])for(const z of [-h.d/2+1,0,h.d/2-1]){const p=localToWorld(h,x,z),b={minX:p.x-.005,maxX:p.x+.005,minZ:p.z-.005,maxZ:p.z+.005,minY:6.28,maxY:6.32};assert.ok(index.query(b).some(s=>overlaps(b,s)),h.id+' open upper envelope');}});
+test("every two-storey envelope closes the side-wall/ceiling seam", () => {
+  for (const h of w.houses.filter((h) => h.storeys === 2))
+    for (const x of [-h.w / 2, h.w / 2])
+      for (const z of [-h.d / 2 + 1, 0, h.d / 2 - 1]) {
+        const p = localToWorld(h, x, z),
+          b = {
+            minX: p.x - 0.005,
+            maxX: p.x + 0.005,
+            minZ: p.z - 0.005,
+            maxZ: p.z + 0.005,
+            minY: 6.28,
+            maxY: 6.32,
+          };
+        assert.ok(
+          index.query(b).some((s) => overlaps(b, s)),
+          h.id + " open upper envelope",
+        );
+      }
+});

@@ -16,7 +16,12 @@ import {
   BuildHistory,
   MAX_BLOCKS,
 } from "../src/legacy06/core.js";
-import { HOUSES, localToWorld, makeWorld, doorBox } from "../src/legacy06/world.js";
+import {
+  HOUSES,
+  localToWorld,
+  makeWorld,
+  doorBox,
+} from "../src/legacy06/world.js";
 const world = makeWorld(new T.Scene());
 const spawn = () => ({ ...HOME, vy: 0, grounded: true });
 test("forward and strafe agree with camera at four headings; diagonal speed is normalized", () => {

@@ -43,8 +43,12 @@ Executed against this stage: TypeScript and production build passed; preservatio
 
 The 47 Stage 2 deterministic checks plus 7 new storage/arrival cases have been run (54 total cases across the staged runs). No physical Lenovo, Safari/WebKit, real disk-full or storage eviction result is claimed. See SAVES.md for remaining recovery/installation limitations.
 
-## Stage 4 — integrated slice implemented; final regression in progress
+## Stage 4 — integrated prototype complete
 
 Implemented original Home/Square with four furnished buildings and a usable garage, first/third-person cameras, camera obstruction, creative flight, scalable category-grid catalogue (seven unlimited entries), four pedestrians, two animals, two traffic cars, one drivable buggy, drag/zoom/landmark map travel and saved camera/vehicle state. The full R1 content release is not claimed.
 
 Initial executed checks: TypeScript/build/preservation passed; four new deterministic flight/camera/interior/vehicle tests passed; four new browser scenarios passed for integrated modes/catalogue, driving/save/reload, ambient movement/map dragging, and a cold offline tab restoring a saved build while retaining a sentinel legacy cache. No-op save deduplication was corrected and regression-tested. Final full regression and visual review follow in the next checkpoint.
+
+Final executed validation: `npm run check` passed all 59 deterministic cases, strict typechecking, all 49 protected-file checks and the production build. `npm run test:browser` passed all 14 scenarios. After adding runtime redistribution licenses, the offline and compact-layout/visual scenarios passed again (2/2). Original source hashes remain intact. Final screenshots were visually reviewed and are retained in docs/screenshots.
+
+All four authorized stages are complete at prototype scope. The seven-entry catalogue, small authored world and basic AI/traffic are not represented as the full R1 release. No deployment, main merge, Pages change or old save/service-worker modification occurred. The final archive checkpoint follows the clean-source validation checkpoint and records its exact source SHA.

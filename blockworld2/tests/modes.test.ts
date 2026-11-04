@@ -1,5 +1,70 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';import * as T from 'three';import {fly,followCamera} from '../src/player/modes';import {collides} from '../src/legacy06/core.js';import {makeHomeSquare} from '../src/world/home-square';import {initializeDoor,updateDoors} from '../src/legacy06/doors.js';import {movePlayer} from '../src/legacy06/core.js';import {doorBox} from '../src/legacy06/door-geometry.js';import {carBox,Activity} from '../src/simulation/activity';
-test('creative flight respects ceilings and walls at large frame intervals',()=>{const p={x:0,y:0,z:0,yaw:0,vy:0,grounded:true},solids=[{minX:-3,maxX:3,minY:3,maxY:4,minZ:-3,maxZ:3}];for(let i=0;i<30;i++)fly(p,{forward:0,right:0},1,.1,solids);assert.equal(collides(p,solids),false);assert.ok(p.y<1.36);});
-test('third-person obstruction shortens the camera before walls',()=>{const camera=new T.PerspectiveCamera();followCamera(camera,{x:0,y:0,z:0,yaw:0},[{minX:-3,maxX:3,minY:0,maxY:5,minZ:2,maxZ:3}]);assert.ok(camera.position.z<2);});
-test('all four original slice interiors have clear supported centres and traversable doorways',()=>{const w=makeHomeSquare(new T.Group());assert.equal(w.houses.length,4);assert.equal(w.doors.length,5);for(const d of w.doors){initializeDoor(d,false,-1);const p:any={x:d.center.x+Math.sin(d.baseAngle)*3,z:d.center.z+Math.cos(d.baseAngle)*3,y:0,yaw:d.baseAngle,pitch:0,vy:0,grounded:true};for(let t=0;t<1.8;t+=1/60){updateDoors([d],p,[],w.solids,true,t,1/60);movePlayer(p,{forward:1,edgeProtection:true},1/60,[...w.solids,doorBox(d)]);}assert.ok(Math.hypot(p.x-d.center.x,p.z-d.center.z)>1,d.id);const dot=(p.x-d.center.x)*Math.sin(d.baseAngle)+(p.z-d.center.z)*Math.cos(d.baseAngle);assert.ok(dot<0,'Passed '+d.id);}for(const r of w.rooms)assert.equal(collides({...r,y:0},w.solids),false,r.id);});
-test('vehicle collision stops movement through solids and exit chooses clear ground',()=>{const activity=new Activity(new T.Scene()),p:any={x:-26,y:0,z:-2,yaw:0,pitch:0};activity.use(p,[]);assert.equal(activity.driving,true);const before={...activity.car},wall={minX:-40,maxX:-20,minY:0,maxY:3,minZ:-4,maxZ:-3};for(let i=0;i<120;i++)activity.update(1/60,p,{forward:1,right:0},[wall]);assert.ok(activity.car.z>=before.z-.5);activity.use(p,[wall]);assert.equal(activity.driving,false);assert.equal(collides(p,[wall,carBox(activity.car)]),false);activity.dispose();});
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import * as T from "three";
+import { fly, followCamera } from "../src/player/modes";
+import { collides } from "../src/legacy06/core.js";
+import { makeHomeSquare } from "../src/world/home-square";
+import { initializeDoor, updateDoors } from "../src/legacy06/doors.js";
+import { movePlayer } from "../src/legacy06/core.js";
+import { doorBox } from "../src/legacy06/door-geometry.js";
+import { carBox, Activity } from "../src/simulation/activity";
+test("creative flight respects ceilings and walls at large frame intervals", () => {
+  const p = { x: 0, y: 0, z: 0, yaw: 0, vy: 0, grounded: true },
+    solids = [{ minX: -3, maxX: 3, minY: 3, maxY: 4, minZ: -3, maxZ: 3 }];
+  for (let i = 0; i < 30; i++) fly(p, { forward: 0, right: 0 }, 1, 0.1, solids);
+  assert.equal(collides(p, solids), false);
+  assert.ok(p.y < 1.36);
+});
+test("third-person obstruction shortens the camera before walls", () => {
+  const camera = new T.PerspectiveCamera();
+  followCamera(camera, { x: 0, y: 0, z: 0, yaw: 0 }, [
+    { minX: -3, maxX: 3, minY: 0, maxY: 5, minZ: 2, maxZ: 3 },
+  ]);
+  assert.ok(camera.position.z < 2);
+});
+test("all four original slice interiors have clear supported centres and traversable doorways", () => {
+  const w = makeHomeSquare(new T.Group());
+  assert.equal(w.houses.length, 4);
+  assert.equal(w.doors.length, 5);
+  for (const d of w.doors) {
+    initializeDoor(d, false, -1);
+    const p: any = {
+      x: d.center.x + Math.sin(d.baseAngle) * 3,
+      z: d.center.z + Math.cos(d.baseAngle) * 3,
+      y: 0,
+      yaw: d.baseAngle,
+      pitch: 0,
+      vy: 0,
+      grounded: true,
+    };
+    for (let t = 0; t < 1.8; t += 1 / 60) {
+      updateDoors([d], p, [], w.solids, true, t, 1 / 60);
+      movePlayer(p, { forward: 1, edgeProtection: true }, 1 / 60, [
+        ...w.solids,
+        doorBox(d),
+      ]);
+    }
+    assert.ok(Math.hypot(p.x - d.center.x, p.z - d.center.z) > 1, d.id);
+    const dot =
+      (p.x - d.center.x) * Math.sin(d.baseAngle) +
+      (p.z - d.center.z) * Math.cos(d.baseAngle);
+    assert.ok(dot < 0, "Passed " + d.id);
+  }
+  for (const r of w.rooms)
+    assert.equal(collides({ ...r, y: 0 }, w.solids), false, r.id);
+});
+test("vehicle collision stops movement through solids and exit chooses clear ground", () => {
+  const activity = new Activity(new T.Scene()),
+    p: any = { x: -26, y: 0, z: -2, yaw: 0, pitch: 0 };
+  activity.use(p, []);
+  assert.equal(activity.driving, true);
+  const before = { ...activity.car },
+    wall = { minX: -40, maxX: -20, minY: 0, maxY: 3, minZ: -4, maxZ: -3 };
+  for (let i = 0; i < 120; i++)
+    activity.update(1 / 60, p, { forward: 1, right: 0 }, [wall]);
+  assert.ok(activity.car.z >= before.z - 0.5);
+  activity.use(p, [wall]);
+  assert.equal(activity.driving, false);
+  assert.equal(collides(p, [wall, carBox(activity.car)]), false);
+  activity.dispose();
+});

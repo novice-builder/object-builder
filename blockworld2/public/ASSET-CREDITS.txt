@@ -1,0 +1,10 @@
+BlockWorld 2.0 development prototype
+
+New Home/Square layout, low-poly buildings, furniture, avatar/animal/vehicle geometry and icon.svg were authored originally during this task. No commercial reference-game assets were extracted or included. Emoji and system fonts are rendered by the device.
+
+Neighborhood 06 mechanics and compatibility world are preserved from novice-builder/object-builder commit df958096a88254bf611a64798e317ecb9fc3f5f9. The package records exact upstream file hashes in docs/LEGACY-SOURCES.json.
+
+Three.js 0.160.1 is distributed under its MIT license: licenses/three-MIT.txt.
+Vite's bundled module-preload helper and related license notices: licenses/vite-LICENSE.md.
+
+This is an unpublished development prototype, not the full R1 release.
