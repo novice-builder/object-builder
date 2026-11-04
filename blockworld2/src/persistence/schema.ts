@@ -12,6 +12,7 @@ export function validateSnapshot(value:unknown):Snapshot{
   validateSave({version:4,world:'little-block-world-06',blocks:s.world.blocks,doors:s.world.doors,player:s.player,selected:s.preferences.selected,inventory:{flowers:999,lantern:999,bench:999}});
   if(!['hand',...CATALOGUE.map(i=>i.id)].includes(s.preferences.selected))throw Error('Invalid selected item');
   if(!s.world.doors||Array.isArray(s.world.doors)||typeof s.world.doors!=='object'||Object.values(s.world.doors).some(v=>typeof v!=='boolean'))throw Error('Invalid doors');
+  const activity=s.world.activity as any;if(activity!==undefined){if(!activity||!activity.car||![activity.car.x,activity.car.z,activity.car.yaw].every(Number.isFinite)||Math.abs(activity.car.x)>249||Math.abs(activity.car.z)>249)throw Error('Invalid vehicle checkpoint');}
   return structuredClone(s);
 }
 export function encode(value:Snapshot):Envelope{const json=JSON.stringify(validateSnapshot(value));return {json,checksum:checksum(json)};}

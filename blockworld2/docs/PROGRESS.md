@@ -42,3 +42,9 @@ Implemented independent instances, create/select/resume/rename/duplicate, transa
 Executed against this stage: TypeScript and production build passed; preservation check passed for 49 original files; 7 focused deterministic storage/arrival tests passed; all 9 browser scenarios passed. Browser scenarios include switching/reload, rename/duplicate, real backup download/import, invalid import, conflicting tabs/save-copy, and a closed-storage failure with unsaved-build export. A premature asynchronous UI assertion was corrected to wait for the rendered result, then the full browser suite passed.
 
 The 47 Stage 2 deterministic checks plus 7 new storage/arrival cases have been run (54 total cases across the staged runs). No physical Lenovo, Safari/WebKit, real disk-full or storage eviction result is claimed. See SAVES.md for remaining recovery/installation limitations.
+
+## Stage 4 — integrated slice implemented; final regression in progress
+
+Implemented original Home/Square with four furnished buildings and a usable garage, first/third-person cameras, camera obstruction, creative flight, scalable category-grid catalogue (seven unlimited entries), four pedestrians, two animals, two traffic cars, one drivable buggy, drag/zoom/landmark map travel and saved camera/vehicle state. The full R1 content release is not claimed.
+
+Initial executed checks: TypeScript/build/preservation passed; four new deterministic flight/camera/interior/vehicle tests passed; four new browser scenarios passed for integrated modes/catalogue, driving/save/reload, ambient movement/map dragging, and a cold offline tab restoring a saved build while retaining a sentinel legacy cache. No-op save deduplication was corrected and regression-tested. Final full regression and visual review follow in the next checkpoint.
