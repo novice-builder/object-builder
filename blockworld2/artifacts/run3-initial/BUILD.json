@@ -1,0 +1,24 @@
+{
+  "sourceCommit": "b2b11b3cbe6045ec0a382211cd6c2f10e51fc5b6",
+  "sourceDirty": false,
+  "buildId": "c99d434e2c63ebda",
+  "lockfileSha256": "ae21d43ab69589b1e1e173bbdef6300ebb7d368822589ff3715773304d71a764",
+  "packages": {
+    "BlockWorld_2_Run3_Website.zip": {
+      "bytes": 238879,
+      "sha256": "086b612aa954bb355d5b00eb01642fe9f939c061369bd98aab83335c5579525f"
+    },
+    "BlockWorld_2_Run3_Standalone.html": {
+      "bytes": 811149,
+      "sha256": "f3955e88019da44b04924d0ca82386dfc9a69bdec1df5745df577371b210a827"
+    }
+  },
+  "verified": {
+    "zipCrc": true,
+    "exactDistBytes": true,
+    "releaseManifestHashes": true,
+    "sameEmbeddedSourceAndBuild": true
+  },
+  "deployed": false,
+  "qa": "../../docs/RUN3-QA.md"
+}

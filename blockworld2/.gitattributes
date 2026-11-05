@@ -1,0 +1,3 @@
+# Generated packages retain tested byte identity, including shader/license text.
+artifacts/**/*.zip binary
+artifacts/**/*_Standalone.html binary

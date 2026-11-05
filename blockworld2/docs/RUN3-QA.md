@@ -7,3 +7,5 @@ Stage A: nine focused deterministic cases passed; original offline/storage/confl
 Environment: Linux Node 24.19.0, Chromium 154.0.8037.57, Playwright touch dispatch and ANGLE SwiftShader; 1024×600 primary, compact landscape/portrait checks. No physical Android/Lenovo, iPhone/Safari/WebKit, measured hardware FPS, thermal/battery, native RAM or real storage-eviction result is claimed.
 
 Stage B: both single-file HTTP scenarios passed for startup/rendering, touch movement/look, catalogue/building, world selection/save/reload and backup download/file-input restore. The local-file scenario is skipped because managed Chromium denies file navigation before startup. It must not be counted as a passing local-file test. See RUN3-DISTRIBUTION.md for the exact distinction.
+
+Initial clean package source b2b11b3, build c99d434e2c63ebda: four package-level browser scenarios passed again. ZIP CRC, exact compiled bytes, release-manifest hashes and embedded source/build identity passed. Initial packages/checksums are retained under artifacts/run3-initial and will not be overwritten by the final gameplay package.
