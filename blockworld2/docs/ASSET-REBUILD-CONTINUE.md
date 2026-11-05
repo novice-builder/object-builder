@@ -54,3 +54,9 @@ Version-3 tools: `qa_v3.py`, `vale_v3.py`, `map_v3.py`, `editor_v3.py`, `collisi
 4. Once the main connected world is good, research truly different themed worlds; do not relabel similar medieval scenes as new themes. Choose actual player value rather than feature counts.
 
 The cloud briefly reported no usable execution environment during evidence consolidation, then immediately recovered; the worktree/processes and our PID 14722 flock survived, GitHub was re-fetched at 02f2e6a, and work resumed. No reset or extra automation was used. At a real environment/usage/execution boundary, push all completed work and record an exact remote resume point; do not invent measured usage exhaustion.
+
+## Verified Preview 03 release
+
+`eb7003e7fca9273882e1acf9af798b457a3a4bf5` is the independently pushed/verified runtime and complete evidence checkpoint: **140 deterministic tests, 123 browser checks**. The earlier provisional 124 total was corrected during consolidation: the connected-world phase has nine checks, not ten.
+
+Preview 03 archive: `artifacts/adventures-v3/BlockWorld-Adventures-Preview-03.zip`, 22,817,772 bytes, SHA-256 `6da24107f9209bdbbe571e53233da91b309d322efe0ef3d7008fc282af48b6fe`, source `eb7003e7fca9273882e1acf9af798b457a3a4bf5`. Extracted archive passes CRC, all runtime manifest hashes and **11 package checks**, including actual map travel, 15 thumbnails and 20 gallery images. The README and adjacent BUILD/CHECKSUMS/PACKAGE-VERIFICATION files are authoritative. Preview 03/evidence are now frozen: NEW implementation/evidence should use v4 folders. Continue immediately with the next item; this package is not the end of the assignment.

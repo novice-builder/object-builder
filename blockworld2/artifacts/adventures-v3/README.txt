@@ -1,0 +1,18 @@
+BlockWorld Adventures — Development Preview 03
+
+Unzip into a new folder. Run `python3 preview.py` (Windows: `py preview.py`).
+Open http://localhost:8000/adventures.html . Opening the HTML directly as a file is unsupported because the app loads ES modules and GLBs.
+
+All models, images, animations, code and licences are local. Nothing is deployed by this package. No accounts, CDN downloads or purchases are needed.
+
+Tap the circular minimap or press M for the full world map. Drag/pinch or use zoom buttons; tap a named place for checked safe travel. Home returns to Willowmere. Full map pauses the hidden 3D scene.
+
+WASD/arrows walk; Shift runs; drag to orbit; wheel/pinch zooms; E discovers; B opens Build; Escape closes a menu. Touch uses a left joystick, another thumb to orbit and a Run toggle. Graphics and Run choices persist separately from world saves. Build shows real model thumbnails and filters. Walk to a clear spot, rotate and place. Tap your own object for its outline, move, rotate or remove. Undo and redo are in the menu. The limit is 200 objects; existing objects can still move at that limit.
+
+The Willow Vale is one continuous 370x196-metre world joining Willowmere, Whispering Wood and Maker’s Meadow, with Brookside and the foresters’ cottages. Walk the connecting roads and two bridges without changing world/save. New-template tents have corrected standing-height scale. Earlier Preview 01/02 independent records retain their original layout and constructions; they are not silently merged. Places lists retained records and can create a NEW connected-world record. No construction-migration tool is claimed. Do not open new-layout/vale backups in Preview 01/02: those older programs cannot render this template. Use this matching package for new saves. Export backups before changing browser, address or device. Import creates a new record. Failed writes and stale-tab conflicts preserve the original and in-memory work; export or Save a new copy to recover.
+
+To test on a tablet/iPhone on the same Wi-Fi, run `python3 preview.py --lan`, then open http://YOUR-COMPUTER-LAN-IP:8000/adventures.html . Cryptographic UUID and selectable backup-text fallbacks support restricted browser APIs. Physical Lenovo, iPhone and Safari performance remains UNVERIFIED.
+
+Village houses are closed exterior prefabs with no opening doors/interiors. Real supplied idle, walk and run clips blend with smooth orientation; no dedicated turn clip is claimed. Collision uses simplified footprints/trunks and a bridge profile. The camera has close-wall/corner protection; foliage canopy collisions still need work. No NPC simulation, audio, vehicles, multiplayer or installed/offline service worker is claimed for this entrypoint.
+
+Open gallery.html for actual rendered views and the before/after comparison. Read review/REPORT.md, review/summary.json and profile files for checks/measurements/limitations. Asset provenance/licences: adventures/PROVENANCE.md and adventures/licences. Original selected CC0 source assets remain separately archived in the branch's preview-01 Source Assets archive. Source: https://github.com/novice-builder/object-builder/tree/codex/blockworld-adventures-asset-rebuild . The original website, Neighborhood 06 and historical packages are unchanged.
