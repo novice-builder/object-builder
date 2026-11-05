@@ -26,6 +26,8 @@ import {
   renderCatalogueThumbnail,
 } from "./catalogue";
 import { readPreferences, writePreferences, type Quality } from "./preferences";
+import { CollisionCache, type OwnedObstacle } from "./collision-cache";
+import { cameraFraction } from "./camera-collision";
 import "./style.css";
 import { installUUIDFallback } from "./ids";
 installUUIDFallback();
@@ -80,6 +82,7 @@ class AdventureGame {
   private quality: Quality = "balanced";
   private preferenceStorage: Storage | null = null;
   private selectionOutline = new T.Box3Helper(new T.Box3(), 0xffd28b);
+  private collisionCache = new CollisionCache();
   private userGroup = new T.Group();
   private userRoots = new Map<string, T.Object3D>();
   private selection: string | null = null;
@@ -384,16 +387,19 @@ class AdventureGame {
       height: b.max.y,
     };
   }
-  obstacles() {
-    const result = [...(this.landscape?.obstacles || [])];
+  private rebuildObstacles() {
+    const built: OwnedObstacle[] = [];
     for (const p of this.data.objects) {
       const root = this.userRoots.get(p.id);
-      if (root && p.id !== this.moving) {
-        const b = this.objectBox(root, p.asset);
-        if (b) result.push(b);
+      if (root) {
+        const body = this.objectBox(root, p.asset);
+        if (body) built.push({ ...body, ownerId: p.id });
       }
     }
-    return result;
+    this.collisionCache.replace(this.landscape?.obstacles || [], built);
+  }
+  obstacles() {
+    return this.collisionCache.view(this.moving);
   }
   private renderObjects() {
     for (const root of this.userRoots.values()) root.removeFromParent();
@@ -406,6 +412,7 @@ class AdventureGame {
       this.userGroup.add(root);
       this.userRoots.set(p.id, root);
     }
+    this.rebuildObstacles();
     this.sun.shadow.needsUpdate = true;
     this.refreshSelection();
   }
@@ -484,29 +491,9 @@ class AdventureGame {
         Math.cos(this.cameraYaw) * Math.cos(this.cameraPitch),
       ).multiplyScalar(this.distance),
       desired = target.clone().add(offset);
-    let fraction = 1;
-    const d = desired.clone().sub(target);
-    for (const b of this.obstacles()) {
-      if (
-        b.height < target.y - 0.5 ||
-        b.minX > target.x + this.distance ||
-        b.maxX < target.x - this.distance ||
-        b.minZ > target.z + this.distance ||
-        b.maxZ < target.z - this.distance
-      )
-        continue;
-      const box = new T.Box3(
-          new T.Vector3(b.minX - 0.18, -3, b.minZ - 0.18),
-          new T.Vector3(b.maxX + 0.18, b.height + 0.18, b.maxZ + 0.18),
-        ),
-        ray = new T.Ray(target, d.clone().normalize()),
-        hit = ray.intersectBox(box, new T.Vector3());
-      if (hit) {
-        const f = target.distanceTo(hit) / d.length();
-        if (f < 1) fraction = Math.min(fraction, Math.max(0.08, f - 0.04));
-      }
-    }
-    desired.copy(target).addScaledVector(d, fraction);
+    const bodies = this.obstacles();
+    const fraction = cameraFraction(target, offset, bodies);
+    desired.copy(target).addScaledVector(offset, fraction);
     desired.y = Math.max(
       desired.y,
       walkHeight(desired.x, desired.z, this.data.scene) + 0.45,
@@ -517,6 +504,13 @@ class AdventureGame {
         desired,
         1 - Math.exp(-dt * (fraction < 1 ? 30 : 7)),
       );
+    // Recheck the interpolated position: two clear endpoints can cut through a corner.
+    const interpolated = this.cameraPosition.clone().sub(target),
+      actualFraction = cameraFraction(target, interpolated, bodies);
+    if (actualFraction < 1)
+      this.cameraPosition
+        .copy(target)
+        .addScaledVector(interpolated, actualFraction);
     this.camera.position.copy(this.cameraPosition);
     this.camera.lookAt(target);
     this.actor.visible = this.camera.position.distanceTo(target) > 1.1;
@@ -652,6 +646,7 @@ class AdventureGame {
           this.checkpoint();
           p.yaw = next;
           root.rotation.y = next;
+          this.rebuildObstacles();
           this.refreshSelection();
           this.sun.shadow.needsUpdate = true;
           this.dirty = true;

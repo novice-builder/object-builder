@@ -1,0 +1,9 @@
+PASS unchanged collision queries reuse one view
+PASS object edits replace footprints and retain retired views safely
+PASS move exclusion is cached and restored on cancel
+PASS successful rotation refreshes the collision cache
+PASS world switching drops all previous user footprints
+PASS camera remains outside the inn at close walking distance
+PASS camera interpolation cannot cut through a building corner
+PASS collision pass has no runtime errors
+CHECKS 8

@@ -1,0 +1,29 @@
+
+> blockworld2@0.1.0 test:adventures
+> node --import tsx --test tests/adventures*.test.ts
+
+✔ camera rays handle parallel, inside, behind and zero-length cases (1.219319ms)
+✔ allocation-free ray distances agree with the established Three.js box intersection (2.713412ms)
+✔ collision views reuse footprints until an edit and exclude only the moving object (0.797152ms)
+✔ a close-wall camera stays in front of the wall rather than enforcing an unsafe minimum radius (0.118799ms)
+✔ every offered catalogue asset has a real, current PNG render matching its licensed source (4.21728ms)
+✔ control preferences survive a reload in their own key (1.593724ms)
+✔ invalid preferences and denied browser storage fall back without blocking play (0.246472ms)
+✔ late edits during delayed world read preserve ownership (18.281421ms)
+✔ quota failure aborts switching and retains source; recovery creates a new record (3.132354ms)
+✔ invalid import creates no records; valid import always creates a separate copy (3.114697ms)
+✔ stale tab conflicts retain the newer checkpoint (9.494771ms)
+✔ water, bridge and footprint boundaries allow safe crossing (0.701348ms)
+✔ LAN HTTP UUID fallback retains RFC4122 version/variant and avoids collisions (3.065869ms)
+✔ preview 01 records retain their original layout while fresh records use the new scene (3.640921ms)
+✔ fresh copies receive distinct names without renaming old worlds (1.99603ms)
+✔ soft woodland loop stays on dry ground with close, continuous samples (2.581964ms)
+✔ closed woodland-edge trail joins without duplicate zero-length segments (1.587915ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1324.838041

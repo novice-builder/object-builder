@@ -85,7 +85,7 @@ export function waterBlocked(x: number, z: number, scene: SceneId) {
 export function blocked(
   x: number,
   z: number,
-  obstacles: Obstacle[],
+  obstacles: readonly Obstacle[],
   radius = 0.34,
 ) {
   return obstacles.some((b) => {

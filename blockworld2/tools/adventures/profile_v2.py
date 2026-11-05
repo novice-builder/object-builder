@@ -1,9 +1,9 @@
 """Single-context rendering diagnostics and repeated static-collision query benchmark."""
-import argparse,json,pathlib,time,subprocess
+import argparse,json,pathlib,time,subprocess,hashlib
 from playwright.sync_api import sync_playwright
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 p=argparse.ArgumentParser();p.add_argument('--phase',choices=['before','after'],required=True);a=p.parse_args();OUT=ROOT/'docs/adventures-v2';OUT.mkdir(exist_ok=True)
-result={'phase':a.phase,'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'environment':'Managed Chromium / ANGLE SwiftShader, one browser context. Raster/frame samples are software-renderer diagnostics, not physical Lenovo/iPhone/Safari results. Collision-query timings are JavaScript CPU wall time in this executor.','samples':[]}
+result={'phase':a.phase,'repositoryHeadAtMeasurement':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'environment':'Managed Chromium / ANGLE SwiftShader, one browser context. Raster/frame samples are software-renderer diagnostics, not physical Lenovo/iPhone/Safari results. Collision-query timings are JavaScript CPU wall time in this executor.','samples':[]}
 with sync_playwright()as p:
  b=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']);page=b.new_page(viewport={'width':1280,'height':800});page.set_default_timeout(60000);start=time.monotonic();page.goto('http://127.0.0.1:5175/adventures.html?test=1');page.wait_for_function('window.adventure?.ready');result['preparedMs']=round((time.monotonic()-start)*1000);page.locator('#enter').click();page.evaluate("adventure.game.setQuality('gentle')")
  for width,height,quality in [(1280,800,'gentle'),(320,200,'gentle'),(1280,800,'balanced')]:
@@ -13,4 +13,5 @@ with sync_playwright()as p:
  page.evaluate("adventure.session.create('meadow')");page.evaluate("adventure.game.setQuality('gentle')")
  result['collisionCPU']=page.evaluate("""()=>{const g=adventure.game;g.data.objects=Array.from({length:100},(_,i)=>({id:'bench-'+i,asset:'crate_A_small',x:35+i%10,z:-35+Math.floor(i/10),yaw:(i%4)*.2,scale:4}));g.renderObjects();const trials=[];for(let run=0;run<5;run++){let total=0;const start=performance.now();for(let i=0;i<1000;i++)total+=g.obstacles().length;const queryMs=performance.now()-start;g.debugCamera=false;const cameraStart=performance.now();for(let i=0;i<500;i++)g.cameraUpdate(1/60);const cameraMs=performance.now()-cameraStart;trials.push({queryMs,cameraMs,total});}return{objects:g.data.objects.length,queriesPerTrial:1000,camerasPerTrial:500,trials};}""")
  b.close()
+result['sourceFileHashes']={str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest() for f in (ROOT/'src/adventures').glob('*.ts')}
 (OUT/f'profile-{a.phase}.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
