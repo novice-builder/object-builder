@@ -1,0 +1,155 @@
+{
+  "generator": "Actual GLB render via renderCatalogueThumbnail; no remote image service",
+  "entries": [
+    {
+      "asset": "building_home_A_blue",
+      "file": "building_home_A_blue.png",
+      "sha256": "5b6dd6999a8d1c85dab2d04da6f5b9d337189e98e0653f93fabff3f3e48816e0",
+      "bytes": 17433,
+      "sourceModelSha256": "aadc8fd5fcbeb24475c65b38a8e638f7f827e5d177282a0a14ebdfba39aa61cd",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "building_home_A_green",
+      "file": "building_home_A_green.png",
+      "sha256": "f498318f4043aafdb4f609a9af8b790f7075bab79ef2e9cb44582ed4cb64eaee",
+      "bytes": 16434,
+      "sourceModelSha256": "c512ae3dc0093cfce036faf6f5e1ca4d3e0a5c28dffec49cf859f49f680b2a24",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "building_home_B_blue",
+      "file": "building_home_B_blue.png",
+      "sha256": "4ddbef220c466fc06453bf96eb21403613126f4ba49c53e5fb5bbefa55d10029",
+      "bytes": 21083,
+      "sourceModelSha256": "3bc83821d2220d5054166a09e34f6cf07cc62bc9db071b0a635c5ccd76f844ce",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "tree-oak",
+      "file": "tree-oak.png",
+      "sha256": "d2defbd7a9370b4f7fb227341bcdec9361035eece6b06bc0d45a94ed676e85c6",
+      "bytes": 5216,
+      "sourceModelSha256": "d7fd8773674928c50c11b66d12c636d49bdcc15a8b1c7fbb98e6f63a3439a3f3",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "tree-pinedefaulta",
+      "file": "tree-pinedefaulta.png",
+      "sha256": "621d0af7ef5dbd7222803d567671efb69fa2f90f664affd2d9021a6a72996c3a",
+      "bytes": 5568,
+      "sourceModelSha256": "60d8f352fa3659ed275e06cbddfecf8f92c8effe2977c2f2d7b29b6c9b582e46",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "plant-bush",
+      "file": "plant-bush.png",
+      "sha256": "f743be30c37e5159a2b8135d33e733020ca860ac9b5c95685036c147c8313272",
+      "bytes": 4561,
+      "sourceModelSha256": "ae7b1beb39e242b13f5f29e3ec23ef21034b814f82297b8aa00a9bf4e1b09590",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "flower-purplea",
+      "file": "flower-purplea.png",
+      "sha256": "96e5d28270cf52c57f4248fa8f966e0b1e67c677c8f8d894e241d072a2759d22",
+      "bytes": 4935,
+      "sourceModelSha256": "f6fc34c96a03420a74fe36d4c2d0ec88f15204fcad99cd1416c3c4ecb22e48c4",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "flower-yellowa",
+      "file": "flower-yellowa.png",
+      "sha256": "110033e5f864eef7f555a5d1a9291792eb79bd266b1f48a461121f3eb89183ce",
+      "bytes": 4991,
+      "sourceModelSha256": "8a3b08cd2ca411c21f9c581d5bda651d78b13c50cba45ad8fa0389398ead6d1d",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "flower-reda",
+      "file": "flower-reda.png",
+      "sha256": "fad8e5ea468fec75b8bb53dd13a5d131379da3a960e93710c6832639c35e8128",
+      "bytes": 4633,
+      "sourceModelSha256": "171930b7789ddbf735af3745576b5393750beb9133b9ff4a444bb6bb2986c020",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "barrel",
+      "file": "barrel.png",
+      "sha256": "0b718049c845a987b727f7b1bf75f34764b59abc37f65bdd70367735872e247d",
+      "bytes": 14069,
+      "sourceModelSha256": "a5eb9b84ea541f7480e38b2f8e2475437897aaa7b2ce70d44690040186dafa11",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "crate_A_small",
+      "file": "crate_A_small.png",
+      "sha256": "4d6ad6dd8cc482f30429c54a7e47d1b1afd7a50dfee05a73fda6502a67f94d88",
+      "bytes": 11254,
+      "sourceModelSha256": "66c8f6430dfdbd7bb4090ab3fce442b0c9550c86eef278dc34d148ca7ec980aa",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "wheelbarrow",
+      "file": "wheelbarrow.png",
+      "sha256": "f162764702addf8d55e1ae1f21bad6739ca15fd8a5a33416250654127c548547",
+      "bytes": 12405,
+      "sourceModelSha256": "415e45d4d1206ffa971917186e9ec1e1be5b1c0ac068f74d315a25ad06f58b99",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "rock-largea",
+      "file": "rock-largea.png",
+      "sha256": "b0747087fd79f7bc52d49b99896eb0ab4b42ea6218470c5ba6553aa8c5208d7b",
+      "bytes": 4547,
+      "sourceModelSha256": "6dd15390fd96501dcd1454765a17ba61dbbd8d47705dfe5149c8dd92b353ce25",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "log",
+      "file": "log.png",
+      "sha256": "1fe1141efae571b5d9a6603f86386dd499c50ab8653f36f42d3f1914ff689bfe",
+      "bytes": 5183,
+      "sourceModelSha256": "8c8fe8f6adfc03a3c0cd6cb24961ff74be96c2da284d70322f05797d049972d6",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "tent-smallopen",
+      "file": "tent-smallopen.png",
+      "sha256": "e5ba49c7318d3f0012cd4249c8720a52d45aff9d1000af3367b1b0bb769d8d12",
+      "bytes": 4867,
+      "sourceModelSha256": "d32c3f7a5926de03521a012774316d38e09c27bd6dbae7cefdb01debe003ecdd",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    }
+  ]
+}

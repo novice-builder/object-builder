@@ -1069,3 +1069,74 @@ body:not(.playing) #saveState {
     font-size: 19px;
   }
 }
+
+#newPlaceButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+#newPlaceButtons button {
+  font-size: 12px;
+  border: 1px solid #29423925;
+}
+.newPlaces {
+  padding-top: 15px;
+}
+
+.catalogueFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 20px 0;
+}
+.catalogueFilters button {
+  font-size: 10px;
+  min-height: 36px;
+  padding: 8px 13px;
+  background: #e5e9db;
+  border-radius: 30px;
+}
+.catalogueFilters button[aria-pressed="true"] {
+  background: #294a3d;
+  color: #faf6ea;
+}
+.assetGrid button {
+  padding: 8px 7px 14px;
+  gap: 5px;
+}
+.assetGrid button img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4/3;
+  object-fit: contain;
+  pointer-events: none;
+}
+.assetGrid button .assetLabel {
+  font:
+    600 11px/1.4 ui-rounded,
+    "Segoe UI",
+    sans-serif;
+  color: #294438;
+  min-height: 30px;
+  display: grid;
+  place-items: center;
+}
+.assetGrid button:hover {
+  background: #dbe3cd;
+  border-color: #6f8d62;
+}
+.assetGrid button:focus-visible {
+  outline: 3px solid #ad8b49;
+  outline-offset: 2px;
+}
+
+body.editing #bottomHint,
+body.editing #touchHint,
+body.editing #context {
+  visibility: hidden;
+}
+@media (max-width: 700px) and (min-height: 521px) {
+  #editBar {
+    bottom: 184px;
+  }
+}

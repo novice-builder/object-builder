@@ -48,3 +48,7 @@ Village prefabs use native miniature scale: `building_home_A_*` is about 0.792 m
 Village buildings are closed exterior models; their appearance does not establish accessible interiors or separable doors. Do not claim an indoor scene unless an actual accessible interior has been implemented and inspected.
 
 The original full-quality source checkouts remain under `/workspace/work/asset-research/` in this execution environment. Runtime assets and source licence files can be retained in the new development branch. The original Quaternius download was research-only and should not be counted as shipped content.
+
+## Preview 02 derived catalogue images
+
+`thumbnails/` contains 15 transparent PNGs rendered from these exact imported models by `tools/adventures/thumbnails.py` and `renderCatalogueThumbnail` in the game. Each is 256×192 pixels; `thumbnails/manifest.json` records the source model SHA-256 and derived PNG SHA-256. They are generated during development and served as static images; opening the catalogue does not create another WebGL renderer on mobile. Original CC0 model sources and licences remain unchanged.

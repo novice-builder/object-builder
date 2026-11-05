@@ -1,0 +1,22 @@
+PASS graphics and run preferences survive reload
+PASS fresh-place UI keeps original record and creates layout 2
+PASS 15 offered assets display real rendered thumbnails
+PASS homes filter shows three assets
+PASS garden filter shows eight assets
+PASS valid thumbnail selection enters place mode
+PASS place uses chosen premade asset
+PASS touch/click selection shows a model outline
+PASS selected asset rotates with its outline
+PASS move preview hides original and its outline
+PASS cancel move restores original without changing save data
+PASS moving at the 200-object limit preserves ID and custom scale
+PASS rejected rotation preserves undo/redo history and transform
+PASS remove clears the selected object and outline
+PASS undo restores the removed premade object
+PASS permanent cottage blocks picking an object behind it
+PASS editor pass has no runtime errors or missing resources
+PASS phone thumbnail catalogue fits width and scrolls vertically
+PASS phone edit bar leaves joystick clear
+PASS tablet thumbnail catalogue fits width and scrolls vertically
+PASS tablet edit bar leaves joystick clear
+CHECKS 21

@@ -20,6 +20,12 @@ import {
   type AdventureData,
 } from "./save";
 import type { Snapshot } from "../persistence/schema";
+import {
+  BUILD_CHOICES,
+  buildLabel,
+  renderCatalogueThumbnail,
+} from "./catalogue";
+import { readPreferences, writePreferences, type Quality } from "./preferences";
 import "./style.css";
 import { installUUIDFallback } from "./ids";
 installUUIDFallback();
@@ -36,7 +42,7 @@ app.innerHTML = `
 <output id="toast" role="status" aria-live="polite" hidden></output><output id="saveState" aria-live="polite">Preparing your world…</output><div id="stats" hidden></div>
 <div id="editBar" hidden><span id="editName">Place object</span><button id="editRotate">↻ <span>Rotate</span></button><button id="editMove">✥ <span>Move</span></button><button id="editRemove">× <span>Remove</span></button><button id="editConfirm" class="primary">✓ <span>Place</span></button><button id="editCancel" aria-label="Cancel editing">✕</button></div>
 <div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle"></div>
-<div id="welcome"><section><div class="eyebrow">A BLOCKWORLD ADVENTURE</div><h1>A little world.<br>A little wonder.</h1><p>Follow a cobbled lane. Find a quiet corner.<br>Make a place of your own.</p><button id="enter" class="primary" disabled>Preparing Willowmere… <span>→</span></button><div class="loadingTrack"><i id="loadingBar"></i></div><small id="loadingText">Unpacking the village</small><div class="welcomeFoot">FREE TO EXPLORE <span>•</span> SAVED ON YOUR DEVICE</div></section><div class="previewBadge">WILLOWMERE · DEVELOPMENT PREVIEW 01</div></div>
+<div id="welcome"><section><div class="eyebrow">A BLOCKWORLD ADVENTURE</div><h1>A little world.<br>A little wonder.</h1><p>Follow a cobbled lane. Find a quiet corner.<br>Make a place of your own.</p><button id="enter" class="primary" disabled>Preparing Willowmere… <span>→</span></button><div class="loadingTrack"><i id="loadingBar"></i></div><small id="loadingText">Unpacking the village</small><div class="welcomeFoot">FREE TO EXPLORE <span>•</span> SAVED ON YOUR DEVICE</div></section><div class="previewBadge">WILLOWMERE · DEVELOPMENT PREVIEW 02</div></div>
 <div id="fatal" hidden role="alert"></div>`;
 class AdventureGame {
   library = new AssetLibrary();
@@ -71,7 +77,9 @@ class AdventureGame {
   private statsTime = 0;
   private frames = 0;
   private fps = 0;
-  private quality = "balanced";
+  private quality: Quality = "balanced";
+  private preferenceStorage: Storage | null = null;
+  private selectionOutline = new T.Box3Helper(new T.Box3(), 0xffd28b);
   private userGroup = new T.Group();
   private userRoots = new Map<string, T.Object3D>();
   private selection: string | null = null;
@@ -170,6 +178,21 @@ class AdventureGame {
       (x, y) => this.tap(x, y),
       (code) => this.key(code),
     );
+    this.selectionOutline.visible = false;
+    this.selectionOutline.renderOrder = 20;
+    const selectionMaterial = this.selectionOutline
+      .material as T.LineBasicMaterial;
+    selectionMaterial.depthTest = false;
+    selectionMaterial.transparent = true;
+    selectionMaterial.opacity = 0.95;
+    this.scene.add(this.selectionOutline);
+    try {
+      this.preferenceStorage = localStorage;
+    } catch {}
+    const preferences = readPreferences(this.preferenceStorage);
+    this.controls.running = preferences.running;
+    $("run").setAttribute("aria-pressed", String(preferences.running));
+    this.setQuality(preferences.quality);
     this.bind();
     document.addEventListener("keydown", (e) => {
       if (e.code !== "Tab" || !this.modalOpen) return;
@@ -248,6 +271,8 @@ class AdventureGame {
           session: this.session,
           ready: true,
           stats: () => this.stats(),
+          thumbnail: (id: string) =>
+            renderCatalogueThumbnail(this.renderer, this.library, id),
           snapshot: () => this.snapshot(),
           view: (name: string) => this.qaView(name),
         },
@@ -382,6 +407,7 @@ class AdventureGame {
       this.userRoots.set(p.id, root);
     }
     this.sun.shadow.needsUpdate = true;
+    this.refreshSelection();
   }
   private animate(name: string) {
     if (this.currentAnimation === name) return;
@@ -602,6 +628,7 @@ class AdventureGame {
     $("run").onclick = () => {
       this.controls.running = !this.controls.running;
       $("run").setAttribute("aria-pressed", String(this.controls.running));
+      this.storePreferences();
     };
     $("editCancel").onclick = () => this.cancelEdit();
     $("editRotate").onclick = () => {
@@ -610,21 +637,25 @@ class AdventureGame {
         this.ghost!.rotation.y = this.pending.yaw;
         this.validateGhost();
       } else if (this.selection) {
-        this.checkpoint();
-        const p = this.data.objects.find((p) => p.id === this.selection)!;
-        const previous = p.yaw;
-        p.yaw += Math.PI / 4;
-        this.renderObjects();
-        const root = this.userRoots.get(p.id)!;
+        const p = this.data.objects.find((p) => p.id === this.selection)!,
+          root = this.userRoots.get(p.id)!;
+        const next = p.yaw + Math.PI / 4;
+        root.rotation.y = next;
+        root.updateMatrixWorld(true);
         this.moving = p.id;
-        const error = this.placementProblem(p, root);
+        const error = this.placementProblem({ ...p, yaw: next }, root);
         this.moving = null;
-        if (error) {
-          p.yaw = previous;
-          this.history.pop();
-          this.renderObjects();
-          this.toast(error);
-        } else this.dirty = true;
+        root.rotation.y = p.yaw;
+        root.updateMatrixWorld(true);
+        if (error) this.toast(error);
+        else {
+          this.checkpoint();
+          p.yaw = next;
+          root.rotation.y = next;
+          this.refreshSelection();
+          this.sun.shadow.needsUpdate = true;
+          this.dirty = true;
+        }
       }
     };
     $("editConfirm").onclick = () => this.confirmEdit();
@@ -667,9 +698,11 @@ class AdventureGame {
     this.cancelEdit();
     try {
       await this.session.save();
-      const records = await this.session.store.list();
+      const records = (await this.session.store.list()).sort(
+        (a, b) => b.updated - a.updated,
+      );
       this.openModal(
-        `<div class="eyebrow">TAKE THE LONG WAY HOME</div><h1 id="modalTitle">Where shall we go?</h1><p>Three places. Three ways to spend a little time.</p><div class="placeCards">${WORLDS.map((w) => `<button class="placeCard ${w.id}" data-scene="${w.id}"><span class="sceneIcon">${w.icon}</span><small>${w.tag}</small><strong>${w.name}</strong><span>${w.description}</span><b>Explore →</b></button>`).join("")}</div><div class="savedWorlds"><h2>Your saved adventures</h2><div id="savedRows"></div></div><p class="finePrint">Every place has its own save. Original BlockWorld worlds remain in the original game.</p>`,
+        `<div class="eyebrow">TAKE THE LONG WAY HOME</div><h1 id="modalTitle">Where shall we go?</h1><p>Three places. Three ways to spend a little time.</p><div class="placeCards">${WORLDS.map((w) => `<button class="placeCard ${w.id}" data-scene="${w.id}"><span class="sceneIcon">${w.icon}</span><small>${w.tag}</small><strong>${w.name}</strong><span>${w.description}</span><b>Explore →</b></button>`).join("")}</div><div class="savedWorlds"><h2>Your saved adventures</h2><div id="savedRows"></div></div><details class="newPlaces"><summary>Start a fresh place</summary><p>Your saved adventures stay here. Fresh places use the latest scenery.</p><div id="newPlaceButtons"></div></details><p class="finePrint">Every place has its own save. Original BlockWorld worlds remain in the original game.</p>`,
       );
       for (const w of WORLDS) {
         const button = $("modal").querySelector<HTMLButtonElement>(
@@ -693,6 +726,20 @@ class AdventureGame {
           })().catch((e) => this.toast(String(e)));
         };
       }
+      for (const w of WORLDS) {
+        const fresh = document.createElement("button");
+        fresh.textContent = "New " + w.name;
+        fresh.dataset.newScene = w.id;
+        fresh.onclick = () =>
+          void this.session
+            .create(w.id)
+            .then(() => {
+              this.closeModal();
+              this.toast("A fresh " + w.name + " is ready");
+            })
+            .catch((e) => this.toast(String(e)));
+        $("newPlaceButtons").append(fresh);
+      }
       for (const r of records) {
         const button = document.createElement("button");
         button.textContent =
@@ -710,7 +757,7 @@ class AdventureGame {
   }
   private menu() {
     this.openModal(
-      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature: Kenney. CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview 01. Closed prefab houses have no interiors. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
+      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature: Kenney. CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview 02. Closed prefab houses have no interiors. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
     );
     $("resume").onclick = () => this.closeModal();
     $("home").onclick = () => {
@@ -782,9 +829,16 @@ class AdventureGame {
       this.toast(String(e));
     }
   }
+  private storePreferences() {
+    writePreferences(this.preferenceStorage, {
+      quality: this.quality,
+      running: this.controls.running,
+    });
+  }
   private setQuality(value: string) {
+    if (!["gentle", "balanced", "high"].includes(value)) return;
     if (this.quality === value) return;
-    this.quality = value;
+    this.quality = value as Quality;
     this.renderer.setPixelRatio(
       Math.min(
         devicePixelRatio,
@@ -800,29 +854,28 @@ class AdventureGame {
     this.sun.shadow.map = null;
     this.sun.shadow.needsUpdate = true;
     this.renderer.setSize(innerWidth, innerHeight);
+    this.storePreferences();
   }
   private catalogue() {
     this.cancelEdit();
-    const choices = [
-      "building_home_A_blue",
-      "building_home_A_green",
-      "building_home_B_blue",
-      "tree-oak",
-      "tree-pinedefaulta",
-      "plant-bush",
-      "flower-purplea",
-      "flower-yellowa",
-      "flower-reda",
-      "barrel",
-      "crate_A_small",
-      "wheelbarrow",
-      "rock-largea",
-      "log",
-      "tent-smallopen",
-    ];
     this.openModal(
-      `<div class="eyebrow">A PLACE OF YOUR OWN</div><h1 id="modalTitle">What will you make?</h1><p>Choose an asset, walk to a clear spot, then place it. Your own objects can be selected, moved, turned and removed.</p><div class="assetGrid">${choices.map((id) => `<button data-asset="${id}"><span>${id.startsWith("building") ? "⌂" : id.startsWith("tree") ? "♧" : id.startsWith("flower") ? "✿" : "◇"}</span>${this.assetName(id)}</button>`).join("")}</div><p class="finePrint">Up to 200 objects per saved place. Keep the lanes, water and entrances clear.</p>`,
+      `<div class="eyebrow">A PLACE OF YOUR OWN</div><h1 id="modalTitle">What will you make?</h1><p>Choose something for your world, then walk to a clear spot and place it.</p><div class="catalogueFilters" role="group" aria-label="Filter building assets">${["All", "Homes", "Garden & woodland", "Village supplies"].map((name, i) => `<button data-category="${name}" aria-pressed="${i === 0}">${name}</button>`).join("")}</div><div class="assetGrid">${BUILD_CHOICES.map((item) => `<button data-asset="${item.id}" data-group="${item.group}" aria-label="Place ${item.name}"><img src="${import.meta.env.BASE_URL}adventures/thumbnails/${item.id}.png" alt="" loading="lazy" width="256" height="192"><span class="assetLabel">${item.name}</span></button>`).join("")}</div><p class="finePrint">Tap your own object to select it. Move, rotate or remove it from the selection bar.</p>`,
     );
+    for (const filter of $("modal").querySelectorAll<HTMLButtonElement>(
+      "[data-category]",
+    ))
+      filter.onclick = () => {
+        for (const button of $("modal").querySelectorAll<HTMLButtonElement>(
+          "[data-category]",
+        ))
+          button.setAttribute("aria-pressed", String(button === filter));
+        for (const asset of $("modal").querySelectorAll<HTMLElement>(
+          "[data-asset]",
+        ))
+          asset.hidden =
+            filter.dataset.category !== "All" &&
+            asset.dataset.group !== filter.dataset.category;
+      };
     for (const button of $("modal").querySelectorAll<HTMLButtonElement>(
       "[data-asset]",
     ))
@@ -832,30 +885,38 @@ class AdventureGame {
       };
   }
   private assetName(id: string) {
-    return id
-      .replace("building_", "")
-      .replace("home_A", "Cottage")
-      .replace("home_B", "Tall cottage")
-      .replace(/-/g, " ")
-      .replace(/_/g, " ")
-      .replace(/a$/, "")
-      .replace(/\b\w/g, (c) => c.toUpperCase());
+    return (
+      buildLabel(id) ||
+      id
+        .replace("building_", "")
+        .replace("home_A", "Cottage")
+        .replace("home_B", "Tall cottage")
+        .replace(/-/g, " ")
+        .replace(/_/g, " ")
+        .replace(/a$/, "")
+        .replace(/\b\w/g, (c) => c.toUpperCase())
+    );
   }
-  private beginPlacement(asset: string) {
-    if (this.data.objects.length >= 200) {
+  private beginPlacement(asset: string, existing?: Placement) {
+    this.cancelEdit();
+    if (!existing && this.data.objects.length >= 200) {
       this.toast(
         "This place has 200 objects. Remove one before adding another.",
       );
       return;
     }
-    this.pending = {
-      id: crypto.randomUUID(),
-      asset,
-      x: 0,
-      z: 0,
-      yaw: 0,
-      scale: DEFINITIONS.get(asset)!.scale,
-    };
+    this.pending = existing
+      ? { ...existing }
+      : {
+          id: crypto.randomUUID(),
+          asset,
+          x: 0,
+          z: 0,
+          yaw: 0,
+          scale: DEFINITIONS.get(asset)!.scale,
+        };
+    this.moving = existing?.id || null;
+    if (existing) this.userRoots.get(existing.id)!.visible = false;
     this.ghost = this.library.create(asset, this.pending.scale);
     this.ghost.traverse((o) => {
       if (o instanceof T.Mesh) {
@@ -873,6 +934,7 @@ class AdventureGame {
     this.scene.add(this.ghost);
     this.selection = null;
     $("editBar").hidden = false;
+    document.body.classList.add("editing");
     $("editName").textContent = this.assetName(asset);
     $("editMove").hidden = true;
     $("editRemove").hidden = true;
@@ -973,6 +1035,8 @@ class AdventureGame {
     this.pending = null;
     this.moving = null;
     this.selection = null;
+    this.selectionOutline.visible = false;
+    document.body.classList.remove("editing");
     $("editBar").hidden = true;
   }
   private tap(x: number, y: number) {
@@ -983,6 +1047,23 @@ class AdventureGame {
       this.camera,
     );
     const hit = ray.intersectObjects([...this.userRoots.values()], true)[0];
+    if (
+      hit &&
+      this.landscape.obstacles.some((b) => {
+        const box = new T.Box3(
+          new T.Vector3(b.minX, -3, b.minZ),
+          new T.Vector3(b.maxX, b.height, b.maxZ),
+        );
+        const obstruction = ray.ray.intersectBox(box, new T.Vector3());
+        return (
+          !!obstruction &&
+          this.camera.position.distanceTo(obstruction) < hit.distance - 0.05
+        );
+      })
+    ) {
+      this.cancelEdit();
+      return;
+    }
     if (!hit) {
       this.cancelEdit();
       return;
@@ -991,6 +1072,8 @@ class AdventureGame {
     while (root && !root.userData.placementId) root = root.parent;
     if (!root) return;
     this.selection = root.userData.placementId;
+    this.refreshSelection();
+    document.body.classList.add("editing");
     $("editBar").hidden = false;
     $("editName").textContent = this.assetName(
       this.data.objects.find((p) => p.id === this.selection)!.asset,
@@ -999,14 +1082,18 @@ class AdventureGame {
     $("editRemove").hidden = false;
     $("editConfirm").hidden = true;
   }
+  private refreshSelection() {
+    const root = this.selection ? this.userRoots.get(this.selection) : null;
+    this.selectionOutline.visible = !!root;
+    if (root) {
+      root.updateMatrixWorld(true);
+      this.selectionOutline.box.setFromObject(root).expandByScalar(0.04);
+    }
+  }
   private moveSelected() {
     if (!this.selection) return;
     const p = this.data.objects.find((p) => p.id === this.selection)!;
-    this.beginPlacement(p.asset);
-    this.moving = p.id;
-    this.pending = { ...p };
-    this.userRoots.get(p.id)!.visible = false;
-    this.updateGhost();
+    this.beginPlacement(p.asset, p);
   }
   private removeSelected() {
     if (!this.selection) return;

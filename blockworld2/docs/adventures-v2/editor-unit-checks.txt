@@ -1,0 +1,25 @@
+
+> blockworld2@0.1.0 test:adventures
+> node --import tsx --test tests/adventures*.test.ts
+
+✔ every offered catalogue asset has a real, current PNG render matching its licensed source (2.597967ms)
+✔ control preferences survive a reload in their own key (1.495945ms)
+✔ invalid preferences and denied browser storage fall back without blocking play (0.320474ms)
+✔ late edits during delayed world read preserve ownership (17.438436ms)
+✔ quota failure aborts switching and retains source; recovery creates a new record (3.61389ms)
+✔ invalid import creates no records; valid import always creates a separate copy (3.404954ms)
+✔ stale tab conflicts retain the newer checkpoint (14.372277ms)
+✔ water, bridge and footprint boundaries allow safe crossing (0.878175ms)
+✔ LAN HTTP UUID fallback retains RFC4122 version/variant and avoids collisions (3.228348ms)
+✔ preview 01 records retain their original layout while fresh records use the new scene (4.356499ms)
+✔ fresh copies receive distinct names without renaming old worlds (1.89625ms)
+✔ soft woodland loop stays on dry ground with close, continuous samples (4.227445ms)
+✔ closed woodland-edge trail joins without duplicate zero-length segments (0.622368ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1296.050227
