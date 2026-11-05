@@ -252,6 +252,7 @@ export class Session {
       this.game.paused = true;
       this.game.controls.clear();
       this.game.vertical = 0;
+      const records = await this.store.list();
       const modal = document.querySelector<HTMLElement>("#modal")!;
       modal.hidden = false;
       modal.innerHTML =
@@ -261,7 +262,7 @@ export class Session {
           document.querySelector("#worldError")!.textContent = String(e);
         });
       };
-      for (const r of await this.store.list()) {
+      for (const r of records) {
         const row = document.createElement("div");
         row.className = "worldRow";
         const play = document.createElement("button");

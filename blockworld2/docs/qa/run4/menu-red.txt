@@ -1,0 +1,51 @@
+
+> blockworld2@0.1.0 test:browser
+> playwright test --grep world menu cannot expose|real backup download and file-input restore
+
+[WebServer] (node:42066) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:42085) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:42085) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/qa-session.spec.ts:2:1 › world menu cannot expose import controls before database preparation finishes (10.0s)
+(node:42240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:42240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/browser/worlds.spec.ts:85:1 › real backup download and file-input restore create a separate instance (5.9s)
+
+
+  1) tests/browser/qa-session.spec.ts:2:1 › world menu cannot expose import controls before database preparation finishes
+
+    Error: expect(locator).toBeHidden() failed
+
+    Locator:  locator('#import')
+    Expected: hidden
+    Received: visible
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeHidden" with timeout 5000ms
+      - waiting for locator('#import')
+        9 × locator resolved to <input id="import" type="file" accept=".bw2,.json,application/json"/>
+          - unexpected value "visible"
+
+
+      17 |   await page.locator("#worlds").tap();
+      18 |   await page.waitForFunction(() => (window as any).listEntered);
+    > 19 |   await expect(page.locator("#import")).toBeHidden();
+         |                                         ^
+      20 |   await page.evaluate(() => (window as any).releaseList());
+      21 |   await expect(page.locator("#import")).toBeVisible();
+      22 |   await page
+        at /workspace/object-builder/blockworld2/tests/browser/qa-session.spec.ts:19:41
+
+    Error Context: test-results/qa-session-world-menu-cann-2a0ed-tabase-preparation-finishes/error-context.md
+
+  1 failed
+    tests/browser/qa-session.spec.ts:2:1 › world menu cannot expose import controls before database preparation finishes
+  1 passed (21.4s)

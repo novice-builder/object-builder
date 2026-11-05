@@ -8,8 +8,14 @@ Run 3 branch, documentation, packages, earlier archives/releases, frozen mechani
 
 ## Baseline
 
-Pending execution: existing 107 deterministic tests, TypeScript/build/preservation and 44 browser scenarios (43 expected passes, one explicit managed file-navigation skip). Run once before runtime changes. Record actual results and investigate failures as baseline defects. Environment: Node 24.19.0, Chromium 154.0.8037.57, Playwright touch/viewport emulation with SwiftShader. No physical Lenovo/iPhone/Safari results are claimed.
+Executed once before runtime changes: 107 deterministic tests, TypeScript/build/preservation passed. Browser baseline: 42 passed, one failed malformed-import feedback case and one explicit managed-file-policy skip (44 total). The failure was investigated and deterministically reproduced as QA-001, not attributed to new changes. Raw evidence: docs/qa/run4/baseline-*.txt. Environment: Node 24.19.0, Chromium 154.0.8037.57, Playwright touch/viewport emulation with SwiftShader. No physical Lenovo/iPhone/Safari results are claimed.
 
 ## Repair ledger
 
-Confirmed repairs will record ID/severity, reproduction, expected/actual behavior, root cause, focused correction, regressions, executed result and verified checkpoint. Suspicions and environment limitations stay separate from confirmed defects. No repair is currently claimed.
+Confirmed repairs will record ID/severity, reproduction, expected/actual behavior, root cause, focused correction, regressions, executed result and verified checkpoint. Suspicions and environment limitations stay separate from confirmed defects. Confirmed repairs are recorded below; exploratory Node probes outside the source tree are distinguished from browser regressions.
+
+### QA-001 — Medium: visible backup controls without handlers
+
+Reproduction: delay WorldStore.list while opening Worlds, then try the immediately visible Import control. Expected: controls are exposed only when usable and a malformed file displays an error without changing worlds. Actual: the change event occurs before onchange is attached and is silently lost. This explains the baseline malformed-import assertion; its isolated ordinary rerun passed, while the delayed-read test failed reliably.
+
+Cause: menu HTML appeared before awaiting the asynchronous world list, but import/export/world handlers were attached after that await. Fix: read the list first, then render and attach every handler synchronously. No save schema/layout/archive changes. Regression: tests/browser/qa-session.spec.ts delayed database readiness. Verification: new regression plus website and standalone backup scenarios all passed (three browser cases), strict TypeScript/build/protection passed. Associated checkpoint: the focused menu-readiness repair commit; its verified hash is added at the next ledger update.

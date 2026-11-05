@@ -1,0 +1,18 @@
+
+> blockworld2@0.1.0 test:browser
+> playwright test --grep world menu cannot expose|real backup download and file-input restore|single-file HTML backup
+
+[WebServer] (node:42907) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:42929) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:42929) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/qa-session.spec.ts:2:1 › world menu cannot expose import controls before database preparation finishes (5.0s)
+  ✓  2 tests/browser/standalone.spec.ts:116:1 › single-file HTML backup download and file input restore a separate copy (5.0s)
+  ✓  3 tests/browser/worlds.spec.ts:85:1 › real backup download and file-input restore create a separate instance (4.6s)
+
+  3 passed (19.2s)
