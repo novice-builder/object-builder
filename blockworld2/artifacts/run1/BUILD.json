@@ -1,0 +1,42 @@
+{
+  "prototype": "BlockWorld 2.0 Run 1 Sunbeam Town development preview",
+  "branch": "codex/blockworld2-r1b-expansion",
+  "sourceCommit": "f953b7895c8ee8b5245594c0892c11216aa3d252",
+  "sourceDirty": false,
+  "buildId": "c2f7ae3a6a0985fe",
+  "lockfileSha256": "ae21d43ab69589b1e1e173bbdef6300ebb7d368822589ff3715773304d71a764",
+  "archive": "blockworld2-run1-preview.zip",
+  "archiveBytes": 219889,
+  "archiveSha256": "239ef2ecb882bbd7154f8ac4bd176ddc9f11a3f067b55da82646a20dbda5f934",
+  "builtFileCount": 13,
+  "content": {
+    "catalogueEntries": 111,
+    "additionalPresets": 4,
+    "furnishedMainBuildings": 12,
+    "garages": 3,
+    "clearPlots": 4,
+    "mapDestinations": 16,
+    "residents": 6,
+    "animalSpecies": 4,
+    "trafficCars": 2,
+    "playerBuggies": 1
+  },
+  "validation": {
+    "deterministicTestsPassed": 72,
+    "browserScenariosPassed": 22,
+    "typecheckPassed": true,
+    "protectedOriginalFilesUnchanged": 49,
+    "frozenUpstreamModulesUnchanged": 20,
+    "historicalFoundationArchiveUnchanged": true,
+    "repeatCleanBuildsByteIdentical": true,
+    "zipCrcAndManifestHashesVerified": true,
+    "physicalDeviceTestsPerformed": false,
+    "packagingOfflineBrowserScenariosPassed": 2
+  },
+  "protectedMain": "1ffd35ed971afa7820734cf10a3287ab546f6306",
+  "protectedFoundation": "fefc37af077a657130b5aa289820210771cb4587",
+  "archiveNormalization": "sorted paths, fixed 2026-11-05 00:00:00 timestamp, Unix regular-file mode 0644, deflate level 9",
+  "deployed": false,
+  "previewUrl": null,
+  "publicationBlocker": "Connected tool lacks repository/Pages administration; GitHub CLI authentication invalid. See docs/PREVIEW.md."
+}
