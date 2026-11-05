@@ -3,7 +3,7 @@ import json, pathlib, time, os
 from playwright.sync_api import sync_playwright
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 BASE=os.environ.get('ADVENTURES_QA_URL','http://127.0.0.1:5174')
-OUT=ROOT/'docs/adventures-v1'
+OUT=ROOT/os.environ.get('ADVENTURES_QA_OUTPUT','docs/adventures-v1')
 SHOTS=OUT/'screenshots'
 SHOTS.mkdir(parents=True,exist_ok=True)
 results={'environment':'Chromium / SwiftShader on managed Linux; emulation only, no physical devices','checks':[],'metrics':{}}

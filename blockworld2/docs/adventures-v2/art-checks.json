@@ -1,0 +1,106 @@
+{
+  "checks": [
+    {
+      "name": "village preview-01 geometry, collisions and saved objects preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "village imported old record uses layout 1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "village fresh record uses layout 2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "village new trails stay on dry banks",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "woodland preview-01 geometry, collisions and saved objects preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "woodland imported old record uses layout 1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "woodland fresh record uses layout 2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "woodland new trails stay on dry banks",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "meadow preview-01 geometry, collisions and saved objects preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "meadow imported old record uses layout 1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "meadow fresh record uses layout 2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no runtime errors in compatibility/art pass",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "views": {
+    "village": {
+      "fps": 1,
+      "frameP95Ms": 32982,
+      "drawCalls": 186,
+      "triangles": 213835,
+      "geometries": 83,
+      "textures": 12,
+      "pixelRatio": 1,
+      "scene": "village",
+      "natureInstances": 1967,
+      "objects": 0,
+      "quality": "balanced"
+    },
+    "woodland": {
+      "fps": 2,
+      "frameP95Ms": 10316.2,
+      "drawCalls": 136,
+      "triangles": 198997,
+      "geometries": 65,
+      "textures": 11,
+      "pixelRatio": 1,
+      "scene": "woodland",
+      "natureInstances": 1750,
+      "objects": 0,
+      "quality": "balanced"
+    },
+    "meadow": {
+      "fps": 1,
+      "frameP95Ms": 10316.2,
+      "drawCalls": 135,
+      "triangles": 170438,
+      "geometries": 66,
+      "textures": 11,
+      "pixelRatio": 1,
+      "scene": "meadow",
+      "natureInstances": 1481,
+      "objects": 0,
+      "quality": "balanced"
+    }
+  },
+  "environment": "Managed Chromium / SwiftShader; physical devices and Safari unverified."
+}

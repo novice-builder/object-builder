@@ -41,3 +41,9 @@ Checkpoint real improvements with appropriate tests/renders, commit, push and in
 ## Confirmed scheduling state
 
 The native scheduling service confirmed an enabled **one-time continuation attempt at 04:27:53 ACDT on 6 November 2026** (`2026-11-05T17:57:53Z`). It preserves the current thread and requests inherited environment selection; returned environment details and next-run-time fields were null. This confirms scheduling, not a successful future run or known allowance-reset time. The prompt requires checking GitHub and skipping overlapping writers. No other project continuation was created, and no banked reset was redeemed. Machine-readable evidence: `docs/adventures-v1/continuation-schedule.json`.
+
+## Continuation run — scenery milestone
+
+Resumed from remote `b15a4f356e9bbd3c44de9af1cd6fdf0cfa24b14f`, with a clean worktree, no other active agent/checkout writer observed, and an exclusive local `flock` held for this run. Remote movement must stop a push rather than overwrite another writer. No deployment, main/website edits or allowance redemption occurred.
+
+New worlds now carry optional Adventures `layout: 2`; missing/1 retains preview 01 scenery. Layout is inside the existing adventure extension, with no native store/schema change. New layouts add smooth earth trails, planted clearings, bank reeds, subtle tree colour variation and distant terrain beyond the walk boundary. Old record geometry/collision/path/object fingerprints match the extracted preview-01 runtime in all three scenes. Fresh copies get distinct names without renaming old records. Tests and real before/after renders are under `docs/adventures-v2/`: 10 focused deterministic tests and 12 art/compatibility browser checks pass, plus strict build/preservation. Preview 01 archives and its evidence stay unchanged. Preview 02 packaging and editor improvements are the next active work; do not represent them as finished from this milestone alone.

@@ -1,0 +1,22 @@
+
+> blockworld2@0.1.0 test:adventures
+> node --import tsx --test tests/adventures*.test.ts
+
+✔ late edits during delayed world read preserve ownership (27.912341ms)
+✔ quota failure aborts switching and retains source; recovery creates a new record (4.651767ms)
+✔ invalid import creates no records; valid import always creates a separate copy (3.688374ms)
+✔ stale tab conflicts retain the newer checkpoint (2.078495ms)
+✔ water, bridge and footprint boundaries allow safe crossing (0.565403ms)
+✔ LAN HTTP UUID fallback retains RFC4122 version/variant and avoids collisions (3.159626ms)
+✔ preview 01 records retain their original layout while fresh records use the new scene (4.187707ms)
+✔ fresh copies receive distinct names without renaming old worlds (2.9372ms)
+✔ soft woodland loop stays on dry ground with close, continuous samples (4.329821ms)
+✔ closed woodland-edge trail joins without duplicate zero-length segments (0.548307ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 723.118916

@@ -5,6 +5,8 @@ import { WORLDS, type Placement, type SceneId } from "./landscape";
 export interface AdventureData {
   version: 1;
   scene: SceneId;
+  /** Missing in preview 01: retain its original permanent scene layout. */
+  layout?: 1 | 2;
   objects: Placement[];
   discoveries: string[];
 }
@@ -20,6 +22,7 @@ export function validateAdventure(s: Snapshot): AdventureData {
   if (
     !a ||
     a.version !== 1 ||
+    (a.layout !== undefined && a.layout !== 1 && a.layout !== 2) ||
     !WORLDS.some((w) => w.id === a.scene) ||
     !Array.isArray(a.objects) ||
     a.objects.length > 200 ||
@@ -49,7 +52,7 @@ export function validateAdventure(s: Snapshot): AdventureData {
   }
   if (Math.abs(s.player.x) > 84 || Math.abs(s.player.z) > 84)
     throw Error("Player outside the preview boundary.");
-  return structuredClone(a);
+  return { ...structuredClone(a), layout: a.layout ?? 1 };
 }
 export function makeSnapshot(
   data: AdventureData,
@@ -96,7 +99,7 @@ export class AdventureSession {
       record = await this.store.create(
         w.name,
         makeSnapshot(
-          { version: 1, scene: w.id, objects: [], discoveries: [] },
+          { version: 1, scene: w.id, layout: 2, objects: [], discoveries: [] },
           { ...w.spawn, yaw: w.yaw, pitch: 0.47 },
         ),
       );
@@ -160,10 +163,15 @@ export class AdventureSession {
       await this.flush();
       const w = WORLDS.find((w) => w.id === scene)!;
       const snapshot = makeSnapshot(
-        { version: 1, scene, objects: [], discoveries: [] },
+        { version: 1, scene, layout: 2, objects: [], discoveries: [] },
         { ...w.spawn, yaw: w.yaw, pitch: 0.47 },
       );
-      const record = await this.store.create(w.name, snapshot);
+      const records = await this.store.list();
+      const used = new Set(records.map((r) => r.name));
+      let name = w.name,
+        index = 2;
+      while (used.has(name)) name = w.name + " " + index++;
+      const record = await this.store.create(name, snapshot);
       this.apply(snapshot);
       this.current = record;
       this.last = encode(snapshot).json;

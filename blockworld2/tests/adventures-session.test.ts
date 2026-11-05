@@ -164,3 +164,36 @@ test("LAN HTTP UUID fallback retains RFC4122 version/variant and avoids collisio
   installUUIDFallback(target);
   assert.equal(target.randomUUID, original);
 });
+
+test("preview 01 records retain their original layout while fresh records use the new scene", async () => {
+  const f = await fixture();
+  try {
+    assert.equal(validateAdventure(f.get()).layout, 1);
+    const original = (await f.session.store.load(f.a.id)).snapshot;
+    await f.session.create("woodland");
+    assert.equal(validateAdventure(f.get()).layout, 2);
+    await f.session.open(f.a.id);
+    assert.equal(validateAdventure(f.get()).layout, 1);
+    assert.deepEqual((await f.session.store.load(f.a.id)).snapshot, original);
+    const bad = initial("village");
+    (bad.world.adventure as any).layout = 3;
+    assert.throws(() => validateAdventure(bad), /supported Adventures/);
+  } finally {
+    f.session.store.db.close();
+  }
+});
+test("fresh copies receive distinct names without renaming old worlds", async () => {
+  const f = await fixture();
+  try {
+    await f.session.create("meadow");
+    const a = f.session.current!;
+    await f.session.create("meadow");
+    const b = f.session.current!;
+    assert.notEqual(a.id, b.id);
+    assert.equal(a.name, "Maker’s Meadow");
+    assert.equal(b.name, "Maker’s Meadow 2");
+    assert.equal((await f.session.store.load(a.id)).record.name, a.name);
+  } finally {
+    f.session.store.db.close();
+  }
+});

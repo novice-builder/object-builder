@@ -42,6 +42,7 @@ export const ASSETS: AssetDefinition[] = [
   village("crate_A_small", 5, "prop"),
   village("sack", 5, "prop"),
   village("wheelbarrow", 5, "prop"),
+  village("waterplant_A", 3, "nature"),
   nature("tree-oak", 2.7),
   nature("tree-detailed", 2.8),
   nature("tree-pinedefaulta", 3.1),

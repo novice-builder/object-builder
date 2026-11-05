@@ -1,0 +1,13 @@
+PASS village preview-01 geometry, collisions and saved objects preserved
+PASS village imported old record uses layout 1
+PASS village fresh record uses layout 2
+PASS village new trails stay on dry banks
+PASS woodland preview-01 geometry, collisions and saved objects preserved
+PASS woodland imported old record uses layout 1
+PASS woodland fresh record uses layout 2
+PASS woodland new trails stay on dry banks
+PASS meadow preview-01 geometry, collisions and saved objects preserved
+PASS meadow imported old record uses layout 1
+PASS meadow fresh record uses layout 2
+PASS no runtime errors in compatibility/art pass
+CHECKS 12

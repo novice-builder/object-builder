@@ -124,7 +124,19 @@ function paving() {
         (row * 7 + col + 100) % 4
       ];
       c.beginPath();
-      c.roundRect(x + 2, y + 2, 60, 28, 5);
+      if (typeof c.roundRect === "function")
+        c.roundRect(x + 2, y + 2, 60, 28, 5);
+      else {
+        c.moveTo(x + 7, y + 2);
+        c.lineTo(x + 57, y + 2);
+        c.quadraticCurveTo(x + 62, y + 2, x + 62, y + 7);
+        c.lineTo(x + 62, y + 25);
+        c.quadraticCurveTo(x + 62, y + 30, x + 57, y + 30);
+        c.lineTo(x + 7, y + 30);
+        c.quadraticCurveTo(x + 2, y + 30, x + 2, y + 25);
+        c.lineTo(x + 2, y + 7);
+        c.quadraticCurveTo(x + 2, y + 2, x + 7, y + 2);
+      }
       c.fill();
       c.fillStyle = "#e1d7c1";
       c.fillRect(x + 8, y + 3, 43, 1);
@@ -135,6 +147,38 @@ function paving() {
   t.repeat.set(0.6, 0.6);
   t.anisotropy = 4;
   return t;
+}
+function earthTexture() {
+  const c = document.createElement("canvas");
+  c.width = c.height = 128;
+  const ctx = c.getContext("2d")!;
+  ctx.fillStyle = "#b5a17d";
+  ctx.fillRect(0, 0, 128, 128);
+  for (let i = 0; i < 650; i++) {
+    const x = (i * 73) % 128,
+      y = (i * 31 + Math.floor(i / 128) * 17) % 128;
+    ctx.fillStyle = i % 3 === 0 ? "#bca986" : "#aa9674";
+    ctx.fillRect(x, y, i % 4 === 0 ? 2 : 1, 1);
+  }
+  const texture = new T.CanvasTexture(c);
+  texture.colorSpace = T.SRGBColorSpace;
+  texture.wrapS = texture.wrapT = T.RepeatWrapping;
+  texture.repeat.set(0.45, 0.45);
+  texture.anisotropy = 4;
+  return texture;
+}
+export function smoothTrail(points: number[][], spacing = 1.3) {
+  const closed =
+    points.length > 3 &&
+    points[0][0] === points[points.length - 1][0] &&
+    points[0][1] === points[points.length - 1][1];
+  const controls = (closed ? points.slice(0, -1) : points).map(
+    ([x, z]) => new T.Vector3(x, 0, z),
+  );
+  const curve = new T.CatmullRomCurve3(controls, closed, "centripetal");
+  return curve
+    .getSpacedPoints(Math.max(2, Math.ceil(curve.getLength() / spacing)))
+    .map((p) => [p.x, p.z]);
 }
 export class Landscape {
   group = new T.Group();
@@ -148,10 +192,12 @@ export class Landscape {
   private buckets = new Map<string, { id: string; matrices: T.Matrix4[] }>();
   private paths: { points: number[][]; width: number }[] = [];
   private pathMaterial: T.MeshStandardMaterial;
+  private trailMaterial: T.MeshStandardMaterial;
   private assetRoots: T.Object3D[] = [];
   constructor(
     readonly library: AssetLibrary,
     readonly id: SceneId,
+    readonly layout: 1 | 2 = 1,
   ) {
     seed = id === "village" ? 5678 : id === "woodland" ? 22111 : 9976;
     const texture = paving();
@@ -163,11 +209,17 @@ export class Landscape {
         roughness: 1,
       }),
     );
+    const earth = earthTexture();
+    this.ownedTextures.push(earth);
+    this.trailMaterial = this.material(
+      new T.MeshStandardMaterial({ map: earth, roughness: 1, color: 0xe2d8bb }),
+    );
     this.terrain();
     if (id === "village") this.village();
     else if (id === "woodland") this.woodland();
     else this.meadow();
     this.surroundings();
+    if (this.layout === 2) this.plantedClearings();
     this.flushInstances();
     this.group.updateMatrixWorld(true);
   }
@@ -183,7 +235,10 @@ export class Landscape {
     return mesh;
   }
   private terrain() {
-    const geo = new T.PlaneGeometry(190, 190, 95, 95);
+    const geo =
+      this.layout === 2
+        ? new T.PlaneGeometry(360, 360, 144, 144)
+        : new T.PlaneGeometry(190, 190, 95, 95);
     geo.rotateX(-Math.PI / 2);
     const pos = geo.getAttribute("position"),
       colors = [];
@@ -191,7 +246,13 @@ export class Landscape {
       const x = pos.getX(i),
         z = pos.getZ(i),
         h = groundHeight(x, z, this.id);
-      pos.setY(i, h);
+      const distant =
+        this.layout === 2
+          ? Math.max(0, Math.hypot(x * 0.9, z) - 85) *
+            0.18 *
+            (1 + 0.3 * Math.sin(x * 0.045) * Math.cos(z * 0.035))
+          : 0;
+      pos.setY(i, h + distant);
       const noise =
         Math.sin(x * 0.27 + z * 0.17) * 0.018 +
         Math.cos(x * 0.13 - z * 0.21) * 0.017;
@@ -244,7 +305,18 @@ export class Landscape {
       );
     }
   }
-  private path(points: number[][], width = 3.2) {
+  private trail(points: number[][], width = 2.2) {
+    if (this.layout === 1) {
+      this.path(points, width);
+      return;
+    }
+    this.path(
+      points.length > 2 ? smoothTrail(points) : points,
+      width,
+      this.trailMaterial,
+    );
+  }
+  private path(points: number[][], width = 3.2, material = this.pathMaterial) {
     this.paths.push({ points, width });
     const v: number[] = [],
       uv: number[] = [],
@@ -323,7 +395,7 @@ export class Landscape {
     geo.setAttribute("uv", new T.Float32BufferAttribute(uv, 2));
     geo.setIndex(ix);
     geo.computeVertexNormals();
-    this.mesh(geo, this.pathMaterial);
+    this.mesh(geo, material);
   }
   private disc(x: number, z: number, r: number, color: number, stones = false) {
     const geometry = new T.CircleGeometry(r, 48);
@@ -541,7 +613,7 @@ export class Landscape {
       },
     );
     this.bridge();
-    this.path(
+    this.trail(
       [
         [39, 8],
         [47, 0],
@@ -554,7 +626,7 @@ export class Landscape {
       ],
       2.2,
     );
-    this.path(
+    this.trail(
       [
         [56, -4],
         [56, -8.5],
@@ -624,7 +696,7 @@ export class Landscape {
     });
   }
   private woodland() {
-    this.path(
+    this.trail(
       [
         [0, 38],
         [0, 22],
@@ -639,16 +711,37 @@ export class Landscape {
       ],
       2.6,
     );
-    this.path(
-      [
-        [22, 8],
-        [39, 8],
-        [46, 8],
-        [58, -3],
-        [60, -24],
-      ],
-      2.3,
-    );
+    if (this.layout === 1)
+      this.path(
+        [
+          [22, 8],
+          [39, 8],
+          [46, 8],
+          [58, -3],
+          [60, -24],
+        ],
+        2.3,
+      );
+    else {
+      this.path(
+        [
+          [22, 8],
+          [39, 8],
+          [46, 8],
+        ],
+        2.3,
+        this.trailMaterial,
+      );
+      this.trail(
+        [
+          [46, 8],
+          [58, -3],
+          [60, -24],
+        ],
+        2.3,
+      );
+    }
+
     this.bridge();
     this.place("tent-smallopen", -9, -17, 3.2, 0.5, true);
     this.place("campfire-stones", 0, -14, 2, 0, true);
@@ -816,6 +909,59 @@ export class Landscape {
         }
       }
   }
+  private plantedClearings() {
+    if (this.id === "meadow") return;
+    const patches =
+      this.id === "woodland"
+        ? [
+            [-12, -12],
+            [-4, -20],
+            [5, -8],
+            [11, -25],
+            [18, 15],
+            [52, 1],
+            [60, -17],
+          ]
+        : [
+            [45, 17],
+            [51, -7],
+            [62, -5],
+            [61, 20],
+            [54, 15],
+          ];
+    for (const [cx, cz] of patches)
+      for (let i = 0; i < 38; i++) {
+        const angle = random() * Math.PI * 2,
+          r = Math.sqrt(random()) * 3.2,
+          x = cx + Math.cos(angle) * r,
+          z = cz + Math.sin(angle) * r;
+        if (
+          this.nearPath(x, z, 0.75) ||
+          blocked(x, z, this.obstacles, 0.65) ||
+          waterBlocked(x, z, this.id)
+        )
+          continue;
+        const asset =
+          i % 7 === 0
+            ? "plant-bushsmall"
+            : i % 5 === 0
+              ? "mushroom-red"
+              : i % 3 === 0
+                ? "flower-yellowa"
+                : i % 2 === 0
+                  ? "flower-purplea"
+                  : "grass-large";
+        this.instance(asset, x, z, 0.9 + random() * 0.7, random() * 6.28);
+      }
+    for (let i = 0; i < 45; i++) {
+      const z = -70 + i * 3.1;
+      if (Math.abs(z - 8) < 6) continue;
+      const x = riverX(z) + (i % 2 ? 3.55 : -3.55);
+      if (this.nearPath(x, z, 0.8) || blocked(x, z, this.obstacles, 0.7))
+        continue;
+      this.instance("waterplant_A", x, z, 3.1 + random(), random() * 6.28);
+    }
+  }
   private flushInstances() {
     for (const { id, matrices } of this.buckets.values()) {
       const source = this.library.models.get(id)!;
@@ -834,6 +980,12 @@ export class Landscape {
             i,
             new T.Matrix4().multiplyMatrices(matrices[i], o.matrixWorld),
           );
+        if (this.layout === 2 && id.startsWith("tree"))
+          for (let i = 0; i < matrices.length; i++) {
+            const p = new T.Vector3().setFromMatrixPosition(matrices[i]),
+              v = 0.83 + (Math.sin(p.x * 13.7 + p.z * 7.3) * 0.5 + 0.5) * 0.22;
+            inst.setColorAt(i, new T.Color(v, v + 0.015, v - 0.02));
+          }
         inst.computeBoundingSphere();
         this.group.add(inst);
       });

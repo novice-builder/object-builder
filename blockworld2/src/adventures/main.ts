@@ -275,7 +275,7 @@ class AdventureGame {
   }
   apply(snapshot: Snapshot) {
     const data = validateAdventure(snapshot),
-      candidate = new Landscape(this.library, data.scene);
+      candidate = new Landscape(this.library, data.scene, data.layout);
     // Prepare a complete replacement before retiring the old scene.
     const previous = this.landscape;
     this.landscape = candidate;
