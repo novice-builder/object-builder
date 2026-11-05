@@ -33,6 +33,10 @@ import { detailedPiece } from "../legacy06/pieces.js";
 const updateDoors = legacyUpdateDoors as (...args: any[]) => boolean;
 export class Game {
   activity: Activity | null = null;
+  seated: {
+    entry: { x: number; z: number; yaw: number };
+    height: number;
+  } | null = null;
   body = avatar();
   cameraMode: "first" | "third" = "first";
   flying = false;
@@ -159,6 +163,7 @@ export class Game {
         "Saved vehicle overlaps structures; active world is retained",
       );
     }
+    this.seated = null;
     this.activity?.dispose();
     this.activity = null;
     this.flying = false;
@@ -197,6 +202,10 @@ export class Game {
       ms = new Set<T.Material>(),
       ts = new Set<T.Texture>();
     group.traverse((o: any) => {
+      if (o.isSprite) {
+        ms.add(o.material);
+        if (o.material.map) ts.add(o.material.map);
+      }
       if (o.isMesh) {
         gs.add(o.geometry);
         for (const m of Array.isArray(o.material) ? o.material : [o.material]) {
@@ -268,7 +277,9 @@ export class Game {
         ...this.world.doors.map((d: any) => doorBox(d)),
         ...this.commands.blocks.flatMap(blockColliders),
       ];
-    if (!this.activity?.driving) {
+    if (this.seated && Math.abs(input.forward) + Math.abs(input.right) > 0.2)
+      this.stand();
+    if (!this.activity?.driving && !this.seated) {
       if (this.flying)
         fly(
           this.player,
@@ -301,7 +312,14 @@ export class Game {
     this.view.renderer.render(this.view.scene, this.view.camera);
   }
   updateCamera() {
-    this.body.group.position.set(this.player.x, this.player.y, this.player.z);
+    this.body.group.position.set(
+      this.player.x,
+      this.seated ? this.seated.height - 0.65 : this.player.y,
+      this.player.z,
+    );
+    this.body.left.rotation.x = this.body.right.rotation.x = this.seated
+      ? -1.2
+      : 0;
     this.body.group.rotation.y = this.player.yaw;
     this.body.group.visible = false;
     if (this.cameraMode === "third") {
@@ -320,7 +338,7 @@ export class Game {
     } else {
       this.view.camera.position.set(
         this.player.x,
-        this.player.y + 1.53,
+        this.seated ? this.seated.height + 0.9 : this.player.y + 1.53,
         this.player.z,
       );
       this.view.camera.rotation.set(this.player.pitch, this.player.yaw, 0);
@@ -475,7 +493,31 @@ export class Game {
       this.notice("✓ Placed");
     }
   }
+  stand() {
+    if (!this.seated) return true;
+    try {
+      Object.assign(
+        this.player,
+        safeGround(this.seated.entry, [
+          ...this.obstacles(),
+          ...this.commands.blocks.flatMap(blockColliders),
+        ]),
+      );
+      this.seated = null;
+      this.refreshModes();
+      this.onEdit();
+      return true;
+    } catch (error) {
+      this.notice(String(error));
+      return false;
+    }
+  }
   use() {
+    if (this.seated) {
+      this.stand();
+      return;
+    }
+
     const built = this.commands.blocks
       .filter(
         (b) =>
@@ -494,6 +536,64 @@ export class Game {
       return;
     }
 
+    const seats = [
+      ...(this.world.seats || []),
+      ...this.commands.blocks
+        .filter((b) => ITEMS.get(b.type)?.interaction === "seat")
+        .map((b) => ({
+          x: b.x + 0.5,
+          z: b.z + 0.5,
+          y: b.y,
+          rotation: b.rotation || 0,
+        })),
+    ];
+    const seat = seats
+      .filter(
+        (s: any) =>
+          Math.abs((s.y || 0) - this.player.y) < 1.2 &&
+          Math.hypot(s.x - this.player.x, s.z - this.player.z) < 2,
+      )
+      .sort(
+        (a: any, b: any) =>
+          Math.hypot(a.x - this.player.x, a.z - this.player.z) -
+          Math.hypot(b.x - this.player.x, b.z - this.player.z),
+      )[0];
+    if (seat) {
+      const origin = new T.Vector3(
+          this.player.x,
+          this.player.y + 1.3,
+          this.player.z,
+        ),
+        target = new T.Vector3(seat.x, (seat.y || 0) + 1.2, seat.z),
+        distance = origin.distanceTo(target),
+        ray = new T.Ray(origin, target.sub(origin).normalize());
+      if (
+        ![
+          ...this.obstacles(),
+          ...this.commands.blocks.flatMap(blockColliders),
+        ].some((b) => rayBoxNear(ray, b) < distance - 0.2)
+      ) {
+        this.seated = {
+          entry: { x: this.player.x, z: this.player.z, yaw: this.player.yaw },
+          height: (seat.y || 0) + 0.4,
+        };
+        Object.assign(this.player, {
+          x: seat.x,
+          y: seat.y || 0,
+          z: seat.z,
+          yaw: ((seat.rotation || 0) * Math.PI) / 180,
+          vy: 0,
+          grounded: true,
+        });
+        this.flying = false;
+        this.vertical = 0;
+        this.controls.clear();
+        this.refreshModes();
+        this.notice("🪑 Sitting · move or tap Use to stand");
+        this.onEdit();
+        return;
+      }
+    }
     if (this.activity) {
       try {
         const message = this.activity.use(this.player, [
@@ -553,6 +653,7 @@ export class Game {
         [...this.obstacles(), ...this.commands.blocks.flatMap(blockColliders)],
       ),
     );
+    this.seated = null;
     this.flying = false;
     if (this.activity) this.activity.driving = false;
     this.vertical = 0;
@@ -561,6 +662,10 @@ export class Game {
     this.cancel();
   }
   jump() {
+    if (this.seated) {
+      this.stand();
+      return;
+    }
     if (
       !this.paused &&
       !this.flying &&
@@ -595,6 +700,7 @@ export class Game {
       this.onEdit();
     });
     on("flyMode", () => {
+      if (this.seated && !this.stand()) return;
       if (this.activity?.driving) {
         this.notice("Leave the car before flying");
         return;
@@ -707,9 +813,11 @@ export class Game {
     document
       .querySelector("#cameraMode")!
       .setAttribute("aria-pressed", String(this.cameraMode === "third"));
-    document.querySelector("#use")!.textContent = this.activity?.driving
-      ? "🚶"
-      : "✋";
+    document.querySelector("#use")!.textContent = this.seated
+      ? "🪑"
+      : this.activity?.driving
+        ? "🚶"
+        : "✋";
   }
   refreshHistory() {
     const u = document.querySelector<HTMLButtonElement>("#undo"),

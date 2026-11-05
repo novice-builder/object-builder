@@ -1,3 +1,5 @@
+import { stepRoute, trafficPose, type RouteState } from "./routes";
+import { animalModel, type Species } from "./animals";
 import * as T from "three";
 import { avatar } from "../player/modes";
 import { overlaps, bodyBox } from "../player/physics.js";
@@ -57,8 +59,11 @@ export class Activity {
     model: T.Group;
     phase: number;
     animal: boolean;
-    left?: T.Mesh;
-    right?: T.Mesh;
+    species?: Species;
+    route: { x: number; z: number }[];
+    state: RouteState;
+    greetUntil: number;
+    limbs: T.Mesh[];
   }[] = [];
   traffic: T.Group[] = [];
   progress = [0, 152];
@@ -68,39 +73,112 @@ export class Activity {
   ) {
     scene.add(this.group);
     this.group.add(this.vehicle);
-    for (let i = 0; i < 4; i++) {
-      const a = avatar([0xd99a7a, 0x8aafa3, 0xd7bf76, 0x91a8bd][i]);
-      this.group.add(a.group);
+    const routes = [
+      [
+        [26, 8],
+        [22, 10],
+        [12, 10],
+        [12, 6],
+        [22, 6],
+      ],
+      [
+        [12, 6],
+        [17, 6],
+        [24, 9],
+        [17, 10],
+      ],
+      [
+        [56, -12],
+        [56, -20.6],
+        [58, -20.6],
+        [56, -12],
+      ],
+      [
+        [56, 0],
+        [56, 9],
+        [58, 5.4],
+      ],
+      [
+        [14, 32],
+        [29, 32],
+        [25, 31],
+      ],
+      [
+        [-9, 16],
+        [-9, 22],
+        [-2, 22],
+        [3, 16],
+      ],
+    ];
+    const addAgent = (
+      model: T.Group,
+      route: number[][],
+      animal: boolean,
+      limbs: T.Mesh[],
+      species?: Species,
+    ) => {
+      const points = route.map(([x, z]) => ({ x, z })),
+        state = { ...points[0], target: 1, wait: 0, stuck: 0 };
+      model.position.set(state.x, 0, state.z);
+      this.group.add(model);
       this.agents.push({
-        model: a.group,
-        phase: i * 0.25,
-        animal: false,
-        left: a.left,
-        right: a.right,
+        model,
+        route: points,
+        state,
+        phase: this.agents.length * 0.4,
+        animal,
+        limbs,
+        greetUntil: 0,
+        species,
       });
+    };
+    for (let i = 0; i < (range > 47 ? 6 : 4); i++) {
+      const a = avatar(
+        [0xd99a7a, 0x8aafa3, 0xd7bf76, 0x91a8bd, 0xb29ab1, 0xb9b786][i],
+      );
+      addAgent(a.group, routes[range > 47 ? i : i % 2], false, [
+        a.left,
+        a.right,
+      ]);
     }
-    for (let i = 0; i < 2; i++) {
-      const g = new T.Group(),
-        geometry = new T.BoxGeometry(1, 1, 1),
-        mat = new T.MeshLambertMaterial({ color: i ? 0xffedb7 : 0xc8b19a });
-      for (const [x, y, z, w, h, d] of [
-        [0, 0.3, 0, 0.65, 0.4, 0.4],
-        [0, 0.57, -0.3, 0.35, 0.3, 0.3],
-        [-0.2, 0.1, 0, 0.1, 0.3, 0.1],
-        [0.2, 0.1, 0, 0.1, 0.3, 0.1],
-        [0, 0.58, -0.53, 0.2, 0.1, 0.2],
-      ]) {
-        const m = new T.Mesh(geometry, mat);
-        m.position.set(x, y, z);
-        m.scale.set(w, h, d);
-        g.add(m);
-      }
-      this.group.add(g);
-      this.agents.push({ model: g, phase: i * 0.5, animal: true });
+    const species: Species[] =
+      range > 47 ? ["dog", "cat", "duck", "horse"] : ["cat", "duck"];
+    const habitats: Record<Species, number[][]> = {
+      dog: [
+        [14, 17],
+        [22, 17],
+        [22, 20],
+        [14, 20],
+      ],
+      cat: [
+        [-12, -5],
+        [-8, -5],
+        [-8, 0],
+        [-12, 0],
+      ],
+      duck: [
+        [28, 24],
+        [32, 24],
+        [32, 27],
+        [28, 27],
+      ],
+      horse: [
+        [-54, 42],
+        [-48, 42],
+        [-48, 47],
+        [-54, 47],
+      ],
+    };
+    for (const name of species) {
+      const a = animalModel(name);
+      addAgent(a.group, habitats[name], true, a.limbs, name);
     }
     for (let i = 0; i < 2; i++) {
       const c = carModel([0xb97f6d, 0x83a7a4][i]);
       this.traffic.push(c);
+      const pose = trafficPose(this.progress[i]);
+      c.position.set(pose.x, 0, pose.z);
+      c.rotation.y = pose.yaw;
       this.group.add(c);
     }
     this.sync();
@@ -153,11 +231,12 @@ export class Activity {
       (a) =>
         Math.hypot(a.model.position.x - p.x, a.model.position.z - p.z) < 2.5,
     );
-    return a
-      ? a.animal
-        ? "♡ Hello, little friend!"
-        : "👋 Hello, neighbour!"
-      : null;
+    if (a && Math.abs(p.y) < 2) {
+      a.greetUntil = this.time + 2;
+      a.model.rotation.y = Math.atan2(p.x - a.state.x, p.z - a.state.z);
+      return a.animal ? `♡ Hello, ${a.species}!` : "👋 Hello, neighbour!";
+    }
+    return null;
   }
   update(
     dt: number,
@@ -179,7 +258,12 @@ export class Activity {
       if (
         Math.abs(c.x) < this.range &&
         Math.abs(c.z) < this.range &&
-        !solids.some((s) => overlaps(carBox(c), s))
+        ![
+          ...solids,
+          ...this.traffic.map((m) =>
+            carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
+          ),
+        ].some((s) => overlaps(carBox(c), s))
       ) {
         this.car = c;
       }
@@ -193,42 +277,63 @@ export class Activity {
       });
       this.sync();
     }
+    const parked = carBox(this.car);
     for (const a of this.agents) {
-      const angle = a.phase * Math.PI * 2 + dt * (a.animal ? 0.13 : 0.08),
-        x = (a.animal ? 22 : 17) + Math.cos(angle) * (a.animal ? 3 : 9),
-        z = (a.animal ? 22 : 8) + Math.sin(angle) * (a.animal ? 2 : 2);
-      const candidate = { x, y: 0, z };
-      if (
-        Math.hypot(x - p.x, z - p.z) > 1 &&
-        !solids.some((s) => overlaps(bodyBox(candidate), s))
-      ) {
-        a.phase = angle / (Math.PI * 2);
-        a.model.position.set(x, 0, z);
-        a.model.rotation.y = -angle - Math.PI / 2;
-      }
-      if (a.left && a.right) {
-        a.left.rotation.x = Math.sin(this.time * 5 + a.phase) * 0.25;
-        a.right.rotation.x = -a.left.rotation.x;
-      }
+      if (Math.hypot(a.state.x - p.x, a.state.z - p.z) > 80) continue;
+      const before = { x: a.state.x, z: a.state.z };
+      let moving = false;
+      if (this.time >= a.greetUntil)
+        moving = stepRoute(
+          a.state,
+          a.route,
+          dt,
+          a.animal ? 0.65 : 1,
+          (x, z) =>
+            Math.hypot(x - p.x, z - p.z) < 1 ||
+            [
+              ...solids,
+              parked,
+              ...this.traffic.map((m) =>
+                carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
+              ),
+            ].some((s) => overlaps(bodyBox({ x, y: 0, z }), s)),
+        );
+      a.model.position.set(a.state.x, 0, a.state.z);
+      if (moving)
+        a.model.rotation.y = Math.atan2(
+          -(a.state.x - before.x),
+          -(a.state.z - before.z),
+        );
+      a.limbs.forEach(
+        (limb, i) =>
+          (limb.rotation.x = moving
+            ? Math.sin(this.time * 5 + a.phase + (i % 2 ? Math.PI : 0)) * 0.2
+            : 0),
+      );
     }
     for (let i = 0; i < this.traffic.length; i++) {
-      const u = (this.progress[i] + dt * 2) % 304;
-      const pos =
-        u < 80
-          ? { x: -40 + u, z: -36, yaw: -Math.PI / 2 }
-          : u < 152
-            ? { x: 40, z: -36 + u - 80, yaw: Math.PI }
-            : u < 232
-              ? { x: 40 - (u - 152), z: 36, yaw: Math.PI / 2 }
-              : { x: -40, z: 36 - (u - 232), yaw: 0 };
-      const car = this.traffic[i];
+      const u = (this.progress[i] + dt * 2) % 304,
+        pos = trafficPose(u),
+        shape = carBox(pos),
+        other = this.traffic
+          .filter((_, n) => n !== i)
+          .map((m) =>
+            carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
+          );
+      const headway = this.progress.some(
+        (p, n) => n !== i && (p - u + 304) % 304 < 6,
+      );
       if (
+        !headway &&
         Math.hypot(pos.x - p.x, pos.z - p.z) > 3 &&
-        !solids.some((s) => overlaps(carBox(pos), s))
+        !this.agents.some(
+          (a) => Math.hypot(a.state.x - pos.x, a.state.z - pos.z) < 2.5,
+        ) &&
+        ![...solids, parked, ...other].some((s) => overlaps(shape, s))
       ) {
         this.progress[i] = u;
-        car.position.set(pos.x, 0, pos.z);
-        car.rotation.y = pos.yaw;
+        this.traffic[i].position.set(pos.x, 0, pos.z);
+        this.traffic[i].rotation.y = pos.yaw;
       }
     }
   }

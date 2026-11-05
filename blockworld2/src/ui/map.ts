@@ -94,6 +94,7 @@ export function openMap(game: Game) {
           ...game.commands.blocks.flatMap(blockColliders),
         ]);
         Object.assign(game.player, p);
+        game.seated = null;
         game.flying = false;
         if (game.activity) game.activity.driving = false;
         game.vertical = 0;

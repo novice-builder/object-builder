@@ -34,3 +34,9 @@ Executed: build/typecheck/protected-file checks passed; 15 focused catalogue/com
 Added the separate Sunbeam Town template: 12 furnished main buildings, 3 functional garages, 4 clear building plots, 16 destinations, original thematic interiors, connected approaches, parks/orchards/landscaping and wider local driving bounds. Existing Home/Square geometry is unchanged.
 
 Executed: 2 deterministic town tests passed (all interiors/plots/garage fit and all 15 door passages); build/typecheck/protected-file checks passed; 3 browser scenarios passed (town/map/old-template switching, vehicle persistence, ambient movement/map safety). See SUNBEAM.md for content and limits.
+
+## Stage E — bounded life and seating complete at preview scope
+
+Added six route-following residents, four distinct animal species/animations, greeting pauses, obstacle waiting/route reconsideration, traffic headway and vehicle collision avoidance. Placed and authored seating supports safe touch sitting/standing and movement-to-stand. World-swap cleanup now disposes sign textures without destroying shared sprite geometry.
+
+Executed: typecheck/build/protected-file checks passed; 7 focused life/movement tests passed; 4 browser scenarios passed (chairs/touch/stand, animal greetings, driving persistence and ambient/map safety). A phase-dependent route-test assertion was corrected to inspect target changes across the run rather than one arbitrary final phase. Remaining simulation limits are in LIFE.md. Full regression and final archive follow.
