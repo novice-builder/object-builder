@@ -1,0 +1,152 @@
+
+> blockworld2@0.1.0 check
+> npm run test && npm run build
+
+
+> blockworld2@0.1.0 test
+> tsx --test tests/*.test.ts
+
+✔ versioned airport adds accessible terminal, aircraft-width hangar and four destinations (3334.33007ms)
+✔ aircraft boarding ramp, floor, aisle and exit use real walking physics (94.044299ms)
+✔ guided passenger flight is bounded, clears authored county and returns to the boarding pose (1166.313399ms)
+✔ a blocked scenic route returns safely without moving or deleting the obstruction (7.840167ms)
+✔ blocked aircraft return retains the airborne passenger and valid pose (6.721445ms)
+✔ all twelve original looks have faces, bounded silhouettes and persistent selection (59.918463ms)
+✔ every curated item renders and has finite rotated collision and native backup support (335.075161ms)
+✔ all twelve presets place as one undoable command and reject partial invalid placement (9.064101ms)
+✔ schema 1 worlds migrate without dropping original creations (0.485905ms)
+✔ slabs and tabletops support precise vertical placement and lossless backups (3.037319ms)
+✔ elevated stairs use their actual base height and remain climbable (4.883049ms)
+✔ placed doors preserve closed collision and reject blocked sweeps (3.000984ms)
+✔ move and prefab edits are atomic and undoable (6.171181ms)
+✔ decorations are unlimited and undo/redo retain rotation (13.478214ms)
+✔ undo removal refuses player occupancy without consuming history (0.65319ms)
+✔ new edit invalidates redo and collision rejects placement (0.635567ms)
+✔ companion follows around constructions, stays, goes home and persists independently (111.464333ms)
+✔ a distant following dog remains bounded, awake and never teleports (42.671259ms)
+✔ 02 failure: guard must work even with no material selected, and stay stable at high/low frame rates (67.453733ms)
+✔ guard allows Jump, stops a second walking fall after landing, and OFF allows walking down (4.366221ms)
+✔ automatic climbing is removed even when an old saved caller supplies autoStep=true (3.028128ms)
+✔ OBB narrow phase rejects false AABB obstruction inside the swung leaf bounding box (0.830145ms)
+✔ every door automatically opens away from either approach, animates safely, stays open nearby, then closes after a delay (6892.064057ms)
+✔ walk through, safe close and reopen from inside/outside every house without passing a closed leaf (67904.851195ms)
+✔ closing refuses doorway occupancy and a blocked sweep, and reopens if a player returns mid-close (23.954649ms)
+✔ automatic OFF leaves closed doors closed; manual close has a near-player latch rather than immediately reopening (185.747171ms)
+✔ all parts of a browser-targeted button activate once despite rectangle differences and metadata-free compatibility clicks (28.725369ms)
+✔ leaf collision follows the rendered leaf at closed, intermediate and fully open angles (14.065328ms)
+✔ an obstruction in the middle of the swing prevents closing even when both endpoints are clear (25.578828ms)
+✔ a partial-overhang landing can recover toward the platform without disabling protection (6.553546ms)
+✔ forward and strafe agree with camera at four headings; diagonal speed is normalized (8.847981ms)
+✔ wall collision cannot tunnel through a thin wall at low FPS and permits sliding (1.403431ms)
+✔ jump lands on a built block, hits ceilings, and cannot jump through them (2.461104ms)
+✔ placement prevents overlaps, self-entombment, floating pieces, long reach and capacity overflow (1.386008ms)
+✔ undo returns consumed crafted items; removed pieces cannot be restored over player or closed door (0.399076ms)
+✔ save roundtrip preserves special inventory, selection, door and pose; malformed imports are rejected (6.72782ms)
+✔ all houses have an upright, usable opening and a correctly oriented door at both angles (28.360145ms)
+✔ driveways align with the actual entrances, reach the road and houses do not intersect each other (0.863582ms)
+✔ world mesh transforms are finite and scales are positive (429.724816ms)
+✔ county preserves region layout and develops connected outlying destinations (1032.079383ms)
+✔ all 46 county doorways and four stair landings are traversable (1004.484026ms)
+✔ county bounds, outer traffic and distant save round trips are supported (426.835177ms)
+✔ resumed or stalled frames cannot cause an unbounded simulation catch-up (1.731638ms)
+✔ ordinary elapsed time advances simulation in fixed steps (0.89046ms)
+✔ context picks a visible nearby object and never reaches through a wall or floor (2.866687ms)
+✔ play paths are continuous, bounded and rotate with the equipment (4.623107ms)
+✔ standing beside an upstairs seat retains the supported floor (0.433731ms)
+✔ schema 1/2 migrate to 3 and furniture states roundtrip without dropping creations (11.414888ms)
+✔ old region saves retain layout one while new region instances use layout two (1191.851523ms)
+✔ build collision queries remain local at capacity and update atomically with moves (134.795041ms)
+✔ cupboard swing and state changes are obstruction tested and undoable (13.25518ms)
+✔ local route planning walks around a new wall without teleporting (11.096961ms)
+✔ region population is bounded with eight species and four lane traffic vehicles (59.546261ms)
+✔ traffic deterministically traverses junctions with exclusive reservations and safe spacing (237.692365ms)
+✔ a blocked road reverses safely and resumes without position jumps (10.195371ms)
+✔ blocked routes wait and change target without teleporting through obstacles (1.518596ms)
+✔ town simulation is bounded and uses four distinct friendly animal models (10.512737ms)
+✔ greetings pause residents and traffic respects headway (10.020089ms)
+✔ creative flight respects ceilings and walls at large frame intervals (17.137316ms)
+✔ third-person obstruction shortens the camera before walls (11.207305ms)
+✔ all four original slice interiors have clear supported centres and traversable doorways (279.462521ms)
+✔ vehicle collision stops movement through solids and exit chooses clear ground (69.30791ms)
+✔ a multi-object edit saves once and rebuilds each touched chunk once (12.982562ms)
+✔ rich avatar rendering is bounded to five meshes (6.229152ms)
+✔ converted backup retains the original legacy file through export/import (55.902847ms)
+✔ independent worlds, duplicate, rename and last selection survive reopening (12.246987ms)
+✔ stale writers cannot replace newer progress (5.985556ms)
+✔ corrupt current checkpoint recovers older data without overwriting original (4.286588ms)
+✔ backup roundtrip creates a new instance and malformed files never replace progress (4.100209ms)
+✔ legacy schema 4 imports preserve coordinates and raw original without storage-key access (1.021358ms)
+✔ migrated mechanics remain byte-identical to the audited upstream source (23.669811ms)
+✔ active collision fork contains only the audited ramp and landing changes (3.647576ms)
+✔ region preserves old town geometry and adds 26 furnished buildings, six garages and eight plots (390.503321ms)
+✔ all 32 region doorways and all three stair landings are traversable (471.357953ms)
+✔ aborting a save transaction retains the previous committed checkpoint (28.759988ms)
+✔ worker activation waits for saving and is never sent on failure (1.21272ms)
+✔ small-template residents start apart and cannot deadlock in overlapping pairs (23.653124ms)
+✔ riding traverses long routes, turns, reverses, respects fences, overheads and bounds (19.380323ms)
+✔ all three low gates can actually be walked or ridden through while open (2.296632ms)
+✔ mounting, safe dismount, checkpoint position and horse persistence integrate (113.05222ms)
+✔ county revision 2 leaves a clear riding exit while retaining revision 1 geometry (798.559215ms)
+✔ occupied arrival points resolve to clear ground (5.993547ms)
+✔ no available arrival throws instead of selecting a colliding position (7.932531ms)
+✔ new town preserves the original template and provides 12 furnished buildings, three garages and clear plots (274.612813ms)
+✔ all 15 town doorways open and permit passage from their approach paths (219.826816ms)
+✔ three county vehicles use consistent controls, individual collision profiles and independent checkpoints (121.773031ms)
+✔ parked fleet blocks a driven vehicle and blocked exits retain the driver (168.522161ms)
+✔ 500m layout is dense and varied (2.190709ms)
+✔ building footprints clear roads, trails and one another (907.31866ms)
+✔ front walks clear solid obstructions (29.036028ms)
+✔ road and path network is connected (18.025405ms)
+✔ all trees clear roads, trails and driveways and have solid trunks (61.34179ms)
+✔ vacant frontages have clear placeable centres and road setbacks (19.721846ms)
+✔ all swing and roller doors auto/manual operate safely from both sides (418.146422ms)
+✔ Fast movement passes every open door from both sides; closed doors stop it (431.575813ms)
+✔ roller closing refuses player occupancy (1.545102ms)
+✔ staircases ascend and descend smoothly with edge protection (266.450055ms)
+✔ room waypoints stand in clear supported spaces (1.054461ms)
+✔ 05 migration reserves conflicting town property without losing blocks (582.753699ms)
+✔ invalid schemas rejected and large 12k structure restores (396.975858ms)
+✔ ground-floor rooms and former closed wings have walkable interior routes (172.624602ms)
+✔ every walking trail has a continuous unobstructed centre route (27.88708ms)
+✔ standard controller axes clamp/deadzone and buttons activate once per press (2.661536ms)
+✔ each roller refuses saved-piece obstructions and reopens on a returning player (11.245926ms)
+✔ centre markings leave clear junctions including self-rejoining roads (1.207715ms)
+✔ relocated public furniture yields to compatible saved creations (505.897948ms)
+✔ every two-storey envelope closes the side-wall/ceiling seam (1.443284ms)
+ℹ tests 107
+ℹ suites 0
+ℹ pass 107
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 113371.720023
+
+> blockworld2@0.1.0 build
+> npm run typecheck && npm run preserve && vite build && node tools/release.mjs && node tools/standalone.mjs
+
+
+> blockworld2@0.1.0 typecheck
+> tsc --noEmit
+
+
+> blockworld2@0.1.0 preserve
+> node tools/preserve.mjs
+
+PASS: 49 existing files match 1ffd35ed971afa7820734cf10a3287ab546f6306; 6 historical archive files intact; package-only changes
+vite v6.4.1 building for production...
+transforming...
+✓ 68 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.67 kB │ gzip:   0.39 kB
+dist/assets/index-DBHtCfBU.css    8.35 kB │ gzip:   2.41 kB
+dist/assets/index-ChPJcNUm.js   697.91 kB │ gzip: 199.85 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.12s
+Isolated offline build ba3d9d2a98044345 — not deployed
+Standalone HTML built from the same bundle — not published 845322 bytes

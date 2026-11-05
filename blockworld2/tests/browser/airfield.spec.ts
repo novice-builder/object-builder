@@ -37,11 +37,24 @@ test("terminal and hangar entrances, actual aircraft boarding, scenic flight, ex
   expect(
     await page.evaluate(() => (window as any).bw2.game.player.z),
   ).toBeLessThan(-158);
+  await page.evaluate(() => {
+    const a = (window as any).bw2;
+    a.add({ x: 50, y: 0, z: -220, type: "wood" });
+    a.game.commands.undo();
+  });
   await page.locator("#use").tap();
   expect(
     await page.evaluate(
       () => (window as any).bw2.game.world.aircraft.passenger,
     ),
+  ).toBe(true);
+  await expect(page.locator("#redo")).toBeDisabled();
+  await page.keyboard.press("y");
+  expect(
+    await page.evaluate(() => (window as any).bw2.snapshot().blocks.length),
+  ).toBe(0);
+  expect(
+    await page.evaluate(() => (window as any).bw2.game.commands.canRedo),
   ).toBe(true);
   await page.evaluate(() =>
     (window as any).bw2.simulate({ forward: 0, right: 0 }, 15),

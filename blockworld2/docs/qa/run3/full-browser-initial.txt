@@ -1,0 +1,84 @@
+
+> blockworld2@0.1.0 test:browser
+> playwright test
+
+[WebServer] (node:31121) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 43 tests using 1 worker
+
+(node:31144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:31144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/activities.spec.ts:2:1 › touch playground activities animate and leave safely without changing builds (12.8s)
+  ✓   2 tests/browser/activities.spec.ts:56:1 › authored home lights and cupboards retain state through reload (8.2s)
+  ✘   3 tests/browser/airfield.spec.ts:2:1 › terminal and hangar entrances, actual aircraft boarding, scenic flight, exit and reload (9.0s)
+(node:31389) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:31389) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 tests/browser/airfield.spec.ts:120:1 › earlier county layouts and constructions in the future airport remain unchanged (6.5s)
+  ✓   5 tests/browser/avatar.spec.ts:2:1 › twelve visual looks persist and present correctly across seated flight and driving modes (16.8s)
+  ✓   6 tests/browser/catalogue.spec.ts:2:1 › touch placement sits directly on a half slab and survives reload (5.4s)
+  ✓   7 tests/browser/catalogue.spec.ts:45:1 › catalogue thumbnails, favourites, new furniture and native reload work (9.3s)
+  ✓   8 tests/browser/catalogue.spec.ts:89:1 › prefab catalogue selection creates an atomic garden set (8.1s)
+  ✓   9 tests/browser/companion.spec.ts:2:1 › pictorial dog follow, stay and home controls persist through reload (13.6s)
+  ✓  10 tests/browser/county.spec.ts:2:1 › county travel, map, bridge, distant building and reload preserve older worlds (11.8s)
+  ✓  11 tests/browser/county.spec.ts:84:1 › county country-road driving persists and nearby rendering stays bounded (9.2s)
+  ✓  12 tests/browser/game.spec.ts:2:1 › mechanical world boots without changing legacy saves (4.1s)
+  ✓  13 tests/browser/game.spec.ts:18:1 › touch placement, undo/redo and furniture rotation are functional (18.4s)
+  ✓  14 tests/browser/game.spec.ts:52:1 › touch drag and joystick cancel avoid accidental building and stuck movement (9.6s)
+  ✓  15 tests/browser/game.spec.ts:109:1 › migrated ledges stop falls and the home door opens on approach (4.8s)
+  ✓  16 tests/browser/life.spec.ts:2:1 › usable chairs allow sitting and safe standing through touch or movement (8.9s)
+  ✓  17 tests/browser/life.spec.ts:38:1 › friendly animals and greetings are available in Sunbeam Town (7.0s)
+  ✓  18 tests/browser/mobile-edit.spec.ts:2:1 › touch move preview relocates and rotates an object with undo/redo (9.0s)
+  ✓  19 tests/browser/mobile-run2.spec.ts:2:1 › control sides and look speed persist; joystick and look work together without building (10.9s)
+  ✓  20 tests/browser/mobile-run2.spec.ts:86:1 › world switching releases world geometry and light switches use a fixed pool (10.9s)
+  ✓  21 tests/browser/offline-update-ui.spec.ts:5:1 › failed saving blocks a waiting update; recovered progress survives explicit activation and offline reload (11.4s)
+  ✓  22 tests/browser/recovery-run3.spec.ts:2:1 › closed storage reopens for a recovered copy while preserving the original (5.6s)
+  ✓  23 tests/browser/region.spec.ts:2:1 › region exploration and old Sunbeam creations remain independent (10.9s)
+  ✓  24 tests/browser/removal.spec.ts:2:1 › long press removes once and release never places another block (10.6s)
+  ✓  25 tests/browser/riding.spec.ts:2:1 › touch horse mounting, paddock exit, long ride, camera, dismount and saved recovery (14.4s)
+  ✓  26 tests/browser/run2-build.spec.ts:2:1 › pinned hotbar and a rotated building row persist with atomic history (11.2s)
+  ✓  27 tests/browser/run2-build.spec.ts:46:1 › pavilion preset has working elevated supports and reverses in one action (9.4s)
+  ✓  28 tests/browser/run2-life.spec.ts:2:1 › farm animals greet and nearby population/road traffic remain bounded (6.8s)
+  ✓  29 tests/browser/slice.spec.ts:10:1 › Home/Square has furnished interiors, camera modes, flight and a pictorial catalogue (11.3s)
+  ✓  30 tests/browser/slice.spec.ts:49:1 › driveable vehicle moves, parks safely and persists its location (8.2s)
+  ✓  31 tests/browser/slice.spec.ts:77:1 › ambient residents, animals and traffic move; dragging the map does not teleport (5.3s)
+  ✓  32 tests/browser/slice.spec.ts:104:1 › no-op saves do not advance revisions and a cold offline tab restores the world (6.5s)
+  -  33 tests/browser/standalone.spec.ts:6:1 › local-file standalone launch and storage where managed policy permits it
+  ✓  34 tests/browser/standalone.spec.ts:37:1 › single-file HTML renders moves builds and restores independent worlds without other assets (10.4s)
+  ✓  35 tests/browser/standalone.spec.ts:116:1 › single-file HTML backup download and file input restore a separate copy (4.5s)
+  ✓  36 tests/browser/town.spec.ts:2:1 › expanded town landmarks, plots and old-template switching remain usable (8.9s)
+  ✓  37 tests/browser/update.spec.ts:6:1 › a scoped worker update retains saves, legacy caches and cold offline startup (9.4s)
+  ✓  38 tests/browser/vehicles.spec.ts:2:1 › utility car and bicycle map entry, touch driving, safe exit and saved fleet (15.0s)
+  ✓  39 tests/browser/visual.spec.ts:2:1 › capture the integrated slice and check compact mobile layouts (16.3s)
+  ✓  40 tests/browser/worlds.spec.ts:10:1 › storage failure retains unsaved blocks and a downloadable backup (4.6s)
+  ✓  41 tests/browser/worlds.spec.ts:36:1 › independent instances, rename and duplicate survive switching and reload (11.6s)
+  ✓  42 tests/browser/worlds.spec.ts:85:1 › real backup download and file-input restore create a separate instance (6.3s)
+  ✓  43 tests/browser/worlds.spec.ts:125:1 › conflicting tabs retain unsaved work and offer a recoverable copy (7.4s)
+
+
+  1) tests/browser/airfield.spec.ts:2:1 › terminal and hangar entrances, actual aircraft boarding, scenic flight, exit and reload 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      56 |   expect(
+      57 |     await page.evaluate(() => (window as any).bw2.game.commands.canRedo),
+    > 58 |   ).toBe(true);
+         |     ^
+      59 |   await page.evaluate(() =>
+      60 |     (window as any).bw2.simulate({ forward: 0, right: 0 }, 15),
+      61 |   );
+        at /workspace/object-builder/blockworld2/tests/browser/airfield.spec.ts:58:5
+
+    Error Context: test-results/airfield-terminal-and-hang-6eef4-enic-flight-exit-and-reload/error-context.md
+
+  1 failed
+    tests/browser/airfield.spec.ts:2:1 › terminal and hangar entrances, actual aircraft boarding, scenic flight, exit and reload 
+  1 skipped
+  41 passed (6.9m)

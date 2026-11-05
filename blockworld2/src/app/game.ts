@@ -1231,8 +1231,10 @@ export class Game {
       } else this.removeAt(innerWidth / 2, innerHeight / 2);
     }
     if (c === "Enter") this.confirm();
-    if (c === "KeyZ") this.endPlay() && this.commands.undo();
-    if (c === "KeyY") this.endPlay() && this.commands.redo();
+    if (c === "KeyZ" && !this.world.aircraft?.passenger)
+      this.endPlay() && this.commands.undo();
+    if (c === "KeyY" && !this.world.aircraft?.passenger)
+      this.endPlay() && this.commands.redo();
     if (c === "Escape") this.cancel();
   }
   ui() {
@@ -1294,8 +1296,20 @@ export class Game {
     on("home", () => this.home());
     on("jump", () => this.jump());
     on("use", () => this.use());
-    on("undo", () => this.endPlay() && this.commands.undo());
-    on("redo", () => this.endPlay() && this.commands.redo());
+    on(
+      "undo",
+      () =>
+        !this.world.aircraft?.passenger &&
+        this.endPlay() &&
+        this.commands.undo(),
+    );
+    on(
+      "redo",
+      () =>
+        !this.world.aircraft?.passenger &&
+        this.endPlay() &&
+        this.commands.redo(),
+    );
     on("cancel", () => this.cancel());
     on("rotate", () => {
       if (this.pending) {
@@ -1402,6 +1416,7 @@ export class Game {
       );
   }
   refreshModes() {
+    this.refreshHistory();
     this.refreshSelection();
     document.querySelector<HTMLElement>("#flightControls")!.hidden =
       !this.flying;
@@ -1424,8 +1439,10 @@ export class Game {
   refreshHistory() {
     const u = document.querySelector<HTMLButtonElement>("#undo"),
       r = document.querySelector<HTMLButtonElement>("#redo");
-    if (u) u.disabled = !this.commands.canUndo;
-    if (r) r.disabled = !this.commands.canRedo;
+    if (u)
+      u.disabled = !!this.world.aircraft?.passenger || !this.commands.canUndo;
+    if (r)
+      r.disabled = !!this.world.aircraft?.passenger || !this.commands.canRedo;
   }
   notice(text: string) {
     const s = document.querySelector("#status")!;
