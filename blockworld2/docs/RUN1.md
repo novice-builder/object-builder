@@ -40,3 +40,7 @@ Executed: 2 deterministic town tests passed (all interiors/plots/garage fit and 
 Added six route-following residents, four distinct animal species/animations, greeting pauses, obstacle waiting/route reconsideration, traffic headway and vehicle collision avoidance. Placed and authored seating supports safe touch sitting/standing and movement-to-stand. World-swap cleanup now disposes sign textures without destroying shared sprite geometry.
 
 Executed: typecheck/build/protected-file checks passed; 7 focused life/movement tests passed; 4 browser scenarios passed (chairs/touch/stand, animal greetings, driving persistence and ambient/map safety). A phase-dependent route-test assertion was corrected to inspect target changes across the run rather than one arbitrary final phase. Remaining simulation limits are in LIFE.md. Full regression and final archive follow.
+
+## Integration hardening
+
+Corrected surface snapping so slabs and tabletops support objects at their actual height, with bounded hundredth-metre vertical save anchors. Manual town doors now use the same compound furniture collision as automatic doors. Added an exact audited collision-fork comparison and differentiated tree silhouettes. Executed 8 focused deterministic cases plus 2 browser scenarios (half-slab touch placement/save/reload and compact layouts/visual capture); all passed after correcting the new browser assertion to respect immediate cube placement. The first failing scenario incorrectly waited for a preview confirmation that cubes do not use.

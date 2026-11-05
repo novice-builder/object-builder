@@ -8,7 +8,7 @@ test("capture the integrated slice and check compact mobile layouts", async ({
     const g = (window as any).bw2.game;
     g.flying = true;
     g.cameraMode = "first";
-    Object.assign(g.player, { x: 4, y: 18, z: 28, yaw: 0, pitch: -0.55 });
+    Object.assign(g.player, { x: 10, y: 24, z: 65, yaw: 0, pitch: -0.4 });
   });
   await page.screenshot({ path: "test-results/slice-overview.png" });
   await page.evaluate(() => {
@@ -18,6 +18,14 @@ test("capture the integrated slice and check compact mobile layouts", async ({
     Object.assign(g.player, { x: -21.4, y: 0, z: -9, yaw: 0, pitch: 0 });
   });
   await page.screenshot({ path: "test-results/home-interior.png" });
+  await page.locator("#catalogueButton").tap();
+  await page.locator("[data-category=Garden]").tap();
+  await expect(page.locator("[data-catalogue=pergola] img")).toHaveAttribute(
+    "src",
+    /^data:image\/png/,
+  );
+  await page.screenshot({ path: "test-results/run1-catalogue.png" });
+  await page.locator("#closeCatalogue").tap();
   for (const [width, height] of [
     [844, 390],
     [390, 844],

@@ -434,7 +434,30 @@ for (const [id, label, w, h, c] of [
 ] as [string, string, number, number, number][])
   add(id, label, "Garden", [
     box(0, h * 0.35, 0, 0.25, h * 0.7, 0.25, wood),
-    box(0, h * 0.75, 0, w, h * 0.5, w, c),
+    ...(id === "pine-tree"
+      ? [0, 1, 2].map((tier) =>
+          box(
+            0,
+            h * 0.48 + tier * 0.75,
+            0,
+            w * (1 - tier * 0.23),
+            1,
+            w * (1 - tier * 0.23),
+            c,
+          ),
+        )
+      : id === "palm-tree"
+        ? [
+            box(0, h * 0.86, 0, w, 0.3, 0.45, c),
+            box(0, h * 0.88, 0, 0.45, 0.3, w, c),
+            box(0, h * 0.95, 0, 0.8, 0.5, 0.8, c),
+          ]
+        : [
+            box(0, h * 0.75, 0, w * 0.75, h * 0.5, w * 0.75, c),
+            ...[-1, 1].map((side) =>
+              box(side * w * 0.3, h * 0.71, 0, w * 0.4, h * 0.33, w * 0.65, c),
+            ),
+          ]),
     ...(id === "fruit-tree"
       ? [-0.65, 0, 0.65].map((x) =>
           box(x, h * 0.75, 0.8, 0.2, 0.2, 0.2, 0xe0ac6d),

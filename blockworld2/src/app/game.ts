@@ -384,7 +384,12 @@ export class Game {
       const p = h.point.clone().addScaledVector(normal, 0.015);
       aim = {
         x: Math.floor(p.x),
-        y: Math.floor(p.y),
+        y:
+          normal.y > 0.9
+            ? Math.ceil(h.point.y * 100 - 1e-5) / 100
+            : normal.y < -0.9
+              ? Math.floor(h.point.y) - 1
+              : target.y,
         z: Math.floor(p.z),
         type: this.selected,
       };
@@ -392,8 +397,12 @@ export class Game {
         const axis = (["x", "y", "z"] as ("x" | "y" | "z")[]).sort(
           (a, b) => Math.abs(normal[b]) - Math.abs(normal[a]),
         )[0];
-        aim = { ...target, type: this.selected };
-        aim[axis] += Math.sign(normal[axis]);
+        if (axis !== "y") {
+          aim = { ...target, type: this.selected };
+          aim[axis] += Math.sign(normal[axis]);
+        } else if (normal.y < 0) {
+          aim.y = Math.floor(h.point.y) - 1;
+        }
       }
     } else
       aim = {
@@ -634,10 +643,13 @@ export class Game {
       d,
       !d.targetOpen,
       this.player,
-      this.commands.blocks,
+      [],
       [
         ...this.world.solids,
         ...(this.activity ? [carBox(this.activity.car)] : []),
+        ...this.commands.blocks
+          .flatMap(blockColliders)
+          .map((s) => (s.ramp ? { ...s, ramp: null } : s)),
       ],
       true,
     );

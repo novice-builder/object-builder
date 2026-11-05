@@ -71,6 +71,34 @@ test("schema 1 worlds migrate without dropping original creations", () => {
   assert.equal(migrated.schema, 2);
   assert.equal(migrated.world.blocks[0].x, -250);
 });
+test("slabs and tabletops support precise vertical placement and lossless backups", () => {
+  for (const [base, top, height] of [
+    ["slab", "wood", 0.5],
+    ["dining-table", "table-lamp", 0.81],
+  ] as const) {
+    const c = new Commands(
+      () => [],
+      () => ({ x: 10, y: 0, z: 10 }),
+      () => {},
+    );
+    assert.equal(c.place({ x: 0, y: 0, z: 0, type: base }, false), "");
+    assert.equal(c.place({ x: 0, y: height, z: 0, type: top }, false), "");
+    const s = fromGame({
+      template: "blank",
+      blocks: c.blocks,
+      doors: {},
+      player: { x: 10, y: 0, z: 10, yaw: 0, pitch: 0 },
+      selected: top,
+    });
+    assert.equal(decode(encode(s)).world.blocks[1].y, height);
+    assert.ok(c.undo());
+    assert.ok(c.redo());
+    assert.equal(c.blocks[1].y, height);
+  }
+  assert.throws(() =>
+    validateBlocks([{ x: 0, y: 0.12345, z: 0, type: "wood" }]),
+  );
+});
 test("elevated stairs use their actual base height and remain climbable", () => {
   const b = { x: 0, y: 2, z: 0, type: "stairs" },
     solids = [

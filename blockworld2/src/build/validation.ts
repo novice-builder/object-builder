@@ -1,11 +1,14 @@
-import { ITEMS, blockColliders, blockBounds, LEGACY } from "./registry";
-import {
-  overlaps,
-  bodyBox,
-  placementReason as legacyReason,
-} from "../player/physics.js";
+import { ITEMS, blockColliders, blockBounds } from "./registry";
+import { overlaps, bodyBox } from "../player/physics.js";
 import type { Block } from "./commands";
 import { SpatialIndex } from "../legacy06/spatial.js";
+// Horizontal cell anchors stay predictable; vertical anchors follow real slab
+// and furniture surfaces. Hundredth-metre precision avoids drift in save keys.
+const validAnchor = (b: Block) =>
+  Number.isInteger(b.x) &&
+  Number.isInteger(b.z) &&
+  Number.isFinite(b.y) &&
+  Math.abs(b.y * 100 - Math.round(b.y * 100)) < 1e-7;
 export function validateBlocks(blocks: Block[]) {
   if (!Array.isArray(blocks) || blocks.length > 12000)
     throw Error("Unsupported build capacity");
@@ -15,7 +18,7 @@ export function validateBlocks(blocks: Block[]) {
     if (
       !b ||
       !ITEMS.has(b.type) ||
-      ![b.x, b.y, b.z].every(Number.isInteger) ||
+      !validAnchor(b) ||
       b.x < -250 ||
       b.x >= 250 ||
       b.z < -250 ||
@@ -49,7 +52,7 @@ export function reason(
 ) {
   if (!b || !ITEMS.has(b.type)) return "Choose a building piece";
   if (
-    ![b.x, b.y, b.z].every(Number.isInteger) ||
+    !validAnchor(b) ||
     b.x < -250 ||
     b.x >= 250 ||
     b.z < -250 ||

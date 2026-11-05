@@ -1,4 +1,48 @@
 import { test, expect } from "@playwright/test";
+test("touch placement sits directly on a half slab and survives reload", async ({
+  page,
+}) => {
+  await page.goto("/?test=1");
+  await page.waitForFunction(() => (window as any).bw2?.session.ready);
+  await page.evaluate(async () => {
+    const a = (window as any).bw2;
+    await a.session.newWorld("blank");
+    a.setPlayer({
+      x: -59.5,
+      y: 0,
+      z: 65.5,
+      yaw: 0,
+      pitch: -Math.atan(1.03 / 3),
+    });
+    a.add({ x: -60, y: 0, z: 62, type: "slab" });
+    a.game.choose("wood");
+  });
+  await page.touchscreen.tap(512, 300);
+  await expect
+    .poll(() =>
+      page.evaluate(() => (window as any).bw2.snapshot().blocks.length),
+    )
+    .toBe(2);
+  expect(
+    await page.evaluate(
+      () =>
+        (window as any).bw2
+          .snapshot()
+          .blocks.find((b: any) => b.type === "wood")?.y,
+    ),
+  ).toBe(0.5);
+  await page.evaluate(() => (window as any).bw2.session.save());
+  await page.reload();
+  await page.waitForFunction(() => (window as any).bw2?.session.ready);
+  expect(
+    await page.evaluate(
+      () =>
+        (window as any).bw2
+          .snapshot()
+          .blocks.find((b: any) => b.type === "wood")?.y,
+    ),
+  ).toBe(0.5);
+});
 test("catalogue thumbnails, favourites, new furniture and native reload work", async ({
   page,
 }) => {
