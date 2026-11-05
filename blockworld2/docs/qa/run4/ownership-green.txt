@@ -1,0 +1,20 @@
+✔ converted backup retains the original legacy file through export/import (21.337829ms)
+✔ independent worlds, duplicate, rename and last selection survive reopening (22.415478ms)
+✔ stale writers cannot replace newer progress (5.732279ms)
+✔ corrupt current checkpoint recovers older data without overwriting original (2.394795ms)
+✔ backup roundtrip creates a new instance and malformed files never replace progress (7.394441ms)
+✔ legacy schema 4 imports preserve coordinates and raw original without storage-key access (1.794319ms)
+✔ aborting a save transaction retains the previous committed checkpoint (63.908736ms)
+✔ worker activation waits for saving and is never sent on failure (1.245724ms)
+✔ small-template residents start apart and cannot deadlock in overlapping pairs (18.357778ms)
+✔ a world transition cannot let an older save retarget the active world or overwrite its source (49.303941ms)
+✔ rapid queued creation and switching retain every independent world (16.011413ms)
+✔ a failed save aborts switching and retains unsaved source data and its original record (15.982535ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2945.881189

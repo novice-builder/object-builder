@@ -1,0 +1,21 @@
+
+> blockworld2@0.1.0 test:browser
+> playwright test --grep delayed world loading|world menu cannot expose|independent instances|conflicting tabs|storage failure retains|closed storage
+
+[WebServer] (node:43912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:43931) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43931) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/qa-session.spec.ts:2:1 › world menu cannot expose import controls before database preparation finishes (5.0s)
+  ✓  2 tests/browser/qa-session.spec.ts:32:1 › delayed world loading and overlapping saves never write one world into another (3.2s)
+  ✓  3 tests/browser/recovery-run3.spec.ts:2:1 › closed storage reopens for a recovered copy while preserving the original (5.0s)
+  ✓  4 tests/browser/worlds.spec.ts:10:1 › storage failure retains unsaved blocks and a downloadable backup (3.3s)
+  ✓  5 tests/browser/worlds.spec.ts:36:1 › independent instances, rename and duplicate survive switching and reload (10.1s)
+  ✓  6 tests/browser/worlds.spec.ts:125:1 › conflicting tabs retain unsaved work and offer a recoverable copy (7.1s)
+
+  6 passed (37.2s)

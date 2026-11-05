@@ -11,6 +11,31 @@ export class Session {
   ready = false;
   private flight: Promise<void> | null = null;
   private last = "";
+  private changes: Promise<void> = Promise.resolve();
+  private changing = 0;
+  private changeWorld<T>(operation: () => Promise<T>): Promise<T> {
+    this.changing++;
+    this.game.paused = true;
+    this.game.controls.clear();
+    this.game.vertical = 0;
+    const modal = document.querySelector<HTMLElement>("#modal")!;
+    modal.inert = true;
+    modal.setAttribute("aria-busy", "true");
+    document.querySelector<HTMLButtonElement>("#worlds")!.disabled = true;
+    const task = this.changes.then(operation);
+    this.changes = task.then(
+      () => {},
+      () => {},
+    );
+    return task.finally(() => {
+      if (--this.changing === 0) {
+        modal.inert = false;
+        modal.setAttribute("aria-busy", "false");
+        document.querySelector<HTMLButtonElement>("#worlds")!.disabled = false;
+        this.game.paused = !modal.hidden;
+      }
+    });
+  }
   constructor(readonly game: Game) {
     game.paused = true;
     document.querySelector<HTMLButtonElement>("#worlds")!.onclick = () =>
@@ -51,9 +76,16 @@ export class Session {
       this.failure(error);
     }
   }
-  async open(id: string) {
-    if (this.flight) await this.flight;
+  open(id: string) {
+    return this.changeWorld(async () => {
+      await this.flush();
+      await this.openNow(id);
+    });
+  }
+  private async openNow(id: string) {
     const loaded = await this.store.load(id);
+    // Preserve late edits/blur saves that arrived while the read was pending.
+    await this.flush();
     const s = loaded.snapshot;
     this.game.load(
       s.template,
@@ -94,7 +126,6 @@ export class Session {
     this.blocked = loaded.recovered;
     document.dispatchEvent(new Event("bw2-save-status"));
     await this.store.select(id);
-    this.game.paused = false;
     if (loaded.recovered)
       this.failure(
         Error(
@@ -107,10 +138,14 @@ export class Session {
     }
   }
   async save(): Promise<void> {
+    while (this.changing) await this.changes;
+    return this.flush();
+  }
+  private async flush(): Promise<void> {
     if (!this.current || !this.store) return;
     if (this.flight) {
       await this.flight;
-      return this.save();
+      return this.flush();
     }
     if (this.blocked) throw Error("Save blocked; export or save a new copy");
     let snapshot: ReturnType<typeof fromGame>;
@@ -143,23 +178,25 @@ export class Session {
       this.flight = null;
     }
   }
-  async newWorld(template: TemplateId) {
-    await this.save();
-    const t = TEMPLATES.find((t) => t.id === template)!;
-    const snapshot = fromGame({
-      template,
-      blocks: [],
-      doors: {},
-      player: t.spawn,
-      selected: "hand",
-      avatar: this.game.appearance,
-      lookSpeed: this.game.lookSpeed,
-      leftHanded: this.game.leftHanded,
+  newWorld(template: TemplateId) {
+    return this.changeWorld(async () => {
+      await this.flush();
+      const t = TEMPLATES.find((t) => t.id === template)!;
+      const snapshot = fromGame({
+        template,
+        blocks: [],
+        doors: {},
+        player: t.spawn,
+        selected: "hand",
+        avatar: this.game.appearance,
+        lookSpeed: this.game.lookSpeed,
+        leftHanded: this.game.leftHanded,
+      });
+      const record = await this.store.create(t.name, snapshot);
+      await this.openNow(record.id);
+      this.close();
+      return record;
     });
-    const record = await this.store.create(t.name, snapshot);
-    await this.open(record.id);
-    this.close();
-    return record;
   }
   exportCurrent() {
     const record =
@@ -243,7 +280,7 @@ export class Session {
   }
   close() {
     document.querySelector<HTMLElement>("#modal")!.hidden = true;
-    this.game.paused = false;
+    this.game.paused = this.changing > 0;
     this.game.controls.clear();
   }
   async menu() {
