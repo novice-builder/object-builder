@@ -1,3 +1,4 @@
+import { renderHotbar } from "../ui/catalogue";
 import type { Game } from "./game";
 import { WorldStore, type WorldRecord } from "../persistence/store";
 import { fromGame, encode } from "../persistence/schema";
@@ -60,6 +61,13 @@ export class Session {
       s.world.activity,
     );
     this.game.selected = s.preferences.selected;
+    this.game.favourites = Array.isArray(s.preferences.favourites)
+      ? (s.preferences.favourites as string[])
+      : [];
+    this.game.recent = Array.isArray(s.preferences.recent)
+      ? (s.preferences.recent as string[])
+      : [];
+    renderHotbar(this.game);
     this.game.cameraMode = s.preferences.camera === "third" ? "third" : "first";
     this.game.flying = !!s.preferences.flying;
     document.querySelector<HTMLElement>("#flightControls")!.hidden =

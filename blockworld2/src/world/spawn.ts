@@ -1,4 +1,4 @@
-import { collides } from "../legacy06/core.js";
+import { collides } from "../player/physics.js";
 /** Flat-world recovery search. Never select an occupied home/dismount cell. */
 export function safeGround(
   origin: { x: number; z: number; yaw?: number },

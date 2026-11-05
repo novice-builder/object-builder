@@ -1,6 +1,6 @@
 import type { Game } from "../app/game";
 import { safeGround } from "../world/spawn";
-import { cellBox } from "../legacy06/core.js";
+import {blockColliders} from "../build/registry";
 export function openMap(game: Game) {
   const modal = document.querySelector<HTMLElement>("#modal")!;
   game.paused = true;
@@ -83,7 +83,7 @@ export function openMap(game: Game) {
       try {
         const p = safeGround(place, [
           ...game.obstacles(),
-          ...game.commands.blocks.map(cellBox),
+          ...game.commands.blocks.flatMap(blockColliders),
         ]);
         Object.assign(game.player, p);
         game.flying = false;

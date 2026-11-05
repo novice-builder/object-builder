@@ -1,6 +1,6 @@
 import * as T from "three";
 import { avatar } from "../player/modes";
-import { overlaps, bodyBox } from "../legacy06/core.js";
+import { overlaps, bodyBox } from "../player/physics.js";
 import { safeGround } from "../world/spawn";
 export interface CarState {
   x: number;

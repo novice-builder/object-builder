@@ -36,7 +36,7 @@ test("Home/Square has furnished interiors, camera modes, flight and a pictorial 
     await page.evaluate(() => (window as any).bw2.snapshot().player.y),
   ).toBeGreaterThan(0.3);
   await page.locator("#catalogueButton").tap();
-  await expect(page.locator("#catalogueGrid button")).toHaveCount(7);
+  await expect(page.locator("[data-catalogue]")).toHaveCount(24);
   await page.locator("[data-catalogue=bench]").tap();
   expect(
     await page.evaluate(() => (window as any).bw2.snapshot().selected),

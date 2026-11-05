@@ -1,15 +1,19 @@
+import { reason as placementReason } from "./validation";
 import {
-  placementReason,
-  cellBox,
-  bodyBox,
-  overlaps,
-} from "../legacy06/core.js";
+  blockColliders,
+  ITEMS,
+  partsFor,
+  doorSweepColliders,
+} from "./registry";
+import { bodyBox, overlaps } from "../player/physics.js";
 export interface Block {
   x: number;
   y: number;
   z: number;
   type: string;
   rotation?: number;
+  open?: boolean;
+  on?: boolean;
 }
 type Edit = { before: Block[]; after: Block[] };
 const key = (b: Block) => `${b.x},${b.y},${b.z}`;
@@ -25,15 +29,13 @@ export class Commands {
   reason(b: Block, reach = true, ignore?: Block) {
     return placementReason(
       b,
-      {
-        blocks: this.blocks.filter((x) => !ignore || key(x) !== key(ignore)),
-        inventory: { flowers: 999, lantern: 999, bench: 999 },
-      },
+      this.blocks.filter((x) => !ignore || key(x) !== key(ignore)),
       this.obstacles(),
       this.player(),
       reach,
     );
   }
+
   private apply(edit: Edit, forward: boolean, normal = false, reach = false) {
     const removed = forward ? edit.before : edit.after,
       added = forward ? edit.after : edit.before;
@@ -46,19 +48,19 @@ export class Commands {
       if (normal) {
         const reason = placementReason(
           b,
-          {
-            blocks: next,
-            inventory: { flowers: 999, lantern: 999, bench: 999 },
-          },
+          next,
           this.obstacles(),
           this.player(),
           reach,
         );
         if (reason) return reason;
       } else if (
-        overlaps(cellBox(b), bodyBox(this.player())) ||
-        [...this.obstacles(), ...next.map(cellBox)].some((s) =>
-          overlaps(cellBox(b), s),
+        blockColliders(b).some(
+          (shape) =>
+            overlaps(shape, bodyBox(this.player())) ||
+            [...this.obstacles(), ...next.flatMap(blockColliders)].some((s) =>
+              overlaps(shape, s),
+            ),
         )
       )
         return "That space is occupied";
@@ -91,6 +93,41 @@ export class Commands {
   }
   move(b: Block, next: Block, reach = true) {
     return this.execute({ before: [{ ...b }], after: [{ ...next }] }, reach);
+  }
+  toggle(b: Block) {
+    const item = ITEMS.get(b.type);
+    if (item?.interaction === "door") {
+      const other = [
+        ...this.obstacles(),
+        ...this.blocks
+          .filter((x) => key(x) !== key(b))
+          .flatMap((x) => blockColliders(x)),
+        bodyBox(this.player()),
+      ];
+      for (let i = 0; i <= 12; i++) {
+        const fraction = (b.open ? 1 : 0) + ((b.open ? -1 : 1) * i) / 12;
+        if (
+          doorSweepColliders(b, fraction).some((shape) =>
+            other.some((s) => overlaps(shape, s)),
+          )
+        )
+          return "Door swing blocked — make a little room";
+      }
+    }
+    return this.execute(
+      {
+        before: [{ ...b }],
+        after: [
+          {
+            ...b,
+            ...(item?.interaction === "light"
+              ? { on: b.on === false }
+              : { open: !b.open }),
+          },
+        ],
+      },
+      false,
+    );
   }
   remove(b: Block) {
     const original = this.blocks.find((x) => key(x) === key(b));

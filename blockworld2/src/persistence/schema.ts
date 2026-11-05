@@ -1,9 +1,11 @@
+import { validateBlocks } from "../build/validation";
+import { CHOICES } from "../build/registry";
 import { CATALOGUE } from "../build/catalogue";
 import { validateSave } from "../legacy06/core.js";
 import { TEMPLATES, type TemplateId } from "../world/templates";
 import type { Block } from "../build/commands";
 export interface Snapshot {
-  schema: 1;
+  schema: 2;
   template: TemplateId;
   world: {
     blocks: Block[];
@@ -36,7 +38,7 @@ export function validateSnapshot(value: unknown): Snapshot {
   const s = value as Snapshot;
   if (
     !s ||
-    s.schema !== 1 ||
+    ![1, 2].includes(s.schema) ||
     !TEMPLATES.some((t) => t.id === s.template) ||
     !s.world ||
     !s.player ||
@@ -52,16 +54,8 @@ export function validateSnapshot(value: unknown): Snapshot {
     s.player.y > 26
   )
     throw Error("Player outside supported bounds");
-  validateSave({
-    version: 4,
-    world: "little-block-world-06",
-    blocks: s.world.blocks,
-    doors: s.world.doors,
-    player: s.player,
-    selected: s.preferences.selected,
-    inventory: { flowers: 999, lantern: 999, bench: 999 },
-  });
-  if (!["hand", ...CATALOGUE.map((i) => i.id)].includes(s.preferences.selected))
+  validateBlocks(s.world.blocks);
+  if (!["hand", ...CHOICES.map((i) => i.id)].includes(s.preferences.selected))
     throw Error("Invalid selected item");
   if (
     !s.world.doors ||
@@ -83,7 +77,7 @@ export function validateSnapshot(value: unknown): Snapshot {
     )
       throw Error("Invalid vehicle checkpoint");
   }
-  return structuredClone(s);
+  return { ...structuredClone(s), schema: 2 };
 }
 export function encode(value: Snapshot): Envelope {
   const json = JSON.stringify(validateSnapshot(value));
@@ -101,7 +95,7 @@ export function decode(e: Envelope) {
 }
 export function fromGame(s: any): Snapshot {
   return validateSnapshot({
-    schema: 1,
+    schema: 2,
     template: s.template,
     world: {
       blocks: s.blocks,
@@ -111,6 +105,8 @@ export function fromGame(s: any): Snapshot {
     player: s.player,
     preferences: {
       selected: s.selected,
+      favourites: s.favourites || [],
+      recent: s.recent || [],
       camera: s.camera || "first",
       flying: !!s.flying,
     },
@@ -139,7 +135,7 @@ export function parseBackup(text: string): {
   const legacy = validateSave(data);
   return {
     snapshot: validateSnapshot({
-      schema: 1,
+      schema: 2,
       template: "legacy-06",
       world: { blocks: legacy.blocks, doors: legacy.doors },
       player: legacy.player,

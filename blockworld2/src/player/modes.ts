@@ -1,5 +1,5 @@
 import * as T from "three";
-import { collides } from "../legacy06/core.js";
+import { collides } from "../player/physics.js";
 import { rayBoxNear } from "../build/picking";
 export function fly(
   p: any,

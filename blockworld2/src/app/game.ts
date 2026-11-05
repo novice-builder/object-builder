@@ -1,3 +1,13 @@
+import {
+  ITEMS,
+  CHOICES,
+  PREFABS,
+  blockColliders,
+  blockBounds,
+  expandPrefab,
+} from "../build/registry";
+import { RegistryChunks, renderModel } from "../build/models";
+import { openCatalogue, renderHotbar } from "../ui/catalogue";
 import { Activity, carBox } from "../simulation/activity";
 import { fly, avatar, followCamera } from "../player/modes";
 import { openMap } from "../ui/map";
@@ -10,7 +20,7 @@ import { Controls } from "../input/controls";
 import { Commands, type Block } from "../build/commands";
 import { CATALOGUE } from "../build/catalogue";
 import { createWorld, TEMPLATES, type TemplateId } from "../world/templates";
-import { movePlayer, cellBox, collides, overlaps } from "../legacy06/core.js";
+import { movePlayer, cellBox, collides, overlaps } from "../player/physics.js";
 import { SpatialIndex, around } from "../legacy06/spatial.js";
 import {
   initializeDoor,
@@ -34,6 +44,8 @@ export class Game {
   preview = new T.Group();
   player: any = { ...TEMPLATES[0].spawn, vy: 0, grounded: true };
   selected = "hand";
+  favourites: string[] = [];
+  recent: string[] = [];
   pending: Block | null = null;
   moving: Block | null = null;
   pickingMove = false;
@@ -66,7 +78,7 @@ export class Game {
     );
     for (const i of CATALOGUE)
       this.materials[i.id] = new T.MeshLambertMaterial({ color: i.color });
-    this.chunks = new BuildChunks(
+    this.chunks = new RegistryChunks(
       this.buildGroup,
       this.geometry,
       this.materials,
@@ -122,8 +134,12 @@ export class Game {
     if (
       blocks.some((b) =>
         index
-          .query(cellBox(b))
-          .some((s) => overlaps(cellBox(b), s.ramp ? { ...s, ramp: null } : s)),
+          .query(blockBounds(b))
+          .some((s) =>
+            blockColliders(b).some((shape) =>
+              overlaps(shape, s.ramp ? { ...s, ramp: null } : s),
+            ),
+          ),
       )
     ) {
       this.clearGroup(candidate);
@@ -134,7 +150,7 @@ export class Game {
     if (
       template === "home-square" &&
       activity?.car &&
-      [...world.solids, ...blocks.map(cellBox)].some((b) =>
+      [...world.solids, ...blocks.flatMap(blockColliders)].some((b) =>
         overlaps(carBox(activity.car), b),
       )
     ) {
@@ -211,7 +227,7 @@ export class Game {
             Math.abs(b.x - this.player.x) < 4 &&
             Math.abs(b.z - this.player.z) < 4,
         )
-        .map(cellBox),
+        .flatMap(blockColliders),
       ...this.world.doors
         .filter(
           (d: any) =>
@@ -234,10 +250,12 @@ export class Game {
         solids: [
           ...this.index.query(around({ ...d.center, y: 0 }, 4)),
           ...(this.activity ? [carBox(this.activity.car)] : []),
+          ...this.commands.blocks
+            .filter((b) => Math.hypot(b.x - d.center.x, b.z - d.center.z) < 6)
+            .flatMap(blockColliders)
+            .map((s) => (s.ramp ? { ...s, ramp: null } : s)),
         ],
-        blocks: this.commands.blocks.filter(
-          (b) => Math.hypot(b.x - d.center.x, b.z - d.center.z) < 5,
-        ),
+        blocks: [],
       }),
     );
     const input = this.controls.movement(),
@@ -245,7 +263,7 @@ export class Game {
       obstacles = [
         ...this.world.solids,
         ...this.world.doors.map((d: any) => doorBox(d)),
-        ...this.commands.blocks.map(cellBox),
+        ...this.commands.blocks.flatMap(blockColliders),
       ];
     if (!this.activity?.driving) {
       if (this.flying)
@@ -294,7 +312,7 @@ export class Game {
                 Math.abs(b.x - this.player.x) < 8 &&
                 Math.abs(b.z - this.player.z) < 8,
             )
-            .map(cellBox),
+            .flatMap(blockColliders),
         ]) && !this.activity?.driving;
     } else {
       this.view.camera.position.set(
@@ -349,7 +367,7 @@ export class Game {
         z: Math.floor(p.z),
         type: this.selected,
       };
-      if (["flowers", "lantern", "bench"].includes(target.type)) {
+      if (!ITEMS.get(target.type)?.cube) {
         const axis = (["x", "y", "z"] as ("x" | "y" | "z")[]).sort(
           (a, b) => Math.abs(normal[b]) - Math.abs(normal[a]),
         )[0];
@@ -402,12 +420,12 @@ export class Game {
       this.notice("Move closer to a clear space");
       return;
     }
-    const reason = this.commands.reason(h.aim);
+    const reason = this.placementReason(h.aim);
     if (reason) {
       this.notice(reason);
       return;
     }
-    if (["flowers", "lantern", "bench"].includes(this.selected)) {
+    if (!ITEMS.get(this.selected)?.cube) {
       this.pending = { ...h.aim, rotation: 0 };
       this.showPreview();
     } else this.notice(this.commands.place(h.aim) || "✓ Placed");
@@ -427,37 +445,10 @@ export class Game {
     });
     this.preview.clear();
     if (!this.pending) return;
-    if (["wood", "brick", "stone", "glass"].includes(this.pending.type)) {
-      const mesh = new T.Mesh(
-        this.geometry,
-        new T.MeshLambertMaterial({
-          color: this.materials[this.pending.type].color,
-          transparent: true,
-          opacity: 0.6,
-        }),
-      );
-      mesh.position.set(
-        this.pending.x + 0.5,
-        this.pending.y + 0.5,
-        this.pending.z + 0.5,
-      );
-      this.preview.add(mesh);
-    } else
-      this.preview.add(
-        detailedPiece(
-          this.pending,
-          this.geometry,
-          (color: number) =>
-            new T.MeshLambertMaterial({
-              color,
-              transparent: true,
-              opacity: 0.6,
-            }),
-        ),
-      );
+    this.preview.add(renderModel(this.pending, true));
     document.querySelector<HTMLElement>("#previewControls")!.hidden = false;
     document.querySelector<HTMLButtonElement>("#confirm")!.disabled =
-      !!this.commands.reason(this.pending, true, this.moving || undefined);
+      !!this.placementReason(this.pending);
   }
   cancel() {
     this.pending = null;
@@ -474,7 +465,7 @@ export class Game {
     if (!this.pending) return;
     const reason = this.moving
       ? this.commands.move(this.moving, this.pending)
-      : this.commands.place(this.pending);
+      : this.commands.placeMany(expandPrefab(this.pending));
     if (reason) this.notice(reason);
     else {
       this.cancel();
@@ -482,11 +473,29 @@ export class Game {
     }
   }
   use() {
+    const built = this.commands.blocks
+      .filter(
+        (b) =>
+          ["door", "light"].includes(ITEMS.get(b.type)?.interaction || "") &&
+          Math.hypot(b.x + 0.5 - this.player.x, b.z + 0.5 - this.player.z) <
+            2.4 &&
+          Math.abs(b.y - this.player.y) < 2,
+      )
+      .sort(
+        (a, b) =>
+          Math.hypot(a.x - this.player.x, a.z - this.player.z) -
+          Math.hypot(b.x - this.player.x, b.z - this.player.z),
+      )[0];
+    if (built) {
+      this.notice(this.commands.toggle(built) || "✓ Used");
+      return;
+    }
+
     if (this.activity) {
       try {
         const message = this.activity.use(this.player, [
           ...this.obstacles(),
-          ...this.commands.blocks.map(cellBox),
+          ...this.commands.blocks.flatMap(blockColliders),
         ]);
         if (message) {
           this.flying = false;
@@ -538,7 +547,7 @@ export class Game {
       safeGround(
         TEMPLATES.find((t) => t.id === this.template)?.spawn ||
           TEMPLATES[0].spawn,
-        [...this.obstacles(), ...this.commands.blocks.map(cellBox)],
+        [...this.obstacles(), ...this.commands.blocks.flatMap(blockColliders)],
       ),
     );
     this.flying = false;
@@ -644,69 +653,36 @@ export class Game {
         .querySelector("#guard")!
         .setAttribute("aria-pressed", String(this.guard));
     });
-    document.querySelector("#palette")!.innerHTML = CATALOGUE.map(
-      (i) =>
-        `<button data-item="${i.id}" aria-label="Choose ${i.label}" title="${i.label}"><span>${i.icon}</span><small>${i.label}</small></button>`,
-    ).join("");
+    renderHotbar(this);
     document.querySelector("#palette")!.addEventListener("click", (e) => {
       const b = (e.target as HTMLElement).closest<HTMLButtonElement>(
         "[data-item]",
       );
       if (!b || this.paused) return;
-      this.selected =
-        this.selected === b.dataset.item ? "hand" : b.dataset.item!;
-      this.cancel();
-      document
-        .querySelectorAll<HTMLButtonElement>("[data-item]")
-        .forEach((b) =>
-          b.setAttribute(
-            "aria-pressed",
-            String(b.dataset.item === this.selected),
-          ),
-        );
+      this.choose(b.dataset.item!, true);
     });
   }
   catalogue() {
-    this.paused = true;
-    this.controls.clear();
-    const modal = document.querySelector<HTMLElement>("#modal")!;
-    modal.hidden = false;
-    modal.innerHTML =
-      '<section><h1>▦ Build anything</h1><div id="categories"></div><div id="catalogueGrid"></div><button id="closeCatalogue">▶ Play</button></section>';
-    const close = () => {
-      modal.hidden = true;
-      this.paused = false;
-    };
-    const draw = (category: string) => {
-      const grid = document.querySelector("#catalogueGrid")!;
-      grid.replaceChildren();
-      for (const item of CATALOGUE.filter(
-        (i) => category === "All" || i.category === category,
-      )) {
-        const b = document.createElement("button");
-        b.dataset.catalogue = item.id;
-        b.textContent = item.icon + " " + item.label;
-        b.onclick = () => {
-          this.selected = item.id;
-          this.cancel();
-          this.refreshSelection();
-          close();
-        };
-        grid.append(b);
-      }
-    };
-    for (const category of [
-      "All",
-      ...new Set(CATALOGUE.map((i) => i.category)),
-    ]) {
-      const b = document.createElement("button");
-      b.textContent = category;
-      b.onclick = () => draw(category);
-      document.querySelector("#categories")!.append(b);
-    }
-    document.querySelector<HTMLButtonElement>("#closeCatalogue")!.onclick =
-      close;
-    draw("All");
+    openCatalogue(this);
+  }
+  choose(id: string, toggle = false) {
+    this.selected = toggle && this.selected === id ? "hand" : id;
+    this.recent = [id, ...this.recent.filter((x) => x !== id)].slice(0, 8);
+    this.cancel();
+    renderHotbar(this);
+    this.refreshSelection();
+    this.onEdit();
+  }
+  placementReason(b: Block) {
+    if (this.moving) return this.commands.reason(b, true, this.moving);
+    if (!PREFABS.some((p) => p.id === b.type)) return this.commands.reason(b);
+    const temporary = new Commands(
+      () => this.obstacles(),
+      () => this.player,
+      () => {},
+    );
+    temporary.reset(this.commands.blocks);
+    return temporary.placeMany(expandPrefab(b));
   }
   refreshSelection() {
     document
@@ -746,6 +722,8 @@ export class Game {
   }
   snapshot() {
     return {
+      favourites: this.favourites,
+      recent: this.recent,
       camera: this.cameraMode,
       flying: this.flying,
       activity: this.activity?.snapshot(),
