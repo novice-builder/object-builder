@@ -12,6 +12,7 @@ import {
   type Landmark,
   type Obstacle,
 } from "./landscape";
+import { footprintGroundProblem } from "./placement-ground";
 import { AdventureMap } from "./world-map";
 import { createMapData, type MapDestination } from "./map-data";
 import { clearArrival } from "./safe-position";
@@ -96,6 +97,7 @@ class AdventureGame {
   private ghost: T.Object3D | null = null;
   private pending: Placement | null = null;
   private moving: string | null = null;
+  private ghostValidation = "";
   private originalMaterials = new Map<T.Mesh, T.Material | T.Material[]>();
   private history: Placement[][] = [];
   private redoHistory: Placement[][] = [];
@@ -462,6 +464,7 @@ class AdventureGame {
     };
   }
   private rebuildObstacles() {
+    this.ghostValidation = "";
     const built: OwnedObstacle[] = [];
     for (const p of this.data.objects) {
       const root = this.userRoots.get(p.id);
@@ -513,6 +516,8 @@ class AdventureGame {
       targetZ = ((-input.x / n) * sin + (input.z / n) * cos) * speed;
     this.velocity.lerp(new T.Vector2(targetX, targetZ), 1 - Math.exp(-dt * 11));
     if (this.velocity.length() < 0.025) this.velocity.set(0, 0);
+    const previousX = this.player.x,
+      previousZ = this.player.z;
     const obs = this.obstacles(),
       steps = Math.ceil(dt / (1 / 60)),
       step = dt / steps;
@@ -534,7 +539,10 @@ class AdventureGame {
       this.player.y + 0.025,
       this.player.z,
     );
-    const moving = this.velocity.length() > 0.12;
+    const travelledSpeed =
+      Math.hypot(this.player.x - previousX, this.player.z - previousZ) /
+      Math.max(dt, 0.00001);
+    const moving = travelledSpeed > 0.12;
     if (moving) {
       const target = Math.atan2(this.velocity.x, this.velocity.y),
         delta = Math.atan2(
@@ -548,7 +556,7 @@ class AdventureGame {
     this.animate(moving ? (input.run ? "Running_A" : "Walking_A") : "Idle");
     this.actions
       .get("Walking_A")
-      ?.setEffectiveTimeScale(Math.max(0.7, this.velocity.length() / 3.05));
+      ?.setEffectiveTimeScale(Math.max(0.7, travelledSpeed / 3.05));
     this.mixer.update(dt);
     if (this.pending && (!this.selection || this.moving)) this.updateGhost();
   }
@@ -788,6 +796,8 @@ class AdventureGame {
     if (this.worldMap.open) this.closeWorldMap();
     this.modalOpen = true;
     this.controls.clear();
+    this.velocity.set(0, 0);
+    this.animate("Idle");
     $("modal").innerHTML =
       `<section><button class="closeModal" aria-label="Close dialog">✕</button>${content}</section>`;
     $("modal").hidden = false;
@@ -1078,6 +1088,13 @@ class AdventureGame {
       return "Keep paths and entrances clear";
     const b = this.objectBox(root, p.asset);
     if (b) {
+      const groundError = footprintGroundProblem(b, root.position.y, {
+        inside: (x, z) => inWorld(x, z, this.data.scene, 0.1),
+        water: (x, z) => waterBlocked(x, z, this.data.scene),
+        path: (x, z) => this.landscape.nearPath(x, z, 0.35),
+        height: (x, z) => walkHeight(x, z, this.data.scene),
+      });
+      if (groundError) return groundError;
       const test = {
         ...b,
         minX: b.minX - 0.3,
@@ -1102,6 +1119,15 @@ class AdventureGame {
   }
   private validateGhost() {
     if (!this.pending || !this.ghost) return;
+    const pose = [
+      this.pending.id,
+      this.pending.x,
+      this.pending.z,
+      this.pending.yaw,
+      this.pending.scale,
+    ].join(":");
+    if (this.ghostValidation === pose) return;
+    this.ghostValidation = pose;
     this.ghost.updateMatrixWorld(true);
     const error = this.placementProblem(this.pending, this.ghost);
     $<HTMLButtonElement>("editConfirm").disabled = !!error;
@@ -1142,6 +1168,7 @@ class AdventureGame {
       });
     }
     this.ghost = null;
+    this.ghostValidation = "";
     this.originalMaterials.clear();
     if (this.moving) this.userRoots.get(this.moving)!.visible = true;
     this.pending = null;

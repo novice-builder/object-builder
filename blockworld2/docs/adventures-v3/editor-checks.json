@@ -1,0 +1,148 @@
+{
+  "checks": [
+    {
+      "name": "graphics and run preferences survive reload",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fresh-place UI keeps original record and creates layout 3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "15 offered assets display real rendered thumbnails",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "homes filter shows three assets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "garden filter shows eight assets",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "valid thumbnail selection enters place mode",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "place uses chosen premade asset",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "touch/click selection shows a model outline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "selected asset rotates with its outline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "move preview hides original and its outline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "cancel move restores original without changing save data",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "moving at the 200-object limit preserves ID and custom scale",
+      "passed": true,
+      "detail": {
+        "count": 200,
+        "id": "79244963-5b63-49d2-b7f9-dfd759873500",
+        "expected": "79244963-5b63-49d2-b7f9-dfd759873500",
+        "scale": 3.25
+      }
+    },
+    {
+      "name": "rejected rotation preserves undo/redo history and transform",
+      "passed": true,
+      "detail": {
+        "history": true,
+        "redo": true,
+        "yaw": true
+      }
+    },
+    {
+      "name": "remove clears the selected object and outline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "undo restores the removed premade object",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "permanent cottage blocks picking an object behind it",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "editor pass has no runtime errors or missing resources",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "missing": []
+      }
+    },
+    {
+      "name": "phone thumbnail catalogue fits width and scrolls vertically",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone edit bar leaves joystick clear",
+      "passed": true,
+      "detail": [
+        {
+          "left": 63.125,
+          "right": 326.875,
+          "top": 606,
+          "bottom": 660
+        },
+        {
+          "left": 22,
+          "right": 138,
+          "top": 678,
+          "bottom": 794
+        }
+      ]
+    },
+    {
+      "name": "tablet thumbnail catalogue fits width and scrolls vertically",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet edit bar leaves joystick clear",
+      "passed": true,
+      "detail": [
+        {
+          "left": 433.25,
+          "right": 846.75,
+          "top": 712,
+          "bottom": 772
+        },
+        {
+          "left": 35,
+          "right": 159,
+          "top": 631,
+          "bottom": 755
+        }
+      ]
+    }
+  ],
+  "environment": "Chromium touch/viewport emulation with SwiftShader; physical Lenovo/iPhone/Safari unverified."
+}

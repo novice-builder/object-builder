@@ -6,6 +6,7 @@ export class AdventureControls {
   private stickPointer: number | null = null;
   private stickOrigin = { x: 0, y: 0 };
   private previousPinch = 0;
+  private releaseStick: () => void = () => {};
   constructor(
     readonly canvas: HTMLCanvasElement,
     readonly enabled: () => boolean,
@@ -17,10 +18,14 @@ export class AdventureControls {
     const joystick = document.querySelector<HTMLElement>("#joystick")!,
       knob = document.querySelector<HTMLElement>("#knob")!;
     const release = () => {
+      const pointer = this.stickPointer;
       this.stickPointer = null;
+      if (pointer !== null && joystick.hasPointerCapture(pointer))
+        joystick.releasePointerCapture(pointer);
       this.stick.x = this.stick.y = 0;
       knob.style.transform = "translate(-50%,-50%)";
     };
+    this.releaseStick = release;
     const update = (e: PointerEvent) => {
       const x = (e.clientX - this.stickOrigin.x) / 42,
         y = (e.clientY - this.stickOrigin.y) / 42,
@@ -89,10 +94,16 @@ export class AdventureControls {
       }
     });
     const end = (e: PointerEvent) => {
+      const pinching = this.pointers.size > 1;
       this.pointers.delete(e.pointerId);
       if (drag?.id === e.pointerId) {
         if (drag.distance < 8 && this.enabled()) this.tap(e.clientX, e.clientY);
         drag = null;
+      }
+      if (pinching && this.pointers.size === 1) {
+        const [id, p] = [...this.pointers.entries()][0];
+        drag = { id, x: p.x, y: p.y, startX: p.x, startY: p.y, distance: 8 };
+        this.previousPinch = 0;
       }
       if (this.pointers.size === 0) this.previousPinch = 0;
     };
@@ -100,7 +111,7 @@ export class AdventureControls {
     for (const event of ["pointercancel", "lostpointercapture"])
       canvas.addEventListener(event, (e) => {
         this.pointers.delete((e as PointerEvent).pointerId);
-        drag = null;
+        if (drag?.id === (e as PointerEvent).pointerId) drag = null;
       });
     canvas.addEventListener(
       "wheel",
@@ -141,6 +152,11 @@ export class AdventureControls {
     });
   }
   clear() {
+    this.releaseStick();
+    for (const id of this.pointers.keys())
+      if (this.canvas.hasPointerCapture(id))
+        this.canvas.releasePointerCapture(id);
+    this.previousPinch = 0;
     this.keys.clear();
     this.stick.x = this.stick.y = 0;
     this.pointers.clear();

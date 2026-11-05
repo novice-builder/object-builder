@@ -1,0 +1,69 @@
+{
+  "checks": [
+    {
+      "name": "unchanged collision queries reuse one view",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "object edits replace footprints and retain retired views safely",
+      "passed": true,
+      "detail": {
+        "changed": true,
+        "newX": 24.603999989032744,
+        "oldX": 9.603999989032745,
+        "retiredStable": true
+      }
+    },
+    {
+      "name": "move exclusion is cached and restored on cancel",
+      "passed": true,
+      "detail": {
+        "stable": true,
+        "excluded": true,
+        "retained": true,
+        "restored": true
+      }
+    },
+    {
+      "name": "successful rotation refreshes the collision cache",
+      "passed": true,
+      "detail": {
+        "yaw": 0.7853981633974483,
+        "minX": 24.02827814219155,
+        "before": 24.603999989032744
+      }
+    },
+    {
+      "name": "world switching drops all previous user footprints",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "camera remains outside the inn at close walking distance",
+      "passed": true,
+      "detail": {
+        "z": -17.303901300430297,
+        "distance": 35.33175956611808,
+        "visible": false
+      }
+    },
+    {
+      "name": "camera interpolation cannot cut through a building corner",
+      "passed": true,
+      "detail": {
+        "camera": {
+          "x": -2.823039261552951,
+          "y": 2.1496566531582104,
+          "z": -17.32949300501365
+        },
+        "inside": false
+      }
+    },
+    {
+      "name": "collision pass has no runtime errors",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}

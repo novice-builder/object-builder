@@ -15,7 +15,7 @@ with sync_playwright() as p:
  old,current=pages
  for scene in ['village','woodland','meadow']:
   for layout in [1,2]:
-   old.evaluate('(s)=>adventure.session.create(s)',scene);old.evaluate('n=>{const s=adventure.snapshot();s.world.adventure.layout=n;adventure.game.apply(s)}',layout)
+   old.evaluate('(s)=>adventure.session.create(s)',scene);old.evaluate("n=>{const s=adventure.snapshot();s.world.adventure.layout=n;s.world.adventure.objects=[{id:'retained-'+s.world.adventure.scene+'-'+n,asset:'barrel',x:70,z:60,yaw:.7,scale:3.25}];adventure.game.apply(s)}",layout)
    baseline=signature(old);text=old.evaluate('adventure.session.export()');current.evaluate('(text)=>adventure.session.import(text)',text)
    check(f'{scene} layout {layout} geometry, paths, collisions, landmarks and objects preserved',signature(current)==baseline)
   current.evaluate('(s)=>adventure.session.create(s)',scene);check(scene+' fresh layout 3',current.evaluate('adventure.game.data.layout===3'))

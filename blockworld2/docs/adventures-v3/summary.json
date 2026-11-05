@@ -1,0 +1,1092 @@
+{
+  "deterministicTests": 140,
+  "checks": [
+    {
+      "name": "village layout 1 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true,
+      "pass": "art-checks.json"
+    },
+    {
+      "name": "village layout 2 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true,
+      "pass": "art-checks.json"
+    },
+    {
+      "name": "village fresh layout 3",
+      "passed": true,
+      "pass": "art-checks.json"
+    },
+    {
+      "name": "woodland layout 1 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true,
+      "pass": "art-checks.json"
+    },
+    {
+      "name": "woodland layout 2 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true,
+      "pass": "art-checks.json"
+    },
+    {
+      "name": "woodland fresh layout 3",
+      "passed": true,
+      "pass": "art-checks.json"
+    },
+    {
+      "name": "meadow layout 1 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true,
+      "pass": "art-checks.json"
+    },
+    {
+      "name": "meadow layout 2 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true,
+      "pass": "art-checks.json"
+    },
+    {
+      "name": "meadow fresh layout 3",
+      "passed": true,
+      "pass": "art-checks.json"
+    },
+    {
+      "name": "no art/compatibility runtime errors",
+      "passed": true,
+      "pass": "art-checks.json"
+    },
+    {
+      "name": "new device starts in connected vale",
+      "passed": true,
+      "detail": null,
+      "pass": "vale-checks.json"
+    },
+    {
+      "name": "major path centres clear of tree trunks",
+      "passed": true,
+      "detail": [
+        {
+          "x": -105,
+          "z": 1,
+          "name": "building_well_blue"
+        },
+        {
+          "x": -105,
+          "z": 0.6666666666666661,
+          "name": "building_well_blue"
+        },
+        {
+          "x": -105,
+          "z": 0.3333333333333339,
+          "name": "building_well_blue"
+        },
+        {
+          "x": -105,
+          "z": 0,
+          "name": "building_well_blue"
+        },
+        {
+          "x": -105,
+          "z": -0.3333333333333339,
+          "name": "building_well_blue"
+        },
+        {
+          "x": -105,
+          "z": -0.6666666666666661,
+          "name": "building_well_blue"
+        },
+        {
+          "x": -105,
+          "z": -1,
+          "name": "building_well_blue"
+        },
+        {
+          "x": -105,
+          "z": -1.333333333333334,
+          "name": "building_well_blue"
+        }
+      ],
+      "pass": "vale-checks.json"
+    },
+    {
+      "name": "walk across western bridge without world/save replacement",
+      "passed": true,
+      "detail": {
+        "x": -64.49698146807954,
+        "z": 8,
+        "sameLandscape": true,
+        "sameSave": true
+      },
+      "pass": "vale-checks.json"
+    },
+    {
+      "name": "eastern bridge is walkable in same world",
+      "passed": true,
+      "detail": {
+        "x": 42.503018531921896,
+        "z": 8
+      },
+      "pass": "vale-checks.json"
+    },
+    {
+      "name": "new tent has standing-height shell",
+      "passed": true,
+      "detail": {
+        "tentAt55": 3.0862194000000014,
+        "legacyTentAt25": 1.4028270000000007,
+        "actorScale": 0.8
+      },
+      "pass": "vale-checks.json"
+    },
+    {
+      "name": "multiple settlements and retained regions are present",
+      "passed": true,
+      "detail": null,
+      "pass": "vale-checks.json"
+    },
+    {
+      "name": "connected save reloads expanded coordinates and scene",
+      "passed": true,
+      "detail": null,
+      "pass": "vale-checks.json"
+    },
+    {
+      "name": "connected backup imports as a new copy",
+      "passed": true,
+      "detail": null,
+      "pass": "vale-checks.json"
+    },
+    {
+      "name": "no connected-world runtime errors",
+      "passed": true,
+      "detail": [],
+      "pass": "vale-checks.json"
+    },
+    {
+      "name": "desktop compact minimap fits and clears HUD",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "desktop map is made from actual world paths/building footprints",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "desktop full map suspends hidden 3D rendering",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "desktop zoom button changes map scale",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "desktop tap meadow marker safely travels in same world",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "desktop Home returns to safe village start",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "blocked marker arrives on nearby clear ground",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "built cottage is included on map",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "Escape closes map and releases movement",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone compact minimap fits and clears HUD",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone map is made from actual world paths/building footprints",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone full map suspends hidden 3D rendering",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone zoom button changes map scale",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone real two-touch pinch zoom",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone map drag pans without teleport",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone tap meadow marker safely travels in same world",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone Home returns to safe village start",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone-landscape compact minimap fits and clears HUD",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone-landscape map is made from actual world paths/building footprints",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone-landscape full map suspends hidden 3D rendering",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone-landscape zoom button changes map scale",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone-landscape tap meadow marker safely travels in same world",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "phone-landscape Home returns to safe village start",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "tablet compact minimap fits and clears HUD",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "tablet map is made from actual world paths/building footprints",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "tablet full map suspends hidden 3D rendering",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "tablet zoom button changes map scale",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "tablet tap meadow marker safely travels in same world",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "tablet Home returns to safe village start",
+      "passed": true,
+      "detail": null,
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "no map browser runtime errors",
+      "passed": true,
+      "detail": [],
+      "pass": "map-checks.json"
+    },
+    {
+      "name": "real batched models retain all transformed vertices and triangles",
+      "passed": true,
+      "detail": {
+        "models": 9,
+        "bad": []
+      },
+      "pass": "stability-checks.json"
+    },
+    {
+      "name": "culling hides only fully fogged static bounds",
+      "passed": true,
+      "detail": 0,
+      "pass": "stability-checks.json"
+    },
+    {
+      "name": "24 world replacements plateau after one template warmup cycle",
+      "passed": true,
+      "detail": [
+        [
+          1,
+          80,
+          11
+        ],
+        [
+          3,
+          84,
+          11
+        ],
+        [
+          5,
+          89,
+          11
+        ],
+        [
+          7,
+          89,
+          11
+        ],
+        [
+          9,
+          89,
+          11
+        ],
+        [
+          11,
+          89,
+          11
+        ],
+        [
+          13,
+          89,
+          11
+        ],
+        [
+          15,
+          89,
+          11
+        ],
+        [
+          17,
+          89,
+          11
+        ],
+        [
+          19,
+          89,
+          11
+        ],
+        [
+          21,
+          89,
+          11
+        ],
+        [
+          23,
+          89,
+          11
+        ]
+      ],
+      "pass": "stability-checks.json"
+    },
+    {
+      "name": "each repeat keeps a valid native save and independent records",
+      "passed": true,
+      "detail": null,
+      "pass": "stability-checks.json"
+    },
+    {
+      "name": "repeated replacement and batching have no runtime errors",
+      "passed": true,
+      "detail": [],
+      "pass": "stability-checks.json"
+    },
+    {
+      "name": "clear cancels held joystick ownership and stale movement",
+      "passed": true,
+      "detail": {
+        "stick": 0,
+        "pointer": null
+      },
+      "pass": "motion-after.json"
+    },
+    {
+      "name": "remaining thumb can orbit after pinch",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": -0.14
+      },
+      "pass": "motion-after.json"
+    },
+    {
+      "name": "fully blocked movement rests instead of running in place",
+      "passed": true,
+      "detail": {
+        "z": -17.20303291867719,
+        "clip": "Idle"
+      },
+      "pass": "motion-after.json"
+    },
+    {
+      "name": "whole cottage footprint stays clear of stream",
+      "passed": true,
+      "detail": {
+        "error": "Keep the water clear",
+        "bounds": {
+          "minX": 33.91216071128845,
+          "maxX": 40.08783928871155,
+          "minZ": 36.66539342880249,
+          "maxZ": 43.33460657119751,
+          "height": 7.440001177787792
+        }
+      },
+      "pass": "motion-after.json"
+    },
+    {
+      "name": "remaining-finger orbit reproduced on preserved controls and fixed in current build",
+      "passed": true,
+      "pass": "pinch-reference.json"
+    },
+    {
+      "name": "graphics and run preferences survive reload",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "fresh-place UI keeps original record and creates layout 3",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "15 offered assets display real rendered thumbnails",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "homes filter shows three assets",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "garden filter shows eight assets",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "valid thumbnail selection enters place mode",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "place uses chosen premade asset",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "touch/click selection shows a model outline",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "selected asset rotates with its outline",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "move preview hides original and its outline",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "cancel move restores original without changing save data",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "moving at the 200-object limit preserves ID and custom scale",
+      "passed": true,
+      "detail": {
+        "count": 200,
+        "id": "79244963-5b63-49d2-b7f9-dfd759873500",
+        "expected": "79244963-5b63-49d2-b7f9-dfd759873500",
+        "scale": 3.25
+      },
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "rejected rotation preserves undo/redo history and transform",
+      "passed": true,
+      "detail": {
+        "history": true,
+        "redo": true,
+        "yaw": true
+      },
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "remove clears the selected object and outline",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "undo restores the removed premade object",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "permanent cottage blocks picking an object behind it",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "editor pass has no runtime errors or missing resources",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "missing": []
+      },
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "phone thumbnail catalogue fits width and scrolls vertically",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "phone edit bar leaves joystick clear",
+      "passed": true,
+      "detail": [
+        {
+          "left": 63.125,
+          "right": 326.875,
+          "top": 606,
+          "bottom": 660
+        },
+        {
+          "left": 22,
+          "right": 138,
+          "top": 678,
+          "bottom": 794
+        }
+      ],
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "tablet thumbnail catalogue fits width and scrolls vertically",
+      "passed": true,
+      "detail": null,
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "tablet edit bar leaves joystick clear",
+      "passed": true,
+      "detail": [
+        {
+          "left": 433.25,
+          "right": 846.75,
+          "top": 712,
+          "bottom": 772
+        },
+        {
+          "left": 35,
+          "right": 159,
+          "top": 631,
+          "bottom": 755
+        }
+      ],
+      "pass": "editor-checks.json"
+    },
+    {
+      "name": "unchanged collision queries reuse one view",
+      "passed": true,
+      "detail": null,
+      "pass": "collision-checks.json"
+    },
+    {
+      "name": "object edits replace footprints and retain retired views safely",
+      "passed": true,
+      "detail": {
+        "changed": true,
+        "newX": 24.603999989032744,
+        "oldX": 9.603999989032745,
+        "retiredStable": true
+      },
+      "pass": "collision-checks.json"
+    },
+    {
+      "name": "move exclusion is cached and restored on cancel",
+      "passed": true,
+      "detail": {
+        "stable": true,
+        "excluded": true,
+        "retained": true,
+        "restored": true
+      },
+      "pass": "collision-checks.json"
+    },
+    {
+      "name": "successful rotation refreshes the collision cache",
+      "passed": true,
+      "detail": {
+        "yaw": 0.7853981633974483,
+        "minX": 24.02827814219155,
+        "before": 24.603999989032744
+      },
+      "pass": "collision-checks.json"
+    },
+    {
+      "name": "world switching drops all previous user footprints",
+      "passed": true,
+      "detail": null,
+      "pass": "collision-checks.json"
+    },
+    {
+      "name": "camera remains outside the inn at close walking distance",
+      "passed": true,
+      "detail": {
+        "z": -17.303901300430297,
+        "distance": 35.33175956611808,
+        "visible": false
+      },
+      "pass": "collision-checks.json"
+    },
+    {
+      "name": "camera interpolation cannot cut through a building corner",
+      "passed": true,
+      "detail": {
+        "camera": {
+          "x": -2.823039261552951,
+          "y": 2.1496566531582104,
+          "z": -17.32949300501365
+        },
+        "inside": false
+      },
+      "pass": "collision-checks.json"
+    },
+    {
+      "name": "collision pass has no runtime errors",
+      "passed": true,
+      "detail": [],
+      "pass": "collision-checks.json"
+    },
+    {
+      "name": "walking, stopping and supplied animation transitions",
+      "passed": true,
+      "detail": {
+        "distance": 4.322367770970619,
+        "clip": "Walking_A",
+        "idle": "Idle"
+      },
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "running animation",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "tavern footprint stops the player",
+      "passed": true,
+      "detail": {
+        "x": 0,
+        "z": -17.20303291867719,
+        "obstacles": [
+          {
+            "minX": -4.705603528022766,
+            "maxX": 4.705603528022767,
+            "minZ": -28.412197399139405,
+            "maxZ": -17.587802600860595,
+            "height": 12.290520563125211,
+            "name": "building_tavern_blue"
+          }
+        ]
+      },
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "following camera shortens before the inn",
+      "passed": true,
+      "detail": {
+        "z": -16.979849822526837,
+        "distance": 5.585494558814802
+      },
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "blocked spawn recovers to clear ground",
+      "passed": true,
+      "detail": {
+        "x": 5.050188587841507,
+        "z": -20.821561286784636
+      },
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "walk continuously across bridge",
+      "passed": true,
+      "detail": {
+        "x": 42.503018531921896,
+        "z": 8,
+        "y": 0
+      },
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "stream bank blocks entry outside bridge",
+      "passed": true,
+      "detail": 29.503018744093698,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "clear-spot placement enabled",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "premade object placed",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "undo restores scene",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "redo restores object",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "save and reload retain independent meadow",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "import creates new record",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "malformed import preserves current world",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "resource counts stay bounded over nine switches",
+      "passed": true,
+      "detail": [
+        [
+          "village",
+          66,
+          11
+        ],
+        [
+          "woodland",
+          63,
+          10
+        ],
+        [
+          "meadow",
+          63,
+          10
+        ],
+        [
+          "village",
+          74,
+          11
+        ],
+        [
+          "woodland",
+          63,
+          10
+        ],
+        [
+          "meadow",
+          63,
+          10
+        ],
+        [
+          "village",
+          74,
+          11
+        ],
+        [
+          "woodland",
+          63,
+          10
+        ],
+        [
+          "meadow",
+          63,
+          10
+        ]
+      ],
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "no browser runtime errors",
+      "passed": true,
+      "detail": [],
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "all local resources resolved",
+      "passed": true,
+      "detail": [],
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "tablet LAN UUID fallback creates initial save",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "tablet touch controls visible",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "tablet controls fit viewport",
+      "passed": true,
+      "detail": [
+        {
+          "id": "hud",
+          "x": 28,
+          "y": 24,
+          "right": 1252,
+          "bottom": 87
+        },
+        {
+          "id": "joystick",
+          "x": 35,
+          "y": 631,
+          "right": 159,
+          "bottom": 755
+        },
+        {
+          "id": "run",
+          "x": 1186,
+          "y": 671,
+          "right": 1250,
+          "bottom": 735
+        }
+      ],
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "tablet movement survives second-thumb release",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "tablet joystick resets on release",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "tablet clipboard-free backup fallback",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-portrait LAN UUID fallback creates initial save",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-portrait touch controls visible",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-portrait controls fit viewport",
+      "passed": true,
+      "detail": [
+        {
+          "id": "hud",
+          "x": 14,
+          "y": 14,
+          "right": 376,
+          "bottom": 75
+        },
+        {
+          "id": "joystick",
+          "x": 22,
+          "y": 678,
+          "right": 138,
+          "bottom": 794
+        },
+        {
+          "id": "run",
+          "x": 309,
+          "y": 713,
+          "right": 368,
+          "bottom": 772
+        }
+      ],
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-portrait movement survives second-thumb release",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-portrait joystick resets on release",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-portrait clipboard-free backup fallback",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-landscape LAN UUID fallback creates initial save",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-landscape touch controls visible",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-landscape controls fit viewport",
+      "passed": true,
+      "detail": [
+        {
+          "id": "hud",
+          "x": 14,
+          "y": 8,
+          "right": 830,
+          "bottom": 71
+        },
+        {
+          "id": "joystick",
+          "x": 25,
+          "y": 263,
+          "right": 127,
+          "bottom": 365
+        },
+        {
+          "id": "run",
+          "x": 750,
+          "y": 291,
+          "right": 814,
+          "bottom": 355
+        }
+      ],
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-landscape movement survives second-thumb release",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-landscape joystick resets on release",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    },
+    {
+      "name": "iphone-landscape clipboard-free backup fallback",
+      "passed": true,
+      "detail": null,
+      "pass": "qa-results.json"
+    }
+  ],
+  "environment": "Managed Chromium ANGLE SwiftShader with emulated phones/tablets. No physical Lenovo/iPhone/Safari results.",
+  "sourceHeadAtEvidenceConsolidation": "02f2e6a74dd96a098b2df21187552a1c040a8364",
+  "sourceFileHashes": {
+    "src/adventures/controls.ts": "f926e5bb78c0206a3ed1285750e87e78295d80cc13d76795527befecc372183b",
+    "src/adventures/placement-ground.ts": "b32d174874465a009deb0cf57935864a9fbeb204a0d8480a49c2432ebebdc540",
+    "src/adventures/trail-geometry.ts": "545e1f9b21d10320ff7a810387cc631d664ff0fb2152ffafca6a68c744815ae5",
+    "src/adventures/landscape.ts": "81ca5a4436d6a5c912df977ecf58816702014dc333caa3ca20c68322ae39acde",
+    "src/adventures/connected-landscape.ts": "634f53a59814d076a45b519fedf9696acbda8550da05bf79f1f234734fd7aefe",
+    "src/adventures/catalogue.ts": "ee7f38c76fccfba6c71a24a2abdbd3330da057da5dc9067644cdbe8a128304b8",
+    "src/adventures/assets.ts": "c03796b34fc4f32b79e36f559a199097fff8757bd164c3a9ebfda09f528846d7",
+    "src/adventures/main.ts": "7609d4f56b9647258eeab7296a3d952e4a551ab90a709b6838bf771974c70730",
+    "src/adventures/style.css": "dbaa241cffcba9e4c848199b78763013935207b0c3e1e800df3e86f3747c3d72",
+    "src/adventures/collision-cache.ts": "43fffb2515822565db9cacea42f26b191ade88d240520dafebf756685b5fb523",
+    "src/adventures/camera-collision.ts": "23415228d00d993ec6fb3dc72851568f1bc3ac5dade8927525539c3c1d607ee1",
+    "src/adventures/ids.ts": "da1780eb5b52c22297206cc436b3dcbf08bc19c29cccbd9e6b73e6ab9d15d006",
+    "src/adventures/vale-data.ts": "0fa12c7c29f65199d1d64fdec461258a0ac33ac1c7b7e53c88fced16af9f258b",
+    "src/adventures/preferences.ts": "05c4f04a2886ff973180189c0635e0de10880faaec90b8a06ce1e1f5604b4073",
+    "src/adventures/world-map.ts": "6f1adb03de38c1ee037de0fb7da3fd92cdd35147b23d3ad0347a1bf8701191de",
+    "src/adventures/safe-position.ts": "454c2b211c429ac0c25cabdf3a04da99b84444aa8092b913a368f7fbfad3aa7a",
+    "src/adventures/save.ts": "759fd9e806be25623e2125745c38b2eb0f6a2483d3c25a962f5e098236bf1084",
+    "src/adventures/map-data.ts": "83a7b3dbb9feee69dc7f531cc89be29a67d48908929b3f33426b9ee173a29e2d",
+    "src/adventures/nature-batch.ts": "131aa982755b72e761297c4cb2e2669503796b4bb5b0f8b34f2a162ddd153c80"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "phase": "after",
+  "checks": [
+    {
+      "name": "clear cancels held joystick ownership and stale movement",
+      "passed": true,
+      "detail": {
+        "stick": 0,
+        "pointer": null
+      }
+    },
+    {
+      "name": "remaining thumb can orbit after pinch",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": -0.14
+      }
+    },
+    {
+      "name": "fully blocked movement rests instead of running in place",
+      "passed": true,
+      "detail": {
+        "z": -17.20303291867719,
+        "clip": "Idle"
+      }
+    },
+    {
+      "name": "whole cottage footprint stays clear of stream",
+      "passed": true,
+      "detail": {
+        "error": "Keep the water clear",
+        "bounds": {
+          "minX": 33.91216071128845,
+          "maxX": 40.08783928871155,
+          "minZ": 36.66539342880249,
+          "maxZ": 43.33460657119751,
+          "height": 7.440001177787792
+        }
+      }
+    }
+  ],
+  "environment": "Chromium real synthetic touch dispatch on 390x844 viewport, no physical/Safari claim"
+}

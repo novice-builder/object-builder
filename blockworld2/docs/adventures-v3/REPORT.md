@@ -1,29 +1,54 @@
-# Preview 03 development evidence — in progress
+# BlockWorld Adventures — Preview 03
 
-Started from remotely verified `9f07d29ae458be7ddba5a88ff81c85aa73172385`, exclusive checkout flock held, no other writer observed. Earlier packages/evidence unchanged.
+The Willow Vale is one connected main world: Willowmere’s market and residential lanes, Whispering Wood’s camp/trails, Maker’s Meadow, Brookside hamlet and the foresters’ cottages. Roads and two bridges connect the 370×196-metre playable area without replacing the world or active save. It introduces a new explicit `vale` template/layout 3. **Preview 01/02 records retain their separate layouts and constructions. No automatic merge or migration is performed.**
 
-First milestone: continuous terrain-following trail ribbons reduce the sampled-cap overlap/triangle cost in new layout 3; village gardens lose flat tinted discs; the meadow receives curved earth lanes, lower fencing, planted edges and a clear buildable green. Render inspection moved supplies out of the lane and lowered the initially oversized fence. Six real before/after renders are in `screenshots/`. Existing layouts 1 and 2 are compared to extracted Preview 02 in all three scenes: permanent geometry, paths, collisions, landmarks and user object data match. Ten art/compatibility checks pass. Full deterministic suite: 129 passing tests. Strict TypeScript/build/preservation pass.
+The circular live minimap tracks position/facing. Its full map is generated from actual roads, water, tree positions and building footprints (including player cottages). Touch pan/pinch, wheel/buttons, keyboard navigation, five safe destinations and Home work. Blocked destinations search nearby checked ground; no unchecked teleport fallback is returned. Phone opening focuses at a useful local zoom, with Fit for the whole valley. The full map suspends hidden 3D rendering and adds no WebGL context. Its cached bitmap is about 4.7 MiB RGBA, excluding display canvases/browser overhead.
 
-Directional update received during this work: the next milestone is a new connected main-world template and real maps, not independent medieval scenes. See `../BLOCKWORLD-DEVELOPMENT-DIRECTION.md`. No interior or merged-world feature is claimed by this first milestone. Physical Lenovo/iPhone/Safari testing remains unverified. Software renderer metrics are diagnostic only and do not establish physical-device FPS. No deployment, main merge, Pages change, banked-reset redemption or additional automation.
+Fresh scenery has continuous trail ribbons, curved meadow lanes, planted edges and clear building space. Corrected new-template tents have a ~3.09m shell versus the old village tent’s ~1.40m. They face their approaches; old saved layouts are not resized. Render inspection also repaired a missing hamlet/market lane and mismatched trail-junction material. The rigged Explorer retains supplied idle/walk/run blending. Blocked movement now rests instead of running in place. Clearing input releases held joystick ownership; a finger remaining after a pinch resumes orbit. Whole-footprint placement protects water, paths, bounds and uneven ground, with cached stationary preview validation.
 
-## Connected main world milestone
+## Validation and actual renders
 
-A new explicit `vale` template now joins Willowmere (west), Whispering Wood (centre) and Maker’s Meadow (east) in one 370×196 metre playable coordinate space, with two streams/bridges, shared terrain/walking/collision, connecting earth lanes, Brookside's six-building rural cluster and two foresters' cottages. Old records are not reinterpreted. Places presents one main world and retains old independent records in the saved list. The new scene's extended coordinates validate and round-trip in separate backups. The old templates remain supported internally for compatibility.
+**140 deterministic tests and 123 browser/compatibility checks pass.** Strict TypeScript, production build and original preservation pass. The [gallery](GALLERY.md) contains real settlement, countryside, scale, map, phone/tablet, editor and before/after views. Chromium runs ANGLE/SwiftShader. Touch/viewport/API fallbacks are emulated; **physical Lenovo, iPhone and Safari are unverified**.
 
-Both bridges were walked in browser without replacing the landscape or active save. New-template tents are enlarged from the observed ~1.40 m village shell to ~3.09 m and face the approach; this does not resize tents in older saved scenes. Real renders caught the initially incomplete hamlet lane, disconnected market approach and backwards tent, which were corrected. Buildings remain closed prefabs. The 22 focused deterministic tests and ten connected-world browser checks pass. See `vale-checks.json` and `screenshots/vale-*.png`. The path audit records the wishing well intentionally occupying the paved square; it does not claim every path centre is empty. Major lanes have no generated tree trunks.
+| Pass | Checks |
+|---|---:|
+| `art-checks.json` | 10 |
+| `vale-checks.json` | 9 |
+| `map-checks.json` | 30 |
+| `stability-checks.json` | 5 |
+| `motion-after.json` | 4 |
+| `pinch-reference.json` | 1 |
+| `editor-checks.json` | 21 |
+| `collision-checks.json` | 8 |
+| `qa-results.json` | 35 |
 
-The combined world increases visible draw cost (for example the connecting-road view records 556 calls / ~370k triangles). This is a measured optimisation target, not a claim of mobile feasibility. Maps, further culling and sustained stability remain unfinished at this milestone.
+Six compatibility comparisons against extracted Preview 02 retain layouts 1/2 geometry, paths, colliders, landmarks and nonempty custom-scale object data in all three old scenes. New connected backups round-trip expanded coordinates as separate records. Tests cover catalogue/selection/200-object moves, failed-edit history, cached collisions, close-wall/corner cameras, stale-tab/quota recovery, backup text fallbacks and phone/tablet controls. The pinch reference records real pointer events; an initial fixture moved the released contact and read coalesced movement too early, so the corrected fixture waits for input dispatch and tests the still-held contact against preserved Preview 02 and current controls.
 
-## Live minimap and full map milestone
+## Measured rendering cost
 
-A compact circular minimap follows live position/facing. Tap it (or M) for a full 2D map generated from actual paths, rivers, tree positions and building collision footprints, including placed cottages. Five named destinations, Home, touch pan/pinch, wheel/buttons and keyboard controls are implemented. Travel searches checked clear ground near the destination and keeps the active world/save; a blocked cottage arrival is covered. Full-map display suspends hidden 3D rendering and creates no extra WebGL context. The cached 1536px map image uses about 4.7 MiB RGBA for this world, plus small display canvases; this is a pixel-storage estimate, not total browser memory.
+Compatible untextured nature primitives bake original linear colours/transforms into reusable vertex-colour geometry. All nine real batched models retain transformed vertices/triangle totals; incompatible materials fall back. Static bounds wholly beyond the existing 150m fog range are skipped conservatively.
 
-Actual phone renders caught a postage-stamp opening view and label crowding. Phone opening now focuses on the player at a useful zoom; Fit still shows the entire valley, with smaller split labels. The welcome toast moves below the minimap. Desktop, phone portrait/landscape and tablet renders are in `screenshots/map-*.png`. The map browser pass checks real canvas marker taps, safe travel/Home, pan/pinch, layout bounds and suspended 3D rendering. Focused deterministic suite: 25 passing at this milestone. Physical devices remain unverified.
+| Fixed gentle view | Draw calls before | After |
+|---|---:|---:|
+| Willowmere | 365 | 216 |
+| Woodland | 331 | 182 |
+| Connecting road | 539 | 265 |
+| Brookside | 373 | 216 |
 
-## Measured rendering milestone
+This is 41–51% fewer submissions. The road drops ~357k→260k triangles. Unique scene geometry buffers grow 3,004,384→3,059,100 bytes (~55KB). CPU submission timings vary; the woodland trial set is slower. **No physical-device FPS or general CPU speedup is established.** Software rasterisation remains unsuitable as a mobile hardware benchmark. Raw measurements/source hashes and before/after renders are in `profile-*.json` and `cost-comparison.json`.
 
-Opaque untextured nature primitives now bake their original linear material colours/transforms into reusable vertex-colour geometry, reducing each compatible model to one instanced draw. All nine real batched models retain their exact transformed vertices (within 1e-5) and triangle totals. Textured/transparent/incompatible materials fall back unchanged. Static bounds wholly beyond the existing 150m fog range are skipped conservatively. Connecting roads now share the existing earth material, correcting the mismatched junction patch seen in renders.
+A 24-switch probe warms original/baked shared buffers in the first template cycle, then plateaus at 89 geometries/11 textures in its combined-world view. All raw counts are retained. This is a limited allocation probe, not a thermal/long-session device test. The major-route audit finds no generated tree trunks on lane centres; the wishing well intentionally occupies the paved square. It does not claim every path centre is empty.
 
-Fixed gentle views measured draw calls: village 365→216, woodland 331→182, connecting road 539→265, hamlet 373→216 (41–51% fewer). The road drops ~357k→260k submitted triangles. Unique scene geometry buffers grow 3,004,384→3,059,100 bytes (~55KB). CPU submission timings vary, including a slower woodland trial set; no general CPU/FPS improvement or physical-device performance is established. Before/after screenshots, source hashes and raw trials are retained in `profile-before.json`, `profile-after.json`, `cost-comparison.json` and `screenshots/cost-*`.
+## Preservation, assets and local preview
 
-A 24-switch probe shows original/baked model buffers becoming resident during the first template cycle, then a stable 89 geometries / 11 textures for the combined-world view across subsequent cycles. The first assertion incorrectly compared that expected cache warmup to a 4-buffer threshold; the reproducible probe now explicitly compares the post-warmup plateau and retains every raw count. Five stability checks pass. This is a limited managed-browser probe, not a physical long-session/thermal test. Focused deterministic suite: 28 tests.
+154 protected original/native persistence, root/archive and Preview 01/02 package/evidence files match the verified starting checkpoint `9f07d29ae458be7ddba5a88ff81c85aa73172385` byte-for-byte; see `preservation-v3.json`. Original website, Neighborhood 06, published Run 3, main, other branches and historical packages are unchanged by this work. Nothing was deployed, published or merged; no banked reset or duplicate automation was used.
+
+The same 71 CC0 source models and 15 derived catalogue PNGs remain, with exact inventory/licences/provenance under `adventures/`. Nature batching is a runtime geometry operation; source models are unchanged. Blocked Seahill and Quaternius Nature collections are not included. No additional pack is claimed by this release.
+
+Unzip Preview 03 into a new folder, run `python3 preview.py` (Windows `py preview.py`) and open `http://localhost:8000/adventures.html`. For same-Wi-Fi testing use `--lan` and the computer’s LAN address. All game assets are local; opening HTML directly is unsupported. Browser/address/device origins have separate storage: export backups before changing them, and import only as new copies. Use this matching version for vale/layout-3 backups; Preview 01/02 cannot render the new template. `BUILD.json` records the exact committed runtime source and file hashes; package verification is adjacent to the archive.
+
+## Unfinished work and continuation
+
+Prefab houses remain closed exteriors. Dedicated licensed modular doors, usable interiors and furniture are next useful gameplay work; no indoor feature is claimed here. Further countryside detailing, canopy/terrain camera edge cases, more complex construction collision and physical-device cold-load/thermal/storage checks remain. No NPC simulation, vehicles, audio, authored turn clip, streaming terrain or multiplayer is claimed in this entrypoint. Existing original-game systems remain at their original entrypoint.
+
+This is a checkpoint in open-ended development. Read `../ASSET-REBUILD-CONTINUE.md` and `../BLOCKWORLD-DEVELOPMENT-DIRECTION.md`, acquire the exclusive checkout lock, fetch/verify GitHub and continue immediately with the highest-value unfinished item. Do not overwrite this evidence/package after release; use a new version folder. Usage exhaustion is not measured or claimed. No further schedule is asserted.

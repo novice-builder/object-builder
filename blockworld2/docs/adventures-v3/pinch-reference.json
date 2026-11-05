@@ -1,0 +1,83 @@
+{
+  "checks": [
+    {
+      "name": "remaining-finger orbit reproduced on preserved controls and fixed in current build",
+      "passed": true
+    }
+  ],
+  "observations": [
+    {
+      "preview": "02",
+      "yawBefore": 0,
+      "yawAfter": 0,
+      "orbitContinues": false,
+      "events": [
+        {
+          "name": "pointerdown",
+          "id": 2
+        },
+        {
+          "name": "pointerdown",
+          "id": 3
+        },
+        {
+          "name": "pointermove",
+          "id": 3
+        },
+        {
+          "name": "pointermove",
+          "id": 2
+        },
+        {
+          "name": "pointerup",
+          "id": 3
+        },
+        {
+          "name": "lostpointercapture",
+          "id": 3
+        },
+        {
+          "name": "pointermove",
+          "id": 2
+        }
+      ]
+    },
+    {
+      "preview": "03",
+      "yawBefore": 0,
+      "yawAfter": -0.14,
+      "orbitContinues": true,
+      "events": [
+        {
+          "name": "pointerdown",
+          "id": 2
+        },
+        {
+          "name": "pointerdown",
+          "id": 3
+        },
+        {
+          "name": "pointermove",
+          "id": 3
+        },
+        {
+          "name": "pointermove",
+          "id": 2
+        },
+        {
+          "name": "pointerup",
+          "id": 3
+        },
+        {
+          "name": "lostpointercapture",
+          "id": 3
+        },
+        {
+          "name": "pointermove",
+          "id": 2
+        }
+      ]
+    }
+  ],
+  "fixtureCorrection": "The touchEnd point identifies the released contact. Initial probe moved that released contact; corrected probe moves the still-held contact, with pointer events retained."
+}
