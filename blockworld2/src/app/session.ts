@@ -67,6 +67,9 @@ export class Session {
     this.game.recent = Array.isArray(s.preferences.recent)
       ? (s.preferences.recent as string[])
       : [];
+    this.game.hotbar = Array.isArray(s.preferences.hotbar)
+      ? (s.preferences.hotbar as string[]).slice(0, 8)
+      : [];
     renderHotbar(this.game);
     this.game.cameraMode = s.preferences.camera === "third" ? "third" : "first";
     this.game.flying = !!s.preferences.flying;

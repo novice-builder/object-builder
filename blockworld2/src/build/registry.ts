@@ -1,6 +1,7 @@
 import { PARTS } from "../legacy06/pieces.js";
 import { cellBox } from "../legacy06/core.js";
 import type { Block } from "./commands";
+import { addRun2Content } from "./run2-content";
 export interface Part {
   x: number;
   y: number;
@@ -21,6 +22,7 @@ export interface Item {
   parts: Part[];
   cube?: boolean;
   ramp?: boolean;
+  rampLength?: number;
   surface?: string;
   interaction?: "door" | "light" | "seat";
 }
@@ -535,6 +537,7 @@ add("goal", "Play goal", "Play", [
   box(1, 0.7, 0, 0.1, 1.4, 0.1, cream),
   box(0, 1.4, 0, 2.1, 0.1, 0.1, cream),
 ]);
+addRun2Content(add, box);
 export const ITEMS = new Map(CATALOGUE.map((i) => [i.id, i]));
 export function partsFor(b: Block, doorAmount?: number): Part[] {
   const item = ITEMS.get(b.type);
@@ -559,7 +562,7 @@ function collidersAt(b: Block, doorAmount?: number): any[] {
     item = ITEMS.get(b.type)!;
   if (item.ramp) {
     const w = Math.max(...item.parts.map((p) => p.w)),
-      d = b.type === "stairs" ? 2 : item.parts[0].d,
+      d = item.rampLength || (b.type === "stairs" ? 2 : item.parts[0].d),
       h = Math.max(...item.parts.map((p) => p.y + p.h / 2));
     return [
       {
@@ -618,7 +621,15 @@ export function blockBounds(b: Block) {
     maxZ: Math.max(...boxes.map((x) => x.maxZ)),
   };
 }
-export const PREFABS = [
+export interface Prefab {
+  id: string;
+  label: string;
+  category: string;
+  icon: string;
+  color: number;
+  blocks: Block[];
+}
+export const PREFABS: Prefab[] = [
   {
     id: "set-bedroom",
     label: "Bedroom set",
@@ -668,6 +679,109 @@ export const PREFABS = [
     ],
   },
 ];
+PREFABS.push(
+  {
+    id: "set-dining",
+    label: "Family dining",
+    category: "Presets",
+    icon: "🍽",
+    color: wood,
+    blocks: [
+      { x: 0, y: 0, z: 0, type: "round-table" },
+      { x: -2, y: 0, z: 0, type: "chair", rotation: 270 },
+      { x: 2, y: 0, z: 0, type: "chair", rotation: 90 },
+      { x: 0, y: 0, z: 2, type: "chair" },
+    ],
+  },
+  {
+    id: "set-bathroom",
+    label: "Bathroom suite",
+    category: "Presets",
+    icon: "🛁",
+    color: cream,
+    blocks: [
+      { x: 0, y: 0, z: 0, type: "washbasin" },
+      { x: 2, y: 0, z: 0, type: "toilet" },
+      { x: 4, y: 0, z: 0, type: "bath" },
+    ],
+  },
+  {
+    id: "set-study",
+    label: "Reading and study",
+    category: "Presets",
+    icon: "📚",
+    color: wood,
+    blocks: [
+      { x: 0, y: 0, z: 0, type: "desk" },
+      { x: 0, y: 0.81, z: 0, type: "desk-lamp" },
+      { x: 0, y: 0, z: 2, type: "chair" },
+      { x: 3, y: 0, z: 0, type: "bookcase" },
+    ],
+  },
+  {
+    id: "set-playground",
+    label: "Little playground",
+    category: "Presets",
+    icon: "🛝",
+    color: wood,
+    blocks: [
+      { x: 0, y: 0, z: 0, type: "swing" },
+      { x: 4, y: 0, z: 0, type: "play-slide" },
+      { x: 0, y: 0, z: 4, type: "sandpit" },
+    ],
+  },
+  {
+    id: "set-farm",
+    label: "Animal care corner",
+    category: "Presets",
+    icon: "🐾",
+    color: wood,
+    blocks: [
+      { x: 0, y: 0, z: 0, type: "feeding-trough" },
+      { x: 3, y: 0, z: 0, type: "kennel" },
+      { x: -3, y: 0, z: 0, type: "hay-bale" },
+    ],
+  },
+  {
+    id: "set-bus-stop",
+    label: "Neighbourhood bus stop",
+    category: "Presets",
+    icon: "🚏",
+    color: dark,
+    blocks: [
+      { x: 0, y: 0, z: 0, type: "bus-shelter" },
+      { x: 3, y: 0, z: 0, type: "street-sign" },
+      { x: -3, y: 0, z: 0, type: "park-bin" },
+    ],
+  },
+  {
+    id: "set-picnic",
+    label: "Picnic corner",
+    category: "Presets",
+    icon: "☀",
+    color: wood,
+    blocks: [
+      { x: 0, y: 0, z: 0, type: "round-table" },
+      { x: 0, y: 0, z: 2, type: "bench" },
+      { x: 0, y: 0, z: -2, type: "bench", rotation: 180 },
+      { x: 3, y: 0, z: 0, type: "planter" },
+    ],
+  },
+  {
+    id: "set-pavilion",
+    label: "Open garden pavilion",
+    category: "Presets",
+    icon: "⌂",
+    color: wood,
+    blocks: [
+      { x: 0, y: 0, z: 0, type: "wide-floor" },
+      ...[-1, 1].flatMap((x) =>
+        [-1, 1].map((z) => ({ x, y: 0.15, z, type: "pillar" })),
+      ),
+      { x: 0, y: 2.65, z: 0, type: "wide-floor" },
+    ],
+  },
+);
 export const CHOICES = [...CATALOGUE, ...PREFABS];
 export function expandPrefab(b: Block): Block[] {
   const set = PREFABS.find((p) => p.id === b.type);
@@ -680,6 +794,6 @@ export function expandPrefab(b: Block): Block[] {
     y: b.y + p.y,
     z: b.z - p.x * s + p.z * c,
     type: p.type,
-    rotation: b.rotation || 0,
+    rotation: ((b.rotation || 0) + (p.rotation || 0)) % 360,
   }));
 }

@@ -29,7 +29,57 @@ function texture(id: string, surface: string) {
   x.fillRect(0, 0, 128, 128);
   x.strokeStyle = "#c7c7c7";
   x.lineWidth = 3;
-  if (["brick", "tile", "checker", "mosaic", "metal"].includes(surface)) {
+  if (
+    [
+      "parquet",
+      "herringbone",
+      "woven",
+      "shingles",
+      "corrugated",
+      "river",
+    ].includes(surface)
+  ) {
+    if (surface === "corrugated") {
+      for (let i = 0; i < 128; i += 16) {
+        x.fillStyle = "#b2b2b2";
+        x.fillRect(i, 0, 4, 128);
+        x.fillStyle = "#eeeeee";
+        x.fillRect(i + 4, 0, 5, 128);
+      }
+    } else if (surface === "river") {
+      for (let i = 0; i < 24; i++) {
+        x.fillStyle = i % 2 ? "#cccccc" : "#eeeeee";
+        x.beginPath();
+        x.ellipse((i * 43) % 128, (i * 67) % 128, 13, 9, i, 0, Math.PI * 2);
+        x.fill();
+        x.stroke();
+      }
+    } else {
+      const size = surface === "woven" ? 12 : 32;
+      for (let y = 0; y < 128; y += size)
+        for (let xx = 0; xx < 128; xx += size) {
+          x.save();
+          x.translate(xx + size / 2, y + size / 2);
+          if (["parquet", "herringbone"].includes(surface))
+            x.rotate(((xx + y) / size) % 2 ? Math.PI / 2 : 0);
+          x.strokeRect(-size / 2, -size / 2, size, size);
+          if (surface === "shingles") {
+            x.beginPath();
+            x.arc(0, -size / 2, size / 2, 0, Math.PI);
+            x.stroke();
+          } else
+            for (let k = -size / 2; k < size / 2; k += size / 4) {
+              x.beginPath();
+              x.moveTo(k, -size / 2);
+              x.lineTo(k, size / 2);
+              x.stroke();
+            }
+          x.restore();
+        }
+    }
+  } else if (
+    ["brick", "tile", "checker", "mosaic", "metal"].includes(surface)
+  ) {
     const size = surface === "mosaic" ? 16 : surface === "metal" ? 64 : 32;
     for (let y = 0; y < 128; y += size)
       for (let i = 0; i < 128; i += size) {

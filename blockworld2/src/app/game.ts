@@ -50,6 +50,8 @@ export class Game {
   selected = "hand";
   favourites: string[] = [];
   recent: string[] = [];
+  hotbar: string[] = [];
+  repeatCount = 1;
   pending: Block | null = null;
   moving: Block | null = null;
   pickingMove = false;
@@ -70,7 +72,7 @@ export class Game {
   onEdit = () => {};
   constructor() {
     document.querySelector("#app")!.innerHTML =
-      `<canvas id="world" tabindex="-1" aria-label="Drag to look; tap to build; hold to remove"></canvas><div class="brand">BLOCKWORLD <b>2.0</b><small>Sunbeam Town · Development preview</small></div><nav id="top"><button id="home" aria-label="Return home">⌂</button><button id="doorMode" aria-label="Automatic doors" aria-pressed="true">🚪 Auto</button><button id="guard" aria-label="Edge protection" aria-pressed="true">🛡</button><button id="cameraMode" aria-label="Switch camera">👤</button><button id="flyMode" aria-label="Creative flight" aria-pressed="false">🪽</button><button id="mapButton" aria-label="World map">🗺</button><button id="catalogueButton" aria-label="Building catalogue">▦</button><button id="worlds" aria-label="Worlds">🌍</button></nav><output id="status" role="status" aria-live="polite">Starting…</output><div id="crosshair">+</div><div id="joystick" aria-label="Move joystick"><div id="knob"></div></div><div id="actions"><button id="use" aria-label="Use nearby object">🚪</button><button id="undo" aria-label="Undo">↶</button><button id="redo" aria-label="Redo">↷</button><button id="jump" aria-label="Jump">↑</button></div><div id="palette" aria-label="Building hotbar"></div><button id="moveObject" aria-label="Move a built object">✥ Move</button><div id="flightControls" hidden><button id="flyUp" aria-label="Fly up">⇧</button><button id="flyDown" aria-label="Fly down">⇩</button></div><div id="previewControls" hidden><button id="cancel" aria-label="Cancel placement">✕</button><button id="rotate" aria-label="Rotate preview">↻</button><button id="confirm" aria-label="Confirm placement">✓</button></div><div id="modal" hidden></div>`;
+      `<canvas id="world" tabindex="-1" aria-label="Drag to look; tap to build; hold to remove"></canvas><div class="brand">BLOCKWORLD <b>2.0</b><small>Sunbeam Town · Development preview</small></div><nav id="top"><button id="home" aria-label="Return home">⌂</button><button id="doorMode" aria-label="Automatic doors" aria-pressed="true">🚪 Auto</button><button id="guard" aria-label="Edge protection" aria-pressed="true">🛡</button><button id="cameraMode" aria-label="Switch camera">👤</button><button id="flyMode" aria-label="Creative flight" aria-pressed="false">🪽</button><button id="mapButton" aria-label="World map">🗺</button><button id="catalogueButton" aria-label="Building catalogue">▦</button><button id="worlds" aria-label="Worlds">🌍</button></nav><output id="status" role="status" aria-live="polite">Starting…</output><div id="crosshair">+</div><div id="joystick" aria-label="Move joystick"><div id="knob"></div></div><div id="actions"><button id="use" aria-label="Use nearby object">🚪</button><button id="undo" aria-label="Undo">↶</button><button id="redo" aria-label="Redo">↷</button><button id="jump" aria-label="Jump">↑</button></div><div id="palette" aria-label="Building hotbar"></div><button id="moveObject" aria-label="Move a built object">✥ Move</button><div id="flightControls" hidden><button id="flyUp" aria-label="Fly up">⇧</button><button id="flyDown" aria-label="Fly down">⇩</button></div><div id="previewControls" hidden><button id="cancel" aria-label="Cancel placement">✕</button><button id="lower" aria-label="Lower preview">⇩</button><button id="raise" aria-label="Raise preview">⇧</button><button id="rotate" aria-label="Rotate preview">↻</button><button id="confirm" aria-label="Confirm placement">✓</button></div><div id="modal" hidden></div>`;
     this.view = createRenderer(
       document.querySelector<HTMLCanvasElement>("#world")!,
     );
@@ -455,7 +457,7 @@ export class Game {
       this.notice(reason);
       return;
     }
-    if (!ITEMS.get(this.selected)?.cube) {
+    if (!ITEMS.get(this.selected)?.cube || this.repeatCount > 1) {
       this.pending = { ...h.aim, rotation: 0 };
       this.showPreview();
     } else this.notice(this.commands.place(h.aim) || "✓ Placed");
@@ -475,7 +477,8 @@ export class Game {
     });
     this.preview.clear();
     if (!this.pending) return;
-    this.preview.add(renderModel(this.pending, true));
+    for (const b of this.planned(this.pending))
+      this.preview.add(renderModel(b, true));
     document.querySelector<HTMLElement>("#previewControls")!.hidden = false;
     document.querySelector<HTMLButtonElement>("#confirm")!.disabled =
       !!this.placementReason(this.pending);
@@ -493,9 +496,11 @@ export class Game {
   }
   confirm() {
     if (!this.pending) return;
-    const reason = this.moving
-      ? this.commands.move(this.moving, this.pending)
-      : this.commands.placeMany(expandPrefab(this.pending));
+    const reason =
+      this.placementReason(this.pending) ||
+      (this.moving
+        ? this.commands.move(this.moving, this.pending)
+        : this.commands.placeMany(this.planned(this.pending), false));
     if (reason) this.notice(reason);
     else {
       this.cancel();
@@ -761,6 +766,22 @@ export class Game {
         this.showPreview();
       }
     });
+    for (const [id, sign] of [
+      ["raise", 1],
+      ["lower", -1],
+    ] as const)
+      on(id, () => {
+        if (this.pending) {
+          this.pending.y = Math.max(
+            0,
+            Math.min(
+              23.75,
+              Math.round((this.pending.y + sign * 0.25) * 100) / 100,
+            ),
+          );
+          this.showPreview();
+        }
+      });
     on("confirm", () => this.confirm());
     on("doorMode", () => {
       this.automatic = !this.automatic;
@@ -794,16 +815,36 @@ export class Game {
     this.refreshSelection();
     this.onEdit();
   }
+  planned(b: Block): Block[] {
+    if (this.moving) return [b];
+    const expanded = expandPrefab(b);
+    if (expanded.length > 1 || !ITEMS.get(b.type)?.cube) return expanded;
+    const angle = ((b.rotation || 0) * Math.PI) / 180;
+    return Array.from({ length: this.repeatCount }, (_, i) => ({
+      ...b,
+      x: b.x + i * Math.round(Math.cos(angle)),
+      z: b.z - i * Math.round(Math.sin(angle)),
+    }));
+  }
   placementReason(b: Block) {
     if (this.moving) return this.commands.reason(b, true, this.moving);
-    if (!PREFABS.some((p) => p.id === b.type)) return this.commands.reason(b);
+    if (!PREFABS.some((p) => p.id === b.type) && this.repeatCount === 1)
+      return this.commands.reason(b);
+    if (
+      Math.hypot(
+        b.x + 0.5 - this.player.x,
+        b.y - this.player.y,
+        b.z + 0.5 - this.player.z,
+      ) > 6
+    )
+      return "Move a little closer";
     const temporary = new Commands(
       () => this.obstacles(),
       () => this.player,
       () => {},
     );
     temporary.reset(this.commands.blocks);
-    return temporary.placeMany(expandPrefab(b));
+    return temporary.placeMany(this.planned(b), false);
   }
   refreshSelection() {
     document
@@ -847,6 +888,7 @@ export class Game {
     return {
       favourites: this.favourites,
       recent: this.recent,
+      hotbar: this.hotbar,
       camera: this.cameraMode,
       flying: this.flying,
       activity: this.activity?.snapshot(),

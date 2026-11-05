@@ -1,0 +1,9 @@
+# Run 2 creative building
+
+Delivered 196 individual entries (111 preserved plus 85 new), and 12 presets (four preserved plus eight new). Of the new entries, six are distinct procedural material surfaces; 79 are structural/object models rather than colour variants. New families include masonry stairs, roof details, walk-through frames, opening windows/gates, household appliances and small objects, garage equipment, street furniture, farm equipment, trees and play equipment. Activities for the new play equipment are a later Run 2 stage; their presence here does not claim functional play yet.
+
+Presets add dining, bathroom, study, playground, animal-care, bus-stop, picnic and an open pavilion with actual floor/pillars/roof. Child rotations are preserved when rotating an entire preset. Placement, save validation and all 12 preset transactions are checked; a failed transaction never leaves half a set. Large surface support now checks actual horizontal overlap instead of requiring the supporting pillar beneath the anchor centre.
+
+The catalogue adds pictorial category cues, active category state, persistent pin/unpin for up to eight hotbar choices and a 1/3/5-piece row selector. Rows use rotation previews and one-step Undo/Redo. Height arrows move a preview by 0.25 m; precise surface snapping remains available. All objects are immediately available and unlimited. No crafting, currency, unlocks or material consumption exists.
+
+Executed: every one of 196 entries rendered/validated/roundtripped at four quarter rotations; all 12 presets placed/undone/redone. Focused catalogue/command/persistence suite passed 16 tests. Strict TypeScript and production build passed. Five Chromium scenarios passed for pinned hotbar, rotated atomic rows, pavilion supports, existing half-slab/reload, thumbnails/favourites and compact layout coverage (several checks share a scenario). Physical-device qualification remains outstanding.

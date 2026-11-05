@@ -3,6 +3,7 @@ import { CHOICES, CATALOGUE } from "../build/registry";
 import { thumbnail } from "../build/models";
 export function renderHotbar(game: Game) {
   const ids = [
+      ...game.hotbar.filter((id) => CHOICES.some((i) => i.id === id)),
       ...game.recent.filter((id) => CHOICES.some((i) => i.id === id)),
       ...CATALOGUE.slice(0, 7).map((i) => i.id),
     ],
@@ -21,7 +22,7 @@ export function openCatalogue(game: Game) {
   const modal = document.querySelector<HTMLElement>("#modal")!;
   modal.hidden = false;
   modal.innerHTML =
-    '<section class="cataloguePanel"><h1>▦ Build anything</h1><input id="catalogueSearch" aria-label="Search catalogue" placeholder="Search (optional)"><div id="categories"></div><div id="catalogueGrid"></div><div class="cataloguePages"><button id="previousPage" aria-label="Previous catalogue page">◀</button><output id="catalogueCount"></output><button id="nextPage" aria-label="Next catalogue page">▶</button><button id="closeCatalogue">▶ Play</button></div></section>';
+    '<section class="cataloguePanel"><h1>▦ Build anything</h1><input id="catalogueSearch" aria-label="Search catalogue" placeholder="Search (optional)"><div id="categories"></div><div id="catalogueGrid"></div><div class="cataloguePages"><button id="previousPage" aria-label="Previous catalogue page">◀</button><output id="catalogueCount"></output><button id="nextPage" aria-label="Next catalogue page">▶</button><button id="repeatBuild" aria-label="Pieces in a building row"></button><button id="closeCatalogue">▶ Play</button></div></section>';
   let category = "All",
     page = 0,
     generation = 0;
@@ -82,7 +83,20 @@ export function openCatalogue(game: Game) {
         game.onEdit();
         draw();
       };
-      card.append(button, favourite);
+      const pin = document.createElement("button");
+      pin.className = "pin";
+      pin.textContent = "📌";
+      pin.setAttribute("aria-label", "Pin " + item.label);
+      pin.setAttribute("aria-pressed", String(game.hotbar.includes(item.id)));
+      pin.onclick = () => {
+        game.hotbar = game.hotbar.includes(item.id)
+          ? game.hotbar.filter((id) => id !== item.id)
+          : [item.id, ...game.hotbar].slice(0, 8);
+        renderHotbar(game);
+        game.onEdit();
+        draw();
+      };
+      card.append(button, favourite, pin);
       grid.append(card);
       tasks.push(() => {
         if (gen === generation && img.isConnected) img.src = thumbnail(item.id);
@@ -115,9 +129,34 @@ export function openCatalogue(game: Game) {
           ? "◷ Recent"
           : name;
     b.dataset.category = name;
+    const icons: Record<string, string> = {
+      All: "▦",
+      Materials: "🧱",
+      Shapes: "△",
+      Openings: "🚪",
+      Furniture: "🪑",
+      Kitchen: "🍳",
+      Bathroom: "🛁",
+      Workshop: "🛠",
+      Garden: "🌿",
+      Lighting: "💡",
+      Play: "🧸",
+      Street: "🚏",
+      Farm: "🐾",
+      Presets: "⌂",
+    };
+    if (icons[name]) b.textContent = icons[name] + " " + name;
     b.onclick = () => {
       category = name;
       page = 0;
+      document
+        .querySelectorAll<HTMLElement>("[data-category]")
+        .forEach((t) =>
+          t.setAttribute(
+            "aria-pressed",
+            String(t.dataset.category === category),
+          ),
+        );
       draw();
     };
     document.querySelector("#categories")!.append(b);
@@ -136,5 +175,13 @@ export function openCatalogue(game: Game) {
     draw();
   };
   document.querySelector<HTMLButtonElement>("#closeCatalogue")!.onclick = close;
+  const repeat = document.querySelector<HTMLButtonElement>("#repeatBuild")!;
+  const showRepeat = () => (repeat.textContent = `▦ ×${game.repeatCount}`);
+  repeat.onclick = () => {
+    game.repeatCount =
+      game.repeatCount === 1 ? 3 : game.repeatCount === 3 ? 5 : 1;
+    showRepeat();
+  };
+  showRepeat();
   draw();
 }

@@ -19,10 +19,10 @@ import {
 } from "../src/persistence/schema";
 import { movePlayer } from "../src/player/physics.js";
 test("every curated item renders and has finite rotated collision and native backup support", () => {
-  assert.equal(CATALOGUE.length, 111);
-  assert.equal(new Set(CATALOGUE.map((i) => i.id)).size, 111);
+  assert.equal(CATALOGUE.length, 196);
+  assert.equal(new Set(CATALOGUE.map((i) => i.id)).size, 196);
   for (const item of CATALOGUE)
-    for (const rotation of [0, 90]) {
+    for (const rotation of [0, 90, 180, 270]) {
       const b = { x: 0, y: 0, z: 0, type: item.id, rotation },
         bounds = blockBounds(b);
       for (const value of Object.values(bounds))
@@ -43,7 +43,7 @@ test("every curated item renders and has finite rotated collision and native bac
       assert.equal(decode(encode(snapshot)).world.blocks[0].type, item.id);
     }
 });
-test("all four presets place as one undoable command and reject partial invalid placement", () => {
+test("all twelve presets place as one undoable command and reject partial invalid placement", () => {
   for (const prefab of PREFABS) {
     const c = new Commands(
         () => [],

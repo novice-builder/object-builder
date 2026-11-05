@@ -21,3 +21,5 @@
 .cataloguePages{flex-shrink:0;gap:6px;font-size:12px}
 .cataloguePages button{min-height:44px;padding:6px 10px}
 @media(orientation:landscape) and (max-height:450px){#modal .cataloguePanel{height:calc(100dvh - 16px);max-height:none;padding:12px}.cataloguePanel h1{font-size:20px;margin-bottom:6px}#catalogueSearch{padding:6px}#categories{flex-wrap:nowrap;max-height:50px;margin:6px 0;overflow-x:auto}#categories button{flex-shrink:0}#catalogueGrid{margin:6px 0}.catalogueCard>button:first-child{height:125px}.catalogueCard img{height:80px}}
+
+.catalogueCard .pin{position:absolute;left:0;top:0;min-width:40px;min-height:40px;font-size:18px;background:#fff8e8bb}.catalogueCard .pin[aria-pressed=true]{background:#edbd6c}#previewControls{max-width:calc(100vw - 32px);gap:6px}body:has(#previewControls:not([hidden])) #moveObject{display:none}

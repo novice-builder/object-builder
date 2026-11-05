@@ -107,6 +107,7 @@ export function fromGame(s: any): Snapshot {
       selected: s.selected,
       favourites: s.favourites || [],
       recent: s.recent || [],
+      hotbar: s.hotbar || [],
       camera: s.camera || "first",
       flying: !!s.flying,
     },

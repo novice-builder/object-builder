@@ -94,10 +94,10 @@ export function reason(
     !others.some(
       (s) =>
         Math.abs(s.maxY - b.y) < 0.02 &&
-        s.minX <= b.x + 0.5 &&
-        s.maxX >= b.x + 0.5 &&
-        s.minZ <= b.z + 0.5 &&
-        s.maxZ >= b.z + 0.5,
+        s.minX < bounds.maxX &&
+        s.maxX > bounds.minX &&
+        s.minZ < bounds.maxZ &&
+        s.maxZ > bounds.minZ,
     )
   )
     return "Join this piece to a surface";

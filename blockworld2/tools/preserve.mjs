@@ -26,6 +26,22 @@ const changed = execFileSync("git", ["diff", "--name-only", base], {
   .filter(Boolean);
 if (changed.some((p) => !p.startsWith("blockworld2/")))
   throw Error("Changes outside blockworld2/");
+const run1 = "645dd904ed947620ab1a9a4f243f3e80b6f81385";
+const archives = execFileSync(
+  "git",
+  ["ls-tree", "-r", "--name-only", run1, "--", "blockworld2/artifacts"],
+  { cwd: "..", encoding: "utf8" },
+)
+  .trim()
+  .split("\n");
+for (const file of archives) {
+  const original = execFileSync("git", ["show", `${run1}:${file}`], {
+    cwd: "..",
+    maxBuffer: 20 * 1024 * 1024,
+  });
+  if (!original.equals(await readFile("../" + file)))
+    throw Error(`Historical archive changed: ${file}`);
+}
 console.log(
-  `PASS: ${files.length} existing files match ${base}; package-only changes`,
+  `PASS: ${files.length} existing files match ${base}; ${archives.length} historical archive files intact; package-only changes`,
 );
