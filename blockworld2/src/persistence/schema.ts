@@ -5,7 +5,7 @@ import { validateSave } from "../legacy06/core.js";
 import { TEMPLATES, type TemplateId } from "../world/templates";
 import type { Block } from "../build/commands";
 export interface Snapshot {
-  schema: 2;
+  schema: 3;
   template: TemplateId;
   world: {
     blocks: Block[];
@@ -38,7 +38,7 @@ export function validateSnapshot(value: unknown): Snapshot {
   const s = value as Snapshot;
   if (
     !s ||
-    ![1, 2].includes(s.schema) ||
+    ![1, 2, 3].includes(s.schema) ||
     !TEMPLATES.some((t) => t.id === s.template) ||
     !s.world ||
     !s.player ||
@@ -54,6 +54,11 @@ export function validateSnapshot(value: unknown): Snapshot {
     s.player.y > 26
   )
     throw Error("Player outside supported bounds");
+  const layout =
+    s.world.layout ??
+    (s.template === "sunbeam-region" && s.schema === 3 ? 2 : 1);
+  if (!Number.isInteger(layout) || Number(layout) < 1 || Number(layout) > 2)
+    throw Error("Unsupported template layout");
   validateBlocks(s.world.blocks);
   if (!["hand", ...CHOICES.map((i) => i.id)].includes(s.preferences.selected))
     throw Error("Invalid selected item");
@@ -64,6 +69,24 @@ export function validateSnapshot(value: unknown): Snapshot {
     Object.values(s.world.doors).some((v) => typeof v !== "boolean")
   )
     throw Error("Invalid doors");
+  const props = s.world.props;
+  if (
+    props !== undefined &&
+    (!props ||
+      Array.isArray(props) ||
+      typeof props !== "object" ||
+      Object.keys(props).length > 256 ||
+      Object.values(props).some(
+        (p: any) =>
+          !p ||
+          Array.isArray(p) ||
+          typeof p !== "object" ||
+          Object.entries(p).some(
+            ([k, v]) => !["open", "on"].includes(k) || typeof v !== "boolean",
+          ),
+      ))
+  )
+    throw Error("Invalid furniture state");
   const activity = s.world.activity as any;
   if (activity !== undefined) {
     if (
@@ -77,7 +100,11 @@ export function validateSnapshot(value: unknown): Snapshot {
     )
       throw Error("Invalid vehicle checkpoint");
   }
-  return { ...structuredClone(s), schema: 2 };
+  return {
+    ...structuredClone(s),
+    world: { ...structuredClone(s.world), layout },
+    schema: 3,
+  };
 }
 export function encode(value: Snapshot): Envelope {
   const json = JSON.stringify(validateSnapshot(value));
@@ -95,11 +122,13 @@ export function decode(e: Envelope) {
 }
 export function fromGame(s: any): Snapshot {
   return validateSnapshot({
-    schema: 2,
+    schema: 3,
     template: s.template,
     world: {
       blocks: s.blocks,
       doors: s.doors,
+      props: s.props || {},
+      layout: s.layout ?? (s.template === "sunbeam-region" ? 2 : 1),
       ...(s.activity ? { activity: s.activity } : {}),
     },
     player: s.player,
@@ -136,7 +165,7 @@ export function parseBackup(text: string): {
   const legacy = validateSave(data);
   return {
     snapshot: validateSnapshot({
-      schema: 2,
+      schema: 3,
       template: "legacy-06",
       world: { blocks: legacy.blocks, doors: legacy.doors },
       player: legacy.player,

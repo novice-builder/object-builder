@@ -24,7 +24,16 @@ export interface Item {
   ramp?: boolean;
   rampLength?: number;
   surface?: string;
-  interaction?: "door" | "light" | "seat";
+  interaction?:
+    | "door"
+    | "light"
+    | "seat"
+    | "cabinet"
+    | "swing"
+    | "seesaw"
+    | "bounce"
+    | "slide"
+    | "rock";
 }
 export const LEGACY = new Set([
   "wood",
@@ -538,16 +547,43 @@ add("goal", "Play goal", "Play", [
   box(0, 1.4, 0, 2.1, 0.1, 0.1, cream),
 ]);
 addRun2Content(add, box);
+for (const [id, interaction] of [
+  ["swing", "swing"],
+  ["seesaw", "seesaw"],
+  ["spring-rider", "rock"],
+  ["rocking-chair", "rock"],
+  ["trampoline", "bounce"],
+  ["play-slide", "slide"],
+  ["bench", "seat"],
+  ["lantern", "light"],
+] as [string, Item["interaction"]][])
+  CATALOGUE.find((i) => i.id === id)!.interaction = interaction;
+const hutch = CATALOGUE.find((i) => i.id === "dining-hutch")!;
+hutch.interaction = "cabinet";
+hutch.parts = [
+  box(-0.7, 0.45, 0, 0.1, 0.9, 0.6, wood),
+  box(0.7, 0.45, 0, 0.1, 0.9, 0.6, wood),
+  box(0, 0.45, -0.25, 1.4, 0.9, 0.1, wood),
+  box(0, 0.05, 0, 1.4, 0.1, 0.6, wood),
+  box(0, 0.87, 0, 1.5, 0.12, 0.6, wood),
+  ...hutch.parts.slice(1),
+  box(0, 0.45, 0.32, 1.3, 0.72, 0.08, 0xa5b8a2),
+];
 export const ITEMS = new Map(CATALOGUE.map((i) => [i.id, i]));
 export function partsFor(b: Block, doorAmount?: number): Part[] {
   const item = ITEMS.get(b.type);
   if (!item) throw Error("Unknown catalogue item");
   const parts = item.parts.map((p) => ({ ...p }));
-  if (item.interaction === "door" && (b.open || doorAmount !== undefined)) {
+  if (
+    ["door", "cabinet"].includes(item.interaction || "") &&
+    (b.open || doorAmount !== undefined)
+  ) {
     const p = parts.at(-1)!;
-    const angle = ((doorAmount ?? (b.open ? 1 : 0)) * Math.PI) / 2;
-    p.x = -p.w / 2 + (Math.cos(angle) * p.w) / 2;
-    p.z = (-Math.sin(angle) * p.w) / 2;
+    const angle =
+      (((doorAmount ?? (b.open ? 1 : 0)) * Math.PI) / 2) *
+      (item.interaction === "cabinet" ? -1 : 1);
+    p.x += -p.w / 2 + (Math.cos(angle) * p.w) / 2;
+    p.z += (-Math.sin(angle) * p.w) / 2;
     p.yaw = angle;
   }
   if (item.interaction === "light" && b.on === false)

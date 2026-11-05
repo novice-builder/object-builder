@@ -7,11 +7,20 @@ import {
   expandPrefab,
 } from "../build/registry";
 import { RegistryChunks, renderModel } from "../build/models";
+import { BuildCollisionIndex } from "../build/collision-index";
 import { openCatalogue, renderHotbar } from "../ui/catalogue";
 import { Activity, carBox } from "../simulation/activity";
 import { fly, avatar, followCamera } from "../player/modes";
 import { openMap } from "../ui/map";
-import { safeGround } from "../world/spawn";
+import { safeGround, safeStanding } from "../world/spawn";
+import { chooseInteraction, type Interaction } from "./interactions";
+import { PLAY, playPose, playDuration } from "../simulation/play";
+import {
+  syncProps,
+  refreshProp,
+  propSnapshot,
+  type PropStates,
+} from "../world/props";
 import { rayBoxNear } from "../build/picking";
 import * as T from "three";
 import { createRenderer } from "../render/renderer";
@@ -34,9 +43,19 @@ const updateDoors = legacyUpdateDoors as (...args: any[]) => boolean;
 export class Game {
   activity: Activity | null = null;
   seated: {
-    entry: { x: number; z: number; yaw: number };
+    entry: { x: number; y: number; z: number; yaw: number; pitch?: number };
     height: number;
   } | null = null;
+  playing: {
+    kind: string;
+    block: Block;
+    entry: any;
+    elapsed: number;
+    model: T.Group | null;
+    built: boolean;
+    original?: T.Group;
+  } | null = null;
+  private contextTime = 0;
   body = avatar();
   cameraMode: "first" | "third" = "first";
   flying = false;
@@ -63,6 +82,7 @@ export class Game {
   commands: Commands;
   chunks: any;
   index = new SpatialIndex();
+  builds = new BuildCollisionIndex();
   clock = new FixedClock();
   ray = new T.Raycaster();
   geometry = new T.BoxGeometry(1, 1, 1);
@@ -99,6 +119,7 @@ export class Game {
       () => this.player,
       (b, present) => {
         this.chunks.update(b, present);
+        this.builds.update(b, present);
         this.refreshHistory();
         this.onEdit();
       },
@@ -132,10 +153,13 @@ export class Game {
     pose?: any,
     doors: Record<string, boolean> = {},
     activity?: any,
+    props?: PropStates,
+    layout = 2,
   ) {
     const candidate = new T.Group(),
-      world = createWorld(candidate, template, blocks),
+      world = createWorld(candidate, template, blocks, layout),
       index = new SpatialIndex();
+    syncProps(world, props);
     for (const b of world.solids) index.add(b);
     if (
       blocks.some((b) =>
@@ -167,6 +191,7 @@ export class Game {
         "Saved vehicle overlaps structures; active world is retained",
       );
     }
+    this.endPlay(false);
     this.seated = null;
     this.activity?.dispose();
     this.activity = null;
@@ -188,6 +213,7 @@ export class Game {
       this.activity = new Activity(
         this.view.scene,
         this.world.activityRange || 47,
+        (p, r) => this.querySolids(p, r),
       );
       this.activity.load(activity);
     }
@@ -201,6 +227,7 @@ export class Game {
       grounded: true,
     };
     this.commands.reset(blocks);
+    this.builds.reset(blocks);
     this.chunks.reset(blocks);
     this.cancel();
     if (collides(this.player, this.nearbySolids())) this.home();
@@ -248,19 +275,31 @@ export class Game {
       maxY: 0.08,
     }));
   }
+  querySolids(p: any, r: number) {
+    return [
+      ...this.index.query(around(p, r)),
+      ...this.builds.query(p, r),
+      ...this.world.doors
+        .filter(
+          (d: any) => Math.hypot(d.center.x - p.x, d.center.z - p.z) < r + 3,
+        )
+        .map((d: any) => doorBox(d)),
+      ...this.waterHazards().filter(
+        (w: any) =>
+          w.minX < p.x + r &&
+          w.maxX > p.x - r &&
+          w.minZ < p.z + r &&
+          w.maxZ > p.z - r,
+      ),
+    ];
+  }
   nearbySolids() {
     return [
       ...(this.activity && !this.activity.driving
         ? [carBox(this.activity.car)]
         : []),
       ...this.index.query(around(this.player, 3)),
-      ...this.commands.blocks
-        .filter(
-          (b) =>
-            Math.abs(b.x - this.player.x) < 4 &&
-            Math.abs(b.z - this.player.z) < 4,
-        )
-        .flatMap(blockColliders),
+      ...this.builds.query(this.player, 3),
       ...this.world.doors
         .filter(
           (d: any) =>
@@ -283,9 +322,8 @@ export class Game {
         solids: [
           ...this.index.query(around({ ...d.center, y: 0 }, 4)),
           ...(this.activity ? [carBox(this.activity.car)] : []),
-          ...this.commands.blocks
-            .filter((b) => Math.hypot(b.x - d.center.x, b.z - d.center.z) < 6)
-            .flatMap(blockColliders)
+          ...this.builds
+            .query({ ...d.center, y: 0 }, 4)
             .map((s) => (s.ramp ? { ...s, ramp: null } : s)),
         ],
         blocks: [],
@@ -293,12 +331,32 @@ export class Game {
     );
     const input = this.controls.movement(),
       solids = this.nearbySolids(),
-      obstacles = [
-        ...this.world.solids,
-        ...this.waterHazards(),
-        ...this.world.doors.map((d: any) => doorBox(d)),
-        ...this.commands.blocks.flatMap(blockColliders),
-      ];
+      obstacles: any[] = [];
+    this.contextTime += dt;
+    if (this.contextTime > 0.2) {
+      this.contextTime = 0;
+      this.refreshModes();
+    }
+    if (this.playing) {
+      if (Math.abs(input.forward) + Math.abs(input.right) > 0.2) this.endPlay();
+      else {
+        this.playing.elapsed += dt;
+        Object.assign(
+          this.player,
+          playPose(this.playing.kind, this.playing.block, this.playing.elapsed),
+        );
+        this.animatePlay();
+        if (this.playing.elapsed >= playDuration(this.playing.kind))
+          this.endPlay();
+      }
+      this.activity?.update(
+        dt,
+        this.player,
+        { forward: 0, right: 0 },
+        obstacles,
+      );
+      return;
+    }
     if (this.seated && Math.abs(input.forward) + Math.abs(input.right) > 0.2)
       this.stand();
     if (!this.activity?.driving && !this.seated) {
@@ -359,9 +417,8 @@ export class Game {
       this.seated ? this.seated.height - 0.65 : this.player.y,
       this.player.z,
     );
-    this.body.left.rotation.x = this.body.right.rotation.x = this.seated
-      ? -1.2
-      : 0;
+    this.body.left.rotation.x = this.body.right.rotation.x =
+      this.seated || this.playing ? -1.2 : 0;
     this.body.group.rotation.y = this.player.yaw;
     this.body.group.visible = false;
     if (this.cameraMode === "third") {
@@ -369,13 +426,7 @@ export class Game {
         followCamera(this.view.camera, this.player, [
           ...this.index.query(around(this.player, 8)),
           ...this.world.doors.map((d: any) => doorBox(d)),
-          ...this.commands.blocks
-            .filter(
-              (b) =>
-                Math.abs(b.x - this.player.x) < 8 &&
-                Math.abs(b.z - this.player.z) < 8,
-            )
-            .flatMap(blockColliders),
+          ...this.builds.query(this.player, 8),
         ]) && !this.activity?.driving;
     } else {
       this.view.camera.position.set(
@@ -457,6 +508,10 @@ export class Game {
   }
   tap(x: number, y: number) {
     if (this.paused) return;
+    if (this.playing) {
+      this.notice("Tap Use to finish playing");
+      return;
+    }
     if (this.activity?.driving) {
       this.notice("Park before building");
       return;
@@ -503,7 +558,7 @@ export class Game {
     } else this.notice(this.commands.place(h.aim) || "✓ Placed");
   }
   removeAt(x: number, y: number) {
-    if (this.paused) return;
+    if (this.paused || this.playing) return;
     const h = this.hit(x, y);
     if (h?.target) {
       this.cancel();
@@ -552,7 +607,7 @@ export class Game {
     try {
       Object.assign(
         this.player,
-        safeGround(this.seated.entry, [
+        safeStanding(this.seated.entry, [
           ...this.obstacles(),
           ...this.commands.blocks.flatMap(blockColliders),
         ]),
@@ -566,142 +621,364 @@ export class Game {
       return false;
     }
   }
-  use() {
-    if (this.seated) {
-      this.stand();
-      return;
-    }
-
-    const built = this.commands.blocks
-      .filter(
-        (b) =>
-          ["door", "light"].includes(ITEMS.get(b.type)?.interaction || "") &&
-          Math.hypot(b.x + 0.5 - this.player.x, b.z + 0.5 - this.player.z) <
-            2.4 &&
-          Math.abs(b.y - this.player.y) < 2,
+  contextTarget(): Interaction | undefined {
+    const targets: Interaction[] = [];
+    const object = (block: Block, extra: any = {}) => {
+      const interaction = ITEMS.get(block.type)?.interaction;
+      if (!interaction) return;
+      targets.push({
+        id: extra.prop
+          ? "prop:" + extra.prop.id
+          : "build:" + `${block.x},${block.y},${block.z}`,
+        kind: "object",
+        x: block.x + 0.5,
+        y: block.y,
+        z: block.z + 0.5,
+        range: 2.5,
+        icon:
+          interaction === "light"
+            ? "💡"
+            : interaction === "seat"
+              ? "🪑"
+              : PLAY.has(interaction)
+                ? "🛝"
+                : "🚪",
+        label: ITEMS.get(block.type)!.label,
+        data: { block, ...extra },
+      });
+    };
+    for (const b of this.builds.blocksNear(this.player, 3))
+      if (
+        Math.abs(b.x - this.player.x) < 3 &&
+        Math.abs(b.z - this.player.z) < 3
       )
-      .sort(
-        (a, b) =>
-          Math.hypot(a.x - this.player.x, a.z - this.player.z) -
-          Math.hypot(b.x - this.player.x, b.z - this.player.z),
-      )[0];
-    if (built) {
-      this.notice(this.commands.toggle(built) || "✓ Used");
-      return;
+        object(b, { built: true });
+    for (const prop of this.world.authoredProps || [])
+      object(prop.block, { prop });
+    for (const b of this.world.activities || []) object(b, { static: true });
+    for (const [i, s] of (this.world.seats || []).entries())
+      targets.push({
+        id: "seat:" + i,
+        kind: "seat",
+        x: s.x,
+        y: s.y || 0,
+        z: s.z,
+        range: 2,
+        icon: "🪑",
+        label: "Sit",
+        data: s,
+      });
+    for (const d of this.world.doors)
+      targets.push({
+        id: "door:" + d.id,
+        kind: "door",
+        x: d.center.x,
+        y: 0,
+        z: d.center.z,
+        range: 3.2,
+        icon: "🚪",
+        label: "Door",
+        data: d,
+      });
+    if (this.activity) {
+      const c = this.activity.car;
+      targets.push({
+        id: "vehicle",
+        kind: "vehicle",
+        x: c.x,
+        y: 0,
+        z: c.z,
+        range: 3,
+        icon: "🚗",
+        label: "Drive",
+        data: c,
+      });
+      for (const [i, a] of this.activity.agents.entries())
+        targets.push({
+          id: "agent:" + i,
+          kind: "agent",
+          x: a.state.x,
+          y: 0,
+          z: a.state.z,
+          range: 2.5,
+          icon: a.animal ? "🐾" : "👋",
+          label: a.species || "Neighbour",
+          data: a,
+        });
     }
-
-    const seats = [
-      ...(this.world.seats || []),
-      ...this.commands.blocks
-        .filter((b) => ITEMS.get(b.type)?.interaction === "seat")
-        .map((b) => ({
-          x: b.x + 0.5,
-          z: b.z + 0.5,
-          y: b.y,
-          rotation: b.rotation || 0,
-        })),
-    ];
-    const seat = seats
-      .filter(
-        (s: any) =>
-          Math.abs((s.y || 0) - this.player.y) < 1.2 &&
-          Math.hypot(s.x - this.player.x, s.z - this.player.z) < 2,
-      )
-      .sort(
-        (a: any, b: any) =>
-          Math.hypot(a.x - this.player.x, a.z - this.player.z) -
-          Math.hypot(b.x - this.player.x, b.z - this.player.z),
-      )[0];
-    if (seat) {
+    return chooseInteraction(this.player, targets, (t) => {
       const origin = new T.Vector3(
           this.player.x,
           this.player.y + 1.3,
           this.player.z,
         ),
-        target = new T.Vector3(seat.x, (seat.y || 0) + 1.2, seat.z),
-        distance = origin.distanceTo(target),
-        ray = new T.Ray(origin, target.sub(origin).normalize());
+        end = new T.Vector3(t.x, t.y + 1.2, t.z),
+        distance = origin.distanceTo(end),
+        ray = new T.Ray(origin, end.sub(origin).normalize());
+      const own = t.kind === "object" ? blockColliders(t.data.block) : [];
+      const shapes = [
+        ...this.index
+          .query(around(this.player, 4))
+          .filter(
+            (s: any) =>
+              s.owner !== t.id &&
+              !own.some((b) =>
+                ["minX", "maxX", "minY", "maxY", "minZ", "maxZ"].every(
+                  (k) => Math.abs(b[k] - s[k]) < 1e-5,
+                ),
+              ),
+          ),
+        ...this.world.doors
+          .filter((d: any) => t.id !== "door:" + d.id)
+          .map((d: any) => doorBox(d)),
+        ...this.commands.blocks
+          .filter(
+            (b) =>
+              t.id !== "build:" + `${b.x},${b.y},${b.z}` &&
+              Math.abs(b.x - this.player.x) < 4 &&
+              Math.abs(b.z - this.player.z) < 4,
+          )
+          .flatMap(blockColliders),
+        ...(this.activity && t.kind !== "vehicle"
+          ? [carBox(this.activity.car)]
+          : []),
+      ];
+      return !shapes.some((s) => rayBoxNear(ray, s) < distance - 0.2);
+    });
+  }
+  private sit(seat: any) {
+    this.seated = { entry: { ...this.player }, height: (seat.y || 0) + 0.4 };
+    Object.assign(this.player, {
+      x: seat.x,
+      y: seat.y || 0,
+      z: seat.z,
+      yaw: ((seat.rotation || 0) * Math.PI) / 180,
+      vy: 0,
+      grounded: true,
+    });
+    this.flying = false;
+    this.vertical = 0;
+    this.controls.clear();
+    this.refreshModes();
+    this.notice("🪑 Sitting · move or tap Use to stand");
+    this.onEdit();
+  }
+  private startPlay(kind: string, data: any) {
+    const b = data.block as Block,
+      entry = { ...this.player },
+      own = blockColliders(b);
+    const obstacles = [
+      ...this.world.solids.filter(
+        (s: any) =>
+          s.owner !== "prop:" + data.prop?.id &&
+          !own.some((box) =>
+            ["minX", "maxX", "minY", "maxY", "minZ", "maxZ"].every(
+              (k) => Math.abs(box[k] - s[k]) < 1e-5,
+            ),
+          ),
+      ),
+      ...this.world.doors.map((d: any) => doorBox(d)),
+      ...this.commands.blocks
+        .filter((x) => x.x !== b.x || x.y !== b.y || x.z !== b.z)
+        .flatMap(blockColliders),
+    ];
+    for (let i = 0; i <= 24; i++)
       if (
-        ![
-          ...this.obstacles(),
-          ...this.commands.blocks.flatMap(blockColliders),
-        ].some((b) => rayBoxNear(ray, b) < distance - 0.2)
+        collides(playPose(kind, b, (playDuration(kind) * i) / 24), obstacles)
       ) {
-        this.seated = {
-          entry: { x: this.player.x, z: this.player.z, yaw: this.player.yaw },
-          height: (seat.y || 0) + 0.4,
-        };
-        Object.assign(this.player, {
-          x: seat.x,
-          y: seat.y || 0,
-          z: seat.z,
-          yaw: ((seat.rotation || 0) * Math.PI) / 180,
-          vy: 0,
-          grounded: true,
-        });
+        this.notice("Leave a little space around the play equipment");
+        return;
+      }
+    let model: T.Group | null = null;
+    if (!data.static) {
+      model = renderModel(b);
+      model.children.forEach(
+        (o) => (o.userData.basePosition = o.position.clone()),
+      );
+      this.view.scene.add(model);
+      if (data.built) this.chunks.update(b, false);
+      if (data.prop) data.prop.model.visible = false;
+    }
+    this.playing = {
+      kind,
+      block: { ...b },
+      entry,
+      elapsed: 0,
+      model,
+      built: !!data.built,
+      original: data.prop?.model,
+    };
+    this.flying = false;
+    this.vertical = 0;
+    this.controls.clear();
+    Object.assign(this.player, playPose(kind, b, 0));
+    this.refreshModes();
+    this.notice("🛝 Playing · tap Use or move to finish");
+    this.onEdit();
+  }
+  private animatePlay() {
+    const p = this.playing;
+    if (!p?.model) return;
+    const wave = Math.sin(p.elapsed * 2);
+    if (p.kind === "swing")
+      p.model.children.slice(3).forEach((o) => {
+        const base = o.userData.basePosition;
+        o.position.z = base.z + wave * 0.4;
+      });
+    if (p.kind === "seesaw")
+      p.model.children.slice(1).forEach((o) => {
+        const base = o.userData.basePosition;
+        o.position.y = base.y + base.x * wave * 0.17;
+        o.rotation.z = wave * 0.17;
+      });
+    if (p.kind === "rock") p.model.rotation.x = wave * 0.08;
+  }
+  endPlay(exit = true) {
+    const p = this.playing;
+    if (!p) return true;
+    if (exit)
+      try {
+        Object.assign(
+          this.player,
+          safeStanding(p.entry, [
+            ...this.obstacles(),
+            ...this.commands.blocks.flatMap(blockColliders),
+          ]),
+        );
+      } catch (e) {
+        this.notice(String(e));
+        return false;
+      }
+    p.model?.traverse((o: any) => {
+      if (o.isMesh) o.material.dispose();
+    });
+    p.model?.removeFromParent();
+    if (p.built) this.chunks.update(p.block, true);
+    if (p.original) p.original.visible = true;
+    this.playing = null;
+    this.controls?.clear();
+    this.refreshModes();
+    if (exit) this.onEdit();
+    return true;
+  }
+  use() {
+    if (this.playing) {
+      this.endPlay();
+      return;
+    }
+    if (this.seated) {
+      this.stand();
+      return;
+    }
+    try {
+      if (this.activity?.driving) {
+        this.notice(
+          this.activity.use(this.player, [
+            ...this.obstacles(),
+            ...this.commands.blocks.flatMap(blockColliders),
+          ]) || "",
+        );
+        this.controls.clear();
+        this.refreshModes();
+        this.onEdit();
+        return;
+      }
+      const target = this.contextTarget();
+      if (!target) {
+        this.notice("Walk closer to something to use");
+        return;
+      }
+      if (target.kind === "object") {
+        const { block, prop } = target.data,
+          kind = ITEMS.get(block.type)!.interaction!;
+        if (PLAY.has(kind)) {
+          this.startPlay(kind, target.data);
+          return;
+        }
+        if (kind === "seat") {
+          this.sit({
+            x: block.x + 0.5,
+            y: block.y,
+            z: block.z + 0.5,
+            rotation: block.rotation,
+          });
+          return;
+        }
+        if (prop) {
+          const commands = new Commands(
+            () => [
+              ...this.world.solids.filter(
+                (s: any) => s.owner !== "prop:" + prop.id,
+              ),
+              ...this.world.doors.map((d: any) => doorBox(d)),
+              ...this.commands.blocks.flatMap(blockColliders),
+              ...(this.activity ? [carBox(this.activity.car)] : []),
+            ],
+            () => this.player,
+            () => {},
+          );
+          commands.reset([block]);
+          const reason = commands.toggle(commands.blocks[0]);
+          if (reason) {
+            this.notice(reason);
+            return;
+          }
+          prop.block = { ...commands.blocks[0] };
+          refreshProp(prop);
+          syncProps(this.world);
+          this.index = new SpatialIndex();
+          for (const s of this.world.solids) this.index.add(s);
+          this.onEdit();
+          this.notice("✓ Used");
+        } else this.notice(this.commands.toggle(block) || "✓ Used");
+      } else if (target.kind === "seat") this.sit(target.data);
+      else if (target.kind === "agent") {
+        const a = target.data;
+        a.greetUntil = this.activity!.time + 2;
+        a.model.rotation.y = Math.atan2(
+          this.player.x - a.state.x,
+          this.player.z - a.state.z,
+        );
+        this.notice(
+          a.animal ? `♡ Hello, ${a.species}!` : "👋 Hello, neighbour!",
+        );
+      } else if (target.kind === "vehicle") {
+        this.notice(
+          this.activity!.use(this.player, [
+            ...this.obstacles(),
+            ...this.commands.blocks.flatMap(blockColliders),
+          ]) || "",
+        );
         this.flying = false;
         this.vertical = 0;
         this.controls.clear();
         this.refreshModes();
-        this.notice("🪑 Sitting · move or tap Use to stand");
         this.onEdit();
-        return;
+      } else {
+        const d = target.data,
+          r = requestDoor(
+            d,
+            !d.targetOpen,
+            this.player,
+            [],
+            [
+              ...this.world.solids,
+              ...this.commands.blocks
+                .flatMap(blockColliders)
+                .map((s) => (s.ramp ? { ...s, ramp: null } : s)),
+              ...(this.activity ? [carBox(this.activity.car)] : []),
+            ],
+            true,
+          );
+        this.notice(r.ok ? "🚪 Door" : r.message || "Clear the doorway");
+        this.onEdit();
       }
+    } catch (e) {
+      this.notice(String(e));
     }
-    if (this.activity) {
-      try {
-        const message = this.activity.use(this.player, [
-          ...this.obstacles(),
-          ...this.commands.blocks.flatMap(blockColliders),
-        ]);
-        if (message) {
-          this.flying = false;
-          this.vertical = 0;
-          this.refreshModes();
-          this.controls.clear();
-          this.notice(message);
-          this.onEdit();
-          return;
-        }
-      } catch (e) {
-        this.notice(String(e));
-        return;
-      }
-    }
-    const d = this.world.doors
-      .filter(
-        (d: any) =>
-          Math.abs(this.player.y) < 2.3 &&
-          Math.hypot(d.center.x - this.player.x, d.center.z - this.player.z) <
-            3.2,
-      )
-      .sort(
-        (a: any, b: any) =>
-          Math.hypot(a.center.x - this.player.x, a.center.z - this.player.z) -
-          Math.hypot(b.center.x - this.player.x, b.center.z - this.player.z),
-      )[0];
-    if (!d) {
-      this.notice("Walk closer to a door");
-      return;
-    }
-    const r = requestDoor(
-      d,
-      !d.targetOpen,
-      this.player,
-      [],
-      [
-        ...this.world.solids,
-        ...(this.activity ? [carBox(this.activity.car)] : []),
-        ...this.commands.blocks
-          .flatMap(blockColliders)
-          .map((s) => (s.ramp ? { ...s, ramp: null } : s)),
-      ],
-      true,
-    );
-    this.notice(r.ok ? "🚪 Door" : r.message || "Clear the doorway");
-    this.onEdit();
   }
   home() {
+    this.endPlay(false);
     Object.assign(
       this.player,
       safeGround(
@@ -719,6 +996,10 @@ export class Game {
     this.cancel();
   }
   jump() {
+    if (this.playing) {
+      this.endPlay();
+      return;
+    }
     if (this.seated) {
       this.stand();
       return;
@@ -744,8 +1025,8 @@ export class Game {
       } else this.removeAt(innerWidth / 2, innerHeight / 2);
     }
     if (c === "Enter") this.confirm();
-    if (c === "KeyZ") this.commands.undo();
-    if (c === "KeyY") this.commands.redo();
+    if (c === "KeyZ") this.endPlay() && this.commands.undo();
+    if (c === "KeyY") this.endPlay() && this.commands.redo();
     if (c === "Escape") this.cancel();
   }
   ui() {
@@ -757,6 +1038,7 @@ export class Game {
       this.onEdit();
     });
     on("flyMode", () => {
+      if (this.playing && !this.endPlay()) return;
       if (this.seated && !this.stand()) return;
       if (this.activity?.driving) {
         this.notice("Leave the car before flying");
@@ -797,8 +1079,8 @@ export class Game {
     on("home", () => this.home());
     on("jump", () => this.jump());
     on("use", () => this.use());
-    on("undo", () => this.commands.undo());
-    on("redo", () => this.commands.redo());
+    on("undo", () => this.endPlay() && this.commands.undo());
+    on("redo", () => this.endPlay() && this.commands.redo());
     on("cancel", () => this.cancel());
     on("rotate", () => {
       if (this.pending) {
@@ -906,11 +1188,13 @@ export class Game {
     document
       .querySelector("#cameraMode")!
       .setAttribute("aria-pressed", String(this.cameraMode === "third"));
-    document.querySelector("#use")!.textContent = this.seated
-      ? "🪑"
-      : this.activity?.driving
-        ? "🚶"
-        : "✋";
+    document.querySelector("#use")!.textContent = this.playing
+      ? "🚶"
+      : this.seated
+        ? "🪑"
+        : this.activity?.driving
+          ? "🚶"
+          : this.contextTarget()?.icon || "✋";
   }
   refreshHistory() {
     const u = document.querySelector<HTMLButtonElement>("#undo"),
@@ -933,7 +1217,9 @@ export class Game {
       flying: this.flying,
       activity: this.activity?.snapshot(),
       template: this.template,
-      player: { ...this.player },
+      player: { ...(this.playing?.entry || this.seated?.entry || this.player) },
+      props: propSnapshot(this.world),
+      layout: this.world.layout || 1,
       blocks: this.commands.blocks.map((b) => ({ ...b })),
       doors: Object.fromEntries(
         this.world.doors.map((d: any) => [d.id, d.targetOpen]),

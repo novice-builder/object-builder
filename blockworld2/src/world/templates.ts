@@ -45,8 +45,9 @@ export function createWorld(
   group: T.Group,
   id: TemplateId,
   blocks: any[] = [],
+  layout = 2,
 ): any {
-  if (id === "sunbeam-region") return makeSunbeamRegion(group);
+  if (id === "sunbeam-region") return makeSunbeamRegion(group, layout);
   if (id === "sunbeam-town") return makeSunbeamTown(group);
   if (id === "home-square") return makeHomeSquare(group);
   if (id === "legacy-06") return makeWorld(group, blocks);

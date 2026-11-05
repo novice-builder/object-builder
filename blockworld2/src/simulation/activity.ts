@@ -86,6 +86,7 @@ export class Activity {
   constructor(
     scene: T.Scene,
     readonly range = 47,
+    readonly query?: (point: any, radius: number) => any[],
   ) {
     scene.add(this.group);
     this.group.add(this.vehicle);
@@ -359,7 +360,7 @@ export class Activity {
         Math.abs(c.x) < this.range &&
         Math.abs(c.z) < this.range &&
         ![
-          ...solids,
+          ...(this.query?.(c, 3) || solids),
           ...this.traffic.map((m) =>
             carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
           ),
@@ -399,7 +400,7 @@ export class Activity {
                 Math.hypot(x - other.state.x, z - other.state.z) < 0.65,
             ) ||
             [
-              ...solids,
+              ...(this.query?.({ x, y: 0, z }, 1.2) || solids),
               parked,
               ...this.traffic.map((m) =>
                 carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
@@ -461,13 +462,9 @@ export class Activity {
             (a) => Math.hypot(x - a.state.x, z - a.state.z) < 2,
           ) ||
           [
-            ...solids,
+            ...(this.query?.({ x, y: 0, z }, 3) || solids),
             parked,
-            ...this.traffic
-              .filter((_, n) => n !== i)
-              .map((m) =>
-                carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
-              ),
+            ...this.roadTraffic!.cars.filter((_, n) => n !== i).map(carBox),
           ].some((s) => overlaps(carBox({ x, z, yaw }), s)),
       );
       this.roadTraffic.cars.forEach((c, i) => {
@@ -494,7 +491,9 @@ export class Activity {
         !this.agents.some(
           (a) => Math.hypot(a.state.x - pos.x, a.state.z - pos.z) < 2.5,
         ) &&
-        ![...solids, parked, ...other].some((s) => overlaps(shape, s))
+        ![...(this.query?.(pos, 3) || solids), parked, ...other].some((s) =>
+          overlaps(shape, s),
+        )
       ) {
         this.progress[i] = u;
         this.traffic[i].position.set(pos.x, 0, pos.z);

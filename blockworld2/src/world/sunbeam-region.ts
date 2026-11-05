@@ -166,7 +166,7 @@ export const REGION_BUILDINGS = [
     kind: "cafe",
   },
 ];
-export function makeSunbeamRegion(scene: T.Group) {
+export function makeSunbeamRegion(scene: T.Group, layout = 2) {
   // Composition preserves every existing Sunbeam structure at its old location.
   // Only a NEW region instance receives the surrounding districts.
   const base = makeSunbeamTown(scene),
@@ -273,7 +273,9 @@ export function makeSunbeamRegion(scene: T.Group) {
       furnish("fridge", -5, -3);
       furnish("coat-rack", 4, 3);
       furnish("floor-lamp", 4, 1, 0, 0, "light");
-      furnish("wall-cupboard", -h.w / 2 + 0.3, 2, 90, 1.3, "cupboard");
+      if (layout === 1)
+        furnish("wall-cupboard", -h.w / 2 + 0.3, 2, 90, 1.3, "cupboard");
+      else furnish("dining-hutch", -h.w / 2 + 0.6, 2.5, 90, 0, "cupboard");
       if (h.storeys === 2) {
         furnish("double-bed", -4, -4, 0, 3.2);
         furnish("desk", 1, -4, 0, 3.2);
@@ -428,6 +430,7 @@ export function makeSunbeamRegion(scene: T.Group) {
   batchDoorLeaves(doors);
   return {
     ...base,
+    layout,
     houses: [...base.houses, ...houses],
     rooms: [...base.rooms, ...rooms],
     doors: [...base.doors, ...doors],

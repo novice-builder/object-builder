@@ -103,6 +103,7 @@ export function openMap(game: Game) {
           ...game.obstacles(),
           ...game.commands.blocks.flatMap(blockColliders),
         ]);
+        game.endPlay(false);
         Object.assign(game.player, p);
         game.seated = null;
         game.flying = false;

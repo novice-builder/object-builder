@@ -73,8 +73,8 @@ export class Commands {
     for (const b of forward ? edit.before : edit.after) this.changed(b, false);
     for (const b of forward ? edit.after : edit.before) this.changed(b, true);
   }
-  private execute(edit: Edit, reach: boolean) {
-    const reason = this.apply(edit, true, true, reach);
+  private execute(edit: Edit, reach: boolean, normal = true) {
+    const reason = this.apply(edit, true, normal, reach);
     if (reason) return reason;
     this.past.push(structuredClone(edit));
     if (this.past.length > 100) this.past.shift();
@@ -96,7 +96,7 @@ export class Commands {
   }
   toggle(b: Block) {
     const item = ITEMS.get(b.type);
-    if (item?.interaction === "door") {
+    if (item?.interaction === "door" || item?.interaction === "cabinet") {
       const other = [
         ...this.obstacles(),
         ...this.blocks
@@ -126,6 +126,7 @@ export class Commands {
           },
         ],
       },
+      false,
       false,
     );
   }

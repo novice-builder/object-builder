@@ -29,3 +29,9 @@ Executed: 10 focused catalogue/provenance/region cases passed; all 32 doors, six
 Region population is 12 residents, eight friendly species, four lane-traffic vehicles and a buggy. Added authored outer paths/habitats, species models/gaits/rests, bounded local detours around constructions, directional spacing, deterministic junction reservations/choices and collision-tested blocked-road reversal. Small-template traffic/population remain compatible. See RUN2-LIFE.md for limits, including no full parking-bay/traffic-light system.
 
 Executed: 11 focused deterministic cases and five browser scenarios passed; strict TypeScript/build/preservation passed. Tests cover 4,000 repeated road steps with identical results/no collisions or position jumps, bounded population, wall detours, farm greetings, original seats/animals, driving and mobile layout. Proceed to contextual activities after pushing and remotely verifying this checkpoint.
+
+## Stage D complete — contextual activities
+
+Added visible-nearby contextual icons, functional swing/seesaw/trampoline/slide/spring-pony/rocking-chair sequences, safe exit/history behavior, opening cupboards and persistent authored light/furniture states. Upper-floor seating now stands on its own floor. Native schema 3 reads 1/2; region layout revisions preserve prior geometry. See RUN2-ACTIVITIES.md.
+
+Brought incremental build collision indexing/local simulation queries forward from F after an upstairs browser timeout exposed whole-world navigation scans. Fixed a blocked cupboard placement and identity-based self-filtering after indexing. Executed catalogue/persistence/region regressions, seven interaction/layout/cache cases and seven focused browser scenarios successfully; strict TypeScript/build/preservation passed. Proceed to avatar selection after the remote checkpoint.

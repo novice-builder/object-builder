@@ -68,7 +68,7 @@ test("schema 1 worlds migrate without dropping original creations", () => {
     selected: "wood",
   });
   const migrated = validateSnapshot({ ...s, schema: 1 });
-  assert.equal(migrated.schema, 2);
+  assert.equal(migrated.schema, 3);
   assert.equal(migrated.world.blocks[0].x, -250);
 });
 test("slabs and tabletops support precise vertical placement and lossless backups", () => {

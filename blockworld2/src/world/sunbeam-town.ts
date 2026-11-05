@@ -362,6 +362,7 @@ export function makeSunbeamTown(scene: T.Group) {
     doors: [...base.doors, ...doors],
     solids: [...base.solids, ...solids],
     plots,
+    activities: [{ x: -1.5, y: 0, z: 21.5, type: "play-slide" }],
     seats,
     mapRoads: [
       ...[-36, 4, 36].map((z) => ({ x: 0, z, w: 84, d: 6 })),

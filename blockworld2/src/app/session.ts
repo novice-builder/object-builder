@@ -59,6 +59,8 @@ export class Session {
       s.player,
       s.world.doors,
       s.world.activity,
+      s.world.props as any,
+      s.world.layout as number,
     );
     this.game.selected = s.preferences.selected;
     this.game.favourites = Array.isArray(s.preferences.favourites)
