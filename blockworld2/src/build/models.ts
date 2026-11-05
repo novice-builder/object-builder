@@ -284,15 +284,13 @@ export class RegistryChunks {
 }
 let thumbRenderer: T.WebGLRenderer | undefined;
 const thumbs = new Map<string, string>();
-export function thumbnail(id: string) {
-  if (thumbs.has(id)) return thumbs.get(id)!;
+export function modelImage(model: T.Group, disposeGeometry = false) {
   if (!thumbRenderer) {
     thumbRenderer = new T.WebGLRenderer({ alpha: true, antialias: false });
     thumbRenderer.setSize(112, 96);
     thumbRenderer.setPixelRatio(1);
   }
   const scene = new T.Scene(),
-    model = renderModel({ x: 0, y: 0, z: 0, type: id }),
     bounds = new T.Box3().setFromObject(model),
     center = bounds.getCenter(new T.Vector3()),
     size = bounds.getSize(new T.Vector3()),
@@ -319,6 +317,17 @@ export function thumbnail(id: string) {
   model.traverse((o: any) => {
     if (o.isMesh) o.material.dispose();
   });
-  thumbs.set(id, url);
+  if (disposeGeometry) {
+    const owned = new Set<T.BufferGeometry>();
+    model.traverse((o: any) => {
+      if (o.isMesh) owned.add(o.geometry);
+    });
+    owned.forEach((g) => g.dispose());
+  }
   return url;
+}
+export function thumbnail(id: string) {
+  if (!thumbs.has(id))
+    thumbs.set(id, modelImage(renderModel({ x: 0, y: 0, z: 0, type: id })));
+  return thumbs.get(id)!;
 }

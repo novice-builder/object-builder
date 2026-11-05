@@ -4,6 +4,7 @@ import { CATALOGUE } from "../build/catalogue";
 import { validateSave } from "../legacy06/core.js";
 import { TEMPLATES, type TemplateId } from "../world/templates";
 import type { Block } from "../build/commands";
+import { APPEARANCES } from "../player/appearance";
 export interface Snapshot {
   schema: 3;
   template: TemplateId;
@@ -59,6 +60,11 @@ export function validateSnapshot(value: unknown): Snapshot {
     (s.template === "sunbeam-region" && s.schema === 3 ? 2 : 1);
   if (!Number.isInteger(layout) || Number(layout) < 1 || Number(layout) > 2)
     throw Error("Unsupported template layout");
+  if (
+    s.preferences.avatar !== undefined &&
+    !APPEARANCES.some((a) => a.id === s.preferences.avatar)
+  )
+    throw Error("Unknown avatar appearance");
   validateBlocks(s.world.blocks);
   if (!["hand", ...CHOICES.map((i) => i.id)].includes(s.preferences.selected))
     throw Error("Invalid selected item");
@@ -134,6 +140,7 @@ export function fromGame(s: any): Snapshot {
     player: s.player,
     preferences: {
       selected: s.selected,
+      avatar: s.avatar || "explorer",
       favourites: s.favourites || [],
       recent: s.recent || [],
       hotbar: s.hotbar || [],

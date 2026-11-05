@@ -62,6 +62,11 @@ export class Session {
       s.world.props as any,
       s.world.layout as number,
     );
+    this.game.setAppearance(
+      typeof s.preferences.avatar === "string"
+        ? s.preferences.avatar
+        : "explorer",
+    );
     this.game.selected = s.preferences.selected;
     this.game.favourites = Array.isArray(s.preferences.favourites)
       ? (s.preferences.favourites as string[])
@@ -137,6 +142,7 @@ export class Session {
       doors: {},
       player: t.spawn,
       selected: "hand",
+      avatar: this.game.appearance,
     });
     const record = await this.store.create(t.name, snapshot);
     await this.open(record.id);

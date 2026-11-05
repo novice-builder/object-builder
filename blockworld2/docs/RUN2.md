@@ -35,3 +35,9 @@ Executed: 11 focused deterministic cases and five browser scenarios passed; stri
 Added visible-nearby contextual icons, functional swing/seesaw/trampoline/slide/spring-pony/rocking-chair sequences, safe exit/history behavior, opening cupboards and persistent authored light/furniture states. Upper-floor seating now stands on its own floor. Native schema 3 reads 1/2; region layout revisions preserve prior geometry. See RUN2-ACTIVITIES.md.
 
 Brought incremental build collision indexing/local simulation queries forward from F after an upstairs browser timeout exposed whole-world navigation scans. Fixed a blocked cupboard placement and identity-based self-filtering after indexing. Executed catalogue/persistence/region regressions, seven interaction/layout/cache cases and seven focused browser scenarios successfully; strict TypeScript/build/preservation passed. Proceed to avatar selection after the remote checkpoint.
+
+## Stage E complete — avatar customisation
+
+Implemented 12 original, immediately available looks, front-facing visual previews, per-world persistence/new-world inheritance, friendly faces and clothing/accessory geometry. Shared factory also varies region residents. Characters retain five draw calls through fixed-part batching; walking/seated/play/flight and visible in-car presentation work with existing cameras/physics. See RUN2-AVATARS.md.
+
+Executed: 12 focused appearance/interaction/movement cases and four browser scenarios passed, plus strict TypeScript/build/preservation. Preview grid was visually reviewed. No physical-device claim. Proceed to remaining mobile/performance hardening after the remote checkpoint.

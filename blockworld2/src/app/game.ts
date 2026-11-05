@@ -10,7 +10,9 @@ import { RegistryChunks, renderModel } from "../build/models";
 import { BuildCollisionIndex } from "../build/collision-index";
 import { openCatalogue, renderHotbar } from "../ui/catalogue";
 import { Activity, carBox } from "../simulation/activity";
-import { fly, avatar, followCamera } from "../player/modes";
+import { fly, followCamera } from "../player/modes";
+import { createAvatar, disposeAvatar, APPEARANCES } from "../player/appearance";
+import { openWardrobe } from "../ui/wardrobe";
 import { openMap } from "../ui/map";
 import { safeGround, safeStanding } from "../world/spawn";
 import { chooseInteraction, type Interaction } from "./interactions";
@@ -56,7 +58,10 @@ export class Game {
     original?: T.Group;
   } | null = null;
   private contextTime = 0;
-  body = avatar();
+  appearance = "explorer";
+  body = createAvatar();
+  gait = 0;
+  walkAmount = 0;
   cameraMode: "first" | "third" = "first";
   flying = false;
   vertical = 0;
@@ -92,7 +97,7 @@ export class Game {
   onEdit = () => {};
   constructor() {
     document.querySelector("#app")!.innerHTML =
-      `<canvas id="world" tabindex="-1" aria-label="Drag to look; tap to build; hold to remove"></canvas><div class="brand">BLOCKWORLD <b>2.0</b><small>Sunbeam Town · Development preview</small></div><nav id="top"><button id="home" aria-label="Return home">⌂</button><button id="doorMode" aria-label="Automatic doors" aria-pressed="true">🚪 Auto</button><button id="guard" aria-label="Edge protection" aria-pressed="true">🛡</button><button id="cameraMode" aria-label="Switch camera">👤</button><button id="flyMode" aria-label="Creative flight" aria-pressed="false">🪽</button><button id="mapButton" aria-label="World map">🗺</button><button id="catalogueButton" aria-label="Building catalogue">▦</button><button id="worlds" aria-label="Worlds">🌍</button></nav><output id="status" role="status" aria-live="polite">Starting…</output><div id="crosshair">+</div><div id="joystick" aria-label="Move joystick"><div id="knob"></div></div><div id="actions"><button id="use" aria-label="Use nearby object">🚪</button><button id="undo" aria-label="Undo">↶</button><button id="redo" aria-label="Redo">↷</button><button id="jump" aria-label="Jump">↑</button></div><div id="palette" aria-label="Building hotbar"></div><button id="moveObject" aria-label="Move a built object">✥ Move</button><div id="flightControls" hidden><button id="flyUp" aria-label="Fly up">⇧</button><button id="flyDown" aria-label="Fly down">⇩</button></div><div id="previewControls" hidden><button id="cancel" aria-label="Cancel placement">✕</button><button id="lower" aria-label="Lower preview">⇩</button><button id="raise" aria-label="Raise preview">⇧</button><button id="rotate" aria-label="Rotate preview">↻</button><button id="confirm" aria-label="Confirm placement">✓</button></div><div id="modal" hidden></div>`;
+      `<canvas id="world" tabindex="-1" aria-label="Drag to look; tap to build; hold to remove"></canvas><div class="brand">BLOCKWORLD <b>2.0</b><small>Sunbeam Town · Development preview</small></div><nav id="top"><button id="home" aria-label="Return home">⌂</button><button id="doorMode" aria-label="Automatic doors" aria-pressed="true">🚪 Auto</button><button id="guard" aria-label="Edge protection" aria-pressed="true">🛡</button><button id="cameraMode" aria-label="Switch camera">👤</button><button id="flyMode" aria-label="Creative flight" aria-pressed="false">🪽</button><button id="mapButton" aria-label="World map">🗺</button><button id="catalogueButton" aria-label="Building catalogue">▦</button><button id="avatarButton" aria-label="Choose avatar">👕</button><button id="worlds" aria-label="Worlds">🌍</button></nav><output id="status" role="status" aria-live="polite">Starting…</output><div id="crosshair">+</div><div id="joystick" aria-label="Move joystick"><div id="knob"></div></div><div id="actions"><button id="use" aria-label="Use nearby object">🚪</button><button id="undo" aria-label="Undo">↶</button><button id="redo" aria-label="Redo">↷</button><button id="jump" aria-label="Jump">↑</button></div><div id="palette" aria-label="Building hotbar"></div><button id="moveObject" aria-label="Move a built object">✥ Move</button><div id="flightControls" hidden><button id="flyUp" aria-label="Fly up">⇧</button><button id="flyDown" aria-label="Fly down">⇩</button></div><div id="previewControls" hidden><button id="cancel" aria-label="Cancel placement">✕</button><button id="lower" aria-label="Lower preview">⇩</button><button id="raise" aria-label="Raise preview">⇧</button><button id="rotate" aria-label="Rotate preview">↻</button><button id="confirm" aria-label="Confirm placement">✓</button></div><div id="modal" hidden></div>`;
     this.view = createRenderer(
       document.querySelector<HTMLCanvasElement>("#world")!,
     );
@@ -332,6 +337,8 @@ export class Game {
     const input = this.controls.movement(),
       solids = this.nearbySolids(),
       obstacles: any[] = [];
+    this.walkAmount = Math.min(1, Math.hypot(input.forward, input.right));
+    this.gait += dt * this.walkAmount * 6;
     this.contextTime += dt;
     if (this.contextTime > 0.2) {
       this.contextTime = 0;
@@ -412,22 +419,39 @@ export class Game {
     this.view.renderer.render(this.view.scene, this.view.camera);
   }
   updateCamera() {
+    this.body.group.scale.setScalar(this.activity?.driving ? 0.72 : 1);
     this.body.group.position.set(
       this.player.x,
-      this.seated ? this.seated.height - 0.65 : this.player.y,
+      this.activity?.driving
+        ? 0.22
+        : this.seated
+          ? this.seated.height - 0.65
+          : this.player.y,
       this.player.z,
     );
-    this.body.left.rotation.x = this.body.right.rotation.x =
-      this.seated || this.playing ? -1.2 : 0;
+    const sitting = this.seated || this.playing || this.activity?.driving;
+    this.body.left.rotation.x = sitting
+      ? -1.2
+      : Math.sin(this.gait) * 0.25 * this.walkAmount;
+    this.body.right.rotation.x = sitting
+      ? -1.2
+      : -Math.sin(this.gait) * 0.25 * this.walkAmount;
+    this.body.arms.forEach(
+      (arm, i) =>
+        (arm.rotation.x = this.activity?.driving
+          ? -1
+          : sitting
+            ? -0.1
+            : Math.sin(this.gait + (i ? Math.PI : 0)) * 0.2 * this.walkAmount),
+    );
     this.body.group.rotation.y = this.player.yaw;
     this.body.group.visible = false;
     if (this.cameraMode === "third") {
-      this.body.group.visible =
-        followCamera(this.view.camera, this.player, [
-          ...this.index.query(around(this.player, 8)),
-          ...this.world.doors.map((d: any) => doorBox(d)),
-          ...this.builds.query(this.player, 8),
-        ]) && !this.activity?.driving;
+      this.body.group.visible = followCamera(this.view.camera, this.player, [
+        ...this.index.query(around(this.player, 8)),
+        ...this.world.doors.map((d: any) => doorBox(d)),
+        ...this.builds.query(this.player, 8),
+      ]);
     } else {
       this.view.camera.position.set(
         this.player.x,
@@ -1055,6 +1079,7 @@ export class Game {
     });
     on("mapButton", () => openMap(this));
     on("catalogueButton", () => this.catalogue());
+    on("avatarButton", () => openWardrobe(this));
     for (const [id, value] of [
       ["flyUp", 1],
       ["flyDown", -1],
@@ -1125,6 +1150,14 @@ export class Game {
       if (!b || this.paused) return;
       this.choose(b.dataset.item!, true);
     });
+  }
+  setAppearance(id: string) {
+    if (!APPEARANCES.some((a) => a.id === id)) id = "explorer";
+    disposeAvatar(this.body);
+    this.appearance = id;
+    this.body = createAvatar(id);
+    this.view.scene.add(this.body.group);
+    this.updateCamera();
   }
   catalogue() {
     openCatalogue(this);
@@ -1210,6 +1243,7 @@ export class Game {
   }
   snapshot() {
     return {
+      avatar: this.appearance,
       favourites: this.favourites,
       recent: this.recent,
       hotbar: this.hotbar,

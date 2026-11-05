@@ -3,6 +3,7 @@ import { RoadTraffic } from "./road-traffic";
 import { animalModel, type Species } from "./animals";
 import * as T from "three";
 import { avatar } from "../player/modes";
+import { createAvatar, APPEARANCES } from "../player/appearance";
 import { overlaps, bodyBox } from "../player/physics.js";
 import { safeGround } from "../world/spawn";
 export interface CarState {
@@ -22,7 +23,15 @@ export function carModel(color: number, style = 0) {
     d: number,
     c: number,
   ) => {
-    const m = new T.Mesh(cube, new T.MeshLambertMaterial({ color: c }));
+    const m = new T.Mesh(
+      cube,
+      new T.MeshLambertMaterial({
+        color: c,
+        transparent: c === 0xc8e2dc,
+        opacity: c === 0xc8e2dc ? 0.35 : 1,
+        depthWrite: c !== 0xc8e2dc,
+      }),
+    );
     m.position.set(x, y, z);
     m.scale.set(w, h, d);
     g.add(m);
@@ -150,9 +159,14 @@ export class Activity {
       });
     };
     for (let i = 0; i < (range > 100 ? 12 : range > 47 ? 6 : 4); i++) {
-      const a = avatar(
-        [0xd99a7a, 0x8aafa3, 0xd7bf76, 0x91a8bd, 0xb29ab1, 0xb9b786][i % 6],
-      );
+      const a =
+        range > 100
+          ? createAvatar(APPEARANCES[i].id)
+          : avatar(
+              [0xd99a7a, 0x8aafa3, 0xd7bf76, 0x91a8bd, 0xb29ab1, 0xb9b786][
+                i % 6
+              ],
+            );
       const outer = [
         [
           [-91, -75],
@@ -191,14 +205,6 @@ export class Activity {
           [50, 88],
         ],
       ];
-      if (range > 100 && i >= 6) {
-        const hat = new T.Mesh(
-          new T.BoxGeometry(0.5, 0.16, 0.48),
-          new T.MeshLambertMaterial({ color: i % 2 ? 0xb7c6aa : 0xd9bb82 }),
-        );
-        hat.position.y = 1.79;
-        a.group.add(hat);
-      }
       addAgent(
         a.group,
         range > 100 && i >= 6 ? outer[i - 6] : routes[range > 47 ? i : i % 2],
