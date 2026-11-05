@@ -1,0 +1,42 @@
+
+> blockworld2@0.1.0 test:adventures
+> node --import tsx --test tests/adventures*.test.ts
+
+✔ camera rays handle parallel, inside, behind and zero-length cases (0.956042ms)
+✔ allocation-free ray distances agree with the established Three.js box intersection (4.00426ms)
+✔ collision views reuse footprints until an edit and exclude only the moving object (0.936803ms)
+✔ a close-wall camera stays in front of the wall rather than enforcing an unsafe minimum radius (0.239491ms)
+✔ every offered catalogue asset has a real, current PNG render matching its licensed source (6.808379ms)
+✔ map transforms preserve world positions across zoom and pan (1.446602ms)
+✔ map reads actual roads, buildings and river coordinates (0.541336ms)
+✔ safe landmark arrivals never return unchecked blocked ground (0.774378ms)
+✔ control preferences survive a reload in their own key (1.30615ms)
+✔ invalid preferences and denied browser storage fall back without blocking play (0.262867ms)
+✔ late edits during delayed world read preserve ownership (13.68945ms)
+✔ quota failure aborts switching and retains source; recovery creates a new record (3.393309ms)
+✔ invalid import creates no records; valid import always creates a separate copy (4.074176ms)
+✔ stale tab conflicts retain the newer checkpoint (5.338783ms)
+✔ water, bridge and footprint boundaries allow safe crossing (0.659124ms)
+✔ LAN HTTP UUID fallback retains RFC4122 version/variant and avoids collisions (3.020577ms)
+✔ preview 01 records retain their original layout while fresh records use the new scene (3.421611ms)
+✔ fresh copies receive distinct names without renaming old worlds (1.735498ms)
+✔ continuous trail has finite terrain following vertices and upward faces (4.12957ms)
+✔ bridge crossing ribbon stops at both deck ends (0.383078ms)
+✔ soft woodland loop stays on dry ground with close, continuous samples (3.887834ms)
+✔ closed woodland-edge trail joins without duplicate zero-length segments (0.752625ms)
+✔ connected world keeps legacy coordinates isolated and validates expanded bounds (1.139478ms)
+✔ both connected river bridges share terrain, water and walking coordinates (1.343056ms)
+✔ new connecting trails never cross water outside a bridge (6.126402ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2147.336453
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

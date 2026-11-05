@@ -12,6 +12,9 @@ import {
   type Landmark,
   type Obstacle,
 } from "./landscape";
+import { AdventureMap } from "./world-map";
+import { createMapData, type MapDestination } from "./map-data";
+import { clearArrival } from "./safe-position";
 import { ConnectedLandscape } from "./connected-landscape";
 import { inWorld } from "./vale-data";
 import { AdventureControls } from "./controls";
@@ -39,14 +42,15 @@ const app = $("app");
 app.innerHTML = `
 <canvas id="view" aria-label="BlockWorld Adventures. Drag to orbit the camera. Use WASD or the touch joystick to walk." tabindex="0"></canvas>
 <header id="hud"><div class="identity"><span class="brandmark">◇</span><div class="wordmark">BLOCKWORLD<span>ADVENTURES</span></div><span class="identity-divider"></span><div class="location"><strong id="placeName">Willowmere</strong><span id="placeTag">THE VILLAGE</span></div></div><nav><button id="places" title="Choose a place">⌂ <span>Places</span></button><button id="build" title="Build with premade assets">◇ <span>Build</span></button><button id="menu" aria-label="Open menu">☰</button></nav></header>
-<div id="discoveryCount" class="smallPill">♧ <span>Little discoveries</span> <b id="discovered">0 / 5</b></div><div id="compass" aria-label="Camera direction">N <i>↑</i></div>
+<div id="discoveryCount" class="smallPill">♧ <span>Little discoveries</span> <b id="discovered">0 / 5</b></div><div id="compass" aria-label="Camera direction">N <i>↑</i></div><button id="minimap" aria-label="Open world map" title="World map (M)"><canvas id="miniCanvas" aria-hidden="true"></canvas></button>
+<div id="mapOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="mapTitle"><header class="mapHeader"><div><small>THE LONG WAY HOME</small><h1 id="mapTitle">The Willow Vale</h1></div><button id="mapClose" aria-label="Close map">✕</button></header><canvas id="fullMap" tabindex="0" aria-label="World map. Drag to pan, pinch or use plus and minus to zoom. Tap a named place to travel. Keyboard arrows pan."></canvas><div class="mapTools"><button id="mapHome">⌂ Home</button><button id="mapFit" aria-label="Show whole world">⊡</button><button id="mapMinus" aria-label="Zoom map out">−</button><button id="mapPlus" aria-label="Zoom map in">+</button><select id="mapDestination" aria-label="Travel to a landmark"><option value="">Travel to…</option></select></div><p class="mapHint">Drag to explore · pinch to zoom · tap a place to travel</p></div>
 <div id="joystick" role="group" aria-label="Touch movement joystick"><div id="knob"></div></div><button id="run" class="roundControl" aria-label="Toggle running" aria-pressed="false">➟<span>Run</span></button>
 <div id="context" hidden><span id="contextLabel"></span><button id="interact">Discover <kbd>E</kbd></button></div>
 <div id="bottomHint"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> walk</span><span>drag to look</span><span><kbd>Shift</kbd> run</span></div><div id="touchHint">Left thumb to walk · drag the world to look</div>
 <output id="toast" role="status" aria-live="polite" hidden></output><output id="saveState" aria-live="polite">Preparing your world…</output><div id="stats" hidden></div>
 <div id="editBar" hidden><span id="editName">Place object</span><button id="editRotate">↻ <span>Rotate</span></button><button id="editMove">✥ <span>Move</span></button><button id="editRemove">× <span>Remove</span></button><button id="editConfirm" class="primary">✓ <span>Place</span></button><button id="editCancel" aria-label="Cancel editing">✕</button></div>
 <div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle"></div>
-<div id="welcome"><section><div class="eyebrow">A BLOCKWORLD ADVENTURE</div><h1>A little world.<br>A little wonder.</h1><p>Follow a cobbled lane. Find a quiet corner.<br>Make a place of your own.</p><button id="enter" class="primary" disabled>Preparing Willowmere… <span>→</span></button><div class="loadingTrack"><i id="loadingBar"></i></div><small id="loadingText">Unpacking the village</small><div class="welcomeFoot">FREE TO EXPLORE <span>•</span> SAVED ON YOUR DEVICE</div></section><div class="previewBadge">WILLOWMERE · DEVELOPMENT PREVIEW 03</div></div>
+<div id="welcome"><section><div class="eyebrow">A BLOCKWORLD ADVENTURE</div><h1>A little world.<br>A little wonder.</h1><p>Follow a cobbled lane. Find a quiet corner.<br>Make a place of your own.</p><button id="enter" class="primary" disabled>Preparing the valley… <span>→</span></button><div class="loadingTrack"><i id="loadingBar"></i></div><small id="loadingText">Unpacking the village</small><div class="welcomeFoot">FREE TO EXPLORE <span>•</span> SAVED ON YOUR DEVICE</div></section><div class="previewBadge">WILLOW VALE · DEVELOPMENT PREVIEW 03</div></div>
 <div id="fatal" hidden role="alert"></div>`;
 class AdventureGame {
   library = new AssetLibrary();
@@ -55,6 +59,7 @@ class AdventureGame {
   renderer: T.WebGLRenderer;
   landscape!: Landscape | ConnectedLandscape;
   controls: AdventureControls;
+  worldMap: AdventureMap;
   session: AdventureSession;
   data: AdventureData = {
     version: 1,
@@ -183,6 +188,11 @@ class AdventureGame {
       (x, y) => this.tap(x, y),
       (code) => this.key(code),
     );
+    this.worldMap = new AdventureMap(
+      $<HTMLCanvasElement>("miniCanvas"),
+      $<HTMLCanvasElement>("fullMap"),
+      (d) => this.travelTo(d),
+    );
     this.selectionOutline.visible = false;
     this.selectionOutline.renderOrder = 20;
     const selectionMaterial = this.selectionOutline
@@ -202,8 +212,10 @@ class AdventureGame {
     document.addEventListener("keydown", (e) => {
       if (e.code !== "Tab" || !this.modalOpen) return;
       const items = [
-        ...$("modal").querySelectorAll<HTMLElement>(
-          "button,input,select,textarea,summary,a",
+        ...$(
+          this.worldMap.open ? "mapOverlay" : "modal",
+        ).querySelectorAll<HTMLElement>(
+          "button,input,select,textarea,summary,a,canvas[tabindex]",
         ),
       ].filter((n) => !n.hasAttribute("disabled") && n.offsetParent !== null);
       if (!items.length) return;
@@ -348,21 +360,79 @@ class AdventureGame {
       inWorld(x, z, this.data.scene);
     if (safe(this.player.x, this.player.z)) return;
     const origin = { x: this.player.x, z: this.player.z };
-    for (let r = 0.5; r < 18; r += 0.5)
-      for (let a = 0; a < 6.28; a += 0.4) {
-        const x = origin.x + Math.sin(a) * r,
-          z = origin.z + Math.cos(a) * r;
-        if (safe(x, z)) {
-          this.player.x = x;
-          this.player.z = z;
-          this.toast("Moved to the nearest clear ground");
-          return;
-        }
+    const home = WORLDS.find((w) => w.id === this.data.scene)!.spawn;
+    const clear = clearArrival(origin, safe) || clearArrival(home, safe, 32);
+    if (clear) {
+      Object.assign(this.player, clear);
+      this.toast("Moved to the nearest clear ground");
+    }
+  }
+  private travelTo(destination: MapDestination) {
+    if (this.busy) return;
+    this.cancelEdit();
+    const safe = (x: number, z: number) =>
+      inWorld(x, z, this.data.scene, 1) &&
+      !waterBlocked(x, z, this.data.scene) &&
+      !blocked(x, z, this.obstacles(), 0.42);
+    const arrival = clearArrival(destination, safe, 14);
+    if (!arrival) {
+      this.toast(
+        "That place is blocked. Clear a little space before travelling there.",
+      );
+      return;
+    }
+    Object.assign(this.player, arrival);
+    this.player.y = walkHeight(arrival.x, arrival.z, this.data.scene);
+    this.velocity.set(0, 0);
+    this.actor.position.set(this.player.x, this.player.y, this.player.z);
+    this.controls.clear();
+    this.animate("Idle");
+    this.cameraPosition.set(0, 0, 0);
+    this.debugCamera = false;
+    this.dirty = true;
+    this.closeWorldMap();
+    this.cameraUpdate(1 / 60);
+    this.toast("Arrived at " + destination.name);
+  }
+  private refreshMap() {
+    if (!this.worldMap || !this.landscape) return;
+    const data = createMapData(this.data.scene, this.landscape);
+    for (const p of this.data.objects) {
+      const root = this.userRoots.get(p.id);
+      if (root && p.asset.startsWith("building_")) {
+        const body = this.objectBox(root, p.asset);
+        if (body)
+          (data.buildings as Obstacle[]).push({ ...body, name: p.asset });
       }
-    Object.assign(
-      this.player,
-      WORLDS.find((w) => w.id === this.data.scene)!.spawn,
-    );
+    }
+    this.worldMap.setWorld(data);
+  }
+  private openWorldMap() {
+    if (this.busy || !this.started) return;
+    this.closeModal();
+    this.cancelEdit();
+    this.modalOpen = true;
+    this.controls.clear();
+    $("mapOverlay").hidden = false;
+    $("mapTitle").textContent = WORLDS.find(
+      (w) => w.id === this.data.scene,
+    )!.name;
+    const select = $<HTMLSelectElement>("mapDestination");
+    select.innerHTML = '<option value="">Travel to…</option>';
+    for (const d of this.worldMap.data?.destinations || []) {
+      const o = document.createElement("option");
+      o.value = d.id;
+      o.textContent = d.name;
+      select.append(o);
+    }
+    this.worldMap.show();
+  }
+  private closeWorldMap() {
+    $("mapOverlay").hidden = true;
+    this.worldMap.hide();
+    this.modalOpen = false;
+    this.controls.clear();
+    $("view").focus();
   }
   private objectBox(root: T.Object3D, id: string): Obstacle | null {
     if (
@@ -419,6 +489,7 @@ class AdventureGame {
     this.rebuildObstacles();
     this.sun.shadow.needsUpdate = true;
     this.refreshSelection();
+    this.refreshMap();
   }
   private animate(name: string) {
     if (this.currentAnimation === name) return;
@@ -532,9 +603,15 @@ class AdventureGame {
       dt = Math.min(0.05, elapsed);
     this.last = time;
     if (!document.hidden) {
-      this.update(dt);
-      this.cameraUpdate(dt);
-      this.renderer.render(this.scene, this.camera);
+      if (!this.worldMap.open) {
+        this.update(dt);
+        this.cameraUpdate(dt);
+        this.renderer.render(this.scene, this.camera);
+      }
+      this.worldMap.update(
+        { x: this.player.x, z: this.player.z, yaw: this.actorYaw },
+        time,
+      );
       this.fpsSamples.push(elapsed * 1000);
       if (this.fpsSamples.length > 240) this.fpsSamples.shift();
       this.frames++;
@@ -609,8 +686,24 @@ class AdventureGame {
     this.camera.aspect = innerWidth / innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(innerWidth, innerHeight);
+    this.worldMap.resize();
   }
   private bind() {
+    $("minimap").onclick = () => this.openWorldMap();
+    $("mapClose").onclick = () => this.closeWorldMap();
+    $("mapPlus").onclick = () => this.worldMap.zoom(1.35);
+    $("mapMinus").onclick = () => this.worldMap.zoom(1 / 1.35);
+    $("mapFit").onclick = () => this.worldMap.fit();
+    $("mapHome").onclick = () => {
+      const world = WORLDS.find((w) => w.id === this.data.scene)!;
+      this.travelTo({ id: "home", name: world.name, ...world.spawn });
+    };
+    $<HTMLSelectElement>("mapDestination").onchange = (e) => {
+      const d = this.worldMap.data?.destinations.find(
+        (d) => d.id === (e.target as HTMLSelectElement).value,
+      );
+      if (d) this.travelTo(d);
+    };
     $("enter").onclick = () => {
       this.started = true;
       document.body.classList.add("playing");
@@ -651,6 +744,7 @@ class AdventureGame {
           root.rotation.y = next;
           this.rebuildObstacles();
           this.refreshSelection();
+          this.refreshMap();
           this.sun.shadow.needsUpdate = true;
           this.dirty = true;
         }
@@ -661,6 +755,14 @@ class AdventureGame {
     $("editMove").onclick = () => this.moveSelected();
   }
   private key(code: string) {
+    if (code === "Escape" && this.worldMap.open) {
+      this.closeWorldMap();
+      return;
+    }
+    if (code === "KeyM") {
+      this.openWorldMap();
+      return;
+    }
     if (code === "Escape") {
       this.modalOpen
         ? this.closeModal()
@@ -675,6 +777,7 @@ class AdventureGame {
     if (code === "KeyZ") this.undo();
   }
   private openModal(content: string) {
+    if (this.worldMap.open) this.closeWorldMap();
     this.modalOpen = true;
     this.controls.clear();
     $("modal").innerHTML =
@@ -768,15 +871,9 @@ class AdventureGame {
     );
     $("resume").onclick = () => this.closeModal();
     $("home").onclick = () => {
-      Object.assign(
-        this.player,
-        WORLDS.find((w) => w.id === this.data.scene)!.spawn,
-      );
-      this.safeSpawn();
-      this.cameraPosition.set(0, 0, 0);
-      this.debugCamera = false;
-      this.dirty = true;
+      const w = WORLDS.find((w) => w.id === this.data.scene)!;
       this.closeModal();
+      this.travelTo({ id: "home", name: w.name, ...w.spawn });
     };
     $("backup").onclick = () => this.exportBackup();
     $("recover").onclick = () =>

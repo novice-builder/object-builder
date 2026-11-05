@@ -1,0 +1,155 @@
+{
+  "checks": [
+    {
+      "name": "desktop compact minimap fits and clears HUD",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "desktop map is made from actual world paths/building footprints",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "desktop full map suspends hidden 3D rendering",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "desktop zoom button changes map scale",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "desktop tap meadow marker safely travels in same world",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "desktop Home returns to safe village start",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "blocked marker arrives on nearby clear ground",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "built cottage is included on map",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Escape closes map and releases movement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone compact minimap fits and clears HUD",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone map is made from actual world paths/building footprints",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone full map suspends hidden 3D rendering",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone zoom button changes map scale",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone real two-touch pinch zoom",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone map drag pans without teleport",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone tap meadow marker safely travels in same world",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone Home returns to safe village start",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape compact minimap fits and clears HUD",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape map is made from actual world paths/building footprints",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape full map suspends hidden 3D rendering",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape zoom button changes map scale",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape tap meadow marker safely travels in same world",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape Home returns to safe village start",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet compact minimap fits and clears HUD",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet map is made from actual world paths/building footprints",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet full map suspends hidden 3D rendering",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet zoom button changes map scale",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet tap meadow marker safely travels in same world",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet Home returns to safe village start",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no map browser runtime errors",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium/SwiftShader, emulated phone and tablet"
+}
