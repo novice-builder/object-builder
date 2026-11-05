@@ -9,7 +9,7 @@
     "test": "tsx --test tests/*.test.ts",
     "test:browser": "playwright test",
     "preserve": "node tools/preserve.mjs",
-    "build": "npm run typecheck && npm run preserve && vite build && node tools/release.mjs",
+    "build": "npm run typecheck && npm run preserve && vite build && node tools/release.mjs && node tools/standalone.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "check": "npm run test && npm run build"
   },

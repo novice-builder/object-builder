@@ -5,3 +5,5 @@ Baseline source: Run 2 410e0f8, recovered on Run 3 checkpoint 5b59718 (documenta
 Stage A: nine focused deterministic cases passed; original offline/storage/conflict scenarios passed; final four-scenario recovery/update/resident/avatar run passed after fixes. See RUN3.md for later checkpoint-specific results. Final full-suite and package evidence are appended only after execution.
 
 Environment: Linux Node 24.19.0, Chromium 154.0.8037.57, Playwright touch dispatch and ANGLE SwiftShader; 1024×600 primary, compact landscape/portrait checks. No physical Android/Lenovo, iPhone/Safari/WebKit, measured hardware FPS, thermal/battery, native RAM or real storage-eviction result is claimed.
+
+Stage B: both single-file HTTP scenarios passed for startup/rendering, touch movement/look, catalogue/building, world selection/save/reload and backup download/file-input restore. The local-file scenario is skipped because managed Chromium denies file navigation before startup. It must not be counted as a passing local-file test. See RUN3-DISTRIBUTION.md for the exact distinction.

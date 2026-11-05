@@ -46,3 +46,23 @@ export async function localPreview() {
     },
   };
 }
+export async function singleHtmlPreview() {
+  const html = await readFile("standalone/BlockWorld_2_Run3_Standalone.html");
+  const server = createServer((req, res) => {
+    if (new URL(req.url!, "http://localhost").pathname !== "/Standalone.html") {
+      res.writeHead(404);
+      res.end();
+      return;
+    }
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(html);
+  });
+  await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const port = (server.address() as { port: number }).port;
+  return {
+    url: `http://127.0.0.1:${port}/Standalone.html?test=1`,
+    async close() {
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+    },
+  };
+}
