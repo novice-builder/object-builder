@@ -1,4 +1,7 @@
 import * as T from "three";
+import { trailGeometry } from "./trail-geometry";
+export type SceneLayout = 1 | 2 | 3;
+export const LATEST_LAYOUT: SceneLayout = 3;
 import { AssetLibrary, DEFINITIONS } from "./assets";
 export type SceneId = "village" | "woodland" | "meadow";
 export interface Placement {
@@ -197,7 +200,7 @@ export class Landscape {
   constructor(
     readonly library: AssetLibrary,
     readonly id: SceneId,
-    readonly layout: 1 | 2 = 1,
+    readonly layout: SceneLayout = 1,
   ) {
     seed = id === "village" ? 5678 : id === "woodland" ? 22111 : 9976;
     const texture = paving();
@@ -219,7 +222,7 @@ export class Landscape {
     else if (id === "woodland") this.woodland();
     else this.meadow();
     this.surroundings();
-    if (this.layout === 2) this.plantedClearings();
+    if (this.layout >= 2) this.plantedClearings();
     this.flushInstances();
     this.group.updateMatrixWorld(true);
   }
@@ -236,7 +239,7 @@ export class Landscape {
   }
   private terrain() {
     const geo =
-      this.layout === 2
+      this.layout >= 2
         ? new T.PlaneGeometry(360, 360, 144, 144)
         : new T.PlaneGeometry(190, 190, 95, 95);
     geo.rotateX(-Math.PI / 2);
@@ -247,7 +250,7 @@ export class Landscape {
         z = pos.getZ(i),
         h = groundHeight(x, z, this.id);
       const distant =
-        this.layout === 2
+        this.layout >= 2
           ? Math.max(0, Math.hypot(x * 0.9, z) - 85) *
             0.18 *
             (1 + 0.3 * Math.sin(x * 0.045) * Math.cos(z * 0.035))
@@ -318,6 +321,18 @@ export class Landscape {
   }
   private path(points: number[][], width = 3.2, material = this.pathMaterial) {
     this.paths.push({ points, width });
+    if (this.layout >= 3) {
+      this.mesh(
+        trailGeometry(
+          points,
+          width,
+          (x, z) => walkHeight(x, z, this.id),
+          this.id === "meadow" ? undefined : riverX(8),
+        ),
+        material,
+      );
+      return;
+    }
     const v: number[] = [],
       uv: number[] = [],
       ix: number[] = [];
@@ -472,7 +487,7 @@ export class Landscape {
     );
   }
   private garden(x: number, z: number) {
-    this.disc(x, z, 1.7, 0x77865a);
+    if (this.layout < 3) this.disc(x, z, 1.7, 0x77865a);
     for (let i = 0; i < 16; i++) {
       const a = random() * Math.PI * 2,
         r = Math.sqrt(random()) * 1.6;
@@ -777,29 +792,82 @@ export class Landscape {
     );
   }
   private meadow() {
-    this.path(
-      [
-        [-19, -9],
-        [0, -9],
-        [19, -9],
-      ],
-      3,
-    );
-    this.path(
-      [
-        [0, 25],
-        [0, -9],
-        [0, -30],
-      ],
-      3.2,
-    );
-    this.disc(0, 0, 7, 0xa0b77b);
+    if (this.layout >= 3) {
+      this.trail(
+        [
+          [0, 25],
+          [0, 15],
+          [-4, 6],
+          [-9, -1],
+          [-12, -9],
+        ],
+        2.8,
+      );
+      this.trail(
+        [
+          [-12, -9],
+          [-4, -11],
+          [5, -11],
+          [14, -11],
+        ],
+        2.4,
+      );
+      this.trail(
+        [
+          [-12, -9],
+          [-15, -9],
+          [-15, -11],
+        ],
+        1.8,
+      );
+      this.trail(
+        [
+          [0, 25],
+          [9, 27],
+          [19, 26],
+          [26, 18],
+        ],
+        1.8,
+      );
+    } else {
+      this.path(
+        [
+          [-19, -9],
+          [0, -9],
+          [19, -9],
+        ],
+        3,
+      );
+      this.path(
+        [
+          [0, 25],
+          [0, -9],
+          [0, -30],
+        ],
+        3.2,
+      );
+      this.disc(0, 0, 7, 0xa0b77b);
+    }
     this.place("building_home_A_green", -15, -15, 7, 0, true);
     this.place("building_well_blue", 14, -15, 5, 0, true);
     this.place("wheelbarrow", -9, -8, 4, 0, true);
     for (let i = 0; i < 3; i++) {
-      this.place("crate_A_small", -10 + i * 1.2, -5, 4, 0, true);
-      this.place("barrel", -13 + i, -8, 4, 0, true);
+      this.place(
+        "crate_A_small",
+        (this.layout >= 3 ? -16 : -10) + i * 1.2,
+        this.layout >= 3 ? -3 : -5,
+        4,
+        0,
+        true,
+      );
+      this.place(
+        "barrel",
+        (this.layout >= 3 ? -17 : -13) + i,
+        this.layout >= 3 ? -6 : -8,
+        4,
+        0,
+        true,
+      );
     }
     this.landmarks.push({
       id: "makers",
@@ -811,6 +879,19 @@ export class Landscape {
     });
     this.garden(7, 10);
     this.garden(-7, 10);
+    if (this.layout >= 3) {
+      for (const z of [-6, -3.6, -1.2, 1.2, 3.6])
+        this.place("fence_wood_straight", -19, z, 2.4, 0, true);
+      this.place("sign", -3, 20, 1.7, 0.3, true);
+      this.landmarks.push({
+        id: "orchard",
+        name: "The meadow edge",
+        x: 24,
+        z: 18,
+        description:
+          "A sheltered corner for a garden. The wide green beside the lane is yours to build on.",
+      });
+    }
   }
   private surroundings() {
     const village = this.id === "village";
@@ -910,25 +991,34 @@ export class Landscape {
       }
   }
   private plantedClearings() {
-    if (this.id === "meadow") return;
+    if (this.id === "meadow" && this.layout < 3) return;
     const patches =
-      this.id === "woodland"
+      this.id === "meadow"
         ? [
-            [-12, -12],
-            [-4, -20],
-            [5, -8],
-            [11, -25],
-            [18, 15],
-            [52, 1],
-            [60, -17],
+            [-20, 6],
+            [-22, -14],
+            [-8, 24],
+            [9, 29],
+            [23, 21],
+            [25, 8],
           ]
-        : [
-            [45, 17],
-            [51, -7],
-            [62, -5],
-            [61, 20],
-            [54, 15],
-          ];
+        : this.id === "woodland"
+          ? [
+              [-12, -12],
+              [-4, -20],
+              [5, -8],
+              [11, -25],
+              [18, 15],
+              [52, 1],
+              [60, -17],
+            ]
+          : [
+              [45, 17],
+              [51, -7],
+              [62, -5],
+              [61, 20],
+              [54, 15],
+            ];
     for (const [cx, cz] of patches)
       for (let i = 0; i < 38; i++) {
         const angle = random() * Math.PI * 2,
@@ -953,6 +1043,7 @@ export class Landscape {
                   : "grass-large";
         this.instance(asset, x, z, 0.9 + random() * 0.7, random() * 6.28);
       }
+    if (this.id === "meadow") return;
     for (let i = 0; i < 45; i++) {
       const z = -70 + i * 3.1;
       if (Math.abs(z - 8) < 6) continue;
@@ -980,7 +1071,7 @@ export class Landscape {
             i,
             new T.Matrix4().multiplyMatrices(matrices[i], o.matrixWorld),
           );
-        if (this.layout === 2 && id.startsWith("tree"))
+        if (this.layout >= 2 && id.startsWith("tree"))
           for (let i = 0; i < matrices.length; i++) {
             const p = new T.Vector3().setFromMatrixPosition(matrices[i]),
               v = 0.83 + (Math.sin(p.x * 13.7 + p.z * 7.3) * 0.5 + 0.5) * 0.22;

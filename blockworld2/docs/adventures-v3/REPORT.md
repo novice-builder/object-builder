@@ -1,0 +1,7 @@
+# Preview 03 development evidence — in progress
+
+Started from remotely verified `9f07d29ae458be7ddba5a88ff81c85aa73172385`, exclusive checkout flock held, no other writer observed. Earlier packages/evidence unchanged.
+
+First milestone: continuous terrain-following trail ribbons reduce the sampled-cap overlap/triangle cost in new layout 3; village gardens lose flat tinted discs; the meadow receives curved earth lanes, lower fencing, planted edges and a clear buildable green. Render inspection moved supplies out of the lane and lowered the initially oversized fence. Six real before/after renders are in `screenshots/`. Existing layouts 1 and 2 are compared to extracted Preview 02 in all three scenes: permanent geometry, paths, collisions, landmarks and user object data match. Ten art/compatibility checks pass. Full deterministic suite: 129 passing tests. Strict TypeScript/build/preservation pass.
+
+Directional update received during this work: the next milestone is a new connected main-world template and real maps, not independent medieval scenes. See `../BLOCKWORLD-DEVELOPMENT-DIRECTION.md`. No interior or merged-world feature is claimed by this first milestone. Physical Lenovo/iPhone/Safari testing remains unverified. Software renderer metrics are diagnostic only and do not establish physical-device FPS. No deployment, main merge, Pages change, banked-reset redemption or additional automation.

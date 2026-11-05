@@ -1,0 +1,45 @@
+{
+  "environment": "Managed Chromium SwiftShader; no physical device results",
+  "checks": [
+    {
+      "name": "village layout 1 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true
+    },
+    {
+      "name": "village layout 2 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true
+    },
+    {
+      "name": "village fresh layout 3",
+      "passed": true
+    },
+    {
+      "name": "woodland layout 1 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true
+    },
+    {
+      "name": "woodland layout 2 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true
+    },
+    {
+      "name": "woodland fresh layout 3",
+      "passed": true
+    },
+    {
+      "name": "meadow layout 1 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true
+    },
+    {
+      "name": "meadow layout 2 geometry, paths, collisions, landmarks and objects preserved",
+      "passed": true
+    },
+    {
+      "name": "meadow fresh layout 3",
+      "passed": true
+    },
+    {
+      "name": "no art/compatibility runtime errors",
+      "passed": true
+    }
+  ]
+}

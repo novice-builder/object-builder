@@ -171,12 +171,12 @@ test("preview 01 records retain their original layout while fresh records use th
     assert.equal(validateAdventure(f.get()).layout, 1);
     const original = (await f.session.store.load(f.a.id)).snapshot;
     await f.session.create("woodland");
-    assert.equal(validateAdventure(f.get()).layout, 2);
+    assert.equal(validateAdventure(f.get()).layout, 3);
     await f.session.open(f.a.id);
     assert.equal(validateAdventure(f.get()).layout, 1);
     assert.deepEqual((await f.session.store.load(f.a.id)).snapshot, original);
     const bad = initial("village");
-    (bad.world.adventure as any).layout = 3;
+    (bad.world.adventure as any).layout = 99;
     assert.throws(() => validateAdventure(bad), /supported Adventures/);
   } finally {
     f.session.store.db.close();

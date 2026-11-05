@@ -1,0 +1,41 @@
+[
+  {
+    "fps": 1,
+    "frameP95Ms": 1699.9,
+    "drawCalls": 186,
+    "triangles": 213835,
+    "geometries": 83,
+    "textures": 12,
+    "pixelRatio": 1,
+    "scene": "village",
+    "natureInstances": 1967,
+    "objects": 0,
+    "quality": "balanced"
+  },
+  {
+    "fps": 2,
+    "frameP95Ms": 2433.3,
+    "drawCalls": 136,
+    "triangles": 198997,
+    "geometries": 65,
+    "textures": 11,
+    "pixelRatio": 1,
+    "scene": "woodland",
+    "natureInstances": 1750,
+    "objects": 0,
+    "quality": "balanced"
+  },
+  {
+    "fps": 3,
+    "frameP95Ms": 1699.9,
+    "drawCalls": 135,
+    "triangles": 170438,
+    "geometries": 66,
+    "textures": 11,
+    "pixelRatio": 1,
+    "scene": "meadow",
+    "natureInstances": 1481,
+    "objects": 0,
+    "quality": "balanced"
+  }
+]

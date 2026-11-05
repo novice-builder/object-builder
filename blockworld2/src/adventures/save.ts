@@ -1,12 +1,18 @@
 import { WorldStore, type WorldRecord } from "../persistence/store";
 import { type Snapshot, encode, decode } from "../persistence/schema";
 import { DEFINITIONS } from "./assets";
-import { WORLDS, type Placement, type SceneId } from "./landscape";
+import {
+  WORLDS,
+  LATEST_LAYOUT,
+  type SceneLayout,
+  type Placement,
+  type SceneId,
+} from "./landscape";
 export interface AdventureData {
   version: 1;
   scene: SceneId;
   /** Missing in preview 01: retain its original permanent scene layout. */
-  layout?: 1 | 2;
+  layout?: SceneLayout;
   objects: Placement[];
   discoveries: string[];
 }
@@ -22,7 +28,10 @@ export function validateAdventure(s: Snapshot): AdventureData {
   if (
     !a ||
     a.version !== 1 ||
-    (a.layout !== undefined && a.layout !== 1 && a.layout !== 2) ||
+    (a.layout !== undefined &&
+      a.layout !== 1 &&
+      a.layout !== 2 &&
+      a.layout !== 3) ||
     !WORLDS.some((w) => w.id === a.scene) ||
     !Array.isArray(a.objects) ||
     a.objects.length > 200 ||
@@ -99,7 +108,13 @@ export class AdventureSession {
       record = await this.store.create(
         w.name,
         makeSnapshot(
-          { version: 1, scene: w.id, layout: 2, objects: [], discoveries: [] },
+          {
+            version: 1,
+            scene: w.id,
+            layout: LATEST_LAYOUT,
+            objects: [],
+            discoveries: [],
+          },
           { ...w.spawn, yaw: w.yaw, pitch: 0.47 },
         ),
       );
@@ -163,7 +178,13 @@ export class AdventureSession {
       await this.flush();
       const w = WORLDS.find((w) => w.id === scene)!;
       const snapshot = makeSnapshot(
-        { version: 1, scene, layout: 2, objects: [], discoveries: [] },
+        {
+          version: 1,
+          scene,
+          layout: LATEST_LAYOUT,
+          objects: [],
+          discoveries: [],
+        },
         { ...w.spawn, yaw: w.yaw, pitch: 0.47 },
       );
       const records = await this.store.list();
