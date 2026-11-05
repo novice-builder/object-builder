@@ -1,0 +1,5 @@
+
+> blockworld2@0.1.0 preserve
+> node tools/preserve.mjs
+
+PASS: 49 existing files match 1ffd35ed971afa7820734cf10a3287ab546f6306; 6 historical archive files intact; package-only changes

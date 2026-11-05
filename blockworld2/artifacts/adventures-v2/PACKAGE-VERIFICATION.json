@@ -1,0 +1,50 @@
+{
+  "archive": "BlockWorld-Adventures-Preview-02.zip",
+  "checks": [
+    {
+      "name": "archive CRC",
+      "passed": true
+    },
+    {
+      "name": "all build-manifest hashes",
+      "passed": true
+    },
+    {
+      "name": "packaged game opens Willowmere",
+      "passed": true
+    },
+    {
+      "name": "all 15 packaged catalogue images load",
+      "passed": true
+    },
+    {
+      "name": "packaged fresh-world UI loads layout 2",
+      "passed": true
+    },
+    {
+      "name": "all 16 packaged gallery views load",
+      "passed": true
+    },
+    {
+      "name": "before-after gallery filter",
+      "passed": true
+    },
+    {
+      "name": "gallery zoom opens",
+      "passed": true
+    },
+    {
+      "name": "gallery zoom closes",
+      "passed": true
+    },
+    {
+      "name": "no runtime errors, missing files or external requests",
+      "passed": true
+    }
+  ],
+  "sourceCommit": "b6546e873dc8bbd1f723ce917fa2a6e43b3bfd7e",
+  "manifestFiles": 105,
+  "errors": [],
+  "missing": [],
+  "externalRequests": []
+}

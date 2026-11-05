@@ -286,5 +286,6 @@
     "src/adventures/save.ts": "bf631600e0b2307a32617e506e12173f6e617da77feabbd87706373a36e38813"
   },
   "repositoryHeadAtMeasurement": "4bff4a4c7f45de866deb47de7514d2aef702371c",
-  "runtimeSourceNote": "The post-optimisation candidate was measured before its checkpoint commit. sourceFileHashes and the hashed runtime JS resource identify the tested code."
+  "runtimeSourceNote": "The post-optimisation candidate was measured before its checkpoint commit. sourceFileHashes and the hashed runtime JS resource identify the tested code.",
+  "testedSourceCommit": "b6546e873dc8bbd1f723ce917fa2a6e43b3bfd7e"
 }

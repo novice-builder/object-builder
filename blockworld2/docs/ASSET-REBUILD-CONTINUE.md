@@ -1,59 +1,54 @@
-# BlockWorld Adventures — continuation checkpoint
+# BlockWorld Adventures — Preview 02 continuation
 
-Work only on `codex/blockworld-adventures-asset-rebuild` in `novice-builder/object-builder`. Do not deploy, publish, merge main, modify the separate website repo, overwrite old branches/packages, or change Neighborhood 06. Start by fetching and checking the remote SHA. Do not overlap another active writer. The source base is verified Run 4 commit `9f6c14be6b9821c2e6048dc75189338a1b0f9e54` (Run 3 plus verified menu and save-ownership repairs); no unfinished recovery edits were imported.
+Work only on `codex/blockworld-adventures-asset-rebuild` in `novice-builder/object-builder`. Fetch and verify the remote tip before edits. Check for an active writer and acquire an exclusive checkout lock for the run (`flock` on `/workspace/work/blockworld-adventures-writer.lock`; file presence alone is not ownership). Skip if exclusivity cannot be established. Stop if the remote moves unexpectedly; never force another writer's history. Do not deploy, publish, merge main, modify the website repository/Neighborhood 06, redeem banked usage, or overwrite old packages/evidence.
 
-## Completed and verified
+## Verified history
 
-The separate `adventures.html` entrypoint implements Willowmere village, Whispering Wood and Maker’s Meadow, with premade KayKit/Kenney CC0 models, a real rigged Explorer, idle/walk/run crossfades, smooth controller orientation, third-person camera collision, building/trunk/water collision, spawn recovery, touch joystick/orbit/pinch/run controls, discoverable landmarks and a minimal responsive interface.
+- Immutable starting continuation checkpoint: `b15a4f356e9bbd3c44de9af1cd6fdf0cfa24b14f` (Preview 01).
+- `63ad64ae4c8342bbdb504d12c246e26e06ced068`: new woodland scenery with saved-layout preservation.
+- `4bff4a4c7f45de866deb47de7514d2aef702371c`: rendered catalogue, selection/editor fixes and control preferences.
+- `b6546e873dc8bbd1f723ce917fa2a6e43b3bfd7e`: cached collision footprints and close-wall/corner camera repair; tested runtime source for Preview 02.
 
-Imported asset definitions and transforms live under `src/adventures/`. Building supports placement, selection, movement, rotation, removal, undo and redo with a 200-object per-world limit. Native `WorldStore` is reused in separate database `blockworld-adventures-assets-v1`; the old database/localStorage and Run 4 Session source are unchanged. Serialized transitions retain late edits before applying reads. Checksum checkpoints, failed-write protection, stale-tab conflict detection, export/import-as-new-copy, recovery copies and clipboard-free backup text are implemented. A cryptographic UUID fallback supports LAN HTTP where `randomUUID` is unavailable.
+Each checkpoint was pushed and verified using the remote SHA. Later report/package commits follow the runtime checkpoint; the package BUILD.json identifies its actual source. The original verified Run 4 fixes remain inherited; original Session/WorldStore/schema files are unchanged. No unverified Run 4 recovery edits were imported.
 
-**116 deterministic tests and 37 distinct rendered/interaction checks pass.** Strict TypeScript, preservation and production build pass. Actual screenshots cover village centre, residential lane, entrance, bridge, forest, woodland, meadow, welcome, world selection, tablet and phone orientations. Physical Lenovo/iPhone/Safari performance is unverified. Managed Chromium uses software rendering and profiles at about 2 fps; this must not be presented as hardware performance or a successful mobile FPS target. Startup requests total 3.27 MB before compression; two 1024px asset atlases estimate 10.67 MiB RGBA8+mips excluding buffers/shadow/driver allocations. Nine scene switches retain bounded geometry/texture counts in the recorded probe.
+## Current result
 
-71 inventoried models total 4.48 MiB; startup uses a smaller selected subset. Full licences, source commits, hashes and processing scripts are in `public/adventures/`. Seahill and Quaternius Nature downloads were host-blocked and are not included. `artifacts/adventures-v1/BlockWorld-Adventures-Source-Assets-01.zip` preserves exact original selected CC0 files separately. Do not bypass restrictions or imply inaccessible editions were verified/downloaded.
+The separate `adventures.html` entrypoint retains Willowmere, Whispering Wood and Maker’s Meadow, imported CC0 models, a rigged Explorer with supplied idle/walk/run crossfades, touch controls, discovery interactions, building tools, saved worlds and backups. New layout 2 scenes have soft earth trails, clustered plants, reeds, varied foliage and distant terrain. Missing/1 layout retains the original permanent geometry/path/collision/object data; actual comparisons against the extracted Preview 01 package pass in all three worlds. Existing saves are not silently upgraded. Places > Start a fresh place creates a new record with latest scenery and a distinct name.
 
-Preview 01 is packaged under `artifacts/adventures-v1/`; `BUILD.json` records its source SHA. Do not overwrite this folder on continuation—use a new version. `docs/adventures-v1/REPORT.md`, `gallery.html`, `qa-results.json`, `profile.json`, raw logs, screenshots and `preservation.json` contain evidence and limitations. All root/Neighborhood 06 files and historical archives retain their original contents. The public website was never written or deployed.
+The catalogue has 15 actual GLB-rendered thumbnails and category filters; user selection has an outline. Moves at the 200-object limit retain scale/ID. Rejected rotation preserves undo/redo. Picking is blocked by permanent cottage/trunk obstacles. Graphics/Run settings persist in a separate guarded key; denied storage does not block play. Editing UI clears the joystick on portrait phones and hides redundant hints.
 
-## Resume commands
+Footprints are rebuilt only after edits/world replacement, with cached moving-object exclusion. Camera box tests avoid per-body allocation. Close-wall and interpolated-corner positions are constrained before rendering. A five-trial CPU probe with 100 built props reduced median 1,000 footprint queries from ~178 ms to below timer resolution, and 500 camera updates from ~52.1 ms to ~6.5 ms. **Software raster performance remains ~2 fps at 1280×800; no physical Lenovo/iPhone/Safari FPS result is claimed.**
+
+**127 deterministic tests and 76 browser/compatibility checks pass.** Evidence and actual renders are under `docs/adventures-v2/`, with report, gallery, phase logs, summary, before/after profiles and 102-file preservation hashes. Preview 01 and older archives/evidence stay unchanged. The same 71 CC0 model inventory/licences is retained; the 15 new derived PNGs total ~137 KB and have model/image hashes. Original selected source files stay separately archived in Preview 01. Preferred Seahill/Quaternius Nature archives remain inaccessible and are not included.
+
+The scheduled continuation actually ran in a usable environment, with exclusive checkout locking and no other writer observed. `docs/adventures-v2/continuation-run.json` records this. No additional automation or banked reset redemption is claimed.
+
+## Reproduce / inspect
 
 From `blockworld2/`:
 
 ```
 npm ci --cache /workspace/work/npm-cache --no-audit --no-fund
-npm run dev:adventures
-# Open /adventures.html; the original app remains at its original entrypoint.
 npm run test:adventures
+node --import tsx --test tests/*.test.ts
 npm run build:adventures
+python -m http.server 5175 --bind 127.0.0.1 --directory adventures-dist
 ```
 
-Build output is ignored `adventures-dist/`. Serve that directory locally (for example `python -m http.server 5175 --bind 127.0.0.1 --directory adventures-dist`) and run `ADVENTURES_QA_URL=http://127.0.0.1:5175 python tools/adventures/qa.py`, then the focused `visual-final.py` and `profile.py` scripts. The profile/focused scripts currently use port 5175. `report.py` regenerates the report/gallery from evidence. `package.py --output <NEW-VERSION-DIRECTORY>` packages a validated build and refuses to overwrite a versioned archive. Avoid the original app’s release/publish helpers.
+The build writes ignored `adventures-dist/`; it does not run original release helpers. Open `/adventures.html`. Base QA: `ADVENTURES_QA_URL=http://127.0.0.1:5175 ADVENTURES_QA_OUTPUT=docs/adventures-v2 python tools/adventures/qa.py`. Focused tools: `editor_v2.py`, `collision_v2.py`; `art_v2.py` additionally needs the preserved Preview 01 extracted/served on port 5177. `profile_v2.py --phase before|after` needs a single browser context for useful CPU observations. Do not rerun these into a frozen version directory once continuing a new preview; copy/adapt to a new evidence version.
+
+`thumbnails.py` renders catalogue PNGs using the current build; rebuild after regeneration so static PNGs are copied into dist. Original source model files remain unchanged. `report_v2.py` combines four complete passes into summary/report/gallery. `package_v2.py --version 02 --output artifacts/adventures-v2 --qa-dir docs/adventures-v2` packages a committed/tested runtime and refuses any nonempty output folder before writing. Further packages must use a NEW version/folder, never rerun over Preview 01 or 02. The local preview ZIP runs with `python3 preview.py` and includes all local assets; GitHub is the delivery fallback because the managed root cannot create the designated chat-output directory.
 
 ## Next unfinished priorities
 
-1. Physical Lenovo tablet and iPhone/Safari testing: cold load, sustained movement/orbit, thermal stability, storage/backups, 20+ scene switches. Use actual measurements to choose graphics/material/culling defaults. The available execution environment cannot establish these results.
-2. Improve the woodland/countryside art direction with grounded plants, connected softer trails, intentional clearings and better distant landscape transitions; inspect actual renders after changes. Keep paths/banks clear.
-3. Add better catalogue thumbnails and selection highlighting, then persistent control/quality preferences. Re-test editor collisions, undo and mobile multi-touch.
-4. Investigate suitable CC0 open modular interiors/doors. Existing village prefabs are closed exterior models; do not claim indoor access until it exists and has been rendered/tested. Original game interiors remain available in the original entrypoint.
-5. Camera canopy collisions, analytic bridge contact and coarse footprint edge cases need further scrutiny. No authored turn clip, dedicated LOD/streaming terrain, NPC simulation, audio, vehicles or multiplayer is claimed for this entrypoint.
+1. Physical Lenovo tablet and iPhone/Safari: cold load, sustained movement/orbit, thermal behaviour, storage/export, and 20+ world switches. Use real observations to tune graphics/culling defaults. Current cloud emulation cannot establish these results.
+2. Dedicated open interiors/doors using suitable licensed modular assets. Current village prefabs are closed exteriors; no indoor feature is claimed. Original game systems remain available at their original entrypoint.
+3. Camera canopy/terrain edge cases and larger creations; current constraints are simplified footprints/trunks plus analytic bridge contact. Consider better collision definitions before adding complex interactive buildings.
+4. Continue environment art direction with actual screenshots. Existing layout 1 must remain stable for saved constructions; new permanent scenery belongs in a new explicit layout or new scenes.
+5. No authored turn clip, LOD/streamed terrain, NPC simulation, audio, vehicles or multiplayer is claimed in this entrypoint. Add only when it improves the requested experience and can be verified.
 
-Checkpoint real improvements with appropriate tests/renders, commit, push and independently verify the remote SHA. Keep this document current. No banked usage reset was redeemed. The exact next usage-reset time is not exposed; any five-hour continuation is a scheduled attempt, not a claim about allowance or execution success. Check the accompanying continuation-schedule record for confirmed scheduling state.
+Keep progress in small tested commits, push and independently verify each SHA, and update this resume point. A future code rollback does not restore saved-world contents; retain backups/checkpoints and import only as new copies. Use the matching preview version for layout-2 backups; Preview 01 cannot render later scenery.
 
-## Confirmed scheduling state
+## Final package state
 
-The native scheduling service confirmed an enabled **one-time continuation attempt at 04:27:53 ACDT on 6 November 2026** (`2026-11-05T17:57:53Z`). It preserves the current thread and requests inherited environment selection; returned environment details and next-run-time fields were null. This confirms scheduling, not a successful future run or known allowance-reset time. The prompt requires checking GitHub and skipping overlapping writers. No other project continuation was created, and no banked reset was redeemed. Machine-readable evidence: `docs/adventures-v1/continuation-schedule.json`.
-
-## Continuation run — scenery milestone
-
-Resumed from remote `b15a4f356e9bbd3c44de9af1cd6fdf0cfa24b14f`, with a clean worktree, no other active agent/checkout writer observed, and an exclusive local `flock` held for this run. Remote movement must stop a push rather than overwrite another writer. No deployment, main/website edits or allowance redemption occurred.
-
-New worlds now carry optional Adventures `layout: 2`; missing/1 retains preview 01 scenery. Layout is inside the existing adventure extension, with no native store/schema change. New layouts add smooth earth trails, planted clearings, bank reeds, subtle tree colour variation and distant terrain beyond the walk boundary. Old record geometry/collision/path/object fingerprints match the extracted preview-01 runtime in all three scenes. Fresh copies get distinct names without renaming old records. Tests and real before/after renders are under `docs/adventures-v2/`: 10 focused deterministic tests and 12 art/compatibility browser checks pass, plus strict build/preservation. Preview 01 archives and its evidence stay unchanged. Preview 02 packaging and editor improvements are the next active work; do not represent them as finished from this milestone alone.
-
-## Continuation run — editor milestone
-
-The catalogue now uses 15 static PNGs rendered from the actual GLBs, friendly names and category filters; thumbnail source/image hashes are in `public/adventures/thumbnails/manifest.json`. No second WebGL context is created when a player opens the catalogue. Selection has an outline and cannot pick a user object through a permanent cottage/trunk. Existing-object moves work at the 200-object limit and retain custom scale/ID. Rejected rotations retain redo history. Graphics/run preferences use a separate guarded localStorage key and tolerate unavailable storage. Fresh-place UI retains old worlds and creates latest-layout records with distinct names. Portrait edit controls clear the joystick, and redundant hints hide during editing.
-
-Thirteen focused deterministic tests and 21 visible editor/browser checks pass, including phone/tablet catalogue and placement captures. New evidence is under `docs/adventures-v2/`. This is still a development checkpoint, not a new deployed version. Next: measure repeated collision/camera query costs, retain the full regression/compatibility checks, and build a new preview-02 package without rewriting preview 01.
-
-## Continuation run — collision/camera milestone
-
-Static/user-object footprints are cached until a world/edit changes them; the moving object's exclusion is cached separately. An allocation-free ray/box helper replaces per-body camera vector/box construction. Close-wall camera positions no longer enforce a radius that can penetrate a wall, and the interpolated camera is checked again to prevent corner cutting. Seventeen focused deterministic tests and eight browser collision checks pass. `profile-before.json` / `profile-after.json` record an isolated five-trial JS CPU probe with 100 built props: median 1,000 footprint queries ~178 ms before and below timer resolution after; median 500 camera updates ~52.1 ms before and ~6.5 ms after. Software raster samples remain ~2 fps at 1280×800; no mobile hardware FPS improvement is claimed. Geometry/material quality was not reduced. Next: final full regressions and a new Preview 02 package/report with historical packages/evidence preserved.
+`artifacts/adventures-v2/BlockWorld-Adventures-Preview-02.zip` is 12,336,175 bytes, built from runtime checkpoint `b6546e873dc8bbd1f723ce917fa2a6e43b3bfd7e`. The extracted archive passes CRC, all 105 runtime manifest hashes and ten package UI/resource/gallery checks. `BUILD.json`, `CHECKSUMS.sha256`, `README.txt` and `PACKAGE-VERIFICATION.json` are adjacent. It includes all local assets, run helper and a review gallery; no external requests are needed to play. No further automation was configured in this run. Preview 01 and its evidence remain unchanged. Stop owned local preview servers and release the writer flock when ending a run; an old lock file by itself does not indicate an active writer.
