@@ -13,6 +13,7 @@ import { Activity, carBox } from "../simulation/activity";
 import { fly, followCamera } from "../player/modes";
 import { createAvatar, disposeAvatar, APPEARANCES } from "../player/appearance";
 import { openWardrobe } from "../ui/wardrobe";
+import { openControlMenu } from "../ui/controls-menu";
 import { openMap } from "../ui/map";
 import { safeGround, safeStanding } from "../world/spawn";
 import { chooseInteraction, type Interaction } from "./interactions";
@@ -60,6 +61,10 @@ export class Game {
   private contextTime = 0;
   appearance = "explorer";
   body = createAvatar();
+  lookSpeed = 1;
+  leftHanded = false;
+  lightPool: T.PointLight[] = [];
+  private dirtyBuilds: { block: Block; present: boolean }[] = [];
   gait = 0;
   walkAmount = 0;
   cameraMode: "first" | "third" = "first";
@@ -97,7 +102,7 @@ export class Game {
   onEdit = () => {};
   constructor() {
     document.querySelector("#app")!.innerHTML =
-      `<canvas id="world" tabindex="-1" aria-label="Drag to look; tap to build; hold to remove"></canvas><div class="brand">BLOCKWORLD <b>2.0</b><small>Sunbeam Town · Development preview</small></div><nav id="top"><button id="home" aria-label="Return home">⌂</button><button id="doorMode" aria-label="Automatic doors" aria-pressed="true">🚪 Auto</button><button id="guard" aria-label="Edge protection" aria-pressed="true">🛡</button><button id="cameraMode" aria-label="Switch camera">👤</button><button id="flyMode" aria-label="Creative flight" aria-pressed="false">🪽</button><button id="mapButton" aria-label="World map">🗺</button><button id="catalogueButton" aria-label="Building catalogue">▦</button><button id="avatarButton" aria-label="Choose avatar">👕</button><button id="worlds" aria-label="Worlds">🌍</button></nav><output id="status" role="status" aria-live="polite">Starting…</output><div id="crosshair">+</div><div id="joystick" aria-label="Move joystick"><div id="knob"></div></div><div id="actions"><button id="use" aria-label="Use nearby object">🚪</button><button id="undo" aria-label="Undo">↶</button><button id="redo" aria-label="Redo">↷</button><button id="jump" aria-label="Jump">↑</button></div><div id="palette" aria-label="Building hotbar"></div><button id="moveObject" aria-label="Move a built object">✥ Move</button><div id="flightControls" hidden><button id="flyUp" aria-label="Fly up">⇧</button><button id="flyDown" aria-label="Fly down">⇩</button></div><div id="previewControls" hidden><button id="cancel" aria-label="Cancel placement">✕</button><button id="lower" aria-label="Lower preview">⇩</button><button id="raise" aria-label="Raise preview">⇧</button><button id="rotate" aria-label="Rotate preview">↻</button><button id="confirm" aria-label="Confirm placement">✓</button></div><div id="modal" hidden></div>`;
+      `<canvas id="world" tabindex="-1" aria-label="Drag to look; tap to build; hold to remove"></canvas><div class="brand">BLOCKWORLD <b>2.0</b><small>Sunbeam Town · Development preview</small></div><nav id="top"><button id="home" aria-label="Return home">⌂</button><button id="doorMode" aria-label="Automatic doors" aria-pressed="true">🚪 Auto</button><button id="guard" aria-label="Edge protection" aria-pressed="true">🛡</button><button id="cameraMode" aria-label="Switch camera">👤</button><button id="flyMode" aria-label="Creative flight" aria-pressed="false">🪽</button><button id="mapButton" aria-label="World map">🗺</button><button id="catalogueButton" aria-label="Building catalogue">▦</button><button id="avatarButton" aria-label="Choose avatar">👕</button><button id="controlsButton" aria-label="Control settings">🎮</button><button id="worlds" aria-label="Worlds">🌍</button></nav><output id="status" role="status" aria-live="polite">Starting…</output><div id="crosshair">+</div><div id="joystick" aria-label="Move joystick"><div id="knob"></div></div><div id="actions"><button id="use" aria-label="Use nearby object">🚪</button><button id="undo" aria-label="Undo">↶</button><button id="redo" aria-label="Redo">↷</button><button id="jump" aria-label="Jump">↑</button></div><div id="palette" aria-label="Building hotbar"></div><button id="moveObject" aria-label="Move a built object">✥ Move</button><div id="flightControls" hidden><button id="flyUp" aria-label="Fly up">⇧</button><button id="flyDown" aria-label="Fly down">⇩</button></div><div id="previewControls" hidden><button id="cancel" aria-label="Cancel placement">✕</button><button id="lower" aria-label="Lower preview">⇩</button><button id="raise" aria-label="Raise preview">⇧</button><button id="rotate" aria-label="Rotate preview">↻</button><button id="confirm" aria-label="Confirm placement">✓</button></div><div id="modal" hidden></div>`;
     this.view = createRenderer(
       document.querySelector<HTMLCanvasElement>("#world")!,
     );
@@ -107,6 +112,11 @@ export class Game {
       this.preview,
       this.body.group,
     );
+    for (let i = 0; i < 3; i++) {
+      const light = new T.PointLight(0xffdf95, 0, 8, 2);
+      this.lightPool.push(light);
+      this.view.scene.add(light);
+    }
     for (const i of CATALOGUE)
       this.materials[i.id] = new T.MeshLambertMaterial({ color: i.color });
     this.chunks = new RegistryChunks(
@@ -123,8 +133,11 @@ export class Game {
       () => this.obstacles(),
       () => this.player,
       (b, present) => {
-        this.chunks.update(b, present);
+        this.dirtyBuilds.push({ block: b, present });
         this.builds.update(b, present);
+      },
+      () => {
+        this.chunks.updateMany(this.dirtyBuilds.splice(0));
         this.refreshHistory();
         this.onEdit();
       },
@@ -137,10 +150,10 @@ export class Game {
         tap: (x, y) => this.tap(x, y),
         hold: (x, y) => this.removeAt(x, y),
         look: (dx, dy) => {
-          this.player.yaw -= dx * 0.004;
+          this.player.yaw -= dx * 0.004 * this.lookSpeed;
           this.player.pitch = Math.max(
             -1.3,
-            Math.min(1.3, this.player.pitch - dy * 0.0035),
+            Math.min(1.3, this.player.pitch - dy * 0.0035 * this.lookSpeed),
           );
         },
         action: (code) => this.key(code),
@@ -249,10 +262,10 @@ export class Game {
         if (o.material.map) ts.add(o.material.map);
       }
       if (o.isMesh) {
-        gs.add(o.geometry);
+        if (!o.userData.sharedGeometry) gs.add(o.geometry);
         for (const m of Array.isArray(o.material) ? o.material : [o.material]) {
           ms.add(m);
-          if (m.map) ts.add(m.map);
+          if (m.map && !m.map.userData.shared) ts.add(m.map);
         }
         if (o.isInstancedMesh) o.dispose();
       }
@@ -343,6 +356,7 @@ export class Game {
     if (this.contextTime > 0.2) {
       this.contextTime = 0;
       this.refreshModes();
+      this.refreshLights();
     }
     if (this.playing) {
       if (Math.abs(input.forward) + Math.abs(input.right) > 0.2) this.endPlay();
@@ -409,6 +423,29 @@ export class Game {
       );
       this.notice("💧 Back to the lakeside path");
     }
+  }
+  refreshLights() {
+    const blocks = [
+      ...this.builds.blocksNear(this.player, 12),
+      ...(this.world.authoredProps || []).map((p: any) => p.block),
+    ]
+      .filter(
+        (b: Block) =>
+          ITEMS.get(b.type)?.interaction === "light" &&
+          b.on !== false &&
+          Math.hypot(b.x - this.player.x, b.z - this.player.z) < 12,
+      )
+      .sort(
+        (a, b) =>
+          Math.hypot(a.x - this.player.x, a.z - this.player.z) -
+          Math.hypot(b.x - this.player.x, b.z - this.player.z),
+      );
+    this.lightPool.forEach((light, i) => {
+      const b = blocks[i];
+      light.intensity = b ? 2.5 : 0;
+      if (b)
+        light.position.set(b.x + 0.5, blockBounds(b).maxY - 0.1, b.z + 0.5);
+    });
   }
   frame(now: number) {
     requestAnimationFrame((n) => this.frame(n));
@@ -1068,6 +1105,8 @@ export class Game {
         this.notice("Leave the car before flying");
         return;
       }
+      this.controls.clear();
+      this.vertical = 0;
       this.flying = !this.flying;
       this.player.vy = 0;
       document.querySelector<HTMLElement>("#flightControls")!.hidden =
@@ -1080,6 +1119,7 @@ export class Game {
     on("mapButton", () => openMap(this));
     on("catalogueButton", () => this.catalogue());
     on("avatarButton", () => openWardrobe(this));
+    on("controlsButton", () => openControlMenu(this));
     for (const [id, value] of [
       ["flyUp", 1],
       ["flyDown", -1],
@@ -1244,6 +1284,8 @@ export class Game {
   snapshot() {
     return {
       avatar: this.appearance,
+      lookSpeed: this.lookSpeed,
+      leftHanded: this.leftHanded,
       favourites: this.favourites,
       recent: this.recent,
       hotbar: this.hotbar,

@@ -65,6 +65,17 @@ export function validateSnapshot(value: unknown): Snapshot {
     !APPEARANCES.some((a) => a.id === s.preferences.avatar)
   )
     throw Error("Unknown avatar appearance");
+  if (
+    s.preferences.lookSpeed !== undefined &&
+    (typeof s.preferences.lookSpeed !== "number" ||
+      ![0.6, 1, 1.4].includes(s.preferences.lookSpeed))
+  )
+    throw Error("Invalid look speed");
+  if (
+    s.preferences.leftHanded !== undefined &&
+    typeof s.preferences.leftHanded !== "boolean"
+  )
+    throw Error("Invalid control side");
   validateBlocks(s.world.blocks);
   if (!["hand", ...CHOICES.map((i) => i.id)].includes(s.preferences.selected))
     throw Error("Invalid selected item");
@@ -141,6 +152,8 @@ export function fromGame(s: any): Snapshot {
     preferences: {
       selected: s.selected,
       avatar: s.avatar || "explorer",
+      lookSpeed: s.lookSpeed || 1,
+      leftHanded: !!s.leftHanded,
       favourites: s.favourites || [],
       recent: s.recent || [],
       hotbar: s.hotbar || [],

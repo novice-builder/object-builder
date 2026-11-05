@@ -1,7 +1,7 @@
 import * as T from "three";
 import { ITEMS, LEGACY, partsFor, expandPrefab, type Part } from "./registry";
 import type { Block } from "./commands";
-import { BuildChunks } from "../legacy06/build-chunks.js";
+import { BuildChunks, chunkKey } from "../legacy06/build-chunks.js";
 const cube = new T.BoxGeometry(1, 1, 1),
   wedge = new T.BufferGeometry();
 wedge.setAttribute(
@@ -118,6 +118,7 @@ function texture(id: string, surface: string) {
     }
   }
   const t = new T.CanvasTexture(c);
+  t.userData.shared = true;
   t.colorSpace = T.SRGBColorSpace;
   t.magFilter = T.NearestFilter;
   textures.set(id, t);
@@ -160,6 +161,7 @@ export function renderModel(b: Block, preview = false) {
     mesh.scale.set(p.w, p.h, p.d);
     mesh.rotation.y = p.yaw || 0;
     mesh.userData.block = b;
+    mesh.userData.sharedGeometry = true;
     group.add(mesh);
   }
   return group;
@@ -170,6 +172,7 @@ export class RegistryChunks {
   private cells = new Map<string, Map<string, Block>>();
   groups = new Map<string, T.Group>();
   private materials = new Map<string, T.MeshLambertMaterial>();
+  rebuilt = 0;
   constructor(
     readonly parent: T.Group,
     g: T.BoxGeometry,
@@ -207,17 +210,39 @@ export class RegistryChunks {
     for (const k of this.cells.keys()) this.rebuild(k);
   }
   update(b: Block, present: boolean) {
-    if (LEGACY.has(b.type)) {
-      this.legacy.update(b, present);
-      return;
+    this.updateMany([{ block: b, present }]);
+  }
+  updateMany(changes: { block: Block; present: boolean }[]) {
+    const legacy = new Set<string>(),
+      native = new Set<string>();
+    for (const { block: b, present } of changes) {
+      if (LEGACY.has(b.type)) {
+        const k = chunkKey(b);
+        if (present) this.legacy.store(b);
+        else this.legacy.cells.get(k)?.delete(this.anchor(b));
+        legacy.add(k);
+        for (const [dx, dz] of [
+          [1, 0],
+          [-1, 0],
+          [0, 1],
+          [0, -1],
+        ]) {
+          const other = chunkKey({ x: b.x + dx, z: b.z + dz });
+          if (other !== k && this.legacy.cells.has(other)) legacy.add(other);
+        }
+      } else {
+        const k = this.key(b);
+        if (!this.cells.has(k)) this.cells.set(k, new Map());
+        if (present) this.cells.get(k)!.set(this.anchor(b), b);
+        else this.cells.get(k)!.delete(this.anchor(b));
+        native.add(k);
+      }
     }
-    const k = this.key(b);
-    if (!this.cells.has(k)) this.cells.set(k, new Map());
-    if (present) this.cells.get(k)!.set(this.anchor(b), b);
-    else this.cells.get(k)!.delete(this.anchor(b));
-    this.rebuild(k);
+    for (const k of legacy) this.legacy.rebuild(k);
+    for (const k of native) this.rebuild(k);
   }
   private rebuild(k: string) {
+    this.rebuilt++;
     const old = this.groups.get(k);
     if (old) {
       old.traverse((m: any) => {

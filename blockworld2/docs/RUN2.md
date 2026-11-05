@@ -41,3 +41,9 @@ Brought incremental build collision indexing/local simulation queries forward fr
 Implemented 12 original, immediately available looks, front-facing visual previews, per-world persistence/new-world inheritance, friendly faces and clothing/accessory geometry. Shared factory also varies region residents. Characters retain five draw calls through fixed-part batching; walking/seated/play/flight and visible in-car presentation work with existing cameras/physics. See RUN2-AVATARS.md.
 
 Executed: 12 focused appearance/interaction/movement cases and four browser scenarios passed, plus strict TypeScript/build/preservation. Preview grid was visually reviewed. No physical-device claim. Proceed to remaining mobile/performance hardening after the remote checkpoint.
+
+## Stage F complete — mobile/performance hardening
+
+Added persistent look speed/handedness, safer held-input clearing and portrait preview spacing. Multi-object edits save once and rebuild touched chunks once. Shared catalogue resources are retained across world disposal; owned resources are released. Added a fixed three-light pool for actual nearby fixture illumination. Earlier F collision-query work is documented with D.
+
+Executed: 13 focused unit cases and five browser scenarios passed; TypeScript/build/preservation passed. Multitouch, settings, portrait preview bounds, world-switch renderer resource bounds and light toggling were exercised. A resource test now explicitly renders before sampling instead of sometimes reading a preceding blank frame. See RUN2-MOBILE.md; no physical-device performance claim. Proceed to offline/save feedback and distribution after the remote checkpoint.

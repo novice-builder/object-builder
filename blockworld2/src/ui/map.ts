@@ -5,6 +5,7 @@ export function openMap(game: Game) {
   const modal = document.querySelector<HTMLElement>("#modal")!;
   game.paused = true;
   game.controls.clear();
+  game.vertical = 0;
   modal.hidden = false;
   modal.innerHTML =
     '<section><h1>🗺 Let’s explore</h1><canvas id="mapCanvas" width="560" height="420" aria-label="Drag map; choose a landmark to travel"></canvas><div id="mapPlaces"></div><div><button id="zoomIn" aria-label="Zoom in">＋</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="closeMap">▶ Play</button></div><p id="mapMessage">Drag to look around. Choose a picture to travel.</p></section>';

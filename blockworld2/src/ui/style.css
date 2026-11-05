@@ -25,3 +25,7 @@
 .catalogueCard .pin{position:absolute;left:0;top:0;min-width:40px;min-height:40px;font-size:18px;background:#fff8e8bb}.catalogueCard .pin[aria-pressed=true]{background:#edbd6c}#previewControls{max-width:calc(100vw - 32px);gap:6px}body:has(#previewControls:not([hidden])) #moveObject{display:none}
 
 .wardrobe{display:flex;flex-direction:column;height:min(650px,90dvh)}.wardrobe h1{margin:0 0 12px}#avatarGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;overflow:auto;flex:1;min-height:0}#avatarGrid button{display:flex;flex-direction:column;align-items:center;min-height:140px;font-size:12px;background:#e4e9d6}#closeWardrobe{flex-shrink:0;margin-top:10px}
+
+#lookSpeeds{display:flex;gap:12px;margin:16px 0;flex-wrap:wrap}#lookSpeeds button,#handed,#closeControls{padding:10px 16px;margin:6px}body.leftHanded #joystick{left:auto;right:22px}body.leftHanded #actions{right:auto;left:18px}body.leftHanded #flightControls{left:auto;right:24px}body.leftHanded #moveObject{right:auto;left:22px}body.leftHanded #previewControls{right:auto;left:20px}@media(min-width:701px){body.leftHanded #palette{left:280px;right:175px}}@media(orientation:landscape) and (max-height:450px){body.leftHanded #palette{left:280px;right:165px}}
+
+@media(max-width:700px) and (orientation:portrait){#previewControls{bottom:275px}body:has(#previewControls:not([hidden])) #flightControls{bottom:350px}}@media(orientation:landscape) and (max-height:450px){#flightControls{bottom:185px}}

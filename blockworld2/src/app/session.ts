@@ -1,4 +1,5 @@
 import { renderHotbar } from "../ui/catalogue";
+import { applyControlPreferences } from "../ui/controls-menu";
 import type { Game } from "./game";
 import { WorldStore, type WorldRecord } from "../persistence/store";
 import { fromGame, encode } from "../persistence/schema";
@@ -67,6 +68,10 @@ export class Session {
         ? s.preferences.avatar
         : "explorer",
     );
+    this.game.lookSpeed =
+      typeof s.preferences.lookSpeed === "number" ? s.preferences.lookSpeed : 1;
+    this.game.leftHanded = !!s.preferences.leftHanded;
+    applyControlPreferences(this.game);
     this.game.selected = s.preferences.selected;
     this.game.favourites = Array.isArray(s.preferences.favourites)
       ? (s.preferences.favourites as string[])
@@ -143,6 +148,8 @@ export class Session {
       player: t.spawn,
       selected: "hand",
       avatar: this.game.appearance,
+      lookSpeed: this.game.lookSpeed,
+      leftHanded: this.game.leftHanded,
     });
     const record = await this.store.create(t.name, snapshot);
     await this.open(record.id);
@@ -231,6 +238,7 @@ export class Session {
       await this.save();
       this.game.paused = true;
       this.game.controls.clear();
+      this.game.vertical = 0;
       const modal = document.querySelector<HTMLElement>("#modal")!;
       modal.hidden = false;
       modal.innerHTML =

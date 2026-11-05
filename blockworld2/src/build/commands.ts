@@ -25,6 +25,7 @@ export class Commands {
     private obstacles: () => any[],
     private player: () => any,
     private changed: (b: Block, present: boolean) => void,
+    private completed: () => void = () => {},
   ) {}
   reason(b: Block, reach = true, ignore?: Block) {
     return placementReason(
@@ -72,6 +73,7 @@ export class Commands {
   private notify(edit: Edit, forward: boolean) {
     for (const b of forward ? edit.before : edit.after) this.changed(b, false);
     for (const b of forward ? edit.after : edit.before) this.changed(b, true);
+    this.completed();
   }
   private execute(edit: Edit, reach: boolean, normal = true) {
     const reason = this.apply(edit, true, normal, reach);
