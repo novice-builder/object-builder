@@ -60,7 +60,7 @@ Running 43 tests using 1 worker
   ✓  43 tests/browser/worlds.spec.ts:125:1 › conflicting tabs retain unsaved work and offer a recoverable copy (7.4s)
 
 
-  1) tests/browser/airfield.spec.ts:2:1 › terminal and hangar entrances, actual aircraft boarding, scenic flight, exit and reload 
+  1) tests/browser/airfield.spec.ts:2:1 › terminal and hangar entrances, actual aircraft boarding, scenic flight, exit and reload
 
     Error: expect(received).toBe(expected) // Object.is equality
 
@@ -79,6 +79,6 @@ Running 43 tests using 1 worker
     Error Context: test-results/airfield-terminal-and-hang-6eef4-enic-flight-exit-and-reload/error-context.md
 
   1 failed
-    tests/browser/airfield.spec.ts:2:1 › terminal and hangar entrances, actual aircraft boarding, scenic flight, exit and reload 
+    tests/browser/airfield.spec.ts:2:1 › terminal and hangar entrances, actual aircraft boarding, scenic flight, exit and reload
   1 skipped
   41 passed (6.9m)
