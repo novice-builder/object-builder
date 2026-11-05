@@ -1,4 +1,5 @@
 import * as T from "three";
+import { bakeNature } from "./nature-batch";
 import {
   GLTFLoader,
   type GLTF,
@@ -67,6 +68,20 @@ export const ASSETS: AssetDefinition[] = [
 export const DEFINITIONS = new Map(ASSETS.map((a) => [a.id, a]));
 export class AssetLibrary {
   models = new Map<string, T.Group>();
+  private batchSources = new Map<string, T.Group>();
+  private natureMaterial = new T.MeshStandardMaterial({
+    vertexColors: true,
+    roughness: 1,
+    metalness: 0,
+  });
+  instancingSource(id: string) {
+    let cached = this.batchSources.get(id);
+    if (cached) return cached;
+    const original = this.models.get(id)!;
+    cached = bakeNature(original, this.natureMaterial) || original;
+    this.batchSources.set(id, cached);
+    return cached;
+  }
   bounds = new Map<string, T.Box3>();
   character!: GLTF;
   textures = new Map<string, T.Texture>();

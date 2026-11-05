@@ -1,0 +1,111 @@
+{
+  "phase": "after",
+  "repositoryHead": "821c0e4b73fc388d644711285c84621db06b27c6",
+  "environment": "Managed Chromium ANGLE SwiftShader. Fixed camera render submission counters and CPU wall time, not hardware FPS. Main animation loop stopped for isolated explicit renders.",
+  "views": {
+    "centre": {
+      "fps": 1,
+      "frameP95Ms": 1116.7,
+      "drawCalls": 216,
+      "triangles": 249094,
+      "geometries": 75,
+      "textures": 11,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4363,
+      "objects": 0,
+      "quality": "gentle",
+      "submissionCpuMs": [
+        2.899999998509884,
+        2.400000002235174,
+        1.8999999985098839,
+        1.199999999254942,
+        1.800000000745058
+      ],
+      "sceneGeometryBufferBytes": 3059100
+    },
+    "woodland": {
+      "fps": 1,
+      "frameP95Ms": 1116.7,
+      "drawCalls": 182,
+      "triangles": 213527,
+      "geometries": 86,
+      "textures": 12,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4363,
+      "objects": 0,
+      "quality": "gentle",
+      "submissionCpuMs": [
+        5.599999997764826,
+        5.199999999254942,
+        5.599999997764826,
+        1.300000000745058,
+        9.199999999254942
+      ],
+      "sceneGeometryBufferBytes": 3059100
+    },
+    "road": {
+      "fps": 1,
+      "frameP95Ms": 1116.7,
+      "drawCalls": 265,
+      "triangles": 259750,
+      "geometries": 88,
+      "textures": 13,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4363,
+      "objects": 0,
+      "quality": "gentle",
+      "submissionCpuMs": [
+        2.199999999254942,
+        1.7000000029802322,
+        3,
+        1.699999999254942,
+        1.5999999977648258
+      ],
+      "sceneGeometryBufferBytes": 3059100
+    },
+    "hamlet": {
+      "fps": 1,
+      "frameP95Ms": 1116.7,
+      "drawCalls": 216,
+      "triangles": 260933,
+      "geometries": 97,
+      "textures": 13,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4363,
+      "objects": 0,
+      "quality": "gentle",
+      "submissionCpuMs": [
+        2.800000000745058,
+        1.5,
+        1.5999999977648258,
+        5.600000001490116,
+        5.5
+      ],
+      "sceneGeometryBufferBytes": 3059100
+    }
+  },
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "sourceFileHashes": {
+    "src/adventures/controls.ts": "65d419d99cc91b537abd5916ff6a423fa3e0da3717804b3908b4e571c447ea22",
+    "src/adventures/trail-geometry.ts": "545e1f9b21d10320ff7a810387cc631d664ff0fb2152ffafca6a68c744815ae5",
+    "src/adventures/landscape.ts": "81ca5a4436d6a5c912df977ecf58816702014dc333caa3ca20c68322ae39acde",
+    "src/adventures/connected-landscape.ts": "634f53a59814d076a45b519fedf9696acbda8550da05bf79f1f234734fd7aefe",
+    "src/adventures/catalogue.ts": "ee7f38c76fccfba6c71a24a2abdbd3330da057da5dc9067644cdbe8a128304b8",
+    "src/adventures/assets.ts": "c03796b34fc4f32b79e36f559a199097fff8757bd164c3a9ebfda09f528846d7",
+    "src/adventures/main.ts": "44824c538a39f2e341997ab84d7531ecd799737083e64f1cb937432059a0edf6",
+    "src/adventures/collision-cache.ts": "43fffb2515822565db9cacea42f26b191ade88d240520dafebf756685b5fb523",
+    "src/adventures/camera-collision.ts": "23415228d00d993ec6fb3dc72851568f1bc3ac5dade8927525539c3c1d607ee1",
+    "src/adventures/ids.ts": "da1780eb5b52c22297206cc436b3dcbf08bc19c29cccbd9e6b73e6ab9d15d006",
+    "src/adventures/vale-data.ts": "0fa12c7c29f65199d1d64fdec461258a0ac33ac1c7b7e53c88fced16af9f258b",
+    "src/adventures/preferences.ts": "05c4f04a2886ff973180189c0635e0de10880faaec90b8a06ce1e1f5604b4073",
+    "src/adventures/world-map.ts": "6f1adb03de38c1ee037de0fb7da3fd92cdd35147b23d3ad0347a1bf8701191de",
+    "src/adventures/safe-position.ts": "454c2b211c429ac0c25cabdf3a04da99b84444aa8092b913a368f7fbfad3aa7a",
+    "src/adventures/save.ts": "759fd9e806be25623e2125745c38b2eb0f6a2483d3c25a962f5e098236bf1084",
+    "src/adventures/map-data.ts": "83a7b3dbb9feee69dc7f531cc89be29a67d48908929b3f33426b9ee173a29e2d",
+    "src/adventures/nature-batch.ts": "131aa982755b72e761297c4cb2e2669503796b4bb5b0f8b34f2a162ddd153c80"
+  }
+}

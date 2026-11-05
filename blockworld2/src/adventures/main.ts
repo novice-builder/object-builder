@@ -598,6 +598,14 @@ class AdventureGame {
     this.sun.position.copy(focus).add(new T.Vector3(-30, 55, 30));
     $("compass").style.transform = `rotate(${-this.cameraYaw}rad)`;
   }
+  private renderScene() {
+    if (this.landscape instanceof ConnectedLandscape)
+      this.landscape.updateVisibility(
+        this.camera.position,
+        (this.scene.fog as T.Fog).far,
+      );
+    this.renderer.render(this.scene, this.camera);
+  }
   private frame(time: number) {
     const elapsed = (time - this.last) / 1000,
       dt = Math.min(0.05, elapsed);
@@ -606,7 +614,7 @@ class AdventureGame {
       if (!this.worldMap.open) {
         this.update(dt);
         this.cameraUpdate(dt);
-        this.renderer.render(this.scene, this.camera);
+        this.renderScene();
       }
       this.worldMap.update(
         { x: this.player.x, z: this.player.z, yaw: this.actorYaw },
@@ -1300,7 +1308,7 @@ class AdventureGame {
     this.debugCamera = true;
     this.camera.position.fromArray(v.position);
     this.camera.lookAt(new T.Vector3().fromArray(v.target));
-    this.renderer.render(this.scene, this.camera);
+    this.renderScene();
     return this.stats();
   }
 }

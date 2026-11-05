@@ -1,4 +1,5 @@
 import * as T from "three";
+import { fogVisible } from "./nature-batch";
 import { AssetLibrary } from "./assets";
 import {
   Landscape,
@@ -68,6 +69,7 @@ export class ConnectedLandscape {
   instances = 0;
   trees: { x: number; z: number; radius: number }[] = [];
   private regions: Landscape[] = [];
+  private visibility: { mesh: T.Mesh; sphere: T.Sphere }[] = [];
   private geometry: T.BufferGeometry[] = [];
   private materials: T.Material[] = [];
   constructor(readonly library: AssetLibrary) {
@@ -109,8 +111,7 @@ export class ConnectedLandscape {
       this.instances += land.instances;
     }
     // Matching simple earth ribbon; no new texture or render target is needed.
-    const road = new T.MeshStandardMaterial({ color: 0xb6a079, roughness: 1 });
-    this.materials.push(road);
+    const road = this.regions[0].trailSurface;
     for (const path of CONNECTING_ROADS) {
       const points = smoothTrail(path.points);
       this.paths.push({ points, width: path.width });
@@ -119,6 +120,19 @@ export class ConnectedLandscape {
     this.settlements();
     this.populate();
     this.group.updateMatrixWorld(true);
+    this.group.traverse((o) => {
+      if (!(o instanceof T.Mesh)) return;
+      let sphere: T.Sphere;
+      if (o instanceof T.InstancedMesh) {
+        o.computeBoundingSphere();
+        sphere = o.boundingSphere!.clone();
+      } else {
+        o.geometry.computeBoundingSphere();
+        sphere = o.geometry.boundingSphere!.clone();
+      }
+      sphere.applyMatrix4(o.matrixWorld);
+      this.visibility.push({ mesh: o, sphere });
+    });
   }
   private mesh(g: T.BufferGeometry, m: T.Material) {
     const o = new T.Mesh(g, m);
@@ -352,7 +366,7 @@ export class ConnectedLandscape {
       );
     }
     for (const { id, matrices } of buckets.values()) {
-      const source = this.library.models.get(id)!;
+      const source = this.library.instancingSource(id);
       source.updateMatrixWorld(true);
       source.traverse((o) => {
         if (!(o instanceof T.Mesh)) return;
@@ -373,6 +387,10 @@ export class ConnectedLandscape {
       });
     }
   }
+  updateVisibility(camera: T.Vector3, far: number) {
+    for (const { mesh, sphere } of this.visibility)
+      mesh.visible = fogVisible(sphere.center, sphere.radius, camera, far);
+  }
   dispose() {
     this.group.removeFromParent();
     for (const r of this.regions) r.dispose();
@@ -382,5 +400,6 @@ export class ConnectedLandscape {
     for (const g of this.geometry) g.dispose();
     for (const m of this.materials) m.dispose();
     this.group.clear();
+    this.visibility.length = 0;
   }
 }

@@ -1,0 +1,39 @@
+{
+  "views": [
+    {
+      "view": "centre",
+      "callsBefore": 365,
+      "callsAfter": 216,
+      "callsReductionPercent": 40.8,
+      "trianglesBefore": 291707,
+      "trianglesAfter": 249094
+    },
+    {
+      "view": "woodland",
+      "callsBefore": 331,
+      "callsAfter": 182,
+      "callsReductionPercent": 45.0,
+      "trianglesBefore": 242037,
+      "trianglesAfter": 213527
+    },
+    {
+      "view": "road",
+      "callsBefore": 539,
+      "callsAfter": 265,
+      "callsReductionPercent": 50.8,
+      "trianglesBefore": 356802,
+      "trianglesAfter": 259750
+    },
+    {
+      "view": "hamlet",
+      "callsBefore": 373,
+      "callsAfter": 216,
+      "callsReductionPercent": 42.1,
+      "trianglesBefore": 278693,
+      "trianglesAfter": 260933
+    }
+  ],
+  "geometryBufferBytesBefore": 3004384,
+  "geometryBufferBytesAfter": 3059100,
+  "limitations": "Fixed gentle views in managed SwiftShader. Submission CPU timings vary; no hardware FPS or broad CPU speedup established. Earth joins also share the existing textured trail material after this checkpoint. All nine batched real source models retain transformed vertices and triangle counts. Fog culling removes fully hidden bounds."
+}

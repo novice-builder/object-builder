@@ -11,7 +11,7 @@ def signature(p):
 with sync_playwright() as p:
  b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']);pages=[];errors=[]
  for port in [5177,5175]:
-  pg=b.new_page(viewport={'width':1280,'height':800});pg.set_default_timeout(60000);pg.on('pageerror',lambda e:errors.append(str(e)));pg.goto(f'http://127.0.0.1:{port}/adventures.html?test=1');pg.wait_for_function('window.adventure?.ready');pg.locator('#enter').click();pg.evaluate("adventure.game.setQuality('gentle')");pages.append(pg)
+  pg=b.new_page(viewport={'width':1280,'height':800});pg.set_default_timeout(60000);pg.on('pageerror',lambda e:errors.append(str(e)));pg.add_init_script("localStorage.setItem('blockworld-adventures-controls-v2',JSON.stringify({quality:'gentle',running:false}))");pg.goto(f'http://127.0.0.1:{port}/adventures.html?test=1');pg.wait_for_function('window.adventure?.ready');pg.locator('#enter').click();pg.evaluate("window.requestAnimationFrame=()=>0;adventure.game.setQuality('gentle')");pg.wait_for_timeout(100);pages.append(pg)
  old,current=pages
  for scene in ['village','woodland','meadow']:
   for layout in [1,2]:
