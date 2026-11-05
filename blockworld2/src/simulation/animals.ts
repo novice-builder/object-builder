@@ -113,6 +113,12 @@ export function animalModel(species: Species) {
       species === "horse" ? 0x765b47 : color,
     );
   }
+  if (species === "horse") {
+    put(0, 1.28, 0.05, 0.72, 0.12, 0.65, 0x6f6552);
+    put(0, 1.58, -0.38, 0.14, 0.55, 0.14, 0x765b47);
+    for (const x of [-0.21, 0.21])
+      put(x, 1.68, -0.82, 0.045, 0.07, 0.07, 0x403e37);
+  }
   group.userData.species = species;
   return { group, limbs };
 }

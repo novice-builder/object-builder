@@ -27,3 +27,7 @@ Initial packages complete: clean source b2b11b3cbe6045ec0a382211cd6c2f10e51fc5b6
 ## Stage C complete — playable county
 
 Sunbeam County is a separate template preserving existing Region worlds. Measured authored scenery spans 462 × 444.5 m inside the existing 500 m ground, with a 430 m road ring and 1,584 m signed trail. It has 36 main buildings, ten garages, 14 plots, 54 destinations, 16 residents, nine animals and four moving traffic vehicles. Three deterministic county cases and build/type/preservation checks passed. Four focused browser scenarios passed after correcting the bridge test duration (four seconds did not reach the far shore at normal walking speed; six seconds crosses it). County driving/reload and rendering bounds, old Region exploration and farm interactions passed. See RUN3-COUNTY.md. Proceed to riding after push verification.
+
+## Stage D complete — riding
+
+Horse contextual mounting, touch steering, reverse/turn-in-place, long-distance movement, whole-horse/rider collision, safe dismount/reload, saved horse positions and riding camera/avatar presentation are integrated. County layout 2 clears the paddock exit while preserving layout 1. The touch test caught the hitching-rail obstruction before acceptance. Four focused deterministic riding cases and the final browser riding scenario passed; catalogue/county checks and county driving regression passed. Build/type/preservation passed. See RUN3-RIDING.md. Continue to companions and more vehicles after remote verification.

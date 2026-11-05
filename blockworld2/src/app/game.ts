@@ -248,6 +248,7 @@ export class Game {
     };
     this.commands.reset(blocks);
     this.builds.reset(blocks);
+    this.activity?.resolveHorses();
     this.chunks.reset(blocks);
     this.cancel();
     if (collides(this.player, this.nearbySolids())) this.home();
@@ -282,7 +283,7 @@ export class Game {
       ...this.world.solids,
       ...this.waterHazards(),
       ...this.world.doors.map((d: any) => doorBox(d)),
-      ...(this.activity ? [carBox(this.activity.car)] : []),
+      ...(this.activity?.entitySolids() || []),
     ];
   }
   waterHazards() {
@@ -315,9 +316,7 @@ export class Game {
   }
   nearbySolids() {
     return [
-      ...(this.activity && !this.activity.driving
-        ? [carBox(this.activity.car)]
-        : []),
+      ...(this.activity?.entitySolids(true) || []),
       ...this.index.query(around(this.player, 3)),
       ...this.builds.query(this.player, 3),
       ...this.world.doors
@@ -341,7 +340,7 @@ export class Game {
       (d: any) => ({
         solids: [
           ...this.index.query(around({ ...d.center, y: 0 }, 4)),
-          ...(this.activity ? [carBox(this.activity.car)] : []),
+          ...(this.activity?.entitySolids() || []),
           ...this.builds
             .query({ ...d.center, y: 0 }, 4)
             .map((s) => (s.ramp ? { ...s, ramp: null } : s)),
@@ -382,7 +381,7 @@ export class Game {
     }
     if (this.seated && Math.abs(input.forward) + Math.abs(input.right) > 0.2)
       this.stand();
-    if (!this.activity?.driving && !this.seated) {
+    if (!this.activity?.controlled && !this.seated) {
       if (this.flying)
         fly(
           this.player,
@@ -413,7 +412,7 @@ export class Game {
     if (
       water &&
       !this.flying &&
-      !this.activity?.driving &&
+      !this.activity?.controlled &&
       this.player.y < 0.25
     ) {
       Object.assign(
@@ -461,7 +460,9 @@ export class Game {
     this.view.renderer.render(this.view.scene, this.view.camera);
   }
   updateCamera() {
-    this.body.group.scale.setScalar(this.activity?.driving ? 0.72 : 1);
+    this.body.group.scale.setScalar(
+      this.activity?.driving ? 0.72 : this.activity?.riding ? 0.82 : 1,
+    );
     this.body.group.position.set(
       this.player.x,
       this.activity?.driving
@@ -471,7 +472,7 @@ export class Game {
           : this.player.y,
       this.player.z,
     );
-    const sitting = this.seated || this.playing || this.activity?.driving;
+    const sitting = this.seated || this.playing || this.activity?.controlled;
     this.body.left.rotation.x = sitting
       ? -1.2
       : Math.sin(this.gait) * 0.25 * this.walkAmount;
@@ -578,8 +579,8 @@ export class Game {
       this.notice("Tap Use to finish playing");
       return;
     }
-    if (this.activity?.driving) {
-      this.notice("Park before building");
+    if (this.activity?.controlled) {
+      this.notice("Walk before building");
       return;
     }
     const picked = this.hit(x, y);
@@ -624,6 +625,7 @@ export class Game {
     } else this.notice(this.commands.place(h.aim) || "✓ Placed");
   }
   removeAt(x: number, y: number) {
+    if (this.activity?.controlled) return;
     if (this.paused || this.playing) return;
     const h = this.hit(x, y);
     if (h?.target) {
@@ -656,6 +658,10 @@ export class Game {
     if (p) p.hidden = true;
   }
   confirm() {
+    if (this.activity?.controlled) {
+      this.notice("Walk before building");
+      return;
+    }
     if (!this.pending) return;
     const reason =
       this.placementReason(this.pending) ||
@@ -767,7 +773,7 @@ export class Game {
           y: 0,
           z: a.state.z,
           range: 2.5,
-          icon: a.animal ? "🐾" : "👋",
+          icon: a.species === "horse" ? "🐴" : a.animal ? "🐾" : "👋",
           label: a.species || "Neighbour",
           data: a,
         });
@@ -937,6 +943,17 @@ export class Game {
       return;
     }
     try {
+      if (this.activity?.riding) {
+        this.notice(
+          this.activity.dismount(this.player, [
+            ...this.querySolids(this.player, 15),
+          ]) || "",
+        );
+        this.controls.clear();
+        this.refreshModes();
+        this.onEdit();
+        return;
+      }
       if (this.activity?.driving) {
         this.notice(
           this.activity.use(this.player, [
@@ -978,7 +995,7 @@ export class Game {
               ),
               ...this.world.doors.map((d: any) => doorBox(d)),
               ...this.commands.blocks.flatMap(blockColliders),
-              ...(this.activity ? [carBox(this.activity.car)] : []),
+              ...(this.activity?.entitySolids() || []),
             ],
             () => this.player,
             () => {},
@@ -1000,6 +1017,20 @@ export class Game {
       } else if (target.kind === "seat") this.sit(target.data);
       else if (target.kind === "agent") {
         const a = target.data;
+        if (a.species === "horse") {
+          this.notice(
+            this.activity!.mount(a, this.player, this.querySolids(a.state, 4)),
+          );
+          if (this.activity!.riding) {
+            this.flying = false;
+            this.vertical = 0;
+            this.cancel();
+          }
+          this.controls.clear();
+          this.refreshModes();
+          this.onEdit();
+          return;
+        }
         a.greetUntil = this.activity!.time + 2;
         a.model.rotation.y = Math.atan2(
           this.player.x - a.state.x,
@@ -1032,7 +1063,7 @@ export class Game {
               ...this.commands.blocks
                 .flatMap(blockColliders)
                 .map((s) => (s.ramp ? { ...s, ramp: null } : s)),
-              ...(this.activity ? [carBox(this.activity.car)] : []),
+              ...(this.activity?.entitySolids() || []),
             ],
             true,
           );
@@ -1055,7 +1086,7 @@ export class Game {
     );
     this.seated = null;
     this.flying = false;
-    if (this.activity) this.activity.driving = false;
+    if (this.activity) this.activity.stop();
     this.vertical = 0;
     this.refreshModes();
     this.controls?.clear();
@@ -1073,7 +1104,7 @@ export class Game {
     if (
       !this.paused &&
       !this.flying &&
-      !this.activity?.driving &&
+      !this.activity?.controlled &&
       this.player.grounded
     ) {
       this.player.vy = 6;
@@ -1107,8 +1138,8 @@ export class Game {
     on("flyMode", () => {
       if (this.playing && !this.endPlay()) return;
       if (this.seated && !this.stand()) return;
-      if (this.activity?.driving) {
-        this.notice("Leave the car before flying");
+      if (this.activity?.controlled) {
+        this.notice("Walk before flying");
         return;
       }
       this.controls.clear();
@@ -1271,7 +1302,7 @@ export class Game {
       ? "🚶"
       : this.seated
         ? "🪑"
-        : this.activity?.driving
+        : this.activity?.controlled
           ? "🚶"
           : this.contextTarget()?.icon || "✋";
   }
@@ -1299,7 +1330,12 @@ export class Game {
       flying: this.flying,
       activity: this.activity?.snapshot(),
       template: this.template,
-      player: { ...(this.playing?.entry || this.seated?.entry || this.player) },
+      player: {
+        ...(this.playing?.entry ||
+          this.seated?.entry ||
+          this.activity?.savedPlayer(this.player) ||
+          this.player),
+      },
       props: propSnapshot(this.world),
       layout: this.world.layout || 1,
       blocks: this.commands.blocks.map((b) => ({ ...b })),

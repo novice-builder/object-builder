@@ -133,6 +133,24 @@ export function validateSnapshot(value: unknown): Snapshot {
     )
       throw Error("Invalid vehicle checkpoint");
   }
+  if (
+    activity?.horses !== undefined &&
+    (!Array.isArray(activity.horses) ||
+      activity.horses.length > 4 ||
+      new Set(activity.horses.map((h: any) => h.id)).size !==
+        activity.horses.length ||
+      activity.horses.some(
+        (h: any) =>
+          !h ||
+          !Number.isInteger(h.id) ||
+          h.id < 0 ||
+          h.id > 3 ||
+          ![h.x, h.z, h.yaw].every(Number.isFinite) ||
+          Math.abs(h.x) > 249 ||
+          Math.abs(h.z) > 249,
+      ))
+  )
+    throw Error("Invalid horse checkpoint");
   return {
     ...structuredClone(s),
     world: { ...structuredClone(s.world), layout },

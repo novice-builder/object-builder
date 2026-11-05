@@ -573,7 +573,15 @@ export const ITEMS = new Map(CATALOGUE.map((i) => [i.id, i]));
 export function partsFor(b: Block, doorAmount?: number): Part[] {
   const item = ITEMS.get(b.type);
   if (!item) throw Error("Unknown catalogue item");
-  const parts = item.parts.map((p) => ({ ...p }));
+  const parts = item.parts
+    .filter(
+      (_, i) =>
+        !(
+          ["garden-gate", "stable-door", "field-gate"].includes(b.type) &&
+          i === 2
+        ),
+    )
+    .map((p) => ({ ...p }));
   if (
     ["door", "cabinet"].includes(item.interaction || "") &&
     (b.open || doorAmount !== undefined)

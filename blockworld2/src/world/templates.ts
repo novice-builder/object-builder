@@ -16,7 +16,7 @@ export const TEMPLATES = [
     id: "sunbeam-county" as TemplateId,
     name: "Sunbeam County",
     icon: "🌄",
-    layout: 1,
+    layout: 2,
     spawn: { x: -21.4, y: 0, z: 0, yaw: 0, pitch: 0 },
   },
   {

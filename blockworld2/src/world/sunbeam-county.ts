@@ -121,7 +121,7 @@ export const COUNTY_BUILDINGS = [
     garage: true,
   },
 ];
-export function makeSunbeamCounty(scene: T.Group, layout = 1) {
+export function makeSunbeamCounty(scene: T.Group, layout = 2) {
   const base = makeSunbeamRegion(scene, 2),
     a = new TownAuthor(scene),
     doors: any[] = [],
@@ -363,7 +363,7 @@ export function makeSunbeamCounty(scene: T.Group, layout = 1) {
       if (!(x === 178 && z >= 134 && z <= 140))
         a.object("rail-fence", x, z, 90);
   a.object("feeding-trough", 155, 131);
-  a.object("hitching-post", 176, 137);
+  a.object("hitching-post", layout >= 2 ? 175 : 176, layout >= 2 ? 130 : 137);
   a.object("hay-bale", 155, 142);
   a.object("swing", -105, -168, 0, 0, "county:village-swing");
   a.object("bench", -101, -168);

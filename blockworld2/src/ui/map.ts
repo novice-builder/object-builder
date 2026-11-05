@@ -110,7 +110,7 @@ export function openMap(game: Game) {
         Object.assign(game.player, p);
         game.seated = null;
         game.flying = false;
-        if (game.activity) game.activity.driving = false;
+        if (game.activity) game.activity.stop();
         game.vertical = 0;
         game.refreshModes();
         game.cancel();

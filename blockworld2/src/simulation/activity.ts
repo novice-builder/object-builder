@@ -1,3 +1,4 @@
+import { horseBox, rideStep, dismountPose } from "./riding";
 import { stepRoute, trafficPose, type RouteState } from "./routes";
 import { RoadTraffic } from "./road-traffic";
 import { animalModel, type Species } from "./animals";
@@ -78,6 +79,15 @@ export class Activity {
   car: CarState = { x: -28, z: -2, yaw: 0 };
   vehicle = carModel(0xe6b466);
   driving = false;
+  riding: Activity["agents"][number] | null = null;
+  rideEntry: any = null;
+  get controlled() {
+    return this.driving || !!this.riding;
+  }
+  stop() {
+    this.driving = false;
+    this.riding = null;
+  }
   time = 0;
   agents: {
     model: T.Group;
@@ -321,7 +331,7 @@ export class Activity {
       addAgent(
         horse.group,
         [
-          [173, 133],
+          [173, 137],
           [173, 141],
           [160, 141],
           [160, 133],
@@ -357,11 +367,128 @@ export class Activity {
         throw Error("Invalid saved car");
       this.car = { ...c };
     }
-    this.driving = false;
+    if (value?.horses)
+      for (const saved of value.horses) {
+        const a = this.agents.filter((a) => a.species === "horse")[saved.id];
+        if (a) {
+          a.state.x = saved.x;
+          a.state.z = saved.z;
+          a.model.position.set(saved.x, 0, saved.z);
+          a.model.rotation.y = saved.yaw;
+        }
+      }
+    this.stop();
     this.sync();
   }
   snapshot() {
-    return { car: { ...this.car } };
+    return {
+      car: { ...this.car },
+      horses: this.agents
+        .filter((a) => a.species === "horse")
+        .map((a, id) => ({
+          id,
+          x: a.state.x,
+          z: a.state.z,
+          yaw: a.model.rotation.y,
+        })),
+    };
+  }
+  resolveHorses() {
+    for (const a of this.agents.filter((a) => a.species === "horse")) {
+      const pose = this.horsePose(a),
+        clear = (p: any) =>
+          ![...(this.query?.(p, 2) || []), carBox(this.car)].some((s) =>
+            overlaps(horseBox(p), s),
+          );
+      if (clear(pose)) continue;
+      let found = false;
+      for (let r = 1; r <= 12 && !found; r++)
+        for (let dx = -r; dx <= r && !found; dx++)
+          for (let dz = -r; dz <= r && !found; dz++) {
+            if (Math.abs(dx) !== r && Math.abs(dz) !== r) continue;
+            const p = { ...pose, x: pose.x + dx, z: pose.z + dz };
+            if (
+              Math.abs(p.x) < this.range - 1 &&
+              Math.abs(p.z) < this.range - 1 &&
+              clear(p)
+            ) {
+              a.state.x = p.x;
+              a.state.z = p.z;
+              a.model.position.set(p.x, 0, p.z);
+              found = true;
+            }
+          }
+    }
+  }
+  horsePose(a: Activity["agents"][number]) {
+    return { x: a.state.x, z: a.state.z, yaw: a.model.rotation.y };
+  }
+  entitySolids(ignoreControlled = false) {
+    return [
+      ...(!ignoreControlled || !this.driving ? [carBox(this.car)] : []),
+      ...this.agents
+        .filter(
+          (a) =>
+            a.species === "horse" && !(ignoreControlled && a === this.riding),
+        )
+        .map((a) => horseBox(this.horsePose(a), a === this.riding)),
+    ];
+  }
+  mount(a: Activity["agents"][number], p: any, solids: any[]) {
+    if (
+      a.species !== "horse" ||
+      Math.abs(p.y) > 0.5 ||
+      Math.hypot(p.x - a.state.x, p.z - a.state.z) > 2.5
+    )
+      return "Walk beside the horse to ride";
+    const pose = this.horsePose(a),
+      others = [
+        ...solids,
+        carBox(this.car),
+        ...this.agents
+          .filter((x) => x.species === "horse" && x !== a)
+          .map((x) => horseBox(this.horsePose(x))),
+      ];
+    if (others.some((s) => overlaps(horseBox(pose, true), s)))
+      return "🐴 Lead the horse to an open space";
+    this.rideEntry = { ...p };
+    this.riding = a;
+    this.driving = false;
+    Object.assign(p, {
+      x: pose.x,
+      y: 0.8,
+      z: pose.z,
+      yaw: pose.yaw,
+      vy: 0,
+      grounded: true,
+    });
+    return "🐴 Ride with the stick · tap Use to walk";
+  }
+  dismount(p: any, solids: any[]) {
+    if (!this.riding) return;
+    const exit = dismountPose(this.horsePose(this.riding), [
+      ...solids,
+      carBox(this.car),
+      ...this.agents
+        .filter((a) => a.species === "horse" && a !== this.riding)
+        .map((a) => horseBox(this.horsePose(a))),
+    ]);
+    this.riding.state.wait = 2;
+    Object.assign(p, exit);
+    this.riding = null;
+    return "♡ Horse parked · ready to walk";
+  }
+  savedPlayer(p: any) {
+    if (!this.riding) return p;
+    try {
+      const pose = this.horsePose(this.riding);
+      return dismountPose(pose, [
+        ...(this.query?.(pose, 15) || []),
+        carBox(this.car),
+      ]);
+    } catch {
+      return this.rideEntry;
+    }
   }
   use(p: any, solids: any[]) {
     if (this.driving) {
@@ -404,6 +531,46 @@ export class Activity {
     solids: any[],
   ) {
     this.time += dt;
+    if (this.riding) {
+      const a = this.riding,
+        pose = this.horsePose(a),
+        next = rideStep(
+          pose,
+          input,
+          dt,
+          [
+            ...(this.query?.(pose, 3) || solids),
+            carBox(this.car),
+            ...this.traffic.map((m) =>
+              carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
+            ),
+            ...this.agents
+              .filter((x) => x.species === "horse" && x !== a)
+              .map((x) => horseBox(this.horsePose(x))),
+          ],
+          Math.max(82, this.range),
+        );
+      const moving = Math.hypot(next.x - pose.x, next.z - pose.z) > 0.0001;
+      a.state.x = next.x;
+      a.state.z = next.z;
+      a.model.position.set(next.x, 0, next.z);
+      a.model.rotation.y = next.yaw;
+      a.model.visible = true;
+      a.limbs.forEach(
+        (l, i) =>
+          (l.rotation.x = moving
+            ? Math.sin(this.time * 9 + (i % 2 ? Math.PI : 0)) * 0.35
+            : 0),
+      );
+      Object.assign(p, {
+        x: next.x,
+        y: 0.8,
+        z: next.z,
+        yaw: next.yaw,
+        vy: 0,
+        grounded: true,
+      });
+    }
     if (this.driving) {
       const c = {
           ...this.car,
@@ -419,6 +586,9 @@ export class Activity {
         Math.abs(c.z) < this.range &&
         ![
           ...(this.query?.(c, 3) || solids),
+          ...this.agents
+            .filter((a) => a.species === "horse")
+            .map((a) => horseBox(this.horsePose(a))),
           ...this.traffic.map((m) =>
             carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
           ),
@@ -438,6 +608,7 @@ export class Activity {
     }
     const parked = carBox(this.car);
     for (const a of this.agents) {
+      if (a === this.riding) continue;
       const distance = Math.hypot(a.state.x - p.x, a.state.z - p.z);
       a.model.visible = distance < 105;
       if (distance > 80) continue;
