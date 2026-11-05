@@ -1,6 +1,35 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { Commands } from "../src/build/commands";
+test("move and prefab edits are atomic and undoable", () => {
+  const c = new Commands(
+    () => [],
+    () => ({ x: 10, y: 0, z: 10 }),
+    () => {},
+  );
+  const a = { x: 0, y: 0, z: 0, type: "wood" },
+    b = { x: 1, y: 0, z: 0, type: "brick" };
+  c.place(a, false);
+  c.place(b, false);
+  assert.notEqual(c.move(a, b, false), "");
+  assert.equal(c.blocks.length, 2);
+  assert.equal(c.move(a, { ...a, x: 3 }, false), "");
+  assert.ok(c.undo());
+  assert.equal(c.blocks[1].x, 0);
+  assert.ok(c.redo());
+  const before = structuredClone(c.blocks);
+  assert.notEqual(
+    c.placeMany(
+      [
+        { x: 5, y: 0, z: 0, type: "stone" },
+        { x: 1, y: 0, z: 0, type: "stone" },
+      ],
+      false,
+    ),
+    "",
+  );
+  assert.deepEqual(c.blocks, before);
+});
 test("decorations are unlimited and undo/redo retain rotation", () => {
   const c = new Commands(
     () => [],

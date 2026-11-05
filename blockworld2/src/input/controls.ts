@@ -88,8 +88,14 @@ export class Controls {
   }
   movement() {
     return {
-      forward: +this.keys.has("KeyW") - +this.keys.has("KeyS") - this.stick.y,
-      right: +this.keys.has("KeyD") - +this.keys.has("KeyA") + this.stick.x,
+      forward:
+        +(this.keys.has("KeyW") || this.keys.has("ArrowUp")) -
+        +(this.keys.has("KeyS") || this.keys.has("ArrowDown")) -
+        this.stick.y,
+      right:
+        +(this.keys.has("KeyD") || this.keys.has("ArrowRight")) -
+        +(this.keys.has("KeyA") || this.keys.has("ArrowLeft")) +
+        this.stick.x,
     };
   }
 }

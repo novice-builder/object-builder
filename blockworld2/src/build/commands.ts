@@ -11,7 +11,8 @@ export interface Block {
   type: string;
   rotation?: number;
 }
-type Edit = { kind: "place" | "remove"; block: Block };
+type Edit = { before: Block[]; after: Block[] };
+const key = (b: Block) => `${b.x},${b.y},${b.z}`;
 export class Commands {
   readonly blocks: Block[] = [];
   private past: Edit[] = [];
@@ -21,11 +22,11 @@ export class Commands {
     private player: () => any,
     private changed: (b: Block, present: boolean) => void,
   ) {}
-  reason(b: Block, reach = true) {
+  reason(b: Block, reach = true, ignore?: Block) {
     return placementReason(
       b,
       {
-        blocks: this.blocks,
+        blocks: this.blocks.filter((x) => !ignore || key(x) !== key(ignore)),
         inventory: { flowers: 999, lantern: 999, bench: 999 },
       },
       this.obstacles(),
@@ -33,65 +34,85 @@ export class Commands {
       reach,
     );
   }
-  place(b: Block, reach = true) {
-    const reason = this.reason(b, reach);
-    if (reason) return reason;
-    const block = { ...b };
-    this.blocks.push(block);
-    this.record({ kind: "place", block });
-    this.changed(block, true);
-    return "";
-  }
-  remove(b: Block) {
-    const index = this.blocks.findIndex(
-      (x) => x.x === b.x && x.y === b.y && x.z === b.z,
-    );
-    if (index < 0) return false;
-    const [block] = this.blocks.splice(index, 1);
-    this.record({ kind: "remove", block: { ...block } });
-    this.changed(block, false);
-    return true;
-  }
-  private record(edit: Edit) {
-    this.past.push(edit);
-    if (this.past.length > 100) this.past.shift();
-    this.future = [];
-  }
-  private apply(edit: Edit, inverse: boolean) {
-    const adding = (edit.kind === "place") !== inverse,
-      b = edit.block;
-    if (adding) {
-      if (
+  private apply(edit: Edit, forward: boolean, normal = false, reach = false) {
+    const removed = forward ? edit.before : edit.after,
+      added = forward ? edit.after : edit.before;
+    const keys = new Set(removed.map(key));
+    if (removed.some((b) => !this.blocks.some((x) => key(x) === key(b))))
+      return "The original object changed";
+    const next = this.blocks.filter((b) => !keys.has(key(b)));
+    for (const b of added) {
+      if (next.some((x) => key(x) === key(b))) return "Find a clear space";
+      if (normal) {
+        const reason = placementReason(
+          b,
+          {
+            blocks: next,
+            inventory: { flowers: 999, lantern: 999, bench: 999 },
+          },
+          this.obstacles(),
+          this.player(),
+          reach,
+        );
+        if (reason) return reason;
+      } else if (
         overlaps(cellBox(b), bodyBox(this.player())) ||
-        [...this.obstacles(), ...this.blocks.map(cellBox)].some((s) =>
+        [...this.obstacles(), ...next.map(cellBox)].some((s) =>
           overlaps(cellBox(b), s),
         )
       )
-        return false;
-      this.blocks.push({ ...b });
-    } else {
-      const i = this.blocks.findIndex(
-        (x) => x.x === b.x && x.y === b.y && x.z === b.z,
-      );
-      if (i < 0) return false;
-      this.blocks.splice(i, 1);
+        return "That space is occupied";
+      next.push({ ...b });
     }
-    return true;
+    this.blocks.splice(0, this.blocks.length, ...next);
+    return "";
+  }
+  private notify(edit: Edit, forward: boolean) {
+    for (const b of forward ? edit.before : edit.after) this.changed(b, false);
+    for (const b of forward ? edit.after : edit.before) this.changed(b, true);
+  }
+  private execute(edit: Edit, reach: boolean) {
+    const reason = this.apply(edit, true, true, reach);
+    if (reason) return reason;
+    this.past.push(structuredClone(edit));
+    if (this.past.length > 100) this.past.shift();
+    this.future = [];
+    this.notify(edit, true);
+    return "";
+  }
+  place(b: Block, reach = true) {
+    return this.execute({ before: [], after: [{ ...b }] }, reach);
+  }
+  placeMany(blocks: Block[], reach = true) {
+    return this.execute(
+      { before: [], after: blocks.map((b) => ({ ...b })) },
+      reach,
+    );
+  }
+  move(b: Block, next: Block, reach = true) {
+    return this.execute({ before: [{ ...b }], after: [{ ...next }] }, reach);
+  }
+  remove(b: Block) {
+    const original = this.blocks.find((x) => key(x) === key(b));
+    return (
+      !!original &&
+      this.execute({ before: [{ ...original }], after: [] }, false) === ""
+    );
   }
   undo() {
     const e = this.past.at(-1);
-    if (!e || !this.apply(e, true)) return false;
+    if (!e || this.apply(e, false)) return false;
     this.past.pop();
     this.future.push(e);
-    this.changed(e.block, e.kind === "remove");
+    this.notify(e, false);
     return true;
   }
   redo() {
     const e = this.future.at(-1);
-    if (!e || !this.apply(e, false)) return false;
+    if (!e || this.apply(e, true)) return false;
     this.future.pop();
     this.past.push(e);
-    this.changed(e.block, e.kind === "place");
+    this.notify(e, true);
     return true;
   }
   reset(blocks: Block[]) {

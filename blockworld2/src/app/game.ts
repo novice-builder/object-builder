@@ -35,6 +35,8 @@ export class Game {
   player: any = { ...TEMPLATES[0].spawn, vy: 0, grounded: true };
   selected = "hand";
   pending: Block | null = null;
+  moving: Block | null = null;
+  pickingMove = false;
   automatic = true;
   guard = true;
   paused = false;
@@ -52,7 +54,7 @@ export class Game {
   onEdit = () => {};
   constructor() {
     document.querySelector("#app")!.innerHTML =
-      `<canvas id="world" tabindex="-1" aria-label="Drag to look; tap to build; hold to remove"></canvas><div class="brand">BLOCKWORLD <b>2.0</b><small>Home & Square · Development prototype</small></div><nav id="top"><button id="home" aria-label="Return home">⌂</button><button id="doorMode" aria-label="Automatic doors" aria-pressed="true">🚪 Auto</button><button id="guard" aria-label="Edge protection" aria-pressed="true">🛡</button><button id="cameraMode" aria-label="Switch camera">👤</button><button id="flyMode" aria-label="Creative flight" aria-pressed="false">🪽</button><button id="mapButton" aria-label="World map">🗺</button><button id="catalogueButton" aria-label="Building catalogue">▦</button><button id="worlds" aria-label="Worlds">🌍</button></nav><output id="status">Starting…</output><div id="crosshair">+</div><div id="joystick" aria-label="Move joystick"><div id="knob"></div></div><div id="actions"><button id="use" aria-label="Use nearby object">🚪</button><button id="undo" aria-label="Undo">↶</button><button id="redo" aria-label="Redo">↷</button><button id="jump" aria-label="Jump">↑</button></div><div id="palette" aria-label="Building hotbar"></div><div id="flightControls" hidden><button id="flyUp" aria-label="Fly up">⇧</button><button id="flyDown" aria-label="Fly down">⇩</button></div><div id="previewControls" hidden><button id="cancel" aria-label="Cancel placement">✕</button><button id="rotate" aria-label="Rotate preview">↻</button><button id="confirm" aria-label="Confirm placement">✓</button></div><div id="modal" hidden></div>`;
+      `<canvas id="world" tabindex="-1" aria-label="Drag to look; tap to build; hold to remove"></canvas><div class="brand">BLOCKWORLD <b>2.0</b><small>Home & Square · Development prototype</small></div><nav id="top"><button id="home" aria-label="Return home">⌂</button><button id="doorMode" aria-label="Automatic doors" aria-pressed="true">🚪 Auto</button><button id="guard" aria-label="Edge protection" aria-pressed="true">🛡</button><button id="cameraMode" aria-label="Switch camera">👤</button><button id="flyMode" aria-label="Creative flight" aria-pressed="false">🪽</button><button id="mapButton" aria-label="World map">🗺</button><button id="catalogueButton" aria-label="Building catalogue">▦</button><button id="worlds" aria-label="Worlds">🌍</button></nav><output id="status" role="status" aria-live="polite">Starting…</output><div id="crosshair">+</div><div id="joystick" aria-label="Move joystick"><div id="knob"></div></div><div id="actions"><button id="use" aria-label="Use nearby object">🚪</button><button id="undo" aria-label="Undo">↶</button><button id="redo" aria-label="Redo">↷</button><button id="jump" aria-label="Jump">↑</button></div><div id="palette" aria-label="Building hotbar"></div><button id="moveObject" aria-label="Move a built object">✥ Move</button><div id="flightControls" hidden><button id="flyUp" aria-label="Fly up">⇧</button><button id="flyDown" aria-label="Fly down">⇩</button></div><div id="previewControls" hidden><button id="cancel" aria-label="Cancel placement">✕</button><button id="rotate" aria-label="Rotate preview">↻</button><button id="confirm" aria-label="Confirm placement">✓</button></div><div id="modal" hidden></div>`;
     this.view = createRenderer(
       document.querySelector<HTMLCanvasElement>("#world")!,
     );
@@ -369,11 +371,33 @@ export class Game {
       this.notice("Park before building");
       return;
     }
+    const picked = this.hit(x, y);
+    if (this.pickingMove) {
+      if (!picked?.target) {
+        this.notice("Tap an object you built");
+        return;
+      }
+      this.moving = { ...picked.target };
+      this.pending = { ...picked.target };
+      this.pickingMove = false;
+      this.showPreview();
+      this.notice("Tap its new spot, turn it, then confirm");
+      return;
+    }
+    if (this.moving && picked) {
+      this.pending = {
+        ...picked.aim,
+        type: this.moving.type,
+        rotation: this.pending?.rotation || 0,
+      };
+      this.showPreview();
+      return;
+    }
     if (this.selected === "hand") {
       this.use();
       return;
     }
-    const h = this.hit(x, y);
+    const h = picked;
     if (!h) {
       this.notice("Move closer to a clear space");
       return;
@@ -403,20 +427,42 @@ export class Game {
     });
     this.preview.clear();
     if (!this.pending) return;
-    this.preview.add(
-      detailedPiece(
-        this.pending,
+    if (["wood", "brick", "stone", "glass"].includes(this.pending.type)) {
+      const mesh = new T.Mesh(
         this.geometry,
-        (color: number) =>
-          new T.MeshLambertMaterial({ color, transparent: true, opacity: 0.6 }),
-      ),
-    );
+        new T.MeshLambertMaterial({
+          color: this.materials[this.pending.type].color,
+          transparent: true,
+          opacity: 0.6,
+        }),
+      );
+      mesh.position.set(
+        this.pending.x + 0.5,
+        this.pending.y + 0.5,
+        this.pending.z + 0.5,
+      );
+      this.preview.add(mesh);
+    } else
+      this.preview.add(
+        detailedPiece(
+          this.pending,
+          this.geometry,
+          (color: number) =>
+            new T.MeshLambertMaterial({
+              color,
+              transparent: true,
+              opacity: 0.6,
+            }),
+        ),
+      );
     document.querySelector<HTMLElement>("#previewControls")!.hidden = false;
     document.querySelector<HTMLButtonElement>("#confirm")!.disabled =
-      !!this.commands.reason(this.pending);
+      !!this.commands.reason(this.pending, true, this.moving || undefined);
   }
   cancel() {
     this.pending = null;
+    this.moving = null;
+    this.pickingMove = false;
     this.preview.traverse((o: any) => {
       if (o.isMesh) o.material.dispose();
     });
@@ -426,7 +472,9 @@ export class Game {
   }
   confirm() {
     if (!this.pending) return;
-    const reason = this.commands.place(this.pending);
+    const reason = this.moving
+      ? this.commands.move(this.moving, this.pending)
+      : this.commands.place(this.pending);
     if (reason) this.notice(reason);
     else {
       this.cancel();
@@ -564,6 +612,13 @@ export class Game {
         b.addEventListener(name, () => (this.vertical = 0));
     }
     addEventListener("blur", () => (this.vertical = 0));
+    on("moveObject", () => {
+      if (this.paused) return;
+      this.cancel();
+      this.pickingMove = true;
+      this.notice("Tap an object you built to move it");
+    });
+    document.addEventListener("visibilitychange", () => (this.vertical = 0));
     on("home", () => this.home());
     on("jump", () => this.jump());
     on("use", () => this.use());
@@ -597,7 +652,7 @@ export class Game {
       const b = (e.target as HTMLElement).closest<HTMLButtonElement>(
         "[data-item]",
       );
-      if (!b) return;
+      if (!b || this.paused) return;
       this.selected =
         this.selected === b.dataset.item ? "hand" : b.dataset.item!;
       this.cancel();
@@ -634,6 +689,7 @@ export class Game {
         b.onclick = () => {
           this.selected = item.id;
           this.cancel();
+          this.refreshSelection();
           close();
         };
         grid.append(b);
@@ -652,7 +708,18 @@ export class Game {
       close;
     draw("All");
   }
+  refreshSelection() {
+    document
+      .querySelectorAll<HTMLButtonElement>("[data-item]")
+      .forEach((b) =>
+        b.setAttribute(
+          "aria-pressed",
+          String(b.dataset.item === this.selected),
+        ),
+      );
+  }
   refreshModes() {
+    this.refreshSelection();
     document.querySelector<HTMLElement>("#flightControls")!.hidden =
       !this.flying;
     document

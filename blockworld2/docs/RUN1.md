@@ -16,3 +16,9 @@ E. Bounded living-world and interaction improvements if capacity remains.
 Each substantial stage requires tested code, a remote push and independently verified GitHub checkpoint. No merge to main or change to the installed Neighborhood 06 app is authorised.
 
 Stage A fallback complete: original SVG exported to 180/192/512 PNG icons, manifest and Apple home-screen metadata prepared, guarded separate-repository publishing helper and instructions added. Build/typecheck and all 49 protected-file checks passed; cold offline save/restoration browser scenario passed. No preview URL was published; no repository/Pages administration was attempted with substitute credentials.
+
+## Stage B — mobile editing complete
+
+Added a touch object-move flow with position/rotation preview and confirm/cancel, atomic move/prefab command infrastructure, Undo/Redo, arrow-key movement, improved mode selection feedback, and flight-input clearing on visibility changes. Moving never deletes the original before a valid commit.
+
+Executed: TypeScript/build/preservation passed; 4 command tests passed; 4 focused Chromium scenarios passed (touch placement/rotation/history, drag/cancel, touch move/rotate/history, long-press removal). Device qualification remains outstanding.
