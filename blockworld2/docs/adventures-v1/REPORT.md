@@ -1,6 +1,6 @@
 # BlockWorld Adventures — preview 01
 
-Prepared 05 November 2026, 23:26 ACDT. Development branch: [codex/blockworld-adventures-asset-rebuild](https://github.com/novice-builder/object-builder/tree/codex/blockworld-adventures-asset-rebuild). **No deployment, publication, main merge or existing website edits were performed.**
+Prepared 05 November 2026, 23:28 ACDT. Development branch: [codex/blockworld-adventures-asset-rebuild](https://github.com/novice-builder/object-builder/tree/codex/blockworld-adventures-asset-rebuild). **No deployment, publication, main merge or existing website edits were performed.**
 
 The rebuild is playable through `adventures.html`. Willowmere is a designed village with premade cottage/market/inn/windmill architecture, connected paths, planted gardens, a brook crossing and woodland camp. Whispering Wood is a separate rolling pine-forest trail world; Maker’s Meadow is a separate construction area. Each has independent saved records. The original BlockWorld 2.0 entrypoint and useful existing systems remain available unchanged.
 
@@ -62,3 +62,11 @@ Optimisations include shared village atlas textures, reusable model geometry/mat
 ## Resume
 
 Fetch the development branch, read `docs/ASSET-REBUILD-CONTINUE.md`, check the remote tip and keep existing branches/releases untouched. Run `npm ci --cache /workspace/work/npm-cache`, then `npm run dev:adventures`. Use `npm run build:adventures`, `npm run test:adventures` and the QA scripts under `tools/adventures/`; do not run publishing/release helpers for the original app. Work on the next unfinished priority, checkpoint tests/renders in Git commits, push and verify the remote SHA. New packages must get new version names; never overwrite preview 01 or older releases. Do not deploy without explicit user approval. No banked usage reset was redeemed.
+
+## Confirmed continuation schedule
+
+The scheduler confirmed an enabled one-time continuation attempt for **6 November 2026 at 04:27:53 ACDT** (5 November 17:57:53 UTC), in the existing thread with inherited environment selection. The returned environment details and next-run-time fields were null. Creation is confirmed; runtime availability, the actual allowance-reset time and successful future execution remain unverified. The prompt requires a fresh GitHub check, no overlapping writers, preserved saves/releases, tested and verified commits, and no deployment or banked-reset redemption. See `continuation-schedule.json`.
+
+## Packaged build verification
+
+The extracted 8,268,320-byte preview archive passed CRC and 89 build-manifest file hashes. Its game loads and switches worlds with no external requests, missing assets or runtime errors. All 12 gallery images load; gallery filtering and zoom/close work. The separate original-source archive passed CRC and all 125 source-file hashes. Evidence: `../../artifacts/adventures-v1/PACKAGE-VERIFICATION.json`. Use [GALLERY.md](GALLERY.md) for screenshot browsing directly on GitHub. Downloadable archives, checksums and run instructions are in the development branch’s `blockworld2/artifacts/adventures-v1/` directory. The managed executor cannot create the designated chat-output folder on its read-only root; GitHub provides the deliverables instead.

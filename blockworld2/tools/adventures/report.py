@@ -74,5 +74,7 @@ Optimisations include shared village atlas textures, reusable model geometry/mat
 
 Fetch the development branch, read `docs/ASSET-REBUILD-CONTINUE.md`, check the remote tip and keep existing branches/releases untouched. Run `npm ci --cache /workspace/work/npm-cache`, then `npm run dev:adventures`. Use `npm run build:adventures`, `npm run test:adventures` and the QA scripts under `tools/adventures/`; do not run publishing/release helpers for the original app. Work on the next unfinished priority, checkpoint tests/renders in Git commits, push and verify the remote SHA. New packages must get new version names; never overwrite preview 01 or older releases. Do not deploy without explicit user approval. No banked usage reset was redeemed.
 '''
+if (OUT/'continuation-schedule.json').exists():
+ report+='\n## Confirmed continuation schedule\n\nThe scheduler confirmed an enabled one-time continuation attempt for **6 November 2026 at 04:27:53 ACDT** (5 November 17:57:53 UTC), in the existing thread with inherited environment selection. The returned environment details and next-run-time fields were null. Creation is confirmed; runtime availability, the actual allowance-reset time and successful future execution remain unverified. The prompt requires a fresh GitHub check, no overlapping writers, preserved saves/releases, tested and verified commits, and no deployment or banked-reset redemption. See `continuation-schedule.json`.\n'
 (OUT/'REPORT.md').write_text(report)
 print('Gallery/report generated with',checks,'checks and',len(shots),'screenshots')

@@ -1,0 +1,17 @@
+{
+  "archive": "BlockWorld-Adventures-Preview-01.zip",
+  "sourceCommit": "5eb28540a788737e660cca559fc2aa8df57d708d",
+  "passed": [
+    "CRC and per-file manifest hashes",
+    "packaged entrypoint loads all models",
+    "packaged world switching",
+    "12 gallery images resolve",
+    "gallery filter and accessible zoom dialog",
+    "no runtime errors, missing assets or external requests"
+  ],
+  "errors": [],
+  "missing": [],
+  "externalRequests": [],
+  "originalSourceArchiveVerifiedFiles": 125,
+  "delivery": "Versioned development-branch files on GitHub; the managed executor cannot create the requested chat-output directory on its read-only root filesystem."
+}

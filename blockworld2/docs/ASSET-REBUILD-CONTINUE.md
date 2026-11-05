@@ -37,3 +37,7 @@ Build output is ignored `adventures-dist/`. Serve that directory locally (for ex
 5. Camera canopy collisions, analytic bridge contact and coarse footprint edge cases need further scrutiny. No authored turn clip, dedicated LOD/streaming terrain, NPC simulation, audio, vehicles or multiplayer is claimed for this entrypoint.
 
 Checkpoint real improvements with appropriate tests/renders, commit, push and independently verify the remote SHA. Keep this document current. No banked usage reset was redeemed. The exact next usage-reset time is not exposed; any five-hour continuation is a scheduled attempt, not a claim about allowance or execution success. Check the accompanying continuation-schedule record for confirmed scheduling state.
+
+## Confirmed scheduling state
+
+The native scheduling service confirmed an enabled **one-time continuation attempt at 04:27:53 ACDT on 6 November 2026** (`2026-11-05T17:57:53Z`). It preserves the current thread and requests inherited environment selection; returned environment details and next-run-time fields were null. This confirms scheduling, not a successful future run or known allowance-reset time. The prompt requires checking GitHub and skipping overlapping writers. No other project continuation was created, and no banked reset was redeemed. Machine-readable evidence: `docs/adventures-v1/continuation-schedule.json`.
