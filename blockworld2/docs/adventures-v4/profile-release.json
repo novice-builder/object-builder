@@ -1,0 +1,431 @@
+{
+  "environment": "Managed Chromium SwiftShader. Resource counts and CPU wall times, not physical device FPS or thermal results.",
+  "repositoryHead": "304b6ddd74a6675d72ebda141fe14df17f679804",
+  "checks": [
+    {
+      "name": "12 new lodge-world replacements plateau after warmup",
+      "passed": true
+    }
+  ],
+  "startupResources": [
+    {
+      "name": "adventures-Be2pDCAb.js",
+      "bytes": 723975
+    },
+    {
+      "name": "adventures-Bnf_TqVr.css",
+      "bytes": 17667
+    },
+    {
+      "name": "Wall_Plaster_Straight.glb",
+      "bytes": 8120
+    },
+    {
+      "name": "Wall_Plaster_Door_Flat.glb",
+      "bytes": 9972
+    },
+    {
+      "name": "Floor_WoodDark.glb",
+      "bytes": 3344
+    },
+    {
+      "name": "Door_4_Flat.glb",
+      "bytes": 70508
+    },
+    {
+      "name": "icon.svg",
+      "bytes": 325
+    },
+    {
+      "name": "Roof_RoundTiles_4x6.glb",
+      "bytes": 132200
+    },
+    {
+      "name": "Roof_Front_Brick4.glb",
+      "bytes": 15328
+    },
+    {
+      "name": "table.glb",
+      "bytes": 8196
+    },
+    {
+      "name": "chair.glb",
+      "bytes": 10756
+    },
+    {
+      "name": "bookcaseopen.glb",
+      "bytes": 18020
+    },
+    {
+      "name": "books.glb",
+      "bytes": 6864
+    },
+    {
+      "name": "rugrectangle.glb",
+      "bytes": 3188
+    },
+    {
+      "name": "building_home_A_blue.glb",
+      "bytes": 72552
+    },
+    {
+      "name": "building_home_A_green.glb",
+      "bytes": 72556
+    },
+    {
+      "name": "building_home_B_blue.glb",
+      "bytes": 99324
+    },
+    {
+      "name": "building_home_B_green.glb",
+      "bytes": 99328
+    },
+    {
+      "name": "building_tavern_blue.glb",
+      "bytes": 188056
+    },
+    {
+      "name": "building_market_blue.glb",
+      "bytes": 169368
+    },
+    {
+      "name": "building_windmill_blue.glb",
+      "bytes": 160684
+    },
+    {
+      "name": "building_church_blue.glb",
+      "bytes": 106940
+    },
+    {
+      "name": "building_blacksmith_blue.glb",
+      "bytes": 140252
+    },
+    {
+      "name": "building_watermill_blue.glb",
+      "bytes": 129464
+    },
+    {
+      "name": "building_well_blue.glb",
+      "bytes": 59540
+    },
+    {
+      "name": "building_bridge_A.glb",
+      "bytes": 42732
+    },
+    {
+      "name": "fence_wood_straight.glb",
+      "bytes": 32208
+    },
+    {
+      "name": "barrel.glb",
+      "bytes": 32724
+    },
+    {
+      "name": "crate_A_small.glb",
+      "bytes": 24180
+    },
+    {
+      "name": "sack.glb",
+      "bytes": 20400
+    },
+    {
+      "name": "wheelbarrow.glb",
+      "bytes": 36200
+    },
+    {
+      "name": "waterplant_A.glb",
+      "bytes": 20160
+    },
+    {
+      "name": "tree-oak.glb",
+      "bytes": 14644
+    },
+    {
+      "name": "tree-detailed.glb",
+      "bytes": 31412
+    },
+    {
+      "name": "tree-pinedefaulta.glb",
+      "bytes": 17220
+    },
+    {
+      "name": "tree-pinedefaultb.glb",
+      "bytes": 18180
+    },
+    {
+      "name": "plant-bush.glb",
+      "bytes": 4396
+    },
+    {
+      "name": "plant-bushsmall.glb",
+      "bytes": 3212
+    },
+    {
+      "name": "flower-purplea.glb",
+      "bytes": 7112
+    },
+    {
+      "name": "flower-yellowa.glb",
+      "bytes": 7120
+    },
+    {
+      "name": "flower-reda.glb",
+      "bytes": 7104
+    },
+    {
+      "name": "grass-large.glb",
+      "bytes": 18504
+    },
+    {
+      "name": "rock-largea.glb",
+      "bytes": 7552
+    },
+    {
+      "name": "rock-largeb.glb",
+      "bytes": 8560
+    },
+    {
+      "name": "rock-smalla.glb",
+      "bytes": 3044
+    },
+    {
+      "name": "stump-round.glb",
+      "bytes": 5644
+    },
+    {
+      "name": "log.glb",
+      "bytes": 14288
+    },
+    {
+      "name": "mushroom-red.glb",
+      "bytes": 6364
+    },
+    {
+      "name": "tent-smallopen.glb",
+      "bytes": 13604
+    },
+    {
+      "name": "campfire-stones.glb",
+      "bytes": 17344
+    },
+    {
+      "name": "sign.glb",
+      "bytes": 5040
+    },
+    {
+      "name": "lily-small.glb",
+      "bytes": 5664
+    },
+    {
+      "name": "Explorer.glb",
+      "bytes": 885412
+    }
+  ],
+  "startupBytes": 3636551,
+  "newWorldReplacements": [
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 64,
+      "textures": 11,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 52,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 52,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 52,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 52,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 52,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 52,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 52,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 52,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 52,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 52,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 900,
+      "drawCalls": 52,
+      "triangles": 114164,
+      "geometries": 52,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle"
+    }
+  ],
+  "cpuBaseline": {
+    "bodies": 1230,
+    "trials": [
+      {
+        "camera500Ms": 9.800000004470348,
+        "motion600Ms": 23.799999997019768
+      },
+      {
+        "camera500Ms": 13.600000001490116,
+        "motion600Ms": 25.399999998509884
+      },
+      {
+        "camera500Ms": 8.899999998509884,
+        "motion600Ms": 10.5
+      },
+      {
+        "camera500Ms": 5.899999998509884,
+        "motion600Ms": 37.600000001490116
+      },
+      {
+        "camera500Ms": 5.5,
+        "motion600Ms": 15.899999998509884
+      }
+    ]
+  },
+  "sourceFileHashes": {
+    "src/adventures/controls.ts": "cf89252e102ceaf92b0f33c23b7fe981169b14f7dfae13678f0f119310c4316b",
+    "src/adventures/lodge.ts": "1fd3163c94888c9ddcfc37ec3a15b1a0ae6e51c297f34635684b05bba507878e",
+    "src/adventures/placement-ground.ts": "b32d174874465a009deb0cf57935864a9fbeb204a0d8480a49c2432ebebdc540",
+    "src/adventures/trail-geometry.ts": "545e1f9b21d10320ff7a810387cc631d664ff0fb2152ffafca6a68c744815ae5",
+    "src/adventures/landscape.ts": "40429e6931587c45ff44fab69e3ca95a9092cea406b88b6849d2aed0e84aea82",
+    "src/adventures/connected-landscape.ts": "fd21827eebfc1869a05d2c2301596458ea1ca77c7d946c3c739d720cdc101d0f",
+    "src/adventures/gamepad.ts": "3c50ce5d65e8dfe2396a76e5bcc7167ccb1e387cc977caf361517e33dc1e8cc4",
+    "src/adventures/catalogue.ts": "5ef9c99044086713b885bc3d47a966891d9fb6f122e0e2419677335f18955525",
+    "src/adventures/assets.ts": "1ea7d81f53b05b47d51fa86ac9f4852761ee99c131ee94aa96f8ed9049c1c6db",
+    "src/adventures/main.ts": "1380d5119766674057b6a0d71b7162f973e19476b376b9169dc096f0aea1ef61",
+    "src/adventures/style.css": "9c31638d50f25870a2058c84b578ebce532d89f06785cbfcba69355cf98b7f1c",
+    "src/adventures/collision-cache.ts": "43fffb2515822565db9cacea42f26b191ade88d240520dafebf756685b5fb523",
+    "src/adventures/camera-collision.ts": "c9fac1d7b028886075a49c43422830194cbec68a37527ff8ffa99553776f000b",
+    "src/adventures/ids.ts": "da1780eb5b52c22297206cc436b3dcbf08bc19c29cccbd9e6b73e6ab9d15d006",
+    "src/adventures/vale-data.ts": "767dd5e0f55f4477e1596e23ca62a6f62da6717caa89703eadbf3897d61a6d5e",
+    "src/adventures/preferences.ts": "05c4f04a2886ff973180189c0635e0de10880faaec90b8a06ce1e1f5604b4073",
+    "src/adventures/world-map.ts": "6f1adb03de38c1ee037de0fb7da3fd92cdd35147b23d3ad0347a1bf8701191de",
+    "src/adventures/safe-position.ts": "454c2b211c429ac0c25cabdf3a04da99b84444aa8092b913a368f7fbfad3aa7a",
+    "src/adventures/save.ts": "c0224e52618bf969aaa8a129534f0fcd52e9c773b85de61ffe8aec2a648faed3",
+    "src/adventures/map-data.ts": "ec9aa254abfb8f0fe1f1b54294e92faf919e5d88d76be95adf71fec102a7f8b5",
+    "src/adventures/nature-batch.ts": "131aa982755b72e761297c4cb2e2669503796b4bb5b0f8b34f2a162ddd153c80"
+  }
+}

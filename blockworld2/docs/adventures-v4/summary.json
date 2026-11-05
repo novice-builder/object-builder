@@ -1,9 +1,11 @@
 {
+  "deterministicTests": 147,
   "checks": [
     {
       "name": "fresh vale opts into lodge layout 4",
       "passed": true,
-      "detail": null
+      "detail": null,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "closed door stops actual walking at the threshold",
@@ -11,17 +13,20 @@
       "detail": {
         "x": 128,
         "z": -38.23823278833222
-      }
+      },
+      "pass": "lodge-checks.json"
     },
     {
       "name": "door has a real contextual action",
       "passed": true,
-      "detail": null
+      "detail": null,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "context action animates hinged door and removes closed gate",
       "passed": true,
-      "detail": null
+      "detail": null,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "walk through actual opening onto supported furnished floor",
@@ -31,7 +36,8 @@
         "z": -43.07144679122379,
         "y": 0.06,
         "roof": false
-      }
+      },
+      "pass": "lodge-checks.json"
     },
     {
       "name": "eight interior orbit directions retain a usable player view",
@@ -77,12 +83,14 @@
           "visible": true,
           "distance": 12.984943326102481
         }
-      ]
+      ],
+      "pass": "lodge-checks.json"
     },
     {
       "name": "furniture creates real local obstacles",
       "passed": true,
-      "detail": null
+      "detail": null,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "closing refuses player in the doorway/sweep",
@@ -90,52 +98,62 @@
       "detail": {
         "error": "Step away from the doorway to move the door",
         "unchanged": true
-      }
+      },
+      "pass": "lodge-checks.json"
     },
     {
       "name": "reload retains interior pose and open door state",
       "passed": true,
-      "detail": null
+      "detail": null,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "can leave the room through the same open door",
       "passed": true,
-      "detail": null
+      "detail": null,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "close action restores closed collision",
       "passed": true,
-      "detail": null
+      "detail": null,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "new lodge destination exists on actual map",
       "passed": true,
-      "detail": null
+      "detail": null,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "lodge map arrival is clear outside the entrance",
       "passed": true,
-      "detail": null
+      "detail": null,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "phone interior drawing buffer contains rendered geometry",
       "passed": true,
-      "detail": 5
+      "detail": 5,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "phone actual follow camera is finite and above the floor",
       "passed": true,
-      "detail": null
+      "detail": null,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "tablet interior drawing buffer contains rendered geometry",
       "passed": true,
-      "detail": 8
+      "detail": 8,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "tablet actual follow camera is finite and above the floor",
       "passed": true,
-      "detail": null
+      "detail": null,
+      "pass": "lodge-checks.json"
     },
     {
       "name": "no lodge runtime errors or missing assets",
@@ -143,26 +161,355 @@
       "detail": {
         "errors": [],
         "missing": []
-      }
+      },
+      "pass": "lodge-checks.json"
     },
     {
       "name": "layout-3 vale retains all geometry/paths/colliders/landmarks and site construction",
-      "passed": true
+      "passed": true,
+      "pass": "compat-checks.json"
     },
     {
       "name": "old vale import has no lodge or altered floor",
-      "passed": true
+      "passed": true,
+      "pass": "compat-checks.json"
     },
     {
       "name": "fresh layout-4 vale is a separate record with actual lodge",
-      "passed": true
+      "passed": true,
+      "pass": "compat-checks.json"
     },
     {
       "name": "new map footprint includes actual lodge roof bounds",
-      "passed": true
+      "passed": true,
+      "pass": "compat-checks.json"
+    },
+    {
+      "name": "standard controller connects neutrally",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "left stick drives shared character movement",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "right stick uses existing camera orbit",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "left-stick click toggles persisted Run control",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "Menu button opens accessible menu",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "menu polls input without submitting hidden 3D frames",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "controller mapping help is available",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "B cancels dialog and returns movement",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "View button opens world map",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "sticks pan and zoom map without moving the player",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "D-pad reaches landmark chooser",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "D-pad changes landmark without immediate teleport",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "A confirms selected safe map travel in same save",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "X opens model catalogue",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "D-pad navigates actual catalogue thumbnails",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "A selects model for placement",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "right bumper rotates placement",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "A confirms valid placed object",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "disconnect immediately releases motion",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "touch fallback remains usable after disconnect",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "denied Gamepad API safely falls back",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "Space activates focused touch button exactly once",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "Enter activates focused button without duplicate gameplay action",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "connection event gates already-held axes and A",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "disconnect event releases state before next frame",
+      "passed": true,
+      "detail": null,
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "gamepad integration has no runtime errors",
+      "passed": true,
+      "detail": [],
+      "pass": "gamepad-checks.json"
+    },
+    {
+      "name": "catalogue offers 19 licensed models",
+      "passed": true,
+      "detail": null,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "Furniture filter exposes four human-scale choices",
+      "passed": true,
+      "detail": null,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "filter labels retain readable contrast immediately after selection",
+      "passed": true,
+      "detail": [
+        9.387850567809812,
+        9.07687017476486,
+        9.387850567809812,
+        9.387850567809812,
+        9.387850567809812
+      ],
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "phone catalogue fits and scrolls",
+      "passed": true,
+      "detail": null,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "new table placement is valid and scaled to 2.5",
+      "passed": true,
+      "detail": null,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "table top is at a believable height beside player",
+      "passed": true,
+      "detail": 0.8168349425,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "rug can be placed on clear ground",
+      "passed": true,
+      "detail": null,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "rug contributes no blocking footprint",
+      "passed": true,
+      "detail": null,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "player walks continuously across the placed rug",
+      "passed": true,
+      "detail": 14.152632246202582,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "new builder tent has standing-height scale",
+      "passed": true,
+      "detail": 3.0862194000000014,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "old explicit saved tent scale stays unchanged",
+      "passed": true,
+      "detail": {
+        "scale": 2.5,
+        "height": 1.4028270000000007
+      },
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "furniture rug and explicit scales round-trip as new copy",
+      "passed": true,
+      "detail": null,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "large custom object move previews can clear the player",
+      "passed": true,
+      "detail": 7.5,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "tablet furniture catalogue fits width",
+      "passed": true,
+      "detail": null,
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "furniture pass has no runtime errors",
+      "passed": true,
+      "detail": [],
+      "pass": "furniture-checks.json"
+    },
+    {
+      "name": "clear cancels held joystick ownership and stale movement",
+      "passed": true,
+      "detail": {
+        "stick": 0,
+        "pointer": null
+      },
+      "pass": "motion-after.json"
+    },
+    {
+      "name": "remaining thumb can orbit after pinch",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": -0.14
+      },
+      "pass": "motion-after.json"
+    },
+    {
+      "name": "fully blocked movement rests instead of running in place",
+      "passed": true,
+      "detail": {
+        "z": -17.20303291867719,
+        "clip": "Idle"
+      },
+      "pass": "motion-after.json"
+    },
+    {
+      "name": "whole cottage footprint stays clear of stream",
+      "passed": true,
+      "detail": {
+        "error": "Keep the water clear",
+        "bounds": {
+          "minX": 33.91216071128845,
+          "maxX": 40.08783928871155,
+          "minZ": 36.66539342880249,
+          "maxZ": 43.33460657119751,
+          "height": 7.440001177787792
+        }
+      },
+      "pass": "motion-after.json"
+    },
+    {
+      "name": "12 new lodge-world replacements plateau after warmup",
+      "passed": true,
+      "pass": "profile-release.json"
     }
   ],
-  "deterministicTests": 143,
-  "focusedTests": 33,
-  "physicalDevicesVerified": false
+  "physicalDevicesVerified": false,
+  "controllerTesting": "Injected standard Gamepad API snapshots only; no physical Xbox/Bluetooth",
+  "sourceFileHashes": {
+    "src/adventures/controls.ts": "cf89252e102ceaf92b0f33c23b7fe981169b14f7dfae13678f0f119310c4316b",
+    "src/adventures/lodge.ts": "1fd3163c94888c9ddcfc37ec3a15b1a0ae6e51c297f34635684b05bba507878e",
+    "src/adventures/placement-ground.ts": "b32d174874465a009deb0cf57935864a9fbeb204a0d8480a49c2432ebebdc540",
+    "src/adventures/trail-geometry.ts": "545e1f9b21d10320ff7a810387cc631d664ff0fb2152ffafca6a68c744815ae5",
+    "src/adventures/landscape.ts": "40429e6931587c45ff44fab69e3ca95a9092cea406b88b6849d2aed0e84aea82",
+    "src/adventures/connected-landscape.ts": "fd21827eebfc1869a05d2c2301596458ea1ca77c7d946c3c739d720cdc101d0f",
+    "src/adventures/gamepad.ts": "3c50ce5d65e8dfe2396a76e5bcc7167ccb1e387cc977caf361517e33dc1e8cc4",
+    "src/adventures/catalogue.ts": "5ef9c99044086713b885bc3d47a966891d9fb6f122e0e2419677335f18955525",
+    "src/adventures/assets.ts": "1ea7d81f53b05b47d51fa86ac9f4852761ee99c131ee94aa96f8ed9049c1c6db",
+    "src/adventures/main.ts": "1380d5119766674057b6a0d71b7162f973e19476b376b9169dc096f0aea1ef61",
+    "src/adventures/style.css": "9c31638d50f25870a2058c84b578ebce532d89f06785cbfcba69355cf98b7f1c",
+    "src/adventures/collision-cache.ts": "43fffb2515822565db9cacea42f26b191ade88d240520dafebf756685b5fb523",
+    "src/adventures/camera-collision.ts": "c9fac1d7b028886075a49c43422830194cbec68a37527ff8ffa99553776f000b",
+    "src/adventures/ids.ts": "da1780eb5b52c22297206cc436b3dcbf08bc19c29cccbd9e6b73e6ab9d15d006",
+    "src/adventures/vale-data.ts": "767dd5e0f55f4477e1596e23ca62a6f62da6717caa89703eadbf3897d61a6d5e",
+    "src/adventures/preferences.ts": "05c4f04a2886ff973180189c0635e0de10880faaec90b8a06ce1e1f5604b4073",
+    "src/adventures/world-map.ts": "6f1adb03de38c1ee037de0fb7da3fd92cdd35147b23d3ad0347a1bf8701191de",
+    "src/adventures/safe-position.ts": "454c2b211c429ac0c25cabdf3a04da99b84444aa8092b913a368f7fbfad3aa7a",
+    "src/adventures/save.ts": "c0224e52618bf969aaa8a129534f0fcd52e9c773b85de61ffe8aec2a648faed3",
+    "src/adventures/map-data.ts": "ec9aa254abfb8f0fe1f1b54294e92faf919e5d88d76be95adf71fec102a7f8b5",
+    "src/adventures/nature-batch.ts": "131aa982755b72e761297c4cb2e2669503796b4bb5b0f8b34f2a162ddd153c80"
+  }
 }

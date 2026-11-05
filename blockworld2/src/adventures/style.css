@@ -1090,6 +1090,7 @@ body:not(.playing) #saveState {
   margin: 20px 0;
 }
 .catalogueFilters button {
+  transition: transform 0.18s;
   font-size: 10px;
   min-height: 36px;
   padding: 8px 13px;

@@ -11,6 +11,7 @@ export interface AssetDefinition {
   scale: number;
   category: "building" | "nature" | "prop";
   radius?: number;
+  solid?: boolean;
 }
 const village = (
   id: string,
@@ -40,7 +41,8 @@ export const ASSETS: AssetDefinition[] = [
   ...["table", "chair", "bookcaseopen", "books", "rugrectangle"].map((id) => ({
     id: "furniture-" + id,
     path: `furniture/${id}.glb`,
-    scale: 1,
+    scale: id === "table" ? 2.5 : id === "rugrectangle" ? 2 : 2.2,
+    solid: id !== "rugrectangle",
     category: "prop" as const,
   })),
   ...[
@@ -79,7 +81,7 @@ export const ASSETS: AssetDefinition[] = [
   nature("stump-round", 1.4),
   nature("log", 2),
   nature("mushroom-red", 1),
-  nature("tent-smallopen", 2),
+  nature("tent-smallopen", 5.5),
   nature("campfire-stones", 1.4),
   nature("sign", 1.5),
   nature("lily-small", 1.2),

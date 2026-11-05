@@ -1,6 +1,10 @@
 import * as T from "three";
 import type { AssetLibrary } from "./assets";
 export const BUILD_CHOICES = [
+  { id: "furniture-table", name: "Timber table", group: "Furniture" },
+  { id: "furniture-chair", name: "Wooden chair", group: "Furniture" },
+  { id: "furniture-bookcaseopen", name: "Open bookcase", group: "Furniture" },
+  { id: "furniture-rugrectangle", name: "Meadow rug", group: "Furniture" },
   { id: "building_home_A_blue", name: "Blue-roof cottage", group: "Homes" },
   { id: "building_home_A_green", name: "Green-roof cottage", group: "Homes" },
   { id: "building_home_B_blue", name: "Blue-roof townhouse", group: "Homes" },

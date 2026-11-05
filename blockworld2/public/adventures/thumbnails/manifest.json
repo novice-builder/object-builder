@@ -150,6 +150,46 @@
       "width": 256,
       "height": 192,
       "licence": "CC0-1.0"
+    },
+    {
+      "asset": "furniture-table",
+      "file": "furniture-table.png",
+      "sha256": "649d20e1e2d6a3a58e5cdaecfed57e003184fefddbef008f601f7244029c9adc",
+      "bytes": 5780,
+      "sourceModelSha256": "ff1a94498d023957f4bc3ff6f55a7a82977d336dbf01a573b3364f03afe5ff61",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "furniture-chair",
+      "file": "furniture-chair.png",
+      "sha256": "25fa9cb457426012ae33212b45dc7d960aaec60fb2c22fbe585cbb6a11406776",
+      "bytes": 5056,
+      "sourceModelSha256": "c8a11eec93e89e31250ba91afc1b8d56c3bec7ae86640fd1239f595ff4180883",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "furniture-bookcaseopen",
+      "file": "furniture-bookcaseopen.png",
+      "sha256": "81c22df08d539fb694696206378a344ec824c5e04cedc59ac40b1b76fb65cfce",
+      "bytes": 6280,
+      "sourceModelSha256": "750702218d68c062b15dfef6ab06a4014d1cfa8bd05f02e57c53b7e13bec157c",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "furniture-rugrectangle",
+      "file": "furniture-rugrectangle.png",
+      "sha256": "c10b71c63dacf181e422fe656e6f2c8ff8c334be95fd30cda5fd31ab92bfcde7",
+      "bytes": 4549,
+      "sourceModelSha256": "a989d2d59c04e3071e0c90388b113a9a8f339ce1814ef984c51cb6dcd7c8e0eb",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
     }
   ]
 }

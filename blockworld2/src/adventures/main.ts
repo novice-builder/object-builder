@@ -471,6 +471,7 @@ class AdventureGame {
   }
   private objectBox(root: T.Object3D, id: string): Obstacle | null {
     if (
+      DEFINITIONS.get(id)?.solid === false ||
       id.startsWith("flower") ||
       id.startsWith("grass") ||
       id === "lily-small"
@@ -1174,7 +1175,7 @@ class AdventureGame {
   private catalogue() {
     this.cancelEdit();
     this.openModal(
-      `<div class="eyebrow">A PLACE OF YOUR OWN</div><h1 id="modalTitle">What will you make?</h1><p>Choose something for your world, then walk to a clear spot and place it.</p><div class="catalogueFilters" role="group" aria-label="Filter building assets">${["All", "Homes", "Garden & woodland", "Village supplies"].map((name, i) => `<button data-category="${name}" aria-pressed="${i === 0}">${name}</button>`).join("")}</div><div class="assetGrid">${BUILD_CHOICES.map((item) => `<button data-asset="${item.id}" data-group="${item.group}" aria-label="Place ${item.name}"><img src="${import.meta.env.BASE_URL}adventures/thumbnails/${item.id}.png" alt="" loading="lazy" width="256" height="192"><span class="assetLabel">${item.name}</span></button>`).join("")}</div><p class="finePrint">Tap your own object to select it. Move, rotate or remove it from the selection bar.</p>`,
+      `<div class="eyebrow">A PLACE OF YOUR OWN</div><h1 id="modalTitle">What will you make?</h1><p>Choose something for your world, then walk to a clear spot and place it.</p><div class="catalogueFilters" role="group" aria-label="Filter building assets">${["All", ...new Set(BUILD_CHOICES.map((item) => item.group))].map((name, i) => `<button data-category="${name}" aria-pressed="${i === 0}">${name}</button>`).join("")}</div><div class="assetGrid">${BUILD_CHOICES.map((item) => `<button data-asset="${item.id}" data-group="${item.group}" aria-label="Place ${item.name}"><img src="${import.meta.env.BASE_URL}adventures/thumbnails/${item.id}.png" alt="" loading="lazy" width="256" height="192"><span class="assetLabel">${item.name}</span></button>`).join("")}</div><p class="finePrint">Tap your own object to select it. Move, rotate or remove it from the selection bar.</p>`,
     );
     for (const filter of $("modal").querySelectorAll<HTMLButtonElement>(
       "[data-category]",
@@ -1258,7 +1259,19 @@ class AdventureGame {
   }
   private updateGhost() {
     if (!this.pending || !this.ghost) return;
-    const d = this.pending.asset.startsWith("building") ? 9 : 4.5;
+    const box = this.library.bounds.get(this.pending.asset)!,
+      radius =
+        (Math.hypot(box.max.x - box.min.x, box.max.z - box.min.z) *
+          this.pending.scale) /
+        2;
+    const d = Math.max(
+      this.pending.asset.startsWith("building")
+        ? 9
+        : this.pending.asset.startsWith("furniture-")
+          ? 2.8
+          : 4.5,
+      radius + 0.9,
+    );
     this.pending.x =
       Math.round((this.player.x - Math.sin(this.cameraYaw) * d) * 2) / 2;
     this.pending.z =

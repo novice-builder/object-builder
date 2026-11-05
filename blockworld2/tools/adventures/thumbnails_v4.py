@@ -1,0 +1,10 @@
+"""Append four real furniture GLB thumbnails; preserve existing images/manifest entries."""
+import pathlib,json,base64,hashlib
+from playwright.sync_api import sync_playwright
+ROOT=pathlib.Path(__file__).resolve().parents[2];OUT=ROOT/'public/adventures/thumbnails';manifest=json.loads((OUT/'manifest.json').read_text());original={e['file']:hashlib.sha256((OUT/e['file']).read_bytes()).hexdigest()for e in manifest['entries']};extra=json.loads((ROOT/'public/adventures/inventory-v4.json').read_text())['assets'];new=[]
+with sync_playwright()as p:
+ b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']);g=b.new_page(viewport={'width':320,'height':240});g.set_default_timeout(120000);g.add_init_script("localStorage.setItem('blockworld-adventures-controls-v2',JSON.stringify({quality:'gentle',running:false}))");g.goto('http://127.0.0.1:5175/adventures.html?test=1');g.wait_for_function('window.adventure?.ready');g.evaluate('window.requestAnimationFrame=()=>0');g.wait_for_timeout(100)
+ for name in ['table','chair','bookcaseopen','rugrectangle']:
+  asset='furniture-'+name;assert not any(e['asset']==asset for e in manifest['entries']),'Already generated; do not overwrite';png=base64.b64decode(g.evaluate('(id)=>adventure.thumbnail(id)',asset).split(',',1)[1]);file=asset+'.png';(OUT/file).write_bytes(png);source=next(e for e in extra if e['path']=='furniture/'+name+'.glb');entry={'asset':asset,'file':file,'sha256':hashlib.sha256(png).hexdigest(),'bytes':len(png),'sourceModelSha256':source['sha256'],'width':256,'height':192,'licence':'CC0-1.0'};manifest['entries'].append(entry);new.append(entry)
+ b.close()
+assert all(hashlib.sha256((OUT/file).read_bytes()).hexdigest()==sha for file,sha in original.items());(OUT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n');(ROOT/'docs/adventures-v4/furniture-thumbnails.json').write_text(json.dumps({'preservedOriginalImages':len(original),'newEntries':new,'newBytes':sum(e['bytes']for e in new)},indent=2)+'\n');print('Added',len(new),'thumbnails;',sum(e['bytes']for e in new),'bytes')

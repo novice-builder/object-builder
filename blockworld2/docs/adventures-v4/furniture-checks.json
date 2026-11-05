@@ -1,0 +1,89 @@
+{
+  "checks": [
+    {
+      "name": "catalogue offers 19 licensed models",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Furniture filter exposes four human-scale choices",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "filter labels retain readable contrast immediately after selection",
+      "passed": true,
+      "detail": [
+        9.387850567809812,
+        9.07687017476486,
+        9.387850567809812,
+        9.387850567809812,
+        9.387850567809812
+      ]
+    },
+    {
+      "name": "phone catalogue fits and scrolls",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "new table placement is valid and scaled to 2.5",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "table top is at a believable height beside player",
+      "passed": true,
+      "detail": 0.8168349425
+    },
+    {
+      "name": "rug can be placed on clear ground",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "rug contributes no blocking footprint",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "player walks continuously across the placed rug",
+      "passed": true,
+      "detail": 14.152632246202582
+    },
+    {
+      "name": "new builder tent has standing-height scale",
+      "passed": true,
+      "detail": 3.0862194000000014
+    },
+    {
+      "name": "old explicit saved tent scale stays unchanged",
+      "passed": true,
+      "detail": {
+        "scale": 2.5,
+        "height": 1.4028270000000007
+      }
+    },
+    {
+      "name": "furniture rug and explicit scales round-trip as new copy",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "large custom object move previews can clear the player",
+      "passed": true,
+      "detail": 7.5
+    },
+    {
+      "name": "tablet furniture catalogue fits width",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "furniture pass has no runtime errors",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium / SwiftShader with touch viewport emulation; physical devices unverified."
+}

@@ -16,6 +16,18 @@ test("every offered catalogue asset has a real, current PNG render matching its 
       "utf8",
     ),
   );
+  const extra = JSON.parse(
+    readFileSync(
+      new URL("../public/adventures/inventory-v4.json", import.meta.url),
+      "utf8",
+    ),
+  ).assets;
+  inventory.push(
+    ...extra.map((a: any) => ({
+      ...a,
+      id: a.path.startsWith("furniture/") ? "furniture-" + a.id : a.id,
+    })),
+  );
   for (const item of BUILD_CHOICES) {
     const entry = manifest.entries.find((e: any) => e.asset === item.id);
     assert.ok(entry, item.id);
