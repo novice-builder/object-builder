@@ -1,0 +1,32 @@
+{
+  "repository": "https://github.com/Hidencod/tge-assets",
+  "commit": "ea2f2aa1ca8da0898330c97df8a5489976b051d0",
+  "licence": "CC0-1.0, existing root licence",
+  "files": [
+    {
+      "path": "packs/furniture-kit/table.glb",
+      "sha256": "ff1a94498d023957f4bc3ff6f55a7a82977d336dbf01a573b3364f03afe5ff61",
+      "bytes": 8196
+    },
+    {
+      "path": "packs/furniture-kit/chair.glb",
+      "sha256": "c8a11eec93e89e31250ba91afc1b8d56c3bec7ae86640fd1239f595ff4180883",
+      "bytes": 10756
+    },
+    {
+      "path": "packs/furniture-kit/bookcaseopen.glb",
+      "sha256": "750702218d68c062b15dfef6ab06a4014d1cfa8bd05f02e57c53b7e13bec157c",
+      "bytes": 18020
+    },
+    {
+      "path": "packs/furniture-kit/books.glb",
+      "sha256": "b8dc56e5d29f6fc1f4727fccb1b9642627fee9942c48060a00034e98df02701c",
+      "bytes": 6864
+    },
+    {
+      "path": "packs/furniture-kit/rugrectangle.glb",
+      "sha256": "a989d2d59c04e3071e0c90388b113a9a8f339ce1814ef984c51cb6dcd7c8e0eb",
+      "bytes": 3188
+    }
+  ]
+}

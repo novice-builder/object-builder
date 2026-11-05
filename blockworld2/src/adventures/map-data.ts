@@ -31,6 +31,7 @@ export function createMapData(
     paths: MapPath[];
     obstacles: Obstacle[];
     landmarks: Landmark[];
+    mapBuildings?: Obstacle[];
     trees?: { x: number; z: number; radius: number }[];
   },
 ): WorldMapData {
@@ -62,13 +63,19 @@ export function createMapData(
             .filter((l) => !["bridge", "well"].includes(l.id))
             .slice(0, 3),
         ];
+  if (
+    scene === "vale" &&
+    landscape.landmarks.some((l) => l.id === "lodge-door")
+  )
+    destinations.push({ id: "lodge", name: "Meadow Lodge", x: 128, z: -36 });
   return {
     scene,
     bounds,
     paths: landscape.paths,
-    buildings: landscape.obstacles.filter((o) =>
-      o.name?.startsWith("building_"),
-    ),
+    buildings: [
+      ...landscape.obstacles.filter((o) => o.name?.startsWith("building_")),
+      ...(landscape.mapBuildings || []),
+    ],
     trees:
       landscape.trees ||
       landscape.obstacles

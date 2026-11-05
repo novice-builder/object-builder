@@ -1,0 +1,50 @@
+
+> blockworld2@0.1.0 test:adventures
+> node --import tsx --test tests/adventures*.test.ts
+
+✔ nature batching retains source bounds, triangle count and linear material colours (4.686113ms)
+✔ batching refuses textured or transparent materials rather than silently changing them (0.287803ms)
+✔ fog culling conservatively retains bounds crossing the visible range (0.255355ms)
+✔ camera rays handle parallel, inside, behind and zero-length cases (0.956581ms)
+✔ allocation-free ray distances agree with the established Three.js box intersection (1.683087ms)
+✔ collision views reuse footprints until an edit and exclude only the moving object (0.741879ms)
+✔ a close-wall camera stays in front of the wall rather than enforcing an unsafe minimum radius (0.123466ms)
+✔ every offered catalogue asset has a real, current PNG render matching its licensed source (3.381281ms)
+✔ lodge doorway is traversable only with an open door (1.071554ms)
+✔ lodge floor affects only new explicit layout 4 (0.88929ms)
+✔ camera roof slab keeps its real base above walking space (0.2321ms)
+✔ map transforms preserve world positions across zoom and pan (1.198997ms)
+✔ map reads actual roads, buildings and river coordinates (0.445221ms)
+✔ safe landmark arrivals never return unchecked blocked ground (0.937373ms)
+✔ large footprints catch water and narrow paths missed by a centre-only check (0.919246ms)
+✔ footprints reject buried/floating corners and out-of-world edges (0.162815ms)
+✔ control preferences survive a reload in their own key (1.283985ms)
+✔ invalid preferences and denied browser storage fall back without blocking play (0.37841ms)
+✔ late edits during delayed world read preserve ownership (20.82847ms)
+✔ quota failure aborts switching and retains source; recovery creates a new record (3.122736ms)
+✔ invalid import creates no records; valid import always creates a separate copy (3.188466ms)
+✔ stale tab conflicts retain the newer checkpoint (2.213265ms)
+✔ water, bridge and footprint boundaries allow safe crossing (0.615658ms)
+✔ LAN HTTP UUID fallback retains RFC4122 version/variant and avoids collisions (2.855273ms)
+✔ preview 01 records retain their original layout while fresh records use the new scene (4.229324ms)
+✔ fresh copies receive distinct names without renaming old worlds (4.041241ms)
+✔ continuous trail has finite terrain following vertices and upward faces (4.036363ms)
+✔ bridge crossing ribbon stops at both deck ends (0.472412ms)
+✔ soft woodland loop stays on dry ground with close, continuous samples (4.320732ms)
+✔ closed woodland-edge trail joins without duplicate zero-length segments (0.413654ms)
+✔ connected world keeps legacy coordinates isolated and validates expanded bounds (1.165897ms)
+✔ both connected river bridges share terrain, water and walking coordinates (0.968901ms)
+✔ new connecting trails never cross water outside a bridge (4.406521ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2724.251429
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

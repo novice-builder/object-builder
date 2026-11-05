@@ -18,7 +18,9 @@ export function valeGround(x: number, z: number) {
     h -= Math.max(0, 1 - Math.abs(x - river) / 5) * 1.65;
   return h;
 }
-export function valeWalk(x: number, z: number) {
+export function valeWalk(x: number, z: number, layout = 3) {
+  if (layout >= 4 && x > 124.7 && x < 131.3 && z > -45.3 && z < -38.7)
+    return 0.06;
   for (const river of valeRivers(z))
     if (Math.abs(z - 8) < 2.1 && Math.abs(x - river) < 5)
       return 0.02 + Math.max(0, 1 - Math.abs(x - river) / 5) * 0.4;

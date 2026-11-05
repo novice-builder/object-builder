@@ -1,0 +1,42 @@
+
+> blockworld2@0.1.0 build:adventures
+> npm run typecheck && npm run preserve && vite build --config vite.adventures.config.ts
+
+
+> blockworld2@0.1.0 typecheck
+> tsc --noEmit
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> blockworld2@0.1.0 preserve
+> node tools/preserve.mjs
+
+PASS: 49 existing files match 1ffd35ed971afa7820734cf10a3287ab546f6306; 6 historical archive files intact; package-only changes
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+vite v6.4.1 building for production...
+transforming...
+✓ 60 modules transformed.
+rendering chunks...
+computing gzip size...
+adventures-dist/adventures.html                   0.73 kB │ gzip:   0.41 kB
+adventures-dist/assets/adventures-DYJf8BwX.css   17.64 kB │ gzip:   4.67 kB
+adventures-dist/assets/adventures-ogkTc2ot.js   718.61 kB │ gzip: 196.97 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.73s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

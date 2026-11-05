@@ -52,3 +52,13 @@ The original full-quality source checkouts remain under `/workspace/work/asset-r
 ## Preview 02 derived catalogue images
 
 `thumbnails/` contains 15 transparent PNGs rendered from these exact imported models by `tools/adventures/thumbnails.py` and `renderCatalogueThumbnail` in the game. Each is 256×192 pixels; `thumbnails/manifest.json` records the source model SHA-256 and derived PNG SHA-256. They are generated during development and served as static images; opening the catalogue does not create another WebGL renderer on mobile. Original CC0 model sources and licences remain unchanged.
+
+## Preview 04 modular lodge evaluation
+
+The Standard FREE Quaternius Medieval Village mirror at `21104b4045261c28fc312360841ed1a7b0ac8782` is now used for six authored modular pieces: plaster wall, doorway wall, timber floor, hinged Door 4, complete tiled roof and gable. Fresh HTTPS reads matched all 12 glTF/bin files plus README and full CC0 licence to the exact source commit. This is the separately licensed Medieval Standard collection, **not** the blocked Nature MegaKit or any paid Pro/Source edition. The existing `licences/Quaternius-Medieval-CC0.txt` applies.
+
+`modular/` retains original geometry/accessor buffers and replaces texture-based materials with a coherent flat linear-colour palette (timber, warm plaster, blue tiles, stone and metal). Textures/unused images are removed, reducing six pieces to about 239 KB without reducing geometry. Original source files remain in the research checkout; exact fetched hashes are in `sources/modular-source-verification.json`. The reproducible conversion is `sources/prepare_modular.py`.
+
+`furniture/` adds Kenney table, chair, open bookcase, books and rectangular rug, copied unchanged from the same `Hidencod/tge-assets` CC0 conversion repository at `ea2f2aa1ca8da0898330c97df8a5489976b051d0`. The root licence already archived as `licences/Kenney-CC0.txt` explicitly covers these converted Kenney GLBs. Exact raw-file matches and hashes are retained in `sources/furniture-source-verification.json` and `inventory-v4.json`. These are furnished-interior assets, not a claim that all original prefab houses become enterable.
+
+The lodge assembly adds four small generated timber corner posts to close modular joins; these are supporting join geometry, not imported source assets. Furniture carpet materials are retinted to a muted sage/linen palette at runtime. No source GLB is modified by those runtime colours. The rest of the walls/roof/door/floor and furnishings use the imported authored meshes listed in `inventory-v4.json`.

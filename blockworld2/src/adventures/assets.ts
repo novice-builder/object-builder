@@ -25,6 +25,25 @@ const nature = (id: string, scale = 1): AssetDefinition => ({
 });
 export const ASSETS: AssetDefinition[] = [
   ...[
+    "Wall_Plaster_Straight",
+    "Wall_Plaster_Door_Flat",
+    "Floor_WoodDark",
+    "Door_4_Flat",
+    "Roof_RoundTiles_4x6",
+    "Roof_Front_Brick4",
+  ].map((id) => ({
+    id,
+    path: `modular/${id}.glb`,
+    scale: 1,
+    category: "building" as const,
+  })),
+  ...["table", "chair", "bookcaseopen", "books", "rugrectangle"].map((id) => ({
+    id: "furniture-" + id,
+    path: `furniture/${id}.glb`,
+    scale: 1,
+    category: "prop" as const,
+  })),
+  ...[
     "building_home_A_blue",
     "building_home_A_green",
     "building_home_B_blue",
@@ -123,9 +142,16 @@ export class AssetLibrary {
                 grass: 0x718e43,
                 grassGreen: 0x718e43,
                 wood: 0x806044,
+                carpet: 0xa1b08b,
+                carpetDarker: 0x6e8769,
+                carpetWhite: 0xd5cfb5,
                 woodInner: 0xbf9e73,
               };
-              if (def.category === "nature" && palette[mat.name] !== undefined)
+              if (
+                (def.category === "nature" ||
+                  def.path.startsWith("furniture/")) &&
+                palette[mat.name] !== undefined
+              )
                 mat.color.set(palette[mat.name]);
               if (
                 def.id === "tent-smallopen" &&

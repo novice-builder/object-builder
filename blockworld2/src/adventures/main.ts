@@ -51,7 +51,7 @@ app.innerHTML = `
 <output id="toast" role="status" aria-live="polite" hidden></output><output id="saveState" aria-live="polite">Preparing your world…</output><div id="stats" hidden></div>
 <div id="editBar" hidden><span id="editName">Place object</span><button id="editRotate">↻ <span>Rotate</span></button><button id="editMove">✥ <span>Move</span></button><button id="editRemove">× <span>Remove</span></button><button id="editConfirm" class="primary">✓ <span>Place</span></button><button id="editCancel" aria-label="Cancel editing">✕</button></div>
 <div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle"></div>
-<div id="welcome"><section><div class="eyebrow">A BLOCKWORLD ADVENTURE</div><h1>A little world.<br>A little wonder.</h1><p>Follow a cobbled lane. Find a quiet corner.<br>Make a place of your own.</p><button id="enter" class="primary" disabled>Preparing the valley… <span>→</span></button><div class="loadingTrack"><i id="loadingBar"></i></div><small id="loadingText">Unpacking the village</small><div class="welcomeFoot">FREE TO EXPLORE <span>•</span> SAVED ON YOUR DEVICE</div></section><div class="previewBadge">WILLOW VALE · DEVELOPMENT PREVIEW 03</div></div>
+<div id="welcome"><section><div class="eyebrow">A BLOCKWORLD ADVENTURE</div><h1>A little world.<br>A little wonder.</h1><p>Follow a cobbled lane. Find a quiet corner.<br>Make a place of your own.</p><button id="enter" class="primary" disabled>Preparing the valley… <span>→</span></button><div class="loadingTrack"><i id="loadingBar"></i></div><small id="loadingText">Unpacking the village</small><div class="welcomeFoot">FREE TO EXPLORE <span>•</span> SAVED ON YOUR DEVICE</div></section><div class="previewBadge">WILLOW VALE · DEVELOPMENT PREVIEW 04</div></div>
 <div id="fatal" hidden role="alert"></div>`;
 class AdventureGame {
   library = new AssetLibrary();
@@ -107,6 +107,8 @@ class AdventureGame {
   private sun: T.DirectionalLight;
   private contactShadow: T.Mesh;
   private cameraPosition = new T.Vector3();
+  private interiorBodySource?: readonly Obstacle[];
+  private interiorCameraBodies: readonly Obstacle[] = [];
   private dirty = false;
   constructor() {
     this.renderer = new T.WebGLRenderer({
@@ -321,7 +323,11 @@ class AdventureGame {
     const data = validateAdventure(snapshot),
       candidate =
         data.scene === "vale"
-          ? new ConnectedLandscape(this.library)
+          ? new ConnectedLandscape(
+              this.library,
+              data.layout === 4 ? 4 : 3,
+              data.doors?.lodge,
+            )
           : new Landscape(this.library, data.scene, data.layout);
     // Prepare a complete replacement before retiring the old scene.
     const previous = this.landscape;
@@ -339,7 +345,12 @@ class AdventureGame {
     this.redoHistory = [];
     this.renderObjects();
     this.safeSpawn();
-    this.player.y = walkHeight(this.player.x, this.player.z, this.data.scene);
+    this.player.y = walkHeight(
+      this.player.x,
+      this.player.z,
+      this.data.scene,
+      this.data.layout,
+    );
     this.actor.position.set(this.player.x, this.player.y, this.player.z);
     this.contactShadow.position.set(
       this.player.x,
@@ -384,7 +395,12 @@ class AdventureGame {
       return;
     }
     Object.assign(this.player, arrival);
-    this.player.y = walkHeight(arrival.x, arrival.z, this.data.scene);
+    this.player.y = walkHeight(
+      arrival.x,
+      arrival.z,
+      this.data.scene,
+      this.data.layout,
+    );
     this.velocity.set(0, 0);
     this.actor.position.set(this.player.x, this.player.y, this.player.z);
     this.controls.clear();
@@ -483,7 +499,11 @@ class AdventureGame {
     this.userRoots.clear();
     for (const p of this.data.objects) {
       const root = this.library.create(p.asset, p.scale);
-      root.position.set(p.x, walkHeight(p.x, p.z, this.data.scene), p.z);
+      root.position.set(
+        p.x,
+        walkHeight(p.x, p.z, this.data.scene, this.data.layout),
+        p.z,
+      );
       root.rotation.y = p.yaw;
       root.userData.placementId = p.id;
       this.userGroup.add(root);
@@ -516,6 +536,13 @@ class AdventureGame {
       targetZ = ((-input.x / n) * sin + (input.z / n) * cos) * speed;
     this.velocity.lerp(new T.Vector2(targetX, targetZ), 1 - Math.exp(-dt * 11));
     if (this.velocity.length() < 0.025) this.velocity.set(0, 0);
+    if (
+      this.landscape instanceof ConnectedLandscape &&
+      this.landscape.updateLodge(dt, this.player)
+    ) {
+      this.rebuildObstacles();
+      this.sun.shadow.needsUpdate = true;
+    }
     const previousX = this.player.x,
       previousZ = this.player.z;
     const obs = this.obstacles(),
@@ -528,10 +555,17 @@ class AdventureGame {
         inWorld(x, z, this.data.scene) &&
         !waterBlocked(x, z, this.data.scene) &&
         !blocked(x, z, obs) &&
-        Math.abs(walkHeight(x, z, this.data.scene) - this.player.y) < 0.5;
+        Math.abs(
+          walkHeight(x, z, this.data.scene, this.data.layout) - this.player.y,
+        ) < 0.5;
       if (valid(this.player.x + dx, this.player.z)) this.player.x += dx;
       if (valid(this.player.x, this.player.z + dz)) this.player.z += dz;
-      this.player.y = walkHeight(this.player.x, this.player.z, this.data.scene);
+      this.player.y = walkHeight(
+        this.player.x,
+        this.player.z,
+        this.data.scene,
+        this.data.layout,
+      );
     }
     this.actor.position.set(this.player.x, this.player.y, this.player.z);
     this.contactShadow.position.set(
@@ -562,23 +596,43 @@ class AdventureGame {
   }
   private cameraUpdate(dt: number) {
     if (this.debugCamera) return;
+    const lodge =
+      this.landscape instanceof ConnectedLandscape
+        ? this.landscape.lodge
+        : undefined;
+    const inside = !!lodge?.inside(this.player);
+    lodge?.setCutaway(this.player, this.cameraYaw);
+    const pitch = inside ? Math.max(this.cameraPitch, 0.78) : this.cameraPitch;
     const target = new T.Vector3(
         this.player.x,
         this.player.y + 1.35,
         this.player.z,
       ),
       offset = new T.Vector3(
-        Math.sin(this.cameraYaw) * Math.cos(this.cameraPitch),
-        Math.sin(this.cameraPitch),
-        Math.cos(this.cameraYaw) * Math.cos(this.cameraPitch),
+        Math.sin(this.cameraYaw) * Math.cos(pitch),
+        Math.sin(pitch),
+        Math.cos(this.cameraYaw) * Math.cos(pitch),
       ).multiplyScalar(this.distance),
       desired = target.clone().add(offset);
-    const bodies = this.obstacles();
-    const fraction = cameraFraction(target, offset, bodies);
+    const allBodies = this.obstacles();
+    if (inside && this.interiorBodySource !== allBodies) {
+      this.interiorBodySource = allBodies;
+      this.interiorCameraBodies = allBodies.filter(
+        (b) =>
+          !b.name?.startsWith("lodge") && !b.name?.startsWith("furniture-"),
+      );
+    }
+    const bodies = inside ? this.interiorCameraBodies : allBodies;
+    const roof = lodge && !inside ? lodge.exteriorCameraBodies : [];
+    const fraction = Math.min(
+      cameraFraction(target, offset, bodies),
+      cameraFraction(target, offset, roof),
+    );
     desired.copy(target).addScaledVector(offset, fraction);
     desired.y = Math.max(
       desired.y,
-      walkHeight(desired.x, desired.z, this.data.scene) + 0.45,
+      walkHeight(desired.x, desired.z, this.data.scene, this.data.layout) +
+        0.45,
     );
     if (this.cameraPosition.lengthSq() === 0) this.cameraPosition.copy(desired);
     else
@@ -588,7 +642,10 @@ class AdventureGame {
       );
     // Recheck the interpolated position: two clear endpoints can cut through a corner.
     const interpolated = this.cameraPosition.clone().sub(target),
-      actualFraction = cameraFraction(target, interpolated, bodies);
+      actualFraction = Math.min(
+        cameraFraction(target, interpolated, bodies),
+        cameraFraction(target, interpolated, roof),
+      );
     if (actualFraction < 1)
       this.cameraPosition
         .copy(target)
@@ -653,7 +710,9 @@ class AdventureGame {
     this.near =
       this.landscape.landmarks
         .filter(
-          (l) => Math.hypot(l.x - this.player.x, l.z - this.player.z) < 4.5,
+          (l) =>
+            Math.hypot(l.x - this.player.x, l.z - this.player.z) <
+            (l.action ? 2.8 : 4.5),
         )
         .sort(
           (a, b) =>
@@ -664,12 +723,34 @@ class AdventureGame {
     if (this.near) {
       $("contextLabel").textContent = this.near.name;
       $("interact").innerHTML =
-        `${this.data.discoveries.includes(this.near.id) ? "Read" : "Discover"} <kbd>E</kbd>`;
+        this.near.action === "door"
+          ? `${this.landscape instanceof ConnectedLandscape && this.landscape.lodge?.open ? "Close" : "Open"} door <kbd>E</kbd>`
+          : `${this.data.discoveries.includes(this.near.id) ? "Read" : "Discover"} <kbd>E</kbd>`;
     }
   }
   private discover() {
     if (!this.near) return;
     const l = this.near;
+    if (
+      l.action === "door" &&
+      this.landscape instanceof ConnectedLandscape &&
+      this.landscape.lodge
+    ) {
+      const error = this.landscape.lodge.toggle(
+        this.player,
+        this.obstacles().filter((o) => !!(o as OwnedObstacle).ownerId),
+      );
+      if (error) {
+        this.toast(error);
+        return;
+      }
+      this.data.doors = { lodge: this.landscape.lodge.open };
+      this.dirty = true;
+      this.rebuildObstacles();
+      this.sun.shadow.needsUpdate = true;
+      this.updateContext();
+      return;
+    }
     if (!this.data.discoveries.includes(l.id)) {
       this.data.discoveries.push(l.id);
       this.dirty = true;
@@ -683,7 +764,7 @@ class AdventureGame {
   }
   private countDiscoveries() {
     $("discovered").textContent =
-      `${this.data.discoveries.length} / ${this.landscape.landmarks.length}`;
+      `${this.data.discoveries.length} / ${this.landscape.landmarks.filter((l) => !l.action).length}`;
   }
   private saveStatus(text: string, error = false) {
     $("saveState").textContent = (error ? "! " : "◦ ") + text;
@@ -885,7 +966,7 @@ class AdventureGame {
   }
   private menu() {
     this.openModal(
-      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature: Kenney. CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview 03. Closed prefab houses have no interiors. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
+      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview 04. The Meadow Lodge has an opening door and furnished room; original prefab houses remain closed. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
     );
     $("resume").onclick = () => this.closeModal();
     $("home").onclick = () => {
@@ -943,7 +1024,7 @@ class AdventureGame {
         url = URL.createObjectURL(blob),
         a = document.createElement("a");
       a.href = url;
-      a.download = `BlockWorld-Adventures-${this.data.scene}-preview03.bw2`;
+      a.download = `BlockWorld-Adventures-${this.data.scene}-preview04.bw2`;
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 60000);
       this.toast("Backup requested. The text is also available below.");
@@ -1072,7 +1153,12 @@ class AdventureGame {
       Math.round((this.player.z - Math.cos(this.cameraYaw) * d) * 2) / 2;
     this.ghost.position.set(
       this.pending.x,
-      walkHeight(this.pending.x, this.pending.z, this.data.scene),
+      walkHeight(
+        this.pending.x,
+        this.pending.z,
+        this.data.scene,
+        this.data.layout,
+      ),
       this.pending.z,
     );
     this.ghost.rotation.y = this.pending.yaw;
@@ -1092,7 +1178,7 @@ class AdventureGame {
         inside: (x, z) => inWorld(x, z, this.data.scene, 0.1),
         water: (x, z) => waterBlocked(x, z, this.data.scene),
         path: (x, z) => this.landscape.nearPath(x, z, 0.35),
-        height: (x, z) => walkHeight(x, z, this.data.scene),
+        height: (x, z) => walkHeight(x, z, this.data.scene, this.data.layout),
       });
       if (groundError) return groundError;
       const test = {
@@ -1324,6 +1410,8 @@ class AdventureGame {
         views[key].target[0] -= 105;
       }
       Object.assign(views, {
+        lodge: { position: [128, 5, -29], target: [128, 2, -42] },
+        lodgeRoom: { position: [128, 3.2, -39.4], target: [128, 1.1, -43] },
         woodland: { position: [-17, 18, 30], target: [0, 2, -3] },
         meadow: { position: [88, 18, 30], target: [105, 2, -3] },
         hamlet: { position: [62, 14, 73], target: [79, 2, 52] },

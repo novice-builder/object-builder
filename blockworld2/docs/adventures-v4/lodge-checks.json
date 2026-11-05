@@ -1,0 +1,163 @@
+{
+  "checks": [
+    {
+      "name": "fresh vale opts into lodge layout 4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "closed door stops actual walking at the threshold",
+      "passed": true,
+      "detail": {
+        "x": 128,
+        "z": -38.23823278833222
+      }
+    },
+    {
+      "name": "door has a real contextual action",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "context action animates hinged door and removes closed gate",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "walk through actual opening onto supported furnished floor",
+      "passed": true,
+      "detail": {
+        "x": 128,
+        "z": -43.07144679122379,
+        "y": 0.06,
+        "roof": false
+      }
+    },
+    {
+      "name": "eight interior orbit directions retain a usable player view",
+      "passed": true,
+      "detail": [
+        {
+          "yaw": 0,
+          "visible": true,
+          "distance": 12.984943326102478
+        },
+        {
+          "yaw": 0.7853981633974483,
+          "visible": true,
+          "distance": 12.984943326102474
+        },
+        {
+          "yaw": 1.5707963267948966,
+          "visible": true,
+          "distance": 12.984943326102481
+        },
+        {
+          "yaw": 2.356194490192345,
+          "visible": true,
+          "distance": 12.984943326102474
+        },
+        {
+          "yaw": 3.141592653589793,
+          "visible": true,
+          "distance": 12.984943326102478
+        },
+        {
+          "yaw": 3.9269908169872414,
+          "visible": true,
+          "distance": 12.984943326102474
+        },
+        {
+          "yaw": 4.71238898038469,
+          "visible": true,
+          "distance": 12.984943326102481
+        },
+        {
+          "yaw": 5.497787143782138,
+          "visible": true,
+          "distance": 12.984943326102481
+        }
+      ]
+    },
+    {
+      "name": "furniture creates real local obstacles",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "closing refuses player in the doorway/sweep",
+      "passed": true,
+      "detail": {
+        "error": "Step away from the doorway to move the door",
+        "unchanged": true
+      }
+    },
+    {
+      "name": "reload retains interior pose and open door state",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "can leave the room through the same open door",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "close action restores closed collision",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "new lodge destination exists on actual map",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "lodge map arrival is clear outside the entrance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone interior drawing buffer contains rendered geometry",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "phone actual follow camera is finite and above the floor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet interior drawing buffer contains rendered geometry",
+      "passed": true,
+      "detail": 8
+    },
+    {
+      "name": "tablet actual follow camera is finite and above the floor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no lodge runtime errors or missing assets",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "missing": []
+      }
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader; no physical-device/Safari claim",
+  "interiorCost": {
+    "fps": 3,
+    "frameP95Ms": 666.7,
+    "drawCalls": 51,
+    "triangles": 110977,
+    "geometries": 64,
+    "textures": 11,
+    "pixelRatio": 1,
+    "scene": "vale",
+    "natureInstances": 4399,
+    "objects": 0,
+    "quality": "gentle"
+  }
+}

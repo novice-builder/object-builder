@@ -1,8 +1,8 @@
 import * as T from "three";
 import { valeGround, valeWalk, valeWater } from "./vale-data";
 import { trailGeometry } from "./trail-geometry";
-export type SceneLayout = 1 | 2 | 3;
-export const LATEST_LAYOUT: SceneLayout = 3;
+export type SceneLayout = 1 | 2 | 3 | 4;
+export const LATEST_LAYOUT: SceneLayout = 4;
 import { AssetLibrary, DEFINITIONS } from "./assets";
 export type RegionId = "village" | "woodland" | "meadow";
 export type SceneId = RegionId | "vale";
@@ -20,8 +20,10 @@ export interface Landmark {
   x: number;
   z: number;
   description: string;
+  action?: "door";
 }
 export interface Obstacle {
+  base?: number;
   minX: number;
   maxX: number;
   minZ: number;
@@ -82,8 +84,13 @@ export function groundHeight(x: number, z: number, scene: SceneId) {
     h -= Math.max(0, 1 - Math.abs(x - riverX(z)) / 5) * 1.65;
   return h;
 }
-export function walkHeight(x: number, z: number, scene: SceneId) {
-  if (scene === "vale") return valeWalk(x, z);
+export function walkHeight(
+  x: number,
+  z: number,
+  scene: SceneId,
+  layout: SceneLayout = 1,
+) {
+  if (scene === "vale") return valeWalk(x, z, layout);
   if (
     scene !== "meadow" &&
     Math.abs(z - 8) < 2.1 &&

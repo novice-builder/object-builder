@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "identicalDerivedModels": [
+    "Wall_Plaster_Door_Flat.glb",
+    "Floor_WoodDark.glb",
+    "Wall_Plaster_Straight.glb",
+    "Roof_Front_Brick4.glb",
+    "Door_4_Flat.glb",
+    "Roof_RoundTiles_4x6.glb"
+  ],
+  "newBytes": 286496,
+  "newModelCount": 11
+}

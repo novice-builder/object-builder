@@ -1,0 +1,20 @@
+{
+  "checks": [
+    {
+      "name": "layout-3 vale retains all geometry/paths/colliders/landmarks and site construction",
+      "passed": true
+    },
+    {
+      "name": "old vale import has no lodge or altered floor",
+      "passed": true
+    },
+    {
+      "name": "fresh layout-4 vale is a separate record with actual lodge",
+      "passed": true
+    },
+    {
+      "name": "new map footprint includes actual lodge roof bounds",
+      "passed": true
+    }
+  ]
+}

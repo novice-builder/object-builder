@@ -1,4 +1,5 @@
 import * as T from "three";
+import { Lodge } from "./lodge";
 import { fogVisible } from "./nature-batch";
 import { AssetLibrary } from "./assets";
 import {
@@ -61,7 +62,9 @@ export const CONNECTING_ROADS = [
 ];
 export class ConnectedLandscape {
   readonly id = "vale";
-  readonly layout = 3;
+  lodge?: Lodge;
+  mapBuildings: Obstacle[] = [];
+  private permanent: Obstacle[] = [];
   group = new T.Group();
   obstacles: Obstacle[] = [];
   landmarks: Landmark[] = [];
@@ -72,7 +75,11 @@ export class ConnectedLandscape {
   private visibility: { mesh: T.Mesh; sphere: T.Sphere }[] = [];
   private geometry: T.BufferGeometry[] = [];
   private materials: T.Material[] = [];
-  constructor(readonly library: AssetLibrary) {
+  constructor(
+    readonly library: AssetLibrary,
+    readonly layout: 3 | 4 = 3,
+    doorOpen = false,
+  ) {
     this.terrain();
     for (const r of VALE_REGIONS) {
       const land = new Landscape(library, r.id, 3, {
@@ -118,10 +125,54 @@ export class ConnectedLandscape {
       this.mesh(trailGeometry(points, path.width, valeWalk), road);
     }
     this.settlements();
+    if (layout >= 4) {
+      this.lodge = new Lodge(library, doorOpen);
+      this.group.add(this.lodge.group);
+      const bounds = new T.Box3().setFromObject(this.lodge.group);
+      this.mapBuildings.push({
+        minX: bounds.min.x,
+        maxX: bounds.max.x,
+        minZ: bounds.min.z,
+        maxZ: bounds.max.z,
+        height: bounds.max.y,
+        name: "building_lodge",
+      });
+      this.obstacles.push(
+        ...this.lodge.walls,
+        ...this.lodge.furniture,
+        this.lodge.doorBody(),
+      );
+      this.landmarks.push(...this.lodge.landmarks);
+      // Reserve the actual interior/entrance against scenery and player placement.
+      this.obstacles.push({
+        minX: 124.4,
+        maxX: 131.6,
+        minZ: -45.6,
+        maxZ: -38.4,
+        height: 0,
+        name: "lodge-reserve",
+      });
+      const path = {
+        points: smoothTrail([
+          [119, -11],
+          [125, -19],
+          [128, -28],
+          [128, -38.4],
+        ]),
+        width: 2.2,
+      };
+      this.paths.push(path);
+      this.mesh(
+        trailGeometry(path.points, path.width, valeWalk),
+        this.regions[0].trailSurface,
+      );
+    }
     this.populate();
+    this.obstacles = this.obstacles.filter((o) => o.name !== "lodge-reserve");
+    this.permanent = this.obstacles.filter((o) => o.name !== "lodge-door");
     this.group.updateMatrixWorld(true);
     this.group.traverse((o) => {
-      if (!(o instanceof T.Mesh)) return;
+      if (!(o instanceof T.Mesh) || o.userData.dynamic) return;
       let sphere: T.Sphere;
       if (o instanceof T.InstancedMesh) {
         o.computeBoundingSphere();
@@ -387,12 +438,19 @@ export class ConnectedLandscape {
       });
     }
   }
+  updateLodge(dt: number, player: { x: number; z: number }) {
+    if (!this.lodge) return false;
+    const changed = this.lodge.update(dt, player);
+    if (changed) this.obstacles = [...this.permanent, this.lodge.doorBody()];
+    return changed;
+  }
   updateVisibility(camera: T.Vector3, far: number) {
     for (const { mesh, sphere } of this.visibility)
       mesh.visible = fogVisible(sphere.center, sphere.radius, camera, far);
   }
   dispose() {
     this.group.removeFromParent();
+    this.lodge?.dispose();
     for (const r of this.regions) r.dispose();
     this.group.traverse((o) => {
       if (o instanceof T.InstancedMesh) o.dispose();

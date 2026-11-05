@@ -16,6 +16,7 @@ export interface AdventureData {
   layout?: SceneLayout;
   objects: Placement[];
   discoveries: string[];
+  doors?: { lodge?: boolean };
 }
 export interface AdventurePose {
   x: number;
@@ -32,9 +33,17 @@ export function validateAdventure(s: Snapshot): AdventureData {
     (a.layout !== undefined &&
       a.layout !== 1 &&
       a.layout !== 2 &&
-      a.layout !== 3) ||
+      a.layout !== 3 &&
+      a.layout !== 4) ||
     !WORLDS.some((w) => w.id === a.scene) ||
-    (a.scene === "vale" && a.layout !== 3) ||
+    (a.scene === "vale" && a.layout !== 3 && a.layout !== 4) ||
+    (a.doors !== undefined &&
+      (!a.doors ||
+        typeof a.doors !== "object" ||
+        Array.isArray(a.doors) ||
+        Object.entries(a.doors).some(
+          ([k, v]) => k !== "lodge" || typeof v !== "boolean",
+        ))) ||
     !Array.isArray(a.objects) ||
     a.objects.length > 200 ||
     !Array.isArray(a.discoveries) ||
@@ -112,7 +121,7 @@ export class AdventureSession {
           {
             version: 1,
             scene: w.id,
-            layout: LATEST_LAYOUT,
+            layout: w.id === "vale" ? LATEST_LAYOUT : 3,
             objects: [],
             discoveries: [],
           },
@@ -182,7 +191,7 @@ export class AdventureSession {
         {
           version: 1,
           scene,
-          layout: LATEST_LAYOUT,
+          layout: w.id === "vale" ? LATEST_LAYOUT : 3,
           objects: [],
           discoveries: [],
         },

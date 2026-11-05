@@ -17,7 +17,11 @@ export function rayBoxDistance(
     const p = axis === 0 ? origin.x : axis === 1 ? origin.y : origin.z;
     const d = axis === 0 ? direction.x : axis === 1 ? direction.y : direction.z;
     const min =
-      axis === 0 ? body.minX - padding : axis === 1 ? -3 : body.minZ - padding;
+      axis === 0
+        ? body.minX - padding
+        : axis === 1
+          ? (body.base ?? -3)
+          : body.minZ - padding;
     const max =
       axis === 0
         ? body.maxX + padding

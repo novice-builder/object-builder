@@ -1,0 +1,104 @@
+{
+  "derivedModularProcessing": "Original authored geometry/buffers retained; textures removed and materials replaced by coherent flat linear-colour palette. No source geometry decimation. Kenney furniture copied unchanged.",
+  "assets": [
+    {
+      "id": "Door_4_Flat",
+      "path": "modular/Door_4_Flat.glb",
+      "source": "quaternius-medieval-standard-free",
+      "licence": "CC0-1.0",
+      "bytes": 70508,
+      "sha256": "5c175d765d53f9fc961ba92a4f956b84bcef89f3a9590b28cb44d8d6280570bf",
+      "triangles": 1044
+    },
+    {
+      "id": "Floor_WoodDark",
+      "path": "modular/Floor_WoodDark.glb",
+      "source": "quaternius-medieval-standard-free",
+      "licence": "CC0-1.0",
+      "bytes": 3344,
+      "sha256": "a19c9c690f8ad9153a5648074208ace4cc70b9b9663f9ab05280ee2d56b188c5",
+      "triangles": 32
+    },
+    {
+      "id": "Roof_Front_Brick4",
+      "path": "modular/Roof_Front_Brick4.glb",
+      "source": "quaternius-medieval-standard-free",
+      "licence": "CC0-1.0",
+      "bytes": 15328,
+      "sha256": "bfb34562c7aeefcf30a6bdb338f4743227ec2cd2b93da90c5d6cbfd6fff67de1",
+      "triangles": 252
+    },
+    {
+      "id": "Roof_RoundTiles_4x6",
+      "path": "modular/Roof_RoundTiles_4x6.glb",
+      "source": "quaternius-medieval-standard-free",
+      "licence": "CC0-1.0",
+      "bytes": 132200,
+      "sha256": "c304a617e2f79d086f6afa26d8b666ba4f301ab989877f849424e158ef6ee67d",
+      "triangles": 2520
+    },
+    {
+      "id": "Wall_Plaster_Door_Flat",
+      "path": "modular/Wall_Plaster_Door_Flat.glb",
+      "source": "quaternius-medieval-standard-free",
+      "licence": "CC0-1.0",
+      "bytes": 9972,
+      "sha256": "2b2f979f177daa8b531c3935d653d9e93e295b28eaff1caf791ffc68e7fa7ace",
+      "triangles": 92
+    },
+    {
+      "id": "Wall_Plaster_Straight",
+      "path": "modular/Wall_Plaster_Straight.glb",
+      "source": "quaternius-medieval-standard-free",
+      "licence": "CC0-1.0",
+      "bytes": 8120,
+      "sha256": "056154335b2e3a1c2bbb9973209cad173b57788976da6511403e6cef0968eb86",
+      "triangles": 86
+    },
+    {
+      "id": "bookcaseopen",
+      "path": "furniture/bookcaseopen.glb",
+      "source": "kenney-furniture",
+      "licence": "CC0-1.0",
+      "bytes": 18020,
+      "sha256": "750702218d68c062b15dfef6ab06a4014d1cfa8bd05f02e57c53b7e13bec157c",
+      "triangles": 320
+    },
+    {
+      "id": "books",
+      "path": "furniture/books.glb",
+      "source": "kenney-furniture",
+      "licence": "CC0-1.0",
+      "bytes": 6864,
+      "sha256": "b8dc56e5d29f6fc1f4727fccb1b9642627fee9942c48060a00034e98df02701c",
+      "triangles": 62
+    },
+    {
+      "id": "chair",
+      "path": "furniture/chair.glb",
+      "source": "kenney-furniture",
+      "licence": "CC0-1.0",
+      "bytes": 10756,
+      "sha256": "c8a11eec93e89e31250ba91afc1b8d56c3bec7ae86640fd1239f595ff4180883",
+      "triangles": 170
+    },
+    {
+      "id": "rugrectangle",
+      "path": "furniture/rugrectangle.glb",
+      "source": "kenney-furniture",
+      "licence": "CC0-1.0",
+      "bytes": 3188,
+      "sha256": "a989d2d59c04e3071e0c90388b113a9a8f339ce1814ef984c51cb6dcd7c8e0eb",
+      "triangles": 28
+    },
+    {
+      "id": "table",
+      "path": "furniture/table.glb",
+      "source": "kenney-furniture",
+      "licence": "CC0-1.0",
+      "bytes": 8196,
+      "sha256": "ff1a94498d023957f4bc3ff6f55a7a82977d336dbf01a573b3364f03afe5ff61",
+      "triangles": 120
+    }
+  ]
+}
