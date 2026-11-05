@@ -1,0 +1,39 @@
+
+> blockworld2@0.1.0 test:adventures
+> node --import tsx --test tests/adventures*.test.ts
+
+✔ camera rays handle parallel, inside, behind and zero-length cases (0.956033ms)
+✔ allocation-free ray distances agree with the established Three.js box intersection (2.921291ms)
+✔ collision views reuse footprints until an edit and exclude only the moving object (0.882131ms)
+✔ a close-wall camera stays in front of the wall rather than enforcing an unsafe minimum radius (0.175135ms)
+✔ every offered catalogue asset has a real, current PNG render matching its licensed source (3.500294ms)
+✔ control preferences survive a reload in their own key (1.21212ms)
+✔ invalid preferences and denied browser storage fall back without blocking play (0.321865ms)
+✔ late edits during delayed world read preserve ownership (15.468301ms)
+✔ quota failure aborts switching and retains source; recovery creates a new record (8.073478ms)
+✔ invalid import creates no records; valid import always creates a separate copy (3.738855ms)
+✔ stale tab conflicts retain the newer checkpoint (2.087111ms)
+✔ water, bridge and footprint boundaries allow safe crossing (0.639175ms)
+✔ LAN HTTP UUID fallback retains RFC4122 version/variant and avoids collisions (2.669049ms)
+✔ preview 01 records retain their original layout while fresh records use the new scene (3.896031ms)
+✔ fresh copies receive distinct names without renaming old worlds (1.705705ms)
+✔ continuous trail has finite terrain following vertices and upward faces (3.982752ms)
+✔ bridge crossing ribbon stops at both deck ends (0.38404ms)
+✔ soft woodland loop stays on dry ground with close, continuous samples (3.230847ms)
+✔ closed woodland-edge trail joins without duplicate zero-length segments (0.53675ms)
+✔ connected world keeps legacy coordinates isolated and validates expanded bounds (1.23874ms)
+✔ both connected river bridges share terrain, water and walking coordinates (1.437811ms)
+✔ new connecting trails never cross water outside a bridge (5.22036ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1879.36045
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

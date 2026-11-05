@@ -1,9 +1,11 @@
 import * as T from "three";
+import { valeGround, valeWalk, valeWater } from "./vale-data";
 import { trailGeometry } from "./trail-geometry";
 export type SceneLayout = 1 | 2 | 3;
 export const LATEST_LAYOUT: SceneLayout = 3;
 import { AssetLibrary, DEFINITIONS } from "./assets";
-export type SceneId = "village" | "woodland" | "meadow";
+export type RegionId = "village" | "woodland" | "meadow";
+export type SceneId = RegionId | "vale";
 export interface Placement {
   id: string;
   asset: string;
@@ -28,6 +30,16 @@ export interface Obstacle {
   name?: string;
 }
 export const WORLDS = [
+  {
+    id: "vale" as SceneId,
+    name: "The Willow Vale",
+    tag: "A CONNECTED WORLD",
+    description:
+      "Willowmere lanes, whispering pines and a meadow of your own, connected by the old road.",
+    icon: "♧",
+    spawn: { x: -105, z: 18 },
+    yaw: 0,
+  },
   {
     id: "village" as SceneId,
     name: "Willowmere",
@@ -60,6 +72,7 @@ export const WORLDS = [
 export const riverX = (z: number) => 30 + Math.sin(z * 0.055) * 2.5;
 const clamp = T.MathUtils.clamp;
 export function groundHeight(x: number, z: number, scene: SceneId) {
+  if (scene === "vale") return valeGround(x, z);
   const edge = clamp((Math.hypot(x * 0.85, z) - 43) / 30, 0, 1);
   let h =
     edge *
@@ -70,6 +83,7 @@ export function groundHeight(x: number, z: number, scene: SceneId) {
   return h;
 }
 export function walkHeight(x: number, z: number, scene: SceneId) {
+  if (scene === "vale") return valeWalk(x, z);
   if (
     scene !== "meadow" &&
     Math.abs(z - 8) < 2.1 &&
@@ -79,6 +93,7 @@ export function walkHeight(x: number, z: number, scene: SceneId) {
   return groundHeight(x, z, scene);
 }
 export function waterBlocked(x: number, z: number, scene: SceneId) {
+  if (scene === "vale") return valeWater(x, z);
   return (
     scene !== "meadow" &&
     Math.abs(x - riverX(z)) < 2.65 &&
@@ -183,6 +198,13 @@ export function smoothTrail(points: number[][], spacing = 1.3) {
     .getSpacedPoints(Math.max(2, Math.ceil(curve.getLength() / spacing)))
     .map((p) => [p.x, p.z]);
 }
+export interface LandscapeOptions {
+  terrain?: boolean;
+  populate?: boolean;
+  ground?: (x: number, z: number) => number;
+  walk?: (x: number, z: number) => number;
+  fullSizeTents?: boolean;
+}
 export class Landscape {
   group = new T.Group();
   obstacles: Obstacle[] = [];
@@ -193,7 +215,7 @@ export class Landscape {
   private materials: T.Material[] = [];
   private ownedTextures: T.Texture[] = [];
   private buckets = new Map<string, { id: string; matrices: T.Matrix4[] }>();
-  private paths: { points: number[][]; width: number }[] = [];
+  paths: { points: number[][]; width: number }[] = [];
   private pathMaterial: T.MeshStandardMaterial;
   private trailMaterial: T.MeshStandardMaterial;
   private assetRoots: T.Object3D[] = [];
@@ -201,6 +223,7 @@ export class Landscape {
     readonly library: AssetLibrary,
     readonly id: SceneId,
     readonly layout: SceneLayout = 1,
+    readonly options: LandscapeOptions = {},
   ) {
     seed = id === "village" ? 5678 : id === "woodland" ? 22111 : 9976;
     const texture = paving();
@@ -217,14 +240,23 @@ export class Landscape {
     this.trailMaterial = this.material(
       new T.MeshStandardMaterial({ map: earth, roughness: 1, color: 0xe2d8bb }),
     );
-    this.terrain();
+    if (options.terrain !== false) this.terrain();
     if (id === "village") this.village();
     else if (id === "woodland") this.woodland();
     else this.meadow();
-    this.surroundings();
+    if (options.populate !== false) this.surroundings();
     if (this.layout >= 2) this.plantedClearings();
     this.flushInstances();
     this.group.updateMatrixWorld(true);
+  }
+  get trailSurface() {
+    return this.trailMaterial;
+  }
+  private ground(x: number, z: number) {
+    return this.options.ground?.(x, z) ?? groundHeight(x, z, this.id);
+  }
+  private walk(x: number, z: number) {
+    return this.options.walk?.(x, z) ?? walkHeight(x, z, this.id);
   }
   private material<M extends T.Material>(m: M) {
     this.materials.push(m);
@@ -248,7 +280,7 @@ export class Landscape {
     for (let i = 0; i < pos.count; i++) {
       const x = pos.getX(i),
         z = pos.getZ(i),
-        h = groundHeight(x, z, this.id);
+        h = this.ground(x, z);
       const distant =
         this.layout >= 2
           ? Math.max(0, Math.hypot(x * 0.9, z) - 85) *
@@ -326,7 +358,7 @@ export class Landscape {
         trailGeometry(
           points,
           width,
-          (x, z) => walkHeight(x, z, this.id),
+          (x, z) => this.walk(x, z),
           this.id === "meadow" ? undefined : riverX(8),
         ),
         material,
@@ -378,7 +410,7 @@ export class Landscape {
         ]) {
           const x = a[0] + dx * t + nx * side,
             z = a[1] + dz * t + nz * side;
-          v.push(x, walkHeight(x, z, this.id) + 0.045, z);
+          v.push(x, this.walk(x, z) + 0.045, z);
           uv.push(((side + 1) * width) / 2, length + t * n);
         }
         ix.push(base, base + 1, base + 2, base, base + 2, base + 3);
@@ -394,13 +426,13 @@ export class Landscape {
       )
         continue;
       const start = v.length / 3;
-      v.push(x, walkHeight(x, z, this.id) + 0.049, z);
+      v.push(x, this.walk(x, z) + 0.049, z);
       uv.push(x, z);
       for (let i = 0; i <= 20; i++) {
         const a = (i / 20) * Math.PI * 2,
           px = x + (Math.sin(a) * width) / 2,
           pz = z + (Math.cos(a) * width) / 2;
-        v.push(px, walkHeight(px, pz, this.id) + 0.049, pz);
+        v.push(px, this.walk(px, pz) + 0.049, pz);
         uv.push(px, pz);
         if (i < 20) ix.push(start, start + i + 1, start + i + 2);
       }
@@ -426,7 +458,7 @@ export class Landscape {
         : this.material(new T.MeshStandardMaterial({ color, roughness: 1 })),
     );
     mesh.rotation.x = -Math.PI / 2;
-    mesh.position.set(x, groundHeight(x, z, this.id) + 0.055, z);
+    mesh.position.set(x, this.ground(x, z) + 0.055, z);
     return mesh;
   }
   place(
@@ -438,8 +470,12 @@ export class Landscape {
     solid = false,
     y?: number,
   ) {
+    if (id === "tent-smallopen" && this.options.fullSizeTents) {
+      scale = 5.5;
+      yaw += Math.PI;
+    }
     const root = this.library.create(id, scale);
-    root.position.set(x, y ?? walkHeight(x, z, this.id), z);
+    root.position.set(x, y ?? this.walk(x, z), z);
     root.rotation.y = yaw;
     this.group.add(root);
     this.assetRoots.push(root);
@@ -470,7 +506,7 @@ export class Landscape {
     let b = this.buckets.get(key);
     if (!b) this.buckets.set(key, (b = { id, matrices: [] }));
     const matrix = new T.Matrix4().compose(
-      new T.Vector3(x, y ?? groundHeight(x, z, this.id), z),
+      new T.Vector3(x, y ?? this.ground(x, z), z),
       new T.Quaternion().setFromAxisAngle(new T.Vector3(0, 1, 0), yaw),
       new T.Vector3(scale, scale, scale),
     );

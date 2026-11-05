@@ -1,3 +1,4 @@
+import { inWorld } from "./vale-data";
 import { WorldStore, type WorldRecord } from "../persistence/store";
 import { type Snapshot, encode, decode } from "../persistence/schema";
 import { DEFINITIONS } from "./assets";
@@ -33,6 +34,7 @@ export function validateAdventure(s: Snapshot): AdventureData {
       a.layout !== 2 &&
       a.layout !== 3) ||
     !WORLDS.some((w) => w.id === a.scene) ||
+    (a.scene === "vale" && a.layout !== 3) ||
     !Array.isArray(a.objects) ||
     a.objects.length > 200 ||
     !Array.isArray(a.discoveries) ||
@@ -51,15 +53,14 @@ export function validateAdventure(s: Snapshot): AdventureData {
       ids.has(o.id) ||
       !DEFINITIONS.has(o.asset) ||
       ![o.x, o.z, o.yaw, o.scale].every(Number.isFinite) ||
-      Math.abs(o.x) > 84 ||
-      Math.abs(o.z) > 84 ||
+      !inWorld(o.x, o.z, a.scene, -0.001) ||
       o.scale < 0.2 ||
       o.scale > 14
     )
       throw Error("Invalid imported object. Existing saves are unchanged.");
     ids.add(o.id);
   }
-  if (Math.abs(s.player.x) > 84 || Math.abs(s.player.z) > 84)
+  if (!inWorld(s.player.x, s.player.z, a.scene, -0.001))
     throw Error("Player outside the preview boundary.");
   return { ...structuredClone(a), layout: a.layout ?? 1 };
 }

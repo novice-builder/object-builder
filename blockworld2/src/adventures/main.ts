@@ -12,6 +12,8 @@ import {
   type Landmark,
   type Obstacle,
 } from "./landscape";
+import { ConnectedLandscape } from "./connected-landscape";
+import { inWorld } from "./vale-data";
 import { AdventureControls } from "./controls";
 import {
   AdventureSession,
@@ -51,7 +53,7 @@ class AdventureGame {
   scene = new T.Scene();
   camera = new T.PerspectiveCamera(48, innerWidth / innerHeight, 0.12, 220);
   renderer: T.WebGLRenderer;
-  landscape!: Landscape;
+  landscape!: Landscape | ConnectedLandscape;
   controls: AdventureControls;
   session: AdventureSession;
   data: AdventureData = {
@@ -303,7 +305,10 @@ class AdventureGame {
   }
   apply(snapshot: Snapshot) {
     const data = validateAdventure(snapshot),
-      candidate = new Landscape(this.library, data.scene, data.layout);
+      candidate =
+        data.scene === "vale"
+          ? new ConnectedLandscape(this.library)
+          : new Landscape(this.library, data.scene, data.layout);
     // Prepare a complete replacement before retiring the old scene.
     const previous = this.landscape;
     this.landscape = candidate;
@@ -340,8 +345,7 @@ class AdventureGame {
     const safe = (x: number, z: number) =>
       !blocked(x, z, this.obstacles()) &&
       !waterBlocked(x, z, this.data.scene) &&
-      Math.abs(x) < 84 &&
-      Math.abs(z) < 84;
+      inWorld(x, z, this.data.scene);
     if (safe(this.player.x, this.player.z)) return;
     const origin = { x: this.player.x, z: this.player.z };
     for (let r = 0.5; r < 18; r += 0.5)
@@ -445,8 +449,7 @@ class AdventureGame {
       const dx = this.velocity.x * step,
         dz = this.velocity.y * step;
       const valid = (x: number, z: number) =>
-        Math.abs(x) < 84 &&
-        Math.abs(z) < 84 &&
+        inWorld(x, z, this.data.scene) &&
         !waterBlocked(x, z, this.data.scene) &&
         !blocked(x, z, obs) &&
         Math.abs(walkHeight(x, z, this.data.scene) - this.player.y) < 0.5;
@@ -613,7 +616,7 @@ class AdventureGame {
       document.body.classList.add("playing");
       $("welcome").hidden = true;
       $("view").focus();
-      this.toast("Welcome to Willowmere. The world is yours to wander.");
+      this.toast("The world is yours to wander. Follow the old road.");
     };
     $("places").onclick = () => void this.places();
     $("menu").onclick = () => this.menu();
@@ -697,9 +700,18 @@ class AdventureGame {
         (a, b) => b.updated - a.updated,
       );
       this.openModal(
-        `<div class="eyebrow">TAKE THE LONG WAY HOME</div><h1 id="modalTitle">Where shall we go?</h1><p>Three places. Three ways to spend a little time.</p><div class="placeCards">${WORLDS.map((w) => `<button class="placeCard ${w.id}" data-scene="${w.id}"><span class="sceneIcon">${w.icon}</span><small>${w.tag}</small><strong>${w.name}</strong><span>${w.description}</span><b>Explore →</b></button>`).join("")}</div><div class="savedWorlds"><h2>Your saved adventures</h2><div id="savedRows"></div></div><details class="newPlaces"><summary>Start a fresh place</summary><p>Your saved adventures stay here. Fresh places use the latest scenery.</p><div id="newPlaceButtons"></div></details><p class="finePrint">Every place has its own save. Original BlockWorld worlds remain in the original game.</p>`,
+        `<div class="eyebrow">TAKE THE LONG WAY HOME</div><h1 id="modalTitle">Where shall we go?</h1><p>One valley. Take the old road from village to forest and meadow.</p><div class="placeCards">${WORLDS.filter(
+          (w) => w.id === "vale",
+        )
+          .map(
+            (w) =>
+              `<button class="placeCard ${w.id}" data-scene="${w.id}"><span class="sceneIcon">${w.icon}</span><small>${w.tag}</small><strong>${w.name}</strong><span>${w.description}</span><b>Explore →</b></button>`,
+          )
+          .join(
+            "",
+          )}</div><div class="savedWorlds"><h2>Your saved worlds & earlier previews</h2><div id="savedRows"></div></div><details class="newPlaces"><summary>Start a fresh place</summary><p>Your saved worlds & earlier previews stay here. Fresh places use the latest scenery.</p><div id="newPlaceButtons"></div></details><p class="finePrint">Earlier independent places keep their original scenery and saves. Original BlockWorld worlds remain in the original game.</p>`,
       );
-      for (const w of WORLDS) {
+      for (const w of WORLDS.filter((w) => w.id === "vale")) {
         const button = $("modal").querySelector<HTMLButtonElement>(
           `[data-scene="${w.id}"]`,
         )!;
@@ -721,7 +733,7 @@ class AdventureGame {
           })().catch((e) => this.toast(String(e)));
         };
       }
-      for (const w of WORLDS) {
+      for (const w of WORLDS.filter((w) => w.id === "vale")) {
         const fresh = document.createElement("button");
         fresh.textContent = "New " + w.name;
         fresh.dataset.newScene = w.id;
@@ -952,7 +964,7 @@ class AdventureGame {
     this.validateGhost();
   }
   private placementProblem(p: Placement, root: T.Object3D) {
-    if (Math.abs(p.x) > 80 || Math.abs(p.z) > 80)
+    if (!inWorld(p.x, p.z, this.data.scene, 4))
       return "Keep inside the explored landscape";
     if (waterBlocked(p.x, p.z, this.data.scene)) return "Keep the water clear";
     if (
@@ -1168,6 +1180,25 @@ class AdventureGame {
         target: [this.player.x, 1.5, this.player.z - 2],
       },
     };
+    if (this.data.scene === "vale") {
+      for (const key of [
+        "centre",
+        "street",
+        "entrance",
+        "overview",
+        "bridge",
+      ]) {
+        views[key].position[0] -= 105;
+        views[key].target[0] -= 105;
+      }
+      Object.assign(views, {
+        woodland: { position: [-17, 18, 30], target: [0, 2, -3] },
+        meadow: { position: [88, 18, 30], target: [105, 2, -3] },
+        hamlet: { position: [62, 14, 73], target: [79, 2, 52] },
+        road: { position: [-57, 6, 30], target: [-37, 1, 13] },
+        campScale: { position: [-5, 4, -10], target: [-9, 1.5, -17] },
+      });
+    }
     const v = views[name] || views.centre;
     this.debugCamera = true;
     this.camera.position.fromArray(v.position);
