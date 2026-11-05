@@ -37,3 +37,20 @@ The clean 8f0c146 preflight produced two identical 13-file website builds and id
 Review then found that the new 16 m hangar portal needed wider local collision queries than the inherited small-door distance. Query radii now include actual leaf width for walking/vehicles and automatic obstruction sweeps. The thresholds for all older narrow doors remain unchanged. A new touch-browser regression passes off-centre closed-door walking and an obstruction near the far edge of the open leaf. Its first fixture used a prohibited fractional horizontal anchor; changed to an integer cell. Airport/history/flight and standalone HTTP gameplay also passed during this correction.
 
 Preflight package browser run: five passed, one file-policy skip, one standalone button-stability timeout. The same standalone scenario passed with trace recording on its next run; no forced click, disabled check, timeout increase or unsupported local-file claim was used. This transient software-browser result is retained in qa/run3/preflight-package-browser.txt. A fresh complete regression follows the wide-door source checkpoint; results below supersede preflight totals.
+
+## Final recommended packages — complete
+
+Clean source **bf51e71b3b5849d08773bb9a8c3172de83646a1f**, build **7bc2f55223fd5688**. The final complete `npm run check` passed **107/107 deterministic cases**, strict TypeScript, all protection/provenance checks and production website/standalone generation. The final complete browser invocation passed **43 scenarios, zero failures, one explicit file-policy skip** (44 total). This includes the new hangar-edge regression, corrected passenger-history fixture, single-file HTTP touch gameplay/backup flows, offline readiness/update/recovery, native and legacy save compatibility, stale-tab recovery, vehicle/riding/companion interactions and compact layouts. Earlier failed/preflight logs remain historical evidence, not the final outcome.
+
+Raw final evidence is in qa/run3/final-check.txt and final-browser.txt. A second clean build produced byte-identical website files (13) and standalone HTML; qa/run3/final-repro-build.txt records that build. ZIP entries match the tested dist files exactly, and the standalone embeds exactly the ZIP's compiled JS/CSS. Source/build identifiers, all release-manifest SHA-256 hashes, ZIP CRC and companion checksums passed; final-integrity.json records results and expected Git blob IDs for independent remote verification.
+
+Final recommended downloads in artifacts/run3:
+
+| File | Bytes | SHA-256 |
+| --- | ---: | --- |
+| BlockWorld_2_Run3_Website.zip | 249388 | 4993170c02c8260166292e905e9105057a879ae598de7f34a85676a9174feaa6 |
+| BlockWorld_2_Run3_Standalone.html | 845411 | 2369787c6ff50b699544611677760410ac61d00904aba6107570d59fb705595d |
+
+All three Run 3 archive folders pass their checksums; initial/preflight bytes remain unchanged. All repository changes are within blockworld2/. The final downloadable package contains only application files, credits, version identity and instructions, with no player saves or credentials. Main/original releases/workers/Pages and previous branch heads remain protected. Nothing was deployed or merged.
+
+Remaining qualification: physical Lenovo Android and iPhone/Safari, actual file-download launch/storage and browser eviction/background behavior. The skipped file-policy scenario is not a passing standalone file-origin result. No hardware FPS/thermal/memory or actual aircraft-piloting claim is made. See CONTINUE-RUN3.md for exact next work.

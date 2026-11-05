@@ -1,0 +1,29 @@
+
+> blockworld2@0.1.0 build
+> npm run typecheck && npm run preserve && vite build && node tools/release.mjs && node tools/standalone.mjs
+
+
+> blockworld2@0.1.0 typecheck
+> tsc --noEmit
+
+
+> blockworld2@0.1.0 preserve
+> node tools/preserve.mjs
+
+PASS: 49 existing files match 1ffd35ed971afa7820734cf10a3287ab546f6306; 6 historical archive files intact; package-only changes
+vite v6.4.1 building for production...
+transforming...
+✓ 68 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.67 kB │ gzip:   0.39 kB
+dist/assets/index-DBHtCfBU.css    8.35 kB │ gzip:   2.41 kB
+dist/assets/index-DT6QJsQQ.js   698.00 kB │ gzip: 199.88 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.00s
+Isolated offline build 7bc2f55223fd5688 — not deployed
+Standalone HTML built from the same bundle — not published 845411 bytes

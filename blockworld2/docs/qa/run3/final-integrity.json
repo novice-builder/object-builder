@@ -1,0 +1,46 @@
+{
+  "source": "bf51e71b3b5849d08773bb9a8c3172de83646a1f",
+  "build": "7bc2f55223fd5688",
+  "checksumsAllThreeRun3Folders": true,
+  "zipCrcAndAssetHashes": true,
+  "sameInlineCodeAndCss": true,
+  "protectedInitialAndPreflightUnchanged": true,
+  "packageOnlyChanges": true,
+  "files": [
+    {
+      "path": "blockworld2/artifacts/run3/BUILD.json",
+      "sha": "1d6b284eb114d484e0c031abf8c96a5f6adfb99d",
+      "bytes": 735
+    },
+    {
+      "path": "blockworld2/artifacts/run3/BlockWorld_2_Run3_Standalone.html",
+      "sha": "a0cf6b2e0af1bbf2ca5a70835b3a41c55bd6738d",
+      "bytes": 845411
+    },
+    {
+      "path": "blockworld2/artifacts/run3/BlockWorld_2_Run3_Website.zip",
+      "sha": "4289fd0ef18d28a0918c2a0d477c2d2ab414cebf",
+      "bytes": 249388
+    },
+    {
+      "path": "blockworld2/artifacts/run3/CHECKSUMS.sha256",
+      "sha": "c535ed14ddf5679cd944175ed8f0fdcc62ad542b",
+      "bytes": 349
+    },
+    {
+      "path": "blockworld2/artifacts/run3/README.md",
+      "sha": "f70af7d0f254199ac0d74ef72f99b573f7889326",
+      "bytes": 1288
+    }
+  ],
+  "packages": {
+    "BlockWorld_2_Run3_Website.zip": {
+      "bytes": 249388,
+      "sha256": "4993170c02c8260166292e905e9105057a879ae598de7f34a85676a9174feaa6"
+    },
+    "BlockWorld_2_Run3_Standalone.html": {
+      "bytes": 845411,
+      "sha256": "2369787c6ff50b699544611677760410ac61d00904aba6107570d59fb705595d"
+    }
+  }
+}
