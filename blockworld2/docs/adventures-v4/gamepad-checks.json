@@ -1,0 +1,135 @@
+{
+  "checks": [
+    {
+      "name": "standard controller connects neutrally",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "left stick drives shared character movement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "right stick uses existing camera orbit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "left-stick click toggles persisted Run control",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Menu button opens accessible menu",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "menu polls input without submitting hidden 3D frames",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "controller mapping help is available",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "B cancels dialog and returns movement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "View button opens world map",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "sticks pan and zoom map without moving the player",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "D-pad reaches landmark chooser",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "D-pad changes landmark without immediate teleport",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "A confirms selected safe map travel in same save",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "X opens model catalogue",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "D-pad navigates actual catalogue thumbnails",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "A selects model for placement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "right bumper rotates placement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "A confirms valid placed object",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "disconnect immediately releases motion",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "touch fallback remains usable after disconnect",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "denied Gamepad API safely falls back",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Space activates focused touch button exactly once",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Enter activates focused button without duplicate gameplay action",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "connection event gates already-held axes and A",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "disconnect event releases state before next frame",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "gamepad integration has no runtime errors",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium with injected standard-mapping Gamepad API snapshots. No physical controller, Bluetooth, Lenovo, iPhone or Safari test."
+}

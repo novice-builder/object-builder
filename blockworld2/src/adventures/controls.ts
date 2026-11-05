@@ -1,4 +1,6 @@
+import { GamepadInput, type PadSnapshot } from "./gamepad";
 export class AdventureControls {
+  gamepad = new GamepadInput();
   keys = new Set<string>();
   stick = { x: 0, y: 0 };
   running = false;
@@ -14,6 +16,14 @@ export class AdventureControls {
     readonly zoom: (delta: number) => void,
     readonly tap: (x: number, y: number) => void,
     readonly action: (code: string) => void,
+    readonly padOverlay: (
+      x: number,
+      z: number,
+      lookX: number,
+      lookY: number,
+      dt: number,
+    ) => boolean = () => false,
+    readonly padStatus: (connected: boolean) => void = () => {},
   ) {
     const joystick = document.querySelector<HTMLElement>("#joystick")!,
       knob = document.querySelector<HTMLElement>("#knob")!;
@@ -122,7 +132,19 @@ export class AdventureControls {
       { passive: false },
     );
     canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+    addEventListener("gamepadconnected", () => this.gamepad.reset());
+    addEventListener("gamepaddisconnected", (e) => {
+      if (this.gamepad.index === e.gamepad.index) {
+        this.gamepad.sample([]);
+        this.padStatus(false);
+      }
+    });
     addEventListener("keydown", (e) => {
+      if (
+        (e.code === "Enter" || e.code === "Space") &&
+        (e.target as HTMLElement)?.closest("button,summary")
+      )
+        return;
       if ((e.target as HTMLElement)?.matches("input,textarea,select")) return;
       if (
         ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(
@@ -151,7 +173,25 @@ export class AdventureControls {
       }
     });
   }
+  pollGamepad(dt: number) {
+    let pads: readonly (PadSnapshot | null)[] = [];
+    try {
+      pads = navigator.getGamepads?.() || [];
+    } catch {}
+    const connected = this.gamepad.connected;
+    const s = this.gamepad.sample(
+      pads,
+      !document.hidden && document.hasFocus(),
+    );
+    if (connected !== this.gamepad.connected)
+      this.padStatus(this.gamepad.connected);
+    if (s.command) this.action(s.command);
+    if (this.padOverlay(s.x, s.z, s.lookX, s.lookY, dt)) return;
+    if (this.enabled() && (s.lookX || s.lookY))
+      this.look(s.lookX * dt * 420, s.lookY * dt * 320);
+  }
   clear() {
+    this.gamepad.reset();
     this.releaseStick();
     for (const id of this.pointers.keys())
       if (this.canvas.hasPointerCapture(id))
@@ -168,11 +208,13 @@ export class AdventureControls {
       x:
         (this.keys.has("KeyD") || this.keys.has("ArrowRight") ? 1 : 0) -
         (this.keys.has("KeyA") || this.keys.has("ArrowLeft") ? 1 : 0) +
-        this.stick.x,
+        this.stick.x +
+        this.gamepad.state.x,
       z:
         (this.keys.has("KeyS") || this.keys.has("ArrowDown") ? 1 : 0) -
         (this.keys.has("KeyW") || this.keys.has("ArrowUp") ? 1 : 0) +
-        this.stick.y,
+        this.stick.y +
+        this.gamepad.state.z,
       run:
         this.running ||
         this.keys.has("ShiftLeft") ||

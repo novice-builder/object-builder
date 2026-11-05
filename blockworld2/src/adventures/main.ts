@@ -191,6 +191,23 @@ class AdventureGame {
       },
       (x, y) => this.tap(x, y),
       (code) => this.key(code),
+      (x, z, lx, ly, dt) => {
+        if (this.worldMap?.open) {
+          this.worldMap.transform?.pan(-x * dt * 280, -z * dt * 280);
+          if (ly) this.worldMap.zoom(Math.exp(-ly * dt * 1.8));
+          else if (x || z) this.worldMap.drawFull();
+          return true;
+        }
+        return this.modalOpen;
+      },
+      (connected) => {
+        if (!connected) this.velocity.set(0, 0);
+        this.toast(
+          connected
+            ? "Controller connected. Controls are in the menu."
+            : "Controller disconnected. Touch and keyboard are ready.",
+        );
+      },
     );
     this.worldMap = new AdventureMap(
       $<HTMLCanvasElement>("miniCanvas"),
@@ -676,7 +693,8 @@ class AdventureGame {
       dt = Math.min(0.05, elapsed);
     this.last = time;
     if (!document.hidden) {
-      if (!this.worldMap.open) {
+      this.controls.pollGamepad(dt);
+      if (!this.modalOpen) {
         this.update(dt);
         this.cameraUpdate(dt);
         this.renderScene();
@@ -685,15 +703,20 @@ class AdventureGame {
         { x: this.player.x, z: this.player.z, yaw: this.actorYaw },
         time,
       );
-      this.fpsSamples.push(elapsed * 1000);
-      if (this.fpsSamples.length > 240) this.fpsSamples.shift();
-      this.frames++;
-      if (time - this.statsTime > 1000) {
-        this.fps = Math.round((this.frames * 1000) / (time - this.statsTime));
+      if (!this.modalOpen) {
+        this.fpsSamples.push(elapsed * 1000);
+        if (this.fpsSamples.length > 240) this.fpsSamples.shift();
+        this.frames++;
+        if (time - this.statsTime > 1000) {
+          this.fps = Math.round((this.frames * 1000) / (time - this.statsTime));
+          this.frames = 0;
+          this.statsTime = time;
+          if (!$("stats").hidden)
+            $("stats").textContent = JSON.stringify(this.stats(), null, 2);
+        }
+      } else {
         this.frames = 0;
         this.statsTime = time;
-        if (!$("stats").hidden)
-          $("stats").textContent = JSON.stringify(this.stats(), null, 2);
       }
       if (time - this.contextFrame > 120) {
         this.contextFrame = time;
@@ -784,6 +807,8 @@ class AdventureGame {
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(innerWidth, innerHeight);
     this.worldMap.resize();
+    if (this.started && !this.busy && this.modalOpen && !this.worldMap.open)
+      this.renderScene();
   }
   private bind() {
     $("minimap").onclick = () => this.openWorldMap();
@@ -852,6 +877,60 @@ class AdventureGame {
     $("editMove").onclick = () => this.moveSelected();
   }
   private key(code: string) {
+    if (this.busy) return;
+    if (!this.started) {
+      if (code === "Enter" && !$<HTMLButtonElement>("enter").disabled)
+        $("enter").click();
+      return;
+    }
+    if (code === "PadMenu") {
+      this.worldMap.open
+        ? this.closeWorldMap()
+        : this.modalOpen
+          ? this.closeModal()
+          : this.menu();
+      return;
+    }
+    if (code === "PadMap") {
+      this.worldMap.open ? this.closeWorldMap() : this.openWorldMap();
+      return;
+    }
+    if (code === "PadRun") {
+      if (this.enabled()) $("run").click();
+      return;
+    }
+    if (
+      code.startsWith("Pad") &&
+      ["PadUp", "PadDown", "PadLeft", "PadRight"].includes(code)
+    ) {
+      this.padFocus(code);
+      return;
+    }
+    if (code === "Enter") {
+      if (!this.started) {
+        if (!$<HTMLButtonElement>("enter").disabled) $("enter").click();
+        return;
+      }
+      const focused = document.activeElement as HTMLElement;
+      if (this.modalOpen || focused?.closest("#editBar")) {
+        if (focused instanceof HTMLSelectElement) {
+          if (focused.value)
+            focused.dispatchEvent(new Event("change", { bubbles: true }));
+        } else if (
+          (focused instanceof HTMLButtonElement ||
+            focused.tagName === "SUMMARY") &&
+          !(focused as HTMLButtonElement).disabled &&
+          !focused.hidden
+        )
+          focused.click();
+        return;
+      }
+      if (this.pending) this.confirmEdit();
+      else if (this.near) this.discover();
+      else if (this.selection) this.moveSelected();
+      else this.tap(innerWidth / 2, innerHeight / 2);
+      return;
+    }
     if (code === "Escape" && this.worldMap.open) {
       this.closeWorldMap();
       return;
@@ -870,8 +949,39 @@ class AdventureGame {
     if (code === "KeyE") this.discover();
     if (code === "KeyB") this.catalogue();
     if (code === "KeyR") $("editRotate").click();
-    if (code === "Enter") this.confirmEdit();
+
     if (code === "KeyZ") this.undo();
+  }
+  private padFocus(code: string) {
+    const root = this.worldMap.open
+      ? $("mapOverlay")
+      : this.modalOpen
+        ? $("modal")
+        : !$("editBar").hidden
+          ? $("editBar")
+          : null;
+    if (!root) return;
+    const focused = document.activeElement;
+    if (
+      focused instanceof HTMLSelectElement &&
+      (code === "PadLeft" || code === "PadRight")
+    ) {
+      const n = focused.options.length;
+      focused.selectedIndex =
+        (focused.selectedIndex + (code === "PadRight" ? 1 : -1) + n) % n;
+      return;
+    }
+    const items = [
+      ...root.querySelectorAll<HTMLElement>(
+        "button,select,input,textarea,summary",
+      ),
+    ].filter((e) => e.offsetParent !== null && !e.hasAttribute("disabled"));
+    if (!items.length) return;
+    const current = items.indexOf(focused as HTMLElement),
+      delta = code === "PadUp" || code === "PadLeft" ? -1 : 1;
+    items[
+      current < 0 ? 0 : (current + delta + items.length) % items.length
+    ].focus();
   }
   private openModal(content: string) {
     if (this.worldMap.open) this.closeWorldMap();
@@ -966,7 +1076,7 @@ class AdventureGame {
   }
   private menu() {
     this.openModal(
-      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview 04. The Meadow Lodge has an opening door and furnished room; original prefab houses remain closed. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
+      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick walks; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Run. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview 04. The Meadow Lodge has an opening door and furnished room; original prefab houses remain closed. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
     );
     $("resume").onclick = () => this.closeModal();
     $("home").onclick = () => {
@@ -1057,6 +1167,8 @@ class AdventureGame {
     this.sun.shadow.map = null;
     this.sun.shadow.needsUpdate = true;
     this.renderer.setSize(innerWidth, innerHeight);
+    if (this.started && !this.busy && this.modalOpen && !this.worldMap.open)
+      this.renderScene();
     this.storePreferences();
   }
   private catalogue() {

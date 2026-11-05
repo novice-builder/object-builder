@@ -1,0 +1,49 @@
+
+> blockworld2@0.1.0 test:adventures
+> node --import tsx --test tests/adventures*.test.ts
+
+✔ nature batching retains source bounds, triangle count and linear material colours (5.111198ms)
+✔ batching refuses textured or transparent materials rather than silently changing them (0.357389ms)
+✔ fog culling conservatively retains bounds crossing the visible range (0.137036ms)
+✔ camera rays handle parallel, inside, behind and zero-length cases (0.927178ms)
+✔ allocation-free ray distances agree with the established Three.js box intersection (2.110007ms)
+✔ collision views reuse footprints until an edit and exclude only the moving object (0.95539ms)
+✔ a close-wall camera stays in front of the wall rather than enforcing an unsafe minimum radius (0.155655ms)
+✔ every offered catalogue asset has a real, current PNG render matching its licensed source (2.755145ms)
+✔ analogue sticks remove drift, bound diagonals and reject invalid values (1.801948ms)
+✔ connection and interrupted controls require neutral before movement or commands (0.714327ms)
+✔ disconnect and denied/inactive input drop all movement and held actions (0.275926ms)
+✔ only standard connected mappings are accepted and one priority action fires (0.166531ms)
+✔ lodge doorway is traversable only with an open door (1.199128ms)
+✔ lodge floor affects only new explicit layout 4 (0.761939ms)
+✔ camera roof slab keeps its real base above walking space (0.255265ms)
+✔ map transforms preserve world positions across zoom and pan (1.357818ms)
+✔ map reads actual roads, buildings and river coordinates (0.632303ms)
+✔ safe landmark arrivals never return unchecked blocked ground (0.736641ms)
+✔ large footprints catch water and narrow paths missed by a centre-only check (1.059929ms)
+✔ footprints reject buried/floating corners and out-of-world edges (0.172811ms)
+✔ control preferences survive a reload in their own key (1.255473ms)
+✔ invalid preferences and denied browser storage fall back without blocking play (0.268165ms)
+✔ late edits during delayed world read preserve ownership (18.428627ms)
+✔ quota failure aborts switching and retains source; recovery creates a new record (6.099448ms)
+✔ invalid import creates no records; valid import always creates a separate copy (4.006202ms)
+✔ stale tab conflicts retain the newer checkpoint (3.000976ms)
+✔ water, bridge and footprint boundaries allow safe crossing (0.633526ms)
+✔ LAN HTTP UUID fallback retains RFC4122 version/variant and avoids collisions (3.739189ms)
+✔ preview 01 records retain their original layout while fresh records use the new scene (4.07125ms)
+✔ fresh copies receive distinct names without renaming old worlds (2.06203ms)
+✔ continuous trail has finite terrain following vertices and upward faces (6.02416ms)
+✔ bridge crossing ribbon stops at both deck ends (0.56365ms)
+✔ soft woodland loop stays on dry ground with close, continuous samples (4.212122ms)
+✔ closed woodland-edge trail joins without duplicate zero-length segments (0.674727ms)
+✔ connected world keeps legacy coordinates isolated and validates expanded bounds (1.567525ms)
+✔ both connected river bridges share terrain, water and walking coordinates (1.626223ms)
+✔ new connecting trails never cross water outside a bridge (7.078124ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3370.714584
