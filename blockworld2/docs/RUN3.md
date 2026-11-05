@@ -35,3 +35,7 @@ Horse contextual mounting, touch steering, reverse/turn-in-place, long-distance 
 ## Stage E milestone — companions complete
 
 Friendly dog Follow/Stay/Home controls, live map finding, bounded navigation and persistent preference/position are integrated. Nine focused deterministic cases and both companion/riding browser scenarios passed; build/type/preservation passed. A companion follows to a reachable standing point beside the player; routing to the occupied centre was caught and corrected by the detour regression. See RUN3-COMPANIONS.md. Preserve this milestone separately, then add player vehicles.
+
+## Stage E complete — fleet
+
+Three separately saved player vehicles in County: buggy, cargo-bed runabout and bicycle. Live map finding, consistent touch controls, oriented bicycle collision, safe exit and on-foot reload beside the vehicle are implemented. Existing templates retain one buggy. Eight deterministic cases and four browser scenarios passed; type/build/preservation passed. See RUN3-VEHICLES.md. Continue to the connected airfield/passenger experience after remote verification.

@@ -1,3 +1,4 @@
+import { bicycleModel } from "./bicycle";
 import { horseBox, rideStep, dismountPose } from "./riding";
 import { stepRoute, trafficPose, type RouteState } from "./routes";
 import { RoadTraffic } from "./road-traffic";
@@ -8,6 +9,7 @@ import { createAvatar, APPEARANCES } from "../player/appearance";
 import { overlaps, bodyBox } from "../player/physics.js";
 import { safeGround } from "../world/spawn";
 export interface CarState {
+  kind?: "bicycle";
   x: number;
   z: number;
   yaw: number;
@@ -38,12 +40,20 @@ export function carModel(color: number, style = 0) {
     g.add(m);
   };
   box(0, 0.65, 0, 1.5, 0.65, 3, color);
-  box(0, 1.2, 0, 1.25, 0.6, 1.4, 0xc8e2dc);
+  box(
+    0,
+    1.2,
+    style === 3 ? -0.5 : 0,
+    1.25,
+    0.6,
+    style === 3 ? 1.1 : 1.4,
+    0xc8e2dc,
+  );
   if (style !== 2)
     box(
       0,
       1.56,
-      style === 1 ? 0.3 : 0,
+      style === 3 ? -0.5 : style === 1 ? 0.3 : 0,
       1.4,
       0.12,
       style === 1 ? 2.2 : 1.6,
@@ -54,6 +64,11 @@ export function carModel(color: number, style = 0) {
     box(-0.4, 1, 0, 0.35, 0.5, 0.7, 0x716a5e);
     box(0.4, 1, 0, 0.35, 0.5, 0.7, 0x716a5e);
   }
+  if (style === 3) {
+    for (const x of [-0.68, 0.68]) box(x, 1, 0.85, 0.12, 0.35, 1.2, color);
+    box(0, 1, 1.4, 1.4, 0.35, 0.12, color);
+    box(0, 0.97, 0.85, 0.7, 0.35, 0.6, 0xb9a681);
+  }
   for (const x of [-0.78, 0.78])
     for (const z of [-0.95, 0.95]) box(x, 0.32, z, 0.22, 0.58, 0.58, 0x3f514d);
   box(0, 0.65, -1.52, 0.9, 0.2, 0.06, 0xffecb6);
@@ -62,22 +77,63 @@ export function carModel(color: number, style = 0) {
 export function carBox(c: CarState) {
   const co = Math.cos(c.yaw),
     s = Math.sin(c.yaw),
-    w = Math.abs(co) * 0.8 + Math.abs(s) * 1.6,
-    d = Math.abs(s) * 0.8 + Math.abs(co) * 1.6;
+    halfW = c.kind === "bicycle" ? 0.48 : 0.8,
+    halfD = c.kind === "bicycle" ? 1.05 : 1.6,
+    w = Math.abs(co) * halfW + Math.abs(s) * halfD,
+    d = Math.abs(s) * halfW + Math.abs(co) * halfD;
   return {
     minX: c.x - w,
     maxX: c.x + w,
     minY: 0,
-    maxY: 1.7,
+    maxY: c.kind === "bicycle" ? 1.8 : 1.7,
     minZ: c.z - d,
     maxZ: c.z + d,
-    obb: { cx: c.x, cz: c.z, c: co, s, halfW: 0.8, halfD: 1.6 },
+    obb: { cx: c.x, cz: c.z, c: co, s, halfW, halfD },
   };
 }
 export class Activity {
   group = new T.Group();
-  car: CarState = { x: -28, z: -2, yaw: 0 };
-  vehicle = carModel(0xe6b466);
+  vehicles: {
+    id: string;
+    name: string;
+    icon: string;
+    state: CarState;
+    model: T.Group;
+  }[] = [
+    {
+      id: "buggy",
+      name: "Buggy",
+      icon: "🚗",
+      state: { x: -28, z: -2, yaw: 0 },
+      model: carModel(0xe6b466),
+    },
+  ];
+  activeVehicle = 0;
+  get car() {
+    return this.vehicles[this.activeVehicle].state;
+  }
+  set car(c: CarState) {
+    this.vehicles[this.activeVehicle].state = {
+      x: c.x,
+      z: c.z,
+      yaw: c.yaw,
+      ...(this.vehicles[this.activeVehicle].id === "bicycle"
+        ? { kind: "bicycle" as const }
+        : {}),
+    };
+  }
+  get vehicle() {
+    return this.vehicles[this.activeVehicle].model;
+  }
+  get vehicleKind() {
+    return this.vehicles[this.activeVehicle].id;
+  }
+  vehicleEntry: any = null;
+  vehicleSolids(ignoreIndex = -1) {
+    return this.vehicles
+      .filter((_, i) => i !== ignoreIndex)
+      .map((v) => carBox(v.state));
+  }
   driving = false;
   riding: Activity["agents"][number] | null = null;
   rideEntry: any = null;
@@ -126,7 +182,24 @@ export class Activity {
     readonly query?: (point: any, radius: number) => any[],
   ) {
     scene.add(this.group);
-    this.group.add(this.vehicle);
+    if (range > 200)
+      this.vehicles.push(
+        {
+          id: "runabout",
+          name: "Ranch runabout",
+          icon: "🚙",
+          state: { x: 202, z: 158, yaw: 0 },
+          model: carModel(0x8ea99c, 3),
+        },
+        {
+          id: "bicycle",
+          name: "Village bicycle",
+          icon: "🚲",
+          state: { x: 80, z: -202, yaw: -Math.PI / 2, kind: "bicycle" },
+          model: bicycleModel(),
+        },
+      );
+    this.group.add(...this.vehicles.map((v) => v.model));
     const routes = [
       [
         [26, 8],
@@ -371,10 +444,13 @@ export class Activity {
     this.sync();
   }
   private sync() {
-    this.vehicle.position.set(this.car.x, 0, this.car.z);
-    this.vehicle.rotation.y = this.car.yaw;
+    for (const v of this.vehicles) {
+      v.model.position.set(v.state.x, 0, v.state.z);
+      v.model.rotation.y = v.state.yaw;
+    }
   }
   load(value: any) {
+    this.activeVehicle = 0;
     if (value?.car) {
       const c = value.car;
       if (
@@ -385,6 +461,17 @@ export class Activity {
         throw Error("Invalid saved car");
       this.car = { ...c };
     }
+    if (value?.vehicles)
+      for (const c of value.vehicles) {
+        const v = this.vehicles.find((v) => v.id === c.id);
+        if (v)
+          v.state = {
+            x: c.x,
+            z: c.z,
+            yaw: c.yaw,
+            ...(v.id === "bicycle" ? { kind: "bicycle" as const } : {}),
+          };
+      }
     if (value?.horses)
       for (const saved of value.horses) {
         const a = this.agents.filter((a) => a.species === "horse")[saved.id];
@@ -407,7 +494,13 @@ export class Activity {
   }
   snapshot() {
     return {
-      car: { ...this.car },
+      car: { ...this.vehicles[0].state },
+      vehicles: this.vehicles.slice(1).map((v) => ({
+        id: v.id,
+        x: v.state.x,
+        z: v.state.z,
+        yaw: v.state.yaw,
+      })),
       ...(this.pet
         ? {
             pet: {
@@ -429,6 +522,29 @@ export class Activity {
     };
   }
   resolveHorses() {
+    for (const [i, v] of this.vehicles.entries()) {
+      const clear = (p: CarState) =>
+        ![...(this.query?.(p, 3) || []), ...this.vehicleSolids(i)].some((s) =>
+          overlaps(carBox(p), s),
+        );
+      if (clear(v.state)) continue;
+      let found = false;
+      for (let r = 1; r <= 12 && !found; r++)
+        for (let dx = -r; dx <= r && !found; dx++)
+          for (let dz = -r; dz <= r && !found; dz++) {
+            if (Math.abs(dx) !== r && Math.abs(dz) !== r) continue;
+            const p = { ...v.state, x: v.state.x + dx, z: v.state.z + dz };
+            if (
+              Math.abs(p.x) < this.range - 2 &&
+              Math.abs(p.z) < this.range - 2 &&
+              clear(p)
+            ) {
+              v.state = p;
+              found = true;
+            }
+          }
+    }
+    this.sync();
     if (this.pet) {
       const a = this.pet,
         solids = this.query?.(a.state, 15) || [];
@@ -454,7 +570,7 @@ export class Activity {
     for (const a of this.agents.filter((a) => a.species === "horse")) {
       const pose = this.horsePose(a),
         clear = (p: any) =>
-          ![...(this.query?.(p, 2) || []), carBox(this.car)].some((s) =>
+          ![...(this.query?.(p, 2) || []), ...this.vehicleSolids()].some((s) =>
             overlaps(horseBox(p), s),
           );
       if (clear(pose)) continue;
@@ -482,7 +598,9 @@ export class Activity {
   }
   entitySolids(ignoreControlled = false) {
     return [
-      ...(!ignoreControlled || !this.driving ? [carBox(this.car)] : []),
+      ...this.vehicleSolids(
+        ignoreControlled && this.driving ? this.activeVehicle : -1,
+      ),
       ...this.agents
         .filter(
           (a) =>
@@ -501,7 +619,7 @@ export class Activity {
     const pose = this.horsePose(a),
       others = [
         ...solids,
-        carBox(this.car),
+        ...this.vehicleSolids(),
         ...this.agents
           .filter((x) => x.species === "horse" && x !== a)
           .map((x) => horseBox(this.horsePose(x))),
@@ -525,7 +643,7 @@ export class Activity {
     if (!this.riding) return;
     const exit = dismountPose(this.horsePose(this.riding), [
       ...solids,
-      carBox(this.car),
+      ...this.vehicleSolids(),
       ...this.agents
         .filter((a) => a.species === "horse" && a !== this.riding)
         .map((a) => horseBox(this.horsePose(a))),
@@ -536,18 +654,32 @@ export class Activity {
     return "♡ Horse parked · ready to walk";
   }
   savedPlayer(p: any) {
+    if (this.driving) {
+      try {
+        return safeGround(
+          {
+            x: this.car.x + Math.cos(this.car.yaw) * 2,
+            z: this.car.z - Math.sin(this.car.yaw) * 2,
+            yaw: this.car.yaw,
+          },
+          [...(this.query?.(this.car, 15) || []), ...this.entitySolids()],
+        );
+      } catch {
+        return this.vehicleEntry || p;
+      }
+    }
     if (!this.riding) return p;
     try {
       const pose = this.horsePose(this.riding);
       return dismountPose(pose, [
         ...(this.query?.(pose, 15) || []),
-        carBox(this.car),
+        ...this.vehicleSolids(),
       ]);
     } catch {
       return this.rideEntry;
     }
   }
-  use(p: any, solids: any[]) {
+  use(p: any, solids: any[], selected?: number) {
     if (this.driving) {
       const exit = safeGround(
         {
@@ -561,10 +693,13 @@ export class Activity {
       this.driving = false;
       return "✓ Parked — ready to walk";
     }
+    if (selected !== undefined && this.vehicles[selected])
+      this.activeVehicle = selected;
     if (
       Math.abs(p.y) < 2 &&
       Math.hypot(p.x - this.car.x, p.z - this.car.z) < 3
     ) {
+      this.vehicleEntry = { ...p };
       this.driving = true;
       p.y = 0;
       this.sync();
@@ -597,7 +732,7 @@ export class Activity {
           dt,
           [
             ...(this.query?.(pose, 3) || solids),
-            carBox(this.car),
+            ...this.vehicleSolids(),
             ...this.traffic.map((m) =>
               carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
             ),
@@ -635,7 +770,13 @@ export class Activity {
             this.car.yaw -
             input.right * dt * 1.3 * Math.sign(input.forward || 1),
         },
-        speed = input.forward * 6;
+        speed =
+          input.forward *
+          (this.vehicleKind === "bicycle"
+            ? 4.5
+            : this.vehicleKind === "runabout"
+              ? 5.2
+              : 6);
       c.x -= Math.sin(c.yaw) * speed * dt;
       c.z -= Math.cos(c.yaw) * speed * dt;
       if (
@@ -643,6 +784,7 @@ export class Activity {
         Math.abs(c.z) < this.range &&
         ![
           ...(this.query?.(c, 3) || solids),
+          ...this.vehicleSolids(this.activeVehicle),
           ...this.agents
             .filter((a) => a.species === "horse")
             .map((a) => horseBox(this.horsePose(a))),
@@ -663,7 +805,9 @@ export class Activity {
       });
       this.sync();
     }
-    const parked = carBox(this.car);
+    const parked = this.vehicleSolids();
+    for (const v of this.vehicles)
+      v.model.visible = Math.hypot(v.state.x - p.x, v.state.z - p.z) < 130;
     for (const a of this.agents) {
       if (a === this.riding) continue;
       const distance = Math.hypot(a.state.x - p.x, a.state.z - p.z),
@@ -705,7 +849,7 @@ export class Activity {
         ) ||
         [
           ...(this.query?.({ x, y: 0, z }, 1.2) || solids),
-          parked,
+          ...parked,
           ...this.traffic.map((m) =>
             carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
           ),
@@ -784,7 +928,7 @@ export class Activity {
           ) ||
           [
             ...(this.query?.({ x, y: 0, z }, 3) || solids),
-            parked,
+            ...parked,
             ...this.roadTraffic!.cars.filter((_, n) => n !== i).map(carBox),
           ].some((s) => overlaps(carBox({ x, z, yaw }), s)),
       );
@@ -812,7 +956,7 @@ export class Activity {
         !this.agents.some(
           (a) => Math.hypot(a.state.x - pos.x, a.state.z - pos.z) < 2.5,
         ) &&
-        ![...(this.query?.(pos, 3) || solids), parked, ...other].some((s) =>
+        ![...(this.query?.(pos, 3) || solids), ...parked, ...other].some((s) =>
           overlaps(shape, s),
         )
       ) {

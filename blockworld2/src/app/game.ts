@@ -202,8 +202,16 @@ export class Game {
         template === "sunbeam-region" ||
         template === "sunbeam-county") &&
       activity?.car &&
-      [...world.solids, ...blocks.flatMap(blockColliders)].some((b) =>
-        overlaps(carBox(activity.car), b),
+      [
+        activity.car,
+        ...(activity.vehicles || []).map((v: any) => ({
+          ...v,
+          ...(v.id === "bicycle" ? { kind: "bicycle" } : {}),
+        })),
+      ].some((c) =>
+        [...world.solids, ...blocks.flatMap(blockColliders)].some((b) =>
+          overlaps(carBox(c), b),
+        ),
       )
     ) {
       this.clearGroup(candidate);
@@ -462,7 +470,13 @@ export class Game {
   }
   updateCamera() {
     this.body.group.scale.setScalar(
-      this.activity?.driving ? 0.72 : this.activity?.riding ? 0.82 : 1,
+      this.activity?.driving
+        ? this.activity.vehicleKind === "bicycle"
+          ? 1
+          : 0.72
+        : this.activity?.riding
+          ? 0.82
+          : 1,
     );
     this.body.group.position.set(
       this.player.x,
@@ -754,18 +768,18 @@ export class Game {
         data: d,
       });
     if (this.activity) {
-      const c = this.activity.car;
-      targets.push({
-        id: "vehicle",
-        kind: "vehicle",
-        x: c.x,
-        y: 0,
-        z: c.z,
-        range: 3,
-        icon: "🚗",
-        label: "Drive",
-        data: c,
-      });
+      for (const [index, v] of this.activity.vehicles.entries())
+        targets.push({
+          id: "vehicle:" + index,
+          kind: "vehicle",
+          x: v.state.x,
+          y: 0,
+          z: v.state.z,
+          range: 3,
+          icon: v.icon,
+          label: v.name,
+          data: { index },
+        });
       for (const [i, a] of this.activity.agents.entries())
         targets.push({
           id: "agent:" + i,
@@ -812,9 +826,9 @@ export class Game {
               Math.abs(b.z - this.player.z) < 4,
           )
           .flatMap(blockColliders),
-        ...(this.activity && t.kind !== "vehicle"
-          ? [carBox(this.activity.car)]
-          : []),
+        ...(this.activity?.vehicleSolids(
+          t.kind === "vehicle" ? t.data.index : -1,
+        ) || []),
       ];
       return !shapes.some((s) => rayBoxNear(ray, s) < distance - 0.2);
     });
@@ -1046,10 +1060,14 @@ export class Game {
         );
       } else if (target.kind === "vehicle") {
         this.notice(
-          this.activity!.use(this.player, [
-            ...this.obstacles(),
-            ...this.commands.blocks.flatMap(blockColliders),
-          ]) || "",
+          this.activity!.use(
+            this.player,
+            [
+              ...this.obstacles(),
+              ...this.commands.blocks.flatMap(blockColliders),
+            ],
+            target.data.index,
+          ) || "",
         );
         this.flying = false;
         this.vertical = 0;

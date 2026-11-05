@@ -134,6 +134,23 @@ export function validateSnapshot(value: unknown): Snapshot {
       throw Error("Invalid vehicle checkpoint");
   }
   if (
+    activity?.vehicles !== undefined &&
+    (!Array.isArray(activity.vehicles) ||
+      activity.vehicles.length > 2 ||
+      (activity.vehicles.length && s.template !== "sunbeam-county") ||
+      new Set(activity.vehicles.map((v: any) => v.id)).size !==
+        activity.vehicles.length ||
+      activity.vehicles.some(
+        (v: any) =>
+          !v ||
+          !["runabout", "bicycle"].includes(v.id) ||
+          ![v.x, v.z, v.yaw].every(Number.isFinite) ||
+          Math.abs(v.x) > 249 ||
+          Math.abs(v.z) > 249,
+      ))
+  )
+    throw Error("Invalid vehicle fleet checkpoint");
+  if (
     activity?.pet !== undefined &&
     (!activity.pet ||
       !["wander", "follow", "stay", "home"].includes(activity.pet.mode) ||

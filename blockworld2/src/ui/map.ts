@@ -97,8 +97,16 @@ export function openMap(game: Game) {
     },
   ];
   const pet = game.activity?.pet;
+  const vehicles =
+    game.activity?.vehicles.map((v) => ({
+      name: v.name,
+      icon: v.icon,
+      x: v.state.x,
+      z: v.state.z,
+    })) || [];
   for (const place of [
     ...places,
+    ...vehicles,
     ...(pet
       ? [{ name: "Your dog", icon: "🐕", x: pet.state.x, z: pet.state.z }]
       : []),
