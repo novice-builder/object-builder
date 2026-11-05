@@ -36,6 +36,12 @@ test("capture the integrated slice and check compact mobile layouts", async ({
     await page.locator("#closeMap").tap();
     await expect(page.locator("#palette")).toBeVisible();
     await expect(page.locator("#joystick")).toBeVisible();
+    await page.locator("#catalogueButton").tap();
+    const footer = await page.locator("#closeCatalogue").boundingBox();
+    const grid = await page.locator("#catalogueGrid").boundingBox();
+    expect(footer!.y + footer!.height).toBeLessThanOrEqual(height);
+    expect(grid!.height).toBeGreaterThan(100);
+    await page.locator("#closeCatalogue").tap();
   }
   expect(
     await page.evaluate(

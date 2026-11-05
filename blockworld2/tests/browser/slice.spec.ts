@@ -1,7 +1,11 @@
 import { test, expect } from "@playwright/test";
-async function ready(page: any) {
+async function ready(page: any, createSlice = true) {
   await page.goto("/?test=1");
-  await page.waitForFunction(() => (window as any).bw2?.session.ready);await page.evaluate(()=>(window as any).bw2.session.newWorld("home-square"));
+  await page.waitForFunction(() => (window as any).bw2?.session.ready);
+  if (createSlice)
+    await page.evaluate(() =>
+      (window as any).bw2.session.newWorld("home-square"),
+    );
 }
 test("Home/Square has furnished interiors, camera modes, flight and a pictorial catalogue", async ({
   page,
@@ -141,7 +145,7 @@ test("no-op saves do not advance revisions and a cold offline tab restores the w
   await context.setOffline(true);
   await page.close();
   const cold = await context.newPage();
-  await ready(cold);
+  await ready(cold, false);
   expect(
     await cold.evaluate(() => (window as any).bw2.snapshot().blocks.length),
   ).toBe(1);

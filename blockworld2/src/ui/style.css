@@ -10,3 +10,14 @@
 #moveObject{position:fixed;right:22px;bottom:125px;padding:8px 18px;background:#dce8ce}#previewControls{z-index:2}#top button{cursor:pointer}#top::-webkit-scrollbar{height:4px}#top::-webkit-scrollbar-thumb{background:#d7c4a2;border-radius:8px}#palette{scrollbar-width:thin}#palette button{scroll-snap-align:center}#palette{scroll-snap-type:x proximity}@media(max-width:700px){#moveObject{bottom:112px}}
 
 .cataloguePanel{width:min(900px,96vw)!important}.catalogueCard{position:relative;background:#e5e9d8;border-radius:16px;min-width:0}.catalogueCard>button:first-child{display:flex;flex-direction:column;align-items:center;width:100%;height:145px;padding:6px 8px 12px;background:transparent!important;font-size:12px!important}.catalogueCard img{object-fit:contain;max-width:100%;height:96px}.catalogueCard .favourite{position:absolute;right:0;top:0;min-width:40px;min-height:40px;font-size:22px;background:#fff8e8bb}.cataloguePages{display:flex;align-items:center;gap:10px;flex-wrap:wrap}#catalogueSearch{padding:10px;border:2px solid #d3ddc8;border-radius:12px;font:inherit;width:100%}#categories{max-height:135px;overflow-y:auto}#categories button{padding:8px 12px}#catalogueGrid{grid-template-columns:repeat(auto-fill,minmax(125px,1fr));max-height:52dvh;overflow:auto;padding:3px}
+
+/* Keep Play and paging visible while only the content grid scrolls. */
+#modal .cataloguePanel{display:flex;flex-direction:column;height:min(760px,90dvh);padding:16px;overflow:hidden}
+.cataloguePanel h1{font-size:26px;margin:0 0 10px}
+#catalogueSearch{flex-shrink:0}
+#categories{flex-shrink:0;gap:6px;max-height:96px;margin:8px 0}
+#categories button{min-height:44px;padding:6px 10px}
+#catalogueGrid{flex:1;min-height:0;max-height:none;margin:12px 0}
+.cataloguePages{flex-shrink:0;gap:6px;font-size:12px}
+.cataloguePages button{min-height:44px;padding:6px 10px}
+@media(orientation:landscape) and (max-height:450px){#modal .cataloguePanel{height:calc(100dvh - 16px);max-height:none;padding:12px}.cataloguePanel h1{font-size:20px;margin-bottom:6px}#catalogueSearch{padding:6px}#categories{flex-wrap:nowrap;max-height:50px;margin:6px 0;overflow-x:auto}#categories button{flex-shrink:0}#catalogueGrid{margin:6px 0}.catalogueCard>button:first-child{height:125px}.catalogueCard img{height:80px}}

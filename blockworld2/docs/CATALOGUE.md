@@ -6,7 +6,7 @@ The typed registry owns original model parts, rotation-aware compound collision,
 
 The catalogue has categories, optional search, 24-entry pages, rendered model thumbnails, favourites, recent choices and quick access. Thumbnail generation yields between entries. All items are unlimited. Four presets place bedroom, kitchen, garden or workshop furnishings as a single reversible command.
 
-Native world schema 2 reads schema 1 and preserves its creations. Legacy JSON imports retain their original bytes. New model IDs, rotations and state are validated before persistence. Rolling back to the older foundation app cannot read new schema-2 worlds; original checkpoints remain retained and portable backups should be kept.
+Native world schema 2 reads schema 1 and preserves its creations. Legacy JSON imports retain their original bytes. New model IDs, rotations and state are validated before persistence. Vertical anchors use hundredth-metre precision so slabs and tabletops support objects directly; horizontal anchors remain on the metre grid. Rolling back to the older foundation app cannot read new schema-2 worlds; original checkpoints remain retained and portable backups should be kept.
 
 Placed doors use obstruction-tested manual swing states; placed lights have a visible on/off appearance. Doors do not yet animate between those states and lighting is stylized, not a point light per fixture. Large content-world completion, more complex terrain and physical-device qualification remain follow-up work.
 

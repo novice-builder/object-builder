@@ -1,5 +1,7 @@
 # Home & Square integrated prototype
 
+Historical foundation slice. Run 1 adds [Sunbeam Town](SUNBEAM.md), the expanded [catalogue](CATALOGUE.md), [seating/living world](LIFE.md) and touch object relocation. The original Home/Square template below remains selectable with its original layout; old feature-limit statements describe the foundation checkpoint.
+
 Stage 4 implements a compact original town: home/garage, café, library, workshop, gardens and a decorative pond. All four building centres and all five doorways are exercised by deterministic traversal checks. Furnishings use original geometry; windows are stylized opaque panes. This is not the full R1 town/content release.
 
 The prototype has first/third-person camera toggle, third-person obstruction checks, collision-aware creative flight (24 m ceiling), seven unlimited original catalogue entries, a category-grid catalogue, four walking neighbours, two friendly animal models, two road-traffic cars and one drivable buggy. The map supports dragging, zoom buttons and safe landmark travel. World instances, build edits, camera/flight preferences and parked vehicle positions are saved.

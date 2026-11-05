@@ -1,5 +1,7 @@
 # Prototype validation
 
+Historical foundation validation. Current expansion evidence is in [RUN1-QA.md](RUN1-QA.md); the original foundation archive and screenshots remain preserved.
+
 ## Executed checks
 
 - `npm run check`: all 59 deterministic cases passed, TypeScript strict compilation passed, preservation checks passed, Vite production build passed.

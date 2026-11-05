@@ -1,5 +1,7 @@
 # BlockWorld 2.0 development checkpoints
 
+Historical foundation run. Current expansion results and publication status are in [RUN1.md](RUN1.md); its source and archive are preserved separately. Permissions and feature counts below describe the earlier run.
+
 Branch: codex/blockworld2-autonomous-foundation
 Base: 1ffd35ed971afa7820734cf10a3287ab546f6306
 Started: 2026-11-04

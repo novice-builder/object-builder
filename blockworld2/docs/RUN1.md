@@ -6,7 +6,7 @@ Base: fefc37af077a657130b5aa289820210771cb4587 on codex/blockworld2-autonomous-f
 
 Verified base and created the dedicated expansion branch remotely. GitHub connector exposes no repository creation/Pages administration tools. `gh auth status` reports its injected GH_TOKEN invalid; no credential was inspected, replaced or logged in interactively. Therefore publication is unavailable in this session. Continue with a deployment-ready package, separate app identity/scope, installation icons and explicit publishing instructions. Do not change object-builder Pages as a workaround.
 
-## Remaining authorised stages
+## Authorised sequence
 
 B. Mobile controls, interaction clarity and building repositioning.
 C. Typed catalogue/model/collider registry and substantial meaningful content expansion.
@@ -44,3 +44,9 @@ Executed: typecheck/build/protected-file checks passed; 7 focused life/movement 
 ## Integration hardening
 
 Corrected surface snapping so slabs and tabletops support objects at their actual height, with bounded hundredth-metre vertical save anchors. Manual town doors now use the same compound furniture collision as automatic doors. Added an exact audited collision-fork comparison and differentiated tree silhouettes. Executed 8 focused deterministic cases plus 2 browser scenarios (half-slab touch placement/save/reload and compact layouts/visual capture); all passed after correcting the new browser assertion to respect immediate cube placement. The first failing scenario incorrectly waited for a preview confirmation that cubes do not use.
+
+## Final regression complete
+
+`npm run check` passed all 72 deterministic cases, strict TypeScript, 49 protected original-file comparisons and the production build. `npm run test:browser` passed all 22 scenarios, including a real changed-worker activation under the proposed preview path, retained world ID/build and legacy cache, then a cold offline launch. The first full browser run passed 20/21; the cold-resume helper was corrected to resume rather than create a fresh mechanical-test world. The full rerun passed. Typechecking was rerun successfully after adding that worker-update test.
+
+Visual review prompted a fixed catalogue footer so Play/paging stay visible. Compact landscape/portrait footer/grid bounds and the existing render-call guard passed. New screenshots are in docs/screenshots/run1. Foundation archive, BUILD.json and artifact README remain byte-identical to fefc37a. See RUN1-QA.md for evidence/limits and CONTINUE-RUN2.md for exact continuation. The final source and separate prebuilt archive are pushed as independent checkpoints; no app publication or merge occurred.
