@@ -12,13 +12,15 @@ export function openMap(game: Game) {
   const canvas = document.querySelector<HTMLCanvasElement>("#mapCanvas")!,
     ctx = canvas.getContext("2d")!;
   let zoom =
-      game.template === "sunbeam-region"
-        ? 1.4
-        : game.template === "sunbeam-town"
-          ? 2.7
-          : game.template === "home-square"
-            ? 4
-            : 0.8,
+      game.template === "sunbeam-county"
+        ? 0.9
+        : game.template === "sunbeam-region"
+          ? 1.4
+          : game.template === "sunbeam-town"
+            ? 2.7
+            : game.template === "home-square"
+              ? 4
+              : 0.8,
     ox = 280,
     oy = 210,
     drag: { x: number; y: number } | null = null;

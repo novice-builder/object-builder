@@ -142,7 +142,7 @@ export class Game {
         this.onEdit();
       },
     );
-    this.load("sunbeam-region");
+    this.load("sunbeam-county");
     this.controls = new Controls(
       document.querySelector("#world")!,
       () => !this.paused,
@@ -172,7 +172,7 @@ export class Game {
     doors: Record<string, boolean> = {},
     activity?: any,
     props?: PropStates,
-    layout = 2,
+    layout?: number,
   ) {
     const candidate = new T.Group(),
       world = createWorld(candidate, template, blocks, layout),
@@ -198,7 +198,8 @@ export class Game {
     if (
       (template === "home-square" ||
         template === "sunbeam-town" ||
-        template === "sunbeam-region") &&
+        template === "sunbeam-region" ||
+        template === "sunbeam-county") &&
       activity?.car &&
       [...world.solids, ...blocks.flatMap(blockColliders)].some((b) =>
         overlaps(carBox(activity.car), b),
@@ -226,7 +227,8 @@ export class Game {
     if (
       template === "home-square" ||
       template === "sunbeam-town" ||
-      template === "sunbeam-region"
+      template === "sunbeam-region" ||
+      template === "sunbeam-county"
     ) {
       this.activity = new Activity(
         this.view.scene,

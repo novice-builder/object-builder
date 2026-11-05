@@ -2,7 +2,7 @@ import { validateBlocks } from "../build/validation";
 import { CHOICES } from "../build/registry";
 import { CATALOGUE } from "../build/catalogue";
 import { validateSave } from "../legacy06/core.js";
-import { TEMPLATES, type TemplateId } from "../world/templates";
+import { TEMPLATES, latestLayout, type TemplateId } from "../world/templates";
 import type { Block } from "../build/commands";
 import { APPEARANCES } from "../player/appearance";
 export interface Snapshot {
@@ -161,7 +161,7 @@ export function fromGame(s: any): Snapshot {
       blocks: s.blocks,
       doors: s.doors,
       props: s.props || {},
-      layout: s.layout ?? (s.template === "sunbeam-region" ? 2 : 1),
+      layout: s.layout ?? latestLayout(s.template),
       ...(s.activity ? { activity: s.activity } : {}),
     },
     player: s.player,

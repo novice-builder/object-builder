@@ -164,10 +164,14 @@ export class Activity {
         species,
       });
     };
-    for (let i = 0; i < (range > 100 ? 12 : range > 47 ? 6 : 4); i++) {
+    for (
+      let i = 0;
+      i < (range > 200 ? 16 : range > 100 ? 12 : range > 47 ? 6 : 4);
+      i++
+    ) {
       const a =
         range > 100
-          ? createAvatar(APPEARANCES[i].id)
+          ? createAvatar(APPEARANCES[i % APPEARANCES.length].id)
           : avatar(
               [0xd99a7a, 0x8aafa3, 0xd7bf76, 0x91a8bd, 0xb29ab1, 0xb9b786][
                 i % 6
@@ -213,7 +217,32 @@ export class Activity {
       ];
       addAgent(
         a.group,
-        range > 100 && i >= 6 ? outer[i - 6] : routes[range > 47 ? i : i % 2],
+        range > 200 && i >= 12
+          ? [
+              [
+                [-120, -205],
+                [-40, -205],
+                [-120, -205],
+              ],
+              [
+                [-205, 80],
+                [-205, 130],
+                [-205, 80],
+              ],
+              [
+                [204, 90],
+                [204, 170],
+                [204, 90],
+              ],
+              [
+                [40, 204],
+                [140, 204],
+                [40, 204],
+              ],
+            ][i - 12]
+          : range > 100 && i >= 6
+            ? outer[i - 6]
+            : routes[range > 47 ? i : i % 2],
         false,
         [a.left, a.right],
         undefined,
@@ -287,7 +316,22 @@ export class Activity {
       const a = animalModel(name);
       addAgent(a.group, habitats[name], true, a.limbs, name);
     }
-    if (range > 100) this.roadTraffic = new RoadTraffic();
+    if (range > 200) {
+      const horse = animalModel("horse");
+      addAgent(
+        horse.group,
+        [
+          [173, 133],
+          [173, 141],
+          [160, 141],
+          [160, 133],
+        ],
+        true,
+        horse.limbs,
+        "horse",
+      );
+    }
+    if (range > 100) this.roadTraffic = new RoadTraffic(range > 200 ? 210 : 86);
     for (let i = 0; i < (this.roadTraffic ? 4 : 2); i++) {
       const c = carModel([0xb97f6d, 0x83a7a4, 0xc9b17e, 0x90a9b5][i], i % 3);
       this.traffic.push(c);

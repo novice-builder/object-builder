@@ -38,11 +38,19 @@ export interface RoadCar {
 export class RoadTraffic {
   cars: RoadCar[] = [];
   reservations = new Map<number, number>();
-  constructor() {
+  nodes: Point[];
+  constructor(span = 86) {
+    this.nodes =
+      span === 86
+        ? nodes
+        : nodes.map((p) => ({
+            x: p.x === 8 ? 8 : Math.sign(p.x) * span,
+            z: p.z === -56 ? -56 : Math.sign(p.z) * span,
+          }));
     for (const [i, from] of [0, 2, 6, 8].entries()) {
       const to = links[from][0],
-        a = nodes[from],
-        b = nodes[to],
+        a = this.nodes[from],
+        b = this.nodes[to],
         d = Math.hypot(b.x - a.x, b.z - a.z),
         dx = (b.x - a.x) / d,
         dz = (b.z - a.z) / d;
@@ -69,8 +77,8 @@ export class RoadTraffic {
     for (const [node, owner] of this.reservations)
       if (
         Math.hypot(
-          this.cars[owner].x - nodes[node].x,
-          this.cars[owner].z - nodes[node].z,
+          this.cars[owner].x - this.nodes[node].x,
+          this.cars[owner].z - this.nodes[node].z,
         ) > 6
       )
         this.reservations.delete(node);
@@ -79,8 +87,8 @@ export class RoadTraffic {
         c.wait = Math.max(0, c.wait - dt);
         continue;
       }
-      const a = nodes[c.from],
-        b = nodes[c.to],
+      const a = this.nodes[c.from],
+        b = this.nodes[c.to],
         length = Math.hypot(b.x - a.x, b.z - a.z),
         dx = (b.x - a.x) / length,
         dz = (b.z - a.z) / length;

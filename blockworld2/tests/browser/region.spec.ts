@@ -4,6 +4,9 @@ test("region exploration and old Sunbeam creations remain independent", async ({
 }) => {
   await page.goto("/?test=1");
   await page.waitForFunction(() => (window as any).bw2?.session.ready);
+  await page.evaluate(() =>
+    (window as any).bw2.session.newWorld("sunbeam-region"),
+  );
   expect(
     await page.evaluate(() => (window as any).bw2.game.world.houses.length),
   ).toBe(26);

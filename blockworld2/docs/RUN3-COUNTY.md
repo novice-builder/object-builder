@@ -1,0 +1,9 @@
+# County expansion
+
+New Sunbeam County template, layout 1; Region layouts 1/2, Town, Home/Square, blank and legacy remain selectable. Existing instances keep their template/layout and constructions. County composes Region layout 2 without moving its structures, then adds an outlying village, ranch/barn, ranger station, bridge café, workshop, orchard, lake, river crossing, plots and a reserved airfield.
+
+Measured authored extents: x −229…233 m (462 m), z −231…213.5 m (444.5 m), inside the unchanged 500 m ground/save bounds. The road ring spans 430 m east–west and 427 m north–south; the signed riding/walking loop is 1,584 m, with access from ranch and village. Additional streets connect the original town and future airfield. This is developed scenery and destinations around the existing region; open meadows remain for creative building. No new terrain streaming or unlimited-world claim.
+
+Counts: 36 furnished main buildings, ten working garages, 46 doors, four staircases, 14 clear building plots and 54 map destinations. Population is bounded at 16 residents, nine animals (eight species, two horses), four moving road vehicles and one player buggy. County traffic uses the outer road graph; distant pedestrians sleep and models are culled. Local collision indexing and batched scenery remain in use. Fog/render range remains 155 m; the map starts zoomed to fit the county.
+
+Executed deterministic checks: three cases passed, covering all door passages, stair ascents/descents, garage clearance, plots, room/landmark recovery, unchanged Region colliders, outer-road graph and far-coordinate save encode/decode. Strict TypeScript, production build and protected-file/archive checks passed. Browser results are recorded in RUN3-QA after execution. No measured physical-device performance is claimed.
