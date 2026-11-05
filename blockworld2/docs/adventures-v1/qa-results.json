@@ -1,0 +1,701 @@
+{
+  "environment": "Chromium / SwiftShader on managed Linux; emulation only, no physical devices",
+  "checks": [
+    {
+      "name": "walking, stopping and supplied animation transitions",
+      "passed": true,
+      "detail": {
+        "distance": 4.322367770970619,
+        "clip": "Walking_A",
+        "idle": "Idle"
+      }
+    },
+    {
+      "name": "running animation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tavern footprint stops the player",
+      "passed": true,
+      "detail": {
+        "x": 0,
+        "z": -17.20303291867719,
+        "obstacles": [
+          {
+            "minX": -4.705603528022766,
+            "maxX": 4.705603528022767,
+            "minZ": -28.412197399139405,
+            "maxZ": -17.587802600860595,
+            "height": 12.290520563125211,
+            "name": "building_tavern_blue"
+          }
+        ]
+      }
+    },
+    {
+      "name": "following camera shortens before the inn",
+      "passed": true,
+      "detail": {
+        "z": -16.979849822526837,
+        "distance": 5.585494558814802
+      }
+    },
+    {
+      "name": "blocked spawn recovers to clear ground",
+      "passed": true,
+      "detail": {
+        "x": 5.126214972819745,
+        "z": -21.007032350378296
+      }
+    },
+    {
+      "name": "walk continuously across bridge",
+      "passed": true,
+      "detail": {
+        "x": 42.503018531921896,
+        "z": 8,
+        "y": 0
+      }
+    },
+    {
+      "name": "stream bank blocks entry outside bridge",
+      "passed": true,
+      "detail": 29.503018744093698
+    },
+    {
+      "name": "clear-spot placement enabled",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "premade object placed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "undo restores scene",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "redo restores object",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "save and reload retain independent meadow",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "import creates new record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "malformed import preserves current world",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "resource counts stay bounded over nine switches",
+      "passed": true,
+      "detail": [
+        [
+          "village",
+          72,
+          10
+        ],
+        [
+          "woodland",
+          58,
+          10
+        ],
+        [
+          "meadow",
+          60,
+          10
+        ],
+        [
+          "village",
+          80,
+          10
+        ],
+        [
+          "woodland",
+          58,
+          10
+        ],
+        [
+          "meadow",
+          60,
+          10
+        ],
+        [
+          "village",
+          80,
+          10
+        ],
+        [
+          "woodland",
+          58,
+          10
+        ],
+        [
+          "meadow",
+          60,
+          10
+        ]
+      ]
+    },
+    {
+      "name": "no browser runtime errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "all local resources resolved",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet LAN UUID fallback creates initial save",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet touch controls visible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet controls fit viewport",
+      "passed": true,
+      "detail": [
+        {
+          "id": "hud",
+          "x": 28,
+          "y": 24,
+          "right": 1252,
+          "bottom": 87
+        },
+        {
+          "id": "joystick",
+          "x": 35,
+          "y": 631,
+          "right": 159,
+          "bottom": 755
+        },
+        {
+          "id": "run",
+          "x": 1186,
+          "y": 671,
+          "right": 1250,
+          "bottom": 735
+        }
+      ]
+    },
+    {
+      "name": "tablet movement survives second-thumb release",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet joystick resets on release",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet clipboard-free backup fallback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "iphone-portrait LAN UUID fallback creates initial save",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "iphone-portrait touch controls visible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "iphone-portrait controls fit viewport",
+      "passed": true,
+      "detail": [
+        {
+          "id": "hud",
+          "x": 14,
+          "y": 14,
+          "right": 376,
+          "bottom": 75
+        },
+        {
+          "id": "joystick",
+          "x": 22,
+          "y": 678,
+          "right": 138,
+          "bottom": 794
+        },
+        {
+          "id": "run",
+          "x": 309,
+          "y": 713,
+          "right": 368,
+          "bottom": 772
+        }
+      ]
+    },
+    {
+      "name": "iphone-portrait movement survives second-thumb release",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "iphone-portrait joystick resets on release",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "iphone-portrait clipboard-free backup fallback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "iphone-landscape LAN UUID fallback creates initial save",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "iphone-landscape touch controls visible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "iphone-landscape controls fit viewport",
+      "passed": true,
+      "detail": [
+        {
+          "id": "hud",
+          "x": 14,
+          "y": 8,
+          "right": 830,
+          "bottom": 71
+        },
+        {
+          "id": "joystick",
+          "x": 25,
+          "y": 263,
+          "right": 127,
+          "bottom": 365
+        },
+        {
+          "id": "run",
+          "x": 750,
+          "y": 291,
+          "right": 814,
+          "bottom": 355
+        }
+      ]
+    },
+    {
+      "name": "iphone-landscape movement survives second-thumb release",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "iphone-landscape joystick resets on release",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "iphone-landscape clipboard-free backup fallback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "village trails stay on dry banks and the bridge",
+      "passed": true,
+      "detail": {
+        "samplesAtMostMetresApart": 0.3333333333333333
+      }
+    },
+    {
+      "name": "woodland trails stay on dry banks and the bridge",
+      "passed": true,
+      "detail": {
+        "samplesAtMostMetresApart": 0.3333333333333333
+      }
+    }
+  ],
+  "metrics": {
+    "desktopReadyMs": 1517,
+    "startupResources": [
+      {
+        "name": "adventures-B6OFUmh3.js",
+        "bytes": 667594,
+        "ms": 49
+      },
+      {
+        "name": "adventures-C09wGGYR.css",
+        "bytes": 14453,
+        "ms": 12
+      },
+      {
+        "name": "building_home_A_blue.glb",
+        "bytes": 72552,
+        "ms": 6
+      },
+      {
+        "name": "building_home_A_green.glb",
+        "bytes": 72556,
+        "ms": 5
+      },
+      {
+        "name": "building_home_B_blue.glb",
+        "bytes": 99324,
+        "ms": 10
+      },
+      {
+        "name": "building_home_B_green.glb",
+        "bytes": 99328,
+        "ms": 10
+      },
+      {
+        "name": "icon.svg",
+        "bytes": 325,
+        "ms": 6
+      },
+      {
+        "name": "building_tavern_blue.glb",
+        "bytes": 188056,
+        "ms": 6
+      },
+      {
+        "name": "building_market_blue.glb",
+        "bytes": 169368,
+        "ms": 4
+      },
+      {
+        "name": "building_windmill_blue.glb",
+        "bytes": 160684,
+        "ms": 5
+      },
+      {
+        "name": "building_church_blue.glb",
+        "bytes": 106940,
+        "ms": 4
+      },
+      {
+        "name": "building_blacksmith_blue.glb",
+        "bytes": 140252,
+        "ms": 18
+      },
+      {
+        "name": "building_watermill_blue.glb",
+        "bytes": 129464,
+        "ms": 13
+      },
+      {
+        "name": "building_well_blue.glb",
+        "bytes": 59540,
+        "ms": 9
+      },
+      {
+        "name": "building_bridge_A.glb",
+        "bytes": 42732,
+        "ms": 5
+      },
+      {
+        "name": "fence_wood_straight.glb",
+        "bytes": 32208,
+        "ms": 9
+      },
+      {
+        "name": "barrel.glb",
+        "bytes": 32724,
+        "ms": 2
+      },
+      {
+        "name": "crate_A_small.glb",
+        "bytes": 24180,
+        "ms": 25
+      },
+      {
+        "name": "sack.glb",
+        "bytes": 20400,
+        "ms": 4
+      },
+      {
+        "name": "wheelbarrow.glb",
+        "bytes": 36200,
+        "ms": 2
+      },
+      {
+        "name": "tree-oak.glb",
+        "bytes": 14644,
+        "ms": 6
+      },
+      {
+        "name": "tree-detailed.glb",
+        "bytes": 31412,
+        "ms": 3
+      },
+      {
+        "name": "tree-pinedefaulta.glb",
+        "bytes": 17220,
+        "ms": 5
+      },
+      {
+        "name": "tree-pinedefaultb.glb",
+        "bytes": 18180,
+        "ms": 37
+      },
+      {
+        "name": "plant-bush.glb",
+        "bytes": 4396,
+        "ms": 40
+      },
+      {
+        "name": "plant-bushsmall.glb",
+        "bytes": 3212,
+        "ms": 9
+      },
+      {
+        "name": "flower-purplea.glb",
+        "bytes": 7112,
+        "ms": 4
+      },
+      {
+        "name": "flower-yellowa.glb",
+        "bytes": 7120,
+        "ms": 4
+      },
+      {
+        "name": "flower-reda.glb",
+        "bytes": 7104,
+        "ms": 6
+      },
+      {
+        "name": "grass-large.glb",
+        "bytes": 18504,
+        "ms": 7
+      },
+      {
+        "name": "rock-largea.glb",
+        "bytes": 7552,
+        "ms": 6
+      },
+      {
+        "name": "rock-largeb.glb",
+        "bytes": 8560,
+        "ms": 4
+      },
+      {
+        "name": "rock-smalla.glb",
+        "bytes": 3044,
+        "ms": 11
+      },
+      {
+        "name": "stump-round.glb",
+        "bytes": 5644,
+        "ms": 7
+      },
+      {
+        "name": "log.glb",
+        "bytes": 14288,
+        "ms": 8
+      },
+      {
+        "name": "mushroom-red.glb",
+        "bytes": 6364,
+        "ms": 8
+      },
+      {
+        "name": "tent-smallopen.glb",
+        "bytes": 13604,
+        "ms": 4
+      },
+      {
+        "name": "campfire-stones.glb",
+        "bytes": 17344,
+        "ms": 6
+      },
+      {
+        "name": "sign.glb",
+        "bytes": 5040,
+        "ms": 7
+      },
+      {
+        "name": "lily-small.glb",
+        "bytes": 5664,
+        "ms": 7
+      },
+      {
+        "name": "Explorer.glb",
+        "bytes": 885412,
+        "ms": 8
+      }
+    ],
+    "worldSwitches": [
+      {
+        "fps": 1,
+        "frameP95Ms": 1600,
+        "drawCalls": 176,
+        "triangles": 172175,
+        "geometries": 72,
+        "textures": 10,
+        "pixelRatio": 1,
+        "scene": "village",
+        "natureInstances": 1750,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      {
+        "fps": 0,
+        "frameP95Ms": 2449.9,
+        "drawCalls": 120,
+        "triangles": 158003,
+        "geometries": 58,
+        "textures": 10,
+        "pixelRatio": 1,
+        "scene": "woodland",
+        "natureInstances": 1576,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      {
+        "fps": 1,
+        "frameP95Ms": 2449.9,
+        "drawCalls": 135,
+        "triangles": 147016,
+        "geometries": 60,
+        "textures": 10,
+        "pixelRatio": 1,
+        "scene": "meadow",
+        "natureInstances": 1481,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      {
+        "fps": 1,
+        "frameP95Ms": 2449.9,
+        "drawCalls": 176,
+        "triangles": 172175,
+        "geometries": 80,
+        "textures": 10,
+        "pixelRatio": 1,
+        "scene": "village",
+        "natureInstances": 1750,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      {
+        "fps": 0,
+        "frameP95Ms": 2483.2,
+        "drawCalls": 120,
+        "triangles": 158003,
+        "geometries": 58,
+        "textures": 10,
+        "pixelRatio": 1,
+        "scene": "woodland",
+        "natureInstances": 1576,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      {
+        "fps": 1,
+        "frameP95Ms": 2449.9,
+        "drawCalls": 135,
+        "triangles": 147016,
+        "geometries": 60,
+        "textures": 10,
+        "pixelRatio": 1,
+        "scene": "meadow",
+        "natureInstances": 1481,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      {
+        "fps": 1,
+        "frameP95Ms": 2449.9,
+        "drawCalls": 176,
+        "triangles": 172175,
+        "geometries": 80,
+        "textures": 10,
+        "pixelRatio": 1,
+        "scene": "village",
+        "natureInstances": 1750,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      {
+        "fps": 0,
+        "frameP95Ms": 2449.9,
+        "drawCalls": 120,
+        "triangles": 158003,
+        "geometries": 58,
+        "textures": 10,
+        "pixelRatio": 1,
+        "scene": "woodland",
+        "natureInstances": 1576,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      {
+        "fps": 1,
+        "frameP95Ms": 2449.9,
+        "drawCalls": 135,
+        "triangles": 147016,
+        "geometries": 60,
+        "textures": 10,
+        "pixelRatio": 1,
+        "scene": "meadow",
+        "natureInstances": 1481,
+        "objects": 0,
+        "quality": "gentle"
+      }
+    ],
+    "tablet": {
+      "fps": 1,
+      "frameP95Ms": 2299.9,
+      "drawCalls": 181,
+      "triangles": 184128,
+      "geometries": 73,
+      "textures": 11,
+      "pixelRatio": 1,
+      "scene": "village",
+      "natureInstances": 1750,
+      "objects": 0,
+      "quality": "balanced"
+    },
+    "iphone-portrait": {
+      "fps": 3,
+      "frameP95Ms": 1149.8,
+      "drawCalls": 108,
+      "triangles": 118799,
+      "geometries": 68,
+      "textures": 11,
+      "pixelRatio": 1,
+      "scene": "village",
+      "natureInstances": 1750,
+      "objects": 0,
+      "quality": "balanced"
+    },
+    "iphone-landscape": {
+      "fps": 1,
+      "frameP95Ms": 1100,
+      "drawCalls": 194,
+      "triangles": 199143,
+      "geometries": 75,
+      "textures": 11,
+      "pixelRatio": 1,
+      "scene": "village",
+      "natureInstances": 1750,
+      "objects": 0,
+      "quality": "balanced"
+    }
+  }
+}

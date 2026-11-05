@@ -1,7 +1,8 @@
 """Rendered QA against a running local preview. No external browser or asset requests."""
-import json, pathlib, time
+import json, pathlib, time, os
 from playwright.sync_api import sync_playwright
 ROOT=pathlib.Path(__file__).resolve().parents[2]
+BASE=os.environ.get('ADVENTURES_QA_URL','http://127.0.0.1:5174')
 OUT=ROOT/'docs/adventures-v1'
 SHOTS=OUT/'screenshots'
 SHOTS.mkdir(parents=True,exist_ok=True)
@@ -9,15 +10,17 @@ results={'environment':'Chromium / SwiftShader on managed Linux; emulation only,
 def check(name,condition,detail=None):
  assert condition,(name,detail)
  results['checks'].append({'name':name,'passed':True,'detail':detail})
+ OUT.joinpath('qa-results.json').write_text(json.dumps(results,indent=2))
  print('PASS',name,detail or '',flush=True)
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader'])
  context=browser.new_context(viewport={'width':1440,'height':900},device_scale_factor=1)
- page=context.new_page();errors=[];failed=[]
+ page=context.new_page();page.set_default_timeout(60000);errors=[];failed=[]
  page.on('pageerror',lambda e:errors.append(str(e)))
  page.on('response',lambda r:failed.append(r.url) if r.status>=400 else None)
- start=time.monotonic();page.goto('http://127.0.0.1:5174/adventures.html?test=1');page.wait_for_function('window.adventure?.ready',timeout=60000)
+ start=time.monotonic();page.goto(BASE+'/adventures.html?test=1');page.wait_for_function('window.adventure?.ready',timeout=60000)
  results['metrics']['desktopReadyMs']=round((time.monotonic()-start)*1000)
+ results['metrics']['startupResources']=page.evaluate("performance.getEntriesByType('resource').map(r=>({name:r.name.split('/').pop(),bytes:r.encodedBodySize,ms:Math.round(r.duration)}))")
  page.screenshot(path=str(SHOTS/'welcome.png'))
  page.locator('#enter').click();page.evaluate("adventure.game.setQuality('gentle')")
  movement=page.evaluate("""()=>{const g=adventure.game;const before=g.player.z;for(let i=0;i<90;i++)g.update(1/60,{x:0,z:-1,run:false});const after=g.player.z,clip=g.currentAnimation;for(let i=0;i<30;i++)g.update(1/60,{x:0,z:0,run:false});return{distance:before-after,clip,idle:g.currentAnimation};}""")
@@ -26,6 +29,12 @@ with sync_playwright() as p:
  check('running animation',running=='Running_A')
  collision=page.evaluate("""()=>{const g=adventure.game;Object.assign(g.player,{x:0,z:-12,y:0});g.velocity.set(0,0);for(let i=0;i<180;i++)g.update(1/60,{x:0,z:-1,run:true});return{x:g.player.x,z:g.player.z,obstacles:g.obstacles().filter(b=>b.name==='building_tavern_blue')};}""")
  check('tavern footprint stops the player',collision['z']>-18,collision)
+ camera=page.evaluate("""()=>{const g=adventure.game;Object.assign(g.player,{x:0,z:-12,y:0});g.cameraYaw=Math.PI;g.cameraPosition.set(0,0,0);g.cameraUpdate(1/60);return {z:g.camera.position.z,distance:g.camera.position.distanceTo(new g.camera.position.constructor(0,1.35,-12))};}""")
+ check('following camera shortens before the inn',camera['z']>-17.5 and camera['distance']<10,camera)
+ spawn=page.evaluate("""()=>{const g=adventure.game;Object.assign(g.player,{x:0,z:-23,y:0});g.safeSpawn();return{x:g.player.x,z:g.player.z};}""")
+ check('blocked spawn recovers to clear ground',abs(spawn['x'])>4.7 or spawn['z']>-17.3 or spawn['z']<-28.7,spawn)
+ page.evaluate('adventure.game.cameraYaw=0')
+
  bridge=page.evaluate("""()=>{const g=adventure.game;Object.assign(g.player,{x:22,z:8,y:0});g.velocity.set(0,0);g.cameraYaw=0;for(let i=0;i<210;i++)g.update(1/60,{x:1,z:0,run:true});return{x:g.player.x,z:g.player.z,y:g.player.y};}""")
  check('walk continuously across bridge',bridge['x']>36,bridge)
  bank=page.evaluate("""()=>{const g=adventure.game;Object.assign(g.player,{x:22,z:19,y:0});g.velocity.set(0,0);for(let i=0;i<180;i++)g.update(1/60,{x:1,z:0,run:true});return g.player.x;}""")
@@ -70,21 +79,24 @@ with sync_playwright() as p:
  # Two physical device classes emulated in Chromium, not Safari.
  for name,size in [('tablet',{'width':1280,'height':800}),('iphone-portrait',{'width':390,'height':844}),('iphone-landscape',{'width':844,'height':390})]:
   ctx=browser.new_context(viewport=size,device_scale_factor=1,is_mobile=True,has_touch=True)
-  pg=ctx.new_page();pg.on('pageerror',lambda e:errors.append(str(e)));pg.goto('http://127.0.0.1:5174/adventures.html?test=1');pg.wait_for_function('window.adventure?.ready',timeout=60000);pg.locator('#enter').click();pg.evaluate("adventure.game.setQuality('gentle')")
+  pg=ctx.new_page();pg.add_init_script("Object.defineProperty(Crypto.prototype,'randomUUID',{value:undefined,configurable:true});Object.defineProperty(Navigator.prototype,'clipboard',{get:()=>undefined,configurable:true});");pg.set_default_timeout(60000);pg.on('pageerror',lambda e:errors.append(str(e)));pg.goto(BASE+'/adventures.html?test=1');pg.wait_for_function('window.adventure?.ready',timeout=60000);pg.locator('#enter').click();pg.evaluate("adventure.game.setQuality('gentle')")
+  check(f'{name} LAN UUID fallback creates initial save',pg.evaluate("!!adventure.session.current?.id&&typeof crypto.randomUUID==='function'"))
   check(f'{name} touch controls visible',pg.locator('#joystick').is_visible())
   layout=pg.evaluate("""()=>['hud','joystick','run'].map(id=>{const r=document.getElementById(id).getBoundingClientRect();return{id,x:r.x,y:r.y,right:r.right,bottom:r.bottom};})""")
   check(f'{name} controls fit viewport',all(r['x']>=0 and r['y']>=0 and r['right']<=size['width']+.5 and r['bottom']<=size['height']+.5 for r in layout),layout)
   cd=ctx.new_cdp_session(pg);r=pg.locator('#joystick').bounding_box();cx=r['x']+r['width']/2;cy=r['y']+r['height']/2
-  cd.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':cx,'y':cy-35,'id':1}]})
+  cd.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':cx,'y':cy-35,'id':1}]});pg.wait_for_function('adventure.game.controls.stick.y<-.5')
   # Keep the joystick held while a second thumb orbits; ending the second thumb must retain movement.
   cd.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':cx,'y':cy-35,'id':1},{'x':size['width']*.6,'y':size['height']*.5,'id':2}]})
   cd.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{'x':cx,'y':cy-35,'id':1},{'x':size['width']*.6+25,'y':size['height']*.5,'id':2}]})
-  cd.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[{'x':cx,'y':cy-35,'id':1}]})
+  cd.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[{'x':size['width']*.6+25,'y':size['height']*.5,'id':2}]})
   check(f'{name} movement survives second-thumb release',pg.evaluate('adventure.game.controls.stick.y<-.5'))
   cd.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
   check(f'{name} joystick resets on release',pg.evaluate('adventure.game.controls.stick.y===0'))
   pg.evaluate("adventure.game.setQuality('balanced');adventure.view('player')");pg.wait_for_timeout(200);pg.screenshot(path=str(SHOTS/f'{name}.png'))
-  results['metrics'][name]=pg.evaluate('adventure.stats()');ctx.close()
+  results['metrics'][name]=pg.evaluate('adventure.stats()')
+  pg.locator('#menu').click();pg.locator('details').evaluate('(d)=>d.open=true');pg.locator('#copy').click();check(f'{name} clipboard-free backup fallback',len(pg.locator('#backupText').input_value())>200)
+  ctx.close()
  browser.close()
 OUT.joinpath('qa-results.json').write_text(json.dumps(results,indent=2))
 print('CHECKS',len(results['checks']),flush=True)

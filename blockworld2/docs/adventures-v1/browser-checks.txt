@@ -1,0 +1,36 @@
+PASS walking, stopping and supplied animation transitions {'distance': 4.322367770970619, 'clip': 'Walking_A', 'idle': 'Idle'}
+PASS running animation 
+PASS tavern footprint stops the player {'x': 0, 'z': -17.20303291867719, 'obstacles': [{'minX': -4.705603528022766, 'maxX': 4.705603528022767, 'minZ': -28.412197399139405, 'maxZ': -17.587802600860595, 'height': 12.290520563125211, 'name': 'building_tavern_blue'}]}
+PASS following camera shortens before the inn {'z': -16.979849822526837, 'distance': 5.585494558814802}
+PASS blocked spawn recovers to clear ground {'x': 5.126214972819745, 'z': -21.007032350378296}
+PASS walk continuously across bridge {'x': 42.503018531921896, 'z': 8, 'y': 0}
+PASS stream bank blocks entry outside bridge 29.503018744093698
+PASS clear-spot placement enabled 
+PASS premade object placed 
+PASS undo restores scene 
+PASS redo restores object 
+PASS save and reload retain independent meadow 
+PASS import creates new record 
+PASS malformed import preserves current world 
+PASS resource counts stay bounded over nine switches [('village', 72, 10), ('woodland', 58, 10), ('meadow', 60, 10), ('village', 80, 10), ('woodland', 58, 10), ('meadow', 60, 10), ('village', 80, 10), ('woodland', 58, 10), ('meadow', 60, 10)]
+PASS no browser runtime errors 
+PASS all local resources resolved 
+PASS tablet LAN UUID fallback creates initial save 
+PASS tablet touch controls visible 
+PASS tablet controls fit viewport [{'id': 'hud', 'x': 28, 'y': 24, 'right': 1252, 'bottom': 87}, {'id': 'joystick', 'x': 35, 'y': 631, 'right': 159, 'bottom': 755}, {'id': 'run', 'x': 1186, 'y': 671, 'right': 1250, 'bottom': 735}]
+PASS tablet movement survives second-thumb release 
+PASS tablet joystick resets on release 
+PASS tablet clipboard-free backup fallback 
+PASS iphone-portrait LAN UUID fallback creates initial save 
+PASS iphone-portrait touch controls visible 
+PASS iphone-portrait controls fit viewport [{'id': 'hud', 'x': 14, 'y': 14, 'right': 376, 'bottom': 75}, {'id': 'joystick', 'x': 22, 'y': 678, 'right': 138, 'bottom': 794}, {'id': 'run', 'x': 309, 'y': 713, 'right': 368, 'bottom': 772}]
+PASS iphone-portrait movement survives second-thumb release 
+PASS iphone-portrait joystick resets on release 
+PASS iphone-portrait clipboard-free backup fallback 
+PASS iphone-landscape LAN UUID fallback creates initial save 
+PASS iphone-landscape touch controls visible 
+PASS iphone-landscape controls fit viewport [{'id': 'hud', 'x': 14, 'y': 8, 'right': 830, 'bottom': 71}, {'id': 'joystick', 'x': 25, 'y': 263, 'right': 127, 'bottom': 365}, {'id': 'run', 'x': 750, 'y': 291, 'right': 814, 'bottom': 355}]
+PASS iphone-landscape movement survives second-thumb release 
+PASS iphone-landscape joystick resets on release 
+PASS iphone-landscape clipboard-free backup fallback 
+CHECKS 35

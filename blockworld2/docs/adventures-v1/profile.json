@@ -1,0 +1,214 @@
+{
+  "environment": "Managed Chromium software rendering, 1280x800 touch emulation, DPR1. This is not a physical Lenovo or iPhone benchmark. Frame samples include browser/automation scheduling and cannot predict hardware FPS.",
+  "readyMs": 4087,
+  "assets": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "textures": [
+      {
+        "name": "hexagons_medieval",
+        "width": 1024,
+        "height": 1024
+      },
+      {
+        "name": "rogue_texture",
+        "width": 1024,
+        "height": 1024
+      }
+    ],
+    "estimatedAssetTextureRGBA8Bytes": 11184810.666666666,
+    "resources": [
+      {
+        "name": "adventures-Buq0FzjK.js",
+        "encodedBytes": 667821
+      },
+      {
+        "name": "adventures-C09wGGYR.css",
+        "encodedBytes": 14453
+      },
+      {
+        "name": "building_home_A_blue.glb",
+        "encodedBytes": 72552
+      },
+      {
+        "name": "building_home_A_green.glb",
+        "encodedBytes": 72556
+      },
+      {
+        "name": "building_home_B_blue.glb",
+        "encodedBytes": 99324
+      },
+      {
+        "name": "building_home_B_green.glb",
+        "encodedBytes": 99328
+      },
+      {
+        "name": "icon.svg",
+        "encodedBytes": 325
+      },
+      {
+        "name": "building_tavern_blue.glb",
+        "encodedBytes": 188056
+      },
+      {
+        "name": "building_market_blue.glb",
+        "encodedBytes": 169368
+      },
+      {
+        "name": "building_windmill_blue.glb",
+        "encodedBytes": 160684
+      },
+      {
+        "name": "building_church_blue.glb",
+        "encodedBytes": 106940
+      },
+      {
+        "name": "building_blacksmith_blue.glb",
+        "encodedBytes": 140252
+      },
+      {
+        "name": "building_watermill_blue.glb",
+        "encodedBytes": 129464
+      },
+      {
+        "name": "building_well_blue.glb",
+        "encodedBytes": 59540
+      },
+      {
+        "name": "building_bridge_A.glb",
+        "encodedBytes": 42732
+      },
+      {
+        "name": "fence_wood_straight.glb",
+        "encodedBytes": 32208
+      },
+      {
+        "name": "barrel.glb",
+        "encodedBytes": 32724
+      },
+      {
+        "name": "crate_A_small.glb",
+        "encodedBytes": 24180
+      },
+      {
+        "name": "sack.glb",
+        "encodedBytes": 20400
+      },
+      {
+        "name": "wheelbarrow.glb",
+        "encodedBytes": 36200
+      },
+      {
+        "name": "tree-oak.glb",
+        "encodedBytes": 14644
+      },
+      {
+        "name": "tree-detailed.glb",
+        "encodedBytes": 31412
+      },
+      {
+        "name": "tree-pinedefaulta.glb",
+        "encodedBytes": 17220
+      },
+      {
+        "name": "tree-pinedefaultb.glb",
+        "encodedBytes": 18180
+      },
+      {
+        "name": "plant-bush.glb",
+        "encodedBytes": 4396
+      },
+      {
+        "name": "plant-bushsmall.glb",
+        "encodedBytes": 3212
+      },
+      {
+        "name": "flower-purplea.glb",
+        "encodedBytes": 7112
+      },
+      {
+        "name": "flower-yellowa.glb",
+        "encodedBytes": 7120
+      },
+      {
+        "name": "flower-reda.glb",
+        "encodedBytes": 7104
+      },
+      {
+        "name": "grass-large.glb",
+        "encodedBytes": 18504
+      },
+      {
+        "name": "rock-largea.glb",
+        "encodedBytes": 7552
+      },
+      {
+        "name": "rock-largeb.glb",
+        "encodedBytes": 8560
+      },
+      {
+        "name": "rock-smalla.glb",
+        "encodedBytes": 3044
+      },
+      {
+        "name": "stump-round.glb",
+        "encodedBytes": 5644
+      },
+      {
+        "name": "log.glb",
+        "encodedBytes": 14288
+      },
+      {
+        "name": "mushroom-red.glb",
+        "encodedBytes": 6364
+      },
+      {
+        "name": "tent-smallopen.glb",
+        "encodedBytes": 13604
+      },
+      {
+        "name": "campfire-stones.glb",
+        "encodedBytes": 17344
+      },
+      {
+        "name": "sign.glb",
+        "encodedBytes": 5040
+      },
+      {
+        "name": "lily-small.glb",
+        "encodedBytes": 5664
+      },
+      {
+        "name": "Explorer.glb",
+        "encodedBytes": 885412
+      }
+    ]
+  },
+  "samples": [
+    {
+      "fps": 2,
+      "frameP95Ms": 1383.3,
+      "drawCalls": 182,
+      "triangles": 195464,
+      "geometries": 73,
+      "textures": 10,
+      "pixelRatio": 1,
+      "scene": "village",
+      "natureInstances": 1750,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    {
+      "fps": 2,
+      "frameP95Ms": 1399.9,
+      "drawCalls": 182,
+      "triangles": 195464,
+      "geometries": 73,
+      "textures": 11,
+      "pixelRatio": 1,
+      "scene": "village",
+      "natureInstances": 1750,
+      "objects": 0,
+      "quality": "balanced"
+    }
+  ]
+}

@@ -1,25 +1,39 @@
-# BlockWorld Adventures asset rebuild
+# BlockWorld Adventures — continuation checkpoint
 
-Development only. Do not deploy, publish, merge into main, change the existing website repository, or overwrite historical packages. Branch `codex/blockworld-adventures-asset-rebuild` starts at verified Run 4 checkpoint `9f6c14be6b9821c2e6048dc75189338a1b0f9e54` (Run 3 plus the verified atomic-menu and save-ownership repairs). No uncommitted recovery work was imported. All changes remain within `blockworld2/`.
+Work only on `codex/blockworld-adventures-asset-rebuild` in `novice-builder/object-builder`. Do not deploy, publish, merge main, modify the separate website repo, overwrite old branches/packages, or change Neighborhood 06. Start by fetching and checking the remote SHA. Do not overlap another active writer. The source base is verified Run 4 commit `9f6c14be6b9821c2e6048dc75189338a1b0f9e54` (Run 3 plus verified menu and save-ownership repairs); no unfinished recovery edits were imported.
 
-## In progress
+## Completed and verified
 
-Build a separate asset-scene entrypoint and versioned preview while retaining the validated original game, persistence store and regression suite. Prioritise one designed, explorable village with real premade models and animated character, mobile controls, collisions, local backups and rendered screenshot evidence. New scene saves use a separate database so existing worlds cannot be overwritten.
+The separate `adventures.html` entrypoint implements Willowmere village, Whispering Wood and Maker’s Meadow, with premade KayKit/Kenney CC0 models, a real rigged Explorer, idle/walk/run crossfades, smooth controller orientation, third-person camera collision, building/trunk/water collision, spawn recovery, touch joystick/orbit/pinch/run controls, discoverable landmarks and a minimal responsive interface.
 
-## Asset access
+Imported asset definitions and transforms live under `src/adventures/`. Building supports placement, selection, movement, rotation, removal, undo and redo with a 200-object per-world limit. Native `WorldStore` is reused in separate database `blockworld-adventures-assets-v1`; the old database/localStorage and Run 4 Session source are unchanged. Serialized transitions retain late edits before applying reads. Checksum checkpoints, failed-write protection, stale-tab conflict detection, export/import-as-new-copy, recovery copies and clipboard-free backup text are implemented. A cryptographic UUID fallback supports LAN HTTP where `randomUUID` is unavailable.
 
-Seahill Towns and Wilds advertise CC0 complete packs; Quaternius Stylized Nature MegaKit advertises a CC0 free standard edition and paid additional editions. The execution environment blocks their download hosts. Do not circumvent that restriction. Investigating public GitHub mirrors/official CC0 alternatives and preserving exact source commits/licences. Do not claim inaccessible preferred assets were downloaded.
+**116 deterministic tests and 37 distinct rendered/interaction checks pass.** Strict TypeScript, preservation and production build pass. Actual screenshots cover village centre, residential lane, entrance, bridge, forest, woodland, meadow, welcome, world selection, tablet and phone orientations. Physical Lenovo/iPhone/Safari performance is unverified. Managed Chromium uses software rendering and profiles at about 2 fps; this must not be presented as hardware performance or a successful mobile FPS target. Startup requests total 3.27 MB before compression; two 1024px asset atlases estimate 10.67 MiB RGBA8+mips excluding buffers/shadow/driver allocations. Nine scene switches retain bounded geometry/texture counts in the recorded probe.
 
-## Next
+71 inventoried models total 4.48 MiB; startup uses a smaller selected subset. Full licences, source commits, hashes and processing scripts are in `public/adventures/`. Seahill and Quaternius Nature downloads were host-blocked and are not included. `artifacts/adventures-v1/BlockWorld-Adventures-Source-Assets-01.zip` preserves exact original selected CC0 files separately. Do not bypass restrictions or imply inaccessible editions were verified/downloaded.
 
-Finish verified asset inventory, assemble the village and character, then inspect actual browser renders before expanding. Commit and push tested milestones; verify each remote SHA. Keep continuation state and limitations current. Physical Lenovo/iPhone performance is unverified. Automation availability has been inspected; no continuation is scheduled yet.
+Preview 01 is packaged under `artifacts/adventures-v1/`; `BUILD.json` records its source SHA. Do not overwrite this folder on continuation—use a new version. `docs/adventures-v1/REPORT.md`, `gallery.html`, `qa-results.json`, `profile.json`, raw logs, screenshots and `preservation.json` contain evidence and limitations. All root/Neighborhood 06 files and historical archives retain their original contents. The public website was never written or deployed.
 
-## Implemented checkpoint (preview 01)
+## Resume commands
 
-`adventures.html` is the separate local entrypoint. `npm run dev:adventures` serves it on port 5174. `npm run build:adventures` writes only ignored `adventures-dist/`; the original app/build/release tools are retained. Current scene code is under `src/adventures/`, using 71 inventoried CC0 research assets in `public/adventures/` (only a selected subset is requested at startup). Full provenance, source commits, retained animation names, CC0 texts and reproducible lossless GLB packing are adjacent to the models.
+From `blockworld2/`:
 
-Willowmere has a connected street layout, market, well, inn, homes, windmill, brook crossing and woodland camp. Whispering Wood and Maker’s Meadow are distinct selectable scenes, each with independent saves. Explorer uses supplied Idle/Walking_A/Running_A clips with crossfades and smooth orientation changes. Prefab houses are exterior-only; no door or indoor feature is claimed. Building footprints, tree trunks, stream banks and bridge rails constrain walking; the following camera shortens before solid obstacles. Touch joystick, orbit, pinch zoom and running are implemented.
+```
+npm ci --cache /workspace/work/npm-cache --no-audit --no-fund
+npm run dev:adventures
+# Open /adventures.html; the original app remains at its original entrypoint.
+npm run test:adventures
+npm run build:adventures
+```
 
-Building supports premade placement, selection, movement, rotation, removal and undo/redo with a 200-object limit. The new entrypoint reuses the existing `WorldStore` in **`blockworld-adventures-assets-v1`**, with a scene extension inside the existing native envelope. It never opens `blockworld2-development` or legacy localStorage. Its coordinator serializes transitions, flushes late edits before applying a read, retains checkpoints on failed writes, detects stale-tab conflicts, and imports only validated adventure backups as new records. Existing Run 4 Session source is unchanged.
+Build output is ignored `adventures-dist/`. Serve that directory locally (for example `python -m http.server 5175 --bind 127.0.0.1 --directory adventures-dist`) and run `ADVENTURES_QA_URL=http://127.0.0.1:5175 python tools/adventures/qa.py`, then the focused `visual-final.py` and `profile.py` scripts. The profile/focused scripts currently use port 5175. `report.py` regenerates the report/gallery from evidence. `package.py --output <NEW-VERSION-DIRECTORY>` packages a validated build and refuses to overwrite a versioned archive. Avoid the original app’s release/publish helpers.
 
-Verification so far: all **115 deterministic tests pass**, including five new Adventures regressions; strict TypeScript and preservation/build pass. Initial rendered checks verify walk/run/idle transitions, a blocked tavern footprint, the bridge crossing and stream-bank exclusion. Full browser/mobile QA and screenshots are still in progress. First renders led to corrected tree scale/materials, paving UVs, path joins and bridge alignment. Complete rendered QA and package/report before claiming the milestone finished. Do not claim physical-device performance.
+## Next unfinished priorities
+
+1. Physical Lenovo tablet and iPhone/Safari testing: cold load, sustained movement/orbit, thermal stability, storage/backups, 20+ scene switches. Use actual measurements to choose graphics/material/culling defaults. The available execution environment cannot establish these results.
+2. Improve the woodland/countryside art direction with grounded plants, connected softer trails, intentional clearings and better distant landscape transitions; inspect actual renders after changes. Keep paths/banks clear.
+3. Add better catalogue thumbnails and selection highlighting, then persistent control/quality preferences. Re-test editor collisions, undo and mobile multi-touch.
+4. Investigate suitable CC0 open modular interiors/doors. Existing village prefabs are closed exterior models; do not claim indoor access until it exists and has been rendered/tested. Original game interiors remain available in the original entrypoint.
+5. Camera canopy collisions, analytic bridge contact and coarse footprint edge cases need further scrutiny. No authored turn clip, dedicated LOD/streaming terrain, NPC simulation, audio, vehicles or multiplayer is claimed for this entrypoint.
+
+Checkpoint real improvements with appropriate tests/renders, commit, push and independently verify the remote SHA. Keep this document current. No banked usage reset was redeemed. The exact next usage-reset time is not exposed; any five-hour continuation is a scheduled attempt, not a claim about allowance or execution success. Check the accompanying continuation-schedule record for confirmed scheduling state.

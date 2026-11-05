@@ -1,13 +1,14 @@
-✔ late edits during delayed world read preserve ownership (16.250389ms)
-✔ quota failure aborts switching and retains source; recovery creates a new record (4.484874ms)
-✔ invalid import creates no records; valid import always creates a separate copy (4.015456ms)
-✔ stale tab conflicts retain the newer checkpoint (2.764119ms)
-✔ water, bridge and footprint boundaries allow safe crossing (0.633626ms)
-ℹ tests 5
+✔ late edits during delayed world read preserve ownership (13.198632ms)
+✔ quota failure aborts switching and retains source; recovery creates a new record (6.76453ms)
+✔ invalid import creates no records; valid import always creates a separate copy (3.961113ms)
+✔ stale tab conflicts retain the newer checkpoint (2.806261ms)
+✔ water, bridge and footprint boundaries allow safe crossing (0.492473ms)
+✔ LAN HTTP UUID fallback retains RFC4122 version/variant and avoids collisions (10.137436ms)
+ℹ tests 6
 ℹ suites 0
-ℹ pass 5
+ℹ pass 6
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 493.848266
+ℹ duration_ms 423.720521
