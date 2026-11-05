@@ -322,7 +322,9 @@ export class Game {
       ...this.builds.query(p, r),
       ...this.world.doors
         .filter(
-          (d: any) => Math.hypot(d.center.x - p.x, d.center.z - p.z) < r + 3,
+          (d: any) =>
+            Math.hypot(d.center.x - p.x, d.center.z - p.z) <
+            r + Math.max(3, d.width / 2 + 0.1),
         )
         .map((d: any) => doorBox(d)),
       ...this.waterHazards().filter(
@@ -344,7 +346,7 @@ export class Game {
         .filter(
           (d: any) =>
             Math.hypot(d.center.x - this.player.x, d.center.z - this.player.z) <
-            6,
+            Math.max(6, d.width / 2 + 3),
         )
         .map((d: any) => doorBox(d)),
     ];
@@ -360,10 +362,12 @@ export class Game {
       dt,
       (d: any) => ({
         solids: [
-          ...this.index.query(around({ ...d.center, y: 0 }, 4)),
+          ...this.index.query(
+            around({ ...d.center, y: 0 }, Math.max(4, d.width / 2 + 1)),
+          ),
           ...(this.activity?.entitySolids() || []),
           ...this.builds
-            .query({ ...d.center, y: 0 }, 4)
+            .query({ ...d.center, y: 0 }, Math.max(4, d.width / 2 + 1))
             .map((s) => (s.ramp ? { ...s, ramp: null } : s)),
         ],
         blocks: [],

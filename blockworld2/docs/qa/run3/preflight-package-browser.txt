@@ -1,0 +1,53 @@
+
+> blockworld2@0.1.0 test:browser
+> playwright test --grep standalone|cold offline|scoped worker|terminal and hangar|failed saving blocks
+
+[WebServer] (node:34194) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:34212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:34212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/airfield.spec.ts:2:1 › terminal and hangar entrances, actual aircraft boarding, scenic flight, exit and reload (19.7s)
+  ✓  2 tests/browser/offline-update-ui.spec.ts:5:1 › failed saving blocks a waiting update; recovered progress survives explicit activation and offline reload (16.4s)
+  ✓  3 tests/browser/slice.spec.ts:104:1 › no-op saves do not advance revisions and a cold offline tab restores the world (8.9s)
+  -  4 tests/browser/standalone.spec.ts:6:1 › local-file standalone launch and storage where managed policy permits it
+  ✘  5 tests/browser/standalone.spec.ts:37:1 › single-file HTML renders moves builds and restores independent worlds without other assets (30.4s)
+(node:34535) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:34535) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  6 tests/browser/standalone.spec.ts:116:1 › single-file HTML backup download and file input restore a separate copy (5.9s)
+  ✓  7 tests/browser/update.spec.ts:6:1 › a scoped worker update retains saves, legacy caches and cold offline startup (11.8s)
+
+
+  1) tests/browser/standalone.spec.ts:37:1 › single-file HTML renders moves builds and restores independent worlds without other assets
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.tap: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('[data-template="blank"]')
+        - locator resolved to <button data-template="blank">🧱 Blank creative</button>
+      - attempting tap action
+        - waiting for element to be visible, enabled and stable
+
+
+      78 |   expect(after.yaw).toBeLessThan(before.yaw - 0.05);
+      79 |   await page.locator("#worlds").tap();
+    > 80 |   await page.locator('[data-template="blank"]').tap();
+         |                                                 ^
+      81 |   await expect(page.locator("#modal")).toBeHidden();
+      82 |   await page.locator("#catalogueButton").tap();
+      83 |   await page.locator('[data-category="Furniture"]').tap();
+        at /workspace/object-builder/blockworld2/tests/browser/standalone.spec.ts:80:49
+
+    Error Context: test-results/standalone-single-file-HTM-c879e-worlds-without-other-assets/error-context.md
+
+  1 failed
+    tests/browser/standalone.spec.ts:37:1 › single-file HTML renders moves builds and restores independent worlds without other assets
+  1 skipped
+  5 passed (1.7m)

@@ -140,3 +140,45 @@ test("earlier county layouts and constructions in the future airport remain unch
     await page.evaluate(() => (window as any).bw2.snapshot().blocks[0].x),
   ).toBe(178);
 });
+
+test("wide hangar door stops off-centre walking and refuses an obstruction near its edge", async ({
+  page,
+}) => {
+  await page.goto("/?test=1");
+  await page.waitForFunction(() => (window as any).bw2?.session.ready);
+  await page.evaluate(() => {
+    const a = (window as any).bw2;
+    a.game.automatic = false;
+    a.setPlayer({ x: 184, y: 0, z: -172, yaw: 0, pitch: 0 });
+    a.simulate({ forward: 1, right: 0 }, 2);
+  });
+  expect(
+    await page.evaluate(() => (window as any).bw2.game.player.z),
+  ).toBeGreaterThan(-174.7);
+  await page.evaluate(() =>
+    (window as any).bw2.setPlayer({ x: 178, y: 0, z: -172, yaw: 0, pitch: 0 }),
+  );
+  await page.locator("#use").tap();
+  await page.evaluate(() => {
+    const a = (window as any).bw2;
+    a.simulate({ forward: 0, right: 0 }, 1);
+    a.add({ x: 184, y: 0, z: -175, type: "wood" });
+  });
+  expect(
+    await page.evaluate(() => (window as any).bw2.snapshot().blocks.length),
+  ).toBe(1);
+  await page.evaluate(() => {
+    const a = (window as any).bw2;
+    a.game.automatic = true;
+    a.setPlayer({ x: 178, y: 0, z: -165, yaw: 0 });
+    a.simulate({ forward: 0, right: 0 }, 5);
+  });
+  expect(
+    await page.evaluate(
+      () =>
+        (window as any).bw2.game.world.doors.find(
+          (d: any) => d.id === "airfield-hangar",
+        ).angle,
+    ),
+  ).toBeGreaterThan(1.4);
+});
