@@ -142,9 +142,15 @@ export class Activity {
       animal: boolean,
       limbs: T.Mesh[],
       species?: Species,
+      start = 0,
     ) => {
       const points = route.map(([x, z]) => ({ x, z })),
-        state = { ...points[0], target: 1, wait: 0, stuck: 0 };
+        state = {
+          ...points[start % points.length],
+          target: (start + 1) % points.length,
+          wait: 0,
+          stuck: 0,
+        };
       model.position.set(state.x, 0, state.z);
       this.group.add(model);
       this.agents.push({
@@ -210,6 +216,8 @@ export class Activity {
         range > 100 && i >= 6 ? outer[i - 6] : routes[range > 47 ? i : i % 2],
         false,
         [a.left, a.right],
+        undefined,
+        range <= 47 ? Math.floor(i / 2) : 0,
       );
     }
     const species: Species[] =

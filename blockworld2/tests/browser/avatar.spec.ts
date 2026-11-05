@@ -56,7 +56,9 @@ test("twelve visual looks persist and present correctly across seated flight and
   expect(
     await page.evaluate(() => (window as any).bw2.game.body.group.scale.x),
   ).toBeCloseTo(0.72);
-  expect(
-    await page.evaluate(() => (window as any).bw2.game.body.group.visible),
-  ).toBe(true);
+  await expect
+    .poll(() =>
+      page.evaluate(() => (window as any).bw2.game.body.group.visible),
+    )
+    .toBe(true);
 });

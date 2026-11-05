@@ -1,0 +1,11 @@
+# Run 3 persistence and offline reliability
+
+Recovery copies reopen IndexedDB instead of reusing a closed connection. A committed recovery copy retains the original record and legacy import bytes, selects its own ID, clears the persistent error and re-enables updating. Active unsaved geometry remains available for export throughout failure. Native schemas 1/2/3, independent instances, revision conflicts, previous checkpoints and layout revisions remain supported.
+
+The PWA reports offline readiness after verifying its own installed cache/index. Cache names now include the exact worker scope as well as build identity, preventing two test paths from sharing asset caches. No previous or origin-wide caches are deleted; no IndexedDB data is cleared. New workers wait normally. The explicit update button first commits the current world, refuses failed/unready/stale saves and only then requests activation/reload. Other tabs are never automatically reloaded by this page.
+
+The full recovered Run 2 baseline passed 88 deterministic tests/build/preservation but 29/31 browser scenarios. It exposed paired Home/Square residents sharing a spawn and frame-timing-dependent avatar presentation. Residents now start at separate route points; camera changes apply immediately and avatar assertions await actual state. Paused/hidden scenes no longer consume full 3D renders while thumbnails or menus are being drawn.
+
+Executed: nine focused save/interrupted-transaction/update/resident cases passed. Existing cold-offline, worker replacement, failed-storage export and conflicting-tab scenarios passed. The final focused four-scenario run passed recovered-copy/reload, disabled update on failure then explicit activation/offline restoration, resident movement and wardrobe/camera/modes. Strict TypeScript, production build and preservation passed. A full combined suite follows packaging and final gameplay.
+
+Tests simulate an IndexedDB transaction abort, closed connections and stale writers; they do not establish survival of a physical OS power cut or disk-full tablet. Browser storage remains subject to user clearing/eviction. Portable backups are retained as the recovery route. Physical Lenovo, iPhone/Safari and long-session testing remain outstanding.

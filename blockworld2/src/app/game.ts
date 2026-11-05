@@ -449,8 +449,11 @@ export class Game {
   }
   frame(now: number) {
     requestAnimationFrame((n) => this.frame(n));
-    if (this.paused || document.hidden) this.clock.reset(now);
-    else this.clock.tick(now, (dt) => this.update(dt));
+    if (this.paused || document.hidden) {
+      this.clock.reset(now);
+      return;
+    }
+    this.clock.tick(now, (dt) => this.update(dt));
     this.updateCamera();
     this.world.staticRender.updateVisibility(this.view.camera, 155);
     this.view.renderer.render(this.view.scene, this.view.camera);
@@ -1095,6 +1098,7 @@ export class Game {
       (document.querySelector<HTMLButtonElement>("#" + id)!.onclick = fn);
     on("cameraMode", () => {
       this.cameraMode = this.cameraMode === "first" ? "third" : "first";
+      this.updateCamera();
       this.refreshModes();
       this.onEdit();
     });

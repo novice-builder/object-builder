@@ -34,6 +34,7 @@ export class Session {
         ));
       await this.open(record.id);
       this.ready = true;
+      document.dispatchEvent(new Event("bw2-save-status"));
       setInterval(() => {
         if (!this.game.paused && !document.hidden)
           void this.save().catch(() => {});
@@ -91,6 +92,7 @@ export class Session {
     this.current = loaded.record;
     this.last = encode(fromGame(this.game.snapshot())).json;
     this.blocked = loaded.recovered;
+    document.dispatchEvent(new Event("bw2-save-status"));
     await this.store.select(id);
     this.game.paused = false;
     if (loaded.recovered)
@@ -99,7 +101,10 @@ export class Session {
           "An older checkpoint was recovered. The damaged original is retained. Save a new copy before continuing.",
         ),
       );
-    else this.game.notice("✓ World ready · saved on this device");
+    else {
+      document.querySelector("#saveAlert")?.remove();
+      this.game.notice("✓ World ready · saved on this device");
+    }
   }
   async save(): Promise<void> {
     if (!this.current || !this.store) return;
@@ -183,6 +188,7 @@ export class Session {
   }
   private failure(error: unknown) {
     this.blocked = true;
+    document.dispatchEvent(new Event("bw2-save-status"));
     let alert = document.querySelector<HTMLElement>("#saveAlert");
     if (!alert) {
       alert = document.createElement("aside");
@@ -209,20 +215,27 @@ export class Session {
     });
     button("Save as new copy", () => {
       void (async () => {
+        let recovery: WorldStore | undefined;
         try {
-          if (!this.store) this.store = await WorldStore.open();
-          const record = await this.store.create(
+          if (this.flight) await this.flight.catch(() => {});
+          recovery = await WorldStore.open();
+          const record = await recovery.create(
             (this.current?.name || "Recovered world") + " recovered",
             fromGame(this.game.snapshot()),
+            this.current?.importSource,
           );
+          await recovery.select(record.id);
+          this.store?.db.close();
+          this.store = recovery;
           this.current = record;
-          await this.store.select(record.id);
           this.last = record.current.json;
           this.blocked = false;
           this.ready = true;
+          document.dispatchEvent(new Event("bw2-save-status"));
           alert!.remove();
           this.game.notice("✓ Recovered copy saved");
         } catch (e) {
+          recovery?.db.close();
           text.textContent = String(e);
         }
       })();

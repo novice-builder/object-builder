@@ -1,6 +1,7 @@
 import { Session } from "./app/session";
 import { Game } from "./app/game";
 import "./ui/style.css";
+import { startOffline } from "./app/offline";
 try {
   const game = new Game();
   const session = new Session(game);
@@ -20,14 +21,7 @@ try {
         add: (b: any) => game.commands.place(b, false),
       },
     });
-  if (import.meta.env.PROD && "serviceWorker" in navigator)
-    navigator.serviceWorker
-      .register("./sw.js", { scope: "./" })
-      .catch(() =>
-        game.notice(
-          "Offline preparation unavailable; export a backup before closing.",
-        ),
-      );
+  void startOffline(session);
 } catch (error) {
   const node = document.createElement("p");
   node.textContent = `Could not start: ${String(error)}`;

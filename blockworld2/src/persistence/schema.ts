@@ -76,6 +76,22 @@ export function validateSnapshot(value: unknown): Snapshot {
     typeof s.preferences.leftHanded !== "boolean"
   )
     throw Error("Invalid control side");
+  for (const [key, limit] of [
+    ["hotbar", 8],
+    ["recent", 8],
+    ["favourites", 32],
+  ] as const) {
+    const ids = s.preferences[key];
+    if (
+      ids !== undefined &&
+      (!Array.isArray(ids) ||
+        ids.length > limit ||
+        ids.some(
+          (id) => typeof id !== "string" || !CHOICES.some((c) => c.id === id),
+        ))
+    )
+      throw Error("Invalid catalogue preferences");
+  }
   validateBlocks(s.world.blocks);
   if (!["hand", ...CHOICES.map((i) => i.id)].includes(s.preferences.selected))
     throw Error("Invalid selected item");
