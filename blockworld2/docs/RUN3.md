@@ -31,3 +31,7 @@ Sunbeam County is a separate template preserving existing Region worlds. Measure
 ## Stage D complete — riding
 
 Horse contextual mounting, touch steering, reverse/turn-in-place, long-distance movement, whole-horse/rider collision, safe dismount/reload, saved horse positions and riding camera/avatar presentation are integrated. County layout 2 clears the paddock exit while preserving layout 1. The touch test caught the hitching-rail obstruction before acceptance. Four focused deterministic riding cases and the final browser riding scenario passed; catalogue/county checks and county driving regression passed. Build/type/preservation passed. See RUN3-RIDING.md. Continue to companions and more vehicles after remote verification.
+
+## Stage E milestone — companions complete
+
+Friendly dog Follow/Stay/Home controls, live map finding, bounded navigation and persistent preference/position are integrated. Nine focused deterministic cases and both companion/riding browser scenarios passed; build/type/preservation passed. A companion follows to a reachable standing point beside the player; routing to the occupied centre was caught and corrected by the detour regression. See RUN3-COMPANIONS.md. Preserve this milestone separately, then add player vehicles.

@@ -96,7 +96,13 @@ export function openMap(game: Game) {
       },
     },
   ];
-  for (const place of places) {
+  const pet = game.activity?.pet;
+  for (const place of [
+    ...places,
+    ...(pet
+      ? [{ name: "Your dog", icon: "🐕", x: pet.state.x, z: pet.state.z }]
+      : []),
+  ]) {
     const b = document.createElement("button");
     b.textContent = place.icon + " " + place.name;
     b.dataset.place = place.name;

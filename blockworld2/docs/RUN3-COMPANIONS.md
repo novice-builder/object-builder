@@ -1,0 +1,7 @@
+# Companion dog
+
+Use the friendly dog to choose large pictorial Follow, Stay or Home controls. Its preference and position persist per world and in backups. New worlds retain ordinary wandering until a preference is chosen. The map adds a live Your dog destination for finding a resting companion.
+
+Following uses a reachable point beside the player rather than an occupied player-centre target. The existing bounded 160-node local detour search avoids buildings, player constructions, furniture, water, parked cars, traffic and other agents. Stay holds position. Home walks back toward the original habitat and rests there. There is no teleport, reward, unlock, feeding prerequisite or aggressive behaviour. A distant following/returning dog continues at a bounded 10 Hz while other distant agents sleep; it may take time to walk across the county and can wait if a route is sealed. Home is the familiar original Square habitat, not an arbitrary newly selected building.
+
+Executed: two companion deterministic cases plus seven life/riding regressions passed. Coverage includes an actual wall detour, stopping distance, Stay, Home, save/backup round trip and distant bounded movement without teleportation. Actual browser taps through Follow/Stay/Home, movement, map finding and reload persistence passed, as did the complete riding browser scenario. TypeScript/build/preservation passed. No hardware or Safari performance claim.

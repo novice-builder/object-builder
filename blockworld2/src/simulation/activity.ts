@@ -88,6 +88,24 @@ export class Activity {
     this.driving = false;
     this.riding = null;
   }
+  petMode: "wander" | "follow" | "stay" | "home" = "wander";
+  private petElapsed = 0;
+  private petGoal: { x: number; z: number } | null = null;
+  get pet() {
+    return this.agents.find((a) => a.species === "dog");
+  }
+  setPetMode(mode: "follow" | "stay" | "home") {
+    this.petMode = mode;
+    this.petGoal = null;
+    const a = this.pet;
+    if (a) {
+      a.state.wait = 0;
+      a.state.stuck = 0;
+      a.state.detour = undefined;
+      a.state.replans = 0;
+      a.greetUntil = 0;
+    }
+  }
   time = 0;
   agents: {
     model: T.Group;
@@ -377,12 +395,29 @@ export class Activity {
           a.model.rotation.y = saved.yaw;
         }
       }
+    if (value?.pet && this.pet) {
+      this.petMode = value.pet.mode;
+      this.pet.state.x = value.pet.x;
+      this.pet.state.z = value.pet.z;
+      this.pet.model.position.set(value.pet.x, 0, value.pet.z);
+      this.pet.model.rotation.y = value.pet.yaw;
+    }
     this.stop();
     this.sync();
   }
   snapshot() {
     return {
       car: { ...this.car },
+      ...(this.pet
+        ? {
+            pet: {
+              mode: this.petMode,
+              x: this.pet.state.x,
+              z: this.pet.state.z,
+              yaw: this.pet.model.rotation.y,
+            },
+          }
+        : {}),
       horses: this.agents
         .filter((a) => a.species === "horse")
         .map((a, id) => ({
@@ -394,6 +429,28 @@ export class Activity {
     };
   }
   resolveHorses() {
+    if (this.pet) {
+      const a = this.pet,
+        solids = this.query?.(a.state, 15) || [];
+      const shape = {
+        minX: a.state.x - 0.22,
+        maxX: a.state.x + 0.22,
+        minZ: a.state.z - 0.22,
+        maxZ: a.state.z + 0.22,
+        minY: 0.001,
+        maxY: 0.95,
+      };
+      if (solids.some((s) => overlaps(shape, s))) {
+        try {
+          const p = safeGround(a.state, solids);
+          a.state.x = p.x;
+          a.state.z = p.z;
+          a.model.position.set(p.x, 0, p.z);
+        } catch {
+          a.state.wait = 1;
+        }
+      }
+    }
     for (const a of this.agents.filter((a) => a.species === "horse")) {
       const pose = this.horsePose(a),
         clear = (p: any) =>
@@ -609,58 +666,93 @@ export class Activity {
     const parked = carBox(this.car);
     for (const a of this.agents) {
       if (a === this.riding) continue;
-      const distance = Math.hypot(a.state.x - p.x, a.state.z - p.z);
+      const distance = Math.hypot(a.state.x - p.x, a.state.z - p.z),
+        companion = a.species === "dog" && this.petMode !== "wander";
       a.model.visible = distance < 105;
-      if (distance > 80) continue;
+      if (distance > 80 && !companion) continue;
+      let elapsed = dt;
+      if (companion && distance > 80) {
+        this.petElapsed += dt;
+        if (this.petElapsed < 0.1) continue;
+        elapsed = Math.min(0.1, this.petElapsed);
+        this.petElapsed = 0;
+      }
+      const goal = companion
+        ? this.petMode === "follow"
+          ? {
+              x: p.x + ((a.state.x - p.x) * 2.1) / Math.max(distance, 0.01),
+              z: p.z + ((a.state.z - p.z) * 2.1) / Math.max(distance, 0.01),
+            }
+          : a.route[0]
+        : null;
+      if (
+        companion &&
+        (!this.petGoal ||
+          Math.hypot(goal!.x - this.petGoal.x, goal!.z - this.petGoal.z) > 3)
+      ) {
+        this.petGoal = { ...goal! };
+        a.state.detour = undefined;
+        a.state.target = 0;
+        a.state.stuck = 0;
+        a.state.wait = 0;
+      }
+      const blocked: (x: number, z: number) => boolean = (x, z) =>
+        Math.hypot(x - p.x, z - p.z) < 0.8 ||
+        this.agents.some(
+          (other) =>
+            other !== a &&
+            Math.hypot(x - other.state.x, z - other.state.z) < 0.65,
+        ) ||
+        [
+          ...(this.query?.({ x, y: 0, z }, 1.2) || solids),
+          parked,
+          ...this.traffic.map((m) =>
+            carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
+          ),
+        ].some((s) => {
+          const radius =
+            a.species === "horse" || a.species === "cow"
+              ? 0.4
+              : a.animal
+                ? 0.22
+                : 0.28;
+          const height =
+            a.species === "horse"
+              ? 2
+              : a.species === "cow"
+                ? 1.5
+                : a.animal
+                  ? 0.95
+                  : 1.65;
+          return overlaps(
+            {
+              minX: x - radius,
+              maxX: x + radius,
+              minZ: z - radius,
+              maxZ: z + radius,
+              minY: 0.001,
+              maxY: height,
+            },
+            s,
+          );
+        });
       const before = { x: a.state.x, z: a.state.z };
       let moving = false;
       const targetBefore = a.state.target;
-      if (this.time >= a.greetUntil)
+      if (
+        this.time >= a.greetUntil &&
+        (!companion ||
+          (this.petMode !== "stay" &&
+            (this.petMode === "follow"
+              ? distance > 2.4
+              : Math.hypot(goal!.x - a.state.x, goal!.z - a.state.z) > 0.2)))
+      )
         moving = stepRoute(
           a.state,
-          a.route,
-          dt,
-          a.animal ? 0.65 : 1,
-          (x, z) =>
-            Math.hypot(x - p.x, z - p.z) < 0.8 ||
-            this.agents.some(
-              (other) =>
-                other !== a &&
-                Math.hypot(x - other.state.x, z - other.state.z) < 0.65,
-            ) ||
-            [
-              ...(this.query?.({ x, y: 0, z }, 1.2) || solids),
-              parked,
-              ...this.traffic.map((m) =>
-                carBox({ x: m.position.x, z: m.position.z, yaw: m.rotation.y }),
-              ),
-            ].some((s) => {
-              const radius =
-                a.species === "horse" || a.species === "cow"
-                  ? 0.4
-                  : a.animal
-                    ? 0.22
-                    : 0.28;
-              const height =
-                a.species === "horse"
-                  ? 2
-                  : a.species === "cow"
-                    ? 1.5
-                    : a.animal
-                      ? 0.95
-                      : 1.65;
-              return overlaps(
-                {
-                  minX: x - radius,
-                  maxX: x + radius,
-                  minZ: z - radius,
-                  maxZ: z + radius,
-                  minY: 0.001,
-                  maxY: height,
-                },
-                s,
-              );
-            }),
+          companion ? [goal!] : a.route,
+          elapsed,
+          companion ? 3.4 : a.animal ? 0.65 : 1,
+          blocked,
         );
       if (targetBefore !== a.state.target) a.state.wait = a.animal ? 2 : 1;
       a.model.position.set(

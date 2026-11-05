@@ -134,6 +134,17 @@ export function validateSnapshot(value: unknown): Snapshot {
       throw Error("Invalid vehicle checkpoint");
   }
   if (
+    activity?.pet !== undefined &&
+    (!activity.pet ||
+      !["wander", "follow", "stay", "home"].includes(activity.pet.mode) ||
+      ![activity.pet.x, activity.pet.z, activity.pet.yaw].every(
+        Number.isFinite,
+      ) ||
+      Math.abs(activity.pet.x) > 249 ||
+      Math.abs(activity.pet.z) > 249)
+  )
+    throw Error("Invalid companion checkpoint");
+  if (
     activity?.horses !== undefined &&
     (!Array.isArray(activity.horses) ||
       activity.horses.length > 4 ||

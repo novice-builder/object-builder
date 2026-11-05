@@ -13,6 +13,7 @@ import { Activity, carBox } from "../simulation/activity";
 import { fly, followCamera } from "../player/modes";
 import { createAvatar, disposeAvatar, APPEARANCES } from "../player/appearance";
 import { openWardrobe } from "../ui/wardrobe";
+import { openPetMenu } from "../ui/pet-menu";
 import { openControlMenu } from "../ui/controls-menu";
 import { openMap } from "../ui/map";
 import { safeGround, safeStanding } from "../world/spawn";
@@ -1029,6 +1030,10 @@ export class Game {
           this.controls.clear();
           this.refreshModes();
           this.onEdit();
+          return;
+        }
+        if (a.species === "dog") {
+          openPetMenu(this);
           return;
         }
         a.greetUntil = this.activity!.time + 2;
