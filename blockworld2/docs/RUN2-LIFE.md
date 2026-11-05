@@ -1,0 +1,9 @@
+# Run 2 bounded living world
+
+Sunbeam Region runs 12 residents, eight species (dog, cat, duck, horse, cow, sheep, chicken, rabbit), four traffic cars and one player buggy. The original town retains its 6+4+2 profile and Home/Square its smaller population. Farm animals, ducks and rabbits have authored habitats. New residents visit outer public paths; greetings pause movement. Animals have species silhouettes/gaits and resting pauses. Distant agents stop updating and hide beyond the bounded visibility range.
+
+Blocked agents can take a short, bounded four-neighbour detour around player constructions. Planning has a node budget, stays local and never teleports through an obstacle. It falls back to waiting/reconsidering targets when no route exists. This is not unrestricted global navigation or elaborate interior scheduling.
+
+Region traffic uses lane offsets on a small road graph, deterministic junction choices, exclusive occupied-junction reservations, directional spacing, collision checks and pedestrian yielding. A persistently blocked road can trigger a safe reverse/reconsideration; movement always proceeds in small collision-tested steps. Cars include compact, van and open-roof styling. Junction pauses are implemented; dedicated parking-bay routines and full traffic-light rules remain future work. Original smaller templates keep their proven perimeter traffic.
+
+Executed: 11 focused navigation/life/movement cases passed, including 4,000 deterministic road steps with collision/step bounds and matching repeated simulation, blocked road recovery, eight-species/population bounds and no-teleport wall detours. Five Chromium scenarios passed for farm greeting/traffic, original animal/seating behavior, driving/persistence and compact layouts. A new recovery test was corrected to drive into the road before blocking it, rather than inspecting a transient reversal at its initial node. Physical mobile performance remains unmeasured.

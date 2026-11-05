@@ -4,6 +4,9 @@ test("usable chairs allow sitting and safe standing through touch or movement", 
 }) => {
   await page.goto("/?test=1");
   await page.waitForFunction(() => (window as any).bw2?.session.ready);
+  await page.evaluate(() =>
+    (window as any).bw2.session.newWorld("sunbeam-town"),
+  );
   await page.evaluate(async () => {
     const a = (window as any).bw2;
     await a.session.newWorld("blank");
@@ -27,6 +30,9 @@ test("friendly animals and greetings are available in Sunbeam Town", async ({
 }) => {
   await page.goto("/?test=1");
   await page.waitForFunction(() => (window as any).bw2?.session.ready);
+  await page.evaluate(() =>
+    (window as any).bw2.session.newWorld("sunbeam-town"),
+  );
   expect(
     await page.evaluate(() =>
       (window as any).bw2.game.activity.agents

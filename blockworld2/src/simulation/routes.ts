@@ -1,9 +1,12 @@
+import { findDetour, type Point } from "./navigation";
 export interface RouteState {
   x: number;
   z: number;
   target: number;
   wait: number;
   stuck: number;
+  detour?: Point[];
+  replans?: number;
 }
 export function stepRoute(
   state: RouteState,
@@ -17,11 +20,15 @@ export function stepRoute(
     state.wait = Math.max(0, state.wait - dt);
     return false;
   }
-  const target = points[state.target % points.length],
+  const target = state.detour?.[0] || points[state.target % points.length],
     dx = target.x - state.x,
     dz = target.z - state.z,
     distance = Math.hypot(dx, dz);
   if (distance < 0.15) {
+    if (state.detour?.length) {
+      state.detour.shift();
+      return false;
+    }
     state.target = (state.target + 1) % points.length;
     state.wait = 0.6;
     return false;
@@ -31,16 +38,29 @@ export function stepRoute(
     z = state.z + (dz / distance) * step;
   if (blocked(x, z)) {
     state.stuck += dt;
+    if (
+      state.stuck > 0.4 &&
+      !state.detour?.length &&
+      (state.replans || 0) < 1
+    ) {
+      state.replans = (state.replans || 0) + 1;
+      state.detour =
+        findDetour(state, points[state.target % points.length], blocked) ||
+        undefined;
+    }
     if (state.stuck > 2) {
       state.target = (state.target + 1) % points.length;
       state.stuck = 0;
       state.wait = 0.5;
+      state.detour = undefined;
+      state.replans = 0;
     }
     return false;
   }
   state.x = x;
   state.z = z;
   state.stuck = 0;
+  if (!state.detour?.length) state.replans = 0;
   return true;
 }
 export function trafficPose(progress: number) {

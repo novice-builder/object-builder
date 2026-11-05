@@ -1,5 +1,13 @@
 import * as T from "three";
-export type Species = "dog" | "cat" | "duck" | "horse";
+export type Species =
+  | "dog"
+  | "cat"
+  | "duck"
+  | "horse"
+  | "cow"
+  | "sheep"
+  | "chicken"
+  | "rabbit";
 export function animalModel(species: Species) {
   const group = new T.Group(),
     geometry = new T.BoxGeometry(1, 1, 1),
@@ -35,6 +43,38 @@ export function animalModel(species: Species) {
       limbs.push(put(x, 0.1, 0, 0.13, 0.2, 0.25, 0xd99d58));
     put(-0.34, 0.4, 0, 0.12, 0.2, 0.4);
     put(0.34, 0.4, 0, 0.12, 0.2, 0.4);
+  } else if (species === "chicken") {
+    put(0, 0.3, 0, 0.4, 0.45, 0.5, 0xf2ead2);
+    put(0, 0.65, -0.2, 0.25, 0.3, 0.25, 0xf2ead2);
+    put(0, 0.65, -0.4, 0.15, 0.1, 0.16, 0xd6aa63);
+    put(0, 0.85, -0.2, 0.08, 0.15, 0.15, 0xc58268);
+    for (const x of [-0.12, 0.12])
+      limbs.push(put(x, 0.1, 0, 0.06, 0.2, 0.1, 0xd6aa63));
+  } else if (species === "rabbit") {
+    put(0, 0.3, 0, 0.5, 0.4, 0.65, 0xb4b0a4);
+    put(0, 0.55, -0.3, 0.3, 0.3, 0.3, 0xb4b0a4);
+    for (const x of [-0.1, 0.1]) put(x, 0.88, -0.3, 0.09, 0.5, 0.12, 0xb4b0a4);
+    for (const x of [-0.2, 0.2])
+      limbs.push(put(x, 0.12, 0.15, 0.18, 0.25, 0.35, 0xddd4c4));
+    put(0, 0.4, 0.4, 0.2, 0.2, 0.2, 0xddd4c4);
+  } else if (species === "cow" || species === "sheep") {
+    const cow = species === "cow",
+      w = cow ? 0.9 : 0.8,
+      h = cow ? 0.95 : 0.65,
+      l = cow ? 1.5 : 1.1;
+    put(0, h, 0, w, cow ? 0.75 : 0.7, l, 0xe9e3cc);
+    put(0, h + 0.15, -l * 0.55, 0.5, 0.5, 0.45, cow ? 0xc3ab94 : 0x82776b);
+    if (cow) {
+      put(-0.35, h + 0.08, 0.2, 0.22, 0.65, 0.5, 0x7c7769);
+      put(0.3, h - 0.1, -0.25, 0.3, 0.4, 0.4, 0x7c7769);
+      for (const x of [-0.3, 0.3])
+        put(x, h + 0.43, -l * 0.55, 0.12, 0.22, 0.1, 0xd8c8a1);
+    } else
+      for (const x of [-0.35, 0, 0.35])
+        put(x, h + 0.4, 0, 0.3, 0.3, l * 0.8, 0xf0ead9);
+    for (const x of [-w * 0.3, w * 0.3])
+      for (const z of [-l * 0.3, l * 0.3])
+        limbs.push(put(x, (h - 0.3) / 2, z, 0.12, h - 0.3, 0.12, 0x82776b));
   } else {
     const horse = species === "horse",
       height = horse ? 0.95 : 0.36,
