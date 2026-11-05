@@ -16,12 +16,12 @@ test("migrated mechanics remain byte-identical to the audited upstream source", 
     assert.equal(createHash("sha256").update(bytes).digest("hex"), hash, file);
   }
 });
-test("active collision fork contains only the audited elevated-ramp changes", async () => {
+test("active collision fork contains only the audited ramp and landing changes", async () => {
   const read = (file: string) =>
     readFile(new URL(file, import.meta.url), "utf8");
   const original = await read("../src/legacy06/core.js");
   const expected =
-    "// Audited 06 collision fork: only import paths and explicit ramp base height differ.\n" +
+    '// Audited 06 collision fork: import paths, ramp base height, and landing join.\nimport { joinRampLanding } from "./ramp-landing.js";\n' +
     original
       .replace('from "./world-config.js"', 'from "../legacy06/world-config.js"')
       .replace('from "./spatial.js"', 'from "../legacy06/spatial.js"')
@@ -32,6 +32,10 @@ test("active collision fork contains only the audited elevated-ramp changes", as
       .replace(
         "previous !== null || p.y < 0.1 || Math.abs(p.y - b.maxY) < 0.1",
         "previous !== null || Math.abs(p.y - (b.ramp.baseY || 0)) < 0.1 || Math.abs(p.y - b.maxY) < 0.1",
+      )
+      .replace(
+        "      if (collides(p, solids)) {",
+        "      joinRampLanding(p, solids, rampHeight, bodyBox, collides);\n      if (collides(p, solids)) {",
       );
   assert.equal(await read("../src/player/physics.js"), expected);
 });

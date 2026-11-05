@@ -103,7 +103,7 @@ export class Game {
         this.onEdit();
       },
     );
-    this.load("sunbeam-town");
+    this.load("sunbeam-region");
     this.controls = new Controls(
       document.querySelector("#world")!,
       () => !this.paused,
@@ -154,7 +154,9 @@ export class Game {
       );
     }
     if (
-      (template === "home-square" || template === "sunbeam-town") &&
+      (template === "home-square" ||
+        template === "sunbeam-town" ||
+        template === "sunbeam-region") &&
       activity?.car &&
       [...world.solids, ...blocks.flatMap(blockColliders)].some((b) =>
         overlaps(carBox(activity.car), b),
@@ -174,9 +176,15 @@ export class Game {
     for (const child of [...candidate.children]) this.worldGroup.add(child);
     this.chunks.clear();
     this.template = template;
+    document.querySelector(".brand small")!.textContent =
+      `${TEMPLATES.find((t) => t.id === template)?.name} · Development preview`;
     this.world = world;
     this.index = index;
-    if (template === "home-square" || template === "sunbeam-town") {
+    if (
+      template === "home-square" ||
+      template === "sunbeam-town" ||
+      template === "sunbeam-region"
+    ) {
       this.activity = new Activity(
         this.view.scene,
         this.world.activityRange || 47,
@@ -225,9 +233,20 @@ export class Game {
   obstacles() {
     return [
       ...this.world.solids,
+      ...this.waterHazards(),
       ...this.world.doors.map((d: any) => doorBox(d)),
       ...(this.activity ? [carBox(this.activity.car)] : []),
     ];
+  }
+  waterHazards() {
+    return (this.world.waterAreas || []).map((w: any) => ({
+      minX: w.x - w.w / 2,
+      maxX: w.x + w.w / 2,
+      minZ: w.z - w.d / 2,
+      maxZ: w.z + w.d / 2,
+      minY: 0,
+      maxY: 0.08,
+    }));
   }
   nearbySolids() {
     return [
@@ -276,6 +295,7 @@ export class Game {
       solids = this.nearbySolids(),
       obstacles = [
         ...this.world.solids,
+        ...this.waterHazards(),
         ...this.world.doors.map((d: any) => doorBox(d)),
         ...this.commands.blocks.flatMap(blockColliders),
       ];
@@ -304,6 +324,26 @@ export class Game {
         );
     }
     this.activity?.update(dt, this.player, input, obstacles);
+    const water = (this.world.waterAreas || []).find(
+      (w: any) =>
+        Math.abs(this.player.x - w.x) < w.w / 2 &&
+        Math.abs(this.player.z - w.z) < w.d / 2,
+    );
+    if (
+      water &&
+      !this.flying &&
+      !this.activity?.driving &&
+      this.player.y < 0.25
+    ) {
+      Object.assign(
+        this.player,
+        safeGround(water.shore, [
+          ...this.obstacles(),
+          ...this.commands.blocks.flatMap(blockColliders),
+        ]),
+      );
+      this.notice("💧 Back to the lakeside path");
+    }
   }
   frame(now: number) {
     requestAnimationFrame((n) => this.frame(n));

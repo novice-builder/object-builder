@@ -4,6 +4,9 @@ test("expanded town landmarks, plots and old-template switching remain usable", 
 }) => {
   await page.goto("/?test=1");
   await page.waitForFunction(() => (window as any).bw2?.session.ready);
+  await page.evaluate(() =>
+    (window as any).bw2.session.newWorld("sunbeam-town"),
+  );
   expect(
     await page.evaluate(() => (window as any).bw2.game.world.houses.length),
   ).toBe(12);

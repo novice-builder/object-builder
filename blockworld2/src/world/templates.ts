@@ -1,9 +1,21 @@
 import { makeSunbeamTown } from "./sunbeam-town";
+import { makeSunbeamRegion } from "./sunbeam-region";
 import { makeHomeSquare } from "./home-square";
 import * as T from "three";
 import { makeWorld } from "../legacy06/world.js";
-export type TemplateId = "legacy-06" | "blank" | "home-square" | "sunbeam-town";
+export type TemplateId =
+  | "legacy-06"
+  | "blank"
+  | "home-square"
+  | "sunbeam-town"
+  | "sunbeam-region";
 export const TEMPLATES = [
+  {
+    id: "sunbeam-region" as TemplateId,
+    name: "Sunbeam Region",
+    icon: "🌳",
+    spawn: { x: -21.4, y: 0, z: 0, yaw: 0, pitch: 0 },
+  },
   {
     id: "sunbeam-town" as TemplateId,
     name: "Sunbeam Town",
@@ -34,6 +46,7 @@ export function createWorld(
   id: TemplateId,
   blocks: any[] = [],
 ): any {
+  if (id === "sunbeam-region") return makeSunbeamRegion(group);
   if (id === "sunbeam-town") return makeSunbeamTown(group);
   if (id === "home-square") return makeHomeSquare(group);
   if (id === "legacy-06") return makeWorld(group, blocks);

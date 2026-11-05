@@ -1,0 +1,9 @@
+# Sunbeam Region
+
+The new `sunbeam-region` instance template composes the original Sunbeam Town unchanged and adds surrounding districts. Existing `sunbeam-town`, `home-square` and legacy instances keep their geometry and saved constructions. There is no automatic in-place world replacement. New games start in the region; original templates remain selectable.
+
+Delivered totals: 26 furnished main buildings, six usable garages, eight clear building plots, 36 destinations and three accessible multi-storey homes. Fourteen new buildings include different roof/floor layouts, larger homes, a bookshop, grocer, museum, community hall, farmhouse/barn/animal lodge, boathouse, conservatory and woodland café. New streets, footpaths/crossings, a farm paddock, woodland trail/picnic corner and lake paths/lookouts occupy roughly 280 m. The lake has a gentle shore return for walkers; swimming is not implemented. The buggy stops at water.
+
+Reused the audited 06 building/door/stair authoring helper. New-region landing floors fill its old 0.2 m top gap in both geometry and collision. A narrowly audited active-physics adapter joins ramps to matching landings by at most 0.09 m; frozen legacy mechanics remain identical. Ascending and descending all three stairs is exercised with ledge protection.
+
+Executed checks verify all 32 doorway passages, clear room waypoints and plots, all six garage bays against buggy dimensions, safe landmark arrivals and exact preservation of the original town's collider prefix. Browser exploration verifies lake recovery, old-world creation/switch/reload without replacing a build outside the old town, driving, compact layouts and upstairs camera rendering. Additional interaction and simulation stages build upon this template; the world is not represented as a final polished release.

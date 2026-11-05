@@ -11,11 +11,13 @@ export function openMap(game: Game) {
   const canvas = document.querySelector<HTMLCanvasElement>("#mapCanvas")!,
     ctx = canvas.getContext("2d")!;
   let zoom =
-      game.template === "sunbeam-town"
-        ? 2.7
-        : game.template === "home-square"
-          ? 4
-          : 0.8,
+      game.template === "sunbeam-region"
+        ? 1.4
+        : game.template === "sunbeam-town"
+          ? 2.7
+          : game.template === "home-square"
+            ? 4
+            : 0.8,
     ox = 280,
     oy = 210,
     drag: { x: number; y: number } | null = null;
@@ -26,6 +28,10 @@ export function openMap(game: Game) {
     ctx.translate(ox, oy);
     ctx.scale(zoom, zoom);
     ctx.fillStyle = "#859995";
+    ctx.fillStyle = "#81b8c6";
+    for (const w of game.world.waterAreas || [])
+      ctx.fillRect(w.x - w.w / 2, w.z - w.d / 2, w.w, w.d);
+    ctx.fillStyle = "#859995";
     if (game.world.mapRoads) {
       for (const r of game.world.mapRoads)
         ctx.fillRect(r.x - r.w / 2, r.z - r.d / 2, r.w, r.d);
@@ -35,7 +41,11 @@ export function openMap(game: Game) {
     }
     for (const h of game.world.houses) {
       ctx.fillStyle = "#b88361";
-      ctx.fillRect(h.x - h.w / 2, h.z - h.d / 2, h.w, h.d);
+      ctx.save();
+      ctx.translate(h.x, h.z);
+      ctx.rotate(-(h.angle || 0));
+      ctx.fillRect(-h.w / 2, -h.d / 2, h.w, h.d);
+      ctx.restore();
     }
     ctx.fillStyle = "#edb447";
     ctx.beginPath();

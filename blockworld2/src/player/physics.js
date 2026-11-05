@@ -1,4 +1,5 @@
-// Audited 06 collision fork: only import paths and explicit ramp base height differ.
+// Audited 06 collision fork: import paths, ramp base height, and landing join.
+import { joinRampLanding } from "./ramp-landing.js";
 import { WORLD, walkingSpeed } from "../legacy06/world-config.js";
 import { SpatialIndex } from "../legacy06/spatial.js";
 // World units are metres. Block coordinates are cell minima; player y is feet.
@@ -205,6 +206,7 @@ export function movePlayer(p, input, dt, solids) {
             p.y = y;
         }
       }
+      joinRampLanding(p, solids, rampHeight, bodyBox, collides);
       if (collides(p, solids)) {
         p[axis] = old;
         p.y = beforeY;
