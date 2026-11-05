@@ -11,7 +11,10 @@
     "preserve": "node tools/preserve.mjs",
     "build": "npm run typecheck && npm run preserve && vite build && node tools/release.mjs && node tools/standalone.mjs",
     "preview": "vite preview --host 0.0.0.0",
-    "check": "npm run test && npm run build"
+    "check": "npm run test && npm run build",
+    "dev:adventures": "vite --config vite.adventures.config.ts",
+    "build:adventures": "npm run typecheck && npm run preserve && vite build --config vite.adventures.config.ts",
+    "test:adventures": "node --import tsx --test tests/adventures*.test.ts"
   },
   "dependencies": {
     "three": "0.160.1"
