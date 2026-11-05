@@ -116,6 +116,7 @@ export function openMap(game: Game) {
     b.dataset.place = place.name;
     b.onclick = () => {
       try {
+        if (!game.endFlight()) return;
         const p = safeGround(place, [
           ...game.obstacles(),
           ...game.commands.blocks.flatMap(blockColliders),

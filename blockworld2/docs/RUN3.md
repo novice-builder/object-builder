@@ -39,3 +39,7 @@ Friendly dog Follow/Stay/Home controls, live map finding, bounded navigation and
 ## Stage E complete — fleet
 
 Three separately saved player vehicles in County: buggy, cargo-bed runabout and bicycle. Live map finding, consistent touch controls, oriented bicycle collision, safe exit and on-foot reload beside the vehicle are implemented. Existing templates retain one buggy. Eight deterministic cases and four browser scenarios passed; type/build/preservation passed. See RUN3-VEHICLES.md. Continue to the connected airfield/passenger experience after remote verification.
+
+## Stage F complete — airfield and guided passenger flight
+
+County layout 3 adds the terminal, usable wide hangar, 64 m short runway, boardable six-seat aircraft and a 94-second scenic passenger tour with real ramp/interior traversal, outside camera, safe return/reload and moving collision. Layouts 1/2 retain prior structures and airport-area creations. Player obstacles stop the guided tour safely; no piloting claim. Four furnished trail rest stops also enrich travel. Latest County: 38 main buildings, ten garages plus hangar, 48 doors, 14 plots, 61 fixed destinations; 196 items/12 presets unchanged. Five aircraft and three county deterministic cases passed; five initial integration browsers and three final refined scenarios passed. Type/build/preservation passed. See RUN3-AIRFIELD.md. Preserve/verify, then run the complete suite and refresh final packages; do not publish.

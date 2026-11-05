@@ -58,7 +58,11 @@ export function validateSnapshot(value: unknown): Snapshot {
   const layout =
     s.world.layout ??
     (s.template === "sunbeam-region" && s.schema === 3 ? 2 : 1);
-  if (!Number.isInteger(layout) || Number(layout) < 1 || Number(layout) > 2)
+  if (
+    !Number.isInteger(layout) ||
+    Number(layout) < 1 ||
+    Number(layout) > (s.template === "sunbeam-county" ? 3 : 2)
+  )
     throw Error("Unsupported template layout");
   if (
     s.preferences.avatar !== undefined &&

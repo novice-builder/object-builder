@@ -182,13 +182,14 @@ export class Game {
     for (const b of world.solids) index.add(b);
     if (
       blocks.some((b) =>
-        index
-          .query(blockBounds(b))
-          .some((s) =>
-            blockColliders(b).some((shape) =>
-              overlaps(shape, s.ramp ? { ...s, ramp: null } : s),
-            ),
+        [
+          ...index.query(blockBounds(b)),
+          ...(world.dynamicSolids?.() || []),
+        ].some((s) =>
+          blockColliders(b).some((shape) =>
+            overlaps(shape, s.ramp ? { ...s, ramp: null } : s),
           ),
+        ),
       )
     ) {
       this.clearGroup(candidate);
@@ -209,9 +210,11 @@ export class Game {
           ...(v.id === "bicycle" ? { kind: "bicycle" } : {}),
         })),
       ].some((c) =>
-        [...world.solids, ...blocks.flatMap(blockColliders)].some((b) =>
-          overlaps(carBox(c), b),
-        ),
+        [
+          ...world.solids,
+          ...(world.dynamicSolids?.() || []),
+          ...blocks.flatMap(blockColliders),
+        ].some((b) => overlaps(carBox(c), b)),
       )
     ) {
       this.clearGroup(candidate);
@@ -290,6 +293,7 @@ export class Game {
   obstacles() {
     return [
       ...this.world.solids,
+      ...(this.world.dynamicSolids?.() || []),
       ...this.waterHazards(),
       ...this.world.doors.map((d: any) => doorBox(d)),
       ...(this.activity?.entitySolids() || []),
@@ -308,6 +312,13 @@ export class Game {
   querySolids(p: any, r: number) {
     return [
       ...this.index.query(around(p, r)),
+      ...(this.world.dynamicSolids?.() || []).filter(
+        (b: any) =>
+          b.minX < p.x + r &&
+          b.maxX > p.x - r &&
+          b.minZ < p.z + r &&
+          b.maxZ > p.z - r,
+      ),
       ...this.builds.query(p, r),
       ...this.world.doors
         .filter(
@@ -326,6 +337,7 @@ export class Game {
   nearbySolids() {
     return [
       ...(this.activity?.entitySolids(true) || []),
+      ...(this.world.dynamicSolids?.() || []),
       ...this.index.query(around(this.player, 3)),
       ...this.builds.query(this.player, 3),
       ...this.world.doors
@@ -357,6 +369,24 @@ export class Game {
         blocks: [],
       }),
     );
+    if (this.world.aircraft?.passenger) {
+      const message = this.world.aircraft.update(
+        dt,
+        this.player,
+        (p: any, r: number) => [
+          ...this.querySolids(p, r),
+          ...(this.activity?.entitySolids() || []),
+        ],
+      );
+      this.activity?.update(dt, this.player, { forward: 0, right: 0 }, []);
+      if (message) {
+        this.notice(message);
+        this.controls.clear();
+        this.refreshModes();
+        this.onEdit();
+      }
+      return;
+    }
     const input = this.controls.movement(),
       solids = this.nearbySolids(),
       obstacles: any[] = [];
@@ -487,7 +517,11 @@ export class Game {
           : this.player.y,
       this.player.z,
     );
-    const sitting = this.seated || this.playing || this.activity?.controlled;
+    const sitting =
+      this.seated ||
+      this.playing ||
+      this.activity?.controlled ||
+      this.world.aircraft?.passenger;
     this.body.left.rotation.x = sitting
       ? -1.2
       : Math.sin(this.gait) * 0.25 * this.walkAmount;
@@ -502,11 +536,24 @@ export class Game {
             ? -0.1
             : Math.sin(this.gait + (i ? Math.PI : 0)) * 0.2 * this.walkAmount),
     );
-    this.body.group.rotation.y = this.player.yaw;
+    this.body.group.rotation.y = this.world.aircraft?.passenger
+      ? this.world.aircraft.pose.yaw
+      : this.player.yaw;
     this.body.group.visible = false;
-    if (this.cameraMode === "third") {
+    if (this.cameraMode === "third" && this.world.aircraft?.passenger) {
+      const plane = this.world.aircraft.pose;
+      this.body.group.visible = true;
+      this.view.camera.position.set(
+        plane.x + Math.sin(this.player.yaw) * 16,
+        plane.y + 7,
+        plane.z + Math.cos(this.player.yaw) * 16,
+      );
+      this.view.camera.lookAt(plane.x, plane.y + 1.5, plane.z);
+      this.view.camera.updateMatrixWorld();
+    } else if (this.cameraMode === "third") {
       this.body.group.visible = followCamera(this.view.camera, this.player, [
         ...this.index.query(around(this.player, 8)),
+        ...(this.world.dynamicSolids?.() || []),
         ...this.world.doors.map((d: any) => doorBox(d)),
         ...this.builds.query(this.player, 8),
       ]);
@@ -594,7 +641,7 @@ export class Game {
       this.notice("Tap Use to finish playing");
       return;
     }
-    if (this.activity?.controlled) {
+    if (this.activity?.controlled || this.world.aircraft?.passenger) {
       this.notice("Walk before building");
       return;
     }
@@ -640,7 +687,7 @@ export class Game {
     } else this.notice(this.commands.place(h.aim) || "✓ Placed");
   }
   removeAt(x: number, y: number) {
-    if (this.activity?.controlled) return;
+    if (this.activity?.controlled || this.world.aircraft?.passenger) return;
     if (this.paused || this.playing) return;
     const h = this.hit(x, y);
     if (h?.target) {
@@ -673,7 +720,7 @@ export class Game {
     if (p) p.hidden = true;
   }
   confirm() {
-    if (this.activity?.controlled) {
+    if (this.activity?.controlled || this.world.aircraft?.passenger) {
       this.notice("Walk before building");
       return;
     }
@@ -793,6 +840,8 @@ export class Game {
           data: a,
         });
     }
+    if (this.world.aircraft && !this.world.aircraft.passenger)
+      targets.push(this.world.aircraft.target());
     return chooseInteraction(this.player, targets, (t) => {
       const origin = new T.Vector3(
           this.player.x,
@@ -804,6 +853,7 @@ export class Game {
         ray = new T.Ray(origin, end.sub(origin).normalize());
       const own = t.kind === "object" ? blockColliders(t.data.block) : [];
       const shapes = [
+        ...(this.world.dynamicSolids?.() || []),
         ...this.index
           .query(around(this.player, 4))
           .filter(
@@ -949,6 +999,10 @@ export class Game {
     return true;
   }
   use() {
+    if (this.world.aircraft?.passenger) {
+      this.endFlight();
+      return;
+    }
     if (this.playing) {
       this.endPlay();
       return;
@@ -1029,6 +1083,16 @@ export class Game {
           this.onEdit();
           this.notice("✓ Used");
         } else this.notice(this.commands.toggle(block) || "✓ Used");
+      } else if (target.kind === "aircraft") {
+        if (this.activity?.controlled) return;
+        this.world.aircraft.board(this.player);
+        this.flying = false;
+        this.vertical = 0;
+        this.cancel();
+        this.controls.clear();
+        this.refreshModes();
+        this.notice("✈ Scenic flight · Use to return safely");
+        this.onEdit();
       } else if (target.kind === "seat") this.sit(target.data);
       else if (target.kind === "agent") {
         const a = target.data;
@@ -1097,7 +1161,25 @@ export class Game {
       this.notice(String(e));
     }
   }
+  endFlight() {
+    if (!this.world.aircraft?.passenger) return true;
+    try {
+      this.world.aircraft.returnToPark(this.player, [
+        ...this.obstacles(),
+        ...this.commands.blocks.flatMap(blockColliders),
+      ]);
+      this.controls.clear();
+      this.refreshModes();
+      this.notice("✈ Back at the airfield");
+      this.onEdit();
+      return true;
+    } catch (e) {
+      this.notice(String(e));
+      return false;
+    }
+  }
   home() {
+    if (!this.endFlight()) return;
     this.endPlay(false);
     Object.assign(
       this.player,
@@ -1116,6 +1198,10 @@ export class Game {
     this.cancel();
   }
   jump() {
+    if (this.world.aircraft?.passenger) {
+      this.endFlight();
+      return;
+    }
     if (this.playing) {
       this.endPlay();
       return;
@@ -1159,6 +1245,10 @@ export class Game {
       this.onEdit();
     });
     on("flyMode", () => {
+      if (this.world.aircraft?.passenger) {
+        this.notice("Land before flying");
+        return;
+      }
       if (this.playing && !this.endPlay()) return;
       if (this.seated && !this.stand()) return;
       if (this.activity?.controlled) {
@@ -1321,13 +1411,15 @@ export class Game {
     document
       .querySelector("#cameraMode")!
       .setAttribute("aria-pressed", String(this.cameraMode === "third"));
-    document.querySelector("#use")!.textContent = this.playing
-      ? "🚶"
-      : this.seated
-        ? "🪑"
-        : this.activity?.controlled
-          ? "🚶"
-          : this.contextTarget()?.icon || "✋";
+    document.querySelector("#use")!.textContent = this.world.aircraft?.passenger
+      ? "🛬"
+      : this.playing
+        ? "🚶"
+        : this.seated
+          ? "🪑"
+          : this.activity?.controlled
+            ? "🚶"
+            : this.contextTarget()?.icon || "✋";
   }
   refreshHistory() {
     const u = document.querySelector<HTMLButtonElement>("#undo"),
@@ -1342,6 +1434,12 @@ export class Game {
     this.noticeTimer = window.setTimeout(() => (s.textContent = ""), 5000);
   }
   snapshot() {
+    const savedPlayer = this.world.aircraft?.passenger
+      ? this.world.aircraft.entry
+      : this.playing?.entry ||
+        this.seated?.entry ||
+        this.activity?.savedPlayer(this.player) ||
+        this.player;
     return {
       avatar: this.appearance,
       lookSpeed: this.lookSpeed,
@@ -1353,12 +1451,7 @@ export class Game {
       flying: this.flying,
       activity: this.activity?.snapshot(),
       template: this.template,
-      player: {
-        ...(this.playing?.entry ||
-          this.seated?.entry ||
-          this.activity?.savedPlayer(this.player) ||
-          this.player),
-      },
+      player: { ...savedPlayer },
       props: propSnapshot(this.world),
       layout: this.world.layout || 1,
       blocks: this.commands.blocks.map((b) => ({ ...b })),

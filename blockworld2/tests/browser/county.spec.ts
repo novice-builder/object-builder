@@ -6,7 +6,7 @@ test("county travel, map, bridge, distant building and reload preserve older wor
   await page.waitForFunction(() => (window as any).bw2?.session.ready);
   expect(
     await page.evaluate(() => (window as any).bw2.game.world.houses.length),
-  ).toBe(36);
+  ).toBe(38);
   expect(
     await page.evaluate(() => (window as any).bw2.game.activity.agents.length),
   ).toBe(25);

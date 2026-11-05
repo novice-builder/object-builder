@@ -1,3 +1,4 @@
+import { makeAirfield } from "./airfield";
 import * as T from "three";
 import { makeSunbeamRegion } from "./sunbeam-region";
 import { TownAuthor } from "./authoring";
@@ -121,7 +122,7 @@ export const COUNTY_BUILDINGS = [
     garage: true,
   },
 ];
-export function makeSunbeamCounty(scene: T.Group, layout = 2) {
+export function makeSunbeamCounty(scene: T.Group, layout = 3) {
   const base = makeSunbeamRegion(scene, 2),
     a = new TownAuthor(scene),
     doors: any[] = [],
@@ -372,7 +373,7 @@ export function makeSunbeamCounty(scene: T.Group, layout = 2) {
     { name: "Airfield reservation", icon: "✈", x: 160, z: -140 },
   );
   a.box(183, 0.005, -181, 100, 0.008, 100, 0xb3c69b);
-  a.label("FUTURE AIRFIELD", 160, 1.8, -145);
+  if (layout < 3) a.label("FUTURE AIRFIELD", 160, 1.8, -145);
   const plots = [
     ...base.plots,
     { x: -140, z: -155, w: 20, d: 16 },
@@ -386,27 +387,58 @@ export function makeSunbeamCounty(scene: T.Group, layout = 2) {
     a.box(p.x, 0.008, p.z, p.w, 0.012, p.d, 0xb5ca96);
     a.label("BUILD HERE", p.x, 1.2, p.z + p.d / 2);
   }
+  if (layout >= 3) {
+    for (const stop of [
+      { x: -155, z: -194, name: "Village trail picnic" },
+      { x: 194, z: 26, name: "East meadow rest" },
+      { x: 61, z: 193, name: "South meadow picnic" },
+      { x: -193, z: 158, name: "Woodland bird garden" },
+    ]) {
+      a.object("bench", stop.x, stop.z, stop.x > 190 ? 90 : 0);
+      a.object("round-table", stop.x - 3, stop.z + 2);
+      a.object("flower-bed", stop.x - 3, stop.z - 2);
+      a.object("birdhouse", stop.x - 5, stop.z + 3);
+      a.object("birch", stop.x - 7, stop.z + 4);
+      a.label(stop.name, stop.x, 2, stop.z - 1);
+      landmarks.push({ name: stop.name, icon: "🌿", x: stop.x, z: stop.z - 2 });
+    }
+  }
+  const airfield = layout >= 3 ? makeAirfield(scene) : null;
   const authoredBounds = new T.Box3().setFromObject(a.group);
-  const staticSolids = [...base.staticSolids, ...a.solids],
-    props = [...base.authoredProps, ...a.props],
+  const staticSolids = [
+      ...base.staticSolids,
+      ...a.solids,
+      ...(airfield?.solids || []),
+    ],
+    props = [...base.authoredProps, ...a.props, ...(airfield?.props || [])],
     render = a.finish(doors);
   batchDoorLeaves(doors);
   return {
     ...base,
     layout,
-    houses: [...base.houses, ...houses],
-    rooms: [...base.rooms, ...rooms],
-    doors: [...base.doors, ...doors],
+    houses: [...base.houses, ...houses, ...(airfield?.houses || [])],
+    rooms: [...base.rooms, ...rooms, ...(airfield?.rooms || [])],
+    doors: [...base.doors, ...doors, ...(airfield?.doors || [])],
     staticSolids,
     authoredProps: props,
     solids: [...staticSolids, ...props.flatMap((p) => blockColliders(p.block))],
-    seats: [...base.seats, ...a.seats],
+    seats: [...base.seats, ...a.seats, ...(airfield?.seats || [])],
     stairs: [...base.stairs, ...stairs],
-    landmarks: [...base.landmarks, ...landmarks],
+    landmarks: [
+      ...base.landmarks.filter(
+        (p: any) => !(layout >= 3 && p.name === "Airfield reservation"),
+      ),
+      ...landmarks.filter(
+        (p) => !(layout >= 3 && p.name === "Airfield reservation"),
+      ),
+      ...(airfield?.landmarks || []),
+    ],
     plots,
     waterAreas,
     mapRoads: [...base.mapRoads, ...roads],
     activityRange: 238,
+    aircraft: airfield?.aircraft,
+    dynamicSolids: () => airfield?.aircraft.solids() || [],
     developedBounds: {
       minX: authoredBounds.min.x,
       maxX: authoredBounds.max.x,
@@ -417,6 +449,14 @@ export function makeSunbeamCounty(scene: T.Group, layout = 2) {
       updateVisibility(camera: any, far: number) {
         base.staticRender.updateVisibility(camera, far);
         render.updateVisibility(camera, far);
+        airfield?.render.updateVisibility(camera, far);
+        if (airfield)
+          airfield.aircraft.group.visible =
+            airfield.aircraft.passenger ||
+            Math.hypot(
+              camera.position.x - airfield.aircraft.pose.x,
+              camera.position.z - airfield.aircraft.pose.z,
+            ) < far;
       },
     },
   };

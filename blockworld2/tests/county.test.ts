@@ -14,7 +14,7 @@ import { safeGround } from "../src/world/spawn";
 import { carBox } from "../src/simulation/activity";
 test("county preserves region layout and develops connected outlying destinations", () => {
   const old = makeSunbeamRegion(new T.Group(), 2),
-    w = makeSunbeamCounty(new T.Group());
+    w = makeSunbeamCounty(new T.Group(), 2);
   assert.equal(w.houses.length, 36);
   assert.equal(w.doors.length, 46);
   assert.equal(w.doors.filter((d: any) => d.kind === "roller").length, 10);
@@ -60,7 +60,7 @@ test("county preserves region layout and develops connected outlying destination
   }
 });
 test("all 46 county doorways and four stair landings are traversable", () => {
-  const w = makeSunbeamCounty(new T.Group()),
+  const w = makeSunbeamCounty(new T.Group(), 2),
     index = new SpatialIndex();
   for (const b of w.solids) index.add(b);
   for (const d of w.doors) {
@@ -126,7 +126,7 @@ test("all 46 county doorways and four stair landings are traversable", () => {
 });
 
 test("county bounds, outer traffic and distant save round trips are supported", () => {
-  const w = makeSunbeamCounty(new T.Group()),
+  const w = makeSunbeamCounty(new T.Group(), 2),
     b = w.developedBounds;
   assert.ok(b.maxX - b.minX >= 430);
   assert.ok(b.maxZ - b.minZ >= 430);

@@ -1,6 +1,6 @@
 export interface Interaction {
   id: string;
-  kind: "object" | "seat" | "door" | "vehicle" | "agent";
+  kind: "object" | "seat" | "door" | "vehicle" | "agent" | "aircraft";
   x: number;
   y: number;
   z: number;
