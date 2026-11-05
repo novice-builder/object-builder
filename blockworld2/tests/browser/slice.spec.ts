@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 async function ready(page: any) {
   await page.goto("/?test=1");
-  await page.waitForFunction(() => (window as any).bw2?.session.ready);
+  await page.waitForFunction(() => (window as any).bw2?.session.ready);await page.evaluate(()=>(window as any).bw2.session.newWorld("home-square"));
 }
 test("Home/Square has furnished interiors, camera modes, flight and a pictorial catalogue", async ({
   page,

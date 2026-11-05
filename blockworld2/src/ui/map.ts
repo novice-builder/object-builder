@@ -1,6 +1,6 @@
 import type { Game } from "../app/game";
 import { safeGround } from "../world/spawn";
-import {blockColliders} from "../build/registry";
+import { blockColliders } from "../build/registry";
 export function openMap(game: Game) {
   const modal = document.querySelector<HTMLElement>("#modal")!;
   game.paused = true;
@@ -10,7 +10,12 @@ export function openMap(game: Game) {
     '<section><h1>🗺 Let’s explore</h1><canvas id="mapCanvas" width="560" height="420" aria-label="Drag map; choose a landmark to travel"></canvas><div id="mapPlaces"></div><div><button id="zoomIn" aria-label="Zoom in">＋</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="closeMap">▶ Play</button></div><p id="mapMessage">Drag to look around. Choose a picture to travel.</p></section>';
   const canvas = document.querySelector<HTMLCanvasElement>("#mapCanvas")!,
     ctx = canvas.getContext("2d")!;
-  let zoom = game.template === "home-square" ? 4 : 0.8,
+  let zoom =
+      game.template === "sunbeam-town"
+        ? 2.7
+        : game.template === "home-square"
+          ? 4
+          : 0.8,
     ox = 280,
     oy = 210,
     drag: { x: number; y: number } | null = null;
@@ -21,7 +26,10 @@ export function openMap(game: Game) {
     ctx.translate(ox, oy);
     ctx.scale(zoom, zoom);
     ctx.fillStyle = "#859995";
-    if (game.template === "home-square") {
+    if (game.world.mapRoads) {
+      for (const r of game.world.mapRoads)
+        ctx.fillRect(r.x - r.w / 2, r.z - r.d / 2, r.w, r.d);
+    } else if (game.template === "home-square") {
       for (const z of [-36, 4, 36]) ctx.fillRect(-43, z - 3, 86, 6);
       for (const x of [-40, 8, 40]) ctx.fillRect(x - 3, -39, 6, 78);
     }

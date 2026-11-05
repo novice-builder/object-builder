@@ -1,8 +1,15 @@
+import { makeSunbeamTown } from "./sunbeam-town";
 import { makeHomeSquare } from "./home-square";
 import * as T from "three";
 import { makeWorld } from "../legacy06/world.js";
-export type TemplateId = "legacy-06" | "blank" | "home-square";
+export type TemplateId = "legacy-06" | "blank" | "home-square" | "sunbeam-town";
 export const TEMPLATES = [
+  {
+    id: "sunbeam-town" as TemplateId,
+    name: "Sunbeam Town",
+    icon: "☀",
+    spawn: { x: -21.4, y: 0, z: 0, yaw: 0, pitch: 0 },
+  },
   {
     id: "home-square" as TemplateId,
     name: "Home & Square",
@@ -27,6 +34,7 @@ export function createWorld(
   id: TemplateId,
   blocks: any[] = [],
 ): any {
+  if (id === "sunbeam-town") return makeSunbeamTown(group);
   if (id === "home-square") return makeHomeSquare(group);
   if (id === "legacy-06") return makeWorld(group, blocks);
   const ground = new T.Mesh(

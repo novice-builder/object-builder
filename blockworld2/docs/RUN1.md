@@ -28,3 +28,9 @@ Executed: TypeScript/build/preservation passed; 4 command tests passed; 4 focuse
 Expanded 7 entries to 111 registered items plus 4 useful furnishing presets. Added typed models/colliders, instanced rendering with the old dense-block path preserved, procedural material patterns, yielded model thumbnails, categories/search/pages, favourites/recent/hotbar, atomic presets and native schema-1→2 compatibility. New placed doors/lights support safe manual state changes. See CATALOGUE.md for counts and limitations.
 
 Executed: build/typecheck/protected-file checks passed; 15 focused catalogue/command/persistence tests passed; 4 browser scenarios passed (new furniture thumbnails/favourites/rotation/reload, prefab atomic Undo, existing touch placement, touch move/history). A real elevated-ramp entry issue was fixed and its traversal regression passed. No new legacy source edits occurred.
+
+## Stage D — enriched town complete
+
+Added the separate Sunbeam Town template: 12 furnished main buildings, 3 functional garages, 4 clear building plots, 16 destinations, original thematic interiors, connected approaches, parks/orchards/landscaping and wider local driving bounds. Existing Home/Square geometry is unchanged.
+
+Executed: 2 deterministic town tests passed (all interiors/plots/garage fit and all 15 door passages); build/typecheck/protected-file checks passed; 3 browser scenarios passed (town/map/old-template switching, vehicle persistence, ambient movement/map safety). See SUNBEAM.md for content and limits.

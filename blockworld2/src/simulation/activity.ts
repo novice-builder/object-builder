@@ -62,7 +62,10 @@ export class Activity {
   }[] = [];
   traffic: T.Group[] = [];
   progress = [0, 152];
-  constructor(scene: T.Scene) {
+  constructor(
+    scene: T.Scene,
+    readonly range = 47,
+  ) {
     scene.add(this.group);
     this.group.add(this.vehicle);
     for (let i = 0; i < 4; i++) {
@@ -174,8 +177,8 @@ export class Activity {
       c.x -= Math.sin(c.yaw) * speed * dt;
       c.z -= Math.cos(c.yaw) * speed * dt;
       if (
-        Math.abs(c.x) < 47 &&
-        Math.abs(c.z) < 47 &&
+        Math.abs(c.x) < this.range &&
+        Math.abs(c.z) < this.range &&
         !solids.some((s) => overlaps(carBox(c), s))
       ) {
         this.car = c;
