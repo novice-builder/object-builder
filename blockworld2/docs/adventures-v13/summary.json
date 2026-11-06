@@ -1,8 +1,8 @@
 {
-  "verifiedRemoteCheckpoint": "c7744177a301ae5b7c51d7535f242ee1e3527b33",
+  "verifiedRemoteCheckpoint": "725e4858a50370e4fcdef059b868fb067b01c5b9",
   "preservedBase": "c7744177a301ae5b7c51d7535f242ee1e3527b33",
   "deterministicTests": 209,
-  "browserChecks": 42,
+  "browserChecks": 68,
   "checks": [
     {
       "name": "phone fresh mill uses explicit version-4 compact profile and sensible 5.2m footprint",
@@ -21,7 +21,7 @@
           "profile": "compact-windmill"
         },
         "version": 4,
-        "id": "0d3f962d-b6bf-45cf-b7ba-5026fb94c451",
+        "id": "dc231928-edde-49c6-b253-b05477c6e914",
         "outside": {
           "x": -139.68391580581664,
           "y": 0.002,
@@ -39,7 +39,7 @@
       "passed": true,
       "detail": {
         "version": 4,
-        "id": "0d3f962d-b6bf-45cf-b7ba-5026fb94c451",
+        "id": "dc231928-edde-49c6-b253-b05477c6e914",
         "flights": 2,
         "objects": 6,
         "clear": true,
@@ -232,7 +232,7 @@
           "profile": "compact-windmill"
         },
         "version": 4,
-        "id": "532a46d2-6cb2-4cac-a434-05c4c42824c6",
+        "id": "97bd2500-8192-4154-88e6-50b1fa9118ca",
         "outside": {
           "x": -158.09217633008956,
           "y": 0.002,
@@ -250,7 +250,7 @@
       "passed": true,
       "detail": {
         "version": 4,
-        "id": "532a46d2-6cb2-4cac-a434-05c4c42824c6",
+        "id": "97bd2500-8192-4154-88e6-50b1fa9118ca",
         "flights": 2,
         "objects": 6,
         "clear": true,
@@ -517,7 +517,7 @@
       "detail": {
         "version": 3,
         "flights": 1,
-        "id": "28d4d687-c31c-40eb-89a0-5bd2ac852bc2"
+        "id": "3dbc29f4-8df6-4ba2-98a7-21282e6d3e23"
       },
       "evidence": "compact-compat.json"
     },
@@ -794,6 +794,710 @@
         }
       },
       "evidence": "compact-edit.json"
+    },
+    {
+      "name": "retained unbatched build and every runtime file match independently verified source",
+      "passed": true,
+      "detail": null,
+      "evidence": "compact-cost.json"
+    },
+    {
+      "name": "before real geometry supports all three camera poses without runtime exceptions",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "views": {
+          "ground": {
+            "drawCalls": 92,
+            "triangles": 7463,
+            "geometries": 64,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": 0,
+              "y": 0.002,
+              "z": 1.4,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "landing": {
+            "drawCalls": 119,
+            "triangles": 8479,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": 0.7,
+              "y": 1.502,
+              "z": -1.2,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "loft": {
+            "drawCalls": 119,
+            "triangles": 8479,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": -1.1,
+              "y": 3.002000002980232,
+              "z": 0,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          }
+        }
+      },
+      "evidence": "compact-cost.json"
+    },
+    {
+      "name": "after real geometry supports all three camera poses without runtime exceptions",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "views": {
+          "ground": {
+            "drawCalls": 30,
+            "triangles": 6419,
+            "geometries": 63,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": 0,
+              "y": 0.002,
+              "z": 1.4,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "landing": {
+            "drawCalls": 35,
+            "triangles": 7435,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": 0.7,
+              "y": 1.502,
+              "z": -1.2,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "loft": {
+            "drawCalls": 35,
+            "triangles": 7435,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": -1.1,
+              "y": 3.002000002980232,
+              "z": 0,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          }
+        }
+      },
+      "evidence": "compact-cost.json"
+    },
+    {
+      "name": "batch/cutaway retains triangle count and geometry/normals/UVs to ten-micrometre precision plus exact room and furnishings",
+      "passed": true,
+      "detail": {
+        "triangles": 4324,
+        "hashBefore": "344485b8c0426d5c9937ca119c6759d7b4ec36c6bd447189b99442ba197dd3af",
+        "hashAfter": "344485b8c0426d5c9937ca119c6759d7b4ec36c6bd447189b99442ba197dd3af"
+      },
+      "evidence": "compact-cost.json"
+    },
+    {
+      "name": "all three sampled room views reduce submissions by at least forty percent",
+      "passed": true,
+      "detail": {
+        "before": {
+          "ground": {
+            "drawCalls": 92,
+            "triangles": 7463,
+            "geometries": 64,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": 0,
+              "y": 0.002,
+              "z": 1.4,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "landing": {
+            "drawCalls": 119,
+            "triangles": 8479,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": 0.7,
+              "y": 1.502,
+              "z": -1.2,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "loft": {
+            "drawCalls": 119,
+            "triangles": 8479,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": -1.1,
+              "y": 3.002000002980232,
+              "z": 0,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          }
+        },
+        "after": {
+          "ground": {
+            "drawCalls": 30,
+            "triangles": 6419,
+            "geometries": 63,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": 0,
+              "y": 0.002,
+              "z": 1.4,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "landing": {
+            "drawCalls": 35,
+            "triangles": 7435,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": 0.7,
+              "y": 1.502,
+              "z": -1.2,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "loft": {
+            "drawCalls": 35,
+            "triangles": 7435,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": -1.1,
+              "y": 3.002000002980232,
+              "z": 0,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          }
+        }
+      },
+      "evidence": "compact-cost.json"
+    },
+    {
+      "name": "camera-facing exit door now follows the front-wall cutaway while the actor remains visible",
+      "passed": true,
+      "detail": null,
+      "evidence": "compact-cost.json"
+    },
+    {
+      "name": "batching adds no model/image download",
+      "passed": true,
+      "detail": null,
+      "evidence": "compact-cost.json"
+    },
+    {
+      "name": "ten alternating compact-room cycles retain two saved rooms and plateau uploaded resources",
+      "passed": true,
+      "detail": {
+        "rows": [
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          }
+        ],
+        "rooms": 2,
+        "blocked": false
+      },
+      "evidence": "compact-cost.json"
+    },
+    {
+      "name": "phone actual street view has clear real footing and synchronized rendered player scale",
+      "passed": true,
+      "detail": {
+        "visible": true,
+        "clear": true,
+        "actor": 0
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "phone full-world fit displays all nine meaningful destinations",
+      "passed": true,
+      "detail": [
+        "home",
+        "woodland",
+        "meadow",
+        "brookside",
+        "foresters",
+        "lodge",
+        "alderwick",
+        "reedbank",
+        "millers-end"
+      ],
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "phone real two-finger pinch zooms without accidental travel or held pointers",
+      "passed": true,
+      "detail": {
+        "scale": 1.4996414905823159,
+        "held": 0,
+        "open": true
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "phone one-finger map pan releases cleanly without accidental landmark selection",
+      "passed": true,
+      "detail": {
+        "x": -35.76144653268791,
+        "held": 0,
+        "open": true
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "phone responsive touch map button executes exactly once without a compatibility-click duplicate",
+      "passed": true,
+      "detail": {
+        "before": 0.8918918918918919,
+        "after": 1.204054054054054
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "phone keyboard Space activates a map button after touch without triggering a jump",
+      "passed": true,
+      "detail": 0.8918918918918919,
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "phone tapping the actual Miller\u2019s End map label travels safely in the same connected world",
+      "passed": true,
+      "detail": {
+        "x": -146,
+        "z": 57,
+        "clear": true,
+        "inside": false,
+        "layout": 7
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "phone rotated exploration layout keeps comfortable separated touch controls inside viewport",
+      "passed": true,
+      "detail": {
+        "a": [
+          {
+            "id": "jump",
+            "x": 750,
+            "y": 216,
+            "w": 64,
+            "h": 64,
+            "right": 814,
+            "bottom": 280
+          },
+          {
+            "id": "run",
+            "x": 750,
+            "y": 291,
+            "w": 64,
+            "h": 64,
+            "right": 814,
+            "bottom": 355
+          },
+          {
+            "id": "joystick",
+            "x": 25,
+            "y": 263,
+            "w": 102,
+            "h": 102,
+            "right": 127,
+            "bottom": 365
+          },
+          {
+            "id": "minimap",
+            "x": 718,
+            "y": 75,
+            "w": 96,
+            "h": 96,
+            "right": 814,
+            "bottom": 171
+          }
+        ],
+        "w": 844,
+        "h": 390,
+        "overflow": false
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "phone expanded map gestures and views have no browser exceptions",
+      "passed": true,
+      "detail": [],
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "tablet actual street view has clear real footing and synchronized rendered player scale",
+      "passed": true,
+      "detail": {
+        "visible": true,
+        "clear": true,
+        "actor": 0
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "tablet full-world fit displays all nine meaningful destinations",
+      "passed": true,
+      "detail": [
+        "home",
+        "woodland",
+        "meadow",
+        "brookside",
+        "foresters",
+        "lodge",
+        "alderwick",
+        "reedbank",
+        "millers-end"
+      ],
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "tablet real two-finger pinch zooms without accidental travel or held pointers",
+      "passed": true,
+      "detail": {
+        "scale": 4.380770899761675,
+        "held": 0,
+        "open": true
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "tablet one-finger map pan releases cleanly without accidental landmark selection",
+      "passed": true,
+      "detail": {
+        "x": -12.241988958285276,
+        "held": 0,
+        "open": true
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "tablet responsive touch map button executes exactly once without a compatibility-click duplicate",
+      "passed": true,
+      "detail": {
+        "before": 2.6054054054054054,
+        "after": 3.5172972972972976
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "tablet keyboard Space activates a map button after touch without triggering a jump",
+      "passed": true,
+      "detail": 2.6054054054054054,
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "tablet tapping the actual Miller\u2019s End map label travels safely in the same connected world",
+      "passed": true,
+      "detail": {
+        "x": -146,
+        "z": 57,
+        "clear": true,
+        "inside": false,
+        "layout": 7
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "tablet rotated exploration layout keeps comfortable separated touch controls inside viewport",
+      "passed": true,
+      "detail": {
+        "a": [
+          {
+            "id": "jump",
+            "x": 674,
+            "y": 815,
+            "w": 64,
+            "h": 64,
+            "right": 738,
+            "bottom": 879
+          },
+          {
+            "id": "run",
+            "x": 674,
+            "y": 895,
+            "w": 64,
+            "h": 64,
+            "right": 738,
+            "bottom": 959
+          },
+          {
+            "id": "joystick",
+            "x": 35,
+            "y": 855,
+            "w": 124,
+            "h": 124,
+            "right": 159,
+            "bottom": 979
+          },
+          {
+            "id": "minimap",
+            "x": 586,
+            "y": 106,
+            "w": 152,
+            "h": 152,
+            "right": 738,
+            "bottom": 258
+          }
+        ],
+        "w": 768,
+        "h": 1024,
+        "overflow": false
+      },
+      "evidence": "world-map.json"
+    },
+    {
+      "name": "tablet expanded map gestures and views have no browser exceptions",
+      "passed": true,
+      "detail": [],
+      "evidence": "world-map.json"
     }
   ],
   "protectedFiles": [
@@ -1841,7 +2545,7 @@
     "src/adventures/character-controller.ts": "216fb7cdeb356c2e7d51645801e223a53d904b29bdee6a78ce83967191f8c8d2",
     "src/adventures/checkpoint-footing.ts": "8db4d376ac1ae9c18c073ae3733fc4f3def09bb42e3a48009e8d5591ff805754",
     "src/adventures/collision-cache.ts": "43fffb2515822565db9cacea42f26b191ade88d240520dafebf756685b5fb523",
-    "src/adventures/compact-mill.ts": "7d32f94846d532aa51dbdd53fbdd9e89be9b1690bfec6fe44cb8cf52a5020ff0",
+    "src/adventures/compact-mill.ts": "11eb330a8859d3c1a98f30dc2eb5541933e67230668437c7e13bc65a8269a55c",
     "src/adventures/connected-landscape.ts": "7868d8148deea50b6cc74f71a9e21364e69185837d76941c190426147d882ace",
     "src/adventures/controls.ts": "e1e60f389b1656a5a83092f57a8f8b90d2b3061cd45f1617ae92063a499c648f",
     "src/adventures/copy-name.ts": "6b2f17ef279a71827d5defb87fb84e0339dbd90345836a34caa12a5680f6433d",
@@ -1851,7 +2555,7 @@
     "src/adventures/ids.ts": "da1780eb5b52c22297206cc436b3dcbf08bc19c29cccbd9e6b73e6ab9d15d006",
     "src/adventures/instance-culling.ts": "0b2f19bf0b90ef8bed9245e91c2739410beebaf709ae452112f88fcd74fe1dd3",
     "src/adventures/interior-physics.ts": "2fb8b818a89034b1cac102a952734b0b11f1fb0d6fe72602e25b2e57ab322215",
-    "src/adventures/interior.ts": "2425fc356d9d2bbb4bc6c9e7e8d751d74b283b1c149ef71a4edb2e173f5f8df7",
+    "src/adventures/interior.ts": "6d2021c8e073995af56c32a81bdbc6f212680b7f988c5d11e91db36000d8f7dd",
     "src/adventures/landscape.ts": "2c24d8a8312da66e593c5d6c7d504044be27eaec14367bfede5fc24feafac93c",
     "src/adventures/lodge.ts": "4366c08de1b96d6d227d2951630fd8e6104258e7b7ffd9c810edcd72983d787e",
     "src/adventures/main.ts": "d84e595de3152b747be4dfe932d19882461c33042e568d7131d371056727e015",
@@ -1998,8 +2702,8 @@
     "adventures/village/waterlily_A.glb": "c4eb573abf077ff1053584800cd3eb4ad42a2fe6baffb2f5b5fd7a1a7e9952b8",
     "adventures/village/waterplant_A.glb": "6464734656609d5d6ea3644ebfcff283aa0a6e22f70b781f58c035b1d07ecd28",
     "adventures/village/wheelbarrow.glb": "415e45d4d1206ffa971917186e9ec1e1be5b1c0ac068f74d315a25ad06f58b99",
-    "adventures.html": "2386d55aad590feceb5a914bd82a9851333fc04ef85c70707757868702cb48c6",
-    "assets/adventures-CRO2KSXg.js": "03970a2d5a6c01de5bfbc98308975f8225ca227421cf7f86f6e4140e3701e1f8",
+    "adventures.html": "f7abbf9d3cab4fa6bf4b52bf561b38cd3b9e9c429ad7b5661fa613632702021b",
+    "assets/adventures-DL-0k7sh.js": "5c49613a74888fbd8cf617778e8fa8a23f0dead130f38a89f08aa2d7dcfeed1b",
     "assets/adventures-DidrGuhm.css": "f4051689299273d7a25edc4e9ba681bc91cc8731ecb4912678c76e4808aece95",
     "icon-180.png": "40db8916a0ba402401d02c7178f3663e6770971a50e92783534fec8a835a897b",
     "icon-192.png": "66151812c5898a88dc29d363ab95ec724ab2dccbc113f2433285bf28c2025efa",

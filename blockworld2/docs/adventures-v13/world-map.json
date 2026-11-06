@@ -1,0 +1,241 @@
+{
+  "checks": [
+    {
+      "name": "phone actual street view has clear real footing and synchronized rendered player scale",
+      "passed": true,
+      "detail": {
+        "visible": true,
+        "clear": true,
+        "actor": 0
+      }
+    },
+    {
+      "name": "phone full-world fit displays all nine meaningful destinations",
+      "passed": true,
+      "detail": [
+        "home",
+        "woodland",
+        "meadow",
+        "brookside",
+        "foresters",
+        "lodge",
+        "alderwick",
+        "reedbank",
+        "millers-end"
+      ]
+    },
+    {
+      "name": "phone real two-finger pinch zooms without accidental travel or held pointers",
+      "passed": true,
+      "detail": {
+        "scale": 1.4996414905823159,
+        "held": 0,
+        "open": true
+      }
+    },
+    {
+      "name": "phone one-finger map pan releases cleanly without accidental landmark selection",
+      "passed": true,
+      "detail": {
+        "x": -35.76144653268791,
+        "held": 0,
+        "open": true
+      }
+    },
+    {
+      "name": "phone responsive touch map button executes exactly once without a compatibility-click duplicate",
+      "passed": true,
+      "detail": {
+        "before": 0.8918918918918919,
+        "after": 1.204054054054054
+      }
+    },
+    {
+      "name": "phone keyboard Space activates a map button after touch without triggering a jump",
+      "passed": true,
+      "detail": 0.8918918918918919
+    },
+    {
+      "name": "phone tapping the actual Miller\u2019s End map label travels safely in the same connected world",
+      "passed": true,
+      "detail": {
+        "x": -146,
+        "z": 57,
+        "clear": true,
+        "inside": false,
+        "layout": 7
+      }
+    },
+    {
+      "name": "phone rotated exploration layout keeps comfortable separated touch controls inside viewport",
+      "passed": true,
+      "detail": {
+        "a": [
+          {
+            "id": "jump",
+            "x": 750,
+            "y": 216,
+            "w": 64,
+            "h": 64,
+            "right": 814,
+            "bottom": 280
+          },
+          {
+            "id": "run",
+            "x": 750,
+            "y": 291,
+            "w": 64,
+            "h": 64,
+            "right": 814,
+            "bottom": 355
+          },
+          {
+            "id": "joystick",
+            "x": 25,
+            "y": 263,
+            "w": 102,
+            "h": 102,
+            "right": 127,
+            "bottom": 365
+          },
+          {
+            "id": "minimap",
+            "x": 718,
+            "y": 75,
+            "w": 96,
+            "h": 96,
+            "right": 814,
+            "bottom": 171
+          }
+        ],
+        "w": 844,
+        "h": 390,
+        "overflow": false
+      }
+    },
+    {
+      "name": "phone expanded map gestures and views have no browser exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet actual street view has clear real footing and synchronized rendered player scale",
+      "passed": true,
+      "detail": {
+        "visible": true,
+        "clear": true,
+        "actor": 0
+      }
+    },
+    {
+      "name": "tablet full-world fit displays all nine meaningful destinations",
+      "passed": true,
+      "detail": [
+        "home",
+        "woodland",
+        "meadow",
+        "brookside",
+        "foresters",
+        "lodge",
+        "alderwick",
+        "reedbank",
+        "millers-end"
+      ]
+    },
+    {
+      "name": "tablet real two-finger pinch zooms without accidental travel or held pointers",
+      "passed": true,
+      "detail": {
+        "scale": 4.380770899761675,
+        "held": 0,
+        "open": true
+      }
+    },
+    {
+      "name": "tablet one-finger map pan releases cleanly without accidental landmark selection",
+      "passed": true,
+      "detail": {
+        "x": -12.241988958285276,
+        "held": 0,
+        "open": true
+      }
+    },
+    {
+      "name": "tablet responsive touch map button executes exactly once without a compatibility-click duplicate",
+      "passed": true,
+      "detail": {
+        "before": 2.6054054054054054,
+        "after": 3.5172972972972976
+      }
+    },
+    {
+      "name": "tablet keyboard Space activates a map button after touch without triggering a jump",
+      "passed": true,
+      "detail": 2.6054054054054054
+    },
+    {
+      "name": "tablet tapping the actual Miller\u2019s End map label travels safely in the same connected world",
+      "passed": true,
+      "detail": {
+        "x": -146,
+        "z": 57,
+        "clear": true,
+        "inside": false,
+        "layout": 7
+      }
+    },
+    {
+      "name": "tablet rotated exploration layout keeps comfortable separated touch controls inside viewport",
+      "passed": true,
+      "detail": {
+        "a": [
+          {
+            "id": "jump",
+            "x": 674,
+            "y": 815,
+            "w": 64,
+            "h": 64,
+            "right": 738,
+            "bottom": 879
+          },
+          {
+            "id": "run",
+            "x": 674,
+            "y": 895,
+            "w": 64,
+            "h": 64,
+            "right": 738,
+            "bottom": 959
+          },
+          {
+            "id": "joystick",
+            "x": 35,
+            "y": 855,
+            "w": 124,
+            "h": 124,
+            "right": 159,
+            "bottom": 979
+          },
+          {
+            "id": "minimap",
+            "x": 586,
+            "y": 106,
+            "w": 152,
+            "h": 152,
+            "right": 738,
+            "bottom": 258
+          }
+        ],
+        "w": 768,
+        "h": 1024,
+        "overflow": false
+      }
+    },
+    {
+      "name": "tablet expanded map gestures and views have no browser exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader, real CDP touch events and phone/tablet viewports. Physical devices unverified."
+}

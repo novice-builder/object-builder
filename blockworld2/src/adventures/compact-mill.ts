@@ -1,3 +1,4 @@
+import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import type { Placement } from "./landscape";
 import * as T from "three";
 import type { RoomSolid } from "./interior-physics";
@@ -111,6 +112,12 @@ interface Builder {
 }
 /** Two ordinary flights turn on a real 1.5m landing; the upper-floor opening clears the player's head. */
 export function buildCompactMill(b: Builder) {
+  const boxes: T.Mesh[] = [];
+  const box = (...args: Parameters<Builder["box"]>) => {
+    const mesh = b.box(...args);
+    boxes.push(mesh);
+    return mesh;
+  };
   const outline = compactMillOutline();
   const floor = (
     y: number,
@@ -149,7 +156,7 @@ export function buildCompactMill(b: Builder) {
   b.group.add(b.upper);
   floor(2.8, 0.2, true, b.upper);
   floor(6, 0.13).visible = false;
-  b.box(b.group, 0.75, 1.4, -1.2, 2.8, 0.2, 1.3);
+  box(b.group, 0.75, 1.4, -1.2, 2.8, 0.2, 1.3);
   for (let i = 0; i < outline.length; i++) {
     const a = outline[i],
       end = outline[(i + 1) % outline.length],
@@ -195,7 +202,7 @@ export function buildCompactMill(b: Builder) {
     }
   }
   b.fit(
-    b.group,
+    b.walls.find((w) => w.normal && w.normal.z > 0.99)?.group || b.group,
     "Door_4_Flat",
     0,
     0,
@@ -212,7 +219,7 @@ export function buildCompactMill(b: Builder) {
     for (let i = 0; i < steps; i++) {
       const along = r.length / 2 - ((i + 0.5) * r.length) / steps,
         y = r.baseY + ((i + 1) * r.rise) / steps;
-      const tread = b.box(
+      const tread = box(
         b.group,
         r.cx + r.s * along,
         y - 0.075,
@@ -227,7 +234,7 @@ export function buildCompactMill(b: Builder) {
       for (let i = 0; i <= steps; i += 2) {
         const t = i / steps,
           along = r.length / 2 - t * r.length;
-        b.box(
+        box(
           b.group,
           r.cx + r.c * side + r.s * along,
           r.baseY + t * r.rise + 0.43,
@@ -238,7 +245,7 @@ export function buildCompactMill(b: Builder) {
           b.rail,
         );
       }
-      const beam = b.box(
+      const beam = box(
         b.group,
         r.cx + r.c * side,
         r.baseY + r.rise / 2 + 0.86,
@@ -267,7 +274,7 @@ export function buildCompactMill(b: Builder) {
     const dx = x2 - x1,
       dz = z2 - z1,
       length = Math.hypot(dx, dz),
-      beam = b.box(
+      beam = box(
         parent,
         (x1 + x2) / 2,
         y + 0.8,
@@ -281,16 +288,7 @@ export function buildCompactMill(b: Builder) {
     const n = Math.ceil(length / 0.5);
     for (let i = 0; i <= n; i++) {
       const t = i / n;
-      b.box(
-        parent,
-        x1 + t * dx,
-        y + 0.42,
-        z1 + t * dz,
-        0.06,
-        0.84,
-        0.06,
-        b.rail,
-      );
+      box(parent, x1 + t * dx, y + 0.42, z1 + t * dz, 0.06, 0.84, 0.06, b.rail);
     }
   };
   guard(b.upper, -0.65, -1.85, -0.65, 1.65, 3);
@@ -298,6 +296,7 @@ export function buildCompactMill(b: Builder) {
   guard(b.upper, 0.6, 1.65, 2.15, 1.65, 3);
   guard(b.group, -0.65, -1.85, 2.15, -1.85, 1.5);
   guard(b.group, -0.65, -1.85, -0.65, -0.55, 1.5);
+  batchJoinery(boxes, b.geometry);
 }
 
 export function compactMillFurniture(): Placement[] {
@@ -357,4 +356,34 @@ export function compactMillFurniture(): Placement[] {
       scale: 1.7,
     },
   ];
+}
+
+/** Room-local, static joinery only; borrowed GLBs and upper-floor visibility groups stay separate. */
+function batchJoinery(meshes: T.Mesh[], owned: T.BufferGeometry[]) {
+  const groups = new Map<T.Object3D, Map<T.Mesh["material"], T.Mesh[]>>();
+  for (const mesh of meshes) {
+    const parent = mesh.parent!;
+    let materials = groups.get(parent);
+    if (!materials) groups.set(parent, (materials = new Map()));
+    let list = materials.get(mesh.material);
+    if (!list) materials.set(mesh.material, (list = []));
+    list.push(mesh);
+  }
+  for (const [parent, materials] of groups)
+    for (const [material, list] of materials) {
+      const parts = list.map((mesh) => {
+        mesh.updateMatrix();
+        return mesh.geometry.clone().applyMatrix4(mesh.matrix);
+      });
+      const geometry = mergeGeometries(parts, false);
+      for (const part of parts) part.dispose();
+      if (!geometry) throw Error("Compact joinery attributes do not match");
+      const batch = new T.Mesh(geometry, material);
+      batch.castShadow = list.some((m) => m.castShadow);
+      batch.receiveShadow = list.some((m) => m.receiveShadow);
+      batch.userData.interiorJoinery = true;
+      parent.add(batch);
+      for (const mesh of list) mesh.removeFromParent();
+      owned.push(geometry);
+    }
 }

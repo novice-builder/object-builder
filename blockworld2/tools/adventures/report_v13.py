@@ -1,9 +1,9 @@
 """Consolidate connected-world expansion evidence and verify every retained file outside the authorised active code/docs/tests."""
 from pathlib import Path
 import hashlib,html,json,re,subprocess,shutil
-ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'docs/adventures-v13';BASE='c7744177a301ae5b7c51d7535f242ee1e3527b33';VERIFIED='c7744177a301ae5b7c51d7535f242ee1e3527b33'
-phases=['compact-mills.json','compact-compat.json','compact-edit.json']
-expected={'compact-mills.json':28,'compact-compat.json':8,'compact-edit.json':6}
+ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'docs/adventures-v13';BASE='c7744177a301ae5b7c51d7535f242ee1e3527b33';VERIFIED='725e4858a50370e4fcdef059b868fb067b01c5b9'
+phases=['compact-mills.json','compact-compat.json','compact-edit.json','compact-cost.json','world-map.json']
+expected={'compact-mills.json':28,'compact-compat.json':8,'compact-edit.json':6,'compact-cost.json':8,'world-map.json':18}
 receipt=json.loads((OUT/'BUILD-RECEIPT.json').read_text());assert receipt['returncode']==0
 for name,digest in receipt['inputs'].items():assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==digest,'Changed build input: '+name
 for name,digest in receipt['outputs'].items():assert hashlib.sha256((ROOT/'adventures-dist'/name).read_bytes()).hexdigest()==digest,'Changed build output: '+name
@@ -26,7 +26,7 @@ source=[*ROOT.glob('src/adventures/*'),*ROOT.glob('public/adventures/**/*'),ROOT
 hashes=lambda files,base=ROOT:{str(f.relative_to(base)):hashlib.sha256(f.read_bytes()).hexdigest()for f in sorted(files)if f.is_file()}
 summary={'verifiedRemoteCheckpoint':VERIFIED,'preservedBase':BASE,'deterministicTests':tests,'browserChecks':len(checks),'checks':checks,'protectedFiles':protected,'runtimeSourceHashes':hashes(source),'runtimeBuildHashes':hashes((ROOT/'adventures-dist').rglob('*'),ROOT/'adventures-dist'),'limitations':['Chromium SwiftShader and touch/Gamepad API emulation only; no physical Lenovo/iPhone/Safari/Xbox/Bluetooth tests.','No FPS improvement or universal mobile performance claim.','Version-4 worlds/compact-room copies require Preview 13. Older saved rooms retain their original geometry and edits.','No automatic CAD import/collision baking UI; arbitrary large custom risers still obey the 0.30m controller limit.','No new deployment or automation change.']}
 (OUT/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
-shots=[('compact-ground-phone.png','Furnished compact workroom with a clear aisle'),('compact-landing-phone.png','Phone: real intermediate landing'),('compact-loft-phone.png','Phone: connected grain loft'),('compact-landing-tablet.png','Tablet: stair turning landing'),('compact-loft-tablet.png','Tablet: compact loft and rails')]
+shots=[('compact-ground-phone.png','Furnished compact workroom with a clear aisle'),('compact-landing-phone.png','Phone: real intermediate landing'),('compact-loft-phone.png','Phone: connected grain loft'),('compact-landing-tablet.png','Tablet: stair turning landing'),('compact-loft-tablet.png','Tablet: compact loft and rails'),('market-lane-tablet.png','Preserved connected Miller’s End district'),('full-map-phone.png','Real world map with touch travel'),('windmill-connection-tablet.png','Exterior scale and the same windmill entrance')]
 for name,_ in shots:assert(OUT/'screenshots'/name).is_file(),name
 cards=''.join(f'<figure><img src="screenshots/{n}" alt="{html.escape(t)}"><figcaption>{html.escape(t)}</figcaption></figure>'for n,t in shots)
 (OUT/'gallery.html').write_text('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>BlockWorld Adventures Preview 13 evidence</title><style>body{background:#e6e8dc;color:#233e35;font:16px system-ui;margin:24px}main{display:flex;flex-wrap:wrap;gap:20px}figure{margin:0;max-width:560px}img{max-width:100%;max-height:760px;object-fit:contain;background:#c6d9d4}figcaption{padding:12px}</style><h1>Preview 13: actual rendered evidence</h1><p>Managed Chromium SwiftShader and phone/tablet emulation. No physical device or controller claim. These views show the real game layout.</p><main>'+cards+'</main>')

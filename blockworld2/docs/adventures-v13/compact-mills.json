@@ -17,7 +17,7 @@
           "profile": "compact-windmill"
         },
         "version": 4,
-        "id": "0d3f962d-b6bf-45cf-b7ba-5026fb94c451",
+        "id": "dc231928-edde-49c6-b253-b05477c6e914",
         "outside": {
           "x": -139.68391580581664,
           "y": 0.002,
@@ -34,7 +34,7 @@
       "passed": true,
       "detail": {
         "version": 4,
-        "id": "0d3f962d-b6bf-45cf-b7ba-5026fb94c451",
+        "id": "dc231928-edde-49c6-b253-b05477c6e914",
         "flights": 2,
         "objects": 6,
         "clear": true,
@@ -214,7 +214,7 @@
           "profile": "compact-windmill"
         },
         "version": 4,
-        "id": "532a46d2-6cb2-4cac-a434-05c4c42824c6",
+        "id": "97bd2500-8192-4154-88e6-50b1fa9118ca",
         "outside": {
           "x": -158.09217633008956,
           "y": 0.002,
@@ -231,7 +231,7 @@
       "passed": true,
       "detail": {
         "version": 4,
-        "id": "532a46d2-6cb2-4cac-a434-05c4c42824c6",
+        "id": "97bd2500-8192-4154-88e6-50b1fa9118ca",
         "flights": 2,
         "objects": 6,
         "clear": true,

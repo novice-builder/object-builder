@@ -234,7 +234,17 @@ export class Interior {
         }
     }
     // Decorative inner exit door corresponds to the exact persisted exterior entrance.
-    fit(this.group, "Door_4_Flat", 0, 0, d - 0.09, 1.1, 2.1, 0.12, Math.PI);
+    fit(
+      this.walls.find((w) => w.side === "front")!.group,
+      "Door_4_Flat",
+      0,
+      0,
+      d - 0.09,
+      1.1,
+      2.1,
+      0.12,
+      Math.PI,
+    );
     // The roof is cut away for the player view, while its real underside still limits headroom.
     const ceiling = fit(
       this.group,

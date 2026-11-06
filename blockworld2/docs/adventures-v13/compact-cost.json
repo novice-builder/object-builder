@@ -1,0 +1,980 @@
+{
+  "checks": [
+    {
+      "name": "retained unbatched build and every runtime file match independently verified source",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "before real geometry supports all three camera poses without runtime exceptions",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "views": {
+          "ground": {
+            "drawCalls": 92,
+            "triangles": 7463,
+            "geometries": 64,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": 0,
+              "y": 0.002,
+              "z": 1.4,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "landing": {
+            "drawCalls": 119,
+            "triangles": 8479,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": 0.7,
+              "y": 1.502,
+              "z": -1.2,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "loft": {
+            "drawCalls": 119,
+            "triangles": 8479,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": -1.1,
+              "y": 3.002000002980232,
+              "z": 0,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "after real geometry supports all three camera poses without runtime exceptions",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "views": {
+          "ground": {
+            "drawCalls": 30,
+            "triangles": 6419,
+            "geometries": 63,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": 0,
+              "y": 0.002,
+              "z": 1.4,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "landing": {
+            "drawCalls": 35,
+            "triangles": 7435,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": 0.7,
+              "y": 1.502,
+              "z": -1.2,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "loft": {
+            "drawCalls": 35,
+            "triangles": 7435,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": -1.1,
+              "y": 3.002000002980232,
+              "z": 0,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "batch/cutaway retains triangle count and geometry/normals/UVs to ten-micrometre precision plus exact room and furnishings",
+      "passed": true,
+      "detail": {
+        "triangles": 4324,
+        "hashBefore": "344485b8c0426d5c9937ca119c6759d7b4ec36c6bd447189b99442ba197dd3af",
+        "hashAfter": "344485b8c0426d5c9937ca119c6759d7b4ec36c6bd447189b99442ba197dd3af"
+      }
+    },
+    {
+      "name": "all three sampled room views reduce submissions by at least forty percent",
+      "passed": true,
+      "detail": {
+        "before": {
+          "ground": {
+            "drawCalls": 92,
+            "triangles": 7463,
+            "geometries": 64,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": 0,
+              "y": 0.002,
+              "z": 1.4,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "landing": {
+            "drawCalls": 119,
+            "triangles": 8479,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": 0.7,
+              "y": 1.502,
+              "z": -1.2,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "loft": {
+            "drawCalls": 119,
+            "triangles": 8479,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": true,
+            "p": {
+              "x": -1.1,
+              "y": 3.002000002980232,
+              "z": 0,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          }
+        },
+        "after": {
+          "ground": {
+            "drawCalls": 30,
+            "triangles": 6419,
+            "geometries": 63,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": 0,
+              "y": 0.002,
+              "z": 1.4,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "landing": {
+            "drawCalls": 35,
+            "triangles": 7435,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": 0.7,
+              "y": 1.502,
+              "z": -1.2,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          },
+          "loft": {
+            "drawCalls": 35,
+            "triangles": 7435,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "actor": true,
+            "doorVisible": false,
+            "p": {
+              "x": -1.1,
+              "y": 3.002000002980232,
+              "z": 0,
+              "yaw": 0,
+              "pitch": 0.47,
+              "vy": 0,
+              "grounded": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "camera-facing exit door now follows the front-wall cutaway while the actor remains visible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "batching adds no model/image download",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "ten alternating compact-room cycles retain two saved rooms and plateau uploaded resources",
+      "passed": true,
+      "detail": {
+        "rows": [
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          }
+        ],
+        "rooms": 2,
+        "blocked": false
+      }
+    }
+  ],
+  "referenceSource": "725e4858a50370e4fcdef059b868fb067b01c5b9",
+  "environment": "Managed Chromium SwiftShader; draw/buffer/resource measurements, not physical FPS.",
+  "phases": {
+    "before": {
+      "triangles": 4324,
+      "hash": "344485b8c0426d5c9937ca119c6759d7b4ec36c6bd447189b99442ba197dd3af",
+      "individualBoxes": 85,
+      "batches": 0,
+      "entry": {
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "name": "Old Willow Windmill",
+        "kind": "mill",
+        "levels": 2,
+        "x": -139.68391580581664,
+        "z": 24,
+        "yaw": 1.5707963267948963,
+        "width": 5.2,
+        "depth": 5.2,
+        "profile": "compact-windmill"
+      },
+      "objects": [
+        {
+          "id": "worktable",
+          "asset": "furniture-table",
+          "x": -1.8478893358999997,
+          "z": -0.35,
+          "y": 0,
+          "yaw": 1.5707963267948966,
+          "scale": 2.2
+        },
+        {
+          "id": "seat",
+          "asset": "furniture-chair",
+          "x": -1.85,
+          "z": 1.15,
+          "y": 0,
+          "yaw": 3.141592653589793,
+          "scale": 1.9
+        },
+        {
+          "id": "tool-shelf",
+          "asset": "furniture-bookcaseopen",
+          "x": -1.85,
+          "z": -1.85,
+          "y": 0,
+          "yaw": 0,
+          "scale": 1.7
+        },
+        {
+          "id": "grain",
+          "asset": "crate_A_small",
+          "x": -1.8,
+          "z": -0.6,
+          "y": 3,
+          "yaw": 0,
+          "scale": 3.2
+        },
+        {
+          "id": "grain-barrel",
+          "asset": "barrel",
+          "x": -1.8,
+          "z": -1.8,
+          "y": 3,
+          "yaw": 0,
+          "scale": 3
+        },
+        {
+          "id": "mill-shelf",
+          "asset": "furniture-bookcaseopen",
+          "x": -1.8,
+          "z": 0.8,
+          "y": 3,
+          "yaw": 0,
+          "scale": 1.7
+        }
+      ],
+      "ownedGeometryBytes": 10824,
+      "startupBytes": 3754178,
+      "assets": [
+        "/adventures/character/Explorer.glb",
+        "/adventures/furniture/bedsingle.glb",
+        "/adventures/furniture/bookcaseopen.glb",
+        "/adventures/furniture/books.glb",
+        "/adventures/furniture/cabinetbed.glb",
+        "/adventures/furniture/chair.glb",
+        "/adventures/furniture/rugrectangle.glb",
+        "/adventures/furniture/table.glb",
+        "/adventures/modular/Door_4_Flat.glb",
+        "/adventures/modular/Floor_WoodDark.glb",
+        "/adventures/modular/Roof_Front_Brick4.glb",
+        "/adventures/modular/Roof_RoundTiles_4x6.glb",
+        "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+        "/adventures/modular/Wall_Plaster_Straight.glb",
+        "/adventures/nature/campfire-stones.glb",
+        "/adventures/nature/flower-purplea.glb",
+        "/adventures/nature/flower-reda.glb",
+        "/adventures/nature/flower-yellowa.glb",
+        "/adventures/nature/grass-large.glb",
+        "/adventures/nature/lily-small.glb",
+        "/adventures/nature/log.glb",
+        "/adventures/nature/mushroom-red.glb",
+        "/adventures/nature/plant-bush.glb",
+        "/adventures/nature/plant-bushsmall.glb",
+        "/adventures/nature/rock-largea.glb",
+        "/adventures/nature/rock-largeb.glb",
+        "/adventures/nature/rock-smalla.glb",
+        "/adventures/nature/sign.glb",
+        "/adventures/nature/stump-round.glb",
+        "/adventures/nature/tent-smallopen.glb",
+        "/adventures/nature/tree-detailed.glb",
+        "/adventures/nature/tree-oak.glb",
+        "/adventures/nature/tree-pinedefaulta.glb",
+        "/adventures/nature/tree-pinedefaultb.glb",
+        "/adventures/village/barrel.glb",
+        "/adventures/village/building_blacksmith_blue.glb",
+        "/adventures/village/building_bridge_A.glb",
+        "/adventures/village/building_church_blue.glb",
+        "/adventures/village/building_home_A_blue.glb",
+        "/adventures/village/building_home_A_green.glb",
+        "/adventures/village/building_home_B_blue.glb",
+        "/adventures/village/building_home_B_green.glb",
+        "/adventures/village/building_market_blue.glb",
+        "/adventures/village/building_tavern_blue.glb",
+        "/adventures/village/building_watermill_blue.glb",
+        "/adventures/village/building_well_blue.glb",
+        "/adventures/village/building_windmill_blue.glb",
+        "/adventures/village/crate_A_small.glb",
+        "/adventures/village/fence_wood_straight.glb",
+        "/adventures/village/sack.glb",
+        "/adventures/village/waterplant_A.glb",
+        "/adventures/village/wheelbarrow.glb"
+      ],
+      "views": {
+        "ground": {
+          "drawCalls": 92,
+          "triangles": 7463,
+          "geometries": 64,
+          "textures": 11,
+          "programs": 9,
+          "clear": true,
+          "supported": true,
+          "actor": true,
+          "doorVisible": true,
+          "p": {
+            "x": 0,
+            "y": 0.002,
+            "z": 1.4,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true
+          }
+        },
+        "landing": {
+          "drawCalls": 119,
+          "triangles": 8479,
+          "geometries": 65,
+          "textures": 11,
+          "programs": 9,
+          "clear": true,
+          "supported": true,
+          "actor": true,
+          "doorVisible": true,
+          "p": {
+            "x": 0.7,
+            "y": 1.502,
+            "z": -1.2,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true
+          }
+        },
+        "loft": {
+          "drawCalls": 119,
+          "triangles": 8479,
+          "geometries": 65,
+          "textures": 11,
+          "programs": 9,
+          "clear": true,
+          "supported": true,
+          "actor": true,
+          "doorVisible": true,
+          "p": {
+            "x": -1.1,
+            "y": 3.002000002980232,
+            "z": 0,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true
+          }
+        }
+      }
+    },
+    "after": {
+      "triangles": 4324,
+      "hash": "344485b8c0426d5c9937ca119c6759d7b4ec36c6bd447189b99442ba197dd3af",
+      "individualBoxes": 0,
+      "batches": 3,
+      "entry": {
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "name": "Old Willow Windmill",
+        "kind": "mill",
+        "levels": 2,
+        "x": -139.68391580581664,
+        "z": 24,
+        "yaw": 1.5707963267948963,
+        "width": 5.2,
+        "depth": 5.2,
+        "profile": "compact-windmill"
+      },
+      "objects": [
+        {
+          "id": "worktable",
+          "asset": "furniture-table",
+          "x": -1.8478893358999997,
+          "z": -0.35,
+          "y": 0,
+          "yaw": 1.5707963267948966,
+          "scale": 2.2
+        },
+        {
+          "id": "seat",
+          "asset": "furniture-chair",
+          "x": -1.85,
+          "z": 1.15,
+          "y": 0,
+          "yaw": 3.141592653589793,
+          "scale": 1.9
+        },
+        {
+          "id": "tool-shelf",
+          "asset": "furniture-bookcaseopen",
+          "x": -1.85,
+          "z": -1.85,
+          "y": 0,
+          "yaw": 0,
+          "scale": 1.7
+        },
+        {
+          "id": "grain",
+          "asset": "crate_A_small",
+          "x": -1.8,
+          "z": -0.6,
+          "y": 3,
+          "yaw": 0,
+          "scale": 3.2
+        },
+        {
+          "id": "grain-barrel",
+          "asset": "barrel",
+          "x": -1.8,
+          "z": -1.8,
+          "y": 3,
+          "yaw": 0,
+          "scale": 3
+        },
+        {
+          "id": "mill-shelf",
+          "asset": "furniture-bookcaseopen",
+          "x": -1.8,
+          "z": 0.8,
+          "y": 3,
+          "yaw": 0,
+          "scale": 1.7
+        }
+      ],
+      "ownedGeometryBytes": 82224,
+      "startupBytes": 3754907,
+      "assets": [
+        "/adventures/character/Explorer.glb",
+        "/adventures/furniture/bedsingle.glb",
+        "/adventures/furniture/bookcaseopen.glb",
+        "/adventures/furniture/books.glb",
+        "/adventures/furniture/cabinetbed.glb",
+        "/adventures/furniture/chair.glb",
+        "/adventures/furniture/rugrectangle.glb",
+        "/adventures/furniture/table.glb",
+        "/adventures/modular/Door_4_Flat.glb",
+        "/adventures/modular/Floor_WoodDark.glb",
+        "/adventures/modular/Roof_Front_Brick4.glb",
+        "/adventures/modular/Roof_RoundTiles_4x6.glb",
+        "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+        "/adventures/modular/Wall_Plaster_Straight.glb",
+        "/adventures/nature/campfire-stones.glb",
+        "/adventures/nature/flower-purplea.glb",
+        "/adventures/nature/flower-reda.glb",
+        "/adventures/nature/flower-yellowa.glb",
+        "/adventures/nature/grass-large.glb",
+        "/adventures/nature/lily-small.glb",
+        "/adventures/nature/log.glb",
+        "/adventures/nature/mushroom-red.glb",
+        "/adventures/nature/plant-bush.glb",
+        "/adventures/nature/plant-bushsmall.glb",
+        "/adventures/nature/rock-largea.glb",
+        "/adventures/nature/rock-largeb.glb",
+        "/adventures/nature/rock-smalla.glb",
+        "/adventures/nature/sign.glb",
+        "/adventures/nature/stump-round.glb",
+        "/adventures/nature/tent-smallopen.glb",
+        "/adventures/nature/tree-detailed.glb",
+        "/adventures/nature/tree-oak.glb",
+        "/adventures/nature/tree-pinedefaulta.glb",
+        "/adventures/nature/tree-pinedefaultb.glb",
+        "/adventures/village/barrel.glb",
+        "/adventures/village/building_blacksmith_blue.glb",
+        "/adventures/village/building_bridge_A.glb",
+        "/adventures/village/building_church_blue.glb",
+        "/adventures/village/building_home_A_blue.glb",
+        "/adventures/village/building_home_A_green.glb",
+        "/adventures/village/building_home_B_blue.glb",
+        "/adventures/village/building_home_B_green.glb",
+        "/adventures/village/building_market_blue.glb",
+        "/adventures/village/building_tavern_blue.glb",
+        "/adventures/village/building_watermill_blue.glb",
+        "/adventures/village/building_well_blue.glb",
+        "/adventures/village/building_windmill_blue.glb",
+        "/adventures/village/crate_A_small.glb",
+        "/adventures/village/fence_wood_straight.glb",
+        "/adventures/village/sack.glb",
+        "/adventures/village/waterplant_A.glb",
+        "/adventures/village/wheelbarrow.glb"
+      ],
+      "views": {
+        "ground": {
+          "drawCalls": 30,
+          "triangles": 6419,
+          "geometries": 63,
+          "textures": 11,
+          "programs": 9,
+          "clear": true,
+          "supported": true,
+          "actor": true,
+          "doorVisible": false,
+          "p": {
+            "x": 0,
+            "y": 0.002,
+            "z": 1.4,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true
+          }
+        },
+        "landing": {
+          "drawCalls": 35,
+          "triangles": 7435,
+          "geometries": 65,
+          "textures": 11,
+          "programs": 9,
+          "clear": true,
+          "supported": true,
+          "actor": true,
+          "doorVisible": false,
+          "p": {
+            "x": 0.7,
+            "y": 1.502,
+            "z": -1.2,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true
+          }
+        },
+        "loft": {
+          "drawCalls": 35,
+          "triangles": 7435,
+          "geometries": 65,
+          "textures": 11,
+          "programs": 9,
+          "clear": true,
+          "supported": true,
+          "actor": true,
+          "doorVisible": false,
+          "p": {
+            "x": -1.1,
+            "y": 3.002000002980232,
+            "z": 0,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true
+          }
+        }
+      },
+      "cycles": {
+        "rows": [
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "inside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 77,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "phase": "outside",
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9
+          }
+        ],
+        "rooms": 2,
+        "blocked": false
+      }
+    }
+  }
+}
