@@ -1,3 +1,4 @@
+import type { RoomState } from "./interior";
 import { inWorld } from "./vale-data";
 import { WorldStore, type WorldRecord } from "../persistence/store";
 import { type Snapshot, encode, decode } from "../persistence/schema";
@@ -10,26 +11,31 @@ import {
   type SceneId,
 } from "./landscape";
 export interface AdventureData {
-  version: 1;
+  version: 1 | 2;
   scene: SceneId;
   /** Missing in preview 01: retain its original permanent scene layout. */
   layout?: SceneLayout;
   objects: Placement[];
   discoveries: string[];
   doors?: { lodge?: boolean };
+  rooms?: Record<string, RoomState>;
+  inside?: { id: string; outside: AdventurePose };
 }
 export interface AdventurePose {
   x: number;
+  y?: number;
   z: number;
   yaw: number;
   pitch: number;
+  facing?: number;
 }
 export const DATABASE = "blockworld-adventures-assets-v1";
 export function validateAdventure(s: Snapshot): AdventureData {
   const a = s.world.adventure as AdventureData;
   if (
     !a ||
-    a.version !== 1 ||
+    ![1, 2].includes(a.version) ||
+    (a.version === 1 && (a.rooms !== undefined || a.inside !== undefined)) ||
     (a.layout !== undefined &&
       a.layout !== 1 &&
       a.layout !== 2 &&
@@ -69,14 +75,90 @@ export function validateAdventure(s: Snapshot): AdventureData {
       ![o.x, o.z, o.yaw, o.scale].every(Number.isFinite) ||
       !inWorld(o.x, o.z, a.scene, -0.001) ||
       o.scale < 0.2 ||
-      o.scale > 14
+      o.scale > 14 ||
+      o.y !== undefined
     )
       throw Error("Invalid imported object. Existing saves are unchanged.");
     ids.add(o.id);
   }
-  if (!inWorld(s.player.x, s.player.z, a.scene, -0.001))
+  if (a.version === 2) validateRooms(a, s);
+  if (!a.inside && !inWorld(s.player.x, s.player.z, a.scene, -0.001))
     throw Error("Player outside the preview boundary.");
   return { ...structuredClone(a), layout: a.layout ?? 1 };
+}
+function validateRooms(a: AdventureData, s: Snapshot) {
+  const rooms = a.rooms;
+  if (
+    !rooms ||
+    typeof rooms !== "object" ||
+    Array.isArray(rooms) ||
+    Object.keys(rooms).length > 512
+  )
+    throw Error("Unsupported interior records. Existing saves are unchanged.");
+  let total = 0;
+  for (const [id, room] of Object.entries(rooms)) {
+    const e = room?.entry;
+    if (
+      !id ||
+      id.length > 120 ||
+      ["__proto__", "constructor", "prototype"].includes(id) ||
+      !e ||
+      e.id !== id ||
+      !["cottage", "townhouse", "inn", "workshop"].includes(e.kind) ||
+      typeof e.name !== "string" ||
+      e.name.length > 80 ||
+      ![e.x, e.z, e.yaw, e.width, e.depth].every(Number.isFinite) ||
+      !inWorld(e.x, e.z, a.scene) ||
+      e.width < 5.8 ||
+      e.width > 10 ||
+      e.depth < 6.8 ||
+      e.depth > 12 ||
+      !Array.isArray(room.objects) ||
+      room.objects.length > 200
+    )
+      throw Error("Invalid saved interior.");
+    const ids = new Set<string>();
+    for (const p of room.objects) {
+      const def = DEFINITIONS.get(p?.asset);
+      if (
+        !p ||
+        typeof p.id !== "string" ||
+        p.id.length > 80 ||
+        ids.has(p.id) ||
+        !def ||
+        def.category !== "prop" ||
+        ![p.x, p.z, p.y ?? 0, p.yaw, p.scale].every(Number.isFinite) ||
+        Math.abs(p.x) > e.width / 2 ||
+        Math.abs(p.z) > e.depth / 2 ||
+        ![0, 3].includes(p.y ?? 0) ||
+        (e.kind === "workshop" && (p.y ?? 0) !== 0) ||
+        p.scale < 0.2 ||
+        p.scale > 14
+      )
+        throw Error("Invalid room furnishing.");
+      ids.add(p.id);
+      total++;
+    }
+  }
+  if (total > 4000)
+    throw Error("Interior furnishings exceed this preview's save budget.");
+  if (a.inside) {
+    const active = a.inside,
+      room = Object.hasOwn(rooms, active.id) ? rooms[active.id] : null,
+      p = active.outside;
+    if (
+      !room ||
+      !p ||
+      ![p.x, p.z, p.yaw, p.pitch].every(Number.isFinite) ||
+      !inWorld(p.x, p.z, a.scene) ||
+      (p.facing !== undefined && !Number.isFinite(p.facing)) ||
+      Math.abs(s.player.x) > room.entry.width / 2 ||
+      Math.abs(s.player.z) > room.entry.depth / 2 ||
+      s.player.y < 0 ||
+      s.player.y > 3.05
+    )
+      throw Error("Invalid saved interior location.");
+  }
 }
 export function makeSnapshot(
   data: AdventureData,
@@ -91,7 +173,7 @@ export function makeSnapshot(
       layout: 1,
       adventure: structuredClone(data),
     },
-    player: { ...pose, y: 0 },
+    player: { ...pose, y: data.inside ? (pose.y ?? 0) : 0 },
     preferences: { selected: "hand", avatar: "explorer", camera: "third" },
   };
 }
@@ -243,6 +325,26 @@ export class AdventureSession {
       this.current || ({ name: "Unsaved adventure" } as WorldRecord),
       this.capture(),
     );
+  }
+  /** First interior entry forks an independently stored copy; the version-1 source stays readable by old previews. */
+  copyForRooms() {
+    return this.change(async () => {
+      await this.flush();
+      const snapshot = this.capture();
+      validateAdventure(snapshot);
+      if ((snapshot.world.adventure as AdventureData).version !== 1) return;
+      const base = `${this.current?.name || "Adventure"} · interiors`,
+        used = new Set((await this.store.list()).map((r) => r.name));
+      let name = base,
+        index = 2;
+      while (used.has(name)) name = base + " " + index++;
+      const record = await this.store.create(name, snapshot);
+      await this.store.select(record.id);
+      this.current = record;
+      this.last = encode(snapshot).json;
+      this.blocked = false;
+      this.status("Original world kept · interior copy ready");
+    });
   }
   recover() {
     return this.change(async () => {

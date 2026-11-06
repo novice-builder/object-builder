@@ -1,4 +1,5 @@
 import * as T from "three";
+import { buildingEntry, type BuildingEntry } from "./building-entry";
 import { Lodge } from "./lodge";
 import { StaticInstanceCuller, fogDepthVisible } from "./instance-culling";
 import {
@@ -74,6 +75,7 @@ export class ConnectedLandscape {
   group = new T.Group();
   obstacles: Obstacle[] = [];
   cameraBodies: Obstacle[] = [];
+  entrances: BuildingEntry[] = [];
   landmarks: Landmark[] = [];
   paths: { points: number[][]; width: number }[] = [];
   instances = 0;
@@ -121,6 +123,14 @@ export class ConnectedLandscape {
           maxX: b.maxX + r.x,
           minZ: b.minZ + r.z,
           maxZ: b.maxZ + r.z,
+        })),
+      );
+      this.entrances.push(
+        ...land.entrances.map((e) => ({
+          ...e,
+          id: r.id + ":" + e.id,
+          x: e.x + r.x,
+          z: e.z + r.z,
         })),
       );
       this.landmarks.push(
@@ -282,6 +292,8 @@ export class ConnectedLandscape {
     o.position.set(x, valeWalk(x, z), z);
     o.rotation.y = yaw;
     this.group.add(o);
+    const entrance = buildingEntry(this.library, id, o);
+    if (entrance) this.entrances.push(entrance);
     o.updateMatrixWorld(true);
     const b = new T.Box3().setFromObject(o),
       inset = id.startsWith("building_") ? 0.45 : 0.08;
@@ -411,7 +423,7 @@ export class ConnectedLandscape {
     this.landmarks.push({
       ...ALDERWICK,
       description:
-        "Alderwick's market square joins a compact neighbourhood to cottage gardens and the mill lane. Follow the south road back to Willowmere. These original prefab shops and houses have closed decorative doors.",
+        "Alderwick's market square joins a compact neighbourhood to cottage gardens and the mill lane. Follow the south road back to Willowmere. Look for an Enter prompt at cottage, town-house, inn and workshop entrances.",
     });
   }
   private populate() {

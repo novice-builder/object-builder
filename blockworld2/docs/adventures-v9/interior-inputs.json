@@ -1,0 +1,125 @@
+{
+  "checks": [
+    {
+      "name": "phone actual touch joystick walks from ground onto upper landing",
+      "passed": true,
+      "detail": {
+        "y": 3,
+        "z": -2.6196445781298716,
+        "maxStep": 0.07641872119419135,
+        "stick": {
+          "x": 0,
+          "y": -0.8571428571428571
+        }
+      }
+    },
+    {
+      "name": "phone responsive room camera keeps useful horizontal space",
+      "passed": true,
+      "detail": {
+        "distance": 15.403683865386565,
+        "aspect": 0.46208530805687204,
+        "drawCalls": 97,
+        "triangles": 8061
+      }
+    },
+    {
+      "name": "phone injected Gamepad API left stick walks downstairs and releases",
+      "passed": true,
+      "detail": {
+        "y": 0,
+        "z": 2.501218377609692,
+        "maxStep": 0.08040100670530181,
+        "state": {
+          "x": 0,
+          "z": 0,
+          "lookX": 0,
+          "lookY": 0,
+          "command": null
+        }
+      }
+    },
+    {
+      "name": "phone keyboard walks upstairs through the same controller",
+      "passed": true,
+      "detail": {
+        "y": 3,
+        "z": -2.6223564348386637
+      }
+    },
+    {
+      "name": "phone keyboard walks downstairs through the same controller",
+      "passed": true,
+      "detail": {
+        "y": 0,
+        "z": 2.5012183776096926
+      }
+    },
+    {
+      "name": "phone no input or camera runtime errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet actual touch joystick walks from ground onto upper landing",
+      "passed": true,
+      "detail": {
+        "y": 3,
+        "z": -5.0809888616151815,
+        "maxStep": 0.03523067358770371,
+        "stick": {
+          "x": 0,
+          "y": -0.8571428571428571
+        }
+      }
+    },
+    {
+      "name": "tablet responsive room camera keeps useful horizontal space",
+      "passed": true,
+      "detail": {
+        "distance": 9.579311717380076,
+        "aspect": 1.3333333333333333,
+        "drawCalls": 86,
+        "triangles": 6891
+      }
+    },
+    {
+      "name": "tablet injected Gamepad API left stick walks downstairs and releases",
+      "passed": true,
+      "detail": {
+        "y": 0,
+        "z": 4.982485882729534,
+        "maxStep": 0.030319524689127242,
+        "state": {
+          "x": 0,
+          "z": 0,
+          "lookX": 0,
+          "lookY": 0,
+          "command": null
+        }
+      }
+    },
+    {
+      "name": "tablet keyboard walks upstairs through the same controller",
+      "passed": true,
+      "detail": {
+        "y": 3,
+        "z": -5.07192226209041
+      }
+    },
+    {
+      "name": "tablet keyboard walks downstairs through the same controller",
+      "passed": true,
+      "detail": {
+        "y": 0,
+        "z": 4.982485882729534
+      }
+    },
+    {
+      "name": "tablet no input or camera runtime errors",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium touch emulation, injected standard browser Gamepad API, genuine keyboard events. No physical device/controller test."
+}

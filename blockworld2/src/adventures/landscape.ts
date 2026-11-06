@@ -1,4 +1,5 @@
 import * as T from "three";
+import { buildingEntry, type BuildingEntry } from "./building-entry";
 import { valeGround, valeWalk, valeWater } from "./vale-data";
 import { trailGeometry } from "./trail-geometry";
 export type SceneLayout = 1 | 2 | 3 | 4 | 5;
@@ -13,6 +14,8 @@ export interface Placement {
   z: number;
   yaw: number;
   scale: number;
+  /** Local room floor only; outdoor records retain their original shape. */
+  y?: number;
 }
 export interface Landmark {
   id: string;
@@ -216,6 +219,7 @@ export class Landscape {
   group = new T.Group();
   obstacles: Obstacle[] = [];
   cameraBodies: Obstacle[] = [];
+  entrances: BuildingEntry[] = [];
   landmarks: Landmark[] = [];
   instances = 0;
   // Resource ownership: only generated buffers/materials/textures belong to this scene.
@@ -487,6 +491,8 @@ export class Landscape {
     root.rotation.y = yaw;
     this.group.add(root);
     this.assetRoots.push(root);
+    const entrance = buildingEntry(this.library, id, root);
+    if (entrance) this.entrances.push(entrance);
     root.updateMatrixWorld(true);
     if (solid) {
       const b = new T.Box3().setFromObject(root);

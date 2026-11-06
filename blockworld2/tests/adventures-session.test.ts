@@ -197,3 +197,37 @@ test("fresh copies receive distinct names without renaming old worlds", async ()
     f.session.store.db.close();
   }
 });
+test("first room entry keeps a separate version-1 source record and aborts copying on save failure", async () => {
+  const f = await fixture();
+  try {
+    f.set(initial("village", 6));
+    const original = f.session.current!.id;
+    await f.session.copyForRooms();
+    assert.notEqual(f.session.current!.id, original);
+    const source = await f.session.store.load(original);
+    assert.equal((source.snapshot.world.adventure as any).version, 1);
+    assert.equal(source.snapshot.player.x, 6);
+    const state = f.get();
+    (state.world.adventure as any).version = 2;
+    (state.world.adventure as any).rooms = {};
+    f.set(state);
+    await f.session.save();
+    assert.equal(
+      (await f.session.store.load(original)).snapshot.world.adventure &&
+        ((await f.session.store.load(original)).snapshot.world.adventure as any)
+          .version,
+      1,
+    );
+    await f.session.open(original);
+    f.set(initial("village", 7));
+    const count = (await f.session.store.list()).length;
+    f.session.store.save = async () => {
+      throw Error("QuotaExceededError");
+    };
+    await assert.rejects(f.session.copyForRooms(), /Quota/);
+    assert.equal(f.session.current!.id, original);
+    assert.equal((await f.session.store.list()).length, count);
+  } finally {
+    f.session.store.db.close();
+  }
+});

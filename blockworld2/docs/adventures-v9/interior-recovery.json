@@ -1,0 +1,480 @@
+{
+  "environment": "Managed Chromium SwiftShader browser only. No physical-device or hardware controller test.",
+  "checks": [
+    {
+      "name": "interrupted pre-commit fade restores coherent exterior and preserves original",
+      "passed": true,
+      "detail": {
+        "inside": false,
+        "version": 1,
+        "overlay": true,
+        "transitioning": false,
+        "sourceVersion": 1
+      }
+    },
+    {
+      "name": "quota failure before transition retains exterior and creates no partial copy",
+      "passed": true,
+      "detail": {
+        "outside": true,
+        "version": 1,
+        "blocked": true,
+        "sameCount": true,
+        "fadeHidden": true
+      }
+    },
+    {
+      "name": "normal recovery and subsequent room entry succeeds",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "small cottage route reaches upper room and upper furniture remains editable",
+      "passed": true,
+      "detail": {
+        "reached": true,
+        "y": 3,
+        "problem": null,
+        "table": {
+          "id": "upstairs-table",
+          "asset": "furniture-table",
+          "x": -1.0499999999999998,
+          "z": 1.75,
+          "y": 3,
+          "yaw": 0,
+          "scale": 2.5
+        },
+        "outside": {
+          "x": -110.86685408592224,
+          "z": -10,
+          "yaw": 0,
+          "pitch": 0.47,
+          "facing": 3.141592653589793
+        },
+        "id": "village:building_home_A_blue:-10.000:-10.000:1.571"
+      }
+    },
+    {
+      "name": "real page reload restores upper-floor location, edited furniture and map",
+      "passed": true,
+      "detail": {
+        "y": 3,
+        "id": "village:building_home_A_blue:-10.000:-10.000:1.571",
+        "table": {
+          "id": "upstairs-table",
+          "asset": "furniture-table",
+          "x": -1.0499999999999998,
+          "z": 1.75,
+          "y": 3,
+          "yaw": 0,
+          "scale": 2.5
+        },
+        "outdoorVisible": false,
+        "map": true
+      }
+    },
+    {
+      "name": "fully blocked exterior refuses unsafe exit and keeps the correct room",
+      "passed": true,
+      "detail": {
+        "kept": true,
+        "message": "The exit is blocked. Clear the ground outside before leaving."
+      }
+    },
+    {
+      "name": "ten enter/exit cycles plateau generated geometry, textures, room records and programs",
+      "passed": true,
+      "detail": [
+        {
+          "inside": {
+            "fps": 1,
+            "frameP95Ms": 350,
+            "drawCalls": 72,
+            "triangles": 7107,
+            "geometries": 75,
+            "textures": 11,
+            "pixelRatio": 1,
+            "scene": "vale",
+            "natureInstances": 4307,
+            "objects": 7,
+            "quality": "gentle"
+          },
+          "outside": {
+            "fps": 1,
+            "frameP95Ms": 350,
+            "drawCalls": 145,
+            "triangles": 141127,
+            "geometries": 74,
+            "textures": 11,
+            "pixelRatio": 1,
+            "scene": "vale",
+            "natureInstances": 4307,
+            "objects": 0,
+            "quality": "gentle"
+          },
+          "rooms": 1
+        },
+        {
+          "inside": {
+            "fps": 1,
+            "frameP95Ms": 350,
+            "drawCalls": 72,
+            "triangles": 7107,
+            "geometries": 75,
+            "textures": 11,
+            "pixelRatio": 1,
+            "scene": "vale",
+            "natureInstances": 4307,
+            "objects": 7,
+            "quality": "gentle"
+          },
+          "outside": {
+            "fps": 1,
+            "frameP95Ms": 350,
+            "drawCalls": 145,
+            "triangles": 141127,
+            "geometries": 74,
+            "textures": 11,
+            "pixelRatio": 1,
+            "scene": "vale",
+            "natureInstances": 4307,
+            "objects": 0,
+            "quality": "gentle"
+          },
+          "rooms": 1
+        },
+        {
+          "inside": {
+            "fps": 1,
+            "frameP95Ms": 350,
+            "drawCalls": 72,
+            "triangles": 7107,
+            "geometries": 75,
+            "textures": 11,
+            "pixelRatio": 1,
+            "scene": "vale",
+            "natureInstances": 4307,
+            "objects": 7,
+            "quality": "gentle"
+          },
+          "outside": {
+            "fps": 1,
+            "frameP95Ms": 350,
+            "drawCalls": 145,
+            "triangles": 141127,
+            "geometries": 74,
+            "textures": 11,
+            "pixelRatio": 1,
+            "scene": "vale",
+            "natureInstances": 4307,
+            "objects": 0,
+            "quality": "gentle"
+          },
+          "rooms": 1
+        }
+      ]
+    },
+    {
+      "name": "landscape phone controls and overlays fit after reload and repeated transitions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "recovery checks have no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "resources": [
+    {
+      "inside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 72,
+        "triangles": 7107,
+        "geometries": 75,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 7,
+        "quality": "gentle"
+      },
+      "outside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 145,
+        "triangles": 141127,
+        "geometries": 74,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "rooms": 1
+    },
+    {
+      "inside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 72,
+        "triangles": 7107,
+        "geometries": 75,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 7,
+        "quality": "gentle"
+      },
+      "outside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 145,
+        "triangles": 141127,
+        "geometries": 74,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "rooms": 1
+    },
+    {
+      "inside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 72,
+        "triangles": 7107,
+        "geometries": 75,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 7,
+        "quality": "gentle"
+      },
+      "outside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 145,
+        "triangles": 141127,
+        "geometries": 74,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "rooms": 1
+    },
+    {
+      "inside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 72,
+        "triangles": 7107,
+        "geometries": 75,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 7,
+        "quality": "gentle"
+      },
+      "outside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 145,
+        "triangles": 141127,
+        "geometries": 74,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "rooms": 1
+    },
+    {
+      "inside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 72,
+        "triangles": 7107,
+        "geometries": 75,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 7,
+        "quality": "gentle"
+      },
+      "outside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 145,
+        "triangles": 141127,
+        "geometries": 74,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "rooms": 1
+    },
+    {
+      "inside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 72,
+        "triangles": 7107,
+        "geometries": 75,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 7,
+        "quality": "gentle"
+      },
+      "outside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 145,
+        "triangles": 141127,
+        "geometries": 74,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "rooms": 1
+    },
+    {
+      "inside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 72,
+        "triangles": 7107,
+        "geometries": 75,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 7,
+        "quality": "gentle"
+      },
+      "outside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 145,
+        "triangles": 141127,
+        "geometries": 74,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "rooms": 1
+    },
+    {
+      "inside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 72,
+        "triangles": 7107,
+        "geometries": 75,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 7,
+        "quality": "gentle"
+      },
+      "outside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 145,
+        "triangles": 141127,
+        "geometries": 74,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "rooms": 1
+    },
+    {
+      "inside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 72,
+        "triangles": 7107,
+        "geometries": 75,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 7,
+        "quality": "gentle"
+      },
+      "outside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 145,
+        "triangles": 141127,
+        "geometries": 74,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "rooms": 1
+    },
+    {
+      "inside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 72,
+        "triangles": 7107,
+        "geometries": 75,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 7,
+        "quality": "gentle"
+      },
+      "outside": {
+        "fps": 1,
+        "frameP95Ms": 350,
+        "drawCalls": 145,
+        "triangles": 141127,
+        "geometries": 74,
+        "textures": 11,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4307,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "rooms": 1
+    }
+  ]
+}

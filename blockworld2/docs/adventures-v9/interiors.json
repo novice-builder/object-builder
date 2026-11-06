@@ -1,0 +1,1953 @@
+{
+  "environment": "Managed Chromium SwiftShader; phone/tablet touch emulation and injected standard Gamepad API snapshots, NOT physical iPhone/Lenovo/Safari/Xbox tests. RAF paused for deterministic ordinary update steps.",
+  "checks": [
+    {
+      "name": "tablet exterior entrance has compact Enter prompt",
+      "passed": true,
+      "detail": {
+        "prompt": "Enter E",
+        "id": "village:building_home_B_green:-11.000:10.000:1.571",
+        "entry": {
+          "id": "village:building_home_B_green:-11.000:10.000:1.571",
+          "name": "Town house",
+          "kind": "townhouse",
+          "x": -110.99485449790954,
+          "z": 10,
+          "yaw": 1.5707963267948966,
+          "width": 6.299483299255371,
+          "depth": 7.910291004180908
+        },
+        "stats": {
+          "fps": 3,
+          "frameP95Ms": 633.3,
+          "drawCalls": 70,
+          "triangles": 87862,
+          "geometries": 69,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4307,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "entrances": 26
+      }
+    },
+    {
+      "name": "tablet rapid entry creates exactly one interior copy and retains original",
+      "passed": true,
+      "detail": {
+        "originalId": "bef1e926-50e7-4835-9e9f-6a2aaeee715c",
+        "current": "5a0beed5-d6e0-4e42-987f-5030fdf7f84a",
+        "version": 2,
+        "inside": "village:building_home_B_green:-11.000:10.000:1.571",
+        "count": 2,
+        "oldVersion": 1,
+        "oldObjects": [],
+        "worldVisible": false,
+        "objects": [],
+        "stats": {
+          "fps": 3,
+          "frameP95Ms": 633.3,
+          "drawCalls": 66,
+          "triangles": 6849,
+          "geometries": 80,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4307,
+          "objects": 7,
+          "quality": "gentle"
+        },
+        "pose": {
+          "x": -110.99485449790954,
+          "z": 10,
+          "yaw": 1.5707963267948966
+        },
+        "returnPose": {
+          "x": -110.99485449790954,
+          "z": 10,
+          "yaw": 1.5707963267948966,
+          "pitch": 0.47
+        },
+        "joystick": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "tablet outdoor geometry suspended and original constructions untouched",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet minimap stays at actual exterior entrance indoors",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet confirmed room furnishing edit works",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet walks to stair approach",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 0,
+          "y": 0,
+          "z": 3.0896790028147243,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "tablet walks across ground-floor approach",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 2.0737795715513037,
+          "y": 0,
+          "z": 3.1528322141982876,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "tablet walks halfway upstairs",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 2.1478167128364483,
+          "y": 1.4547962391453824,
+          "z": 0.10426164552623005,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.009419229757234193
+      }
+    },
+    {
+      "name": "tablet walks onto upper landing",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 2.14969615884907,
+          "y": 3,
+          "z": -3.126936436428029,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.06045326684884644
+      }
+    },
+    {
+      "name": "tablet reaches actual upper floor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet walks from landing into upper room",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 0.07632691401001962,
+          "y": 3,
+          "z": -3.2023686182015156,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "tablet upper-floor reload retains correct room, floor, edits and map",
+      "passed": true,
+      "detail": {
+        "inside": "village:building_home_B_green:-11.000:10.000:1.571",
+        "y": 3,
+        "before": "[{\"id\":\"table\",\"asset\":\"furniture-table\",\"x\":-1.4497416496276856,\"z\":-1.855145502090454,\"y\":0,\"yaw\":0,\"scale\":2.5},{\"id\":\"seat\",\"asset\":\"furniture-chair\",\"x\":-1.4497416496276856,\"z\":-0.705145502090454,\"y\":0,\"yaw\":3.141592653589793,\"scale\":2.2},{\"id\":\"shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.5997416496276857,\"z\":-3.355145502090454,\"y\":0,\"yaw\":0,\"scale\":2.2},{\"id\":\"upstairs-shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.5997416496276857,\"z\":-3.2551455020904543,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"upstairs-table\",\"asset\":\"furniture-table\",\"x\":-1.5497416496276855,\"z\":2.305145502090454,\"y\":3,\"yaw\":0,\"scale\":2.5},{\"id\":\"upstairs-seat\",\"asset\":\"furniture-chair\",\"x\":-1.5497416496276855,\"z\":1.1551455020904542,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"rug\",\"asset\":\"furniture-rugrectangle\",\"x\":-0.75,\"z\":0,\"y\":0,\"yaw\":0,\"scale\":2}]",
+        "after": "[{\"id\":\"table\",\"asset\":\"furniture-table\",\"x\":-1.4497416496276856,\"z\":-1.855145502090454,\"y\":0,\"yaw\":0,\"scale\":2.5},{\"id\":\"seat\",\"asset\":\"furniture-chair\",\"x\":-1.4497416496276856,\"z\":-0.705145502090454,\"y\":0,\"yaw\":3.141592653589793,\"scale\":2.2},{\"id\":\"shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.5997416496276857,\"z\":-3.355145502090454,\"y\":0,\"yaw\":0,\"scale\":2.2},{\"id\":\"upstairs-shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.5997416496276857,\"z\":-3.2551455020904543,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"upstairs-table\",\"asset\":\"furniture-table\",\"x\":-1.5497416496276855,\"z\":2.305145502090454,\"y\":3,\"yaw\":0,\"scale\":2.5},{\"id\":\"upstairs-seat\",\"asset\":\"furniture-chair\",\"x\":-1.5497416496276855,\"z\":1.1551455020904542,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"rug\",\"asset\":\"furniture-rugrectangle\",\"x\":-0.75,\"z\":0,\"y\":0,\"yaw\":0,\"scale\":2}]",
+        "map": true,
+        "visible": false
+      }
+    },
+    {
+      "name": "tablet returns to upper landing",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 2.0849830301286576,
+          "y": 3,
+          "z": -3.2050587721352413,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "tablet walks downstairs",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 2.148998605295698,
+          "y": 0,
+          "z": 3.0821681320845586,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.059824078337356035
+      }
+    },
+    {
+      "name": "tablet returns to ground floor using movement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet returns to exit",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 0.07545290871317692,
+          "y": 0,
+          "z": 3.152583213393006,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "tablet keyboard room movement uses ordinary controls",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet returns after keyboard check",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 0.0056797586645895085,
+          "y": 0,
+          "z": 3.077008110898362,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "tablet real touch joystick moves and releases inside",
+      "passed": true,
+      "detail": {
+        "moved": true,
+        "stick": {
+          "x": 0,
+          "y": -0.8095238095238095
+        }
+      }
+    },
+    {
+      "name": "tablet returns after touch check",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 0.00041534230613578043,
+          "y": 0,
+          "z": 3.085206456725025,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "tablet injected standard gamepad room movement and disconnect fallback",
+      "passed": true,
+      "detail": {
+        "moved": true,
+        "released": true
+      }
+    },
+    {
+      "name": "tablet returns after pad check",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 5.168024994853729e-05,
+          "y": 0,
+          "z": 3.0864387960041855,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "tablet exit returns safely to the exact same exterior entrance",
+      "passed": true,
+      "detail": {
+        "x": -110.99485449790954,
+        "z": 10,
+        "inside": null,
+        "worldVisible": true,
+        "roomCount": 1
+      }
+    },
+    {
+      "name": "tablet matching buildings keep independent contents without another world copy",
+      "passed": true,
+      "detail": {
+        "inside": "village:building_home_B_blue:12.000:13.000:-1.571",
+        "copyCount": 2,
+        "rug": -1,
+        "firstRug": -0.75
+      }
+    },
+    {
+      "name": "tablet native backup import retains rooms and preserves source record",
+      "passed": true,
+      "detail": {
+        "different": true,
+        "inside": "village:building_home_B_blue:12.000:13.000:-1.571",
+        "rooms": 2,
+        "oldStillExists": true
+      }
+    },
+    {
+      "name": "tablet actual-world map travel exits room and arrives safely",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet overlays fit viewport with touch-sized exit and controls",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet no runtime exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "phone exterior entrance has compact Enter prompt",
+      "passed": true,
+      "detail": {
+        "prompt": "Enter E",
+        "id": "village:building_home_B_green:-11.000:10.000:1.571",
+        "entry": {
+          "id": "village:building_home_B_green:-11.000:10.000:1.571",
+          "name": "Town house",
+          "kind": "townhouse",
+          "x": -110.99485449790954,
+          "z": 10,
+          "yaw": 1.5707963267948966,
+          "width": 6.299483299255371,
+          "depth": 7.910291004180908
+        },
+        "stats": {
+          "fps": 5,
+          "frameP95Ms": 399.9,
+          "drawCalls": 41,
+          "triangles": 61214,
+          "geometries": 55,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4307,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "entrances": 26
+      }
+    },
+    {
+      "name": "phone rapid entry creates exactly one interior copy and retains original",
+      "passed": true,
+      "detail": {
+        "originalId": "070ac2bf-16cf-415e-aa30-752601f04441",
+        "current": "c8f9cc12-0196-4533-9f7b-f0d45c4eb013",
+        "version": 2,
+        "inside": "village:building_home_B_green:-11.000:10.000:1.571",
+        "count": 2,
+        "oldVersion": 1,
+        "oldObjects": [],
+        "worldVisible": false,
+        "objects": [],
+        "stats": {
+          "fps": 5,
+          "frameP95Ms": 399.9,
+          "drawCalls": 55,
+          "triangles": 6717,
+          "geometries": 66,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4307,
+          "objects": 7,
+          "quality": "gentle"
+        },
+        "pose": {
+          "x": -110.99485449790954,
+          "z": 10,
+          "yaw": 1.5707963267948966
+        },
+        "returnPose": {
+          "x": -110.99485449790954,
+          "z": 10,
+          "yaw": 1.5707963267948966,
+          "pitch": 0.47
+        },
+        "joystick": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "phone outdoor geometry suspended and original constructions untouched",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone minimap stays at actual exterior entrance indoors",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone confirmed room furnishing edit works",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone walks to stair approach",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 0,
+          "y": 0,
+          "z": 3.0896790028147243,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "phone walks across ground-floor approach",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 2.0737795715513037,
+          "y": 0,
+          "z": 3.1528322141982876,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "phone walks halfway upstairs",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 2.1478167128364483,
+          "y": 1.4547962391453824,
+          "z": 0.10426164552623005,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.009419229757234193
+      }
+    },
+    {
+      "name": "phone walks onto upper landing",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 2.14969615884907,
+          "y": 3,
+          "z": -3.126936436428029,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.06045326684884644
+      }
+    },
+    {
+      "name": "phone reaches actual upper floor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone walks from landing into upper room",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 0.07632691401001962,
+          "y": 3,
+          "z": -3.2023686182015156,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "phone upper-floor reload retains correct room, floor, edits and map",
+      "passed": true,
+      "detail": {
+        "inside": "village:building_home_B_green:-11.000:10.000:1.571",
+        "y": 3,
+        "before": "[{\"id\":\"table\",\"asset\":\"furniture-table\",\"x\":-1.4497416496276856,\"z\":-1.855145502090454,\"y\":0,\"yaw\":0,\"scale\":2.5},{\"id\":\"seat\",\"asset\":\"furniture-chair\",\"x\":-1.4497416496276856,\"z\":-0.705145502090454,\"y\":0,\"yaw\":3.141592653589793,\"scale\":2.2},{\"id\":\"shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.5997416496276857,\"z\":-3.355145502090454,\"y\":0,\"yaw\":0,\"scale\":2.2},{\"id\":\"upstairs-shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.5997416496276857,\"z\":-3.2551455020904543,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"upstairs-table\",\"asset\":\"furniture-table\",\"x\":-1.5497416496276855,\"z\":2.305145502090454,\"y\":3,\"yaw\":0,\"scale\":2.5},{\"id\":\"upstairs-seat\",\"asset\":\"furniture-chair\",\"x\":-1.5497416496276855,\"z\":1.1551455020904542,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"rug\",\"asset\":\"furniture-rugrectangle\",\"x\":-0.75,\"z\":0,\"y\":0,\"yaw\":0,\"scale\":2}]",
+        "after": "[{\"id\":\"table\",\"asset\":\"furniture-table\",\"x\":-1.4497416496276856,\"z\":-1.855145502090454,\"y\":0,\"yaw\":0,\"scale\":2.5},{\"id\":\"seat\",\"asset\":\"furniture-chair\",\"x\":-1.4497416496276856,\"z\":-0.705145502090454,\"y\":0,\"yaw\":3.141592653589793,\"scale\":2.2},{\"id\":\"shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.5997416496276857,\"z\":-3.355145502090454,\"y\":0,\"yaw\":0,\"scale\":2.2},{\"id\":\"upstairs-shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.5997416496276857,\"z\":-3.2551455020904543,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"upstairs-table\",\"asset\":\"furniture-table\",\"x\":-1.5497416496276855,\"z\":2.305145502090454,\"y\":3,\"yaw\":0,\"scale\":2.5},{\"id\":\"upstairs-seat\",\"asset\":\"furniture-chair\",\"x\":-1.5497416496276855,\"z\":1.1551455020904542,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"rug\",\"asset\":\"furniture-rugrectangle\",\"x\":-0.75,\"z\":0,\"y\":0,\"yaw\":0,\"scale\":2}]",
+        "map": true,
+        "visible": false
+      }
+    },
+    {
+      "name": "phone returns to upper landing",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 2.0849830301286576,
+          "y": 3,
+          "z": -3.2050587721352413,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "phone walks downstairs",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 2.148998605295698,
+          "y": 0,
+          "z": 3.0821681320845586,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.059824078337356035
+      }
+    },
+    {
+      "name": "phone returns to ground floor using movement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone returns to exit",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 0.07545290871317692,
+          "y": 0,
+          "z": 3.152583213393006,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "phone keyboard room movement uses ordinary controls",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone returns after keyboard check",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 0.0056797586645895085,
+          "y": 0,
+          "z": 3.077008110898362,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "phone real touch joystick moves and releases inside",
+      "passed": true,
+      "detail": {
+        "moved": true,
+        "stick": {
+          "x": 0,
+          "y": -0.8095238095238095
+        }
+      }
+    },
+    {
+      "name": "phone returns after touch check",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 0.00041534230613578043,
+          "y": 0,
+          "z": 3.085206456725025,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "phone injected standard gamepad room movement and disconnect fallback",
+      "passed": true,
+      "detail": {
+        "moved": true,
+        "released": true
+      }
+    },
+    {
+      "name": "phone returns after pad check",
+      "passed": true,
+      "detail": {
+        "end": {
+          "x": 5.168024994853729e-05,
+          "y": 0,
+          "z": 3.0864387960041855,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0
+      }
+    },
+    {
+      "name": "phone exit returns safely to the exact same exterior entrance",
+      "passed": true,
+      "detail": {
+        "x": -110.99485449790954,
+        "z": 10,
+        "inside": null,
+        "worldVisible": true,
+        "roomCount": 1
+      }
+    },
+    {
+      "name": "phone matching buildings keep independent contents without another world copy",
+      "passed": true,
+      "detail": {
+        "inside": "village:building_home_B_blue:12.000:13.000:-1.571",
+        "copyCount": 2,
+        "rug": -1,
+        "firstRug": -0.75
+      }
+    },
+    {
+      "name": "phone native backup import retains rooms and preserves source record",
+      "passed": true,
+      "detail": {
+        "different": true,
+        "inside": "village:building_home_B_blue:12.000:13.000:-1.571",
+        "rooms": 2,
+        "oldStillExists": true
+      }
+    },
+    {
+      "name": "phone actual-world map travel exits room and arrives safely",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone overlays fit viewport with touch-sized exit and controls",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "routes": [
+    {
+      "name": "tablet walks to stair approach",
+      "start": {
+        "x": 0,
+        "y": 0,
+        "z": 2.7551455020904543,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 0,
+        "y": 0,
+        "z": 3.0896790028147243,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0,
+          "y": 0,
+          "z": 2.756592574516047
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "z": 3.013471528182014
+        }
+      ]
+    },
+    {
+      "name": "tablet walks across ground-floor approach",
+      "start": {
+        "x": 0,
+        "y": 0,
+        "z": 3.0896790028147243,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 2.0737795715513037,
+        "y": 0,
+        "z": 3.1528322141982876,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0.001446401886622184,
+          "y": 0,
+          "z": 3.0897230503718247
+        },
+        {
+          "x": 0.2582063239505151,
+          "y": 0,
+          "z": 3.0975422100623584
+        },
+        {
+          "x": 0.6390593110063781,
+          "y": 0,
+          "z": 3.109140399921857
+        },
+        {
+          "x": 1.0336622015942138,
+          "y": 0,
+          "z": 3.1211573182596224
+        },
+        {
+          "x": 1.4297886249205694,
+          "y": 0,
+          "z": 3.1332206330352763
+        },
+        {
+          "x": 1.826083860486221,
+          "y": 0,
+          "z": 3.145289088682785
+        }
+      ]
+    },
+    {
+      "name": "tablet walks halfway upstairs",
+      "start": {
+        "x": 2.0737795715513037,
+        "y": 0,
+        "z": 3.1528322141982876,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 2.1478167128364483,
+        "y": 1.4547962391453824,
+        "z": 0.10426164552623005,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0.009419229757234193,
+      "samples": [
+        {
+          "x": 2.0738147045824413,
+          "y": 0,
+          "z": 3.1513855683276497
+        },
+        {
+          "x": 2.0800513905410005,
+          "y": 0,
+          "z": 2.8945823351221915
+        },
+        {
+          "x": 2.0893022909835377,
+          "y": 0.08068777801213389,
+          "z": 2.5136651044822624
+        },
+        {
+          "x": 2.0988871759108814,
+          "y": 0.30577197196963024,
+          "z": 2.1189956509296195
+        },
+        {
+          "x": 2.108509067373984,
+          "y": 0.5317251994456259,
+          "z": 1.7228024076437454
+        },
+        {
+          "x": 2.11813505927813,
+          "y": 0.757774718580194,
+          "z": 1.326440323642749
+        },
+        {
+          "x": 2.127761505524095,
+          "y": 0.9838349071346562,
+          "z": 0.9300595315572568
+        },
+        {
+          "x": 2.1373880021125684,
+          "y": 1.2098962778945404,
+          "z": 0.5336766665569157
+        },
+        {
+          "x": 2.147014504279151,
+          "y": 1.4359577796465188,
+          "z": 0.13729357187106245
+        }
+      ]
+    },
+    {
+      "name": "tablet walks onto upper landing",
+      "start": {
+        "x": 2.1478167128364483,
+        "y": 1.4547962391453824,
+        "z": 0.10426164552623005,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 2.14969615884907,
+        "y": 3,
+        "z": -3.126936436428029,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0.06045326684884644,
+      "samples": [
+        {
+          "x": 2.1478175545347815,
+          "y": 1.4556215198264244,
+          "z": 0.1028145733454268
+        },
+        {
+          "x": 2.1479669697149344,
+          "y": 1.6021222989702084,
+          "z": -0.15406433686642068
+        },
+        {
+          "x": 2.148188597830471,
+          "y": 1.8194274722014003,
+          "z": -0.5350938195030911
+        },
+        {
+          "x": 2.148418227367325,
+          "y": 2.044577995923408,
+          "z": -0.9298795776769233
+        },
+        {
+          "x": 2.1486487434869326,
+          "y": 2.2705978092582573,
+          "z": -1.3261895746275756
+        },
+        {
+          "x": 2.148879357842708,
+          "y": 2.4967139426277414,
+          "z": -1.722668462048798
+        },
+        {
+          "x": 2.1491099830833615,
+          "y": 2.7228407485612767,
+          "z": -2.119166063067577
+        },
+        {
+          "x": 2.149340609530093,
+          "y": 3,
+          "z": -2.51566573761207
+        },
+        {
+          "x": 2.1495712361104617,
+          "y": 3,
+          "z": -2.9121656419097603
+        }
+      ]
+    },
+    {
+      "name": "tablet walks from landing into upper room",
+      "start": {
+        "x": 2.14969615884907,
+        "y": 3,
+        "z": -3.126936436428029,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 0.07632691401001962,
+        "y": 3,
+        "z": -3.2023686182015156,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 2.1482500431535834,
+          "y": 3,
+          "z": -3.1269890482154756
+        },
+        {
+          "x": 1.8915409246833341,
+          "y": 3,
+          "z": -3.136328498453565
+        },
+        {
+          "x": 1.5107632947947294,
+          "y": 3,
+          "z": -3.150181741171682
+        },
+        {
+          "x": 1.1162384819876578,
+          "y": 3,
+          "z": -3.164535126352779
+        },
+        {
+          "x": 0.7201904378946354,
+          "y": 3,
+          "z": -3.178943928898404
+        },
+        {
+          "x": 0.3239736149642133,
+          "y": 3,
+          "z": -3.193358871863048
+        }
+      ]
+    },
+    {
+      "name": "tablet returns to upper landing",
+      "start": {
+        "x": 0.07632691401001962,
+        "y": 3,
+        "z": -3.2023686182015156,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 2.0849830301286576,
+        "y": 3,
+        "z": -3.2050587721352413,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0.07777398513782725,
+          "y": 3,
+          "z": -3.202370556235635
+        },
+        {
+          "x": 0.3346527084257844,
+          "y": 3,
+          "z": -3.202714588896276
+        },
+        {
+          "x": 0.7156819137975243,
+          "y": 3,
+          "z": -3.20322489387455
+        },
+        {
+          "x": 1.1104673846963538,
+          "y": 3,
+          "z": -3.2037536223507654
+        },
+        {
+          "x": 1.5067770932628552,
+          "y": 3,
+          "z": -3.204284392208741
+        },
+        {
+          "x": 1.90325569217703,
+          "y": 3,
+          "z": -3.204815388258263
+        }
+      ]
+    },
+    {
+      "name": "tablet walks downstairs",
+      "start": {
+        "x": 2.0849830301286576,
+        "y": 3,
+        "z": -3.2050587721352413,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 2.148998605295698,
+        "y": 0,
+        "z": 3.0821681320845586,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0.059824078337356035,
+      "samples": [
+        {
+          "x": 2.084997763233359,
+          "y": 3,
+          "z": -3.203611774712805
+        },
+        {
+          "x": 2.087613129577889,
+          "y": 3,
+          "z": -2.9467461353302555
+        },
+        {
+          "x": 2.09149251260836,
+          "y": 3,
+          "z": -2.5657363373660917
+        },
+        {
+          "x": 2.095511952679857,
+          "y": 2.752385641475052,
+          "z": -2.170970974538851
+        },
+        {
+          "x": 2.09954691151385,
+          "y": 2.526377504732719,
+          "z": -1.7746814516797222
+        },
+        {
+          "x": 2.103583589875741,
+          "y": 2.3002730529318183,
+          "z": -1.3782230470752115
+        },
+        {
+          "x": 2.107620458766755,
+          "y": 2.0741579291182304,
+          "z": -0.9817459298399221
+        },
+        {
+          "x": 2.1116573487689965,
+          "y": 1.8480416228119307,
+          "z": -0.5852667391860414
+        },
+        {
+          "x": 2.1156942411104294,
+          "y": 1.621925185481704,
+          "z": -0.18878731879083227
+        },
+        {
+          "x": 2.119731133711052,
+          "y": 1.3958087336336122,
+          "z": 0.20769212706044174
+        },
+        {
+          "x": 2.1237680263403935,
+          "y": 1.1696922801768954,
+          "z": 0.604171575732328
+        },
+        {
+          "x": 2.1278049189729176,
+          "y": 0.9435758265419378,
+          "z": 1.000651024716747
+        },
+        {
+          "x": 2.131841811605794,
+          "y": 0.7174593728872305,
+          "z": 1.397130473735796
+        },
+        {
+          "x": 2.1358787042387095,
+          "y": 0.4913429192303349,
+          "z": 1.7936099227586815
+        },
+        {
+          "x": 2.139915596871631,
+          "y": 0.26522646557319685,
+          "z": 2.1900893717819923
+        },
+        {
+          "x": 2.1439524895045525,
+          "y": 0.039110011916032195,
+          "z": 2.5865688208053497
+        },
+        {
+          "x": 2.1479893821374683,
+          "y": 0,
+          "z": 2.983048269828717
+        }
+      ]
+    },
+    {
+      "name": "tablet returns to exit",
+      "start": {
+        "x": 2.148998605295698,
+        "y": 0,
+        "z": 3.0821681320845586,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 0.07545290871317692,
+        "y": 0,
+        "z": 3.152583213393006,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 2.1475523665301717,
+          "y": 0,
+          "z": 3.0822172445880516
+        },
+        {
+          "x": 1.8908214011208722,
+          "y": 0,
+          "z": 3.0909355148598303
+        },
+        {
+          "x": 1.510011365582943,
+          "y": 0,
+          "z": 3.10386735892754
+        },
+        {
+          "x": 1.1154529771881,
+          "y": 0,
+          "z": 3.117266080279831
+        },
+        {
+          "x": 0.7193712278744315,
+          "y": 0,
+          "z": 3.1307165331098217
+        },
+        {
+          "x": 0.32312068535963157,
+          "y": 0,
+          "z": 3.144172717950929
+        }
+      ]
+    },
+    {
+      "name": "tablet returns after keyboard check",
+      "start": {
+        "x": 0.07545290871317692,
+        "y": 0,
+        "z": 2.6379162892018186,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 0.0056797586645895085,
+        "y": 0,
+        "z": 3.077008110898362,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0.07524402208157961,
+          "y": 0,
+          "z": 2.617640317107981
+        },
+        {
+          "x": 0.045527084065965,
+          "y": 0,
+          "z": 2.6716998122550355
+        },
+        {
+          "x": 0.009819243333590865,
+          "y": 0,
+          "z": 3.0287529621103
+        }
+      ]
+    },
+    {
+      "name": "tablet returns after touch check",
+      "start": {
+        "x": 0.0056797586645895085,
+        "y": 0,
+        "z": 2.6603729817912107,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 0.00041534230613578043,
+        "y": 0,
+        "z": 3.085206456725025,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0.005663148039880959,
+          "y": 0,
+          "z": 2.6442469061745206
+        },
+        {
+          "x": 0.003240144134099422,
+          "y": 0,
+          "z": 2.7383435102349085
+        }
+      ]
+    },
+    {
+      "name": "tablet returns after pad check",
+      "start": {
+        "x": 0.00041534230613578043,
+        "y": 0,
+        "z": 2.696068050629249,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 5.168024994853729e-05,
+        "y": 0,
+        "z": 3.0864387960041855,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0.00041403309316856917,
+          "y": 0,
+          "z": 2.681101840811957
+        },
+        {
+          "x": 0.00027732464147860577,
+          "y": 0,
+          "z": 2.786454122859044
+        }
+      ]
+    },
+    {
+      "name": "phone walks to stair approach",
+      "start": {
+        "x": 0,
+        "y": 0,
+        "z": 2.7551455020904543,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 0,
+        "y": 0,
+        "z": 3.0896790028147243,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0,
+          "y": 0,
+          "z": 2.756592574516047
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "z": 3.013471528182014
+        }
+      ]
+    },
+    {
+      "name": "phone walks across ground-floor approach",
+      "start": {
+        "x": 0,
+        "y": 0,
+        "z": 3.0896790028147243,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 2.0737795715513037,
+        "y": 0,
+        "z": 3.1528322141982876,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0.001446401886622184,
+          "y": 0,
+          "z": 3.0897230503718247
+        },
+        {
+          "x": 0.2582063239505151,
+          "y": 0,
+          "z": 3.0975422100623584
+        },
+        {
+          "x": 0.6390593110063781,
+          "y": 0,
+          "z": 3.109140399921857
+        },
+        {
+          "x": 1.0336622015942138,
+          "y": 0,
+          "z": 3.1211573182596224
+        },
+        {
+          "x": 1.4297886249205694,
+          "y": 0,
+          "z": 3.1332206330352763
+        },
+        {
+          "x": 1.826083860486221,
+          "y": 0,
+          "z": 3.145289088682785
+        }
+      ]
+    },
+    {
+      "name": "phone walks halfway upstairs",
+      "start": {
+        "x": 2.0737795715513037,
+        "y": 0,
+        "z": 3.1528322141982876,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 2.1478167128364483,
+        "y": 1.4547962391453824,
+        "z": 0.10426164552623005,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0.009419229757234193,
+      "samples": [
+        {
+          "x": 2.0738147045824413,
+          "y": 0,
+          "z": 3.1513855683276497
+        },
+        {
+          "x": 2.0800513905410005,
+          "y": 0,
+          "z": 2.8945823351221915
+        },
+        {
+          "x": 2.0893022909835377,
+          "y": 0.08068777801213389,
+          "z": 2.5136651044822624
+        },
+        {
+          "x": 2.0988871759108814,
+          "y": 0.30577197196963024,
+          "z": 2.1189956509296195
+        },
+        {
+          "x": 2.108509067373984,
+          "y": 0.5317251994456259,
+          "z": 1.7228024076437454
+        },
+        {
+          "x": 2.11813505927813,
+          "y": 0.757774718580194,
+          "z": 1.326440323642749
+        },
+        {
+          "x": 2.127761505524095,
+          "y": 0.9838349071346562,
+          "z": 0.9300595315572568
+        },
+        {
+          "x": 2.1373880021125684,
+          "y": 1.2098962778945404,
+          "z": 0.5336766665569157
+        },
+        {
+          "x": 2.147014504279151,
+          "y": 1.4359577796465188,
+          "z": 0.13729357187106245
+        }
+      ]
+    },
+    {
+      "name": "phone walks onto upper landing",
+      "start": {
+        "x": 2.1478167128364483,
+        "y": 1.4547962391453824,
+        "z": 0.10426164552623005,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 2.14969615884907,
+        "y": 3,
+        "z": -3.126936436428029,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0.06045326684884644,
+      "samples": [
+        {
+          "x": 2.1478175545347815,
+          "y": 1.4556215198264244,
+          "z": 0.1028145733454268
+        },
+        {
+          "x": 2.1479669697149344,
+          "y": 1.6021222989702084,
+          "z": -0.15406433686642068
+        },
+        {
+          "x": 2.148188597830471,
+          "y": 1.8194274722014003,
+          "z": -0.5350938195030911
+        },
+        {
+          "x": 2.148418227367325,
+          "y": 2.044577995923408,
+          "z": -0.9298795776769233
+        },
+        {
+          "x": 2.1486487434869326,
+          "y": 2.2705978092582573,
+          "z": -1.3261895746275756
+        },
+        {
+          "x": 2.148879357842708,
+          "y": 2.4967139426277414,
+          "z": -1.722668462048798
+        },
+        {
+          "x": 2.1491099830833615,
+          "y": 2.7228407485612767,
+          "z": -2.119166063067577
+        },
+        {
+          "x": 2.149340609530093,
+          "y": 3,
+          "z": -2.51566573761207
+        },
+        {
+          "x": 2.1495712361104617,
+          "y": 3,
+          "z": -2.9121656419097603
+        }
+      ]
+    },
+    {
+      "name": "phone walks from landing into upper room",
+      "start": {
+        "x": 2.14969615884907,
+        "y": 3,
+        "z": -3.126936436428029,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 0.07632691401001962,
+        "y": 3,
+        "z": -3.2023686182015156,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 2.1482500431535834,
+          "y": 3,
+          "z": -3.1269890482154756
+        },
+        {
+          "x": 1.8915409246833341,
+          "y": 3,
+          "z": -3.136328498453565
+        },
+        {
+          "x": 1.5107632947947294,
+          "y": 3,
+          "z": -3.150181741171682
+        },
+        {
+          "x": 1.1162384819876578,
+          "y": 3,
+          "z": -3.164535126352779
+        },
+        {
+          "x": 0.7201904378946354,
+          "y": 3,
+          "z": -3.178943928898404
+        },
+        {
+          "x": 0.3239736149642133,
+          "y": 3,
+          "z": -3.193358871863048
+        }
+      ]
+    },
+    {
+      "name": "phone returns to upper landing",
+      "start": {
+        "x": 0.07632691401001962,
+        "y": 3,
+        "z": -3.2023686182015156,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 2.0849830301286576,
+        "y": 3,
+        "z": -3.2050587721352413,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0.07777398513782725,
+          "y": 3,
+          "z": -3.202370556235635
+        },
+        {
+          "x": 0.3346527084257844,
+          "y": 3,
+          "z": -3.202714588896276
+        },
+        {
+          "x": 0.7156819137975243,
+          "y": 3,
+          "z": -3.20322489387455
+        },
+        {
+          "x": 1.1104673846963538,
+          "y": 3,
+          "z": -3.2037536223507654
+        },
+        {
+          "x": 1.5067770932628552,
+          "y": 3,
+          "z": -3.204284392208741
+        },
+        {
+          "x": 1.90325569217703,
+          "y": 3,
+          "z": -3.204815388258263
+        }
+      ]
+    },
+    {
+      "name": "phone walks downstairs",
+      "start": {
+        "x": 2.0849830301286576,
+        "y": 3,
+        "z": -3.2050587721352413,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 2.148998605295698,
+        "y": 0,
+        "z": 3.0821681320845586,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0.059824078337356035,
+      "samples": [
+        {
+          "x": 2.084997763233359,
+          "y": 3,
+          "z": -3.203611774712805
+        },
+        {
+          "x": 2.087613129577889,
+          "y": 3,
+          "z": -2.9467461353302555
+        },
+        {
+          "x": 2.09149251260836,
+          "y": 3,
+          "z": -2.5657363373660917
+        },
+        {
+          "x": 2.095511952679857,
+          "y": 2.752385641475052,
+          "z": -2.170970974538851
+        },
+        {
+          "x": 2.09954691151385,
+          "y": 2.526377504732719,
+          "z": -1.7746814516797222
+        },
+        {
+          "x": 2.103583589875741,
+          "y": 2.3002730529318183,
+          "z": -1.3782230470752115
+        },
+        {
+          "x": 2.107620458766755,
+          "y": 2.0741579291182304,
+          "z": -0.9817459298399221
+        },
+        {
+          "x": 2.1116573487689965,
+          "y": 1.8480416228119307,
+          "z": -0.5852667391860414
+        },
+        {
+          "x": 2.1156942411104294,
+          "y": 1.621925185481704,
+          "z": -0.18878731879083227
+        },
+        {
+          "x": 2.119731133711052,
+          "y": 1.3958087336336122,
+          "z": 0.20769212706044174
+        },
+        {
+          "x": 2.1237680263403935,
+          "y": 1.1696922801768954,
+          "z": 0.604171575732328
+        },
+        {
+          "x": 2.1278049189729176,
+          "y": 0.9435758265419378,
+          "z": 1.000651024716747
+        },
+        {
+          "x": 2.131841811605794,
+          "y": 0.7174593728872305,
+          "z": 1.397130473735796
+        },
+        {
+          "x": 2.1358787042387095,
+          "y": 0.4913429192303349,
+          "z": 1.7936099227586815
+        },
+        {
+          "x": 2.139915596871631,
+          "y": 0.26522646557319685,
+          "z": 2.1900893717819923
+        },
+        {
+          "x": 2.1439524895045525,
+          "y": 0.039110011916032195,
+          "z": 2.5865688208053497
+        },
+        {
+          "x": 2.1479893821374683,
+          "y": 0,
+          "z": 2.983048269828717
+        }
+      ]
+    },
+    {
+      "name": "phone returns to exit",
+      "start": {
+        "x": 2.148998605295698,
+        "y": 0,
+        "z": 3.0821681320845586,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 0.07545290871317692,
+        "y": 0,
+        "z": 3.152583213393006,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 2.1475523665301717,
+          "y": 0,
+          "z": 3.0822172445880516
+        },
+        {
+          "x": 1.8908214011208722,
+          "y": 0,
+          "z": 3.0909355148598303
+        },
+        {
+          "x": 1.510011365582943,
+          "y": 0,
+          "z": 3.10386735892754
+        },
+        {
+          "x": 1.1154529771881,
+          "y": 0,
+          "z": 3.117266080279831
+        },
+        {
+          "x": 0.7193712278744315,
+          "y": 0,
+          "z": 3.1307165331098217
+        },
+        {
+          "x": 0.32312068535963157,
+          "y": 0,
+          "z": 3.144172717950929
+        }
+      ]
+    },
+    {
+      "name": "phone returns after keyboard check",
+      "start": {
+        "x": 0.07545290871317692,
+        "y": 0,
+        "z": 2.6379162892018186,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 0.0056797586645895085,
+        "y": 0,
+        "z": 3.077008110898362,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0.07524402208157961,
+          "y": 0,
+          "z": 2.617640317107981
+        },
+        {
+          "x": 0.045527084065965,
+          "y": 0,
+          "z": 2.6716998122550355
+        },
+        {
+          "x": 0.009819243333590865,
+          "y": 0,
+          "z": 3.0287529621103
+        }
+      ]
+    },
+    {
+      "name": "phone returns after touch check",
+      "start": {
+        "x": 0.0056797586645895085,
+        "y": 0,
+        "z": 2.6603729817912107,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 0.00041534230613578043,
+        "y": 0,
+        "z": 3.085206456725025,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0.005663148039880959,
+          "y": 0,
+          "z": 2.6442469061745206
+        },
+        {
+          "x": 0.003240144134099422,
+          "y": 0,
+          "z": 2.7383435102349085
+        }
+      ]
+    },
+    {
+      "name": "phone returns after pad check",
+      "start": {
+        "x": 0.00041534230613578043,
+        "y": 0,
+        "z": 2.696068050629249,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "end": {
+        "x": 5.168024994853729e-05,
+        "y": 0,
+        "z": 3.0864387960041855,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      },
+      "reached": true,
+      "maxRise": 0,
+      "samples": [
+        {
+          "x": 0.00041403309316856917,
+          "y": 0,
+          "z": 2.681101840811957
+        },
+        {
+          "x": 0.00027732464147860577,
+          "y": 0,
+          "z": 2.786454122859044
+        }
+      ]
+    }
+  ]
+}

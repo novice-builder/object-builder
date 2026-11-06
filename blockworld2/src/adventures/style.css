@@ -1318,3 +1318,29 @@ body.editing #minimap {
     max-width: 80vw;
   }
 }
+
+#roomFade {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #24372e;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  display: grid;
+  place-items: center;
+  color: #f5f1df;
+  pointer-events: all;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+}
+#roomFade[hidden] {
+  display: none;
+}
+#roomFade.opaque {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  #roomFade {
+    transition-duration: 1ms;
+  }
+}

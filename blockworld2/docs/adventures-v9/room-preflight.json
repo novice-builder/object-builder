@@ -1,0 +1,30 @@
+{
+  "checks": [
+    {
+      "name": "fully obstructed room replacement is refused before retiring current scene or changing save ownership",
+      "passed": true
+    },
+    {
+      "name": "exit preserves actual outdoor character facing",
+      "passed": true
+    },
+    {
+      "name": "all permanent supported entrance approaches are clear",
+      "passed": true
+    },
+    {
+      "name": "preflight checks have no runtime exceptions",
+      "passed": true
+    }
+  ],
+  "detail": {
+    "rejected": true,
+    "error": "Error: This interior has no clear footing. The current world is unchanged; import or recover a clear checkpoint.",
+    "unchanged": true,
+    "returnedFacing": 0.63,
+    "entrances": 26,
+    "blockedEntrances": [],
+    "outside": null
+  },
+  "errors": []
+}

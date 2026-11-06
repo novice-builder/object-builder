@@ -1,4 +1,13 @@
 import * as T from "three";
+import { buildingEntry, type BuildingEntry } from "./building-entry";
+import { Interior, freshRoom } from "./interior";
+import {
+  moveInRoom,
+  obstacleSolid,
+  safeRoomPose,
+  recoverRoomPose,
+  type RoomSolid,
+} from "./interior-physics";
 import { clone as cloneSkeleton } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { AssetLibrary, DEFINITIONS } from "./assets";
 import {
@@ -54,7 +63,7 @@ app.innerHTML = `
 <div id="editBar" hidden><span id="editName">Place object</span><button id="editRotate">↻ <span>Rotate</span></button><button id="editMove">✥ <span>Move</span></button><button id="editRemove">× <span>Remove</span></button><button id="editConfirm" class="primary">✓ <span>Place</span></button><button id="editCancel" aria-label="Cancel editing">✕</button></div>
 <div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle"></div>
 <div id="welcome"><section><div class="eyebrow">A BLOCKWORLD ADVENTURE</div><h1>A little world.<br>A little wonder.</h1><p>Follow a cobbled lane. Find a quiet corner.<br>Make a place of your own.</p><button id="enter" class="primary" disabled>Preparing the valley… <span>→</span></button><div class="loadingTrack"><i id="loadingBar"></i></div><small id="loadingText">Unpacking the village</small><div class="welcomeFoot">FREE TO EXPLORE <span>•</span> SAVED ON YOUR DEVICE</div></section><div class="previewBadge">WILLOW VALE · DEVELOPMENT PREVIEW ${PREVIEW_VERSION}</div></div>
-<div id="fatal" hidden role="alert"></div>`;
+<div id="roomFade" hidden aria-live="polite"><span>Stepping inside…</span></div><div id="fatal" hidden role="alert"></div>`;
 class AdventureGame {
   library = new AssetLibrary();
   scene = new T.Scene();
@@ -114,6 +123,28 @@ class AdventureGame {
   private outdoorCameraBodies: readonly Obstacle[] = [];
   private interiorCameraBodies: readonly Obstacle[] = [];
   private dirty = false;
+  interior: Interior | null = null;
+  private transitioning = false;
+  private transitionToken = 0;
+  private entryNear: BuildingEntry | null = null;
+  private roomSolids: RoomSolid[] = [];
+  private get objects(): Placement[] {
+    return this.data.inside
+      ? this.data.rooms![this.data.inside.id].objects
+      : this.data.objects;
+  }
+  private set objects(value: Placement[]) {
+    if (this.data.inside) this.data.rooms![this.data.inside.id].objects = value;
+    else this.data.objects = value;
+  }
+  private mapPose() {
+    const p = this.data.inside?.outside || this.player;
+    return { x: p.x, z: p.z, yaw: this.data.inside ? p.yaw : this.actorYaw };
+  }
+  private floorHeight(x: number, z: number) {
+    if (this.interior) return this.pending?.y ?? (this.player.y > 1.5 ? 3 : 0);
+    return walkHeight(x, z, this.data.scene, this.data.layout);
+  }
   constructor() {
     this.renderer = new T.WebGLRenderer({
       canvas: $<HTMLCanvasElement>("view"),
@@ -177,11 +208,7 @@ class AdventureGame {
         $("hud").inert = busy;
         if (this.landscape) this.updateContext();
         if (!busy && this.worldMap && this.landscape)
-          this.worldMap.update(
-            { x: this.player.x, z: this.player.z, yaw: this.actorYaw },
-            performance.now(),
-            true,
-          );
+          this.worldMap.update(this.mapPose(), performance.now(), true);
       },
     );
     this.controls = new AdventureControls(
@@ -341,11 +368,18 @@ class AdventureGame {
     console.error(message);
   }
   enabled() {
-    return this.started && !this.busy && !this.modalOpen && !document.hidden;
+    return (
+      this.started &&
+      !this.busy &&
+      !this.transitioning &&
+      !this.modalOpen &&
+      !document.hidden
+    );
   }
   snapshot() {
     return makeSnapshot(this.data, {
       x: this.player.x,
+      y: this.player.y,
       z: this.player.z,
       yaw: this.cameraYaw,
       pitch: this.cameraPitch,
@@ -361,6 +395,30 @@ class AdventureGame {
               data.doors?.lodge,
             )
           : new Landscape(this.library, data.scene, data.layout);
+    const candidateRoom = data.inside
+      ? new Interior(this.library, data.rooms![data.inside.id].entry)
+      : null;
+    let roomArrival: null | { x: number; y: number; z: number } = null;
+    if (candidateRoom) {
+      roomArrival = this.prepareRoomPose(
+        candidateRoom,
+        data.rooms![data.inside!.id].objects,
+        { ...snapshot.player },
+      );
+      if (!roomArrival) {
+        candidateRoom.dispose();
+        candidate.dispose();
+        throw Error(
+          "This interior has no clear footing. The current world is unchanged; import or recover a clear checkpoint.",
+        );
+      }
+    }
+    this.transitionToken++;
+    this.transitioning = false;
+    $("roomFade").hidden = true;
+    $("roomFade").classList.remove("opaque");
+    this.interior?.dispose();
+    this.interior = null;
     // Prepare a complete replacement before retiring the old scene.
     const previous = this.landscape;
     this.landscape = candidate;
@@ -369,20 +427,32 @@ class AdventureGame {
     previous?.dispose();
     this.player.x = snapshot.player.x;
     this.player.z = snapshot.player.z;
+    if (roomArrival) Object.assign(this.player, roomArrival);
     this.cameraYaw = snapshot.player.yaw;
     this.cameraPitch = T.MathUtils.clamp(snapshot.player.pitch, 0.18, 1.1);
     this.velocity.set(0, 0);
     this.cancelEdit();
     this.history = [];
     this.redoHistory = [];
+    if (data.inside) {
+      this.interior = candidateRoom!;
+      this.scene.add(this.interior.group);
+      candidate.group.visible = false;
+    }
     this.renderObjects();
+    if (this.interior) this.refreshMap(true);
+    this.scene.background = new T.Color(this.interior ? 0xd9d0bb : 0xc6d9d4);
+    this.distance = this.interior ? 8 : 12;
+    this.player.y = data.inside
+      ? roomArrival!.y
+      : walkHeight(
+          this.player.x,
+          this.player.z,
+          this.data.scene,
+          this.data.layout,
+        );
     this.safeSpawn();
-    this.player.y = walkHeight(
-      this.player.x,
-      this.player.z,
-      this.data.scene,
-      this.data.layout,
-    );
+    Object.assign(this.player, { vy: 0, grounded: true });
     this.actor.position.set(this.player.x, this.player.y, this.player.z);
     this.contactShadow.position.set(
       this.player.x,
@@ -392,13 +462,30 @@ class AdventureGame {
     this.cameraPosition.set(0, 0, 0);
     this.debugCamera = false;
     const world = WORLDS.find((w) => w.id === data.scene)!;
-    $("placeName").textContent = world.name;
-    $("placeTag").textContent = world.tag;
+    $("placeName").textContent = this.interior?.entry.name || world.name;
+    $("placeTag").textContent = this.interior
+      ? "INSIDE · YOUR OWN ROOM"
+      : world.tag;
     this.countDiscoveries();
     this.dirty = false;
     this.sun.shadow.needsUpdate = true;
   }
   private safeSpawn() {
+    if (this.interior) {
+      const safe = recoverRoomPose(
+        this.player,
+        this.roomSolids,
+        this.interior.entry.width,
+        this.interior.entry.depth,
+        this.interior.spawn,
+      );
+      if (safe) Object.assign(this.player, safe, { vy: 0, grounded: true });
+      else
+        this.toast(
+          "No clear floor space. Use the map to return outside or recover a backup.",
+        );
+      return;
+    }
     const safe = (x: number, z: number) =>
       !blocked(x, z, this.obstacles()) &&
       !waterBlocked(x, z, this.data.scene) &&
@@ -412,8 +499,278 @@ class AdventureGame {
       this.toast("Moved to the nearest clear ground");
     }
   }
+  private prepareRoomPose(
+    room: Interior,
+    objects: Placement[],
+    pose: { x: number; y: number; z: number; yaw: number },
+  ) {
+    const solids = [...room.solids];
+    for (const p of objects) {
+      if (DEFINITIONS.get(p.asset)?.solid === false) continue;
+      const root = this.library.create(p.asset, p.scale);
+      root.position.set(p.x, p.y ?? 0, p.z);
+      root.rotation.y = p.yaw;
+      root.updateMatrixWorld(true);
+      const b = new T.Box3().setFromObject(root);
+      solids.push({
+        minX: b.min.x + 0.08,
+        maxX: b.max.x - 0.08,
+        minZ: b.min.z + 0.08,
+        maxZ: b.max.z - 0.08,
+        minY: b.min.y,
+        maxY: b.max.y,
+      });
+    }
+    return recoverRoomPose(
+      pose,
+      solids,
+      room.entry.width,
+      room.entry.depth,
+      room.spawn,
+    );
+  }
+  private async roomTransition(
+    label: string,
+    commit: () => void,
+    prepare?: () => Promise<void>,
+  ) {
+    if (this.transitioning || this.busy || this.session.busy) return;
+    const token = ++this.transitionToken;
+    this.transitioning = true;
+    this.controls.clear();
+    this.velocity.set(0, 0);
+    this.cancelEdit();
+    this.closeModal();
+    this.closeWorldMap();
+    this.updateContext();
+    const fade = $("roomFade");
+    fade.querySelector("span")!.textContent = label;
+    try {
+      // Persist the complete old location first. No half-transition state is ever captured.
+      await this.session.save();
+      if (prepare) await prepare();
+      if (token !== this.transitionToken) return;
+      fade.hidden = false;
+      void fade.offsetWidth;
+      fade.classList.add("opaque");
+      await new Promise((r) => setTimeout(r, 190));
+      if (token !== this.transitionToken) return;
+      commit();
+      this.velocity.set(0, 0);
+      this.controls.clear();
+      this.history = [];
+      this.redoHistory = [];
+      this.safeSpawn();
+      this.actor.position.set(this.player.x, this.player.y, this.player.z);
+      this.contactShadow.position.set(
+        this.player.x,
+        this.player.y + 0.025,
+        this.player.z,
+      );
+      this.cameraPosition.set(0, 0, 0);
+      this.debugCamera = false;
+      this.animate("Idle");
+      this.cameraUpdate(1 / 60);
+      this.worldMap.update(this.mapPose(), performance.now(), true);
+      this.renderScene();
+      this.dirty = true;
+      await this.session.save();
+    } catch (e) {
+      this.toast(String(e));
+    } finally {
+      if (token === this.transitionToken) {
+        fade.classList.remove("opaque");
+        await new Promise((r) => setTimeout(r, 190));
+        fade.hidden = true;
+        this.transitioning = false;
+        this.controls.clear();
+        this.updateContext();
+        $("view").focus();
+      }
+    }
+  }
+  private async enterRoom(entry: BuildingEntry) {
+    if (
+      this.interior ||
+      this.transitioning ||
+      this.busy ||
+      Math.hypot(entry.x - this.player.x, entry.z - this.player.z) > 2.25
+    )
+      return;
+    const outside = {
+      x: this.player.x,
+      z: this.player.z,
+      yaw: this.cameraYaw,
+      pitch: this.cameraPitch,
+      facing: this.actorYaw,
+    };
+    const stored =
+      this.data.rooms && Object.hasOwn(this.data.rooms, entry.id)
+        ? this.data.rooms[entry.id]
+        : null;
+    const state = stored || freshRoom(entry);
+    // Construct geometry before retiring the exterior. Source models are already loaded.
+    const room = new Interior(this.library, state.entry);
+    const arrival = this.prepareRoomPose(room, state.objects, {
+      ...room.spawn,
+      yaw: 0,
+    });
+    if (!arrival) {
+      room.dispose();
+      this.toast(
+        "This room has no clear floor space. Your outside world is unchanged.",
+      );
+      return;
+    }
+    await this.roomTransition(
+      "Stepping inside…",
+      () => {
+        this.data.version = 2;
+        this.data.rooms ||= {};
+        this.data.rooms[entry.id] = state;
+        this.data.inside = { id: entry.id, outside };
+        this.interior = room;
+        this.scene.add(room.group);
+        this.landscape.group.visible = false;
+        this.scene.background = new T.Color(0xd9d0bb);
+        Object.assign(this.player, arrival, { vy: 0, grounded: true });
+        this.cameraYaw = 0;
+        this.cameraPitch = 0.8;
+        this.distance = 8;
+        this.actorYaw = Math.PI;
+        this.actor.rotation.y = this.actorYaw;
+        this.renderObjects();
+        $("placeName").textContent = entry.name;
+        $("placeTag").textContent = "INSIDE · YOUR OWN ROOM";
+      },
+      async () => {
+        if (this.data.version === 1) {
+          await this.session.copyForRooms();
+          this.toast("Original world kept. Rooms are saved in a new copy.");
+        }
+      },
+    );
+    if (this.interior !== room) room.dispose();
+  }
+  private async leaveRoom(destination?: MapDestination) {
+    if (!this.interior || !this.data.inside || this.transitioning || this.busy)
+      return;
+    const old = this.interior,
+      outside = this.data.inside.outside;
+    const bodies: Obstacle[] = [...this.landscape.obstacles];
+    for (const p of this.data.objects) {
+      const root = this.library.create(p.asset, p.scale);
+      root.position.set(
+        p.x,
+        walkHeight(p.x, p.z, this.data.scene, this.data.layout),
+        p.z,
+      );
+      root.rotation.y = p.yaw;
+      const b = this.objectBox(root, p.asset);
+      if (b) bodies.push(b);
+    }
+    const target = destination || outside;
+    const clear = clearArrival(
+      target,
+      (x, z) =>
+        inWorld(x, z, this.data.scene, 1) &&
+        !waterBlocked(x, z, this.data.scene) &&
+        !blocked(x, z, bodies, 0.42),
+      destination ? 14 : 3,
+    );
+    if (!clear) {
+      this.toast(
+        "The exit is blocked. Clear the ground outside before leaving.",
+      );
+      return;
+    }
+    await this.roomTransition("Stepping outside…", () => {
+      delete this.data.inside;
+      this.interior = null;
+      old.dispose();
+      this.landscape.group.visible = true;
+      this.scene.background = new T.Color(0xc6d9d4);
+      Object.assign(this.player, clear, {
+        y: walkHeight(clear.x, clear.z, this.data.scene, this.data.layout),
+        vy: 0,
+        grounded: true,
+      });
+      this.actorYaw = outside.facing ?? outside.yaw + Math.PI;
+      this.actor.rotation.y = this.actorYaw;
+      this.cameraYaw = outside.yaw;
+      this.cameraPitch = outside.pitch;
+      this.distance = 12;
+      this.renderObjects();
+      const w = WORLDS.find((w) => w.id === this.data.scene)!;
+      $("placeName").textContent = w.name;
+      $("placeTag").textContent = w.tag;
+    });
+  }
+  private roomPlacementProblem(p: Placement, root: T.Object3D) {
+    const room = this.interior!,
+      w = room.entry.width / 2,
+      d = room.entry.depth / 2,
+      y = p.y ?? 0;
+    if (Math.abs(this.player.y - y) > 1.2)
+      return "Walk to that floor before decorating it";
+    const box = new T.Box3().setFromObject(root);
+    if (
+      box.min.x < -w + 0.22 ||
+      box.max.x > w - 0.22 ||
+      box.min.z < -d + 0.22 ||
+      box.max.z > d - 0.22
+    )
+      return "Keep furniture inside the room";
+    if (box.min.z > d - 2.1 && box.min.x < 0.9 && box.max.x > -0.9 && y === 0)
+      return "Keep the exit clear";
+    const overlap = (a: {
+      minX: number;
+      maxX: number;
+      minZ: number;
+      maxZ: number;
+    }) =>
+      a.minX < box.max.x + 0.1 &&
+      a.maxX > box.min.x - 0.1 &&
+      a.minZ < box.max.z + 0.1 &&
+      a.maxZ > box.min.z - 0.1;
+    if (room.solids.some((b) => b.ramp && overlap(b)))
+      return "Keep the stairs and landings clear";
+    const solids = room.solids,
+      solid = !!this.objectBox(root, p.asset);
+    for (const x of [box.min.x, box.max.x])
+      for (const z of [box.min.z, box.max.z]) {
+        if (
+          !safeRoomPose(
+            { x, y, z, yaw: 0 },
+            solids,
+            room.entry.width,
+            room.entry.depth,
+          )
+        )
+          return "Choose clear floor space";
+      }
+    if (
+      solid &&
+      this.obstacles().some(
+        (b) => (b.base ?? 0) < box.max.y && b.height > y + 0.02 && overlap(b),
+      )
+    )
+      return "Choose a clear spot";
+    if (
+      solid &&
+      Math.abs(this.player.x - p.x) < (box.max.x - box.min.x) / 2 + 0.6 &&
+      Math.abs(this.player.z - p.z) < (box.max.z - box.min.z) / 2 + 0.6 &&
+      Math.abs(this.player.y - y) < 1.8
+    )
+      return "Move away from the object";
+    return null;
+  }
   private travelTo(destination: MapDestination) {
-    if (this.busy) return;
+    if (this.busy || this.transitioning) return;
+    if (this.interior) {
+      void this.leaveRoom(destination);
+      return;
+    }
     this.cancelEdit();
     const safe = (x: number, z: number) =>
       inWorld(x, z, this.data.scene, 1) &&
@@ -443,19 +800,24 @@ class AdventureGame {
     this.closeWorldMap();
     this.cameraUpdate(1 / 60);
     this.updateContext();
-    this.worldMap.update(
-      { x: this.player.x, z: this.player.z, yaw: this.actorYaw },
-      performance.now(),
-      true,
-    );
+    this.worldMap.update(this.mapPose(), performance.now(), true);
     this.renderScene();
     this.toast("Arrived at " + destination.name);
   }
-  private refreshMap() {
-    if (!this.worldMap || !this.landscape) return;
+  private refreshMap(force = false) {
+    if (!this.worldMap || !this.landscape || (this.interior && !force)) return;
     const data = createMapData(this.data.scene, this.landscape);
     for (const p of this.data.objects) {
-      const root = this.userRoots.get(p.id);
+      let root = this.interior ? undefined : this.userRoots.get(p.id);
+      if (!root) {
+        root = this.library.create(p.asset, p.scale);
+        root.position.set(
+          p.x,
+          walkHeight(p.x, p.z, this.data.scene, this.data.layout),
+          p.z,
+        );
+        root.rotation.y = p.yaw;
+      }
       if (root && p.asset.startsWith("building_")) {
         const body = this.objectBox(root, p.asset);
         if (body)
@@ -465,7 +827,7 @@ class AdventureGame {
     this.worldMap.setWorld(data);
   }
   private openWorldMap() {
-    if (this.busy || !this.started) return;
+    if (this.busy || this.transitioning || !this.started) return;
     this.closeModal();
     this.cancelEdit();
     this.modalOpen = true;
@@ -519,19 +881,25 @@ class AdventureGame {
       minZ: b.min.z + 0.08,
       maxZ: b.max.z - 0.08,
       height: b.max.y,
+      ...(this.interior ? { base: b.min.y } : {}),
     };
   }
   private rebuildObstacles() {
     this.ghostValidation = "";
     const built: OwnedObstacle[] = [];
-    for (const p of this.data.objects) {
+    for (const p of this.objects) {
       const root = this.userRoots.get(p.id);
       if (root) {
         const body = this.objectBox(root, p.asset);
         if (body) built.push({ ...body, ownerId: p.id });
       }
     }
-    this.collisionCache.replace(this.landscape?.obstacles || [], built);
+    this.collisionCache.replace(
+      this.interior?.obstacles || this.landscape?.obstacles || [],
+      built,
+    );
+    if (this.interior)
+      this.roomSolids = [...this.interior.solids, ...built.map(obstacleSolid)];
   }
   obstacles() {
     return this.collisionCache.view(this.moving);
@@ -539,11 +907,13 @@ class AdventureGame {
   private renderObjects() {
     for (const root of this.userRoots.values()) root.removeFromParent();
     this.userRoots.clear();
-    for (const p of this.data.objects) {
+    for (const p of this.objects) {
       const root = this.library.create(p.asset, p.scale);
       root.position.set(
         p.x,
-        walkHeight(p.x, p.z, this.data.scene, this.data.layout),
+        this.interior
+          ? (p.y ?? 0)
+          : walkHeight(p.x, p.z, this.data.scene, this.data.layout),
         p.z,
       );
       root.rotation.y = p.yaw;
@@ -579,6 +949,7 @@ class AdventureGame {
     this.velocity.lerp(new T.Vector2(targetX, targetZ), 1 - Math.exp(-dt * 11));
     if (this.velocity.length() < 0.025) this.velocity.set(0, 0);
     if (
+      !this.interior &&
       this.landscape instanceof ConnectedLandscape &&
       this.landscape.updateLodge(dt, this.player)
     ) {
@@ -590,25 +961,34 @@ class AdventureGame {
     const obs = this.obstacles(),
       steps = Math.ceil(dt / (1 / 60)),
       step = dt / steps;
-    for (let i = 0; i < steps; i++) {
-      const dx = this.velocity.x * step,
-        dz = this.velocity.y * step;
-      const valid = (x: number, z: number) =>
-        inWorld(x, z, this.data.scene) &&
-        !waterBlocked(x, z, this.data.scene) &&
-        !blocked(x, z, obs) &&
-        Math.abs(
-          walkHeight(x, z, this.data.scene, this.data.layout) - this.player.y,
-        ) < 0.5;
-      if (valid(this.player.x + dx, this.player.z)) this.player.x += dx;
-      if (valid(this.player.x, this.player.z + dz)) this.player.z += dz;
-      this.player.y = walkHeight(
-        this.player.x,
-        this.player.z,
-        this.data.scene,
-        this.data.layout,
+    if (this.interior)
+      moveInRoom(
+        this.player,
+        this.velocity.x,
+        this.velocity.y,
+        dt,
+        this.roomSolids,
       );
-    }
+    else
+      for (let i = 0; i < steps; i++) {
+        const dx = this.velocity.x * step,
+          dz = this.velocity.y * step;
+        const valid = (x: number, z: number) =>
+          inWorld(x, z, this.data.scene) &&
+          !waterBlocked(x, z, this.data.scene) &&
+          !blocked(x, z, obs) &&
+          Math.abs(
+            walkHeight(x, z, this.data.scene, this.data.layout) - this.player.y,
+          ) < 0.5;
+        if (valid(this.player.x + dx, this.player.z)) this.player.x += dx;
+        if (valid(this.player.x, this.player.z + dz)) this.player.z += dz;
+        this.player.y = walkHeight(
+          this.player.x,
+          this.player.z,
+          this.data.scene,
+          this.data.layout,
+        );
+      }
     this.actor.position.set(this.player.x, this.player.y, this.player.z);
     this.contactShadow.position.set(
       this.player.x,
@@ -642,19 +1022,38 @@ class AdventureGame {
       this.landscape instanceof ConnectedLandscape
         ? this.landscape.lodge
         : undefined;
-    const inside = !!lodge?.inside(this.player);
-    lodge?.setCutaway(this.player, this.cameraYaw);
+    const inside = !!this.interior || !!lodge?.inside(this.player);
+    if (this.interior?.cutaway(this.player, this.cameraYaw))
+      this.sun.shadow.needsUpdate = true;
+    if (this.interior) {
+      for (const p of this.objects) {
+        const root = this.userRoots.get(p.id);
+        if (root)
+          root.visible =
+            p.id !== this.moving && ((p.y ?? 0) < 2 || this.player.y > 1.35);
+      }
+      if (
+        this.selection &&
+        !this.userRoots.get(this.selection)?.visible &&
+        !this.pending
+      )
+        this.cancelEdit();
+    }
+    if (!this.interior) lodge?.setCutaway(this.player, this.cameraYaw);
     const pitch = inside ? Math.max(this.cameraPitch, 0.78) : this.cameraPitch;
     const target = new T.Vector3(
-        this.player.x,
+        this.interior ? this.player.x * 0.45 : this.player.x,
         this.player.y + 1.35,
-        this.player.z,
+        this.interior ? this.player.z * 0.65 : this.player.z,
       ),
       offset = new T.Vector3(
         Math.sin(this.cameraYaw) * Math.cos(pitch),
         Math.sin(pitch),
         Math.cos(this.cameraYaw) * Math.cos(pitch),
-      ).multiplyScalar(this.distance),
+      ).multiplyScalar(
+        this.distance *
+          (this.interior ? Math.max(1, 0.85 / this.camera.aspect) : 1),
+      ),
       desired = target.clone().add(offset);
     const allBodies = this.obstacles();
     if (this.interiorBodySource !== allBodies) {
@@ -665,9 +1064,16 @@ class AdventureGame {
           !b.name?.startsWith("lodge") && !b.name?.startsWith("furniture-"),
       );
     }
-    const bodies = inside
-      ? this.interiorCameraBodies
-      : this.outdoorCameraBodies;
+    const bodies = this.interior
+      ? this.obstacles().filter(
+          (b) =>
+            b.name !== "room-wall" &&
+            (b.base ?? 0) <= this.player.y + 1 &&
+            b.height > this.player.y + 0.05,
+        )
+      : inside
+        ? this.interiorCameraBodies
+        : this.outdoorCameraBodies;
     const roof = lodge && !inside ? lodge.exteriorCameraBodies : [];
     const fraction = Math.min(
       cameraFraction(target, offset, bodies),
@@ -676,7 +1082,9 @@ class AdventureGame {
     desired.copy(target).addScaledVector(offset, fraction);
     desired.y = Math.max(
       desired.y,
-      walkHeight(desired.x, desired.z, this.data.scene, this.data.layout) +
+      (this.interior
+        ? this.player.y
+        : walkHeight(desired.x, desired.z, this.data.scene, this.data.layout)) +
         0.45,
     );
     if (this.cameraPosition.lengthSq() === 0) this.cameraPosition.copy(desired);
@@ -698,7 +1106,12 @@ class AdventureGame {
     this.camera.position.copy(this.cameraPosition);
     this.camera.lookAt(target);
     // A nearby wall or crown can pull the camera beside the face. Keep the view clear.
-    this.actor.visible = this.camera.position.distanceTo(target) > 2.8;
+    this.actor.visible =
+      Math.hypot(
+        this.camera.position.x - this.player.x,
+        this.camera.position.y - this.player.y - 1.35,
+        this.camera.position.z - this.player.z,
+      ) > 2.8;
     const focus = this.sun.target.position,
       nx = Math.round(this.player.x / 16) * 16,
       nz = Math.round(this.player.z / 16) * 16;
@@ -710,7 +1123,7 @@ class AdventureGame {
     $("compass").style.transform = `rotate(${-this.cameraYaw}rad)`;
   }
   private renderScene() {
-    if (this.landscape instanceof ConnectedLandscape)
+    if (!this.interior && this.landscape instanceof ConnectedLandscape)
       this.landscape.updateVisibility(
         this.camera,
         (this.scene.fog as T.Fog).far,
@@ -729,10 +1142,7 @@ class AdventureGame {
         this.cameraUpdate(dt);
         this.renderScene();
       }
-      this.worldMap.update(
-        { x: this.player.x, z: this.player.z, yaw: this.actorYaw },
-        time,
-      );
+      this.worldMap.update(this.mapPose(), time);
       if (!this.modalOpen) {
         this.fpsSamples.push(elapsed * 1000);
         if (this.fpsSamples.length > 240) this.fpsSamples.shift();
@@ -758,7 +1168,49 @@ class AdventureGame {
   private updateContext() {
     if (!this.enabled() || this.pending) {
       this.near = null;
+      this.entryNear = null;
       $("context").hidden = true;
+      return;
+    }
+    this.entryNear = null;
+    if (this.interior) {
+      this.near = null;
+      const exit =
+        this.player.y < 0.4 &&
+        Math.hypot(
+          this.player.x,
+          this.player.z - this.interior.entry.depth / 2,
+        ) < 2.3;
+      $("context").hidden = !exit;
+      $("contextLabel").textContent = "Back outside";
+      $("interact").innerHTML = "Exit <kbd>E</kbd>";
+      return;
+    }
+    const entries = [...this.landscape.entrances];
+    for (const p of this.data.objects) {
+      const root = this.userRoots.get(p.id);
+      if (root) {
+        const e = buildingEntry(this.library, p.asset, root, "placed:" + p.id);
+        if (e) entries.push(e);
+      }
+    }
+    this.entryNear =
+      entries
+        .filter(
+          (e) =>
+            Math.hypot(e.x - this.player.x, e.z - this.player.z) < 2.25 &&
+            !blocked(e.x, e.z, this.obstacles(), 0.34),
+        )
+        .sort(
+          (a, b) =>
+            Math.hypot(a.x - this.player.x, a.z - this.player.z) -
+            Math.hypot(b.x - this.player.x, b.z - this.player.z),
+        )[0] || null;
+    if (this.entryNear) {
+      this.near = null;
+      $("context").hidden = false;
+      $("contextLabel").textContent = this.entryNear.name;
+      $("interact").innerHTML = "Enter <kbd>E</kbd>";
       return;
     }
     this.near =
@@ -783,6 +1235,16 @@ class AdventureGame {
     }
   }
   private discover() {
+    if (!this.enabled()) return;
+    this.updateContext();
+    if (this.interior) {
+      if (!$("context").hidden) void this.leaveRoom();
+      return;
+    }
+    if (this.entryNear) {
+      void this.enterRoom(this.entryNear);
+      return;
+    }
     if (!this.near) return;
     const l = this.near;
     if (
@@ -881,7 +1343,7 @@ class AdventureGame {
         this.ghost!.rotation.y = this.pending.yaw;
         this.validateGhost();
       } else if (this.selection) {
-        const p = this.data.objects.find((p) => p.id === this.selection)!,
+        const p = this.objects.find((p) => p.id === this.selection)!,
           root = this.userRoots.get(p.id)!;
         const next = p.yaw + Math.PI / 4;
         root.rotation.y = next;
@@ -915,7 +1377,7 @@ class AdventureGame {
     };
   }
   private key(code: string) {
-    if (this.busy) return;
+    if (this.busy || this.transitioning) return;
     if (!this.started) {
       if (code === "Enter" && !$<HTMLButtonElement>("enter").disabled)
         $("enter").click();
@@ -964,7 +1426,12 @@ class AdventureGame {
         return;
       }
       if (this.pending) this.confirmEdit();
-      else if (this.near) this.discover();
+      else if (
+        this.near ||
+        this.entryNear ||
+        (this.interior && !$("context").hidden)
+      )
+        this.discover();
       else if (this.selection) this.moveSelected();
       else this.tap(innerWidth / 2, innerHeight / 2);
       return;
@@ -1022,6 +1489,7 @@ class AdventureGame {
     ].focus();
   }
   private openModal(content: string) {
+    if (this.transitioning) return;
     if (this.worldMap.open) this.closeWorldMap();
     this.modalOpen = true;
     this.controls.clear();
@@ -1045,6 +1513,7 @@ class AdventureGame {
     this.updateContext();
   }
   async places() {
+    if (this.transitioning) return;
     this.cancelEdit();
     try {
       await this.session.save();
@@ -1122,8 +1591,9 @@ class AdventureGame {
     }
   }
   private menu() {
+    if (this.transitioning) return;
     this.openModal(
-      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick walks; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Run. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview ${PREVIEW_VERSION}. The Meadow Lodge has an opening door and furnished room; original prefab houses remain closed. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
+      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick walks; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Run. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview ${PREVIEW_VERSION}. Cottages, town houses, inns and workshops have separate furnished rooms. Houses and inns have walkable stairs. First entry keeps the original world and starts an interior copy; room backups need Preview 09 or later. The Meadow Lodge keeps its opening door. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
     );
     $("resume").onclick = () => this.closeModal();
     $("home").onclick = () => {
@@ -1219,6 +1689,7 @@ class AdventureGame {
     this.storePreferences();
   }
   private catalogue() {
+    if (this.transitioning) return;
     this.cancelEdit();
     this.openModal(
       `<div class="eyebrow">A PLACE OF YOUR OWN</div><h1 id="modalTitle">What will you make?</h1><p>Choose something, tap nearby ground to position it, then choose Place.</p><div class="catalogueFilters" role="group" aria-label="Filter building assets">${["All", ...new Set(BUILD_CHOICES.map((item) => item.group))].map((name, i) => `<button data-category="${name}" aria-pressed="${i === 0}">${name}</button>`).join("")}</div><div class="assetGrid">${BUILD_CHOICES.map((item) => `<button data-asset="${item.id}" data-group="${item.group}" aria-label="Place ${item.name}"><img src="${import.meta.env.BASE_URL}adventures/thumbnails/${item.id}.png" alt="" loading="lazy" width="256" height="192"><span class="assetLabel">${item.name}</span></button>`).join("")}</div><p class="finePrint">Walk or turn to aim ahead until you choose ground. Tap your own object to move, rotate or remove it.</p>`,
@@ -1235,16 +1706,24 @@ class AdventureGame {
           "[data-asset]",
         ))
           asset.hidden =
-            filter.dataset.category !== "All" &&
-            asset.dataset.group !== filter.dataset.category;
+            (!!this.interior &&
+              DEFINITIONS.get(asset.dataset.asset!)?.category !== "prop") ||
+            (filter.dataset.category !== "All" &&
+              asset.dataset.group !== filter.dataset.category);
       };
     for (const button of $("modal").querySelectorAll<HTMLButtonElement>(
       "[data-asset]",
-    ))
+    )) {
+      if (
+        this.interior &&
+        DEFINITIONS.get(button.dataset.asset!)?.category !== "prop"
+      )
+        button.hidden = true;
       button.onclick = () => {
         this.closeModal();
         this.beginPlacement(button.dataset.asset!);
       };
+    }
   }
   private assetName(id: string) {
     return (
@@ -1260,8 +1739,13 @@ class AdventureGame {
     );
   }
   private beginPlacement(asset: string, existing?: Placement) {
+    if (this.transitioning) return;
+    if (this.interior && DEFINITIONS.get(asset)?.category !== "prop") {
+      this.toast("Choose furniture or a small prop for this room");
+      return;
+    }
     this.cancelEdit();
-    if (!existing && this.data.objects.length >= 200) {
+    if (!existing && this.objects.length >= 200) {
       this.toast(
         "This place has 200 objects. Remove one before adding another.",
       );
@@ -1276,6 +1760,7 @@ class AdventureGame {
           z: 0,
           yaw: 0,
           scale: DEFINITIONS.get(asset)!.scale,
+          ...(this.interior ? { y: this.player.y > 1.5 ? 3 : 0 } : {}),
         };
     this.moving = existing?.id || null;
     if (existing) this.userRoots.get(existing.id)!.visible = false;
@@ -1329,12 +1814,7 @@ class AdventureGame {
       Math.round((this.player.z - Math.cos(this.cameraYaw) * d) * 2) / 2;
     this.ghost.position.set(
       this.pending.x,
-      walkHeight(
-        this.pending.x,
-        this.pending.z,
-        this.data.scene,
-        this.data.layout,
-      ),
+      this.floorHeight(this.pending.x, this.pending.z),
       this.pending.z,
     );
     this.ghost.rotation.y = this.pending.yaw;
@@ -1347,6 +1827,7 @@ class AdventureGame {
         this.placementReach(p)
     )
       return "Move closer to the object";
+    if (this.interior) return this.roomPlacementProblem(p, root);
     if (!inWorld(p.x, p.z, this.data.scene, 4))
       return "Keep inside the explored landscape";
     if (waterBlocked(p.x, p.z, this.data.scene)) return "Keep the water clear";
@@ -1393,6 +1874,8 @@ class AdventureGame {
       this.pending.z,
       this.pending.yaw,
       this.pending.scale,
+      this.pending.y ?? 0,
+      this.interior ? this.player.y.toFixed(2) : "",
       this.placementAnchor ? this.player.x.toFixed(2) : "",
       this.placementAnchor ? this.player.z.toFixed(2) : "",
     ].join(":");
@@ -1420,8 +1903,8 @@ class AdventureGame {
     }
     this.checkpoint();
     if (this.moving)
-      this.data.objects = this.data.objects.filter((p) => p.id !== this.moving);
-    this.data.objects.push({ ...this.pending });
+      this.objects = this.objects.filter((p) => p.id !== this.moving);
+    this.objects.push({ ...this.pending });
     this.cancelEdit();
     this.renderObjects();
     this.dirty = true;
@@ -1479,7 +1962,7 @@ class AdventureGame {
     document.body.classList.add("editing");
     $("editBar").hidden = false;
     $("editName").textContent = this.assetName(
-      this.data.objects.find((p) => p.id === this.selection)!.asset,
+      this.objects.find((p) => p.id === this.selection)!.asset,
     );
     $("editMove").hidden = false;
     $("editRemove").hidden = false;
@@ -1497,7 +1980,16 @@ class AdventureGame {
         this.landscape instanceof ConnectedLandscape
           ? this.landscape.lodge
           : undefined,
-      bodies = includeBuilt ? this.obstacles() : this.landscape.obstacles,
+      bodies = this.interior
+        ? (includeBuilt ? this.obstacles() : this.interior.obstacles).filter(
+            (b) =>
+              b.name !== "room-wall" &&
+              (b.base ?? 0) < this.player.y + 1 &&
+              b.height > this.player.y + 0.05,
+          )
+        : includeBuilt
+          ? this.obstacles()
+          : this.landscape.obstacles,
       blocks = (body: Obstacle) => {
         if (lodge && !lodge.isVisibleOccluder(body)) return false;
         return (
@@ -1510,7 +2002,7 @@ class AdventureGame {
   private targetPlacement(ray: T.Ray) {
     if (!this.pending) return;
     const target = groundTarget(ray.origin, ray.direction, (x, z) =>
-      walkHeight(x, z, this.data.scene, this.data.layout),
+      this.floorHeight(x, z),
     );
     if (
       !target ||
@@ -1547,22 +2039,20 @@ class AdventureGame {
   }
   private moveSelected() {
     if (!this.selection) return;
-    const p = this.data.objects.find((p) => p.id === this.selection)!;
+    const p = this.objects.find((p) => p.id === this.selection)!;
     this.beginPlacement(p.asset, p);
   }
   private removeSelected() {
     if (!this.selection) return;
     this.checkpoint();
-    this.data.objects = this.data.objects.filter(
-      (p) => p.id !== this.selection,
-    );
+    this.objects = this.objects.filter((p) => p.id !== this.selection);
     this.cancelEdit();
     this.renderObjects();
     this.dirty = true;
     this.toast("Object removed. Undo is available in the menu.");
   }
   private checkpoint() {
-    this.history.push(structuredClone(this.data.objects));
+    this.history.push(structuredClone(this.objects));
     if (this.history.length > 30) this.history.shift();
     this.redoHistory = [];
   }
@@ -1572,8 +2062,8 @@ class AdventureGame {
       this.toast("Nothing to undo");
       return;
     }
-    this.redoHistory.push(structuredClone(this.data.objects));
-    this.data.objects = previous;
+    this.redoHistory.push(structuredClone(this.objects));
+    this.objects = previous;
     this.cancelEdit();
     this.renderObjects();
     this.safeSpawn();
@@ -1586,8 +2076,8 @@ class AdventureGame {
       this.toast("Nothing to redo");
       return;
     }
-    this.history.push(structuredClone(this.data.objects));
-    this.data.objects = next;
+    this.history.push(structuredClone(this.objects));
+    this.objects = next;
     this.cancelEdit();
     this.renderObjects();
     this.safeSpawn();
@@ -1606,7 +2096,7 @@ class AdventureGame {
       pixelRatio: this.renderer.getPixelRatio(),
       scene: this.data.scene,
       natureInstances: this.landscape?.instances,
-      objects: this.data.objects.length,
+      objects: this.objects.length,
       quality: this.quality,
     };
   }
