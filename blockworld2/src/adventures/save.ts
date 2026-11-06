@@ -49,7 +49,8 @@ export function validateAdventure(s: Snapshot): AdventureData {
       a.layout !== 5 &&
       a.layout !== 6 &&
       a.layout !== 7 &&
-      a.layout !== 8) ||
+      a.layout !== 8 &&
+      a.layout !== 9) ||
     !WORLDS.some((w) => w.id === a.scene) ||
     (a.scene === "vale" &&
       a.layout !== 3 &&
@@ -57,9 +58,14 @@ export function validateAdventure(s: Snapshot): AdventureData {
       a.layout !== 5 &&
       a.layout !== 6 &&
       a.layout !== 7 &&
-      a.layout !== 8) ||
+      a.layout !== 8 &&
+      a.layout !== 9) ||
     (a.scene !== "vale" &&
-      (a.layout === 5 || a.layout === 6 || a.layout === 7 || a.layout === 8)) ||
+      (a.layout === 5 ||
+        a.layout === 6 ||
+        a.layout === 7 ||
+        a.layout === 8 ||
+        a.layout === 9)) ||
     (a.doors !== undefined &&
       (!a.doors ||
         typeof a.doors !== "object" ||

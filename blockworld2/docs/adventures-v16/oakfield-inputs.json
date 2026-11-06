@@ -1,0 +1,695 @@
+{
+  "checks": [
+    {
+      "name": "phone actual inn entry opens distinct furnished common room with no loaded-model overlap, burial or wall clipping",
+      "passed": true,
+      "detail": {
+        "entry": {
+          "id": "building_tavern_blue:151.000:51.000:-1.571",
+          "name": "The Oakfield Inn",
+          "kind": "inn",
+          "levels": 2,
+          "x": 145.28688843250274,
+          "z": 50.08374408558075,
+          "yaw": -1.5707963267948966,
+          "width": 8.2020965218544,
+          "depth": 9.326223134994507,
+          "threshold": {
+            "x": 148.09188883304597,
+            "y": 1.4700000792738592,
+            "z": 50.08374408558075
+          }
+        },
+        "objects": [
+          {
+            "id": "rear-table",
+            "asset": "furniture-table",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -3.1687593965272005,
+                "y": 0,
+                "z": -2.1775908981472534
+              },
+              "max": {
+                "x": -1.2333371253272003,
+                "y": 0.7514881471,
+                "z": -1.1486322368472535
+              }
+            }
+          },
+          {
+            "id": "rear-north-seat",
+            "asset": "furniture-chair",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -2.4010482609272006,
+                "y": 0,
+                "z": -2.8631115674972536
+              },
+              "max": {
+                "x": -2.0010482609272002,
+                "y": 0.94,
+                "z": -2.4631115674972532
+              }
+            }
+          },
+          {
+            "id": "rear-south-seat",
+            "asset": "furniture-chair",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -2.4010482609272006,
+                "y": 0,
+                "z": -0.8631115674972535
+              },
+              "max": {
+                "x": -2.0010482609272002,
+                "y": 0.94,
+                "z": -0.46311156749725335
+              }
+            }
+          },
+          {
+            "id": "front-table",
+            "asset": "furniture-table",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -3.1687593965272005,
+                "y": 0,
+                "z": 1.1486322368472535
+              },
+              "max": {
+                "x": -1.2333371253272003,
+                "y": 0.7514881471,
+                "z": 2.1775908981472534
+              }
+            }
+          },
+          {
+            "id": "front-north-seat",
+            "asset": "furniture-chair",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -2.4010482609272006,
+                "y": 0,
+                "z": 0.4631115674972534
+              },
+              "max": {
+                "x": -2.0010482609272002,
+                "y": 0.94,
+                "z": 0.8631115674972534
+              }
+            }
+          },
+          {
+            "id": "front-south-seat",
+            "asset": "furniture-chair",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -2.4010482609272006,
+                "y": 0,
+                "z": 2.4631115674972532
+              },
+              "max": {
+                "x": -2.0010482609272002,
+                "y": 0.94,
+                "z": 2.8631115674972536
+              }
+            }
+          },
+          {
+            "id": "serving-table",
+            "asset": "furniture-table",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -1.1939343272000003,
+                "y": 0,
+                "z": -4.144696897797253
+              },
+              "max": {
+                "x": 0.9939343272000002,
+                "y": 0.8495083402000001,
+                "z": -2.9815262371972535
+              }
+            }
+          },
+          {
+            "id": "provisions",
+            "asset": "barrel",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": 1.2074901789426804,
+                "y": 0,
+                "z": -3.90562140122056
+              },
+              "max": {
+                "x": 1.8925098210573197,
+                "y": 0.7198210474848771,
+                "z": -3.2206017337739468
+              }
+            }
+          },
+          {
+            "id": "common-room-shelf",
+            "asset": "furniture-bookcaseopen",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -3.8410482609272005,
+                "y": 0,
+                "z": -4.238111567497254
+              },
+              "max": {
+                "x": -2.9610482609272006,
+                "y": 1.9359998592000003,
+                "z": -3.6881115674972533
+              }
+            }
+          },
+          {
+            "id": "welcome-rug",
+            "asset": "furniture-rugrectangle",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -1.883999916,
+                "y": 0,
+                "z": 1.4591115674972532
+              },
+              "max": {
+                "x": 1.883999916,
+                "y": 0.024,
+                "z": 3.6671115674972534
+              }
+            }
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -3.529223291754622,
+                "y": 3,
+                "z": -3.903736567497254
+              },
+              "max": {
+                "x": -2.4728732300997787,
+                "y": 3.693749999999939,
+                "z": -1.8224865674972535
+              }
+            }
+          },
+          {
+            "id": "guest-bed",
+            "asset": "furniture-bedsingle",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -1.329223291754622,
+                "y": 3,
+                "z": -3.903736567497254
+              },
+              "max": {
+                "x": -0.27287323009977904,
+                "y": 3.693749999999939,
+                "z": -1.8224865674972535
+              }
+            }
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -2.1936482411272,
+                "y": 3,
+                "z": -4.249611581797253
+              },
+              "max": {
+                "x": -1.6084482807272,
+                "y": 3.5130400308,
+                "z": -3.7766115531972533
+              }
+            }
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -3.8410482609272005,
+                "y": 3,
+                "z": 3.6881115674972533
+              },
+              "max": {
+                "x": -2.9610482609272006,
+                "y": 4.935999859200001,
+                "z": 4.238111567497254
+              }
+            }
+          }
+        ],
+        "overlaps": [],
+        "contained": true,
+        "grounded": true,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone keyboard walks the actual inn stairs and clear upstairs landing",
+      "passed": true,
+      "detail": {
+        "x": 0.0499319815981235,
+        "y": 3.002,
+        "z": -3.905200499041866,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      }
+    },
+    {
+      "name": "phone actual page reload retains new inn furnishings and usable upper floor",
+      "passed": true,
+      "detail": {
+        "id": "building_tavern_blue:151.000:51.000:-1.571",
+        "y": 3.002,
+        "count": 14
+      }
+    },
+    {
+      "name": "phone touch descends and walks the clear common-room centre aisle",
+      "passed": true,
+      "detail": {
+        "x": 0.049931981598125924,
+        "y": 0.002000000000000014,
+        "z": 0.03760554184104839,
+        "yaw": 0,
+        "pitch": 0.72,
+        "vy": 0,
+        "grounded": true
+      }
+    },
+    {
+      "name": "phone common-room furniture moves with same ID, undo/redo and native save",
+      "passed": true,
+      "detail": {
+        "undo": true,
+        "redo": true,
+        "p": {
+          "id": "serving-table",
+          "asset": "furniture-table",
+          "x": -0.1,
+          "z": -3.4131115674972534,
+          "scale": 2.6,
+          "yaw": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "phone native backup import retains exact common-room edit in an independent record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone edited inn exits safely at the same building and facing",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 145.28688843250274,
+          "y": 0.002,
+          "z": 50.08374408558075,
+          "yaw": 0,
+          "pitch": 0.72,
+          "vy": 0,
+          "grounded": true
+        },
+        "yaw": -1.5707963267948966,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone new inn navigation, edit and reload have no runtime exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet actual inn entry opens distinct furnished common room with no loaded-model overlap, burial or wall clipping",
+      "passed": true,
+      "detail": {
+        "entry": {
+          "id": "building_tavern_blue:151.000:51.000:-1.571",
+          "name": "The Oakfield Inn",
+          "kind": "inn",
+          "levels": 2,
+          "x": 145.28688843250274,
+          "z": 50.08374408558075,
+          "yaw": -1.5707963267948966,
+          "width": 8.2020965218544,
+          "depth": 9.326223134994507,
+          "threshold": {
+            "x": 148.09188883304597,
+            "y": 1.4700000792738592,
+            "z": 50.08374408558075
+          }
+        },
+        "objects": [
+          {
+            "id": "rear-table",
+            "asset": "furniture-table",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -3.1687593965272005,
+                "y": 0,
+                "z": -2.1775908981472534
+              },
+              "max": {
+                "x": -1.2333371253272003,
+                "y": 0.7514881471,
+                "z": -1.1486322368472535
+              }
+            }
+          },
+          {
+            "id": "rear-north-seat",
+            "asset": "furniture-chair",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -2.4010482609272006,
+                "y": 0,
+                "z": -2.8631115674972536
+              },
+              "max": {
+                "x": -2.0010482609272002,
+                "y": 0.94,
+                "z": -2.4631115674972532
+              }
+            }
+          },
+          {
+            "id": "rear-south-seat",
+            "asset": "furniture-chair",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -2.4010482609272006,
+                "y": 0,
+                "z": -0.8631115674972535
+              },
+              "max": {
+                "x": -2.0010482609272002,
+                "y": 0.94,
+                "z": -0.46311156749725335
+              }
+            }
+          },
+          {
+            "id": "front-table",
+            "asset": "furniture-table",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -3.1687593965272005,
+                "y": 0,
+                "z": 1.1486322368472535
+              },
+              "max": {
+                "x": -1.2333371253272003,
+                "y": 0.7514881471,
+                "z": 2.1775908981472534
+              }
+            }
+          },
+          {
+            "id": "front-north-seat",
+            "asset": "furniture-chair",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -2.4010482609272006,
+                "y": 0,
+                "z": 0.4631115674972534
+              },
+              "max": {
+                "x": -2.0010482609272002,
+                "y": 0.94,
+                "z": 0.8631115674972534
+              }
+            }
+          },
+          {
+            "id": "front-south-seat",
+            "asset": "furniture-chair",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -2.4010482609272006,
+                "y": 0,
+                "z": 2.4631115674972532
+              },
+              "max": {
+                "x": -2.0010482609272002,
+                "y": 0.94,
+                "z": 2.8631115674972536
+              }
+            }
+          },
+          {
+            "id": "serving-table",
+            "asset": "furniture-table",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -1.1939343272000003,
+                "y": 0,
+                "z": -4.144696897797253
+              },
+              "max": {
+                "x": 0.9939343272000002,
+                "y": 0.8495083402000001,
+                "z": -2.9815262371972535
+              }
+            }
+          },
+          {
+            "id": "provisions",
+            "asset": "barrel",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": 1.2074901789426804,
+                "y": 0,
+                "z": -3.90562140122056
+              },
+              "max": {
+                "x": 1.8925098210573197,
+                "y": 0.7198210474848771,
+                "z": -3.2206017337739468
+              }
+            }
+          },
+          {
+            "id": "common-room-shelf",
+            "asset": "furniture-bookcaseopen",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -3.8410482609272005,
+                "y": 0,
+                "z": -4.238111567497254
+              },
+              "max": {
+                "x": -2.9610482609272006,
+                "y": 1.9359998592000003,
+                "z": -3.6881115674972533
+              }
+            }
+          },
+          {
+            "id": "welcome-rug",
+            "asset": "furniture-rugrectangle",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -1.883999916,
+                "y": 0,
+                "z": 1.4591115674972532
+              },
+              "max": {
+                "x": 1.883999916,
+                "y": 0.024,
+                "z": 3.6671115674972534
+              }
+            }
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -3.529223291754622,
+                "y": 3,
+                "z": -3.903736567497254
+              },
+              "max": {
+                "x": -2.4728732300997787,
+                "y": 3.693749999999939,
+                "z": -1.8224865674972535
+              }
+            }
+          },
+          {
+            "id": "guest-bed",
+            "asset": "furniture-bedsingle",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -1.329223291754622,
+                "y": 3,
+                "z": -3.903736567497254
+              },
+              "max": {
+                "x": -0.27287323009977904,
+                "y": 3.693749999999939,
+                "z": -1.8224865674972535
+              }
+            }
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -2.1936482411272,
+                "y": 3,
+                "z": -4.249611581797253
+              },
+              "max": {
+                "x": -1.6084482807272,
+                "y": 3.5130400308,
+                "z": -3.7766115531972533
+              }
+            }
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "box": {
+              "isBox3": true,
+              "min": {
+                "x": -3.8410482609272005,
+                "y": 3,
+                "z": 3.6881115674972533
+              },
+              "max": {
+                "x": -2.9610482609272006,
+                "y": 4.935999859200001,
+                "z": 4.238111567497254
+              }
+            }
+          }
+        ],
+        "overlaps": [],
+        "contained": true,
+        "grounded": true,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet gamepad walks the actual inn stairs and clear upstairs landing",
+      "passed": true,
+      "detail": {
+        "x": 0.040836779287715105,
+        "y": 3.002,
+        "z": -3.8826793067966205,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      }
+    },
+    {
+      "name": "tablet actual page reload retains new inn furnishings and usable upper floor",
+      "passed": true,
+      "detail": {
+        "id": "building_tavern_blue:151.000:51.000:-1.571",
+        "y": 3.002,
+        "count": 14
+      }
+    },
+    {
+      "name": "tablet keyboard descends and walks the clear common-room centre aisle",
+      "passed": true,
+      "detail": {
+        "x": 0.04083677928771567,
+        "y": 0.002000000000000014,
+        "z": 0.017141689560376927,
+        "yaw": 0,
+        "pitch": 0.72,
+        "vy": 0,
+        "grounded": true
+      }
+    },
+    {
+      "name": "tablet common-room furniture moves with same ID, undo/redo and native save",
+      "passed": true,
+      "detail": {
+        "undo": true,
+        "redo": true,
+        "p": {
+          "id": "serving-table",
+          "asset": "furniture-table",
+          "x": -0.1,
+          "z": -3.4131115674972534,
+          "scale": 2.6,
+          "yaw": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "tablet native backup import retains exact common-room edit in an independent record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet edited inn exits safely at the same building and facing",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 145.28688843250274,
+          "y": 0.002,
+          "z": 50.08374408558075,
+          "yaw": 0,
+          "pitch": 0.72,
+          "vy": 0,
+          "grounded": true
+        },
+        "yaw": -1.5707963267948966,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet new inn navigation, edit and reload have no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader; phone/tablet, actual CDP touch and injected standard Gamepad API. Physical hardware unverified."
+}

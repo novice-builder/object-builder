@@ -1,0 +1,674 @@
+{
+  "checks": [
+    {
+      "name": "seven-building settlement and roads add no model/image downloads",
+      "passed": true,
+      "detail": {
+        "before": {
+          "views": {
+            "east-overview": {
+              "drawCalls": 54,
+              "triangles": 93164,
+              "geometries": 55,
+              "textures": 11,
+              "programs": 8
+            },
+            "garden-lane": {
+              "drawCalls": 83,
+              "triangles": 117662,
+              "geometries": 72,
+              "textures": 12,
+              "programs": 10
+            },
+            "old-market": {
+              "drawCalls": 107,
+              "triangles": 114265,
+              "geometries": 80,
+              "textures": 12,
+              "programs": 11
+            }
+          },
+          "modelImageUrls": [
+            "/adventures/character/Explorer.glb",
+            "/adventures/furniture/bedsingle.glb",
+            "/adventures/furniture/bookcaseopen.glb",
+            "/adventures/furniture/books.glb",
+            "/adventures/furniture/cabinetbed.glb",
+            "/adventures/furniture/chair.glb",
+            "/adventures/furniture/rugrectangle.glb",
+            "/adventures/furniture/table.glb",
+            "/adventures/modular/Door_4_Flat.glb",
+            "/adventures/modular/Floor_WoodDark.glb",
+            "/adventures/modular/Roof_Front_Brick4.glb",
+            "/adventures/modular/Roof_RoundTiles_4x6.glb",
+            "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+            "/adventures/modular/Wall_Plaster_Straight.glb",
+            "/adventures/nature/campfire-stones.glb",
+            "/adventures/nature/flower-purplea.glb",
+            "/adventures/nature/flower-reda.glb",
+            "/adventures/nature/flower-yellowa.glb",
+            "/adventures/nature/grass-large.glb",
+            "/adventures/nature/lily-small.glb",
+            "/adventures/nature/log.glb",
+            "/adventures/nature/mushroom-red.glb",
+            "/adventures/nature/plant-bush.glb",
+            "/adventures/nature/plant-bushsmall.glb",
+            "/adventures/nature/rock-largea.glb",
+            "/adventures/nature/rock-largeb.glb",
+            "/adventures/nature/rock-smalla.glb",
+            "/adventures/nature/sign.glb",
+            "/adventures/nature/stump-round.glb",
+            "/adventures/nature/tent-smallopen.glb",
+            "/adventures/nature/tree-detailed.glb",
+            "/adventures/nature/tree-oak.glb",
+            "/adventures/nature/tree-pinedefaulta.glb",
+            "/adventures/nature/tree-pinedefaultb.glb",
+            "/adventures/village/barrel.glb",
+            "/adventures/village/building_blacksmith_blue.glb",
+            "/adventures/village/building_bridge_A.glb",
+            "/adventures/village/building_church_blue.glb",
+            "/adventures/village/building_home_A_blue.glb",
+            "/adventures/village/building_home_A_green.glb",
+            "/adventures/village/building_home_B_blue.glb",
+            "/adventures/village/building_home_B_green.glb",
+            "/adventures/village/building_market_blue.glb",
+            "/adventures/village/building_tavern_blue.glb",
+            "/adventures/village/building_watermill_blue.glb",
+            "/adventures/village/building_well_blue.glb",
+            "/adventures/village/building_windmill_blue.glb",
+            "/adventures/village/crate_A_small.glb",
+            "/adventures/village/fence_wood_straight.glb",
+            "/adventures/village/sack.glb",
+            "/adventures/village/waterplant_A.glb",
+            "/adventures/village/wheelbarrow.glb",
+            "/adventures/wildlife/Fox.glb"
+          ],
+          "startupBytes": 3924450,
+          "natureInstances": 4237
+        },
+        "after": {
+          "views": {
+            "east-overview": {
+              "drawCalls": 77,
+              "triangles": 95016,
+              "geometries": 86,
+              "textures": 12,
+              "programs": 8
+            },
+            "garden-lane": {
+              "drawCalls": 90,
+              "triangles": 114123,
+              "geometries": 100,
+              "textures": 13,
+              "programs": 10
+            },
+            "old-market": {
+              "drawCalls": 99,
+              "triangles": 115465,
+              "geometries": 101,
+              "textures": 13,
+              "programs": 11
+            }
+          },
+          "modelImageUrls": [
+            "/adventures/character/Explorer.glb",
+            "/adventures/furniture/bedsingle.glb",
+            "/adventures/furniture/bookcaseopen.glb",
+            "/adventures/furniture/books.glb",
+            "/adventures/furniture/cabinetbed.glb",
+            "/adventures/furniture/chair.glb",
+            "/adventures/furniture/rugrectangle.glb",
+            "/adventures/furniture/table.glb",
+            "/adventures/modular/Door_4_Flat.glb",
+            "/adventures/modular/Floor_WoodDark.glb",
+            "/adventures/modular/Roof_Front_Brick4.glb",
+            "/adventures/modular/Roof_RoundTiles_4x6.glb",
+            "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+            "/adventures/modular/Wall_Plaster_Straight.glb",
+            "/adventures/nature/campfire-stones.glb",
+            "/adventures/nature/flower-purplea.glb",
+            "/adventures/nature/flower-reda.glb",
+            "/adventures/nature/flower-yellowa.glb",
+            "/adventures/nature/grass-large.glb",
+            "/adventures/nature/lily-small.glb",
+            "/adventures/nature/log.glb",
+            "/adventures/nature/mushroom-red.glb",
+            "/adventures/nature/plant-bush.glb",
+            "/adventures/nature/plant-bushsmall.glb",
+            "/adventures/nature/rock-largea.glb",
+            "/adventures/nature/rock-largeb.glb",
+            "/adventures/nature/rock-smalla.glb",
+            "/adventures/nature/sign.glb",
+            "/adventures/nature/stump-round.glb",
+            "/adventures/nature/tent-smallopen.glb",
+            "/adventures/nature/tree-detailed.glb",
+            "/adventures/nature/tree-oak.glb",
+            "/adventures/nature/tree-pinedefaulta.glb",
+            "/adventures/nature/tree-pinedefaultb.glb",
+            "/adventures/village/barrel.glb",
+            "/adventures/village/building_blacksmith_blue.glb",
+            "/adventures/village/building_bridge_A.glb",
+            "/adventures/village/building_church_blue.glb",
+            "/adventures/village/building_home_A_blue.glb",
+            "/adventures/village/building_home_A_green.glb",
+            "/adventures/village/building_home_B_blue.glb",
+            "/adventures/village/building_home_B_green.glb",
+            "/adventures/village/building_market_blue.glb",
+            "/adventures/village/building_tavern_blue.glb",
+            "/adventures/village/building_watermill_blue.glb",
+            "/adventures/village/building_well_blue.glb",
+            "/adventures/village/building_windmill_blue.glb",
+            "/adventures/village/crate_A_small.glb",
+            "/adventures/village/fence_wood_straight.glb",
+            "/adventures/village/sack.glb",
+            "/adventures/village/waterplant_A.glb",
+            "/adventures/village/wheelbarrow.glb",
+            "/adventures/wildlife/Fox.glb"
+          ],
+          "startupBytes": 3927307,
+          "natureInstances": 4222
+        }
+      }
+    },
+    {
+      "name": "independently packaged Preview15 exports actual old-site construction plus edited inn room",
+      "passed": true,
+      "detail": {
+        "problem": null,
+        "room": "village:building_tavern_blue:0.000:-23.000:0.000"
+      }
+    },
+    {
+      "name": "current runtime retains the complete old layout8 record and exact edited interior",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "old layout8 scene models, roads, trees, collision, entrances and map stay exact without new Oakfield footprints",
+      "passed": true,
+      "detail": {
+        "before": "c6494982456f4d4658ab15b5b9413ad885ab34aa47162304b44853dd40882c1d",
+        "after": "c6494982456f4d4658ab15b5b9413ad885ab34aa47162304b44853dd40882c1d"
+      }
+    },
+    {
+      "name": "starting new layout9 retains the independently imported layout8 construction/room record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "accepted Preview15 refuses layout9 safely without changing its current record",
+      "passed": true,
+      "detail": {
+        "refused": true,
+        "same": true,
+        "count": true
+      }
+    },
+    {
+      "name": "ten alternating Oakfield room visits retain independent rooms and plateau uploaded resources for repeated poses",
+      "passed": true,
+      "detail": {
+        "rows": [
+          {
+            "id": "building_tavern_blue:151.000:51.000:-1.571",
+            "phase": "inside",
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "building_tavern_blue:151.000:51.000:-1.571",
+            "phase": "outside",
+            "geometries": 76,
+            "textures": 11,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_blue:128.000:62.000:1.571",
+            "phase": "inside",
+            "geometries": 85,
+            "textures": 11,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_blue:128.000:62.000:1.571",
+            "phase": "outside",
+            "geometries": 98,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_green:151.000:64.000:-1.571",
+            "phase": "inside",
+            "geometries": 98,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_green:151.000:64.000:-1.571",
+            "phase": "outside",
+            "geometries": 99,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_green:118.000:62.000:0.000",
+            "phase": "inside",
+            "geometries": 99,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_green:118.000:62.000:0.000",
+            "phase": "outside",
+            "geometries": 105,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_tavern_blue:151.000:51.000:-1.571",
+            "phase": "inside",
+            "geometries": 107,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_tavern_blue:151.000:51.000:-1.571",
+            "phase": "outside",
+            "geometries": 105,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_blue:128.000:62.000:1.571",
+            "phase": "inside",
+            "geometries": 105,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_blue:128.000:62.000:1.571",
+            "phase": "outside",
+            "geometries": 105,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_green:151.000:64.000:-1.571",
+            "phase": "inside",
+            "geometries": 105,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_green:151.000:64.000:-1.571",
+            "phase": "outside",
+            "geometries": 105,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_green:118.000:62.000:0.000",
+            "phase": "inside",
+            "geometries": 105,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_green:118.000:62.000:0.000",
+            "phase": "outside",
+            "geometries": 105,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_tavern_blue:151.000:51.000:-1.571",
+            "phase": "inside",
+            "geometries": 107,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_tavern_blue:151.000:51.000:-1.571",
+            "phase": "outside",
+            "geometries": 105,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_blue:128.000:62.000:1.571",
+            "phase": "inside",
+            "geometries": 105,
+            "textures": 12,
+            "programs": 10
+          },
+          {
+            "id": "building_home_A_blue:128.000:62.000:1.571",
+            "phase": "outside",
+            "geometries": 105,
+            "textures": 12,
+            "programs": 10
+          }
+        ],
+        "rooms": 4,
+        "blocked": false,
+        "requests": 1
+      }
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader; workload/resource samples only, physical devices unverified.",
+  "samples": {
+    "before": {
+      "views": {
+        "east-overview": {
+          "drawCalls": 54,
+          "triangles": 93164,
+          "geometries": 55,
+          "textures": 11,
+          "programs": 8
+        },
+        "garden-lane": {
+          "drawCalls": 83,
+          "triangles": 117662,
+          "geometries": 72,
+          "textures": 12,
+          "programs": 10
+        },
+        "old-market": {
+          "drawCalls": 107,
+          "triangles": 114265,
+          "geometries": 80,
+          "textures": 12,
+          "programs": 11
+        }
+      },
+      "modelImageUrls": [
+        "/adventures/character/Explorer.glb",
+        "/adventures/furniture/bedsingle.glb",
+        "/adventures/furniture/bookcaseopen.glb",
+        "/adventures/furniture/books.glb",
+        "/adventures/furniture/cabinetbed.glb",
+        "/adventures/furniture/chair.glb",
+        "/adventures/furniture/rugrectangle.glb",
+        "/adventures/furniture/table.glb",
+        "/adventures/modular/Door_4_Flat.glb",
+        "/adventures/modular/Floor_WoodDark.glb",
+        "/adventures/modular/Roof_Front_Brick4.glb",
+        "/adventures/modular/Roof_RoundTiles_4x6.glb",
+        "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+        "/adventures/modular/Wall_Plaster_Straight.glb",
+        "/adventures/nature/campfire-stones.glb",
+        "/adventures/nature/flower-purplea.glb",
+        "/adventures/nature/flower-reda.glb",
+        "/adventures/nature/flower-yellowa.glb",
+        "/adventures/nature/grass-large.glb",
+        "/adventures/nature/lily-small.glb",
+        "/adventures/nature/log.glb",
+        "/adventures/nature/mushroom-red.glb",
+        "/adventures/nature/plant-bush.glb",
+        "/adventures/nature/plant-bushsmall.glb",
+        "/adventures/nature/rock-largea.glb",
+        "/adventures/nature/rock-largeb.glb",
+        "/adventures/nature/rock-smalla.glb",
+        "/adventures/nature/sign.glb",
+        "/adventures/nature/stump-round.glb",
+        "/adventures/nature/tent-smallopen.glb",
+        "/adventures/nature/tree-detailed.glb",
+        "/adventures/nature/tree-oak.glb",
+        "/adventures/nature/tree-pinedefaulta.glb",
+        "/adventures/nature/tree-pinedefaultb.glb",
+        "/adventures/village/barrel.glb",
+        "/adventures/village/building_blacksmith_blue.glb",
+        "/adventures/village/building_bridge_A.glb",
+        "/adventures/village/building_church_blue.glb",
+        "/adventures/village/building_home_A_blue.glb",
+        "/adventures/village/building_home_A_green.glb",
+        "/adventures/village/building_home_B_blue.glb",
+        "/adventures/village/building_home_B_green.glb",
+        "/adventures/village/building_market_blue.glb",
+        "/adventures/village/building_tavern_blue.glb",
+        "/adventures/village/building_watermill_blue.glb",
+        "/adventures/village/building_well_blue.glb",
+        "/adventures/village/building_windmill_blue.glb",
+        "/adventures/village/crate_A_small.glb",
+        "/adventures/village/fence_wood_straight.glb",
+        "/adventures/village/sack.glb",
+        "/adventures/village/waterplant_A.glb",
+        "/adventures/village/wheelbarrow.glb",
+        "/adventures/wildlife/Fox.glb"
+      ],
+      "startupBytes": 3924450,
+      "natureInstances": 4237
+    },
+    "after": {
+      "views": {
+        "east-overview": {
+          "drawCalls": 77,
+          "triangles": 95016,
+          "geometries": 86,
+          "textures": 12,
+          "programs": 8
+        },
+        "garden-lane": {
+          "drawCalls": 90,
+          "triangles": 114123,
+          "geometries": 100,
+          "textures": 13,
+          "programs": 10
+        },
+        "old-market": {
+          "drawCalls": 99,
+          "triangles": 115465,
+          "geometries": 101,
+          "textures": 13,
+          "programs": 11
+        }
+      },
+      "modelImageUrls": [
+        "/adventures/character/Explorer.glb",
+        "/adventures/furniture/bedsingle.glb",
+        "/adventures/furniture/bookcaseopen.glb",
+        "/adventures/furniture/books.glb",
+        "/adventures/furniture/cabinetbed.glb",
+        "/adventures/furniture/chair.glb",
+        "/adventures/furniture/rugrectangle.glb",
+        "/adventures/furniture/table.glb",
+        "/adventures/modular/Door_4_Flat.glb",
+        "/adventures/modular/Floor_WoodDark.glb",
+        "/adventures/modular/Roof_Front_Brick4.glb",
+        "/adventures/modular/Roof_RoundTiles_4x6.glb",
+        "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+        "/adventures/modular/Wall_Plaster_Straight.glb",
+        "/adventures/nature/campfire-stones.glb",
+        "/adventures/nature/flower-purplea.glb",
+        "/adventures/nature/flower-reda.glb",
+        "/adventures/nature/flower-yellowa.glb",
+        "/adventures/nature/grass-large.glb",
+        "/adventures/nature/lily-small.glb",
+        "/adventures/nature/log.glb",
+        "/adventures/nature/mushroom-red.glb",
+        "/adventures/nature/plant-bush.glb",
+        "/adventures/nature/plant-bushsmall.glb",
+        "/adventures/nature/rock-largea.glb",
+        "/adventures/nature/rock-largeb.glb",
+        "/adventures/nature/rock-smalla.glb",
+        "/adventures/nature/sign.glb",
+        "/adventures/nature/stump-round.glb",
+        "/adventures/nature/tent-smallopen.glb",
+        "/adventures/nature/tree-detailed.glb",
+        "/adventures/nature/tree-oak.glb",
+        "/adventures/nature/tree-pinedefaulta.glb",
+        "/adventures/nature/tree-pinedefaultb.glb",
+        "/adventures/village/barrel.glb",
+        "/adventures/village/building_blacksmith_blue.glb",
+        "/adventures/village/building_bridge_A.glb",
+        "/adventures/village/building_church_blue.glb",
+        "/adventures/village/building_home_A_blue.glb",
+        "/adventures/village/building_home_A_green.glb",
+        "/adventures/village/building_home_B_blue.glb",
+        "/adventures/village/building_home_B_green.glb",
+        "/adventures/village/building_market_blue.glb",
+        "/adventures/village/building_tavern_blue.glb",
+        "/adventures/village/building_watermill_blue.glb",
+        "/adventures/village/building_well_blue.glb",
+        "/adventures/village/building_windmill_blue.glb",
+        "/adventures/village/crate_A_small.glb",
+        "/adventures/village/fence_wood_straight.glb",
+        "/adventures/village/sack.glb",
+        "/adventures/village/waterplant_A.glb",
+        "/adventures/village/wheelbarrow.glb",
+        "/adventures/wildlife/Fox.glb"
+      ],
+      "startupBytes": 3927307,
+      "natureInstances": 4222
+    }
+  },
+  "cycles": {
+    "rows": [
+      {
+        "id": "building_tavern_blue:151.000:51.000:-1.571",
+        "phase": "inside",
+        "geometries": 65,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "building_tavern_blue:151.000:51.000:-1.571",
+        "phase": "outside",
+        "geometries": 76,
+        "textures": 11,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_blue:128.000:62.000:1.571",
+        "phase": "inside",
+        "geometries": 85,
+        "textures": 11,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_blue:128.000:62.000:1.571",
+        "phase": "outside",
+        "geometries": 98,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_green:151.000:64.000:-1.571",
+        "phase": "inside",
+        "geometries": 98,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_green:151.000:64.000:-1.571",
+        "phase": "outside",
+        "geometries": 99,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_green:118.000:62.000:0.000",
+        "phase": "inside",
+        "geometries": 99,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_green:118.000:62.000:0.000",
+        "phase": "outside",
+        "geometries": 105,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_tavern_blue:151.000:51.000:-1.571",
+        "phase": "inside",
+        "geometries": 107,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_tavern_blue:151.000:51.000:-1.571",
+        "phase": "outside",
+        "geometries": 105,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_blue:128.000:62.000:1.571",
+        "phase": "inside",
+        "geometries": 105,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_blue:128.000:62.000:1.571",
+        "phase": "outside",
+        "geometries": 105,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_green:151.000:64.000:-1.571",
+        "phase": "inside",
+        "geometries": 105,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_green:151.000:64.000:-1.571",
+        "phase": "outside",
+        "geometries": 105,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_green:118.000:62.000:0.000",
+        "phase": "inside",
+        "geometries": 105,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_green:118.000:62.000:0.000",
+        "phase": "outside",
+        "geometries": 105,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_tavern_blue:151.000:51.000:-1.571",
+        "phase": "inside",
+        "geometries": 107,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_tavern_blue:151.000:51.000:-1.571",
+        "phase": "outside",
+        "geometries": 105,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_blue:128.000:62.000:1.571",
+        "phase": "inside",
+        "geometries": 105,
+        "textures": 12,
+        "programs": 10
+      },
+      {
+        "id": "building_home_A_blue:128.000:62.000:1.571",
+        "phase": "outside",
+        "geometries": 105,
+        "textures": 12,
+        "programs": 10
+      }
+    ],
+    "rooms": 4,
+    "blocked": false,
+    "requests": 1
+  }
+}

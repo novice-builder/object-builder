@@ -88,7 +88,7 @@ test("creating the new valley preserves and reopens the previous layout record u
   await session.open(before.id);
   const fresh = await session.create("vale");
   assert.notEqual(fresh.id, before.id);
-  assert.equal(validateAdventure(state).layout, 8);
+  assert.equal(validateAdventure(state).layout, 9);
   assert.equal(validateAdventure(state).objects.length, 0);
   const retained = await session.store.load(before.id);
   assert.deepEqual(retained.snapshot.world.adventure, original.world.adventure);

@@ -1,3 +1,4 @@
+import { OAKFIELD } from "./oakfield-data";
 import { FOXGLADE } from "./foxglade-data";
 import { MILLERS_END } from "./millers-end-data";
 import { REEDBANK } from "./reedbank-data";
@@ -86,6 +87,8 @@ export function createMapData(
     destinations.push({ ...MILLERS_END });
   if (scene === "vale" && landscape.landmarks.some((l) => l.id === FOXGLADE.id))
     destinations.push({ ...FOXGLADE });
+  if (scene === "vale" && landscape.landmarks.some((l) => l.id === OAKFIELD.id))
+    destinations.push({ ...OAKFIELD });
   return {
     scene,
     bounds,

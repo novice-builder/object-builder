@@ -1,0 +1,95 @@
+{
+  "layout": 9,
+  "entrances": [
+    {
+      "id": "building_home_B_green:127.000:48.000:1.571",
+      "name": "Town house",
+      "kind": "townhouse",
+      "levels": 2,
+      "x": 131.78541519641877,
+      "z": 47.03917913407149,
+      "yaw": 1.5707963267948966,
+      "width": 5.949512004852295,
+      "depth": 7.470830392837525,
+      "threshold": {
+        "x": 129.04341511130332,
+        "y": 1.4280154991149998,
+        "z": 47.03917913407149
+      }
+    },
+    {
+      "id": "building_tavern_blue:151.000:51.000:-1.571",
+      "name": "The Oakfield Inn",
+      "kind": "inn",
+      "levels": 2,
+      "x": 145.28688843250274,
+      "z": 50.08374408558075,
+      "yaw": -1.5707963267948966,
+      "width": 8.2020965218544,
+      "depth": 9.326223134994507,
+      "threshold": {
+        "x": 148.09188883304597,
+        "y": 1.4700000792738592,
+        "z": 50.08374408558075
+      }
+    },
+    {
+      "id": "building_home_A_blue:128.000:62.000:1.571",
+      "name": "Cottage",
+      "kind": "cottage",
+      "levels": 1,
+      "x": 131.824367839098,
+      "z": 62,
+      "yaw": 1.5707963267948966,
+      "width": 5.8,
+      "depth": 6.8
+    },
+    {
+      "id": "building_home_A_green:151.000:64.000:-1.571",
+      "name": "Cottage",
+      "kind": "cottage",
+      "levels": 1,
+      "x": 147.175632160902,
+      "z": 64,
+      "yaw": -1.5707963267948966,
+      "width": 5.8,
+      "depth": 6.8
+    },
+    {
+      "id": "building_blacksmith_blue:139.000:69.000:3.142",
+      "name": "Oakfield workshop",
+      "kind": "workshop",
+      "levels": 1,
+      "x": 139,
+      "z": 63.90326240360737,
+      "yaw": 3.141592653589793,
+      "width": 8.369406461715698,
+      "depth": 8.093475192785263
+    },
+    {
+      "id": "building_home_A_green:118.000:62.000:0.000",
+      "name": "Cottage",
+      "kind": "cottage",
+      "levels": 1,
+      "x": 118,
+      "z": 65.82436783909797,
+      "yaw": 0,
+      "width": 5.8,
+      "depth": 6.8
+    }
+  ],
+  "clear": true,
+  "stats": {
+    "fps": 1,
+    "frameP95Ms": 1299.9,
+    "drawCalls": 165,
+    "triangles": 204009,
+    "geometries": 112,
+    "textures": 13,
+    "pixelRatio": 1,
+    "scene": "vale",
+    "natureInstances": 4222,
+    "objects": 0,
+    "quality": "balanced"
+  }
+}

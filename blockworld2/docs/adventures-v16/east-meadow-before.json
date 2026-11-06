@@ -1,0 +1,18 @@
+{
+  "layout": 8,
+  "paths": [],
+  "buildings": [],
+  "stats": {
+    "fps": 1,
+    "frameP95Ms": 1433.3,
+    "drawCalls": 139,
+    "triangles": 209854,
+    "geometries": 125,
+    "textures": 14,
+    "pixelRatio": 1,
+    "scene": "vale",
+    "natureInstances": 4237,
+    "objects": 0,
+    "quality": "balanced"
+  }
+}

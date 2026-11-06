@@ -1,0 +1,1085 @@
+{
+  "checks": [
+    {
+      "name": "phone actual Oakfield map-label touch travels to a clear village point in the same connected world",
+      "passed": true,
+      "detail": {
+        "layout": 9,
+        "same": true,
+        "x": 138,
+        "z": 52,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone ordinary movement traverses every new road sample through meadow, Brookside and the garden lane",
+      "passed": true,
+      "detail": [
+        {
+          "start": [
+            105,
+            16
+          ],
+          "samples": 50,
+          "p": {
+            "x": 138.0083823442871,
+            "y": 0.002,
+            "z": 64.95688996894046,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0,
+          "clear": true
+        },
+        {
+          "start": [
+            78,
+            52
+          ],
+          "samples": 48,
+          "p": {
+            "x": 125.95601650617157,
+            "y": 0.002,
+            "z": 36.98708142234599,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0,
+          "clear": true
+        },
+        {
+          "start": [
+            138,
+            65
+          ],
+          "samples": 17,
+          "p": {
+            "x": 118.06483661376137,
+            "y": 0.002,
+            "z": 67.0072378756316,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0,
+          "clear": true
+        },
+        {
+          "start": [
+            138,
+            51
+          ],
+          "samples": 5,
+          "p": {
+            "x": 138,
+            "y": 0.002,
+            "z": 46.04527244219324,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0,
+          "clear": true
+        }
+      ]
+    },
+    {
+      "name": "phone seven loaded buildings have distinct footprints and authored grove trunks stay clear of roads",
+      "passed": true,
+      "detail": {
+        "buildings": 7,
+        "overlaps": [],
+        "treeRoad": [],
+        "trees": [
+          {
+            "x": 112,
+            "z": 69,
+            "radius": 1.38
+          },
+          {
+            "x": 118,
+            "z": 72,
+            "radius": 1.38
+          },
+          {
+            "x": 112,
+            "z": 75,
+            "radius": 1.38
+          },
+          {
+            "x": 124,
+            "z": 74,
+            "radius": 1.38
+          }
+        ],
+        "entries": [
+          {
+            "id": "building_home_B_green:127.000:48.000:1.571",
+            "name": "Town house",
+            "kind": "townhouse",
+            "levels": 2,
+            "x": 131.78541519641877,
+            "z": 47.03917913407149,
+            "yaw": 1.5707963267948966,
+            "width": 5.949512004852295,
+            "depth": 7.470830392837525,
+            "threshold": {
+              "x": 129.04341511130332,
+              "y": 1.4280154991149998,
+              "z": 47.03917913407149
+            }
+          },
+          {
+            "id": "building_tavern_blue:151.000:51.000:-1.571",
+            "name": "The Oakfield Inn",
+            "kind": "inn",
+            "levels": 2,
+            "x": 145.28688843250274,
+            "z": 50.08374408558075,
+            "yaw": -1.5707963267948966,
+            "width": 8.2020965218544,
+            "depth": 9.326223134994507,
+            "threshold": {
+              "x": 148.09188883304597,
+              "y": 1.4700000792738592,
+              "z": 50.08374408558075
+            }
+          },
+          {
+            "id": "building_home_A_blue:128.000:62.000:1.571",
+            "name": "Cottage",
+            "kind": "cottage",
+            "levels": 1,
+            "x": 131.824367839098,
+            "z": 62,
+            "yaw": 1.5707963267948966,
+            "width": 5.8,
+            "depth": 6.8
+          },
+          {
+            "id": "building_home_A_green:151.000:64.000:-1.571",
+            "name": "Cottage",
+            "kind": "cottage",
+            "levels": 1,
+            "x": 147.175632160902,
+            "z": 64,
+            "yaw": -1.5707963267948966,
+            "width": 5.8,
+            "depth": 6.8
+          },
+          {
+            "id": "building_blacksmith_blue:139.000:69.000:3.142",
+            "name": "Oakfield workshop",
+            "kind": "workshop",
+            "levels": 1,
+            "x": 139,
+            "z": 63.90326240360737,
+            "yaw": 3.141592653589793,
+            "width": 8.369406461715698,
+            "depth": 8.093475192785263
+          },
+          {
+            "id": "building_home_A_green:118.000:62.000:0.000",
+            "name": "Cottage",
+            "kind": "cottage",
+            "levels": 1,
+            "x": 118,
+            "z": 65.82436783909797,
+            "yaw": 0,
+            "width": 5.8,
+            "depth": 6.8
+          }
+        ]
+      }
+    },
+    {
+      "name": "phone building_home_B_green:127.000:48.000:1.571 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 131.81463121678752,
+          "y": 0.002,
+          "z": 47.00481477321921,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "phone building_home_B_green:127.000:48.000:1.571 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_B_green:127.000:48.000:1.571",
+        "levels": 2,
+        "upper": true,
+        "objects": 7,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone townhouse walks actual stairs to the upper floor and back through both landings",
+      "passed": true,
+      "detail": {
+        "up": {
+          "p": {
+            "x": 0.039293323026276195,
+            "y": 3.002,
+            "z": -2.9844669761198395,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0.15000009536743164,
+          "clear": true
+        },
+        "down": {
+          "p": {
+            "x": 0.006994476629606671,
+            "y": 0.002000000000000015,
+            "z": 2.6069078807072756,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 8.673617379884035e-19,
+          "clear": true
+        }
+      }
+    },
+    {
+      "name": "phone building_home_B_green:127.000:48.000:1.571 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 131.81463121678752,
+        "z": 47.00481477321921,
+        "yaw": 1.5707963267948966,
+        "clear": true,
+        "rooms": 1
+      }
+    },
+    {
+      "name": "phone building_tavern_blue:151.000:51.000:-1.571 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 145.2186006536621,
+          "y": 0.002,
+          "z": 50.106814070855734,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "phone building_tavern_blue:151.000:51.000:-1.571 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_tavern_blue:151.000:51.000:-1.571",
+        "levels": 2,
+        "upper": true,
+        "objects": 14,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone inn walks actual stairs to the upper floor and back through both landings",
+      "passed": true,
+      "detail": {
+        "up": {
+          "p": {
+            "x": 0.04192358520009824,
+            "y": 3.002,
+            "z": -3.912219256031343,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0.15000009536743164,
+          "clear": true
+        },
+        "down": {
+          "p": {
+            "x": 0.007493619989309381,
+            "y": 0.002000000000000014,
+            "z": 3.5348930125213474,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 1.3877787807814457e-17,
+          "clear": true
+        }
+      }
+    },
+    {
+      "name": "phone building_tavern_blue:151.000:51.000:-1.571 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 145.2186006536621,
+        "z": 50.106814070855734,
+        "yaw": -1.5707963267948966,
+        "clear": true,
+        "rooms": 2
+      }
+    },
+    {
+      "name": "phone building_home_A_blue:128.000:62.000:1.571 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 131.85071293097207,
+          "y": 0.002,
+          "z": 62.06639081989026,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "phone building_home_A_blue:128.000:62.000:1.571 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_A_blue:128.000:62.000:1.571",
+        "levels": 1,
+        "upper": false,
+        "objects": 7,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone building_home_A_blue:128.000:62.000:1.571 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 131.85071293097207,
+        "z": 62.06639081989026,
+        "yaw": 1.5707963267948966,
+        "clear": true,
+        "rooms": 3
+      }
+    },
+    {
+      "name": "phone building_home_A_green:151.000:64.000:-1.571 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 147.1113387114893,
+          "y": 0.002,
+          "z": 63.987166600236804,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "phone building_home_A_green:151.000:64.000:-1.571 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_A_green:151.000:64.000:-1.571",
+        "levels": 1,
+        "upper": false,
+        "objects": 7,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone building_home_A_green:151.000:64.000:-1.571 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 147.1113387114893,
+        "z": 63.987166600236804,
+        "yaw": -1.5707963267948966,
+        "clear": true,
+        "rooms": 4
+      }
+    },
+    {
+      "name": "phone building_blacksmith_blue:139.000:69.000:3.142 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 138.95154531808754,
+          "y": 0.002,
+          "z": 63.89268309605503,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "phone building_blacksmith_blue:139.000:69.000:3.142 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_blacksmith_blue:139.000:69.000:3.142",
+        "levels": 1,
+        "upper": false,
+        "objects": 5,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone building_blacksmith_blue:139.000:69.000:3.142 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 138.95154531808754,
+        "z": 63.89268309605503,
+        "yaw": 3.141592653589793,
+        "clear": true,
+        "rooms": 5
+      }
+    },
+    {
+      "name": "phone building_home_A_green:118.000:62.000:0.000 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 118.00000000000001,
+          "y": 0.002,
+          "z": 65.88064229391632,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "phone building_home_A_green:118.000:62.000:0.000 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_A_green:118.000:62.000:0.000",
+        "levels": 1,
+        "upper": false,
+        "objects": 7,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone building_home_A_green:118.000:62.000:0.000 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 118.00000000000001,
+        "z": 65.88064229391632,
+        "yaw": 0,
+        "clear": true,
+        "rooms": 6
+      }
+    },
+    {
+      "name": "phone real page reload retains all six separately saved rooms, layout and same world identity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone new village route, map and six building visits have no browser exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet actual Oakfield map-label touch travels to a clear village point in the same connected world",
+      "passed": true,
+      "detail": {
+        "layout": 9,
+        "same": true,
+        "x": 138,
+        "z": 52,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet ordinary movement traverses every new road sample through meadow, Brookside and the garden lane",
+      "passed": true,
+      "detail": [
+        {
+          "start": [
+            105,
+            16
+          ],
+          "samples": 50,
+          "p": {
+            "x": 138.0083823442871,
+            "y": 0.002,
+            "z": 64.95688996894046,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0,
+          "clear": true
+        },
+        {
+          "start": [
+            78,
+            52
+          ],
+          "samples": 48,
+          "p": {
+            "x": 125.95601650617157,
+            "y": 0.002,
+            "z": 36.98708142234599,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0,
+          "clear": true
+        },
+        {
+          "start": [
+            138,
+            65
+          ],
+          "samples": 17,
+          "p": {
+            "x": 118.06483661376137,
+            "y": 0.002,
+            "z": 67.0072378756316,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0,
+          "clear": true
+        },
+        {
+          "start": [
+            138,
+            51
+          ],
+          "samples": 5,
+          "p": {
+            "x": 138,
+            "y": 0.002,
+            "z": 46.04527244219324,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0,
+          "clear": true
+        }
+      ]
+    },
+    {
+      "name": "tablet seven loaded buildings have distinct footprints and authored grove trunks stay clear of roads",
+      "passed": true,
+      "detail": {
+        "buildings": 7,
+        "overlaps": [],
+        "treeRoad": [],
+        "trees": [
+          {
+            "x": 112,
+            "z": 69,
+            "radius": 1.38
+          },
+          {
+            "x": 118,
+            "z": 72,
+            "radius": 1.38
+          },
+          {
+            "x": 112,
+            "z": 75,
+            "radius": 1.38
+          },
+          {
+            "x": 124,
+            "z": 74,
+            "radius": 1.38
+          }
+        ],
+        "entries": [
+          {
+            "id": "building_home_B_green:127.000:48.000:1.571",
+            "name": "Town house",
+            "kind": "townhouse",
+            "levels": 2,
+            "x": 131.78541519641877,
+            "z": 47.03917913407149,
+            "yaw": 1.5707963267948966,
+            "width": 5.949512004852295,
+            "depth": 7.470830392837525,
+            "threshold": {
+              "x": 129.04341511130332,
+              "y": 1.4280154991149998,
+              "z": 47.03917913407149
+            }
+          },
+          {
+            "id": "building_tavern_blue:151.000:51.000:-1.571",
+            "name": "The Oakfield Inn",
+            "kind": "inn",
+            "levels": 2,
+            "x": 145.28688843250274,
+            "z": 50.08374408558075,
+            "yaw": -1.5707963267948966,
+            "width": 8.2020965218544,
+            "depth": 9.326223134994507,
+            "threshold": {
+              "x": 148.09188883304597,
+              "y": 1.4700000792738592,
+              "z": 50.08374408558075
+            }
+          },
+          {
+            "id": "building_home_A_blue:128.000:62.000:1.571",
+            "name": "Cottage",
+            "kind": "cottage",
+            "levels": 1,
+            "x": 131.824367839098,
+            "z": 62,
+            "yaw": 1.5707963267948966,
+            "width": 5.8,
+            "depth": 6.8
+          },
+          {
+            "id": "building_home_A_green:151.000:64.000:-1.571",
+            "name": "Cottage",
+            "kind": "cottage",
+            "levels": 1,
+            "x": 147.175632160902,
+            "z": 64,
+            "yaw": -1.5707963267948966,
+            "width": 5.8,
+            "depth": 6.8
+          },
+          {
+            "id": "building_blacksmith_blue:139.000:69.000:3.142",
+            "name": "Oakfield workshop",
+            "kind": "workshop",
+            "levels": 1,
+            "x": 139,
+            "z": 63.90326240360737,
+            "yaw": 3.141592653589793,
+            "width": 8.369406461715698,
+            "depth": 8.093475192785263
+          },
+          {
+            "id": "building_home_A_green:118.000:62.000:0.000",
+            "name": "Cottage",
+            "kind": "cottage",
+            "levels": 1,
+            "x": 118,
+            "z": 65.82436783909797,
+            "yaw": 0,
+            "width": 5.8,
+            "depth": 6.8
+          }
+        ]
+      }
+    },
+    {
+      "name": "tablet building_home_B_green:127.000:48.000:1.571 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 131.81463121678752,
+          "y": 0.002,
+          "z": 47.00481477321921,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "tablet building_home_B_green:127.000:48.000:1.571 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_B_green:127.000:48.000:1.571",
+        "levels": 2,
+        "upper": true,
+        "objects": 7,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet townhouse walks actual stairs to the upper floor and back through both landings",
+      "passed": true,
+      "detail": {
+        "up": {
+          "p": {
+            "x": 0.039293323026276195,
+            "y": 3.002,
+            "z": -2.9844669761198395,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0.15000009536743164,
+          "clear": true
+        },
+        "down": {
+          "p": {
+            "x": 0.006994476629606671,
+            "y": 0.002000000000000015,
+            "z": 2.6069078807072756,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 8.673617379884035e-19,
+          "clear": true
+        }
+      }
+    },
+    {
+      "name": "tablet building_home_B_green:127.000:48.000:1.571 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 131.81463121678752,
+        "z": 47.00481477321921,
+        "yaw": 1.5707963267948966,
+        "clear": true,
+        "rooms": 1
+      }
+    },
+    {
+      "name": "tablet building_tavern_blue:151.000:51.000:-1.571 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 145.2186006536621,
+          "y": 0.002,
+          "z": 50.106814070855734,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "tablet building_tavern_blue:151.000:51.000:-1.571 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_tavern_blue:151.000:51.000:-1.571",
+        "levels": 2,
+        "upper": true,
+        "objects": 14,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet inn walks actual stairs to the upper floor and back through both landings",
+      "passed": true,
+      "detail": {
+        "up": {
+          "p": {
+            "x": 0.04192358520009824,
+            "y": 3.002,
+            "z": -3.912219256031343,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 0.15000009536743164,
+          "clear": true
+        },
+        "down": {
+          "p": {
+            "x": 0.007493619989309381,
+            "y": 0.002000000000000014,
+            "z": 3.5348930125213474,
+            "yaw": 0,
+            "pitch": 0.47,
+            "vy": 0,
+            "grounded": true,
+            "id": "oakfield",
+            "name": "Oakfield"
+          },
+          "rise": 1.3877787807814457e-17,
+          "clear": true
+        }
+      }
+    },
+    {
+      "name": "tablet building_tavern_blue:151.000:51.000:-1.571 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 145.2186006536621,
+        "z": 50.106814070855734,
+        "yaw": -1.5707963267948966,
+        "clear": true,
+        "rooms": 2
+      }
+    },
+    {
+      "name": "tablet building_home_A_blue:128.000:62.000:1.571 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 131.85071293097207,
+          "y": 0.002,
+          "z": 62.06639081989026,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "tablet building_home_A_blue:128.000:62.000:1.571 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_A_blue:128.000:62.000:1.571",
+        "levels": 1,
+        "upper": false,
+        "objects": 7,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet building_home_A_blue:128.000:62.000:1.571 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 131.85071293097207,
+        "z": 62.06639081989026,
+        "yaw": 1.5707963267948966,
+        "clear": true,
+        "rooms": 3
+      }
+    },
+    {
+      "name": "tablet building_home_A_green:151.000:64.000:-1.571 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 147.1113387114893,
+          "y": 0.002,
+          "z": 63.987166600236804,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "tablet building_home_A_green:151.000:64.000:-1.571 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_A_green:151.000:64.000:-1.571",
+        "levels": 1,
+        "upper": false,
+        "objects": 7,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet building_home_A_green:151.000:64.000:-1.571 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 147.1113387114893,
+        "z": 63.987166600236804,
+        "yaw": -1.5707963267948966,
+        "clear": true,
+        "rooms": 4
+      }
+    },
+    {
+      "name": "tablet building_blacksmith_blue:139.000:69.000:3.142 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 138.95154531808754,
+          "y": 0.002,
+          "z": 63.89268309605503,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "tablet building_blacksmith_blue:139.000:69.000:3.142 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_blacksmith_blue:139.000:69.000:3.142",
+        "levels": 1,
+        "upper": false,
+        "objects": 5,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet building_blacksmith_blue:139.000:69.000:3.142 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 138.95154531808754,
+        "z": 63.89268309605503,
+        "yaw": 3.141592653589793,
+        "clear": true,
+        "rooms": 5
+      }
+    },
+    {
+      "name": "tablet building_home_A_green:118.000:62.000:0.000 actual driveway reaches a clear Enter prompt",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 118.00000000000001,
+          "y": 0.002,
+          "z": 65.88064229391632,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "oakfield",
+          "name": "Oakfield"
+        },
+        "rise": 0,
+        "clear": true,
+        "prompt": "Enter E"
+      }
+    },
+    {
+      "name": "tablet building_home_A_green:118.000:62.000:0.000 fades into its matching furnished floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_A_green:118.000:62.000:0.000",
+        "levels": 1,
+        "upper": false,
+        "objects": 7,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet building_home_A_green:118.000:62.000:0.000 returns to the same exact safe exterior and keeps its independent room",
+      "passed": true,
+      "detail": {
+        "x": 118.00000000000001,
+        "z": 65.88064229391632,
+        "yaw": 0,
+        "clear": true,
+        "rooms": 6
+      }
+    },
+    {
+      "name": "tablet real page reload retains all six separately saved rooms, layout and same world identity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet new village route, map and six building visits have no browser exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader and phone/tablet emulation. Physical hardware unverified."
+}

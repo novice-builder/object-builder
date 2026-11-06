@@ -1,4 +1,12 @@
 import {
+  OAKFIELD,
+  OAKFIELD_ROADS,
+  OAKFIELD_BUILDINGS,
+  OAKFIELD_GARDENS,
+  OAKFIELD_GROVE,
+  oakfieldClearing,
+} from "./oakfield-data";
+import {
   FOXGLADE,
   FOX,
   FOXGLADE_TRAIL,
@@ -117,7 +125,7 @@ export class ConnectedLandscape {
   private materials: T.Material[] = [];
   constructor(
     readonly library: AssetLibrary,
-    readonly layout: 3 | 4 | 5 | 6 | 7 | 8 = 3,
+    readonly layout: 3 | 4 | 5 | 6 | 7 | 8 | 9 = 3,
     doorOpen = false,
   ) {
     this.terrain();
@@ -202,6 +210,7 @@ export class ConnectedLandscape {
     if (layout >= 6) this.reedbank();
     if (layout >= 7) this.millersEnd();
     if (layout >= 8) this.foxglade();
+    if (layout >= 9) this.oakfield();
     if (layout >= 4) {
       this.lodge = new Lodge(library, doorOpen);
       this.group.add(this.lodge.group);
@@ -600,6 +609,64 @@ export class ConnectedLandscape {
         "The windmill lane leads to a small market, an inn, a smith’s yard and cottage gardens. Follow the east orchard lane back to Willowmere. Homes, the workshop and the inn have their own furnished rooms.",
     });
   }
+  private oakfield() {
+    const road = this.regions[0].trailSurface;
+    const driveways = road.clone();
+    driveways.name = "Oakfield garden lanes";
+    driveways.polygonOffset = true;
+    driveways.polygonOffsetFactor = 1;
+    driveways.polygonOffsetUnits = 1;
+    this.materials.push(driveways);
+    const streets = OAKFIELD_ROADS.map((path) => ({
+      points: smoothTrail(path.points),
+      width: path.width,
+    }));
+    for (const path of streets) {
+      this.paths.push(path);
+      this.mesh(
+        trailGeometry(path.points, path.width, (x, z) =>
+          valeWalk(x, z, this.layout),
+        ),
+        road,
+      );
+    }
+    for (const p of OAKFIELD_BUILDINGS) {
+      const root = this.place(p.asset, p.x, p.z, p.scale, p.yaw);
+      root.userData.settlement = OAKFIELD.id;
+      if (p.asset === "building_market_blue") continue;
+      const entry = this.entrances.at(-1)!;
+      if (entry.kind === "inn") entry.name = "The Oakfield Inn";
+      if (entry.kind === "workshop") entry.name = "Oakfield workshop";
+      const start = [entry.x, entry.z];
+      const end = streets
+        .map((s) => closestTrailPoint(start, s.points))
+        .sort(
+          (a, b) =>
+            Math.hypot(a[0] - start[0], a[1] - start[1]) -
+            Math.hypot(b[0] - start[0], b[1] - start[1]),
+        )[0];
+      const path = { points: [start, end], width: 1.8 };
+      this.paths.push(path);
+      this.mesh(
+        trailGeometry(path.points, path.width, (x, z) =>
+          valeWalk(x, z, this.layout),
+        ),
+        driveways,
+      );
+    }
+    this.place("building_well_blue", 134, 55, 4.5);
+    this.place("wheelbarrow", 122, 64, 3.5, -0.4);
+    this.place("sack", 135, 44, 3.4);
+    this.place("crate_A_small", 134, 43, 3.5);
+    this.place("sign", 118, 34, 2.4, 0.7);
+    this.place("fence_wood_straight", 109, 69, 4.5, Math.PI / 2);
+    this.place("fence_wood_straight", 109, 74, 4.5, Math.PI / 2);
+    this.landmarks.push({
+      ...OAKFIELD,
+      description:
+        "A garden village where the meadow road meets Brookside’s country lane. Find the market and well, explore the cottage gardens and oak grove, or step inside the inn and its upstairs guest rooms. Homes and the workshop have their own furnished rooms.",
+    });
+  }
   private foxglade() {
     const points = smoothTrail(FOXGLADE_TRAIL.points),
       road = this.regions[0].trailSurface;
@@ -675,6 +742,7 @@ export class ConnectedLandscape {
         ...(this.layout >= 6 ? REEDBANK_GARDENS : []),
         ...(this.layout >= 7 ? MILLERS_END_GARDENS : []),
         ...(this.layout >= 8 ? FOXGLADE_GARDENS : []),
+        ...(this.layout >= 9 ? OAKFIELD_GARDENS : []),
       ])
         for (let i = 0; i < 12; i++) {
           const angle = (i * Math.PI * 2) / 12,
@@ -689,6 +757,21 @@ export class ConnectedLandscape {
               0.8 + (i % 3) * 0.1,
             );
         }
+    if (this.layout >= 9)
+      for (const [x, z] of OAKFIELD_GROVE) {
+        const scale = 4.6,
+          id = "tree-oak";
+        add(id, x, z, scale);
+        this.trees.push({ x, z, radius: scale * 0.3 });
+        this.obstacles.push({
+          minX: x - 0.22,
+          maxX: x + 0.22,
+          minZ: z - 0.22,
+          maxZ: z + 0.22,
+          height: valeGround(x, z) + this.library.bounds.get(id)!.max.y * scale,
+          name: "tree",
+        });
+      }
     for (let i = 0; i < 2300; i++) {
       const x = (random() - 0.5) * 358,
         z = (random() - 0.5) * 180;
@@ -700,6 +783,7 @@ export class ConnectedLandscape {
         meadow ||
         camp ||
         (this.layout >= 8 && foxGladeClearing(x, z)) ||
+        (this.layout >= 9 && oakfieldClearing(x, z)) ||
         this.nearPath(x, z, 3.4) ||
         blocked(x, z, this.obstacles, 2.6) ||
         valeWater(x, z, this.layout)
