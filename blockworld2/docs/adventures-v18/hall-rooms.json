@@ -1,0 +1,307 @@
+{
+  "checks": [
+    {
+      "name": "phone actual exterior has a clear human-scale hall entrance without upgrading the current record",
+      "passed": true,
+      "detail": {
+        "e": {
+          "id": "village:building_church_blue:-27.000:-32.000:1.571",
+          "name": "Village hall",
+          "kind": "hall",
+          "levels": 1,
+          "x": -126.32999176979065,
+          "z": -32,
+          "yaw": 1.5707963267948966,
+          "width": 8.231940746307373,
+          "depth": 9.240016460418701,
+          "profile": "community-hall"
+        },
+        "version": 4,
+        "clear": true,
+        "id": "a781804c-b0e9-4ab8-a803-1e7651f5b881"
+      }
+    },
+    {
+      "name": "phone actual touch fade creates an independently saved format5 hall copy and keeps the exact format4 original",
+      "passed": true,
+      "detail": {
+        "version": 5,
+        "different": true,
+        "originalExact": true,
+        "records": 2,
+        "profile": "community-hall",
+        "upper": false
+      }
+    },
+    {
+      "name": "phone actual16 furnishings have no overlap/burial/wall clipping and real4.5m head clearance",
+      "passed": true,
+      "detail": {
+        "count": 16,
+        "chairs": 12,
+        "overlaps": [],
+        "contained": true,
+        "grounded": true,
+        "highClear": true,
+        "ceilingBlocks": true,
+        "playerClear": true,
+        "supported": true
+      }
+    },
+    {
+      "name": "phone keyboard walks both seating aisles and the open centre without crossing furniture",
+      "passed": true,
+      "detail": {
+        "x": 0.049705156428063786,
+        "y": 0.002000000000000014,
+        "z": 3.3661734734566684,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      }
+    },
+    {
+      "name": "phone touch walks both seating aisles and the open centre without crossing furniture",
+      "passed": true,
+      "detail": {
+        "x": 0.049705156428063335,
+        "y": 0.002000000000000014,
+        "z": 3.4015111831517957,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      }
+    },
+    {
+      "name": "phone gamepad walks both seating aisles and the open centre without crossing furniture",
+      "passed": true,
+      "detail": {
+        "x": 0.04968577395698959,
+        "y": 0.002000000000000014,
+        "z": 3.397353785427778,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      }
+    },
+    {
+      "name": "phone actual touch Jump rises/lands without another upgrade or a fake upper floor",
+      "passed": true,
+      "detail": {
+        "max": 0.6672083333333342,
+        "y": 0.002000000000000014,
+        "version": 5,
+        "id": "00165ba9-b175-4c54-b8a8-6f88158eaca7"
+      }
+    },
+    {
+      "name": "phone hall chair edit retains same ID/floor with undo/redo and native save",
+      "passed": true,
+      "detail": {
+        "undo": true,
+        "redo": true,
+        "id": "00165ba9-b175-4c54-b8a8-6f88158eaca7"
+      }
+    },
+    {
+      "name": "phone actual reload restores the same hall copy, edited chairs and clear floor",
+      "passed": true,
+      "detail": {
+        "id": "00165ba9-b175-4c54-b8a8-6f88158eaca7",
+        "entry": "village:building_church_blue:-27.000:-32.000:1.571",
+        "version": 5,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone earlier source record remains format4 without new room edits after reload",
+      "passed": true,
+      "detail": {
+        "version": 4,
+        "rooms": 0
+      }
+    },
+    {
+      "name": "phone native backup import creates an independent format5 hall with exact furnishings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone actual touch Exit returns to the exact same safe exterior and heading",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": -126.32999176979065,
+          "y": 0.002,
+          "z": -32,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "yaw": 1.5707963267948966,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone hall movement, jump, edits, backup and fades have no browser exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet actual exterior has a clear human-scale hall entrance without upgrading the current record",
+      "passed": true,
+      "detail": {
+        "e": {
+          "id": "village:building_church_blue:-27.000:-32.000:1.571",
+          "name": "Village hall",
+          "kind": "hall",
+          "levels": 1,
+          "x": -126.32999176979065,
+          "z": -32,
+          "yaw": 1.5707963267948966,
+          "width": 8.231940746307373,
+          "depth": 9.240016460418701,
+          "profile": "community-hall"
+        },
+        "version": 4,
+        "clear": true,
+        "id": "2d895a19-855f-4a95-879d-8522038a017e"
+      }
+    },
+    {
+      "name": "tablet actual touch fade creates an independently saved format5 hall copy and keeps the exact format4 original",
+      "passed": true,
+      "detail": {
+        "version": 5,
+        "different": true,
+        "originalExact": true,
+        "records": 2,
+        "profile": "community-hall",
+        "upper": false
+      }
+    },
+    {
+      "name": "tablet actual16 furnishings have no overlap/burial/wall clipping and real4.5m head clearance",
+      "passed": true,
+      "detail": {
+        "count": 16,
+        "chairs": 12,
+        "overlaps": [],
+        "contained": true,
+        "grounded": true,
+        "highClear": true,
+        "ceilingBlocks": true,
+        "playerClear": true,
+        "supported": true
+      }
+    },
+    {
+      "name": "tablet keyboard walks both seating aisles and the open centre without crossing furniture",
+      "passed": true,
+      "detail": {
+        "x": 0.049705156428063786,
+        "y": 0.002000000000000014,
+        "z": 3.3661734734566684,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      }
+    },
+    {
+      "name": "tablet touch walks both seating aisles and the open centre without crossing furniture",
+      "passed": true,
+      "detail": {
+        "x": 0.049705156428063335,
+        "y": 0.002000000000000014,
+        "z": 3.4015111831517957,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      }
+    },
+    {
+      "name": "tablet gamepad walks both seating aisles and the open centre without crossing furniture",
+      "passed": true,
+      "detail": {
+        "x": 0.04968577395698959,
+        "y": 0.002000000000000014,
+        "z": 3.397353785427778,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true
+      }
+    },
+    {
+      "name": "tablet actual touch Jump rises/lands without another upgrade or a fake upper floor",
+      "passed": true,
+      "detail": {
+        "max": 0.6672083333333342,
+        "y": 0.002000000000000014,
+        "version": 5,
+        "id": "45f4b5bf-7dca-4c6b-aad5-eccf312b98aa"
+      }
+    },
+    {
+      "name": "tablet hall chair edit retains same ID/floor with undo/redo and native save",
+      "passed": true,
+      "detail": {
+        "undo": true,
+        "redo": true,
+        "id": "45f4b5bf-7dca-4c6b-aad5-eccf312b98aa"
+      }
+    },
+    {
+      "name": "tablet actual reload restores the same hall copy, edited chairs and clear floor",
+      "passed": true,
+      "detail": {
+        "id": "45f4b5bf-7dca-4c6b-aad5-eccf312b98aa",
+        "entry": "village:building_church_blue:-27.000:-32.000:1.571",
+        "version": 5,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet earlier source record remains format4 without new room edits after reload",
+      "passed": true,
+      "detail": {
+        "version": 4,
+        "rooms": 0
+      }
+    },
+    {
+      "name": "tablet native backup import creates an independent format5 hall with exact furnishings",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet actual touch Exit returns to the exact same safe exterior and heading",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": -126.32999176979065,
+          "y": 0.002,
+          "z": -32,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "yaw": 1.5707963267948966,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet hall movement, jump, edits, backup and fades have no browser exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader; phone/tablet, actual touch and injected standard Gamepad API. Physical hardware unverified."
+}

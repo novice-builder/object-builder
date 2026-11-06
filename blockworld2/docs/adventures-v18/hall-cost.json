@@ -1,0 +1,537 @@
+{
+  "checks": [
+    {
+      "name": "new entry leaves all outside model matrices, paths, trees, collision and actual map geometry exact",
+      "passed": true,
+      "detail": {
+        "beforeHash": "c909e58b062c7c29d6648798d6a30badd1e0b7be03c21a4a819ba723d0e1351a",
+        "afterHash": "c909e58b062c7c29d6648798d6a30badd1e0b7be03c21a4a819ba723d0e1351a",
+        "newHallEntries": 1
+      }
+    },
+    {
+      "name": "new room support adds no model/image download",
+      "passed": true,
+      "detail": {
+        "modelImageUrls": 53,
+        "startupBytesBefore": 3931317,
+        "startupBytesAfter": 3932355
+      }
+    },
+    {
+      "name": "actual first-entry fade/copy finishes in a clear furnished format5 scene",
+      "passed": true,
+      "detail": {
+        "ms": 1006.5,
+        "id": "1be37ca8-8cc2-4715-9f3b-69c135411047",
+        "version": 5,
+        "calls": 34,
+        "triangles": 7553,
+        "geometries": 63,
+        "textures": 11,
+        "programs": 9,
+        "ownedBytes": 840,
+        "clear": true
+      }
+    },
+    {
+      "name": "ten hall/cottage cycles retain one updated copy and two independently saved rooms with exact original",
+      "passed": true,
+      "detail": {
+        "originalExact": true,
+        "records": 2,
+        "rooms": 2,
+        "blocked": false
+      }
+    },
+    {
+      "name": "repeated high/ordinary room poses plateau uploaded geometry, textures and programs",
+      "passed": true,
+      "detail": [
+        {
+          "kind": "hall",
+          "phase": "inside",
+          "entryMs": 655.5,
+          "geometries": 66,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "hall",
+          "phase": "outside",
+          "geometries": 66,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "cottage",
+          "phase": "inside",
+          "entryMs": 665.1999999880791,
+          "geometries": 75,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "cottage",
+          "phase": "outside",
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "hall",
+          "phase": "inside",
+          "entryMs": 677.1000000089407,
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "hall",
+          "phase": "outside",
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "cottage",
+          "phase": "inside",
+          "entryMs": 633.1000000089407,
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "cottage",
+          "phase": "outside",
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "hall",
+          "phase": "inside",
+          "entryMs": 810,
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "hall",
+          "phase": "outside",
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "cottage",
+          "phase": "inside",
+          "entryMs": 701.0999999940395,
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "cottage",
+          "phase": "outside",
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "hall",
+          "phase": "inside",
+          "entryMs": 685,
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "hall",
+          "phase": "outside",
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "cottage",
+          "phase": "inside",
+          "entryMs": 706,
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "cottage",
+          "phase": "outside",
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "hall",
+          "phase": "inside",
+          "entryMs": 695.6999999880791,
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "hall",
+          "phase": "outside",
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "cottage",
+          "phase": "inside",
+          "entryMs": 705.2999999970198,
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        },
+        {
+          "kind": "cottage",
+          "phase": "outside",
+          "geometries": 76,
+          "textures": 11,
+          "programs": 9,
+          "same": true
+        }
+      ]
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader; timing and resource counters, not physical-device FPS.",
+  "phases": {
+    "before": {
+      "outsideHash": "c909e58b062c7c29d6648798d6a30badd1e0b7be03c21a4a819ba723d0e1351a",
+      "hallEntries": 0,
+      "assets": [
+        "/adventures/character/Explorer.glb",
+        "/adventures/furniture/bedsingle.glb",
+        "/adventures/furniture/bookcaseopen.glb",
+        "/adventures/furniture/books.glb",
+        "/adventures/furniture/cabinetbed.glb",
+        "/adventures/furniture/chair.glb",
+        "/adventures/furniture/rugrectangle.glb",
+        "/adventures/furniture/table.glb",
+        "/adventures/modular/Door_4_Flat.glb",
+        "/adventures/modular/Floor_WoodDark.glb",
+        "/adventures/modular/Roof_Front_Brick4.glb",
+        "/adventures/modular/Roof_RoundTiles_4x6.glb",
+        "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+        "/adventures/modular/Wall_Plaster_Straight.glb",
+        "/adventures/nature/campfire-stones.glb",
+        "/adventures/nature/flower-purplea.glb",
+        "/adventures/nature/flower-reda.glb",
+        "/adventures/nature/flower-yellowa.glb",
+        "/adventures/nature/grass-large.glb",
+        "/adventures/nature/lily-small.glb",
+        "/adventures/nature/log.glb",
+        "/adventures/nature/mushroom-red.glb",
+        "/adventures/nature/plant-bush.glb",
+        "/adventures/nature/plant-bushsmall.glb",
+        "/adventures/nature/rock-largea.glb",
+        "/adventures/nature/rock-largeb.glb",
+        "/adventures/nature/rock-smalla.glb",
+        "/adventures/nature/sign.glb",
+        "/adventures/nature/stump-round.glb",
+        "/adventures/nature/tent-smallopen.glb",
+        "/adventures/nature/tree-detailed.glb",
+        "/adventures/nature/tree-oak.glb",
+        "/adventures/nature/tree-pinedefaulta.glb",
+        "/adventures/nature/tree-pinedefaultb.glb",
+        "/adventures/village/barrel.glb",
+        "/adventures/village/building_blacksmith_blue.glb",
+        "/adventures/village/building_bridge_A.glb",
+        "/adventures/village/building_church_blue.glb",
+        "/adventures/village/building_home_A_blue.glb",
+        "/adventures/village/building_home_A_green.glb",
+        "/adventures/village/building_home_B_blue.glb",
+        "/adventures/village/building_home_B_green.glb",
+        "/adventures/village/building_market_blue.glb",
+        "/adventures/village/building_tavern_blue.glb",
+        "/adventures/village/building_watermill_blue.glb",
+        "/adventures/village/building_well_blue.glb",
+        "/adventures/village/building_windmill_blue.glb",
+        "/adventures/village/crate_A_small.glb",
+        "/adventures/village/fence_wood_straight.glb",
+        "/adventures/village/sack.glb",
+        "/adventures/village/waterplant_A.glb",
+        "/adventures/village/wheelbarrow.glb",
+        "/adventures/wildlife/Fox.glb"
+      ],
+      "startupBytes": 3931317
+    },
+    "after": {
+      "outsideHash": "c909e58b062c7c29d6648798d6a30badd1e0b7be03c21a4a819ba723d0e1351a",
+      "hallEntries": 1,
+      "assets": [
+        "/adventures/character/Explorer.glb",
+        "/adventures/furniture/bedsingle.glb",
+        "/adventures/furniture/bookcaseopen.glb",
+        "/adventures/furniture/books.glb",
+        "/adventures/furniture/cabinetbed.glb",
+        "/adventures/furniture/chair.glb",
+        "/adventures/furniture/rugrectangle.glb",
+        "/adventures/furniture/table.glb",
+        "/adventures/modular/Door_4_Flat.glb",
+        "/adventures/modular/Floor_WoodDark.glb",
+        "/adventures/modular/Roof_Front_Brick4.glb",
+        "/adventures/modular/Roof_RoundTiles_4x6.glb",
+        "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+        "/adventures/modular/Wall_Plaster_Straight.glb",
+        "/adventures/nature/campfire-stones.glb",
+        "/adventures/nature/flower-purplea.glb",
+        "/adventures/nature/flower-reda.glb",
+        "/adventures/nature/flower-yellowa.glb",
+        "/adventures/nature/grass-large.glb",
+        "/adventures/nature/lily-small.glb",
+        "/adventures/nature/log.glb",
+        "/adventures/nature/mushroom-red.glb",
+        "/adventures/nature/plant-bush.glb",
+        "/adventures/nature/plant-bushsmall.glb",
+        "/adventures/nature/rock-largea.glb",
+        "/adventures/nature/rock-largeb.glb",
+        "/adventures/nature/rock-smalla.glb",
+        "/adventures/nature/sign.glb",
+        "/adventures/nature/stump-round.glb",
+        "/adventures/nature/tent-smallopen.glb",
+        "/adventures/nature/tree-detailed.glb",
+        "/adventures/nature/tree-oak.glb",
+        "/adventures/nature/tree-pinedefaulta.glb",
+        "/adventures/nature/tree-pinedefaultb.glb",
+        "/adventures/village/barrel.glb",
+        "/adventures/village/building_blacksmith_blue.glb",
+        "/adventures/village/building_bridge_A.glb",
+        "/adventures/village/building_church_blue.glb",
+        "/adventures/village/building_home_A_blue.glb",
+        "/adventures/village/building_home_A_green.glb",
+        "/adventures/village/building_home_B_blue.glb",
+        "/adventures/village/building_home_B_green.glb",
+        "/adventures/village/building_market_blue.glb",
+        "/adventures/village/building_tavern_blue.glb",
+        "/adventures/village/building_watermill_blue.glb",
+        "/adventures/village/building_well_blue.glb",
+        "/adventures/village/building_windmill_blue.glb",
+        "/adventures/village/crate_A_small.glb",
+        "/adventures/village/fence_wood_straight.glb",
+        "/adventures/village/sack.glb",
+        "/adventures/village/waterplant_A.glb",
+        "/adventures/village/wheelbarrow.glb",
+        "/adventures/wildlife/Fox.glb"
+      ],
+      "startupBytes": 3932355
+    }
+  },
+  "firstEntry": {
+    "ms": 1006.5,
+    "id": "1be37ca8-8cc2-4715-9f3b-69c135411047",
+    "version": 5,
+    "calls": 34,
+    "triangles": 7553,
+    "geometries": 63,
+    "textures": 11,
+    "programs": 9,
+    "ownedBytes": 840,
+    "clear": true
+  },
+  "cycles": {
+    "rows": [
+      {
+        "kind": "hall",
+        "phase": "inside",
+        "entryMs": 655.5,
+        "geometries": 66,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "hall",
+        "phase": "outside",
+        "geometries": 66,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "cottage",
+        "phase": "inside",
+        "entryMs": 665.1999999880791,
+        "geometries": 75,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "cottage",
+        "phase": "outside",
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "hall",
+        "phase": "inside",
+        "entryMs": 677.1000000089407,
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "hall",
+        "phase": "outside",
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "cottage",
+        "phase": "inside",
+        "entryMs": 633.1000000089407,
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "cottage",
+        "phase": "outside",
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "hall",
+        "phase": "inside",
+        "entryMs": 810,
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "hall",
+        "phase": "outside",
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "cottage",
+        "phase": "inside",
+        "entryMs": 701.0999999940395,
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "cottage",
+        "phase": "outside",
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "hall",
+        "phase": "inside",
+        "entryMs": 685,
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "hall",
+        "phase": "outside",
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "cottage",
+        "phase": "inside",
+        "entryMs": 706,
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "cottage",
+        "phase": "outside",
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "hall",
+        "phase": "inside",
+        "entryMs": 695.6999999880791,
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "hall",
+        "phase": "outside",
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "cottage",
+        "phase": "inside",
+        "entryMs": 705.2999999970198,
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      },
+      {
+        "kind": "cottage",
+        "phase": "outside",
+        "geometries": 76,
+        "textures": 11,
+        "programs": 9,
+        "same": true
+      }
+    ],
+    "originalExact": true,
+    "records": 2,
+    "rooms": 2,
+    "blocked": false
+  }
+}

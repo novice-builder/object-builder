@@ -37,6 +37,7 @@ export function roomStructure(
   width: number,
   depth: number,
   upper: boolean,
+  singleHeight = 3,
 ): RoomSolid[] {
   const w = width / 2,
     d = depth / 2,
@@ -49,10 +50,10 @@ export function roomStructure(
       maxY: number,
     ): RoomSolid => ({ minX, maxX, minZ, maxZ, minY, maxY });
   const walls = [
-    solid(-w - 0.2, -w, -d - 0.2, d + 0.2, 0, upper ? 6 : 3),
-    solid(w, w + 0.2, -d - 0.2, d + 0.2, 0, upper ? 6 : 3),
-    solid(-w, w, -d - 0.2, -d, 0, upper ? 6 : 3),
-    solid(-w, w, d, d + 0.2, 0, upper ? 6 : 3),
+    solid(-w - 0.2, -w, -d - 0.2, d + 0.2, 0, upper ? 6 : singleHeight),
+    solid(w, w + 0.2, -d - 0.2, d + 0.2, 0, upper ? 6 : singleHeight),
+    solid(-w, w, -d - 0.2, -d, 0, upper ? 6 : singleHeight),
+    solid(-w, w, d, d + 0.2, 0, upper ? 6 : singleHeight),
   ];
   if (!upper) return walls;
   const sx = w - 1,

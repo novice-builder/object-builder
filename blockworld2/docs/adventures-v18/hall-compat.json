@@ -1,0 +1,111 @@
+{
+  "checks": [
+    {
+      "name": "independently packaged Preview17 exports an actual edited upper compact-mill room",
+      "passed": true,
+      "detail": {
+        "problem": null,
+        "entry": "building_windmill_blue:-144.000:24.000:1.571"
+      }
+    },
+    {
+      "name": "new runtime retains the complete older record, profile and upper-floor edit exactly",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "ordinary movement still descends both retained compact flights before hall use",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "first hall creates format5 copy while retaining exact preceding format4 record and edited old room",
+      "passed": true,
+      "detail": {
+        "different": true,
+        "version": 5,
+        "sourceExact": true,
+        "newCount": 16,
+        "rooms": 2
+      }
+    },
+    {
+      "name": "accepted Preview17 rejects format5 without changing current world or record count",
+      "passed": true,
+      "detail": {
+        "refused": true,
+        "same": true,
+        "count": true
+      }
+    },
+    {
+      "name": "malformed hall format/profile/kind/levels/footprint imports are rejected before partial scene or record changes",
+      "passed": true,
+      "detail": [
+        {
+          "change": {
+            "version": 4
+          },
+          "refused": true,
+          "same": true,
+          "count": true
+        },
+        {
+          "change": {
+            "profile": null
+          },
+          "refused": true,
+          "same": true,
+          "count": true
+        },
+        {
+          "change": {
+            "kind": "cottage"
+          },
+          "refused": true,
+          "same": true,
+          "count": true
+        },
+        {
+          "change": {
+            "levels": 2
+          },
+          "refused": true,
+          "same": true,
+          "count": true
+        },
+        {
+          "change": {
+            "width": 20
+          },
+          "refused": true,
+          "same": true,
+          "count": true
+        }
+      ]
+    },
+    {
+      "name": "format5 revisits old compact mill without copy/regeneration and physically walks both flights up/down",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "version": 5,
+        "upperY": 3.002000002980232
+      }
+    },
+    {
+      "name": "simulated copy-write failure retains exact original/outside snapshot and clear scene without partial hall/fade",
+      "passed": true,
+      "detail": {
+        "outside": true,
+        "version": 4,
+        "same": true,
+        "stored": true,
+        "count": true,
+        "transitioning": false,
+        "clear": true
+      }
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader and independently extracted accepted Preview17; physical hardware unverified."
+}

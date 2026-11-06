@@ -1,6 +1,12 @@
 import * as T from "three";
 import type { AssetLibrary } from "./assets";
-export type RoomKind = "cottage" | "townhouse" | "inn" | "workshop" | "mill";
+export type RoomKind =
+  | "cottage"
+  | "townhouse"
+  | "inn"
+  | "workshop"
+  | "mill"
+  | "hall";
 export interface BuildingEntry {
   id: string;
   name: string;
@@ -13,7 +19,7 @@ export interface BuildingEntry {
   /** Missing means the saved legacy room: preserve its original upper floor. */
   levels?: 1 | 2;
   /** Version-4 fresh tower room. Missing preserves the saved rectangular template. */
-  profile?: "compact-windmill";
+  profile?: "compact-windmill" | "community-hall";
   threshold?: { x: number; y: number; z: number };
 }
 export function entryDistance(
@@ -25,6 +31,7 @@ export function entryDistance(
   return t ? Math.min(a, Math.hypot(t.x - point.x, t.z - point.z)) : a;
 }
 export function buildingKind(asset: string): RoomKind | null {
+  if (asset === "building_church_blue") return "hall";
   if (asset.startsWith("building_home_A")) return "cottage";
   if (asset.startsWith("building_home_B")) return "townhouse";
   if (asset.startsWith("building_tavern")) return "inn";
@@ -77,9 +84,11 @@ export function buildingEntry(
           inn: "Village inn",
           workshop: "Smith's workshop",
           mill: "The millhouse",
+          hall: "Village hall",
         }[kind],
     kind,
-    levels: kind === "cottage" || kind === "workshop" ? 1 : 2,
+    levels:
+      kind === "cottage" || kind === "workshop" || kind === "hall" ? 1 : 2,
     x: x + Math.sin(yaw) * front + Math.cos(yaw) * lateral,
     z: z + Math.cos(yaw) * front - Math.sin(yaw) * lateral,
     yaw,
@@ -87,6 +96,7 @@ export function buildingEntry(
       ? Math.max(5.8, Math.min(6.8, (box.max.z - box.min.z) * root.scale.z))
       : Math.max(5.8, Math.min(10, (box.max.x - box.min.x) * root.scale.x)),
     depth: Math.max(6.8, Math.min(12, (box.max.z - box.min.z) * root.scale.z)),
+    ...(kind === "hall" ? { profile: "community-hall" as const } : {}),
     ...(threshold
       ? { threshold: { x: threshold.x, y: threshold.y, z: threshold.z } }
       : {}),

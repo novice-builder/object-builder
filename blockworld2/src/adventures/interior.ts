@@ -1,3 +1,4 @@
+import { HALL_HEIGHT, hallFurniture } from "./hall-room";
 import { innFurniture } from "./inn-furniture";
 import {
   compactMillFurniture,
@@ -35,6 +36,8 @@ export function freshRoom(
   const inn = innFurniture(entry);
   if (entry.profile === "compact-windmill")
     objects.push(...compactMillFurniture());
+  else if (entry.profile === "community-hall")
+    objects.push(...hallFurniture(entry));
   else if (inn) objects.push(...inn);
   else {
     add("table", "furniture-table", -w + 1.7, -d + 2.1, 0, 0, 2.5);
@@ -129,10 +132,11 @@ export class Interior {
     const w = entry.width / 2,
       d = entry.depth / 2;
     this.upstairs = entry.kind !== "workshop" && entry.levels !== 1;
+    const singleHeight = entry.profile === "community-hall" ? HALL_HEIGHT : 3;
     this.solids =
       entry.profile === "compact-windmill"
         ? compactMillSolids()
-        : roomStructure(entry.width, entry.depth, this.upstairs);
+        : roomStructure(entry.width, entry.depth, this.upstairs, singleHeight);
     this.obstacles = this.solids
       .filter((s) => !s.ramp && s.maxY > (this.upstairs ? 3 : 0))
       .map((s) => ({ ...s, base: s.minY, height: s.maxY, name: "room-wall" }));
@@ -233,10 +237,23 @@ export class Interior {
             floor * 3,
             pz,
             segment,
-            3,
+            door ? 3 : this.upstairs ? 3 : singleHeight,
             0.18,
             yaw,
           );
+          // Keep the doorway at human height instead of stretching its opening.
+          if (door && singleHeight > 3)
+            fit(
+              g,
+              "Wall_Plaster_Straight",
+              px,
+              3,
+              pz,
+              segment,
+              singleHeight - 3,
+              0.18,
+              yaw,
+            );
         }
     }
     // Decorative inner exit door corresponds to the exact persisted exterior entrance.
@@ -256,7 +273,7 @@ export class Interior {
       this.group,
       "Floor_WoodDark",
       0,
-      this.upstairs ? 6 : 3,
+      this.upstairs ? 6 : singleHeight,
       0,
       entry.width,
       0.13,

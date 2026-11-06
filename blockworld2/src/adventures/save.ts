@@ -14,7 +14,7 @@ import {
   type SceneId,
 } from "./landscape";
 export interface AdventureData {
-  version: 1 | 2 | 3 | 4;
+  version: 1 | 2 | 3 | 4 | 5;
   scene: SceneId;
   /** Missing in preview 01: retain its original permanent scene layout. */
   layout?: SceneLayout;
@@ -39,7 +39,7 @@ export function validateAdventure(s: Snapshot): AdventureData {
   const a = s.world.adventure as AdventureData;
   if (
     !a ||
-    ![1, 2, 3, 4].includes(a.version) ||
+    ![1, 2, 3, 4, 5].includes(a.version) ||
     (a.version === 1 && (a.rooms !== undefined || a.inside !== undefined)) ||
     (a.layout !== undefined &&
       a.layout !== 1 &&
@@ -129,19 +129,24 @@ function validateRooms(a: AdventureData, s: Snapshot) {
     throw Error("Unsupported interior records. Existing saves are unchanged.");
   let total = 0;
   for (const [id, room] of Object.entries(rooms)) {
-    const e = room?.entry;
+    const e = room?.entry,
+      hall = e?.profile === "community-hall";
     if (
       !id ||
       id.length > 120 ||
       ["__proto__", "constructor", "prototype"].includes(id) ||
       !e ||
       e.id !== id ||
-      !["cottage", "townhouse", "inn", "workshop", "mill"].includes(e.kind) ||
+      !["cottage", "townhouse", "inn", "workshop", "mill", "hall"].includes(
+        e.kind,
+      ) ||
       typeof e.name !== "string" ||
       e.name.length > 80 ||
       ![e.x, e.z, e.yaw, e.width, e.depth].every(Number.isFinite) ||
       !inWorld(e.x, e.z, a.scene) ||
-      (e.profile === undefined
+      (hall && (a.version < 5 || e.kind !== "hall" || e.levels !== 1)) ||
+      (e.kind === "hall" && !hall) ||
+      (e.profile === undefined || hall
         ? e.width < 5.8 || e.width > 10 || e.depth < 6.8 || e.depth > 12
         : e.profile !== "compact-windmill" ||
           a.version < 4 ||
@@ -392,10 +397,11 @@ export class AdventureSession {
     );
   }
   /** Feature upgrades fork an independently stored copy; older records remain readable by their previews. */
-  copyForRooms(targetVersion: 2 | 3 | 4 = 2) {
+  copyForRooms(targetVersion: 2 | 3 | 4 | 5 = 2) {
     return this.change(async () => {
       await this.flush();
-      const snapshot = this.capture();
+      // Capture callbacks may return an aliased checkpoint; upgrade only our copy.
+      const snapshot = structuredClone(this.capture());
       validateAdventure(snapshot);
       const data = snapshot.world.adventure as AdventureData;
       if (data.version >= targetVersion) return;

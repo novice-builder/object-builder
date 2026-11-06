@@ -1,0 +1,35 @@
+{
+  "entry": {
+    "id": "village:building_church_blue:-27.000:-32.000:1.571",
+    "name": "Village hall",
+    "kind": "hall",
+    "levels": 1,
+    "x": -126.32999176979065,
+    "z": -32,
+    "yaw": 1.5707963267948966,
+    "width": 8.231940746307373,
+    "depth": 9.240016460418701,
+    "profile": "community-hall"
+  },
+  "version": 5,
+  "id": "b1cf9de8-2bfa-4f53-9eab-3e6697346bc2",
+  "objects": 16,
+  "clear": true,
+  "supported": true,
+  "upstairs": false,
+  "overThreeMetres": true,
+  "ceilingBlocks": true,
+  "stats": {
+    "fps": 2,
+    "frameP95Ms": 866.6,
+    "drawCalls": 34,
+    "triangles": 7553,
+    "geometries": 77,
+    "textures": 11,
+    "pixelRatio": 1,
+    "scene": "vale",
+    "natureInstances": 4222,
+    "objects": 16,
+    "quality": "gentle"
+  }
+}
