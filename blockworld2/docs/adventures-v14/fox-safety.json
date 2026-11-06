@@ -1,0 +1,117 @@
+{
+  "checks": [
+    {
+      "name": "independent accepted Preview 13 reference retains all exact runtime hashes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "actual old layout-7 scene models, roads, obstacles, entrances and map are exact after import",
+      "passed": true,
+      "detail": {
+        "before": {
+          "hash": "1bfa142eb1cd7a5be92297b15b176c5f28f4862c7a9da9b3c37d0f9f7ac99149",
+          "models": 100,
+          "paths": 70,
+          "entries": 40,
+          "layout": 7,
+          "objects": [
+            {
+              "id": "older-clearing-barrel",
+              "asset": "barrel",
+              "x": -34,
+              "z": -18,
+              "yaw": 0.4,
+              "scale": 3
+            }
+          ]
+        },
+        "after": {
+          "hash": "1bfa142eb1cd7a5be92297b15b176c5f28f4862c7a9da9b3c37d0f9f7ac99149",
+          "models": 100,
+          "paths": 70,
+          "entries": 40,
+          "layout": 7,
+          "objects": [
+            {
+              "id": "older-clearing-barrel",
+              "asset": "barrel",
+              "x": -34,
+              "z": -18,
+              "yaw": 0.4,
+              "scale": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "older saved construction and complete record data remain exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reloading an older world makes no Fox model request and installs no wildlife collider",
+      "passed": true,
+      "detail": {
+        "modelImageUrls": 52
+      }
+    },
+    {
+      "name": "accepted Preview 13 refuses new layout-8 backup without changing its current record",
+      "passed": true,
+      "detail": {
+        "refused": true,
+        "same": true,
+        "count": true
+      }
+    },
+    {
+      "name": "a construction added during deferred spawn takes priority, with no visible fox or invisible collider",
+      "passed": true,
+      "detail": {
+        "waiting": true,
+        "fox": false,
+        "pending": false,
+        "body": 0,
+        "retained": true
+      }
+    },
+    {
+      "name": "reloading a preoccupied new clearing retains the construction and omits wildlife",
+      "passed": true,
+      "detail": {
+        "fox": false,
+        "body": 0,
+        "objects": 1
+      }
+    },
+    {
+      "name": "blocked asset load leaves usable cottage/map and no invisible wildlife barrier",
+      "passed": true,
+      "detail": {
+        "fox": false,
+        "body": 0,
+        "entry": true,
+        "map": 10,
+        "blocked": false
+      }
+    },
+    {
+      "name": "delayed asset has not installed an invisible collider",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late asynchronous model completion cannot spawn into the newly selected older world",
+      "passed": true,
+      "detail": {
+        "layout": 7,
+        "fox": false,
+        "pending": false,
+        "body": 0
+      }
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader; no physical performance/device/controller claim."
+}

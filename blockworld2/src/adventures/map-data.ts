@@ -1,3 +1,4 @@
+import { FOXGLADE } from "./foxglade-data";
 import { MILLERS_END } from "./millers-end-data";
 import { REEDBANK } from "./reedbank-data";
 import { worldBounds, valeRivers } from "./vale-data";
@@ -83,6 +84,8 @@ export function createMapData(
     landscape.landmarks.some((l) => l.id === MILLERS_END.id)
   )
     destinations.push({ ...MILLERS_END });
+  if (scene === "vale" && landscape.landmarks.some((l) => l.id === FOXGLADE.id))
+    destinations.push({ ...FOXGLADE });
   return {
     scene,
     bounds,

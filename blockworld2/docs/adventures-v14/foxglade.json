@@ -1,0 +1,391 @@
+{
+  "checks": [
+    {
+      "name": "phone explicit layout-8 wildlife uses the authored Survey clip, human-relative height and capped texture",
+      "passed": true,
+      "detail": {
+        "layout": 8,
+        "height": 0.62,
+        "clip": "Survey",
+        "textureBefore": 1024,
+        "textureAfter": 256,
+        "body": 1
+      }
+    },
+    {
+      "name": "phone real map-label touch travels to the clear Foxglade trail in the same saved world",
+      "passed": true,
+      "detail": {
+        "x": -35,
+        "z": -11,
+        "clear": true,
+        "same": true
+      }
+    },
+    {
+      "name": "phone ordinary movement traverses every real trail sample from foresters through clearing to camp",
+      "passed": true,
+      "detail": {
+        "completed": 52,
+        "expected": 52,
+        "p": {
+          "x": -7.05873461408983,
+          "y": 0.002,
+          "z": -8.995099748531748,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "foxglade",
+          "name": "Foxglade"
+        },
+        "same": true
+      }
+    },
+    {
+      "name": "phone ranger cottage has a reachable one-floor doorway at its actual exterior",
+      "passed": true,
+      "detail": {
+        "entry": {
+          "id": "building_home_A_green:-45.000:-18.000:1.571",
+          "name": "Ranger\u2019s cottage",
+          "kind": "cottage",
+          "levels": 1,
+          "x": -41.175632160902026,
+          "z": -18,
+          "yaw": 1.5707963267948966,
+          "width": 5.8,
+          "depth": 6.8
+        },
+        "clear": true
+      }
+    },
+    {
+      "name": "phone actual touch fades into a furnished matching single-storey room and suspends outdoor fox rendering",
+      "passed": true,
+      "detail": {
+        "entry": {
+          "id": "building_home_A_green:-45.000:-18.000:1.571",
+          "name": "Ranger\u2019s cottage",
+          "kind": "cottage",
+          "levels": 1,
+          "x": -41.175632160902026,
+          "z": -18,
+          "yaw": 1.5707963267948966,
+          "width": 5.8,
+          "depth": 6.8
+        },
+        "objects": 7,
+        "clear": true,
+        "flights": 0,
+        "foxVisible": false
+      }
+    },
+    {
+      "name": "phone real page reload keeps ranger room identity, furniture and clear footing",
+      "passed": true,
+      "detail": {
+        "id": "31f1f496-8083-443b-8a03-53e872bc13ef",
+        "inside": "building_home_A_green:-45.000:-18.000:1.571",
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.2,
+            "z": -1.2999999999999998,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.2,
+            "z": -0.1499999999999999,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.1999999999999997,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "corner-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.1999999999999997,
+            "z": 2.7,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": 1.8499999999999999,
+            "z": -1.5999999999999999,
+            "y": 0,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": 0.6000000000000001,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "clear": true
+      }
+    },
+    {
+      "name": "phone actual Exit returns to the exact same clear cottage exterior and facing",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": -41.175632160902026,
+          "y": 0.002,
+          "z": -18,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "yaw": 1.5707963267948966,
+        "clear": true
+      }
+    },
+    {
+      "name": "phone the visible fox torso blocks ordinary movement without being stepped onto",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": -34,
+          "y": 0.002,
+          "z": -17.259,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "clear": true
+      }
+    },
+    {
+      "name": "phone new trail, map, wildlife and cottage checks have no browser exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet explicit layout-8 wildlife uses the authored Survey clip, human-relative height and capped texture",
+      "passed": true,
+      "detail": {
+        "layout": 8,
+        "height": 0.62,
+        "clip": "Survey",
+        "textureBefore": 1024,
+        "textureAfter": 256,
+        "body": 1
+      }
+    },
+    {
+      "name": "tablet real map-label touch travels to the clear Foxglade trail in the same saved world",
+      "passed": true,
+      "detail": {
+        "x": -35,
+        "z": -11,
+        "clear": true,
+        "same": true
+      }
+    },
+    {
+      "name": "tablet ordinary movement traverses every real trail sample from foresters through clearing to camp",
+      "passed": true,
+      "detail": {
+        "completed": 52,
+        "expected": 52,
+        "p": {
+          "x": -7.05873461408983,
+          "y": 0.002,
+          "z": -8.995099748531748,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "foxglade",
+          "name": "Foxglade"
+        },
+        "same": true
+      }
+    },
+    {
+      "name": "tablet ranger cottage has a reachable one-floor doorway at its actual exterior",
+      "passed": true,
+      "detail": {
+        "entry": {
+          "id": "building_home_A_green:-45.000:-18.000:1.571",
+          "name": "Ranger\u2019s cottage",
+          "kind": "cottage",
+          "levels": 1,
+          "x": -41.175632160902026,
+          "z": -18,
+          "yaw": 1.5707963267948966,
+          "width": 5.8,
+          "depth": 6.8
+        },
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet actual touch fades into a furnished matching single-storey room and suspends outdoor fox rendering",
+      "passed": true,
+      "detail": {
+        "entry": {
+          "id": "building_home_A_green:-45.000:-18.000:1.571",
+          "name": "Ranger\u2019s cottage",
+          "kind": "cottage",
+          "levels": 1,
+          "x": -41.175632160902026,
+          "z": -18,
+          "yaw": 1.5707963267948966,
+          "width": 5.8,
+          "depth": 6.8
+        },
+        "objects": 7,
+        "clear": true,
+        "flights": 0,
+        "foxVisible": false
+      }
+    },
+    {
+      "name": "tablet real page reload keeps ranger room identity, furniture and clear footing",
+      "passed": true,
+      "detail": {
+        "id": "c3767598-80be-4cc6-acd5-d3b82fb5f2d6",
+        "inside": "building_home_A_green:-45.000:-18.000:1.571",
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.2,
+            "z": -1.2999999999999998,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.2,
+            "z": -0.1499999999999999,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.1999999999999997,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "corner-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.1999999999999997,
+            "z": 2.7,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": 1.8499999999999999,
+            "z": -1.5999999999999999,
+            "y": 0,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": 0.6000000000000001,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet actual Exit returns to the exact same clear cottage exterior and facing",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": -41.175632160902026,
+          "y": 0.002,
+          "z": -18,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "yaw": 1.5707963267948966,
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet the visible fox torso blocks ordinary movement without being stepped onto",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": -34,
+          "y": 0.002,
+          "z": -17.259,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet new trail, map, wildlife and cottage checks have no browser exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader, phone/tablet emulation and actual CDP touch. Physical devices/controllers unverified."
+}

@@ -48,16 +48,18 @@ export function validateAdventure(s: Snapshot): AdventureData {
       a.layout !== 4 &&
       a.layout !== 5 &&
       a.layout !== 6 &&
-      a.layout !== 7) ||
+      a.layout !== 7 &&
+      a.layout !== 8) ||
     !WORLDS.some((w) => w.id === a.scene) ||
     (a.scene === "vale" &&
       a.layout !== 3 &&
       a.layout !== 4 &&
       a.layout !== 5 &&
       a.layout !== 6 &&
-      a.layout !== 7) ||
+      a.layout !== 7 &&
+      a.layout !== 8) ||
     (a.scene !== "vale" &&
-      (a.layout === 5 || a.layout === 6 || a.layout === 7)) ||
+      (a.layout === 5 || a.layout === 6 || a.layout === 7 || a.layout === 8)) ||
     (a.doors !== undefined &&
       (!a.doors ||
         typeof a.doors !== "object" ||

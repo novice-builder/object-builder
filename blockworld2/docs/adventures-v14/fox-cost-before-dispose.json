@@ -1,0 +1,281 @@
+{
+  "checks": [
+    {
+      "name": "visible fox adds one 576-triangle submission in the same Gentle view",
+      "passed": true,
+      "detail": {
+        "yes": {
+          "fps": 2,
+          "frameP95Ms": 766.6,
+          "drawCalls": 55,
+          "triangles": 68446,
+          "geometries": 64,
+          "textures": 13,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4237,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "no": {
+          "fps": 2,
+          "frameP95Ms": 766.6,
+          "drawCalls": 54,
+          "triangles": 67870,
+          "geometries": 64,
+          "textures": 13,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4237,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "visible": true,
+        "advances": 0.05,
+        "culled": true,
+        "paused": true,
+        "fox": [
+          {
+            "bytes": 162852,
+            "durationMs": 4.799999997019768
+          }
+        ],
+        "modelImageUrls": 53,
+        "startupBytes": 3923423
+      }
+    },
+    {
+      "name": "authored animation advances when visible and pauses when frustum/fog culled",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "new valley adds one normally loaded original GLB and no separate image request",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "twelve alternating layout switches reuse one model fetch and plateau uploaded resources",
+      "passed": false,
+      "detail": {
+        "rows": [
+          {
+            "layout": 8,
+            "fox": true,
+            "geometries": 64,
+            "textures": 14,
+            "programs": 9
+          },
+          {
+            "layout": 7,
+            "fox": false,
+            "geometries": 47,
+            "textures": 13,
+            "programs": 9
+          },
+          {
+            "layout": 8,
+            "fox": true,
+            "geometries": 48,
+            "textures": 14,
+            "programs": 9
+          },
+          {
+            "layout": 7,
+            "fox": false,
+            "geometries": 47,
+            "textures": 14,
+            "programs": 9
+          },
+          {
+            "layout": 8,
+            "fox": true,
+            "geometries": 48,
+            "textures": 15,
+            "programs": 9
+          },
+          {
+            "layout": 7,
+            "fox": false,
+            "geometries": 47,
+            "textures": 15,
+            "programs": 9
+          },
+          {
+            "layout": 8,
+            "fox": true,
+            "geometries": 48,
+            "textures": 16,
+            "programs": 9
+          },
+          {
+            "layout": 7,
+            "fox": false,
+            "geometries": 47,
+            "textures": 16,
+            "programs": 9
+          },
+          {
+            "layout": 8,
+            "fox": true,
+            "geometries": 48,
+            "textures": 17,
+            "programs": 9
+          },
+          {
+            "layout": 7,
+            "fox": false,
+            "geometries": 47,
+            "textures": 17,
+            "programs": 9
+          },
+          {
+            "layout": 8,
+            "fox": true,
+            "geometries": 48,
+            "textures": 18,
+            "programs": 9
+          },
+          {
+            "layout": 7,
+            "fox": false,
+            "geometries": 47,
+            "textures": 18,
+            "programs": 9
+          }
+        ],
+        "foxRequests": 1
+      }
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader workload/resource counters; not physical FPS or total GPU memory.",
+  "sample": {
+    "yes": {
+      "fps": 2,
+      "frameP95Ms": 766.6,
+      "drawCalls": 55,
+      "triangles": 68446,
+      "geometries": 64,
+      "textures": 13,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4237,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    "no": {
+      "fps": 2,
+      "frameP95Ms": 766.6,
+      "drawCalls": 54,
+      "triangles": 67870,
+      "geometries": 64,
+      "textures": 13,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4237,
+      "objects": 0,
+      "quality": "gentle"
+    },
+    "visible": true,
+    "advances": 0.05,
+    "culled": true,
+    "paused": true,
+    "fox": [
+      {
+        "bytes": 162852,
+        "durationMs": 4.799999997019768
+      }
+    ],
+    "modelImageUrls": 53,
+    "startupBytes": 3923423
+  },
+  "cycles": {
+    "rows": [
+      {
+        "layout": 8,
+        "fox": true,
+        "geometries": 64,
+        "textures": 14,
+        "programs": 9
+      },
+      {
+        "layout": 7,
+        "fox": false,
+        "geometries": 47,
+        "textures": 13,
+        "programs": 9
+      },
+      {
+        "layout": 8,
+        "fox": true,
+        "geometries": 48,
+        "textures": 14,
+        "programs": 9
+      },
+      {
+        "layout": 7,
+        "fox": false,
+        "geometries": 47,
+        "textures": 14,
+        "programs": 9
+      },
+      {
+        "layout": 8,
+        "fox": true,
+        "geometries": 48,
+        "textures": 15,
+        "programs": 9
+      },
+      {
+        "layout": 7,
+        "fox": false,
+        "geometries": 47,
+        "textures": 15,
+        "programs": 9
+      },
+      {
+        "layout": 8,
+        "fox": true,
+        "geometries": 48,
+        "textures": 16,
+        "programs": 9
+      },
+      {
+        "layout": 7,
+        "fox": false,
+        "geometries": 47,
+        "textures": 16,
+        "programs": 9
+      },
+      {
+        "layout": 8,
+        "fox": true,
+        "geometries": 48,
+        "textures": 17,
+        "programs": 9
+      },
+      {
+        "layout": 7,
+        "fox": false,
+        "geometries": 47,
+        "textures": 17,
+        "programs": 9
+      },
+      {
+        "layout": 8,
+        "fox": true,
+        "geometries": 48,
+        "textures": 18,
+        "programs": 9
+      },
+      {
+        "layout": 7,
+        "fox": false,
+        "geometries": 47,
+        "textures": 18,
+        "programs": 9
+      }
+    ],
+    "foxRequests": 1
+  }
+}

@@ -1,3 +1,5 @@
+import { WoodlandFox, loadFox } from "./wildlife";
+import { FOX, foxBody } from "./foxglade-data";
 import { bindButton } from "./button-press";
 import * as T from "three";
 import {
@@ -68,6 +70,9 @@ app.innerHTML = `
 <div id="roomFade" hidden aria-live="polite"><span>Stepping inside…</span></div><div id="fatal" hidden role="alert"></div>`;
 class AdventureGame {
   library = new AssetLibrary();
+  wildlife: WoodlandFox | null = null;
+  private wildlifeGeneration = 0;
+  private pendingWildlife: Awaited<ReturnType<typeof loadFox>> | null = null;
   scene = new T.Scene();
   camera = new T.PerspectiveCamera(48, innerWidth / innerHeight, 0.12, 220);
   renderer: T.WebGLRenderer;
@@ -422,15 +427,17 @@ class AdventureGame {
         data.scene === "vale"
           ? new ConnectedLandscape(
               this.library,
-              data.layout === 7
-                ? 7
-                : data.layout === 6
-                  ? 6
-                  : data.layout === 5
-                    ? 5
-                    : data.layout === 4
-                      ? 4
-                      : 3,
+              data.layout === 8
+                ? 8
+                : data.layout === 7
+                  ? 7
+                  : data.layout === 6
+                    ? 6
+                    : data.layout === 5
+                      ? 5
+                      : data.layout === 4
+                        ? 4
+                        : 3,
               data.doors?.lodge,
             )
           : new Landscape(this.library, data.scene, data.layout);
@@ -461,6 +468,10 @@ class AdventureGame {
     $("roomFade").classList.remove("opaque");
     this.interior?.dispose();
     this.interior = null;
+    this.wildlifeGeneration++;
+    this.wildlife?.dispose();
+    this.wildlife = null;
+    this.pendingWildlife = null;
     // Prepare a complete replacement before retiring the old scene.
     const previous = this.landscape;
     this.landscape = candidate;
@@ -482,6 +493,7 @@ class AdventureGame {
       candidate.group.visible = false;
     }
     this.renderObjects();
+    this.prepareWildlife();
     if (this.interior) this.refreshMap(true);
     this.scene.background = new T.Color(this.interior ? 0xd9d0bb : 0xc6d9d4);
     this.distance = this.interior ? 8 : 12;
@@ -514,6 +526,71 @@ class AdventureGame {
     this.countDiscoveries();
     this.dirty = false;
     this.sun.shadow.needsUpdate = true;
+  }
+  private prepareWildlife() {
+    if (this.data.scene !== "vale" || (this.data.layout || 1) < 8) return;
+    const generation = this.wildlifeGeneration;
+    void loadFox()
+      .then((template) => {
+        if (generation !== this.wildlifeGeneration) return;
+        this.pendingWildlife = template;
+        this.trySpawnWildlife();
+      })
+      .catch(() => {
+        if (generation === this.wildlifeGeneration)
+          this.toast("The clearing is ready, but wildlife could not load.");
+      });
+  }
+  private trySpawnWildlife() {
+    if (
+      !this.pendingWildlife ||
+      !(this.landscape instanceof ConnectedLandscape)
+    )
+      return;
+    if (
+      !this.interior &&
+      Math.hypot(this.player.x - FOX.x, this.player.z - FOX.z) < 1.1
+    )
+      return;
+    const body = foxBody(),
+      volume = new T.Box3(
+        new T.Vector3(body.minX - 0.3, 0, body.minZ - 0.4),
+        new T.Vector3(body.maxX + 0.3, body.height, body.maxZ + 0.4),
+      );
+    const matrix = new T.Matrix4(),
+      rotation = new T.Quaternion(),
+      position = new T.Vector3(),
+      scale = new T.Vector3();
+    const occupied = this.data.objects.some((p) => {
+      position.set(
+        p.x,
+        walkHeight(p.x, p.z, this.data.scene, this.data.layout),
+        p.z,
+      );
+      rotation.setFromAxisAngle(new T.Vector3(0, 1, 0), p.yaw);
+      scale.setScalar(p.scale);
+      matrix.compose(position, rotation, scale);
+      return this.library.bounds
+        .get(p.asset)!
+        .clone()
+        .applyMatrix4(matrix)
+        .intersectsBox(volume);
+    });
+    if (occupied) {
+      this.pendingWildlife = null;
+      return;
+    }
+    const fox = new WoodlandFox(
+      this.pendingWildlife,
+      walkHeight(FOX.x, FOX.z, this.data.scene, this.data.layout),
+    );
+    this.pendingWildlife = null;
+    this.wildlife = fox;
+    this.landscape.group.add(fox.group);
+    this.landscape.installFoxBody();
+    this.rebuildObstacles();
+    this.sun.shadow.needsUpdate = true;
+    this.renderScene();
   }
   private safeSpawn() {
     if (this.interior) {
@@ -1102,6 +1179,10 @@ class AdventureGame {
       this.rebuildObstacles();
       this.sun.shadow.needsUpdate = true;
     }
+    if (!this.interior) {
+      this.trySpawnWildlife();
+      this.wildlife?.update(dt);
+    }
     this.refreshRoomPhysics();
     const previousX = this.player.x,
       previousZ = this.player.z,
@@ -1279,6 +1360,11 @@ class AdventureGame {
         (this.scene.fog as T.Fog).far,
         !this.renderer.shadowMap.enabled,
       );
+    this.wildlife?.visibility(
+      this.camera,
+      (this.scene.fog as T.Fog).far,
+      !this.interior,
+    );
     this.renderer.render(this.scene, this.camera);
   }
   private frame(time: number) {
@@ -1708,7 +1794,7 @@ class AdventureGame {
         (a, b) => b.updated - a.updated,
       );
       this.openModal(
-        `<div class="eyebrow">TAKE THE LONG WAY HOME</div><h1 id="modalTitle">Where shall we go?</h1><p>Explore a saved valley, or start a fresh valley with Miller’s End. Earlier scenery stays with its saved world.</p><div class="placeCards">${WORLDS.filter(
+        `<div class="eyebrow">TAKE THE LONG WAY HOME</div><h1 id="modalTitle">Where shall we go?</h1><p>Explore a saved valley, or start a fresh valley with Foxglade. Earlier scenery stays with its saved world.</p><div class="placeCards">${WORLDS.filter(
           (w) => w.id === "vale",
         )
           .map(
@@ -1717,7 +1803,7 @@ class AdventureGame {
           )
           .join(
             "",
-          )}</div><div class="savedWorlds"><h2>Your saved worlds & earlier previews</h2><div id="savedRows"></div></div><details class="newPlaces"><summary>Start a fresh place</summary><p>Fresh valleys include Miller’s End beside the old windmill, plus Reedbank, Alderwick and their connecting roads. Your saved valleys keep their scenery and buildings.</p><div id="newPlaceButtons"></div></details><p class="finePrint">Earlier independent places keep their original scenery and saves. Original BlockWorld worlds remain in the original game.</p>`,
+          )}</div><div class="savedWorlds"><h2>Your saved worlds & earlier previews</h2><div id="savedRows"></div></div><details class="newPlaces"><summary>Start a fresh place</summary><p>Fresh valleys include Foxglade’s ranger cottage and woodland clearing, plus Miller’s End, Reedbank and Alderwick. Your saved valleys keep their scenery and buildings.</p><div id="newPlaceButtons"></div></details><p class="finePrint">Earlier independent places keep their original scenery and saves. Original BlockWorld worlds remain in the original game.</p>`,
       );
       for (const w of WORLDS.filter((w) => w.id === "vale")) {
         const button = $("modal").querySelector<HTMLButtonElement>(
@@ -1743,7 +1829,7 @@ class AdventureGame {
       }
       for (const w of WORLDS.filter((w) => w.id === "vale")) {
         const fresh = document.createElement("button");
-        fresh.textContent = "New " + w.name + " · Miller’s End";
+        fresh.textContent = "New " + w.name + " · Foxglade";
         fresh.dataset.newScene = w.id;
         fresh.onclick = () =>
           void this.session
@@ -1762,13 +1848,15 @@ class AdventureGame {
           const saved = validateAdventure(JSON.parse(r.current.json));
           if (saved.scene === "vale")
             scenery =
-              saved.layout === 7
-                ? " · Miller’s End"
-                : saved.layout === 6
-                  ? " · Reedbank"
-                  : saved.layout === 5
-                    ? " · Alderwick"
-                    : " · earlier scenery";
+              saved.layout === 8
+                ? " · Foxglade"
+                : saved.layout === 7
+                  ? " · Miller’s End"
+                  : saved.layout === 6
+                    ? " · Reedbank"
+                    : saved.layout === 5
+                      ? " · Alderwick"
+                      : " · earlier scenery";
         } catch {}
         button.textContent =
           (r.id === this.session.current?.id ? "● " : "") + r.name + scenery;
@@ -1786,7 +1874,7 @@ class AdventureGame {
   private menu() {
     if (this.transitioning) return;
     this.openModal(
-      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Move with WASD or the left joystick. Drag the world to turn the camera. Running is the default. Tap Walk for a slower pace; hold Shift to run while walking. Press Space or tap Jump to jump. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick moves; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Walk; left bumper jumps. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview ${PREVIEW_VERSION}. Cottages, town houses, inns, workshops and millhouses have separate furnished rooms. Town houses, inns and millhouses have walkable stairs. New cottages and workshops have one floor. Older saved upper floors stay intact. Older saved worlds keep their original record when new features need an updated copy. New Preview 13 worlds and compact windmill copies need Preview 13 or later. Existing older rooms stay as saved. The Meadow Lodge keeps its opening door. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
+      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Move with WASD or the left joystick. Drag the world to turn the camera. Running is the default. Tap Walk for a slower pace; hold Shift to run while walking. Press Space or tap Jump to jump. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick moves; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Walk; left bumper jumps. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. Fox: PixelMannen (CC0 model); tomkranis (rig/animation), AsoboStudio/scurest (glTF conversion), CC BY 4.0. <a href="adventures/wildlife/PROVENANCE.md" target="_blank">Fox credits and licence</a>. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview ${PREVIEW_VERSION}. Cottages, town houses, inns, workshops and millhouses have separate furnished rooms. Town houses, inns and millhouses have walkable stairs. New cottages and workshops have one floor. Older saved upper floors stay intact. Older saved worlds keep their original record when new features need an updated copy. New Foxglade worlds need Preview 14 or later. Compact windmill copies need Preview 13 or later. Existing older rooms stay as saved. The Meadow Lodge keeps its opening door. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
     );
     $("resume").onclick = () => this.closeModal();
     $("home").onclick = () => {

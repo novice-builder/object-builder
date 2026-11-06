@@ -1,0 +1,50 @@
+{
+  "sourceCommit": "8f492390ddc7a2ae221a1369ef560589cf8c70fb",
+  "assetUrl": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/Fox/glTF-Binary/Fox.glb",
+  "bytes": 162852,
+  "sha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+  "animations": [
+    {
+      "name": "Survey",
+      "tracks": 21
+    },
+    {
+      "name": "Walk",
+      "tracks": 21
+    },
+    {
+      "name": "Run",
+      "tracks": 21
+    }
+  ],
+  "skins": [
+    {
+      "name": null,
+      "joints": 24
+    }
+  ],
+  "primitives": [
+    {
+      "vertices": 1728,
+      "indices": null
+    }
+  ],
+  "modelAuthor": "PixelMannen",
+  "modelLicense": "CC0-1.0",
+  "rigAnimationAuthor": "tomkranis",
+  "rigAnimationLicense": "CC-BY-4.0",
+  "gltfConversionAuthors": [
+    "AsoboStudio",
+    "scurest"
+  ],
+  "conversionLicense": "CC-BY-4.0",
+  "runtimeChanges": [
+    "Normalize full reference height to 0.62m; retain original GLB bytes.",
+    "Downsample the source 1024x1024 colour texture to 256x256 at runtime.",
+    "Play the authored Survey clip; no roaming/walk behaviour is claimed."
+  ],
+  "sourceReadmeSha256": "cf767a7943b12f3af0ea14a1b18947a45ed7a03c3e722678df33854d97df0f88",
+  "retrievedUtc": "2026-11-06T17:05:02.536213+00:00",
+  "licenseTextSource": "https://raw.githubusercontent.com/spdx/license-list-data/main/text/CC-BY-4.0.txt",
+  "licenseTextSha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+}

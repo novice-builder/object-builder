@@ -17,7 +17,7 @@ import { WorldStore } from "../src/persistence/store";
 Object.assign(globalThis, { indexedDB });
 
 test("Miller’s End is an explicit new valley layout; older records preserve their construction coordinates", () => {
-  assert.equal(LATEST_LAYOUT, 7);
+  assert.equal(LATEST_LAYOUT, 8);
   for (const layout of [3, 4, 5, 6, 7] as const) {
     const snapshot = makeSnapshot(
       {
@@ -90,7 +90,7 @@ test("creating a layout-7 world retains and reopens an older decorated valley un
   await session.open(old.id);
   const fresh = await session.create("vale");
   assert.notEqual(fresh.id, old.id);
-  assert.equal(validateAdventure(state).layout, 7);
+  assert.equal(validateAdventure(state).layout, 8);
   assert.equal(validateAdventure(state).objects.length, 0);
   assert.deepEqual((await session.store.load(old.id)).snapshot, original);
   await session.open(old.id);

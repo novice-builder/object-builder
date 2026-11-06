@@ -1,3 +1,12 @@
+import {
+  FOXGLADE,
+  FOX,
+  FOXGLADE_TRAIL,
+  FOXGLADE_COTTAGE,
+  FOXGLADE_GARDENS,
+  foxGladeClearing,
+  foxBody,
+} from "./foxglade-data";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { windmillEntry } from "./windmill-entry";
 import {
@@ -108,7 +117,7 @@ export class ConnectedLandscape {
   private materials: T.Material[] = [];
   constructor(
     readonly library: AssetLibrary,
-    readonly layout: 3 | 4 | 5 | 6 | 7 = 3,
+    readonly layout: 3 | 4 | 5 | 6 | 7 | 8 = 3,
     doorOpen = false,
   ) {
     this.terrain();
@@ -192,6 +201,7 @@ export class ConnectedLandscape {
     if (layout >= 5) this.alderwick();
     if (layout >= 6) this.reedbank();
     if (layout >= 7) this.millersEnd();
+    if (layout >= 8) this.foxglade();
     if (layout >= 4) {
       this.lodge = new Lodge(library, doorOpen);
       this.group.add(this.lodge.group);
@@ -235,7 +245,9 @@ export class ConnectedLandscape {
       );
     }
     this.populate();
-    this.obstacles = this.obstacles.filter((o) => o.name !== "lodge-reserve");
+    this.obstacles = this.obstacles.filter(
+      (o) => o.name !== "lodge-reserve" && o.name !== "wildlife-reserve",
+    );
     this.permanent = this.obstacles.filter((o) => o.name !== "lodge-door");
     this.group.updateMatrixWorld(true);
     this.group.traverse((o) => {
@@ -588,6 +600,52 @@ export class ConnectedLandscape {
         "The windmill lane leads to a small market, an inn, a smith’s yard and cottage gardens. Follow the east orchard lane back to Willowmere. Homes, the workshop and the inn have their own furnished rooms.",
     });
   }
+  private foxglade() {
+    const points = smoothTrail(FOXGLADE_TRAIL.points),
+      road = this.regions[0].trailSurface;
+    this.paths.push({ points, width: FOXGLADE_TRAIL.width });
+    this.mesh(
+      trailGeometry(points, FOXGLADE_TRAIL.width, (x, z) =>
+        valeWalk(x, z, this.layout),
+      ),
+      road,
+    );
+    const p = FOXGLADE_COTTAGE,
+      root = this.place(p.asset, p.x, p.z, p.scale, p.yaw);
+    root.userData.settlement = FOXGLADE.id;
+    const entry = this.entrances.at(-1)!;
+    entry.name = "Ranger’s cottage";
+    const path = {
+      points: [
+        [entry.x, entry.z],
+        closestTrailPoint([entry.x, entry.z], points),
+      ],
+      width: 1.7,
+    };
+    this.paths.push(path);
+    this.mesh(
+      trailGeometry(path.points, path.width, (x, z) =>
+        valeWalk(x, z, this.layout),
+      ),
+      road,
+    );
+    this.place("log", -38, -15, 2.2, 0.4);
+    this.place("stump-round", -37, -21, 1.7);
+    this.place("rock-smalla", -30, -20, 1.5);
+    this.place("sign", -28, -32, 2.5, -0.5);
+    this.obstacles.push({ ...foxBody(), height: 0, name: "wildlife-reserve" });
+    this.landmarks.push({
+      ...FOXGLADE,
+      description:
+        "A quiet clearing beside the ranger’s cottage. A fox pauses in the grass, and the winding trail rejoins the camp. Follow the north path to the foresters’ homes, or step inside the cottage to make a room of your own.",
+    });
+  }
+  installFoxBody() {
+    const body = foxBody();
+    if (this.obstacles.some((b) => b.name === body.name)) return;
+    this.obstacles.push(body);
+    this.permanent.push(body);
+  }
   private populate() {
     let seed = 31825;
     const random = () => {
@@ -616,6 +674,7 @@ export class ConnectedLandscape {
         ...ALDERWICK_GARDENS,
         ...(this.layout >= 6 ? REEDBANK_GARDENS : []),
         ...(this.layout >= 7 ? MILLERS_END_GARDENS : []),
+        ...(this.layout >= 8 ? FOXGLADE_GARDENS : []),
       ])
         for (let i = 0; i < 12; i++) {
           const angle = (i * Math.PI * 2) / 12,
@@ -640,6 +699,7 @@ export class ConnectedLandscape {
         town ||
         meadow ||
         camp ||
+        (this.layout >= 8 && foxGladeClearing(x, z)) ||
         this.nearPath(x, z, 3.4) ||
         blocked(x, z, this.obstacles, 2.6) ||
         valeWater(x, z, this.layout)
