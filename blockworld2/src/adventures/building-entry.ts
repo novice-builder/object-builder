@@ -10,6 +10,15 @@ export interface BuildingEntry {
   yaw: number;
   width: number;
   depth: number;
+  threshold?: { x: number; y: number; z: number };
+}
+export function entryDistance(
+  entry: BuildingEntry,
+  point: { x: number; z: number },
+) {
+  const a = Math.hypot(entry.x - point.x, entry.z - point.z),
+    t = entry.threshold;
+  return t ? Math.min(a, Math.hypot(t.x - point.x, t.z - point.z)) : a;
 }
 export function buildingKind(asset: string): RoomKind | null {
   if (asset.startsWith("building_home_A")) return "cottage";
@@ -45,7 +54,13 @@ export function buildingEntry(
       Math.abs(dz) > 0.001
         ? ((dz > 0 ? world.max.z - z : z - world.min.z) - 0.45) / Math.abs(dz)
         : Infinity,
-    front = Math.max(face, Math.min(tx, tz) + 0.85);
+    front = Math.max(face, Math.min(tx, tz) + 0.85),
+    lateral = root.userData.entryLateral || 0,
+    threshold = root.userData.entryThreshold
+      ? root.localToWorld(
+          new T.Vector3().fromArray(root.userData.entryThreshold),
+        )
+      : null;
   return {
     id: id || `${asset}:${x.toFixed(3)}:${z.toFixed(3)}:${yaw.toFixed(3)}`,
     name: {
@@ -56,10 +71,13 @@ export function buildingEntry(
       mill: "The millhouse",
     }[kind],
     kind,
-    x: x + Math.sin(yaw) * front,
-    z: z + Math.cos(yaw) * front,
+    x: x + Math.sin(yaw) * front + Math.cos(yaw) * lateral,
+    z: z + Math.cos(yaw) * front - Math.sin(yaw) * lateral,
     yaw,
     width: Math.max(5.8, Math.min(10, (box.max.x - box.min.x) * root.scale.x)),
     depth: Math.max(6.8, Math.min(12, (box.max.z - box.min.z) * root.scale.z)),
+    ...(threshold
+      ? { threshold: { x: threshold.x, y: threshold.y, z: threshold.z } }
+      : {}),
   };
 }

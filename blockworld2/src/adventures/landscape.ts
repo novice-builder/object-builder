@@ -495,6 +495,7 @@ export class Landscape {
       yaw += Math.PI;
     }
     const root = this.library.create(id, scale);
+    root.userData.movementSolid = solid;
     root.position.set(x, y ?? this.walk(x, z), z);
     root.rotation.y = yaw;
     this.group.add(root);

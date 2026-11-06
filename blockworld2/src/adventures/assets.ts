@@ -1,3 +1,9 @@
+import {
+  modelFlights,
+  stepPattern,
+  fitModelSteps,
+  entranceFlight,
+} from "./model-steps";
 import * as T from "three";
 import { bakeNature } from "./nature-batch";
 import { treeCanopyBounds, canopyBodies } from "./tree-canopy";
@@ -105,6 +111,8 @@ export const ASSETS: AssetDefinition[] = [
 export const DEFINITIONS = new Map(ASSETS.map((a) => [a.id, a]));
 export class AssetLibrary {
   models = new Map<string, T.Group>();
+  private stepFlights = new Map<string, ReturnType<typeof modelFlights>>();
+  private stepModels = new Map<string, T.Group>();
   private batchSources = new Map<string, T.Group>();
   private canopies = new Map<string, T.Box3[]>();
   private natureMaterial = new T.MeshStandardMaterial({
@@ -225,10 +233,47 @@ export class AssetLibrary {
     );
   }
   create(id: string, scale = DEFINITIONS.get(id)?.scale ?? 1) {
-    const model = this.models.get(id);
+    let model = this.models.get(id);
     if (!model) throw Error(`Unknown asset ${id}`);
+    let stepKey = id;
+    let entryLateral = 0;
+    let entryThreshold: number[] | undefined;
+    if (id.startsWith("building_") && !id.startsWith("building_bridge")) {
+      let flights = this.stepFlights.get(id);
+      if (!flights) {
+        flights = modelFlights(model);
+        this.stepFlights.set(id, flights);
+      }
+      const approach = flights.find((f) => entranceFlight(f, scale));
+      if (approach)
+        entryLateral =
+          ((approach.treads[0].minX + approach.treads[0].maxX) * scale) / 2;
+      if (approach) {
+        const first = approach.treads[0],
+          last = approach.treads.at(-1)!;
+        entryThreshold = [
+          (first.minX + first.maxX) / 2,
+          last.y,
+          last.back + 0.45 / scale,
+        ];
+      }
+      const pattern = stepPattern(flights, scale);
+      if (pattern.some(Boolean)) {
+        stepKey = `${id}:${pattern.join(",")}`;
+        let fitted = this.stepModels.get(stepKey);
+        if (!fitted) {
+          fitted = fitModelSteps(model, flights, pattern);
+          this.stepModels.set(stepKey, fitted);
+        }
+        model = fitted;
+      }
+    }
     const root = model.clone(true);
     root.scale.setScalar(scale);
+    root.userData.asset = id;
+    root.userData.stepKey = stepKey;
+    root.userData.entryLateral = entryLateral;
+    root.userData.entryThreshold = entryThreshold;
     return root;
   }
 }

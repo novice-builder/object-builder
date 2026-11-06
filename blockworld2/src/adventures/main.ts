@@ -1,7 +1,12 @@
 import * as T from "three";
-import { buildingEntry, type BuildingEntry } from "./building-entry";
+import {
+  buildingEntry,
+  entryDistance,
+  type BuildingEntry,
+} from "./building-entry";
 import { Interior, freshRoom } from "./interior";
 import { moveCharacter, recoverCharacter } from "./character-controller";
+import { OutdoorCollision, meshBuilding } from "./outdoor-collision";
 import { CollisionSpace } from "./mesh-collision";
 import { clone as cloneSkeleton } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { AssetLibrary, DEFINITIONS } from "./assets";
@@ -123,6 +128,8 @@ class AdventureGame {
   private transitionToken = 0;
   private entryNear: BuildingEntry | null = null;
   private roomSpace?: CollisionSpace;
+  private outdoorSpace?: CollisionSpace;
+  private outdoorCollision = new OutdoorCollision(this.library);
   private roomBodySource?: readonly Obstacle[];
   private get objects(): Placement[] {
     return this.data.inside
@@ -487,8 +494,18 @@ class AdventureGame {
         );
       return;
     }
+    if (
+      this.outdoorSpace!.supported(this.player) &&
+      this.outdoorSpace!.valid(this.player.x, this.player.z) &&
+      this.outdoorSpace!.clear(this.player)
+    )
+      return;
     const safe = (x: number, z: number) =>
-      !blocked(x, z, this.obstacles()) &&
+      this.outdoorSpace!.clear({
+        x,
+        y: walkHeight(x, z, this.data.scene, this.data.layout) + 0.002,
+        z,
+      }) &&
       !waterBlocked(x, z, this.data.scene, this.data.layout) &&
       inWorld(x, z, this.data.scene);
     if (safe(this.player.x, this.player.z)) return;
@@ -596,10 +613,11 @@ class AdventureGame {
       this.interior ||
       this.transitioning ||
       this.busy ||
-      Math.hypot(entry.x - this.player.x, entry.z - this.player.z) > 2.25
+      entryDistance(entry, this.player) > 2.25
     )
       return;
     const outside = {
+      y: this.player.y,
       x: this.player.x,
       z: this.player.z,
       yaw: this.cameraYaw,
@@ -660,6 +678,7 @@ class AdventureGame {
     const old = this.interior,
       outside = this.data.inside.outside;
     const bodies: Obstacle[] = [...this.landscape.obstacles];
+    const outsideRoots = new Map<string, T.Object3D>();
     for (const p of this.data.objects) {
       const root = this.library.create(p.asset, p.scale);
       root.position.set(
@@ -669,17 +688,41 @@ class AdventureGame {
       );
       root.rotation.y = p.yaw;
       const b = this.objectBox(root, p.asset);
-      if (b) bodies.push(b);
+      if (b) bodies.push({ ...b, name: p.asset });
+      outsideRoots.set(p.id, root);
     }
-    const target = destination || outside;
-    const clear = clearArrival(
-      target,
+    const space = this.outdoorCollision.create(
+      this.landscape.group,
+      outsideRoots,
+      bodies,
+      (x, z) => walkHeight(x, z, this.data.scene, this.data.layout),
       (x, z) =>
         inWorld(x, z, this.data.scene, 1) &&
-        !waterBlocked(x, z, this.data.scene, this.data.layout) &&
-        !blocked(x, z, bodies, 0.42),
-      destination ? 14 : 3,
+        !waterBlocked(x, z, this.data.scene, this.data.layout),
+      null,
     );
+    const exact =
+      !destination &&
+      outside.y !== undefined &&
+      space.supported({ ...outside, y: outside.y })
+        ? { x: outside.x, y: outside.y, z: outside.z }
+        : null;
+    const target = destination || outside;
+    const clear =
+      exact &&
+      space.valid(exact.x, exact.z) &&
+      space.clear(exact) &&
+      (exact.y > space.ground(exact.x, exact.z) + 0.05 ||
+        !blocked(exact.x, exact.z, bodies, 0.42))
+        ? exact
+        : clearArrival(
+            target,
+            (x, z) =>
+              inWorld(x, z, this.data.scene, 1) &&
+              !waterBlocked(x, z, this.data.scene, this.data.layout) &&
+              !blocked(x, z, bodies, 0.42),
+            destination ? 14 : 3,
+          );
     if (!clear) {
       this.toast(
         "The exit is blocked. Clear the ground outside before leaving.",
@@ -693,7 +736,10 @@ class AdventureGame {
       this.landscape.group.visible = true;
       this.scene.background = new T.Color(0xc6d9d4);
       Object.assign(this.player, clear, {
-        y: walkHeight(clear.x, clear.z, this.data.scene, this.data.layout),
+        y:
+          "y" in clear
+            ? clear.y
+            : walkHeight(clear.x, clear.z, this.data.scene, this.data.layout),
         vy: 0,
         grounded: true,
       });
@@ -890,7 +936,7 @@ class AdventureGame {
       const root = this.userRoots.get(p.id);
       if (root) {
         const body = this.objectBox(root, p.asset);
-        if (body) built.push({ ...body, ownerId: p.id });
+        if (body) built.push({ ...body, name: p.asset, ownerId: p.id });
       }
     }
     this.collisionCache.replace(
@@ -901,10 +947,22 @@ class AdventureGame {
     this.refreshRoomPhysics();
   }
   private refreshRoomPhysics() {
-    if (!this.interior) return;
     const bodies = this.obstacles();
     if (this.roomBodySource === bodies) return;
     this.roomBodySource = bodies;
+    if (!this.interior) {
+      this.outdoorSpace = this.outdoorCollision.create(
+        this.landscape.group,
+        this.userRoots,
+        bodies,
+        (x, z) => walkHeight(x, z, this.data.scene, this.data.layout),
+        (x, z) =>
+          inWorld(x, z, this.data.scene) &&
+          !waterBlocked(x, z, this.data.scene, this.data.layout),
+        this.moving,
+      );
+      return;
+    }
     this.roomSpace = this.interior.collision();
     this.roomSpace.boxes = bodies
       .filter((b) => b.name !== "room-wall")
@@ -977,36 +1035,12 @@ class AdventureGame {
     this.refreshRoomPhysics();
     const previousX = this.player.x,
       previousZ = this.player.z;
-    const obs = this.obstacles(),
-      steps = Math.ceil(dt / (1 / 60)),
-      step = dt / steps;
-    if (this.interior)
-      moveCharacter(
-        this.player,
-        { vx: this.velocity.x, vz: this.velocity.y },
-        dt,
-        this.roomSpace!,
-      );
-    else
-      for (let i = 0; i < steps; i++) {
-        const dx = this.velocity.x * step,
-          dz = this.velocity.y * step;
-        const valid = (x: number, z: number) =>
-          inWorld(x, z, this.data.scene) &&
-          !waterBlocked(x, z, this.data.scene, this.data.layout) &&
-          !blocked(x, z, obs) &&
-          Math.abs(
-            walkHeight(x, z, this.data.scene, this.data.layout) - this.player.y,
-          ) < 0.5;
-        if (valid(this.player.x + dx, this.player.z)) this.player.x += dx;
-        if (valid(this.player.x, this.player.z + dz)) this.player.z += dz;
-        this.player.y = walkHeight(
-          this.player.x,
-          this.player.z,
-          this.data.scene,
-          this.data.layout,
-        );
-      }
+    moveCharacter(
+      this.player,
+      { vx: this.velocity.x, vz: this.velocity.y },
+      dt,
+      (this.interior ? this.roomSpace : this.outdoorSpace)!,
+    );
     this.actor.position.set(this.player.x, this.player.y, this.player.z);
     this.contactShadow.position.set(
       this.player.x,
@@ -1076,7 +1110,10 @@ class AdventureGame {
     const allBodies = this.obstacles();
     if (this.interiorBodySource !== allBodies) {
       this.interiorBodySource = allBodies;
-      this.outdoorCameraBodies = [...allBodies, ...this.landscape.cameraBodies];
+      this.outdoorCameraBodies = [
+        ...allBodies.filter((b) => !meshBuilding(b.name)),
+        ...this.landscape.cameraBodies,
+      ];
       this.interiorCameraBodies = this.outdoorCameraBodies.filter(
         (b) =>
           !b.name?.startsWith("lodge") && !b.name?.startsWith("furniture-"),
@@ -1096,6 +1133,7 @@ class AdventureGame {
     const fraction = Math.min(
       cameraFraction(target, offset, bodies),
       cameraFraction(target, offset, roof),
+      this.interior ? 1 : this.outdoorSpace!.cameraFraction(target, offset),
     );
     desired.copy(target).addScaledVector(offset, fraction);
     desired.y = Math.max(
@@ -1116,6 +1154,9 @@ class AdventureGame {
       actualFraction = Math.min(
         cameraFraction(target, interpolated, bodies),
         cameraFraction(target, interpolated, roof),
+        this.interior
+          ? 1
+          : this.outdoorSpace!.cameraFraction(target, interpolated),
       );
     if (actualFraction < 1)
       this.cameraPosition
@@ -1216,7 +1257,7 @@ class AdventureGame {
       entries
         .filter(
           (e) =>
-            Math.hypot(e.x - this.player.x, e.z - this.player.z) < 2.25 &&
+            entryDistance(e, this.player) < 2.25 &&
             !blocked(e.x, e.z, this.obstacles(), 0.34),
         )
         .sort(

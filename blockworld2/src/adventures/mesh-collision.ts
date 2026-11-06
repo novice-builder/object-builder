@@ -30,6 +30,18 @@ export interface CollisionBox {
   source?: string;
 }
 class PaddedOctree extends Octree {
+  private reverse = new T.Triangle();
+  override triangleCapsuleIntersect(capsule: Capsule, triangle: T.Triangle) {
+    // Saved/imported poses and jumps may approach the back of a thin surface.
+    // Keep openings, but test both sides of the real triangle.
+    return (
+      super.triangleCapsuleIntersect(capsule, triangle) ||
+      super.triangleCapsuleIntersect(
+        capsule,
+        this.reverse.set(triangle.c, triangle.b, triangle.a),
+      )
+    );
+  }
   override build() {
     // Three r160 pads only the minimum. Floating point subdivision can otherwise
     // discard triangles on the maximum plane (notably the final stair tread).
@@ -254,6 +266,63 @@ export class CollisionSpace {
   clear(p: FootPose, radius = BODY_RADIUS, height = BODY_HEIGHT) {
     const hit = this.contact(p, radius, height);
     return !hit || hit.depth < 0.0005;
+  }
+  support(p: FootPose, above = 0.004, below = 0.31) {
+    let best = this.floor(p.x, p.z, p.y + above, p.y - below);
+    if (best && Math.abs(best.y - p.y) < 0.01) return best;
+    for (let i = 0; i < 8; i++) {
+      const angle = (i * Math.PI) / 4,
+        r = BODY_RADIUS * 0.93,
+        floor = this.floor(
+          p.x + Math.cos(angle) * r,
+          p.z + Math.sin(angle) * r,
+          p.y + above,
+          p.y - below,
+        );
+      if (floor && (!best || floor.y > best.y)) best = floor;
+    }
+    return best;
+  }
+  supported(p: FootPose, tolerance = 0.03) {
+    return !!this.support(p, 0.004, tolerance);
+  }
+  cameraFraction(origin: T.Vector3, offset: T.Vector3) {
+    const length = offset.length();
+    if (!length) return 1;
+    const direction = offset.clone().normalize(),
+      right = new T.Vector3()
+        .crossVectors(direction, new T.Vector3(0, 1, 0))
+        .normalize()
+        .multiplyScalar(0.18),
+      up = new T.Vector3()
+        .crossVectors(right, direction)
+        .normalize()
+        .multiplyScalar(0.18);
+    const bounds = new T.Box3()
+        .setFromPoints([origin, origin.clone().add(offset)])
+        .expandByScalar(0.18),
+      rays = [
+        new T.Vector3(),
+        right,
+        right.clone().negate(),
+        up,
+        up.clone().negate(),
+      ].map((shift) => new T.Ray(origin.clone().add(shift), direction.clone()));
+    let fraction = 1;
+    for (const item of this.instances) {
+      if (!bounds.intersectsBox(item.bounds)) continue;
+      for (const ray of rays) {
+        if (!ray.intersectsBox(item.bounds)) continue;
+        this.ray.copy(ray).applyMatrix4(item.inverse);
+        const hit = item.shape.tree.rayIntersect(this.ray);
+        if (hit)
+          fraction = Math.min(
+            fraction,
+            Math.max(0, (hit.distance * item.scale - 0.18) / length),
+          );
+      }
+    }
+    return fraction;
   }
   stats() {
     return {

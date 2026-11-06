@@ -25,6 +25,8 @@ export function recoverCharacter<T extends CharacterPose>(
   fallback: FootPose,
   radiusLimit: number,
 ): T | null {
+  if (space.valid(pose.x, pose.z) && space.supported(pose) && space.clear(pose))
+    return { ...pose, vy: 0, grounded: true };
   for (const origin of [pose, fallback]) {
     for (let radius = 0; radius <= radiusLimit; radius += 0.4) {
       for (let a = 0; a < (radius ? 16 : 1); a++) {
@@ -163,20 +165,7 @@ export function moveCharacter(
       attempt(vx * h, 0);
       attempt(0, vz * h);
     }
-    const support = () => {
-      let best = space.floor(p.x, p.z, p.y + 0.004, p.y - GROUND_SNAP);
-      if (p.grounded && len) {
-        const f = space.floor(
-          p.x + ux * (BODY_RADIUS + 0.04),
-          p.z + uz * (BODY_RADIUS + 0.04),
-          p.y + 0.004,
-          p.y - 0.04,
-        );
-        if (f && (!best || f.y > best.y)) best = f;
-      }
-      return best;
-    };
-    const floor = support();
+    const floor = space.support(p, 0.004, GROUND_SNAP);
     if (
       (p.vy ?? 0) <= 0 &&
       (p.grounded || (p.vy ?? 0) > -2) &&

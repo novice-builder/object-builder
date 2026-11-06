@@ -1,0 +1,327 @@
+{
+  "environment": "Managed Chromium SwiftShader. Draw/triangle/resource workloads only; no physical FPS or universal memory claim.",
+  "checks": [
+    {
+      "name": "repeated same-view layout 5/6 world replacements plateau uploaded resources",
+      "passed": true
+    },
+    {
+      "name": "movement correction adds no environment model or texture download",
+      "passed": true
+    }
+  ],
+  "views": {
+    "preview10": {
+      "riverbank": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 866.6,
+          "drawCalls": 136,
+          "triangles": 132455,
+          "geometries": 93,
+          "textures": 12,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 9,
+        "generatedGeometryBytes": 1415940
+      },
+      "willowmere": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 866.6,
+          "drawCalls": 198,
+          "triangles": 178491,
+          "geometries": 93,
+          "textures": 12,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 9,
+        "generatedGeometryBytes": 1415940
+      },
+      "meadow": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 866.6,
+          "drawCalls": 225,
+          "triangles": 167515,
+          "geometries": 103,
+          "textures": 13,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "generatedGeometryBytes": 1415940
+      },
+      "north-road": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 866.6,
+          "drawCalls": 118,
+          "triangles": 136826,
+          "geometries": 103,
+          "textures": 13,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "generatedGeometryBytes": 1415940
+      }
+    },
+    "current": {
+      "riverbank": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 883.3,
+          "drawCalls": 138,
+          "triangles": 132579,
+          "geometries": 96,
+          "textures": 12,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 9,
+        "generatedGeometryBytes": 1415940
+      },
+      "willowmere": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 883.3,
+          "drawCalls": 202,
+          "triangles": 178739,
+          "geometries": 96,
+          "textures": 12,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 9,
+        "generatedGeometryBytes": 1415940
+      },
+      "meadow": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 883.3,
+          "drawCalls": 227,
+          "triangles": 167639,
+          "geometries": 106,
+          "textures": 13,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "generatedGeometryBytes": 1415940
+      },
+      "north-road": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 883.3,
+          "drawCalls": 120,
+          "triangles": 136916,
+          "geometries": 106,
+          "textures": 13,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "generatedGeometryBytes": 1415940
+      }
+    }
+  },
+  "preview10AssetPaths": [
+    "/adventures/character/Explorer.glb",
+    "/adventures/furniture/bedsingle.glb",
+    "/adventures/furniture/bookcaseopen.glb",
+    "/adventures/furniture/books.glb",
+    "/adventures/furniture/cabinetbed.glb",
+    "/adventures/furniture/chair.glb",
+    "/adventures/furniture/rugrectangle.glb",
+    "/adventures/furniture/table.glb",
+    "/adventures/modular/Door_4_Flat.glb",
+    "/adventures/modular/Floor_WoodDark.glb",
+    "/adventures/modular/Roof_Front_Brick4.glb",
+    "/adventures/modular/Roof_RoundTiles_4x6.glb",
+    "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+    "/adventures/modular/Wall_Plaster_Straight.glb",
+    "/adventures/nature/campfire-stones.glb",
+    "/adventures/nature/flower-purplea.glb",
+    "/adventures/nature/flower-reda.glb",
+    "/adventures/nature/flower-yellowa.glb",
+    "/adventures/nature/grass-large.glb",
+    "/adventures/nature/lily-small.glb",
+    "/adventures/nature/log.glb",
+    "/adventures/nature/mushroom-red.glb",
+    "/adventures/nature/plant-bush.glb",
+    "/adventures/nature/plant-bushsmall.glb",
+    "/adventures/nature/rock-largea.glb",
+    "/adventures/nature/rock-largeb.glb",
+    "/adventures/nature/rock-smalla.glb",
+    "/adventures/nature/sign.glb",
+    "/adventures/nature/stump-round.glb",
+    "/adventures/nature/tent-smallopen.glb",
+    "/adventures/nature/tree-detailed.glb",
+    "/adventures/nature/tree-oak.glb",
+    "/adventures/nature/tree-pinedefaulta.glb",
+    "/adventures/nature/tree-pinedefaultb.glb",
+    "/adventures/village/barrel.glb",
+    "/adventures/village/building_blacksmith_blue.glb",
+    "/adventures/village/building_bridge_A.glb",
+    "/adventures/village/building_church_blue.glb",
+    "/adventures/village/building_home_A_blue.glb",
+    "/adventures/village/building_home_A_green.glb",
+    "/adventures/village/building_home_B_blue.glb",
+    "/adventures/village/building_home_B_green.glb",
+    "/adventures/village/building_market_blue.glb",
+    "/adventures/village/building_tavern_blue.glb",
+    "/adventures/village/building_watermill_blue.glb",
+    "/adventures/village/building_well_blue.glb",
+    "/adventures/village/building_windmill_blue.glb",
+    "/adventures/village/crate_A_small.glb",
+    "/adventures/village/fence_wood_straight.glb",
+    "/adventures/village/sack.glb",
+    "/adventures/village/waterplant_A.glb",
+    "/adventures/village/wheelbarrow.glb"
+  ],
+  "preview10StartupBytes": 3700849,
+  "currentAssetPaths": [
+    "/adventures/character/Explorer.glb",
+    "/adventures/furniture/bedsingle.glb",
+    "/adventures/furniture/bookcaseopen.glb",
+    "/adventures/furniture/books.glb",
+    "/adventures/furniture/cabinetbed.glb",
+    "/adventures/furniture/chair.glb",
+    "/adventures/furniture/rugrectangle.glb",
+    "/adventures/furniture/table.glb",
+    "/adventures/modular/Door_4_Flat.glb",
+    "/adventures/modular/Floor_WoodDark.glb",
+    "/adventures/modular/Roof_Front_Brick4.glb",
+    "/adventures/modular/Roof_RoundTiles_4x6.glb",
+    "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+    "/adventures/modular/Wall_Plaster_Straight.glb",
+    "/adventures/nature/campfire-stones.glb",
+    "/adventures/nature/flower-purplea.glb",
+    "/adventures/nature/flower-reda.glb",
+    "/adventures/nature/flower-yellowa.glb",
+    "/adventures/nature/grass-large.glb",
+    "/adventures/nature/lily-small.glb",
+    "/adventures/nature/log.glb",
+    "/adventures/nature/mushroom-red.glb",
+    "/adventures/nature/plant-bush.glb",
+    "/adventures/nature/plant-bushsmall.glb",
+    "/adventures/nature/rock-largea.glb",
+    "/adventures/nature/rock-largeb.glb",
+    "/adventures/nature/rock-smalla.glb",
+    "/adventures/nature/sign.glb",
+    "/adventures/nature/stump-round.glb",
+    "/adventures/nature/tent-smallopen.glb",
+    "/adventures/nature/tree-detailed.glb",
+    "/adventures/nature/tree-oak.glb",
+    "/adventures/nature/tree-pinedefaulta.glb",
+    "/adventures/nature/tree-pinedefaultb.glb",
+    "/adventures/village/barrel.glb",
+    "/adventures/village/building_blacksmith_blue.glb",
+    "/adventures/village/building_bridge_A.glb",
+    "/adventures/village/building_church_blue.glb",
+    "/adventures/village/building_home_A_blue.glb",
+    "/adventures/village/building_home_A_green.glb",
+    "/adventures/village/building_home_B_blue.glb",
+    "/adventures/village/building_home_B_green.glb",
+    "/adventures/village/building_market_blue.glb",
+    "/adventures/village/building_tavern_blue.glb",
+    "/adventures/village/building_watermill_blue.glb",
+    "/adventures/village/building_well_blue.glb",
+    "/adventures/village/building_windmill_blue.glb",
+    "/adventures/village/crate_A_small.glb",
+    "/adventures/village/fence_wood_straight.glb",
+    "/adventures/village/sack.glb",
+    "/adventures/village/waterplant_A.glb",
+    "/adventures/village/wheelbarrow.glb"
+  ],
+  "currentStartupBytes": 3717756,
+  "worldSwitches": [
+    {
+      "layout": 5,
+      "geometries": 85,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 6,
+      "geometries": 85,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 5,
+      "geometries": 85,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 6,
+      "geometries": 85,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 5,
+      "geometries": 85,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 6,
+      "geometries": 85,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 5,
+      "geometries": 85,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 6,
+      "geometries": 85,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 5,
+      "geometries": 85,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 6,
+      "geometries": 85,
+      "textures": 11,
+      "programs": 9
+    }
+  ]
+}

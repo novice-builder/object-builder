@@ -115,6 +115,14 @@ function validateRooms(a: AdventureData, s: Snapshot) {
       e.width > 10 ||
       e.depth < 6.8 ||
       e.depth > 12 ||
+      (e.threshold !== undefined &&
+        (!e.threshold ||
+          ![e.threshold.x, e.threshold.y, e.threshold.z].every(
+            Number.isFinite,
+          ) ||
+          !inWorld(e.threshold.x, e.threshold.z, a.scene) ||
+          e.threshold.y < 0 ||
+          e.threshold.y > 6)) ||
       !Array.isArray(room.objects) ||
       room.objects.length > 200
     )
@@ -152,6 +160,7 @@ function validateRooms(a: AdventureData, s: Snapshot) {
       !room ||
       !p ||
       ![p.x, p.z, p.yaw, p.pitch].every(Number.isFinite) ||
+      (p.y !== undefined && (!Number.isFinite(p.y) || p.y < 0 || p.y > 26)) ||
       !inWorld(p.x, p.z, a.scene) ||
       (p.facing !== undefined && !Number.isFinite(p.facing)) ||
       Math.abs(s.player.x) > room.entry.width / 2 ||

@@ -146,6 +146,15 @@ export class ConnectedLandscape {
           id: r.id + ":" + e.id,
           x: e.x + r.x,
           z: e.z + r.z,
+          ...(e.threshold
+            ? {
+                threshold: {
+                  ...e.threshold,
+                  x: e.threshold.x + r.x,
+                  z: e.threshold.z + r.z,
+                },
+              }
+            : {}),
         })),
       );
       this.landmarks.push(
@@ -305,6 +314,7 @@ export class ConnectedLandscape {
   }
   private place(id: string, x: number, z: number, scale: number, yaw = 0) {
     const o = this.library.create(id, scale);
+    o.userData.movementSolid = true;
     o.position.set(x, valeWalk(x, z), z);
     o.rotation.y = yaw;
     this.group.add(o);
