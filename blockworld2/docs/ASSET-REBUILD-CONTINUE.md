@@ -1,8 +1,10 @@
-# BlockWorld Adventures — active Preview 07 continuation
+# BlockWorld Adventures — active continuation after Preview 08
 
 Read the authoritative living [standing user brief in issue #2](https://github.com/novice-builder/object-builder/issues/2) FIRST, then [BLOCKWORLD-DEVELOPMENT-DIRECTION.md](BLOCKWORLD-DEVELOPMENT-DIRECTION.md), this handoff and the latest report. This is open-ended ACTIVE DEVELOPMENT. A milestone/build/test/report/package is a checkpoint; continue implementing the next valuable unfinished item in the SAME execution until a genuine execution/usage boundary or unavoidable blocker. No usage-meter tool is exposed; do not invent allowance exhaustion.
 
 ## Current source and delivery
+
+- NEWEST tested runtime/evidence source: `57b84e7046b6e8d6852fcbe9acbe6a6a5f68f55b`, normally pushed and independently verified. NEW Preview 08 ZIP `artifacts/adventures-v8/BlockWorld-Adventures-Preview-08.zip`: 6,739,240 bytes, SHA-256 `3ad9deb092bf054c78c8d6d23484a2b607fffdabc8dcbe02f94badfc10fbe015`. Extracted archive now passes CRC/all runtime hashes and 19 package checks, including immediate arrival/door interaction which rejected the 07 candidate. Startup resource sample 3,646,713 bytes; source suite 165/current browser checks 40/protected files 568. Preserve v8 docs/artifacts now; new work belongs in v9 folders. Push/verify this completed package commit, then continue immediately into actual camera-canopy edge investigation and coherent outdoor/gameplay improvements. No deployment, reset redemption or automation change occurred.
 
 - Latest independently verified REMOTE source: `e4fcdcffe2313ff98ec8a57e745e908a56152ba8` (Alderwick layout-5 source/evidence, 163 deterministic/34 browser checks). Fresh fetch + ls-remote after environment recovery still match it. Issue #2 was fetched again and remains unchanged. This SAME run retains PID 36707's flock; no other live agent/writer was observed.
 - Last ACCEPTED package remains Preview 06, checkpoint `d53f461b6565f171312c642507dee88eaf4343e1`, runtime `c90159ee50070790d40027166bc99738e000958c`. ZIP `artifacts/adventures-v6/BlockWorld-Adventures-Preview-06.zip`, 4,765,875 bytes, SHA-256 `4944a8a7a41bb8a179a2339e668df42a882465c490490a57082a152a296697bd`. Its extracted probe passes 17 checks. Earlier 01–06 packages/evidence remain frozen.

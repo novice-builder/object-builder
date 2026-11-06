@@ -1,0 +1,87 @@
+{
+  "archive": "BlockWorld-Adventures-Preview-08.zip",
+  "checks": [
+    {
+      "name": "archive CRC",
+      "passed": true
+    },
+    {
+      "name": "all build-manifest hashes",
+      "passed": true
+    },
+    {
+      "name": "packaged game opens connected vale",
+      "passed": true
+    },
+    {
+      "name": "packaged nearby ground targets the ghost before confirmation",
+      "passed": true
+    },
+    {
+      "name": "packaged pinned ghost actually renders",
+      "passed": true
+    },
+    {
+      "name": "packaged explicit target confirmation keeps exact position",
+      "passed": true
+    },
+    {
+      "name": "all 19 packaged catalogue images load",
+      "passed": true
+    },
+    {
+      "name": "packaged fresh-world UI loads separate connected layout 5",
+      "passed": true
+    },
+    {
+      "name": "packaged visible name edge safely travels",
+      "passed": true
+    },
+    {
+      "name": "packaged map travels to meadow in same world",
+      "passed": true
+    },
+    {
+      "name": "packaged Alderwick name safely travels into the northern square",
+      "passed": true
+    },
+    {
+      "name": "packaged arrival context immediately names the lodge door",
+      "passed": true
+    },
+    {
+      "name": "packaged lodge is present with contextual door",
+      "passed": true
+    },
+    {
+      "name": "packaged real door opens",
+      "passed": true
+    },
+    {
+      "name": "packaged live door state imports into a separate record",
+      "passed": true
+    },
+    {
+      "name": "all ten packaged gallery views load",
+      "passed": true
+    },
+    {
+      "name": "gallery zoom opens",
+      "passed": true
+    },
+    {
+      "name": "gallery zoom closes",
+      "passed": true
+    },
+    {
+      "name": "no runtime errors, missing files or external requests",
+      "passed": true
+    }
+  ],
+  "sourceCommit": "57b84e7046b6e8d6852fcbe9acbe6a6a5f68f55b",
+  "manifestFiles": 124,
+  "startupBytes": 3646713,
+  "errors": [],
+  "missing": [],
+  "externalRequests": []
+}
