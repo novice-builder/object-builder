@@ -1,0 +1,326 @@
+{
+  "checks": [
+    {
+      "name": "new world uses explicit layout 7 with ninth actual map landmark",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "new inn, workshop and homes have stable individual room identities",
+      "passed": true,
+      "detail": {
+        "buildings": [
+          {
+            "asset": "building_tavern_blue",
+            "x": -157,
+            "z": 51
+          },
+          {
+            "asset": "building_home_B_green",
+            "x": -137,
+            "z": 51
+          },
+          {
+            "asset": "building_home_A_blue",
+            "x": -156,
+            "z": 64
+          },
+          {
+            "asset": "building_home_A_green",
+            "x": -137,
+            "z": 64
+          },
+          {
+            "asset": "building_blacksmith_blue",
+            "x": -157,
+            "z": 38
+          },
+          {
+            "asset": "building_home_A_blue",
+            "x": -119,
+            "z": 64
+          },
+          {
+            "asset": "building_market_blue",
+            "x": -146,
+            "z": 74
+          }
+        ],
+        "entries": [
+          {
+            "id": "building_tavern_blue:-157.000:51.000:1.571",
+            "name": "Village inn",
+            "kind": "inn",
+            "levels": 2,
+            "x": -151.15365667343139,
+            "z": 51.94243465483123,
+            "yaw": 1.5707963267948966,
+            "width": 8.436442136764526,
+            "depth": 9.592686653137207,
+            "threshold": {
+              "x": -154.0216570854187,
+              "y": 1.5120000815388266,
+              "z": 51.94243465483123
+            }
+          },
+          {
+            "id": "building_home_B_green:-137.000:51.000:-1.571",
+            "name": "Town house",
+            "kind": "townhouse",
+            "levels": 2,
+            "x": -141.78541519641877,
+            "z": 51.96082086592851,
+            "yaw": -1.5707963267948966,
+            "width": 5.949512004852295,
+            "depth": 7.470830392837525,
+            "threshold": {
+              "x": -139.04341511130332,
+              "y": 1.4280154991149998,
+              "z": 51.96082086592851
+            }
+          },
+          {
+            "id": "building_home_A_blue:-156.000:64.000:1.571",
+            "name": "Cottage",
+            "kind": "cottage",
+            "levels": 1,
+            "x": -152.04758441448212,
+            "z": 64,
+            "yaw": 1.5707963267948966,
+            "width": 5.8,
+            "depth": 6.8
+          },
+          {
+            "id": "building_home_A_green:-137.000:64.000:-1.571",
+            "name": "Cottage",
+            "kind": "cottage",
+            "levels": 1,
+            "x": -140.95241558551788,
+            "z": 64,
+            "yaw": -1.5707963267948966,
+            "width": 5.8,
+            "depth": 6.8
+          },
+          {
+            "id": "building_blacksmith_blue:-157.000:38.000:1.571",
+            "name": "Smith's workshop",
+            "kind": "workshop",
+            "levels": 1,
+            "x": -151.90326240360736,
+            "z": 38,
+            "yaw": 1.5707963267948966,
+            "width": 8.369406461715698,
+            "depth": 8.093475192785263
+          },
+          {
+            "id": "building_home_A_blue:-119.000:64.000:3.142",
+            "name": "Cottage",
+            "kind": "cottage",
+            "levels": 1,
+            "x": -119,
+            "z": 60.04758441448212,
+            "yaw": 3.141592653589793,
+            "width": 5.8,
+            "depth": 6.8
+          }
+        ]
+      }
+    },
+    {
+      "name": "landmark touch travel chooses actual clear outdoor village lane",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": -146,
+          "y": 0,
+          "z": 57,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "millers-end",
+          "name": "Miller\u2019s End"
+        },
+        "clear": true,
+        "room": false
+      }
+    },
+    {
+      "name": "windmill lane to original village is traversable by ordinary movement without teleport",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "return through moderate cottage lane is traversable by ordinary movement without teleport",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "market and southern cottage loop is traversable by ordinary movement without teleport",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "district doorway approach inn 0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "district room 0 saves/reloads its own furnishings and floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_tavern_blue:-157.000:51.000:1.571",
+        "restored": true,
+        "levels": 2,
+        "furnishings": 8,
+        "bed": 3,
+        "count": 1
+      }
+    },
+    {
+      "name": "district room 0 fades back to the exact safe building exterior",
+      "passed": true,
+      "detail": {
+        "clear": true,
+        "distance": 0,
+        "inside": false
+      }
+    },
+    {
+      "name": "district doorway approach townhouse 1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "district room 1 saves/reloads its own furnishings and floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_B_green:-137.000:51.000:-1.571",
+        "restored": true,
+        "levels": 2,
+        "furnishings": 7,
+        "bed": 3,
+        "count": 2
+      }
+    },
+    {
+      "name": "district room 1 fades back to the exact safe building exterior",
+      "passed": true,
+      "detail": {
+        "clear": true,
+        "distance": 0,
+        "inside": false
+      }
+    },
+    {
+      "name": "district doorway approach cottage 2",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "district room 2 saves/reloads its own furnishings and floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_A_blue:-156.000:64.000:1.571",
+        "restored": true,
+        "levels": 1,
+        "furnishings": 7,
+        "bed": 0,
+        "count": 3
+      }
+    },
+    {
+      "name": "district room 2 fades back to the exact safe building exterior",
+      "passed": true,
+      "detail": {
+        "clear": true,
+        "distance": 0,
+        "inside": false
+      }
+    },
+    {
+      "name": "district doorway approach cottage 3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "district room 3 saves/reloads its own furnishings and floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_A_green:-137.000:64.000:-1.571",
+        "restored": true,
+        "levels": 1,
+        "furnishings": 7,
+        "bed": 0,
+        "count": 4
+      }
+    },
+    {
+      "name": "district room 3 fades back to the exact safe building exterior",
+      "passed": true,
+      "detail": {
+        "clear": true,
+        "distance": 0,
+        "inside": false
+      }
+    },
+    {
+      "name": "district doorway approach workshop 4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "district room 4 saves/reloads its own furnishings and floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_blacksmith_blue:-157.000:38.000:1.571",
+        "restored": true,
+        "levels": 1,
+        "furnishings": 5,
+        "bed": null,
+        "count": 5
+      }
+    },
+    {
+      "name": "district room 4 fades back to the exact safe building exterior",
+      "passed": true,
+      "detail": {
+        "clear": true,
+        "distance": 0,
+        "inside": false
+      }
+    },
+    {
+      "name": "district doorway approach cottage 5",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "district room 5 saves/reloads its own furnishings and floor count",
+      "passed": true,
+      "detail": {
+        "id": "building_home_A_blue:-119.000:64.000:3.142",
+        "restored": true,
+        "levels": 1,
+        "furnishings": 7,
+        "bed": 0,
+        "count": 6
+      }
+    },
+    {
+      "name": "district room 5 fades back to the exact safe building exterior",
+      "passed": true,
+      "detail": {
+        "clear": true,
+        "distance": 0,
+        "inside": false
+      }
+    },
+    {
+      "name": "district movement/rendering has no page exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader, touchscreen emulation; no physical-device claim."
+}

@@ -1,3 +1,9 @@
+import {
+  MILLERS_END,
+  MILLERS_END_ROADS,
+  MILLERS_END_BUILDINGS,
+  MILLERS_END_GARDENS,
+} from "./millers-end-data";
 import { fitBridge } from "./bridge-fit";
 import { NORTH_CROSSING } from "./crossings";
 import {
@@ -100,7 +106,7 @@ export class ConnectedLandscape {
   private materials: T.Material[] = [];
   constructor(
     readonly library: AssetLibrary,
-    readonly layout: 3 | 4 | 5 | 6 = 3,
+    readonly layout: 3 | 4 | 5 | 6 | 7 = 3,
     doorOpen = false,
   ) {
     this.terrain();
@@ -183,6 +189,7 @@ export class ConnectedLandscape {
     this.settlements();
     if (layout >= 5) this.alderwick();
     if (layout >= 6) this.reedbank();
+    if (layout >= 7) this.millersEnd();
     if (layout >= 4) {
       this.lodge = new Lodge(library, doorOpen);
       this.group.add(this.lodge.group);
@@ -522,6 +529,45 @@ export class ConnectedLandscape {
         "The mill hamlet gathers beside the northern footbridge. Cottage gardens, a smithy yard and the river lane connect the forest to the meadow without changing worlds.",
     });
   }
+  private millersEnd() {
+    const road = this.regions[0].trailSurface,
+      walk = (x: number, z: number) => valeWalk(x, z, this.layout),
+      streets = MILLERS_END_ROADS.map((p) => smoothTrail(p.points));
+    for (const [i, path] of MILLERS_END_ROADS.entries()) {
+      this.paths.push({ points: streets[i], width: path.width });
+      this.mesh(trailGeometry(streets[i], path.width, walk), road);
+    }
+    for (const p of MILLERS_END_BUILDINGS) {
+      const root = this.place(p.asset, p.x, p.z, p.scale, p.yaw);
+      root.userData.settlement = MILLERS_END.id;
+      const b = this.library.bounds.get(p.asset)!,
+        front = b.max.z * p.scale + 1;
+      const start = [
+        p.x + Math.sin(p.yaw) * front,
+        p.z + Math.cos(p.yaw) * front,
+      ];
+      const ends = streets.map((street) => closestTrailPoint(start, street));
+      const end = ends.sort(
+        (a, b) =>
+          Math.hypot(a[0] - start[0], a[1] - start[1]) -
+          Math.hypot(b[0] - start[0], b[1] - start[1]),
+      )[0];
+      const path = { points: [start, end], width: 1.8 };
+      this.paths.push(path);
+      this.mesh(trailGeometry(path.points, path.width, walk), road);
+    }
+    this.place("building_well_blue", -141, 71, 4);
+    this.place("wheelbarrow", -152, 41, 3.7, 0.5);
+    this.place("sack", -152, 43, 3.7);
+    this.place("barrel", -150, 73, 3.5);
+    this.place("crate_A_small", -150, 71.5, 3.5);
+    this.place("sign", -134, 29, 2.6, 0.4);
+    this.landmarks.push({
+      ...MILLERS_END,
+      description:
+        "The windmill lane leads to a small market, an inn, a smith’s yard and cottage gardens. Follow the east orchard lane back to Willowmere. Homes, the workshop and the inn have their own furnished rooms.",
+    });
+  }
   private populate() {
     let seed = 31825;
     const random = () => {
@@ -549,6 +595,7 @@ export class ConnectedLandscape {
       for (const [gx, gz] of [
         ...ALDERWICK_GARDENS,
         ...(this.layout >= 6 ? REEDBANK_GARDENS : []),
+        ...(this.layout >= 7 ? MILLERS_END_GARDENS : []),
       ])
         for (let i = 0; i < 12; i++) {
           const angle = (i * Math.PI * 2) / 12,

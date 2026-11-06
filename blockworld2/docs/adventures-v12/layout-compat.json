@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "name": "layout 3 exactly retains reference scenery, paths, collision bounds, entrances, map and construction",
+      "passed": true,
+      "detail": {
+        "referenceHash": "e24bb0776ce76f176bf0274d30d89fd6ca0f1c3926a8a0ebc619041e90b73e95",
+        "currentHash": "e24bb0776ce76f176bf0274d30d89fd6ca0f1c3926a8a0ebc619041e90b73e95",
+        "buildings": 26,
+        "trees": 1160
+      }
+    },
+    {
+      "name": "layout 4 exactly retains reference scenery, paths, collision bounds, entrances, map and construction",
+      "passed": true,
+      "detail": {
+        "referenceHash": "8692bbdee1f88ed6f8d980181f10fa861d289cbfb2007a2cf52114ff20d99469",
+        "currentHash": "8692bbdee1f88ed6f8d980181f10fa861d289cbfb2007a2cf52114ff20d99469",
+        "buildings": 27,
+        "trees": 1157
+      }
+    },
+    {
+      "name": "layout 5 exactly retains reference scenery, paths, collision bounds, entrances, map and construction",
+      "passed": true,
+      "detail": {
+        "referenceHash": "bd1dd997c6e38d2d5673fb8fe3789c500a0368e563b3d221c6764cc1a1391a65",
+        "currentHash": "bd1dd997c6e38d2d5673fb8fe3789c500a0368e563b3d221c6764cc1a1391a65",
+        "buildings": 37,
+        "trees": 1100
+      }
+    },
+    {
+      "name": "layout 6 exactly retains reference scenery, paths, collision bounds, entrances, map and construction",
+      "passed": true,
+      "detail": {
+        "referenceHash": "6261abf0d3bf4b13e5e129b7e3a5c4f0a8d2addf13e04ebfa1f7baf7168930a4",
+        "currentHash": "6261abf0d3bf4b13e5e129b7e3a5c4f0a8d2addf13e04ebfa1f7baf7168930a4",
+        "buildings": 44,
+        "trees": 1061
+      }
+    }
+  ],
+  "reference": "Accepted Preview 11 extracted on 5186; actual rendered runtime layouts 3\u20136."
+}

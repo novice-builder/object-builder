@@ -415,13 +415,15 @@ class AdventureGame {
         data.scene === "vale"
           ? new ConnectedLandscape(
               this.library,
-              data.layout === 6
-                ? 6
-                : data.layout === 5
-                  ? 5
-                  : data.layout === 4
-                    ? 4
-                    : 3,
+              data.layout === 7
+                ? 7
+                : data.layout === 6
+                  ? 6
+                  : data.layout === 5
+                    ? 5
+                    : data.layout === 4
+                      ? 4
+                      : 3,
               data.doors?.lodge,
             )
           : new Landscape(this.library, data.scene, data.layout);
@@ -1693,7 +1695,7 @@ class AdventureGame {
         (a, b) => b.updated - a.updated,
       );
       this.openModal(
-        `<div class="eyebrow">TAKE THE LONG WAY HOME</div><h1 id="modalTitle">Where shall we go?</h1><p>Explore a saved valley, or start a fresh valley with Reedbank. Earlier scenery stays with its saved world.</p><div class="placeCards">${WORLDS.filter(
+        `<div class="eyebrow">TAKE THE LONG WAY HOME</div><h1 id="modalTitle">Where shall we go?</h1><p>Explore a saved valley, or start a fresh valley with Miller’s End. Earlier scenery stays with its saved world.</p><div class="placeCards">${WORLDS.filter(
           (w) => w.id === "vale",
         )
           .map(
@@ -1702,7 +1704,7 @@ class AdventureGame {
           )
           .join(
             "",
-          )}</div><div class="savedWorlds"><h2>Your saved worlds & earlier previews</h2><div id="savedRows"></div></div><details class="newPlaces"><summary>Start a fresh place</summary><p>Fresh valleys include Reedbank, its mill and northern river crossing, plus Alderwick. Your saved valleys keep their scenery and buildings.</p><div id="newPlaceButtons"></div></details><p class="finePrint">Earlier independent places keep their original scenery and saves. Original BlockWorld worlds remain in the original game.</p>`,
+          )}</div><div class="savedWorlds"><h2>Your saved worlds & earlier previews</h2><div id="savedRows"></div></div><details class="newPlaces"><summary>Start a fresh place</summary><p>Fresh valleys include Miller’s End beside the old windmill, plus Reedbank, Alderwick and their connecting roads. Your saved valleys keep their scenery and buildings.</p><div id="newPlaceButtons"></div></details><p class="finePrint">Earlier independent places keep their original scenery and saves. Original BlockWorld worlds remain in the original game.</p>`,
       );
       for (const w of WORLDS.filter((w) => w.id === "vale")) {
         const button = $("modal").querySelector<HTMLButtonElement>(
@@ -1728,7 +1730,7 @@ class AdventureGame {
       }
       for (const w of WORLDS.filter((w) => w.id === "vale")) {
         const fresh = document.createElement("button");
-        fresh.textContent = "New " + w.name + " · Reedbank";
+        fresh.textContent = "New " + w.name + " · Miller’s End";
         fresh.dataset.newScene = w.id;
         fresh.onclick = () =>
           void this.session
@@ -1747,11 +1749,13 @@ class AdventureGame {
           const saved = validateAdventure(JSON.parse(r.current.json));
           if (saved.scene === "vale")
             scenery =
-              saved.layout === 6
-                ? " · Reedbank"
-                : saved.layout === 5
-                  ? " · Alderwick"
-                  : " · earlier scenery";
+              saved.layout === 7
+                ? " · Miller’s End"
+                : saved.layout === 6
+                  ? " · Reedbank"
+                  : saved.layout === 5
+                    ? " · Alderwick"
+                    : " · earlier scenery";
         } catch {}
         button.textContent =
           (r.id === this.session.current?.id ? "● " : "") + r.name + scenery;
