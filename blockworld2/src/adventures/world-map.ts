@@ -1,4 +1,9 @@
 import {
+  layoutMapTargets,
+  pickMapDestination,
+  type MapTarget,
+} from "./map-targets";
+import {
   MapTransform,
   type WorldMapData,
   type MapDestination,
@@ -20,15 +25,22 @@ export class AdventureMap {
   private gesture = false;
   private down: { x: number; y: number } | null = null;
   private pinch = 0;
+  private targets: MapTarget[] = [];
+  private point(e: PointerEvent) {
+    const r = this.full.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
   constructor(
     readonly mini: HTMLCanvasElement,
     readonly full: HTMLCanvasElement,
     readonly travel: (d: MapDestination) => void,
   ) {
     full.addEventListener("pointerdown", (e) => {
+      if (!this.open) return;
       full.setPointerCapture(e.pointerId);
-      this.pointers.set(e.pointerId, { x: e.offsetX, y: e.offsetY });
-      this.down = { x: e.offsetX, y: e.offsetY };
+      const at = this.point(e);
+      this.pointers.set(e.pointerId, at);
+      this.down = at;
       if (this.pointers.size > 1) {
         this.gesture = true;
         this.pinch = this.span();
@@ -37,9 +49,10 @@ export class AdventureMap {
     full.addEventListener("pointermove", (e) => {
       const old = this.pointers.get(e.pointerId);
       if (!old || !this.transform) return;
-      const dx = e.offsetX - old.x,
-        dy = e.offsetY - old.y;
-      this.pointers.set(e.pointerId, { x: e.offsetX, y: e.offsetY });
+      const at = this.point(e),
+        dx = at.x - old.x,
+        dy = at.y - old.y;
+      this.pointers.set(e.pointerId, at);
       if (this.pointers.size === 2) {
         const now = this.span(),
           p = [...this.pointers.values()];
@@ -50,33 +63,33 @@ export class AdventureMap {
         );
         this.pinch = now;
       } else {
-        if (
-          this.down &&
-          Math.hypot(e.offsetX - this.down.x, e.offsetY - this.down.y) > 7
-        )
+        if (this.down && Math.hypot(at.x - this.down.x, at.y - this.down.y) > 7)
           this.gesture = true;
         if (this.gesture) this.transform.pan(dx, dy);
       }
       this.drawFull();
     });
     full.addEventListener("pointerup", (e) => {
+      const at = this.point(e),
+        owned = this.pointers.has(e.pointerId);
       if (
+        owned &&
+        this.open &&
+        this.down &&
+        Math.hypot(at.x - this.down.x, at.y - this.down.y) <= 7 &&
         !this.gesture &&
         this.pointers.size === 1 &&
         this.transform &&
         this.data
       ) {
-        const at = { x: e.offsetX, y: e.offsetY };
-        let picked: MapDestination | undefined,
-          distance = 25;
-        for (const d of this.data.destinations) {
-          const p = this.transform.screen(d.x, d.z),
-            dist = Math.hypot(p.x - at.x, p.y - at.y);
-          if (dist < distance) {
-            picked = d;
-            distance = dist;
-          }
-        }
+        const rect = this.full.getBoundingClientRect();
+        const picked = pickMapDestination(
+          this.targets,
+          at.x,
+          at.y,
+          rect.width,
+          rect.height,
+        );
         if (picked) this.travel(picked);
       }
       this.pointers.delete(e.pointerId);
@@ -129,6 +142,7 @@ export class AdventureMap {
   }
   setWorld(data: WorldMapData) {
     this.data = data;
+    this.targets = [];
     this.transform = null;
     this.drawnPose = "";
     this.makeBase();
@@ -336,31 +350,35 @@ export class AdventureMap {
     this.background(c, w, h, t);
     c.textAlign = "center";
     c.textBaseline = "middle";
-    for (const d of this.data.destinations) {
-      const p = t.screen(d.x, d.z);
+    this.targets = layoutMapTargets(
+      this.data.destinations,
+      t,
+      w,
+      h,
+      (text, font) => {
+        c.font = font;
+        return c.measureText(text).width;
+      },
+    );
+    for (const target of this.targets) {
       c.beginPath();
-      c.arc(p.x, p.y, 7, 0, Math.PI * 2);
+      c.arc(target.x, target.y, 7, 0, Math.PI * 2);
       c.fillStyle = "#fff9e8";
       c.fill();
       c.strokeStyle = "#3d6554";
       c.lineWidth = 2;
       c.stroke();
-      const small = w < 500 && t.scale < 1.8;
-      c.font = small ? "600 10px system-ui" : "600 13px system-ui";
-      if (p.x < -65 || p.x > w + 65 || p.y < -30 || p.y > h + 30) continue;
-      const lines =
-        small && d.name.includes(" ")
-          ? [
-              d.name.slice(0, d.name.indexOf(" ")),
-              d.name.slice(d.name.indexOf(" ") + 1),
-            ]
-          : [d.name];
-      for (let i = 0; i < lines.length; i++) {
+    }
+    for (const { label } of this.targets) {
+      c.font = label.font;
+      for (let i = 0; i < label.lines.length; i++) {
+        const x = label.x + label.width / 2,
+          y = label.y + 4 + (i + 0.5) * label.lineHeight;
         c.lineWidth = 3;
         c.strokeStyle = "#f9f6e6";
-        c.strokeText(lines[i], p.x, p.y - 20 - (lines.length - 1 - i) * 12);
+        c.strokeText(label.lines[i], x, y);
         c.fillStyle = "#294b40";
-        c.fillText(lines[i], p.x, p.y - 20 - (lines.length - 1 - i) * 12);
+        c.fillText(label.lines[i], x, y);
       }
     }
     const p = t.screen(this.pose.x, this.pose.z);

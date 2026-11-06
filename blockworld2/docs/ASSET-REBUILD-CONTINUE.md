@@ -1,6 +1,14 @@
-# BlockWorld Adventures — continuing from Preview 03
+# BlockWorld Adventures — active Preview 05 continuation
 
 Read the authoritative living [standing brief in issue #2](https://github.com/novice-builder/object-builder/issues/2) FIRST, then [BLOCKWORLD-DEVELOPMENT-DIRECTION.md](BLOCKWORLD-DEVELOPMENT-DIRECTION.md) and this handoff. The user updated the assignment during this active run: develop one connected main world, real minimap/full map, safe travel, believable scale, rich settlements and continuing gameplay. Three independent medieval environments are legacy records, not three different themes. Continue useful milestones in the same run; tests, reports and packages are checkpoints, not finish conditions.
+
+## Latest remote recovery — previous blocker resolved
+
+Active Preview 05 work fixes visible map-name hit targets using shared drawing/picking geometry and CSS-pixel input coordinates. Phone/tablet screenshots were rendered and inspected; 18 browser checks pass, including real pinch/remaining-finger pan, cancellation and circle/name safe travel. Three new deterministic layout/picking regressions are included. See `docs/adventures-v5/REPORT.md` and `tools/adventures/map_targets_v5.py`. Continue immediately into world-view sparse-release/cancellation behaviour; do not stop at this checkpoint. Preview 01–04 folders are frozen. New source/evidence/packages belong in v5 folders; physical devices/controllers remain unverified.
+
+On this continuation, the exclusive flock was reacquired (no other writer observed), issue #2 was re-read, and remote was fetched at 304b6dd. A NORMAL fast-forward push of the two preserved local commits succeeded. The independently verified remote is now `8ad0ddf448e908fd6bde9135f22be6b96a198558`; native GitHub reads confirm Preview 04 BUILD/source and ZIP checksum. The historical push-blocker sections below describe the previous run, not a current blocker. Do not reset history or repackage frozen Preview 04. Continue from newest verified tip and NEW v5 evidence.
+
+Preview 04 is now on GitHub: source `9d69a5a57697d688819133466191b9ba6837e7fb`, package/checkpoint `8ad0ddf448e908fd6bde9135f22be6b96a198558`, ZIP SHA-256 `f010649a68737277c75302efb5be9b0e8f8176868d1bc267fd4595e44a66297a`. No rule bypass, force push, deployment, banked reset or automation change was used. Next active implementation is shared full-map label geometry/hit targets, including real phone/tablet reproduction of ignored visible-name taps.
 
 ## Safety and writer ownership
 

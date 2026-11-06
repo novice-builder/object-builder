@@ -1,0 +1,344 @@
+{
+  "phase": "after",
+  "checks": [
+    {
+      "name": "phone visible name edge safely travels to its landmark",
+      "passed": true,
+      "detail": {
+        "x": 149.6301937618771,
+        "y": 281.1081081081081,
+        "distance": 40.51956673030289
+      }
+    },
+    {
+      "name": "phone labels fit viewport at zoom 1",
+      "passed": true,
+      "detail": [
+        {
+          "id": "home",
+          "x": 63.7091012903162,
+          "y": 327.05405405405406,
+          "right": 138.9936014123865,
+          "bottom": 348.05405405405406,
+          "w": 390,
+          "h": 694
+        },
+        {
+          "id": "woodland",
+          "x": 158.65573120117188,
+          "y": 383.4054054054054,
+          "right": 231.34426879882812,
+          "bottom": 417.4054054054054,
+          "w": 390,
+          "h": 694
+        },
+        {
+          "id": "meadow",
+          "x": 217.16300716915646,
+          "y": 344.27027027027026,
+          "right": 273.64864864864865,
+          "bottom": 378.27027027027026,
+          "w": 390,
+          "h": 694
+        },
+        {
+          "id": "brookside",
+          "x": 279.56756756756755,
+          "y": 382.8783783783784,
+          "right": 344.4571549699113,
+          "bottom": 403.8783783783784,
+          "w": 390,
+          "h": 694
+        },
+        {
+          "id": "foresters",
+          "x": 142.6301937618771,
+          "y": 264.1081081081081,
+          "right": 206.34277921109586,
+          "bottom": 298.1081081081081,
+          "w": 390,
+          "h": 694
+        },
+        {
+          "id": "lodge",
+          "x": 280.9193414224161,
+          "y": 265.8918918918919,
+          "right": 337.4049829019083,
+          "bottom": 299.8918918918919,
+          "w": 390,
+          "h": 694
+        }
+      ]
+    },
+    {
+      "name": "phone labels fit viewport at zoom 1.8",
+      "passed": true,
+      "detail": [
+        {
+          "id": "home",
+          "x": 4,
+          "y": 339.8972972972973,
+          "right": 79.28450012207031,
+          "bottom": 360.8972972972973,
+          "w": 390,
+          "h": 694
+        },
+        {
+          "id": "woodland",
+          "x": 158.65573120117188,
+          "y": 336.52972972972975,
+          "right": 231.34426879882812,
+          "bottom": 370.52972972972975,
+          "w": 390,
+          "h": 694
+        },
+        {
+          "id": "meadow",
+          "x": 329.5143585205078,
+          "y": 323.6864864864865,
+          "right": 386,
+          "bottom": 357.6864864864865,
+          "w": 390,
+          "h": 694
+        },
+        {
+          "id": "brookside",
+          "x": 287.77682792044976,
+          "y": 394.4810810810811,
+          "right": 352.6664153227935,
+          "bottom": 415.4810810810811,
+          "w": 390,
+          "h": 694
+        },
+        {
+          "id": "foresters",
+          "x": 126.21938295106631,
+          "y": 236.99459459459462,
+          "right": 189.93196840028506,
+          "bottom": 270.9945945945946,
+          "w": 390,
+          "h": 694
+        }
+      ]
+    },
+    {
+      "name": "phone labels fit viewport at zoom 3",
+      "passed": true,
+      "detail": [
+        {
+          "id": "woodland",
+          "x": 132.94945526123047,
+          "y": 372.2162162162162,
+          "right": 257.05054473876953,
+          "bottom": 396.2162162162162,
+          "w": 390,
+          "h": 694
+        },
+        {
+          "id": "foresters",
+          "x": 80.84691826072901,
+          "y": 206.32432432432432,
+          "right": 186.07200065818995,
+          "bottom": 230.32432432432432,
+          "w": 390,
+          "h": 694
+        }
+      ]
+    },
+    {
+      "name": "phone release displacement cannot become accidental travel",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone pinch zoom and remaining-finger pan retain the map without travel",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone cancelled map touch clears ownership",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone marker circle still safely travels after cancellation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone no browser exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet visible name edge safely travels to its landmark",
+      "passed": true,
+      "detail": {
+        "x": 406.4631344769452,
+        "y": 177.9945945945946,
+        "distance": 53.004753698190925
+      }
+    },
+    {
+      "name": "tablet labels fit viewport at zoom 1",
+      "passed": true,
+      "detail": [
+        {
+          "id": "home",
+          "x": 194.85489489581136,
+          "y": 311.8972972972973,
+          "right": 282.00996996905354,
+          "bottom": 335.8972972972973,
+          "w": 1024,
+          "h": 608
+        },
+        {
+          "id": "woodland",
+          "x": 449.94945526123047,
+          "y": 327.52972972972975,
+          "right": 574.0505447387695,
+          "bottom": 351.52972972972975,
+          "w": 1024,
+          "h": 608
+        },
+        {
+          "id": "meadow",
+          "x": 725.8245026871964,
+          "y": 306.6864864864865,
+          "right": 845.3106324479386,
+          "bottom": 330.6864864864865,
+          "w": 1024,
+          "h": 608
+        },
+        {
+          "id": "brookside",
+          "x": 677.7865859160552,
+          "y": 400.4810810810811,
+          "right": 752.656657327188,
+          "bottom": 424.4810810810811,
+          "w": 1024,
+          "h": 608
+        },
+        {
+          "id": "foresters",
+          "x": 399.4631344769452,
+          "y": 165.9945945945946,
+          "right": 504.6882168744061,
+          "bottom": 189.9945945945946,
+          "w": 1024,
+          "h": 608
+        },
+        {
+          "id": "lodge",
+          "x": 791.5663395237278,
+          "y": 171.2054054054054,
+          "right": 899.417444260056,
+          "bottom": 195.2054054054054,
+          "w": 1024,
+          "h": 608
+        }
+      ]
+    },
+    {
+      "name": "tablet labels fit viewport at zoom 1.8",
+      "passed": true,
+      "detail": [
+        {
+          "id": "home",
+          "x": 4,
+          "y": 349.41513513513513,
+          "right": 91.15507507324219,
+          "bottom": 373.41513513513513,
+          "w": 1024,
+          "h": 608
+        },
+        {
+          "id": "woodland",
+          "x": 449.94945526123047,
+          "y": 377.5535135135135,
+          "right": 574.0505447387695,
+          "bottom": 401.5535135135135,
+          "w": 1024,
+          "h": 608
+        },
+        {
+          "id": "meadow",
+          "x": 869.9354918608794,
+          "y": 367.0356756756757,
+          "right": 989.4216216216216,
+          "bottom": 391.0356756756757,
+          "w": 1024,
+          "h": 608
+        },
+        {
+          "id": "brookside",
+          "x": 840.3638832133524,
+          "y": 508.8659459459459,
+          "right": 915.2339546244852,
+          "bottom": 532.8659459459459,
+          "w": 1024,
+          "h": 608
+        },
+        {
+          "id": "foresters",
+          "x": 351.52367501748574,
+          "y": 86.79027027027027,
+          "right": 456.7487574149467,
+          "bottom": 110.79027027027027,
+          "w": 1024,
+          "h": 608
+        }
+      ]
+    },
+    {
+      "name": "tablet labels fit viewport at zoom 3",
+      "passed": true,
+      "detail": [
+        {
+          "id": "woodland",
+          "x": 449.94945526123047,
+          "y": 452.5891891891892,
+          "right": 574.0505447387695,
+          "bottom": 476.5891891891892,
+          "w": 1024,
+          "h": 608
+        },
+        {
+          "id": "foresters",
+          "x": 279.61448582829655,
+          "y": 21.983783783783792,
+          "right": 384.8395682257575,
+          "bottom": 45.98378378378379,
+          "w": 1024,
+          "h": 608
+        }
+      ]
+    },
+    {
+      "name": "tablet release displacement cannot become accidental travel",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet pinch zoom and remaining-finger pan retain the map without travel",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet cancelled map touch clears ownership",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet marker circle still safely travels after cancellation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet no browser exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader with touch viewport emulation. Physical Lenovo/iPhone/Safari remain unverified."
+}

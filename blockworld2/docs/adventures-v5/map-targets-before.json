@@ -1,0 +1,24 @@
+{
+  "phase": "before",
+  "checks": [
+    {
+      "name": "phone visible name edge safely travels to its landmark",
+      "passed": false,
+      "detail": {
+        "x": 154.48648648648648,
+        "y": 281.1081081081081,
+        "distance": 37.73592452822641
+      }
+    },
+    {
+      "name": "tablet visible name edge safely travels to its landmark",
+      "passed": false,
+      "detail": {
+        "x": 407.07567567567565,
+        "y": 184.9945945945946,
+        "distance": 49.24428900898052
+      }
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader with touch viewport emulation. Physical Lenovo/iPhone/Safari remain unverified."
+}
