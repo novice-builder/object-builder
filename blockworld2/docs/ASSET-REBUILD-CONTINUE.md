@@ -1,4 +1,10 @@
-# BlockWorld Adventures — active Preview 05 continuation
+# BlockWorld Adventures — active continuation after Preview 05
+
+## NEWEST delivery checkpoint — Preview 05
+
+Runtime/evidence source `c113ffcbacdc2f247b646ce55737874372879d18` is normally pushed and independently verified. NEW archive `artifacts/adventures-v5/BlockWorld-Adventures-Preview-05.zip`: 10,346,529 bytes, SHA-256 `4bc038c04da6226055226d0fa0a7cc95b777aaa1461a0e3c3c676dfb2f7fbc82`. The separately extracted package passes CRC, every runtime hash and 14 package/browser checks (visible name travel, map/dropdown, functional lodge door, new-record backup import, 19 thumbnails, 12 gallery views, no missing/external requests). Full source suite 153; 64 browser/compatibility/render checks; 390 protected files unchanged. Preview 05 docs/artifacts are now frozen. No deployment or automation change occurred.
+
+Immediately continue in NEW `docs/adventures-v6/` evidence into precise touch/mouse ground targeting for object placement. Preserve the existing follow-camera, keyboard/gamepad, explicit confirmation, collision/path/water, undo and save protections. Add bounded reach, clear occlusion feedback, visible error previews and a simple way to resume aiming ahead. Capture phone/tablet placement screenshots and test both outdoor and real lodge-floor targets. Do not stop after the package push. Later world footprint additions still need an explicit new layout to protect existing constructions. Physical Lenovo/iPhone/Safari/Xbox remain unverified.
 
 Read the authoritative living [standing brief in issue #2](https://github.com/novice-builder/object-builder/issues/2) FIRST, then [BLOCKWORLD-DEVELOPMENT-DIRECTION.md](BLOCKWORLD-DEVELOPMENT-DIRECTION.md) and this handoff. The user updated the assignment during this active run: develop one connected main world, real minimap/full map, safe travel, believable scale, rich settlements and continuing gameplay. Three independent medieval environments are legacy records, not three different themes. Continue useful milestones in the same run; tests, reports and packages are checkpoints, not finish conditions.
 
