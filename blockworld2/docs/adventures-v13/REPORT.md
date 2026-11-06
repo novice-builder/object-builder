@@ -1,4 +1,6 @@
-# BlockWorld Adventures — Preview 13 active source
+# BlockWorld Adventures — Preview 13
+
+Verified runtime source: `5b3bc5274a9767ebd32e0406d455058668e45180`.
 
 Fresh windmill rooms now match a compact 5.2×5.2m chamfered tower footprint instead of using the earlier larger rectangular template. Two real ten-tread flights turn on a 1.5m landing and reach the 3m grain loft. The upper-floor opening provides actual head clearance. Collision uses rendered walls, floors, treads, posts and rails with the existing generic capsule controller; no collision-ramp shortcut, oversized stair collider or upstairs teleport is used.
 
@@ -23,6 +25,12 @@ An independently retained build matches verified source `725e4858a50370e4fcdef05
 
 The decorative exit door now follows the front-wall cutaway in both compact and older rooms, exposing the avatar near the entrance. Its collision geometry remains. The three sampled views improve from **92→30 ground calls** and **119→35 landing/loft calls** (67–71% fewer submissions). Hiding the camera-facing door also avoids 1,044 submitted triangles. Owned room buffers increase **10,824→82,224 bytes**; startup increases about 729 encoded bytes and retains the same 52 model/image URLs. Ten alternating entries/exits retain two saved rooms and plateau at 77 uploaded geometries indoors/74 outdoors, 11 textures and nine programs in the sampled final poses. These are workload/resource samples, not physical-device FPS or a universal memory claim. Actual before/after screenshots were inspected; generic movement, input and compatibility checks pass after batching.
 
-## Next active work
+## Accepted release and continuing work
 
-Push/independently verify this tested optimisation source, create a NEW Preview 13 package, extract and verify actual runtime/backup/input behaviour before acceptance. Keep all earlier packages/evidence frozen. Then immediately continue useful connected-world/interior improvements, including coherent settlement life/detail or additional building-specific usable spaces. More faithful architectural rooms, wildlife/NPCs, activities, future distinct themes and physical device testing remain unfinished. No deployment, merge, automation change or reset redemption occurred.
+Preview 13 is a local release checkpoint, not the end of development. Freeze all v13 evidence/archive and continue in NEW v14 paths. Next research a legally downloadable coherent animated farm-animal asset and evaluate a useful new rural destination/settlement detail, with real rendered inspection and a new layout for permanent outdoor footprints. If a source is restricted, do not bypass it or repeatedly retry; choose another useful implementation. More building-specific interiors, activities, wildlife/NPCs, distinctive themes and physical-device testing remain unfinished. No deployment, merge, automation change or reset redemption occurred.
+
+The new local launcher defaults to **localhost:8013** so older localhost:8000 browser storage is kept separate. Bring an older world across with its exported .bw2 backup; import creates an independent record. An optional `--port` supports other local addresses. This is a local user-run preview, not publishing or deployment.
+
+## Extracted package acceptance
+
+ZIP `artifacts/adventures-v13/BlockWorld-Adventures-Preview-13.zip`, **5566148 bytes**, SHA-256 `15434167bf9543cc5f4a92d0e5ce5f3b203f8928d10ed5e9619cddeb2a9f5b3d`; exact runtime source `5b3bc5274a9767ebd32e0406d455058668e45180`. ZIP CRC, all **131 runtime file hashes** and **33 actual extracted-package checks** pass. The packaged launcher supports `--port`/`--lan` and was actually used on loopback with a test port. Checks cover running/Jump, bridge, native backup download/import/reload, regular stairs, bed editing/floor transfer, retained physical lodge door, single-storey cottage, distinct copy names, compact mill save/facing, both turning flights up/down, older Preview 12 rejection and all eight gallery images. No runtime exceptions, missing files or external requests. Actual packaged phone screenshots were inspected. Hardware tests remain unverified.

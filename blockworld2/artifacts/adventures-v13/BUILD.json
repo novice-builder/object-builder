@@ -1,0 +1,534 @@
+{
+  "version": "Adventures-Preview-13",
+  "sourceCommit": "5b3bc5274a9767ebd32e0406d455058668e45180",
+  "verifiedBase": "5b3bc5274a9767ebd32e0406d455058668e45180",
+  "published": false,
+  "deterministicTests": 209,
+  "browserChecks": 68,
+  "files": {
+    "ASSET-CREDITS.txt": {
+      "bytes": 1080,
+      "sha256": "1f40b5775ad47c17483ad9a23c456013329a1e9584bf1d20dc2d9e334b175c20"
+    },
+    "adventures.html": {
+      "bytes": 731,
+      "sha256": "f7abbf9d3cab4fa6bf4b52bf561b38cd3b9e9c429ad7b5661fa613632702021b"
+    },
+    "adventures/PROVENANCE.md": {
+      "bytes": 11744,
+      "sha256": "e3d86edcdcc92c55cf4a008417b1ac2682e9b6ddc946b279358ff18c25c9522b"
+    },
+    "adventures/character/Explorer.glb": {
+      "bytes": 885412,
+      "sha256": "1b5052d743093f457513feae06164d6707adddd170c7023b8d9e87ce1dd8e522"
+    },
+    "adventures/furniture/bedsingle.glb": {
+      "bytes": 18636,
+      "sha256": "ca00c63f9a12da3138d902b2f5f18e0360fb6e8a5ac42ccb4bc3f185724b65d1"
+    },
+    "adventures/furniture/bookcaseopen.glb": {
+      "bytes": 18020,
+      "sha256": "750702218d68c062b15dfef6ab06a4014d1cfa8bd05f02e57c53b7e13bec157c"
+    },
+    "adventures/furniture/books.glb": {
+      "bytes": 6864,
+      "sha256": "b8dc56e5d29f6fc1f4727fccb1b9642627fee9942c48060a00034e98df02701c"
+    },
+    "adventures/furniture/cabinetbed.glb": {
+      "bytes": 7496,
+      "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+    },
+    "adventures/furniture/chair.glb": {
+      "bytes": 10756,
+      "sha256": "c8a11eec93e89e31250ba91afc1b8d56c3bec7ae86640fd1239f595ff4180883"
+    },
+    "adventures/furniture/rugrectangle.glb": {
+      "bytes": 3188,
+      "sha256": "a989d2d59c04e3071e0c90388b113a9a8f339ce1814ef984c51cb6dcd7c8e0eb"
+    },
+    "adventures/furniture/table.glb": {
+      "bytes": 8196,
+      "sha256": "ff1a94498d023957f4bc3ff6f55a7a82977d336dbf01a573b3364f03afe5ff61"
+    },
+    "adventures/inventory-v10.json": {
+      "bytes": 1184,
+      "sha256": "975cc02decad996e9966c800c33bbf8367dfcf2c7d580ed9151f66bb4f2f8e86"
+    },
+    "adventures/inventory-v4.json": {
+      "bytes": 3407,
+      "sha256": "51151377f736f56accd768f17c3aa0fc69c701f74a8f0d299932a35084615c08"
+    },
+    "adventures/inventory.json": {
+      "bytes": 38600,
+      "sha256": "1f3be20e429618e7cc10e3ff7c8a2f6d39a41a17d00e8dd125a6349750a796c8"
+    },
+    "adventures/licences/KayKit-Adventurers-CC0.txt": {
+      "bytes": 891,
+      "sha256": "ae322141814056dda0deea7540d74c41d87aee1da319977cd1bd84ee5a923629"
+    },
+    "adventures/licences/KayKit-Medieval-CC0.txt": {
+      "bytes": 1027,
+      "sha256": "881e50d3629fba90629bedc65e9e6f47cfab3609598c296dcb7f70ea83174360"
+    },
+    "adventures/licences/Kenney-CC0.txt": {
+      "bytes": 510,
+      "sha256": "6913dd72bdc20532b7f02d86469058f45d886c9dabf60831275ed16927aa523b"
+    },
+    "adventures/licences/Quaternius-Medieval-CC0.txt": {
+      "bytes": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    "adventures/modular/Door_4_Flat.glb": {
+      "bytes": 70508,
+      "sha256": "5c175d765d53f9fc961ba92a4f956b84bcef89f3a9590b28cb44d8d6280570bf"
+    },
+    "adventures/modular/Floor_WoodDark.glb": {
+      "bytes": 3344,
+      "sha256": "a19c9c690f8ad9153a5648074208ace4cc70b9b9663f9ab05280ee2d56b188c5"
+    },
+    "adventures/modular/Roof_Front_Brick4.glb": {
+      "bytes": 15328,
+      "sha256": "bfb34562c7aeefcf30a6bdb338f4743227ec2cd2b93da90c5d6cbfd6fff67de1"
+    },
+    "adventures/modular/Roof_RoundTiles_4x6.glb": {
+      "bytes": 132200,
+      "sha256": "c304a617e2f79d086f6afa26d8b666ba4f301ab989877f849424e158ef6ee67d"
+    },
+    "adventures/modular/Wall_Plaster_Door_Flat.glb": {
+      "bytes": 9972,
+      "sha256": "2b2f979f177daa8b531c3935d653d9e93e295b28eaff1caf791ffc68e7fa7ace"
+    },
+    "adventures/modular/Wall_Plaster_Straight.glb": {
+      "bytes": 8120,
+      "sha256": "056154335b2e3a1c2bbb9973209cad173b57788976da6511403e6cef0968eb86"
+    },
+    "adventures/nature/campfire-stones.glb": {
+      "bytes": 17344,
+      "sha256": "54869db23243a3f4905bc00bd4cd93b1037b28556ab3ef93e7a893a093791e35"
+    },
+    "adventures/nature/fence-planks.glb": {
+      "bytes": 7720,
+      "sha256": "2db68f60d24443dbeab05dedd92fcc665d0e21bd261c6a668ea9022a732a06a9"
+    },
+    "adventures/nature/flower-purplea.glb": {
+      "bytes": 7112,
+      "sha256": "f6fc34c96a03420a74fe36d4c2d0ec88f15204fcad99cd1416c3c4ecb22e48c4"
+    },
+    "adventures/nature/flower-reda.glb": {
+      "bytes": 7104,
+      "sha256": "171930b7789ddbf735af3745576b5393750beb9133b9ff4a444bb6bb2986c020"
+    },
+    "adventures/nature/flower-yellowa.glb": {
+      "bytes": 7120,
+      "sha256": "8a3b08cd2ca411c21f9c581d5bda651d78b13c50cba45ad8fa0389398ead6d1d"
+    },
+    "adventures/nature/grass-large.glb": {
+      "bytes": 18504,
+      "sha256": "af49a595624abca7249824eeefb944d4baf974abeeb5b16110d175da3563d6cd"
+    },
+    "adventures/nature/grass.glb": {
+      "bytes": 11496,
+      "sha256": "260e41d3e5f2472492ed7b475c5b92a30b13ce2bad408535b5ff50574d4575e7"
+    },
+    "adventures/nature/lily-small.glb": {
+      "bytes": 5664,
+      "sha256": "38184c9eeb560acabd4d7f1d16852422df056edf0b318c97854c250e048cad3c"
+    },
+    "adventures/nature/log.glb": {
+      "bytes": 14288,
+      "sha256": "8c8fe8f6adfc03a3c0cd6cb24961ff74be96c2da284d70322f05797d049972d6"
+    },
+    "adventures/nature/mushroom-red.glb": {
+      "bytes": 6364,
+      "sha256": "843e2de43dce78920a5675a67bac4b72f500e6220315e713fe08381642cfc571"
+    },
+    "adventures/nature/plant-bush.glb": {
+      "bytes": 4396,
+      "sha256": "ae7b1beb39e242b13f5f29e3ec23ef21034b814f82297b8aa00a9bf4e1b09590"
+    },
+    "adventures/nature/plant-bushsmall.glb": {
+      "bytes": 3212,
+      "sha256": "a9620a7d1fb165ae68d323676f80dbb2a9e3aafb21110d18d18d90b07026b91d"
+    },
+    "adventures/nature/rock-largea.glb": {
+      "bytes": 7552,
+      "sha256": "6dd15390fd96501dcd1454765a17ba61dbbd8d47705dfe5149c8dd92b353ce25"
+    },
+    "adventures/nature/rock-largeb.glb": {
+      "bytes": 8560,
+      "sha256": "caa8b025833d4dabf6d98fe2e96cf2fbd886693ac990df0db75f9d827194374b"
+    },
+    "adventures/nature/rock-smalla.glb": {
+      "bytes": 3044,
+      "sha256": "df9fff9d711e61370e8df0caa2514c89b8f8a8dc6c6fafaf4eb2ec79c5ae07c1"
+    },
+    "adventures/nature/sign.glb": {
+      "bytes": 5040,
+      "sha256": "c658c21672ecd63c5d3e53f06f875d68e6509edb1ab7e3b75374df7c61e7dd0c"
+    },
+    "adventures/nature/stone-talla.glb": {
+      "bytes": 11644,
+      "sha256": "3070bd574104abce19f5e3c82c917cb7f52801720377beba7aad76058408d5db"
+    },
+    "adventures/nature/stump-round.glb": {
+      "bytes": 5644,
+      "sha256": "e9b0f385f0ef98493ef716a055aa51e0b99efb8445279be7bb8bd83329a4c4af"
+    },
+    "adventures/nature/tent-smallopen.glb": {
+      "bytes": 13604,
+      "sha256": "d32c3f7a5926de03521a012774316d38e09c27bd6dbae7cefdb01debe003ecdd"
+    },
+    "adventures/nature/tree-detailed.glb": {
+      "bytes": 31412,
+      "sha256": "c041daf2f0fb1d49e4325227cbcd58667adbe51e9b55e8c1f0a94b74cc521b3b"
+    },
+    "adventures/nature/tree-fat.glb": {
+      "bytes": 5576,
+      "sha256": "84b262c5dda3a91ac6c95f9d8b23a0ebbb1951d678c0e1375d3e32623cc43ee2"
+    },
+    "adventures/nature/tree-oak.glb": {
+      "bytes": 14644,
+      "sha256": "d7fd8773674928c50c11b66d12c636d49bdcc15a8b1c7fbb98e6f63a3439a3f3"
+    },
+    "adventures/nature/tree-pinedefaulta.glb": {
+      "bytes": 17220,
+      "sha256": "60d8f352fa3659ed275e06cbddfecf8f92c8effe2977c2f2d7b29b6c9b582e46"
+    },
+    "adventures/nature/tree-pinedefaultb.glb": {
+      "bytes": 18180,
+      "sha256": "a752ea5775c6fb17513f764d57ead534f44dfdd85188b842995ac9ba0e7065c1"
+    },
+    "adventures/sources/furniture-source-verification.json": {
+      "bytes": 1017,
+      "sha256": "a9e13cf0db26ea2d74f70f079b18cc3df79bde597a3a314e8437192995c84f86"
+    },
+    "adventures/sources/furniture-v10-source-verification.json": {
+      "bytes": 1368,
+      "sha256": "6d428038d6faedfd1d4aabeb7c43d3d8cb454a9cc2b51f7a22b78b28b1bd148d"
+    },
+    "adventures/sources/modular-source-verification.json": {
+      "bytes": 2457,
+      "sha256": "e5a69679ed6570a31ca1fb0f585c2bf595067c1276f48a5e2753f299e0c59459"
+    },
+    "adventures/sources/prepare_assets.py": {
+      "bytes": 6800,
+      "sha256": "e28f6046979c2c95bce003723099632019d031269bb442ffb9f4c675365aef97"
+    },
+    "adventures/sources/prepare_modular.py": {
+      "bytes": 1660,
+      "sha256": "a8ebbf3b240c6ef863c31bfdaf5981b7f7ec479cab76a4705c01d6b97c112055"
+    },
+    "adventures/thumbnails/barrel.png": {
+      "bytes": 14069,
+      "sha256": "0b718049c845a987b727f7b1bf75f34764b59abc37f65bdd70367735872e247d"
+    },
+    "adventures/thumbnails/building_home_A_blue.png": {
+      "bytes": 17433,
+      "sha256": "5b6dd6999a8d1c85dab2d04da6f5b9d337189e98e0653f93fabff3f3e48816e0"
+    },
+    "adventures/thumbnails/building_home_A_green.png": {
+      "bytes": 16434,
+      "sha256": "f498318f4043aafdb4f609a9af8b790f7075bab79ef2e9cb44582ed4cb64eaee"
+    },
+    "adventures/thumbnails/building_home_B_blue.png": {
+      "bytes": 21083,
+      "sha256": "4ddbef220c466fc06453bf96eb21403613126f4ba49c53e5fb5bbefa55d10029"
+    },
+    "adventures/thumbnails/crate_A_small.png": {
+      "bytes": 11254,
+      "sha256": "4d6ad6dd8cc482f30429c54a7e47d1b1afd7a50dfee05a73fda6502a67f94d88"
+    },
+    "adventures/thumbnails/flower-purplea.png": {
+      "bytes": 4935,
+      "sha256": "96e5d28270cf52c57f4248fa8f966e0b1e67c677c8f8d894e241d072a2759d22"
+    },
+    "adventures/thumbnails/flower-reda.png": {
+      "bytes": 4633,
+      "sha256": "fad8e5ea468fec75b8bb53dd13a5d131379da3a960e93710c6832639c35e8128"
+    },
+    "adventures/thumbnails/flower-yellowa.png": {
+      "bytes": 4991,
+      "sha256": "110033e5f864eef7f555a5d1a9291792eb79bd266b1f48a461121f3eb89183ce"
+    },
+    "adventures/thumbnails/furniture-bedsingle.png": {
+      "bytes": 6793,
+      "sha256": "412ebf759571e8c24260c81ff150556049f4324b63c6e2a93a83926c787c8f2e"
+    },
+    "adventures/thumbnails/furniture-bookcaseopen.png": {
+      "bytes": 6280,
+      "sha256": "81c22df08d539fb694696206378a344ec824c5e04cedc59ac40b1b76fb65cfce"
+    },
+    "adventures/thumbnails/furniture-cabinetbed.png": {
+      "bytes": 4697,
+      "sha256": "c374f1325f81e130f89cf9f472a541a1f7c8e39738f57df18ae295aee0191ff2"
+    },
+    "adventures/thumbnails/furniture-chair.png": {
+      "bytes": 5056,
+      "sha256": "25fa9cb457426012ae33212b45dc7d960aaec60fb2c22fbe585cbb6a11406776"
+    },
+    "adventures/thumbnails/furniture-rugrectangle.png": {
+      "bytes": 4549,
+      "sha256": "c10b71c63dacf181e422fe656e6f2c8ff8c334be95fd30cda5fd31ab92bfcde7"
+    },
+    "adventures/thumbnails/furniture-table.png": {
+      "bytes": 5780,
+      "sha256": "649d20e1e2d6a3a58e5cdaecfed57e003184fefddbef008f601f7244029c9adc"
+    },
+    "adventures/thumbnails/log.png": {
+      "bytes": 5183,
+      "sha256": "1fe1141efae571b5d9a6603f86386dd499c50ab8653f36f42d3f1914ff689bfe"
+    },
+    "adventures/thumbnails/manifest-v10.json": {
+      "bytes": 834,
+      "sha256": "83f5ad27c53b49a857a12f18633d7f8f5d262089c427de79b14d2107cb2cbb23"
+    },
+    "adventures/thumbnails/manifest.json": {
+      "bytes": 6770,
+      "sha256": "46ab629b6b1008b405e7b835706a5cf4c47fed757922334c54a2ac0420176049"
+    },
+    "adventures/thumbnails/plant-bush.png": {
+      "bytes": 4561,
+      "sha256": "f743be30c37e5159a2b8135d33e733020ca860ac9b5c95685036c147c8313272"
+    },
+    "adventures/thumbnails/rock-largea.png": {
+      "bytes": 4547,
+      "sha256": "b0747087fd79f7bc52d49b99896eb0ab4b42ea6218470c5ba6553aa8c5208d7b"
+    },
+    "adventures/thumbnails/tent-smallopen.png": {
+      "bytes": 4867,
+      "sha256": "e5ba49c7318d3f0012cd4249c8720a52d45aff9d1000af3367b1b0bb769d8d12"
+    },
+    "adventures/thumbnails/tree-oak.png": {
+      "bytes": 5216,
+      "sha256": "d2defbd7a9370b4f7fb227341bcdec9361035eece6b06bc0d45a94ed676e85c6"
+    },
+    "adventures/thumbnails/tree-pinedefaulta.png": {
+      "bytes": 5568,
+      "sha256": "621d0af7ef5dbd7222803d567671efb69fa2f90f664affd2d9021a6a72996c3a"
+    },
+    "adventures/thumbnails/wheelbarrow.png": {
+      "bytes": 12405,
+      "sha256": "f162764702addf8d55e1ae1f21bad6739ca15fd8a5a33416250654127c548547"
+    },
+    "adventures/village/barrel.glb": {
+      "bytes": 32724,
+      "sha256": "a5eb9b84ea541f7480e38b2f8e2475437897aaa7b2ce70d44690040186dafa11"
+    },
+    "adventures/village/building_blacksmith_blue.glb": {
+      "bytes": 140252,
+      "sha256": "8af187e0eca988b4d8f7a666533cdba8866760025a9e792e32c9dcde074ab099"
+    },
+    "adventures/village/building_blacksmith_green.glb": {
+      "bytes": 140252,
+      "sha256": "29acb844d644f6e35ddeea1bde811d3871d5ecb43841c680232197fd5296b7e9"
+    },
+    "adventures/village/building_bridge_A.glb": {
+      "bytes": 42732,
+      "sha256": "5d7c38974113725bc84b83ddab1cf80b2037d37e0f81712ba42d774c5de44c7c"
+    },
+    "adventures/village/building_bridge_B.glb": {
+      "bytes": 42732,
+      "sha256": "c81e57e4ffd0a23e106ce5538d9f4e80a7159a443fbe1965bd44da876fa31b50"
+    },
+    "adventures/village/building_church_blue.glb": {
+      "bytes": 106940,
+      "sha256": "328547e858578a7e34a87ac9c3aea8e66468240f431ca7c32890187ebdd7f142"
+    },
+    "adventures/village/building_church_green.glb": {
+      "bytes": 106944,
+      "sha256": "277316dd68f17fede3394efe101c68cc436cbf14789c8d81de38255f93e2f9bc"
+    },
+    "adventures/village/building_home_A_blue.glb": {
+      "bytes": 72552,
+      "sha256": "aadc8fd5fcbeb24475c65b38a8e638f7f827e5d177282a0a14ebdfba39aa61cd"
+    },
+    "adventures/village/building_home_A_green.glb": {
+      "bytes": 72556,
+      "sha256": "c512ae3dc0093cfce036faf6f5e1ca4d3e0a5c28dffec49cf859f49f680b2a24"
+    },
+    "adventures/village/building_home_B_blue.glb": {
+      "bytes": 99324,
+      "sha256": "3bc83821d2220d5054166a09e34f6cf07cc62bc9db071b0a635c5ccd76f844ce"
+    },
+    "adventures/village/building_home_B_green.glb": {
+      "bytes": 99328,
+      "sha256": "ae29b4149ed7937dc3c0709dc091a72fe19348db234da85d76fc0a65dcb6f609"
+    },
+    "adventures/village/building_lumbermill_blue.glb": {
+      "bytes": 185344,
+      "sha256": "d2821e095778c35bdd47ae168024fbc0577683c38efa85227e3b5c7af7cf346e"
+    },
+    "adventures/village/building_lumbermill_green.glb": {
+      "bytes": 185348,
+      "sha256": "35f16ef407048a1875bbf68b198a1a0641c57be52e9a43282452516cc7373f58"
+    },
+    "adventures/village/building_market_blue.glb": {
+      "bytes": 169368,
+      "sha256": "9a26e2f88c5536da5c16993878bb1467196a4c3f5de29eabd36132cf9111a9b7"
+    },
+    "adventures/village/building_market_green.glb": {
+      "bytes": 169368,
+      "sha256": "5ee3ae38fd5d98c6ce9af4c74b7666e9a620cefe0e471e7082c37c30e83640ad"
+    },
+    "adventures/village/building_tavern_blue.glb": {
+      "bytes": 188056,
+      "sha256": "754d849865cc2e745e37b7f5b81f7ecc04ff8bb8ed3dd2b90c7abc02f6a5495b"
+    },
+    "adventures/village/building_tavern_green.glb": {
+      "bytes": 188060,
+      "sha256": "b3fc0252e9908fe64647a855531b8fb9fce3bd8f81d0bb66247c92dc880d464c"
+    },
+    "adventures/village/building_tower_A_blue.glb": {
+      "bytes": 130880,
+      "sha256": "cd8b58a41b7e6055e0de02ceac512a57b52042a99cb46a01c3a08634901b30f3"
+    },
+    "adventures/village/building_tower_A_green.glb": {
+      "bytes": 130884,
+      "sha256": "e1b7f5482ecdd9fb71403a3e58ceccc0994230e2c6680b22721e57554b0ab805"
+    },
+    "adventures/village/building_watermill_blue.glb": {
+      "bytes": 129464,
+      "sha256": "f47d5e8d659e8335f4deb7f8d288a4682426f8c012a4c8b0b260d0170471a86a"
+    },
+    "adventures/village/building_watermill_green.glb": {
+      "bytes": 129468,
+      "sha256": "0bc465cf64da79928049207b1f9b0ef9f65e019549bda69dad00408ba2c34505"
+    },
+    "adventures/village/building_well_blue.glb": {
+      "bytes": 59540,
+      "sha256": "5a665d0ab641f545a57e02dd22f241daf415c7185c03555cab528f2b970211d2"
+    },
+    "adventures/village/building_well_green.glb": {
+      "bytes": 59540,
+      "sha256": "ad7144640171cfb440aab1830ff48a0984f37500800953e6c0091cbd50676de8"
+    },
+    "adventures/village/building_windmill_blue.glb": {
+      "bytes": 160684,
+      "sha256": "dcf053564b3e4b2d6e91224b675b7215a9955db440763901cd51f3951762b2a7"
+    },
+    "adventures/village/building_windmill_green.glb": {
+      "bytes": 160688,
+      "sha256": "6ad3769de4110a77d55dfa0511ac859a4875bde639c810e7420803b4b9f4cabb"
+    },
+    "adventures/village/cloud_big.glb": {
+      "bytes": 32016,
+      "sha256": "71b34cbd5a8ef2fea8fc752770de6bebd66df3f24d186870e78ce3e66fe389e0"
+    },
+    "adventures/village/cloud_small.glb": {
+      "bytes": 25288,
+      "sha256": "a2c02bd0b8c87f0f2e6402a4684b2ebca7bad85348098e016ef37a5bd0882c29"
+    },
+    "adventures/village/crate_A_small.glb": {
+      "bytes": 24180,
+      "sha256": "66c8f6430dfdbd7bb4090ab3fce442b0c9550c86eef278dc34d148ca7ec980aa"
+    },
+    "adventures/village/crate_open.glb": {
+      "bytes": 29236,
+      "sha256": "00b10628fc9ca04764f90ea8e0a45957c628134aede28ee091858809a6e62945"
+    },
+    "adventures/village/fence_stone_straight.glb": {
+      "bytes": 30992,
+      "sha256": "9c369058e423e2addfa379793de6e45d3031a34f581621fb56032bbcc0cdc521"
+    },
+    "adventures/village/fence_stone_straight_gate.glb": {
+      "bytes": 34224,
+      "sha256": "93bc037585d05b1d4c64695d33a938d47949646824b3e23d1ce20185346ffbc2"
+    },
+    "adventures/village/fence_wood_straight.glb": {
+      "bytes": 32208,
+      "sha256": "ea0e7104d71df45638b233358b04407c59d3b5ee9bf23725bc8459f09da29973"
+    },
+    "adventures/village/fence_wood_straight_gate.glb": {
+      "bytes": 37496,
+      "sha256": "186c0429bae948bb9f0083a5f1a162dafbf25606ba3bc9cf2dd5e5713a2993a3"
+    },
+    "adventures/village/flag_green.glb": {
+      "bytes": 19616,
+      "sha256": "d80718fab315402b98d12f09845a743acd987a71b544459d1996aa39eef36f67"
+    },
+    "adventures/village/hill_single_A.glb": {
+      "bytes": 20360,
+      "sha256": "26a51f22ac55c9c8249a2f8f85fe7e9c285103b311b563c7c0081f0c811f03a3"
+    },
+    "adventures/village/hills_A.glb": {
+      "bytes": 39224,
+      "sha256": "3418a42e197e64e7196e26c3f1edd4dfde3f413d8e435e0d149308a83f9f9337"
+    },
+    "adventures/village/mountain_A_grass.glb": {
+      "bytes": 32544,
+      "sha256": "e663fb2e9223c82047a9dbfd773c6d4000a43a5c8b88a43d097360f4b2178d7f"
+    },
+    "adventures/village/rock_single_A.glb": {
+      "bytes": 18380,
+      "sha256": "26aee5e322ce8de7724acc19fd83670a971e78a3ae96c500121b3c65ae10b25a"
+    },
+    "adventures/village/rock_single_B.glb": {
+      "bytes": 18800,
+      "sha256": "c6831818b3a40b9ab5c69e619dd78d7cf6b8edfde2e66785a02080d4d8749846"
+    },
+    "adventures/village/sack.glb": {
+      "bytes": 20400,
+      "sha256": "97a251c930d56f6229aa413b4c86535f5bd30d5dc1d5bc4599e14ccc8092f0ad"
+    },
+    "adventures/village/tent.glb": {
+      "bytes": 23288,
+      "sha256": "8f198be54c820bfbb2e58fdb89a73a48d9223eae75bf1b8ef9e8a336af2643d2"
+    },
+    "adventures/village/tree_single_A.glb": {
+      "bytes": 20516,
+      "sha256": "2befae74f3a41b99b4b1851e63fbf0a6e6712c9fc150c414583716751e875dfd"
+    },
+    "adventures/village/tree_single_B.glb": {
+      "bytes": 24544,
+      "sha256": "323a245de3212c221b12e4a92a7137bab55394b61aa8d65abda2f1cafae40756"
+    },
+    "adventures/village/waterlily_A.glb": {
+      "bytes": 19768,
+      "sha256": "c4eb573abf077ff1053584800cd3eb4ad42a2fe6baffb2f5b5fd7a1a7e9952b8"
+    },
+    "adventures/village/waterplant_A.glb": {
+      "bytes": 20160,
+      "sha256": "6464734656609d5d6ea3644ebfcff283aa0a6e22f70b781f58c035b1d07ecd28"
+    },
+    "adventures/village/wheelbarrow.glb": {
+      "bytes": 36200,
+      "sha256": "415e45d4d1206ffa971917186e9ec1e1be5b1c0ac068f74d315a25ad06f58b99"
+    },
+    "assets/adventures-DL-0k7sh.js": {
+      "bytes": 815502,
+      "sha256": "5c49613a74888fbd8cf617778e8fa8a23f0dead130f38a89f08aa2d7dcfeed1b"
+    },
+    "assets/adventures-DidrGuhm.css": {
+      "bytes": 18364,
+      "sha256": "f4051689299273d7a25edc4e9ba681bc91cc8731ecb4912678c76e4808aece95"
+    },
+    "icon-180.png": {
+      "bytes": 5685,
+      "sha256": "40db8916a0ba402401d02c7178f3663e6770971a50e92783534fec8a835a897b"
+    },
+    "icon-192.png": {
+      "bytes": 6179,
+      "sha256": "66151812c5898a88dc29d363ab95ec724ab2dccbc113f2433285bf28c2025efa"
+    },
+    "icon-512.png": {
+      "bytes": 21040,
+      "sha256": "8b73b545516c83635d913131f35878bfe6592d10b0b54ba33b7aeec377dd74df"
+    },
+    "icon.svg": {
+      "bytes": 325,
+      "sha256": "85e16f8f488b6c1f5046e889efe2c70136349b173e038da530a636362bc2c17d"
+    },
+    "licenses/three-MIT.txt": {
+      "bytes": 1081,
+      "sha256": "852e0e8699169bf9f6fdc6bda3e682d078dcbc738b5d33e74df594721bff271d"
+    },
+    "licenses/vite-LICENSE.md": {
+      "bytes": 115630,
+      "sha256": "c6bfec08b0e78a198c5ec0c579e699d2843fd1bf81243f648620731d03f43593"
+    },
+    "manifest.webmanifest": {
+      "bytes": 536,
+      "sha256": "bc2929e6979780ebaa629787d0ec3523f788aaa3d9ef47ae1a5965c7e93e8921"
+    }
+  }
+}
