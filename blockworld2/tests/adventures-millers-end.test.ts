@@ -41,7 +41,16 @@ test("Miller’s End is an explicit new valley layout; older records preserve th
     );
     const data = validateAdventure(snapshot);
     assert.equal(data.layout, layout);
-    assert.deepEqual(data.objects, snapshot.world.adventure.objects);
+    assert.deepEqual(data.objects, [
+      {
+        id: "retained-hamlet-site",
+        asset: "barrel",
+        x: -146,
+        z: 57,
+        yaw: 0.8,
+        scale: 3,
+      },
+    ]);
   }
   for (const scene of ["village", "woodland", "meadow"] as const) {
     const s = makeSnapshot(

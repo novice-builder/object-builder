@@ -1,0 +1,215 @@
+{
+  "before": {
+    "scale": 1.4996414905823159,
+    "targets": [
+      "home",
+      "woodland",
+      "brookside",
+      "foresters",
+      "alderwick",
+      "reedbank",
+      "millers-end"
+    ],
+    "r": {
+      "x": 106.78125,
+      "y": 786,
+      "width": 43,
+      "height": 46,
+      "top": 786,
+      "right": 149.78125,
+      "bottom": 832,
+      "left": 106.78125
+    },
+    "hit": "mapFit",
+    "trace": [
+      {
+        "type": "pointerdown",
+        "id": "fullMap",
+        "x": 150,
+        "y": 430,
+        "cancel": false,
+        "at": 5733.5
+      },
+      {
+        "type": "pointerdown",
+        "id": "fullMap",
+        "x": 240,
+        "y": 430,
+        "cancel": false,
+        "at": 5733.79999999702
+      },
+      {
+        "type": "pointerup",
+        "id": "fullMap",
+        "x": 120,
+        "y": 420,
+        "cancel": false,
+        "at": 5785.79999999702
+      },
+      {
+        "type": "touchend",
+        "id": "fullMap",
+        "x": null,
+        "y": null,
+        "cancel": false,
+        "at": 5786
+      },
+      {
+        "type": "pointerup",
+        "id": "fullMap",
+        "x": 270,
+        "y": 440,
+        "cancel": false,
+        "at": 5786.0999999940395
+      },
+      {
+        "type": "touchend",
+        "id": "fullMap",
+        "x": null,
+        "y": null,
+        "cancel": false,
+        "at": 5786.0999999940395
+      },
+      {
+        "type": "pointerdown",
+        "id": "fullMap",
+        "x": 195,
+        "y": 430,
+        "cancel": false,
+        "at": 5812.0999999940395
+      },
+      {
+        "type": "pointerup",
+        "id": "fullMap",
+        "x": 255,
+        "y": 455,
+        "cancel": false,
+        "at": 5849.5
+      },
+      {
+        "type": "touchend",
+        "id": "fullMap",
+        "x": null,
+        "y": null,
+        "cancel": false,
+        "at": 5849.5999999940395
+      }
+    ]
+  },
+  "after": {
+    "scale": 1.4996414905823159,
+    "targets": [
+      "home",
+      "woodland",
+      "brookside",
+      "foresters",
+      "alderwick",
+      "reedbank",
+      "millers-end"
+    ],
+    "trace": [
+      {
+        "type": "pointerdown",
+        "id": "fullMap",
+        "x": 150,
+        "y": 430,
+        "cancel": false,
+        "at": 5733.5
+      },
+      {
+        "type": "pointerdown",
+        "id": "fullMap",
+        "x": 240,
+        "y": 430,
+        "cancel": false,
+        "at": 5733.79999999702
+      },
+      {
+        "type": "pointerup",
+        "id": "fullMap",
+        "x": 120,
+        "y": 420,
+        "cancel": false,
+        "at": 5785.79999999702
+      },
+      {
+        "type": "touchend",
+        "id": "fullMap",
+        "x": null,
+        "y": null,
+        "cancel": false,
+        "at": 5786
+      },
+      {
+        "type": "pointerup",
+        "id": "fullMap",
+        "x": 270,
+        "y": 440,
+        "cancel": false,
+        "at": 5786.0999999940395
+      },
+      {
+        "type": "touchend",
+        "id": "fullMap",
+        "x": null,
+        "y": null,
+        "cancel": false,
+        "at": 5786.0999999940395
+      },
+      {
+        "type": "pointerdown",
+        "id": "fullMap",
+        "x": 195,
+        "y": 430,
+        "cancel": false,
+        "at": 5812.0999999940395
+      },
+      {
+        "type": "pointerup",
+        "id": "fullMap",
+        "x": 255,
+        "y": 455,
+        "cancel": false,
+        "at": 5849.5
+      },
+      {
+        "type": "touchend",
+        "id": "fullMap",
+        "x": null,
+        "y": null,
+        "cancel": false,
+        "at": 5849.5999999940395
+      },
+      {
+        "type": "pointerdown",
+        "id": "mapFit",
+        "x": 128.27999877929688,
+        "y": 809,
+        "cancel": false,
+        "at": 5900
+      },
+      {
+        "type": "pointerup",
+        "id": "mapFit",
+        "x": 128.27999877929688,
+        "y": 809,
+        "cancel": false,
+        "at": 5900.0999999940395
+      },
+      {
+        "type": "touchend",
+        "id": "mapFit",
+        "x": null,
+        "y": null,
+        "cancel": false,
+        "at": 5900.0999999940395
+      }
+    ],
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "scrollY": 0,
+      "visual": 1
+    }
+  }
+}

@@ -756,7 +756,7 @@ a {
   nav button {
     font-size: 21px;
     padding: 7px;
-    min-width: 43px;
+    min-width: 44px;
     min-height: 43px;
   }
   nav button span {
@@ -1150,6 +1150,7 @@ body.editing #context {
   display: none;
 }
 #minimap {
+  -webkit-tap-highlight-color: transparent;
   position: fixed;
   top: 106px;
   right: max(30px, env(safe-area-inset-right));
@@ -1273,7 +1274,7 @@ body:not(.playing) #minimap {
   }
   .mapTools button {
     padding: 10px;
-    min-width: 43px;
+    min-width: 44px;
   }
   .mapTools select {
     width: 118px;

@@ -1,3 +1,4 @@
+import { bindButton } from "./button-press";
 import * as T from "three";
 import {
   buildingEntry,
@@ -147,7 +148,13 @@ class AdventureGame {
   }
   private mapPose() {
     const p = this.data.inside?.outside || this.player;
-    return { x: p.x, z: p.z, yaw: this.data.inside ? p.yaw : this.actorYaw };
+    return {
+      x: p.x,
+      z: p.z,
+      yaw: this.data.inside
+        ? (this.data.inside.outside.facing ?? p.yaw + Math.PI)
+        : this.actorYaw,
+    };
   }
   private floorHeight(x: number, z: number) {
     if (this.interior) return this.pending?.y ?? (this.player.y > 1.5 ? 3 : 0);
@@ -1442,14 +1449,14 @@ class AdventureGame {
   }
   private bind() {
     $("minimap").onclick = () => this.openWorldMap();
-    $("mapClose").onclick = () => this.closeWorldMap();
-    $("mapPlus").onclick = () => this.worldMap.zoom(1.35);
-    $("mapMinus").onclick = () => this.worldMap.zoom(1 / 1.35);
-    $("mapFit").onclick = () => this.worldMap.fit();
-    $("mapHome").onclick = () => {
+    bindButton($("mapClose"), () => this.closeWorldMap());
+    bindButton($("mapPlus"), () => this.worldMap.zoom(1.35));
+    bindButton($("mapMinus"), () => this.worldMap.zoom(1 / 1.35));
+    bindButton($("mapFit"), () => this.worldMap.fit());
+    bindButton($("mapHome"), () => {
       const world = WORLDS.find((w) => w.id === this.data.scene)!;
       this.travelTo({ id: "home", name: world.name, ...world.spawn });
-    };
+    });
     $<HTMLSelectElement>("mapDestination").onchange = (e) => {
       const d = this.worldMap.data?.destinations.find(
         (d) => d.id === (e.target as HTMLSelectElement).value,

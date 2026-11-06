@@ -36,8 +36,10 @@ export function buildingEntry(
   asset: string,
   root: T.Object3D,
   id?: string,
+  options: { windmill?: boolean } = {},
 ): BuildingEntry | null {
-  const kind = buildingKind(asset),
+  const windmill = options.windmill && asset === "building_windmill_blue",
+    kind = buildingKind(asset) || (windmill ? "mill" : null),
     box = library.bounds.get(asset);
   if (!kind || !box) return null;
   const x = root.position.x,
@@ -65,19 +67,23 @@ export function buildingEntry(
       : null;
   return {
     id: id || `${asset}:${x.toFixed(3)}:${z.toFixed(3)}:${yaw.toFixed(3)}`,
-    name: {
-      cottage: "Cottage",
-      townhouse: "Town house",
-      inn: "Village inn",
-      workshop: "Smith's workshop",
-      mill: "The millhouse",
-    }[kind],
+    name: windmill
+      ? "Windmill"
+      : {
+          cottage: "Cottage",
+          townhouse: "Town house",
+          inn: "Village inn",
+          workshop: "Smith's workshop",
+          mill: "The millhouse",
+        }[kind],
     kind,
     levels: kind === "cottage" || kind === "workshop" ? 1 : 2,
     x: x + Math.sin(yaw) * front + Math.cos(yaw) * lateral,
     z: z + Math.cos(yaw) * front - Math.sin(yaw) * lateral,
     yaw,
-    width: Math.max(5.8, Math.min(10, (box.max.x - box.min.x) * root.scale.x)),
+    width: windmill
+      ? Math.max(5.8, Math.min(6.8, (box.max.z - box.min.z) * root.scale.z))
+      : Math.max(5.8, Math.min(10, (box.max.x - box.min.x) * root.scale.x)),
     depth: Math.max(6.8, Math.min(12, (box.max.z - box.min.z) * root.scale.z)),
     ...(threshold
       ? { threshold: { x: threshold.x, y: threshold.y, z: threshold.z } }

@@ -1,0 +1,357 @@
+{
+  "checks": [
+    {
+      "name": "phone windmill has a separate stable two-storey mill room sized without sail span",
+      "passed": true,
+      "detail": {
+        "entry": {
+          "id": "building_windmill_blue:-144.000:24.000:1.571",
+          "name": "Old Willow Windmill",
+          "kind": "mill",
+          "levels": 2,
+          "x": -139.68391580581664,
+          "z": 24,
+          "yaw": 1.5707963267948963,
+          "width": 6.532168388366699,
+          "depth": 6.8
+        },
+        "count": 2
+      }
+    },
+    {
+      "name": "phone ordinary movement reaches the real windmill door from its settlement road",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": -139.63203114150343,
+          "y": 0.002,
+          "z": 24.015062384953673,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "millers-end",
+          "name": "Miller\u2019s End"
+        },
+        "prompt": true,
+        "map": {
+          "x": -139.63203114150343,
+          "z": 24.015062384953673,
+          "yaw": 0.7
+        }
+      }
+    },
+    {
+      "name": "phone actual UI fade loads its furnished grain loft while keeping map exterior position and facing",
+      "passed": true,
+      "detail": {
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "objects": 7,
+        "grain": {
+          "id": "grain",
+          "asset": "crate_A_small",
+          "x": -2.2660841941833496,
+          "z": -2.4,
+          "y": 3,
+          "yaw": 0,
+          "scale": 4
+        },
+        "map": {
+          "x": -139.63203114150343,
+          "z": 24.015062384953673,
+          "yaw": 0.7
+        },
+        "hidden": true
+      }
+    },
+    {
+      "name": "phone actual touch joystick climbs the mill flight onto the loft",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 2.2351534099714696,
+          "y": 3.002,
+          "z": -2.6111688676838836,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "millers-end",
+          "name": "Miller\u2019s End"
+        },
+        "rise": 0.15000000000000036
+      }
+    },
+    {
+      "name": "phone real page reload retains the exact mill identity, furnished loft and exterior heading",
+      "passed": true,
+      "detail": {
+        "entry": {
+          "id": "building_windmill_blue:-144.000:24.000:1.571",
+          "name": "Old Willow Windmill",
+          "kind": "mill",
+          "levels": 2,
+          "x": -139.68391580581664,
+          "z": 24,
+          "yaw": 1.5707963267948963,
+          "width": 6.532168388366699,
+          "depth": 6.8
+        },
+        "map": {
+          "x": -139.63203114150343,
+          "z": 24.015062384953673,
+          "yaw": 0.7
+        },
+        "p": {
+          "x": 2.2351534099714696,
+          "y": 3.002,
+          "z": -2.6111688676838836,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "objects": 7
+      }
+    },
+    {
+      "name": "phone compact map tap has no rectangular browser flash and still opens the real map",
+      "passed": true,
+      "detail": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "name": "phone injected standard left stick descends actual stairs and releases",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 2.2351534099714696,
+          "y": 0.002000000000000014,
+          "z": 2.5193688544285826,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "bottom": 2.0999999999999996,
+        "state": {
+          "x": 0,
+          "z": 0,
+          "lookX": 0,
+          "lookY": 0,
+          "command": null
+        }
+      }
+    },
+    {
+      "name": "phone ordinary keyboard also climbs the mill stairs",
+      "passed": true,
+      "detail": 3.002
+    },
+    {
+      "name": "phone older room records without facing use the same map direction as their eventual exterior return",
+      "passed": true,
+      "detail": {
+        "yaw": 5.5415926535897935,
+        "expected": 5.5415926535897935
+      }
+    },
+    {
+      "name": "phone loft exit fades to the same clear windmill exterior and consistent map heading",
+      "passed": true,
+      "detail": {
+        "inside": false,
+        "clear": true,
+        "distance": 0,
+        "map": {
+          "x": -139.63203114150343,
+          "z": 24.015062384953673,
+          "yaw": 5.5415926535897935
+        },
+        "expected": 5.5415926535897935,
+        "rooms": 1
+      }
+    },
+    {
+      "name": "phone new mill transition/stair/map checks have no page exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet windmill has a separate stable two-storey mill room sized without sail span",
+      "passed": true,
+      "detail": {
+        "entry": {
+          "id": "building_windmill_blue:-162.000:-63.000:1.571",
+          "name": "Alderwick Windmill",
+          "kind": "mill",
+          "levels": 2,
+          "x": -158.09217633008956,
+          "z": -63,
+          "yaw": 1.5707963267948963,
+          "width": 5.8,
+          "depth": 6.8
+        },
+        "count": 2
+      }
+    },
+    {
+      "name": "tablet ordinary movement reaches the real windmill door from its settlement road",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": -158.0319131983502,
+          "y": 0.002,
+          "z": -62.99839591803813,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "alderwick",
+          "name": "Alderwick"
+        },
+        "prompt": true,
+        "map": {
+          "x": -158.0319131983502,
+          "z": -62.99839591803813,
+          "yaw": 0.7
+        }
+      }
+    },
+    {
+      "name": "tablet actual UI fade loads its furnished grain loft while keeping map exterior position and facing",
+      "passed": true,
+      "detail": {
+        "id": "building_windmill_blue:-162.000:-63.000:1.571",
+        "objects": 7,
+        "grain": {
+          "id": "grain",
+          "asset": "crate_A_small",
+          "x": -1.9,
+          "z": -2.4,
+          "y": 3,
+          "yaw": 0,
+          "scale": 4
+        },
+        "map": {
+          "x": -158.0319131983502,
+          "z": -62.99839591803813,
+          "yaw": 0.7
+        },
+        "hidden": true
+      }
+    },
+    {
+      "name": "tablet actual touch joystick climbs the mill flight onto the loft",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 1.869108351237043,
+          "y": 3.002,
+          "z": -2.611255802684791,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "alderwick",
+          "name": "Alderwick"
+        },
+        "rise": 0.15000000000000036
+      }
+    },
+    {
+      "name": "tablet real page reload retains the exact mill identity, furnished loft and exterior heading",
+      "passed": true,
+      "detail": {
+        "entry": {
+          "id": "building_windmill_blue:-162.000:-63.000:1.571",
+          "name": "Alderwick Windmill",
+          "kind": "mill",
+          "levels": 2,
+          "x": -158.09217633008956,
+          "z": -63,
+          "yaw": 1.5707963267948963,
+          "width": 5.8,
+          "depth": 6.8
+        },
+        "map": {
+          "x": -158.0319131983502,
+          "z": -62.99839591803813,
+          "yaw": 0.7
+        },
+        "p": {
+          "x": 1.869108351237043,
+          "y": 3.002,
+          "z": -2.611255802684791,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "objects": 7
+      }
+    },
+    {
+      "name": "tablet compact map tap has no rectangular browser flash and still opens the real map",
+      "passed": true,
+      "detail": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "name": "tablet injected standard left stick descends actual stairs and releases",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 1.869108351237043,
+          "y": 0.002000000000000014,
+          "z": 2.519281919427675,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "bottom": 2.0999999999999996,
+        "state": {
+          "x": 0,
+          "z": 0,
+          "lookX": 0,
+          "lookY": 0,
+          "command": null
+        }
+      }
+    },
+    {
+      "name": "tablet ordinary keyboard also climbs the mill stairs",
+      "passed": true,
+      "detail": 3.002
+    },
+    {
+      "name": "tablet older room records without facing use the same map direction as their eventual exterior return",
+      "passed": true,
+      "detail": {
+        "yaw": 5.5415926535897935,
+        "expected": 5.5415926535897935
+      }
+    },
+    {
+      "name": "tablet loft exit fades to the same clear windmill exterior and consistent map heading",
+      "passed": true,
+      "detail": {
+        "inside": false,
+        "clear": true,
+        "distance": 0,
+        "map": {
+          "x": -158.0319131983502,
+          "z": -62.99839591803813,
+          "yaw": 5.5415926535897935
+        },
+        "expected": 5.5415926535897935,
+        "rooms": 1
+      }
+    },
+    {
+      "name": "tablet new mill transition/stair/map checks have no page exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader phone/tablet emulation, actual touch/keyboard and injected standard Gamepad API; no physical device claim."
+}

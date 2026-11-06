@@ -6,6 +6,10 @@
       "passed": true
     },
     {
+      "name": "ten mill entry/exit cycles retain two saved rooms and plateau uploaded resources by scene and building",
+      "passed": true
+    },
+    {
       "name": "new district reuses the same environment model and texture downloads",
       "passed": true
     }
@@ -14,8 +18,8 @@
     "preview11": {
       "riverbank": {
         "stats": {
-          "fps": 2,
-          "frameP95Ms": 1166.6,
+          "fps": 1,
+          "frameP95Ms": 1849.9,
           "drawCalls": 138,
           "triangles": 132579,
           "geometries": 96,
@@ -31,8 +35,8 @@
       },
       "willowmere": {
         "stats": {
-          "fps": 2,
-          "frameP95Ms": 1166.6,
+          "fps": 1,
+          "frameP95Ms": 1849.9,
           "drawCalls": 202,
           "triangles": 178739,
           "geometries": 96,
@@ -48,8 +52,8 @@
       },
       "meadow": {
         "stats": {
-          "fps": 2,
-          "frameP95Ms": 1166.6,
+          "fps": 1,
+          "frameP95Ms": 1849.9,
           "drawCalls": 227,
           "triangles": 167639,
           "geometries": 106,
@@ -65,8 +69,8 @@
       },
       "north-road": {
         "stats": {
-          "fps": 2,
-          "frameP95Ms": 1166.6,
+          "fps": 1,
+          "frameP95Ms": 1849.9,
           "drawCalls": 120,
           "triangles": 136916,
           "geometries": 106,
@@ -82,8 +86,8 @@
       },
       "millers-end": {
         "stats": {
-          "fps": 2,
-          "frameP95Ms": 1166.6,
+          "fps": 1,
+          "frameP95Ms": 1849.9,
           "drawCalls": 190,
           "triangles": 175739,
           "geometries": 113,
@@ -102,87 +106,87 @@
       "riverbank": {
         "stats": {
           "fps": 2,
-          "frameP95Ms": 883.3,
-          "drawCalls": 138,
-          "triangles": 130501,
+          "frameP95Ms": 1016.7,
+          "drawCalls": 137,
+          "triangles": 130573,
           "geometries": 96,
           "textures": 12,
           "pixelRatio": 1,
           "scene": "vale",
-          "natureInstances": 4216,
+          "natureInstances": 4215,
           "objects": 0,
           "quality": "gentle"
         },
         "programs": 9,
-        "generatedGeometryBytes": 1429108
+        "generatedGeometryBytes": 1429184
       },
       "willowmere": {
         "stats": {
           "fps": 2,
-          "frameP95Ms": 883.3,
-          "drawCalls": 200,
-          "triangles": 175675,
+          "frameP95Ms": 1016.7,
+          "drawCalls": 199,
+          "triangles": 175057,
           "geometries": 97,
           "textures": 12,
           "pixelRatio": 1,
           "scene": "vale",
-          "natureInstances": 4216,
+          "natureInstances": 4215,
           "objects": 0,
           "quality": "gentle"
         },
         "programs": 9,
-        "generatedGeometryBytes": 1429108
+        "generatedGeometryBytes": 1429184
       },
       "meadow": {
         "stats": {
           "fps": 2,
-          "frameP95Ms": 883.3,
-          "drawCalls": 224,
-          "triangles": 170007,
+          "frameP95Ms": 1016.7,
+          "drawCalls": 222,
+          "triangles": 170071,
           "geometries": 107,
           "textures": 13,
           "pixelRatio": 1,
           "scene": "vale",
-          "natureInstances": 4216,
+          "natureInstances": 4215,
           "objects": 0,
           "quality": "gentle"
         },
         "programs": 10,
-        "generatedGeometryBytes": 1429108
+        "generatedGeometryBytes": 1429184
       },
       "north-road": {
         "stats": {
           "fps": 2,
-          "frameP95Ms": 883.3,
+          "frameP95Ms": 1016.7,
           "drawCalls": 118,
-          "triangles": 134480,
+          "triangles": 134488,
           "geometries": 107,
           "textures": 13,
           "pixelRatio": 1,
           "scene": "vale",
-          "natureInstances": 4216,
+          "natureInstances": 4215,
           "objects": 0,
           "quality": "gentle"
         },
         "programs": 10,
-        "generatedGeometryBytes": 1429108
+        "generatedGeometryBytes": 1429184
       },
       "millers-end": {
         "stats": {
           "fps": 2,
-          "frameP95Ms": 883.3,
+          "frameP95Ms": 1016.7,
           "drawCalls": 205,
-          "triangles": 178188,
+          "triangles": 175786,
           "geometries": 121,
           "textures": 13,
           "pixelRatio": 1,
           "scene": "vale",
-          "natureInstances": 4216,
+          "natureInstances": 4215,
           "objects": 0,
           "quality": "gentle"
         },
         "programs": 10,
-        "generatedGeometryBytes": 1429108
+        "generatedGeometryBytes": 1429184
       }
     }
   },
@@ -295,7 +299,7 @@
     "/adventures/village/waterplant_A.glb",
     "/adventures/village/wheelbarrow.glb"
   ],
-  "currentStartupBytes": 3724794,
+  "currentStartupBytes": 3725628,
   "worldSwitches": [
     {
       "layout": 6,
@@ -357,5 +361,171 @@
       "textures": 11,
       "programs": 9
     }
-  ]
+  ],
+  "millTransitions": {
+    "rows": [
+      {
+        "phase": "inside",
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "geometries": 100,
+        "textures": 11,
+        "programs": 10,
+        "drawCalls": 72,
+        "triangles": 7107
+      },
+      {
+        "phase": "outside",
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "geometries": 104,
+        "textures": 11,
+        "programs": 10
+      },
+      {
+        "phase": "inside",
+        "id": "building_windmill_blue:-162.000:-63.000:1.571",
+        "geometries": 105,
+        "textures": 11,
+        "programs": 10,
+        "drawCalls": 72,
+        "triangles": 7107
+      },
+      {
+        "phase": "outside",
+        "id": "building_windmill_blue:-162.000:-63.000:1.571",
+        "geometries": 104,
+        "textures": 11,
+        "programs": 10
+      },
+      {
+        "phase": "inside",
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "geometries": 105,
+        "textures": 11,
+        "programs": 10,
+        "drawCalls": 72,
+        "triangles": 7107
+      },
+      {
+        "phase": "outside",
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "geometries": 104,
+        "textures": 11,
+        "programs": 10
+      },
+      {
+        "phase": "inside",
+        "id": "building_windmill_blue:-162.000:-63.000:1.571",
+        "geometries": 105,
+        "textures": 11,
+        "programs": 10,
+        "drawCalls": 72,
+        "triangles": 7107
+      },
+      {
+        "phase": "outside",
+        "id": "building_windmill_blue:-162.000:-63.000:1.571",
+        "geometries": 104,
+        "textures": 11,
+        "programs": 10
+      },
+      {
+        "phase": "inside",
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "geometries": 105,
+        "textures": 11,
+        "programs": 10,
+        "drawCalls": 72,
+        "triangles": 7107
+      },
+      {
+        "phase": "outside",
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "geometries": 104,
+        "textures": 11,
+        "programs": 10
+      },
+      {
+        "phase": "inside",
+        "id": "building_windmill_blue:-162.000:-63.000:1.571",
+        "geometries": 105,
+        "textures": 11,
+        "programs": 10,
+        "drawCalls": 72,
+        "triangles": 7107
+      },
+      {
+        "phase": "outside",
+        "id": "building_windmill_blue:-162.000:-63.000:1.571",
+        "geometries": 104,
+        "textures": 11,
+        "programs": 10
+      },
+      {
+        "phase": "inside",
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "geometries": 105,
+        "textures": 11,
+        "programs": 10,
+        "drawCalls": 72,
+        "triangles": 7107
+      },
+      {
+        "phase": "outside",
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "geometries": 104,
+        "textures": 11,
+        "programs": 10
+      },
+      {
+        "phase": "inside",
+        "id": "building_windmill_blue:-162.000:-63.000:1.571",
+        "geometries": 105,
+        "textures": 11,
+        "programs": 10,
+        "drawCalls": 72,
+        "triangles": 7107
+      },
+      {
+        "phase": "outside",
+        "id": "building_windmill_blue:-162.000:-63.000:1.571",
+        "geometries": 104,
+        "textures": 11,
+        "programs": 10
+      },
+      {
+        "phase": "inside",
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "geometries": 105,
+        "textures": 11,
+        "programs": 10,
+        "drawCalls": 72,
+        "triangles": 7107
+      },
+      {
+        "phase": "outside",
+        "id": "building_windmill_blue:-144.000:24.000:1.571",
+        "geometries": 104,
+        "textures": 11,
+        "programs": 10
+      },
+      {
+        "phase": "inside",
+        "id": "building_windmill_blue:-162.000:-63.000:1.571",
+        "geometries": 105,
+        "textures": 11,
+        "programs": 10,
+        "drawCalls": 72,
+        "triangles": 7107
+      },
+      {
+        "phase": "outside",
+        "id": "building_windmill_blue:-162.000:-63.000:1.571",
+        "geometries": 104,
+        "textures": 11,
+        "programs": 10
+      }
+    ],
+    "rooms": 2,
+    "blocked": false
+  }
 }

@@ -1,3 +1,4 @@
+import { windmillEntry } from "./windmill-entry";
 import {
   MILLERS_END,
   MILLERS_END_ROADS,
@@ -562,6 +563,17 @@ export class ConnectedLandscape {
     this.place("barrel", -150, 73, 3.5);
     this.place("crate_A_small", -150, 71.5, 3.5);
     this.place("sign", -134, 29, 2.6, 0.4);
+    this.group.updateMatrixWorld(true);
+    this.group.traverse((root) => {
+      if (root.userData.asset !== "building_windmill_blue") return;
+      const position = root.getWorldPosition(new T.Vector3());
+      const entry = windmillEntry(
+        this.library,
+        root,
+        position.z > 0 ? "Old Willow Windmill" : "Alderwick Windmill",
+      );
+      if (entry) this.entrances.push(entry);
+    });
     this.landmarks.push({
       ...MILLERS_END,
       description:
