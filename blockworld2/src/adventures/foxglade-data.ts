@@ -39,3 +39,27 @@ export const foxBody = () => ({
   height: FOX.height,
   name: "wildlife-fox",
 });
+/** Rotate the torso footprint with the rendered animal; the tail is not a solid wall. */
+export function foxBodyAt(
+  pose: { x: number; z: number; yaw: number },
+  ground = 0,
+) {
+  const corners = [
+    [-0.18, -0.18],
+    [-0.18, 0.46],
+    [0.18, -0.18],
+    [0.18, 0.46],
+  ].map(([x, z]) => [
+    pose.x + x * Math.cos(pose.yaw) + z * Math.sin(pose.yaw),
+    pose.z + z * Math.cos(pose.yaw) - x * Math.sin(pose.yaw),
+  ]);
+  return {
+    minX: Math.min(...corners.map((p) => p[0])),
+    maxX: Math.max(...corners.map((p) => p[0])),
+    minZ: Math.min(...corners.map((p) => p[1])),
+    maxZ: Math.max(...corners.map((p) => p[1])),
+    base: ground,
+    height: ground + FOX.height,
+    name: "wildlife-fox",
+  };
+}

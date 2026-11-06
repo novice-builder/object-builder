@@ -120,9 +120,11 @@ export class CollisionSpace {
     p: FootPose,
     radius = BODY_RADIUS,
     height = BODY_HEIGHT,
+    ignoreSource?: string,
   ): Contact | null {
     let best: Contact | null = null;
     for (const item of this.instances) {
+      if (ignoreSource && item.source === ignoreSource) continue;
       const b = item.bounds;
       if (
         p.x + radius < b.min.x ||
@@ -152,6 +154,7 @@ export class CollisionSpace {
         };
     }
     for (const b of this.boxes) {
+      if (ignoreSource && b.source === ignoreSource) continue;
       if (
         p.x + radius < b.minX ||
         p.x - radius > b.maxX ||

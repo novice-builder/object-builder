@@ -1,5 +1,5 @@
 import { WoodlandFox, loadFox } from "./wildlife";
-import { FOX, foxBody } from "./foxglade-data";
+import { FOX, foxBody, foxBodyAt } from "./foxglade-data";
 import { bindButton } from "./button-press";
 import * as T from "three";
 import {
@@ -11,7 +11,7 @@ import { Interior, freshRoom } from "./interior";
 import { moveCharacter, recoverCharacter } from "./character-controller";
 import { checkpointFooting } from "./checkpoint-footing";
 import { OutdoorCollision, meshBuilding } from "./outdoor-collision";
-import { CollisionSpace } from "./mesh-collision";
+import { CollisionSpace, type CollisionBox } from "./mesh-collision";
 import { clone as cloneSkeleton } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { AssetLibrary, DEFINITIONS } from "./assets";
 import {
@@ -72,6 +72,8 @@ class AdventureGame {
   library = new AssetLibrary();
   wildlife: WoodlandFox | null = null;
   private wildlifeGeneration = 0;
+  private wildlifeBody: Obstacle | null = null;
+  private wildlifeCollider: CollisionBox | null = null;
   private pendingWildlife: Awaited<ReturnType<typeof loadFox>> | null = null;
   scene = new T.Scene();
   camera = new T.PerspectiveCamera(48, innerWidth / innerHeight, 0.12, 220);
@@ -473,6 +475,8 @@ class AdventureGame {
     this.wildlifeGeneration++;
     this.wildlife?.dispose();
     this.wildlife = null;
+    this.wildlifeBody = null;
+    this.wildlifeCollider = null;
     this.pendingWildlife = null;
     // Prepare a complete replacement before retiring the old scene.
     const previous = this.landscape;
@@ -582,14 +586,22 @@ class AdventureGame {
       this.pendingWildlife = null;
       return;
     }
-    const fox = new WoodlandFox(
-      this.pendingWildlife,
-      walkHeight(FOX.x, FOX.z, this.data.scene, this.data.layout),
-    );
+    const template = this.pendingWildlife;
     this.pendingWildlife = null;
+    let fox: WoodlandFox;
+    try {
+      fox = new WoodlandFox(
+        template,
+        walkHeight(FOX.x, FOX.z, this.data.scene, this.data.layout),
+        (this.contactShadow.material as T.MeshBasicMaterial).map,
+      );
+    } catch {
+      this.toast("The clearing is ready, but wildlife could not load.");
+      return;
+    }
     this.wildlife = fox;
     this.landscape.group.add(fox.group);
-    this.landscape.installFoxBody();
+    this.wildlifeBody = this.landscape.installFoxBody();
     this.rebuildObstacles();
     this.sun.shadow.needsUpdate = true;
     this.renderScene();
@@ -1106,6 +1118,9 @@ class AdventureGame {
           !waterBlocked(x, z, this.data.scene, this.data.layout),
         this.moving,
       );
+      this.wildlifeCollider =
+        this.outdoorSpace.boxes.find((b) => b.source === "wildlife-fox") ||
+        null;
       return;
     }
     this.roomSpace = this.interior.collision();
@@ -1183,7 +1198,25 @@ class AdventureGame {
     }
     if (!this.interior) {
       this.trySpawnWildlife();
-      this.wildlife?.update(dt);
+      if (
+        this.wildlife?.update(dt, this.outdoorSpace, this.player, !this.pending)
+      ) {
+        const body = foxBodyAt(
+          this.wildlife.motion,
+          this.wildlife.group.position.y - 0.002,
+        );
+        if (this.wildlifeBody) Object.assign(this.wildlifeBody, body);
+        if (this.wildlifeCollider)
+          Object.assign(this.wildlifeCollider, {
+            minX: body.minX,
+            maxX: body.maxX,
+            minZ: body.minZ,
+            maxZ: body.maxZ,
+            minY: body.base,
+            maxY: body.height,
+          });
+        this.ghostValidation = "";
+      }
     }
     this.refreshRoomPhysics();
     const previousX = this.player.x,

@@ -719,9 +719,11 @@ export class ConnectedLandscape {
   }
   installFoxBody() {
     const body = foxBody();
-    if (this.obstacles.some((b) => b.name === body.name)) return;
+    const existing = this.obstacles.find((b) => b.name === body.name);
+    if (existing) return existing;
     this.obstacles.push(body);
     this.permanent.push(body);
+    return body;
   }
   private populate() {
     let seed = 31825;

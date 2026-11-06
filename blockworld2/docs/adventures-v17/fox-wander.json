@@ -1,0 +1,2611 @@
+{
+  "checks": [
+    {
+      "name": "phone actual clearing starts with a visible Survey rig at its retained position",
+      "passed": true,
+      "detail": {
+        "clip": "Survey",
+        "visible": true,
+        "x": -34,
+        "z": -18
+      }
+    },
+    {
+      "name": "phone ordinary live game updates blend into authored Walk and synchronise moving torso collision without teleporting",
+      "passed": true,
+      "detail": {
+        "maxDistance": 0.7150000000001522,
+        "samples": [
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": -0.021666666666666667,
+            "clip": "Walk",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": -0.021666666666666667
+            },
+            "body": {
+              "minX": -34.189923638538396,
+              "maxX": -33.81614255347892,
+              "minZ": -18.183857446521085,
+              "maxZ": -17.5362082731301,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.189923638538396,
+              "maxX": -33.81614255347892,
+              "minZ": -18.183857446521085,
+              "maxZ": -17.5362082731301,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": -0.3466666666666667,
+            "clip": "Walk",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": -0.3466666666666667
+            },
+            "body": {
+              "minX": -34.32558363355441,
+              "maxX": -33.769550472895304,
+              "minZ": -18.23044952710469,
+              "maxZ": -17.50620753718217,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.32558363355441,
+              "maxX": -33.769550472895304,
+              "minZ": -18.23044952710469,
+              "maxZ": -17.50620753718217,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": -0.6716666666666671,
+            "clip": "Walk",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": -0.6716666666666671
+            },
+            "body": {
+              "minX": -34.42715549515482,
+              "maxX": -33.74708612299566,
+              "minZ": -18.25291387700434,
+              "maxZ": -17.527906154694943,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.42715549515482,
+              "maxX": -33.74708612299566,
+              "minZ": -18.25291387700434,
+              "maxZ": -17.527906154694943,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.05563953314174,
+            "z": -17.96639579859942,
+            "yaw": -0.9966666666666679,
+            "clip": "Walk",
+            "group": {
+              "x": -34.05563953314174,
+              "z": -17.96639579859942,
+              "yaw": -0.9966666666666679
+            },
+            "body": {
+              "minX": -34.53964433013842,
+              "maxX": -33.80674102171933,
+              "minZ": -18.215294310021832,
+              "maxZ": -17.565428110538647,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.53964433013842,
+              "maxX": -33.80674102171933,
+              "minZ": -18.215294310021832,
+              "maxZ": -17.565428110538647,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.12518894956892,
+            "z": -17.9243905468487,
+            "yaw": -1.027468186425528,
+            "clip": "Walk",
+            "group": {
+              "x": -34.12518894956892,
+              "z": -17.9243905468487,
+              "yaw": -1.027468186425528
+            },
+            "body": {
+              "minX": -34.612003434142736,
+              "maxX": -33.8780524539133,
+              "minZ": -18.171527042504323,
+              "maxZ": -17.53249749131362,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.612003434142736,
+              "maxX": -33.8780524539133,
+              "minZ": -18.171527042504323,
+              "maxZ": -17.53249749131362,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.1947383659961,
+            "z": -17.882385295097976,
+            "yaw": -1.0274681864255093,
+            "clip": "Walk",
+            "group": {
+              "x": -34.1947383659961,
+              "z": -17.882385295097976,
+              "yaw": -1.0274681864255093
+            },
+            "body": {
+              "minX": -34.68155285056991,
+              "maxX": -33.94760187034048,
+              "minZ": -18.1295217907536,
+              "maxZ": -17.490492239562894,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.68155285056991,
+              "maxX": -33.94760187034048,
+              "minZ": -18.1295217907536,
+              "maxZ": -17.490492239562894,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.26428778242328,
+            "z": -17.840380043347253,
+            "yaw": -1.027468186425488,
+            "clip": "Walk",
+            "group": {
+              "x": -34.26428778242328,
+              "z": -17.840380043347253,
+              "yaw": -1.027468186425488
+            },
+            "body": {
+              "minX": -34.751102266997094,
+              "maxX": -34.01715128676765,
+              "minZ": -18.08751653900288,
+              "maxZ": -17.44848698781216,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.751102266997094,
+              "maxX": -34.01715128676765,
+              "minZ": -18.08751653900288,
+              "maxZ": -17.44848698781216,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.33383719885046,
+            "z": -17.79837479159653,
+            "yaw": -1.0274681864254636,
+            "clip": "Walk",
+            "group": {
+              "x": -34.33383719885046,
+              "z": -17.79837479159653,
+              "yaw": -1.0274681864254636
+            },
+            "body": {
+              "minX": -34.820651683424266,
+              "maxX": -34.08670070319483,
+              "minZ": -18.045511287252157,
+              "maxZ": -17.40648173606143,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.820651683424266,
+              "maxX": -34.08670070319483,
+              "minZ": -18.045511287252157,
+              "maxZ": -17.40648173606143,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.40338661527764,
+            "z": -17.756369539845807,
+            "yaw": -1.0274681864254354,
+            "clip": "Walk",
+            "group": {
+              "x": -34.40338661527764,
+              "z": -17.756369539845807,
+              "yaw": -1.0274681864254354
+            },
+            "body": {
+              "minX": -34.890201099851446,
+              "maxX": -34.15625011962201,
+              "minZ": -18.003506035501438,
+              "maxZ": -17.364476484310696,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.890201099851446,
+              "maxX": -34.15625011962201,
+              "minZ": -18.003506035501438,
+              "maxZ": -17.364476484310696,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.47293603170482,
+            "z": -17.714364288095084,
+            "yaw": -1.0274681864254023,
+            "clip": "Walk",
+            "group": {
+              "x": -34.47293603170482,
+              "z": -17.714364288095084,
+              "yaw": -1.0274681864254023
+            },
+            "body": {
+              "minX": -34.95975051627862,
+              "maxX": -34.22579953604919,
+              "minZ": -17.96150078375072,
+              "maxZ": -17.322471232559966,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.95975051627862,
+              "maxX": -34.22579953604919,
+              "minZ": -17.96150078375072,
+              "maxZ": -17.322471232559966,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.542485448132,
+            "z": -17.67235903634436,
+            "yaw": -1.027468186425363,
+            "clip": "Walk",
+            "group": {
+              "x": -34.542485448132,
+              "z": -17.67235903634436,
+              "yaw": -1.027468186425363
+            },
+            "body": {
+              "minX": -35.0292999327058,
+              "maxX": -34.29534895247637,
+              "minZ": -17.919495532,
+              "maxZ": -17.28046598080923,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -35.0292999327058,
+              "maxX": -34.29534895247637,
+              "minZ": -17.919495532,
+              "maxZ": -17.28046598080923,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.61203486455918,
+            "z": -17.630353784593638,
+            "yaw": -1.0274681864253155,
+            "clip": "Walk",
+            "group": {
+              "x": -34.61203486455918,
+              "z": -17.630353784593638,
+              "yaw": -1.0274681864253155
+            },
+            "body": {
+              "minX": -35.09884934913297,
+              "maxX": -34.36489836890354,
+              "minZ": -17.877490280249276,
+              "maxZ": -17.238460729058495,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -35.09884934913297,
+              "maxX": -34.36489836890354,
+              "minZ": -17.877490280249276,
+              "maxZ": -17.238460729058495,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "phone offscreen culling pauses both actual motion and animation clocks",
+      "passed": true,
+      "detail": {
+        "hidden": true,
+        "before": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086,
+          "time": 5.000000000000038
+        },
+        "after": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086,
+          "time": 5.000000000000038
+        }
+      }
+    },
+    {
+      "name": "phone nearby player makes wildlife pause without pushing or entering the player",
+      "passed": true,
+      "detail": {
+        "before": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086
+        },
+        "after": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086
+        },
+        "clip": "Survey",
+        "clear": true
+      }
+    },
+    {
+      "name": "phone object-edit mode pauses the actor and its collider rather than racing placement",
+      "passed": true,
+      "detail": {
+        "before": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086
+        },
+        "after": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086
+        },
+        "clip": "Survey"
+      }
+    },
+    {
+      "name": "phone actual cottage fade suspends outdoor movement and animation at the same pose",
+      "passed": true,
+      "detail": {
+        "hidden": true,
+        "before": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086,
+          "time": 14.499999999999817
+        },
+        "after": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086,
+          "time": 14.499999999999817
+        },
+        "room": "building_home_A_green:-45.000:-18.000:1.571"
+      }
+    },
+    {
+      "name": "phone cottage exit retains clear safe outdoor footing after wildlife suspension",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone live animation, pause, placement and interior checks have no browser exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet actual clearing starts with a visible Survey rig at its retained position",
+      "passed": true,
+      "detail": {
+        "clip": "Survey",
+        "visible": true,
+        "x": -34,
+        "z": -18
+      }
+    },
+    {
+      "name": "tablet ordinary live game updates blend into authored Walk and synchronise moving torso collision without teleporting",
+      "passed": true,
+      "detail": {
+        "maxDistance": 0.7150000000001522,
+        "samples": [
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": 0,
+            "clip": "Survey",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": 0
+            },
+            "body": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.18,
+              "maxX": -33.82,
+              "minZ": -18.18,
+              "maxZ": -17.54,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": -0.021666666666666667,
+            "clip": "Walk",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": -0.021666666666666667
+            },
+            "body": {
+              "minX": -34.189923638538396,
+              "maxX": -33.81614255347892,
+              "minZ": -18.183857446521085,
+              "maxZ": -17.5362082731301,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.189923638538396,
+              "maxX": -33.81614255347892,
+              "minZ": -18.183857446521085,
+              "maxZ": -17.5362082731301,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": -0.3466666666666667,
+            "clip": "Walk",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": -0.3466666666666667
+            },
+            "body": {
+              "minX": -34.32558363355441,
+              "maxX": -33.769550472895304,
+              "minZ": -18.23044952710469,
+              "maxZ": -17.50620753718217,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.32558363355441,
+              "maxX": -33.769550472895304,
+              "minZ": -18.23044952710469,
+              "maxZ": -17.50620753718217,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34,
+            "z": -18,
+            "yaw": -0.6716666666666671,
+            "clip": "Walk",
+            "group": {
+              "x": -34,
+              "z": -18,
+              "yaw": -0.6716666666666671
+            },
+            "body": {
+              "minX": -34.42715549515482,
+              "maxX": -33.74708612299566,
+              "minZ": -18.25291387700434,
+              "maxZ": -17.527906154694943,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.42715549515482,
+              "maxX": -33.74708612299566,
+              "minZ": -18.25291387700434,
+              "maxZ": -17.527906154694943,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.05563953314174,
+            "z": -17.96639579859942,
+            "yaw": -0.9966666666666679,
+            "clip": "Walk",
+            "group": {
+              "x": -34.05563953314174,
+              "z": -17.96639579859942,
+              "yaw": -0.9966666666666679
+            },
+            "body": {
+              "minX": -34.53964433013842,
+              "maxX": -33.80674102171933,
+              "minZ": -18.215294310021832,
+              "maxZ": -17.565428110538647,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.53964433013842,
+              "maxX": -33.80674102171933,
+              "minZ": -18.215294310021832,
+              "maxZ": -17.565428110538647,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.12518894956892,
+            "z": -17.9243905468487,
+            "yaw": -1.027468186425528,
+            "clip": "Walk",
+            "group": {
+              "x": -34.12518894956892,
+              "z": -17.9243905468487,
+              "yaw": -1.027468186425528
+            },
+            "body": {
+              "minX": -34.612003434142736,
+              "maxX": -33.8780524539133,
+              "minZ": -18.171527042504323,
+              "maxZ": -17.53249749131362,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.612003434142736,
+              "maxX": -33.8780524539133,
+              "minZ": -18.171527042504323,
+              "maxZ": -17.53249749131362,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.1947383659961,
+            "z": -17.882385295097976,
+            "yaw": -1.0274681864255093,
+            "clip": "Walk",
+            "group": {
+              "x": -34.1947383659961,
+              "z": -17.882385295097976,
+              "yaw": -1.0274681864255093
+            },
+            "body": {
+              "minX": -34.68155285056991,
+              "maxX": -33.94760187034048,
+              "minZ": -18.1295217907536,
+              "maxZ": -17.490492239562894,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.68155285056991,
+              "maxX": -33.94760187034048,
+              "minZ": -18.1295217907536,
+              "maxZ": -17.490492239562894,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.26428778242328,
+            "z": -17.840380043347253,
+            "yaw": -1.027468186425488,
+            "clip": "Walk",
+            "group": {
+              "x": -34.26428778242328,
+              "z": -17.840380043347253,
+              "yaw": -1.027468186425488
+            },
+            "body": {
+              "minX": -34.751102266997094,
+              "maxX": -34.01715128676765,
+              "minZ": -18.08751653900288,
+              "maxZ": -17.44848698781216,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.751102266997094,
+              "maxX": -34.01715128676765,
+              "minZ": -18.08751653900288,
+              "maxZ": -17.44848698781216,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.33383719885046,
+            "z": -17.79837479159653,
+            "yaw": -1.0274681864254636,
+            "clip": "Walk",
+            "group": {
+              "x": -34.33383719885046,
+              "z": -17.79837479159653,
+              "yaw": -1.0274681864254636
+            },
+            "body": {
+              "minX": -34.820651683424266,
+              "maxX": -34.08670070319483,
+              "minZ": -18.045511287252157,
+              "maxZ": -17.40648173606143,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.820651683424266,
+              "maxX": -34.08670070319483,
+              "minZ": -18.045511287252157,
+              "maxZ": -17.40648173606143,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.40338661527764,
+            "z": -17.756369539845807,
+            "yaw": -1.0274681864254354,
+            "clip": "Walk",
+            "group": {
+              "x": -34.40338661527764,
+              "z": -17.756369539845807,
+              "yaw": -1.0274681864254354
+            },
+            "body": {
+              "minX": -34.890201099851446,
+              "maxX": -34.15625011962201,
+              "minZ": -18.003506035501438,
+              "maxZ": -17.364476484310696,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.890201099851446,
+              "maxX": -34.15625011962201,
+              "minZ": -18.003506035501438,
+              "maxZ": -17.364476484310696,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.47293603170482,
+            "z": -17.714364288095084,
+            "yaw": -1.0274681864254023,
+            "clip": "Walk",
+            "group": {
+              "x": -34.47293603170482,
+              "z": -17.714364288095084,
+              "yaw": -1.0274681864254023
+            },
+            "body": {
+              "minX": -34.95975051627862,
+              "maxX": -34.22579953604919,
+              "minZ": -17.96150078375072,
+              "maxZ": -17.322471232559966,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -34.95975051627862,
+              "maxX": -34.22579953604919,
+              "minZ": -17.96150078375072,
+              "maxZ": -17.322471232559966,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.542485448132,
+            "z": -17.67235903634436,
+            "yaw": -1.027468186425363,
+            "clip": "Walk",
+            "group": {
+              "x": -34.542485448132,
+              "z": -17.67235903634436,
+              "yaw": -1.027468186425363
+            },
+            "body": {
+              "minX": -35.0292999327058,
+              "maxX": -34.29534895247637,
+              "minZ": -17.919495532,
+              "maxZ": -17.28046598080923,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -35.0292999327058,
+              "maxX": -34.29534895247637,
+              "minZ": -17.919495532,
+              "maxZ": -17.28046598080923,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          },
+          {
+            "x": -34.61203486455918,
+            "z": -17.630353784593638,
+            "yaw": -1.0274681864253155,
+            "clip": "Walk",
+            "group": {
+              "x": -34.61203486455918,
+              "z": -17.630353784593638,
+              "yaw": -1.0274681864253155
+            },
+            "body": {
+              "minX": -35.09884934913297,
+              "maxX": -34.36489836890354,
+              "minZ": -17.877490280249276,
+              "maxZ": -17.238460729058495,
+              "base": 0,
+              "height": 0.62,
+              "name": "wildlife-fox"
+            },
+            "collider": {
+              "minX": -35.09884934913297,
+              "maxX": -34.36489836890354,
+              "minZ": -17.877490280249276,
+              "maxZ": -17.238460729058495,
+              "minY": 0,
+              "maxY": 0.62,
+              "canStep": false,
+              "source": "wildlife-fox"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "tablet offscreen culling pauses both actual motion and animation clocks",
+      "passed": true,
+      "detail": {
+        "hidden": true,
+        "before": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086,
+          "time": 5.000000000000038
+        },
+        "after": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086,
+          "time": 5.000000000000038
+        }
+      }
+    },
+    {
+      "name": "tablet nearby player makes wildlife pause without pushing or entering the player",
+      "passed": true,
+      "detail": {
+        "before": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086
+        },
+        "after": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086
+        },
+        "clip": "Survey",
+        "clear": true
+      }
+    },
+    {
+      "name": "tablet object-edit mode pauses the actor and its collider rather than racing placement",
+      "passed": true,
+      "detail": {
+        "before": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086
+        },
+        "after": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086
+        },
+        "clip": "Survey"
+      }
+    },
+    {
+      "name": "tablet actual cottage fade suspends outdoor movement and animation at the same pose",
+      "passed": true,
+      "detail": {
+        "hidden": true,
+        "before": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086,
+          "time": 14.499999999999817
+        },
+        "after": {
+          "x": -34.676947653224545,
+          "z": -17.59114888295959,
+          "yaw": -1.0274681864253086,
+          "time": 14.499999999999817
+        },
+        "room": "building_home_A_green:-45.000:-18.000:1.571"
+      }
+    },
+    {
+      "name": "tablet cottage exit retains clear safe outdoor footing after wildlife suspension",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet live animation, pause, placement and interior checks have no browser exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader with phone/tablet emulation; physical hardware unverified."
+}

@@ -41,7 +41,8 @@
   "runtimeChanges": [
     "Normalize full reference height to 0.62m; retain original GLB bytes.",
     "Downsample the source 1024x1024 colour texture to 256x256 at runtime.",
-    "Play the authored Survey clip; no roaming/walk behaviour is claimed."
+    "Preview 17 blends authored Survey/Walk clips for bounded local wandering with clearance and obstruction stopping; previous Previews 14\u201316 use Survey only.",
+    "Preview 17 uses the existing shared contact-shadow texture instead of repeatedly refreshing outdoor shadow maps for animal movement."
   ],
   "sourceReadmeSha256": "cf767a7943b12f3af0ea14a1b18947a45ed7a03c3e722678df33854d97df0f88",
   "retrievedUtc": "2026-11-06T17:05:02.536213+00:00",

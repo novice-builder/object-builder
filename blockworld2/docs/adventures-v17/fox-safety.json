@@ -1,0 +1,199 @@
+{
+  "checks": [
+    {
+      "name": "actual editor places a solid barrel ahead of the current walking leg without occupying the actor",
+      "passed": true,
+      "detail": {
+        "object": {
+          "id": "c28e0e79-90b8-4af3-8e93-9487dc08d464",
+          "asset": "barrel",
+          "x": -35.2775396500867,
+          "z": -17.228413732563205,
+          "yaw": 0,
+          "scale": 5
+        },
+        "target": {
+          "x": -35.2775396500867,
+          "z": -17.228413732563205
+        },
+        "fox": {
+          "x": -34,
+          "z": -18
+        },
+        "id": "c28e0e79-90b8-4af3-8e93-9487dc08d464"
+      }
+    },
+    {
+      "name": "six thousand live steps stop/retry around the newly placed construction without overlap or teleport",
+      "passed": true,
+      "detail": {
+        "contact": false,
+        "stops": 5086,
+        "rows": [
+          {
+            "x": -34,
+            "z": -18,
+            "clip": "Walk"
+          },
+          {
+            "x": -34.31613135509941,
+            "z": -17.802911781657127,
+            "clip": "Walk"
+          },
+          {
+            "x": -33.249466464261324,
+            "z": -16.717110840293312,
+            "clip": "Survey"
+          },
+          {
+            "x": -33.249466464261324,
+            "z": -16.717110840293312,
+            "clip": "Survey"
+          },
+          {
+            "x": -33.249466464261324,
+            "z": -16.717110840293312,
+            "clip": "Walk"
+          },
+          {
+            "x": -34.52715243110565,
+            "z": -16.5924808574259,
+            "clip": "Walk"
+          },
+          {
+            "x": -35.22799283485992,
+            "z": -16.524118419566292,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.22799283485992,
+            "z": -16.524118419566292,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.22799283485992,
+            "z": -16.524118419566292,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.22799283485992,
+            "z": -16.524118419566292,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.22799283485992,
+            "z": -16.524118419566292,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.22799283485992,
+            "z": -16.524118419566292,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.22799283485992,
+            "z": -16.524118419566292,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.281754286776675,
+            "z": -16.53073159320561,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.281754286776675,
+            "z": -16.53073159320561,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.281754286776675,
+            "z": -16.53073159320561,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.281754286776675,
+            "z": -16.53073159320561,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.281754286776675,
+            "z": -16.53073159320561,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.281754286776675,
+            "z": -16.53073159320561,
+            "clip": "Survey"
+          },
+          {
+            "x": -35.281754286776675,
+            "z": -16.53073159320561,
+            "clip": "Survey"
+          }
+        ],
+        "objects": [
+          {
+            "id": "c28e0e79-90b8-4af3-8e93-9487dc08d464",
+            "asset": "barrel",
+            "x": -35.2775396500867,
+            "z": -17.228413732563205,
+            "yaw": 0,
+            "scale": 5
+          }
+        ],
+        "clear": true
+      }
+    },
+    {
+      "name": "actual editor refuses new construction over the current moving torso footprint",
+      "passed": true,
+      "detail": {
+        "problem": "Choose a clear spot"
+      }
+    },
+    {
+      "name": "transient wildlife clocks/pose do not add or modify saved world data",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "independently packaged Preview16 imports the new backup with exact world/construction data",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "a retained construction at the default site omits the actor and all invisible wildlife collision",
+      "passed": true,
+      "detail": {
+        "fox": false,
+        "body": 0,
+        "objects": [
+          {
+            "id": "retained-at-spawn",
+            "asset": "barrel",
+            "x": -34,
+            "z": -18,
+            "yaw": 0.3,
+            "scale": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "a simulated missing required Walk clip fails once without a partial actor, invisible body or retry loop",
+      "passed": true,
+      "detail": {
+        "pending": true,
+        "fox": false,
+        "loop": false,
+        "body": 0
+      }
+    },
+    {
+      "name": "construction, failure and save compatibility checks have no browser exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader; real game/editor/native backup. Physical devices unverified."
+}

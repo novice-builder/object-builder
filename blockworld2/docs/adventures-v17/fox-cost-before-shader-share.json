@@ -1,0 +1,465 @@
+{
+  "checks": [
+    {
+      "name": "before fixed actual clearing view includes a visible bounded-texture rig and no browser exceptions",
+      "passed": true,
+      "detail": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 783.3,
+          "drawCalls": 56,
+          "triangles": 75261,
+          "geometries": 64,
+          "textures": 14,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4222,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "clip": "Survey",
+        "cpu600UpdatesMs": [
+          29.200000002980232,
+          29.200000002980232,
+          20.399999991059303,
+          42.20000000298023,
+          46.20000000298023
+        ],
+        "programs": 10,
+        "errors": []
+      }
+    },
+    {
+      "name": "after fixed actual clearing view includes a visible bounded-texture rig and no browser exceptions",
+      "passed": true,
+      "detail": {
+        "stats": {
+          "fps": 3,
+          "frameP95Ms": 716.6,
+          "drawCalls": 57,
+          "triangles": 75263,
+          "geometries": 81,
+          "textures": 14,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4222,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "clip": "Walk",
+        "cpu600UpdatesMs": [
+          42.79999999701977,
+          82,
+          54,
+          42.1000000089407,
+          23.700000002980232
+        ],
+        "programs": 11,
+        "errors": []
+      }
+    },
+    {
+      "name": "twelve world rebuilds dispose owned skeleton/contact resources and plateau with two cached actions and one fetch",
+      "passed": true,
+      "detail": {
+        "rows": [
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          }
+        ],
+        "requests": 1
+      }
+    },
+    {
+      "name": "walking uses the same model/image downloads plus one shared-texture two-triangle contact shadow",
+      "passed": true,
+      "detail": {
+        "before": {
+          "fps": 2,
+          "frameP95Ms": 783.3,
+          "drawCalls": 56,
+          "triangles": 75261,
+          "geometries": 64,
+          "textures": 14,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4222,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "after": {
+          "fps": 3,
+          "frameP95Ms": 716.6,
+          "drawCalls": 57,
+          "triangles": 75263,
+          "geometries": 81,
+          "textures": 14,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4222,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "startupBytesBefore": 3927488,
+        "startupBytesAfter": 3931317
+      }
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader. Timed CPU simulation without rendering, draw/resource counters; not physical FPS or device memory.",
+  "phases": {
+    "before": {
+      "stats": {
+        "fps": 2,
+        "frameP95Ms": 783.3,
+        "drawCalls": 56,
+        "triangles": 75261,
+        "geometries": 64,
+        "textures": 14,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4222,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "visible": true,
+      "clip": "Survey",
+      "actions": null,
+      "cpu600UpdatesMs": [
+        29.200000002980232,
+        29.200000002980232,
+        20.399999991059303,
+        42.20000000298023,
+        46.20000000298023
+      ],
+      "programs": 10,
+      "startupBytes": 3927488,
+      "assets": [
+        "/adventures/character/Explorer.glb",
+        "/adventures/furniture/bedsingle.glb",
+        "/adventures/furniture/bookcaseopen.glb",
+        "/adventures/furniture/books.glb",
+        "/adventures/furniture/cabinetbed.glb",
+        "/adventures/furniture/chair.glb",
+        "/adventures/furniture/rugrectangle.glb",
+        "/adventures/furniture/table.glb",
+        "/adventures/modular/Door_4_Flat.glb",
+        "/adventures/modular/Floor_WoodDark.glb",
+        "/adventures/modular/Roof_Front_Brick4.glb",
+        "/adventures/modular/Roof_RoundTiles_4x6.glb",
+        "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+        "/adventures/modular/Wall_Plaster_Straight.glb",
+        "/adventures/nature/campfire-stones.glb",
+        "/adventures/nature/flower-purplea.glb",
+        "/adventures/nature/flower-reda.glb",
+        "/adventures/nature/flower-yellowa.glb",
+        "/adventures/nature/grass-large.glb",
+        "/adventures/nature/lily-small.glb",
+        "/adventures/nature/log.glb",
+        "/adventures/nature/mushroom-red.glb",
+        "/adventures/nature/plant-bush.glb",
+        "/adventures/nature/plant-bushsmall.glb",
+        "/adventures/nature/rock-largea.glb",
+        "/adventures/nature/rock-largeb.glb",
+        "/adventures/nature/rock-smalla.glb",
+        "/adventures/nature/sign.glb",
+        "/adventures/nature/stump-round.glb",
+        "/adventures/nature/tent-smallopen.glb",
+        "/adventures/nature/tree-detailed.glb",
+        "/adventures/nature/tree-oak.glb",
+        "/adventures/nature/tree-pinedefaulta.glb",
+        "/adventures/nature/tree-pinedefaultb.glb",
+        "/adventures/village/barrel.glb",
+        "/adventures/village/building_blacksmith_blue.glb",
+        "/adventures/village/building_bridge_A.glb",
+        "/adventures/village/building_church_blue.glb",
+        "/adventures/village/building_home_A_blue.glb",
+        "/adventures/village/building_home_A_green.glb",
+        "/adventures/village/building_home_B_blue.glb",
+        "/adventures/village/building_home_B_green.glb",
+        "/adventures/village/building_market_blue.glb",
+        "/adventures/village/building_tavern_blue.glb",
+        "/adventures/village/building_watermill_blue.glb",
+        "/adventures/village/building_well_blue.glb",
+        "/adventures/village/building_windmill_blue.glb",
+        "/adventures/village/crate_A_small.glb",
+        "/adventures/village/fence_wood_straight.glb",
+        "/adventures/village/sack.glb",
+        "/adventures/village/waterplant_A.glb",
+        "/adventures/village/wheelbarrow.glb",
+        "/adventures/wildlife/Fox.glb"
+      ],
+      "texture": 256
+    },
+    "after": {
+      "stats": {
+        "fps": 3,
+        "frameP95Ms": 716.6,
+        "drawCalls": 57,
+        "triangles": 75263,
+        "geometries": 81,
+        "textures": 14,
+        "pixelRatio": 1,
+        "scene": "vale",
+        "natureInstances": 4222,
+        "objects": 0,
+        "quality": "gentle"
+      },
+      "visible": true,
+      "clip": "Walk",
+      "actions": 2,
+      "cpu600UpdatesMs": [
+        42.79999999701977,
+        82,
+        54,
+        42.1000000089407,
+        23.700000002980232
+      ],
+      "programs": 11,
+      "startupBytes": 3931317,
+      "assets": [
+        "/adventures/character/Explorer.glb",
+        "/adventures/furniture/bedsingle.glb",
+        "/adventures/furniture/bookcaseopen.glb",
+        "/adventures/furniture/books.glb",
+        "/adventures/furniture/cabinetbed.glb",
+        "/adventures/furniture/chair.glb",
+        "/adventures/furniture/rugrectangle.glb",
+        "/adventures/furniture/table.glb",
+        "/adventures/modular/Door_4_Flat.glb",
+        "/adventures/modular/Floor_WoodDark.glb",
+        "/adventures/modular/Roof_Front_Brick4.glb",
+        "/adventures/modular/Roof_RoundTiles_4x6.glb",
+        "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+        "/adventures/modular/Wall_Plaster_Straight.glb",
+        "/adventures/nature/campfire-stones.glb",
+        "/adventures/nature/flower-purplea.glb",
+        "/adventures/nature/flower-reda.glb",
+        "/adventures/nature/flower-yellowa.glb",
+        "/adventures/nature/grass-large.glb",
+        "/adventures/nature/lily-small.glb",
+        "/adventures/nature/log.glb",
+        "/adventures/nature/mushroom-red.glb",
+        "/adventures/nature/plant-bush.glb",
+        "/adventures/nature/plant-bushsmall.glb",
+        "/adventures/nature/rock-largea.glb",
+        "/adventures/nature/rock-largeb.glb",
+        "/adventures/nature/rock-smalla.glb",
+        "/adventures/nature/sign.glb",
+        "/adventures/nature/stump-round.glb",
+        "/adventures/nature/tent-smallopen.glb",
+        "/adventures/nature/tree-detailed.glb",
+        "/adventures/nature/tree-oak.glb",
+        "/adventures/nature/tree-pinedefaulta.glb",
+        "/adventures/nature/tree-pinedefaultb.glb",
+        "/adventures/village/barrel.glb",
+        "/adventures/village/building_blacksmith_blue.glb",
+        "/adventures/village/building_bridge_A.glb",
+        "/adventures/village/building_church_blue.glb",
+        "/adventures/village/building_home_A_blue.glb",
+        "/adventures/village/building_home_A_green.glb",
+        "/adventures/village/building_home_B_blue.glb",
+        "/adventures/village/building_home_B_green.glb",
+        "/adventures/village/building_market_blue.glb",
+        "/adventures/village/building_tavern_blue.glb",
+        "/adventures/village/building_watermill_blue.glb",
+        "/adventures/village/building_well_blue.glb",
+        "/adventures/village/building_windmill_blue.glb",
+        "/adventures/village/crate_A_small.glb",
+        "/adventures/village/fence_wood_straight.glb",
+        "/adventures/village/sack.glb",
+        "/adventures/village/waterplant_A.glb",
+        "/adventures/village/wheelbarrow.glb",
+        "/adventures/wildlife/Fox.glb"
+      ],
+      "texture": 256,
+      "cycles": {
+        "rows": [
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          },
+          {
+            "geometries": 58,
+            "textures": 13,
+            "programs": 11,
+            "actions": 2,
+            "clip": "Walk"
+          }
+        ],
+        "requests": 1
+      }
+    }
+  },
+  "cpuSummary": {
+    "before": {
+      "median600UpdatesMs": 29.200000002980232,
+      "rangeMs": [
+        20.399999991059303,
+        46.20000000298023
+      ],
+      "medianMsPerUpdate": 0.04866666667163372
+    },
+    "after": {
+      "median600UpdatesMs": 42.79999999701977,
+      "rangeMs": [
+        23.700000002980232,
+        82
+      ],
+      "medianMsPerUpdate": 0.07133333332836628
+    }
+  }
+}
