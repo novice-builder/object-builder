@@ -1,13 +1,8 @@
 import * as T from "three";
 import { buildingEntry, type BuildingEntry } from "./building-entry";
 import { Interior, freshRoom } from "./interior";
-import {
-  moveInRoom,
-  obstacleSolid,
-  safeRoomPose,
-  recoverRoomPose,
-  type RoomSolid,
-} from "./interior-physics";
+import { moveCharacter, recoverCharacter } from "./character-controller";
+import { CollisionSpace } from "./mesh-collision";
 import { clone as cloneSkeleton } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { AssetLibrary, DEFINITIONS } from "./assets";
 import {
@@ -127,7 +122,7 @@ class AdventureGame {
   private transitioning = false;
   private transitionToken = 0;
   private entryNear: BuildingEntry | null = null;
-  private roomSolids: RoomSolid[] = [];
+  private roomSpace?: CollisionSpace;
   private roomBodySource?: readonly Obstacle[];
   private get objects(): Placement[] {
     return this.data.inside
@@ -479,12 +474,11 @@ class AdventureGame {
   }
   private safeSpawn() {
     if (this.interior) {
-      const safe = recoverRoomPose(
+      const safe = recoverCharacter(
         this.player,
-        this.roomSolids,
-        this.interior.entry.width,
-        this.interior.entry.depth,
+        this.roomSpace!,
         this.interior.spawn,
+        Math.hypot(this.interior.entry.width, this.interior.entry.depth),
       );
       if (safe) Object.assign(this.player, safe, { vy: 0, grounded: true });
       else
@@ -511,7 +505,8 @@ class AdventureGame {
     objects: Placement[],
     pose: { x: number; y: number; z: number; yaw: number },
   ) {
-    const solids = [...room.solids];
+    const space = room.collision();
+    const solids = [];
     for (const p of objects) {
       if (DEFINITIONS.get(p.asset)?.solid === false) continue;
       const root = this.library.create(p.asset, p.scale);
@@ -528,12 +523,12 @@ class AdventureGame {
         maxY: b.max.y,
       });
     }
-    return recoverRoomPose(
+    space.boxes = solids;
+    return recoverCharacter(
       pose,
-      solids,
-      room.entry.width,
-      room.entry.depth,
+      space,
       room.spawn,
+      Math.hypot(room.entry.width, room.entry.depth),
     );
   }
   private async roomTransition(
@@ -742,17 +737,14 @@ class AdventureGame {
       a.maxZ > box.min.z - 0.1;
     if (room.solids.some((b) => b.ramp && overlap(b)))
       return "Keep the stairs and landings clear";
-    const solids = room.solids,
+    const floorSpace = room.collision(),
       solid = !!this.objectBox(root, p.asset);
     for (const x of [box.min.x, box.max.x])
       for (const z of [box.min.z, box.max.z]) {
         if (
-          !safeRoomPose(
-            { x, y, z, yaw: 0 },
-            solids,
-            room.entry.width,
-            room.entry.depth,
-          )
+          !floorSpace.valid(x, z) ||
+          !floorSpace.floor(x, z, y + 0.03, y - 0.03) ||
+          !floorSpace.clear({ x, y: y + 0.002, z })
         )
           return "Choose clear floor space";
       }
@@ -913,10 +905,19 @@ class AdventureGame {
     const bodies = this.obstacles();
     if (this.roomBodySource === bodies) return;
     this.roomBodySource = bodies;
-    this.roomSolids = [
-      ...this.interior.solids,
-      ...bodies.filter((b) => b.name !== "room-wall").map(obstacleSolid),
-    ];
+    this.roomSpace = this.interior.collision();
+    this.roomSpace.boxes = bodies
+      .filter((b) => b.name !== "room-wall")
+      .map((b) => ({
+        minX: b.minX,
+        maxX: b.maxX,
+        minZ: b.minZ,
+        maxZ: b.maxZ,
+        minY: b.base ?? 0,
+        maxY: b.height,
+        canStep: false,
+        source: b.name,
+      }));
   }
   obstacles() {
     return this.collisionCache.view(this.moving);
@@ -980,12 +981,11 @@ class AdventureGame {
       steps = Math.ceil(dt / (1 / 60)),
       step = dt / steps;
     if (this.interior)
-      moveInRoom(
+      moveCharacter(
         this.player,
-        this.velocity.x,
-        this.velocity.y,
+        { vx: this.velocity.x, vz: this.velocity.y },
         dt,
-        this.roomSolids,
+        this.roomSpace!,
       );
     else
       for (let i = 0; i < steps; i++) {

@@ -3,6 +3,7 @@ import type { AssetLibrary } from "./assets";
 import type { BuildingEntry } from "./building-entry";
 import type { Placement, Obstacle } from "./landscape";
 import { roomStructure, UPPER_FLOOR, type RoomSolid } from "./interior-physics";
+import { CollisionSpace, MeshShape, BODY_RADIUS } from "./mesh-collision";
 export interface RoomState {
   entry: BuildingEntry;
   objects: Placement[];
@@ -57,6 +58,7 @@ export function freshRoom(entry: BuildingEntry): RoomState {
 }
 /** Separate local-coordinate room. Shared licensed models remain library-owned; only room joinery is disposed. */
 export class Interior {
+  private shape?: MeshShape;
   group = new T.Group();
   walls: { group: T.Group; side: string }[] = [];
   upper = new T.Group();
@@ -195,7 +197,7 @@ export class Interior {
           r.length / steps + 0.015,
         );
       }
-      // Balustrade follows the slope. The collider is the same continuous ramp beneath the treads.
+      // Movement uses these actual treads, posts and sloped rails, including the open space below.
       for (const x of [r.cx - 0.86, r.cx + 0.86]) {
         for (let i = 0; i <= steps; i += 2) {
           const t = i / steps,
@@ -261,6 +263,17 @@ export class Interior {
   }
   get spawn() {
     return { x: 0, y: 0, z: this.entry.depth / 2 - 1.2 };
+  }
+  collision() {
+    this.shape ??= new MeshShape(this.group);
+    const space = new CollisionSpace(
+      () => 0,
+      (x, z) =>
+        Math.abs(x) <= this.entry.width / 2 - BODY_RADIUS &&
+        Math.abs(z) <= this.entry.depth / 2 - BODY_RADIUS,
+    );
+    space.add(this.shape, undefined, true, "room structure");
+    return space;
   }
   dispose() {
     this.group.removeFromParent();

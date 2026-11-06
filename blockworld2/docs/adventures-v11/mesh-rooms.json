@@ -1,0 +1,33 @@
+{
+  "environment": "Managed Chromium SwiftShader phone/tablet touch emulation; no physical device/controller result.",
+  "checks": [
+    {
+      "name": "cottage has clear compact Enter prompt",
+      "passed": true,
+      "detail": {
+        "entrances": 32,
+        "blockedEntrances": [],
+        "id": "village:building_home_A_blue:-10.000:-10.000:1.571",
+        "prompt": "Enter E",
+        "entry": {
+          "id": "village:building_home_A_blue:-10.000:-10.000:1.571",
+          "name": "Cottage",
+          "kind": "cottage",
+          "x": -110.87685408592225,
+          "z": -10,
+          "yaw": 1.5707963267948966,
+          "width": 5.8,
+          "depth": 6.8
+        }
+      }
+    },
+    {
+      "name": "all supported permanent entrances including the new mill have clear approaches",
+      "passed": true,
+      "detail": {
+        "count": 32,
+        "blocked": []
+      }
+    }
+  ]
+}

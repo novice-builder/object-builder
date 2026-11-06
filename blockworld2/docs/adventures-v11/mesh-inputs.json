@@ -1,0 +1,191 @@
+{
+  "checks": [
+    {
+      "name": "phone actual touch joystick walks from ground onto upper landing",
+      "passed": true,
+      "detail": {
+        "y": 3.002,
+        "z": -2.6196445781298716,
+        "maxStep": 0.1503472222222224,
+        "stick": {
+          "x": 0,
+          "y": -0.8571428571428571
+        }
+      }
+    },
+    {
+      "name": "phone responsive room camera keeps useful horizontal space",
+      "passed": true,
+      "detail": {
+        "distance": 15.403683865386565,
+        "aspect": 0.46208530805687204,
+        "drawCalls": 104,
+        "triangles": 8057
+      }
+    },
+    {
+      "name": "phone injected Gamepad API left stick walks downstairs and releases",
+      "passed": true,
+      "detail": {
+        "y": 0.002000000000000014,
+        "z": 2.519428418828333,
+        "maxStep": 0.030902777777777724,
+        "state": {
+          "x": 0,
+          "z": 0,
+          "lookX": 0,
+          "lookY": 0,
+          "command": null
+        }
+      }
+    },
+    {
+      "name": "phone keyboard walks upstairs through the same controller",
+      "passed": true,
+      "detail": {
+        "y": 3.002,
+        "z": -2.6041463936200246
+      }
+    },
+    {
+      "name": "phone keyboard walks downstairs through the same controller",
+      "passed": true,
+      "detail": {
+        "y": 0.002000000000000014,
+        "z": 2.513505634146837
+      }
+    },
+    {
+      "name": "phone high stair underside permits passage while low treads retain head collision",
+      "passed": true,
+      "detail": {
+        "r": {
+          "cx": 1.9,
+          "cz": 0.02499999999999991,
+          "c": 1,
+          "s": 0,
+          "width": 1.6,
+          "length": 4.1499999999999995,
+          "rise": 3,
+          "baseY": 0
+        },
+        "rows": [
+          {
+            "z": -1.137,
+            "x": 1.8926229500354441,
+            "y": 0.002000000000000014
+          },
+          {
+            "z": 0.02499999999999991,
+            "x": 0.727897747628605,
+            "y": 0.002000000000000014
+          }
+        ],
+        "stats": {
+          "instances": 1,
+          "cachedTriangles": 4362,
+          "boxes": 6
+        }
+      }
+    },
+    {
+      "name": "phone no input or camera runtime errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet actual touch joystick walks from ground onto upper landing",
+      "passed": true,
+      "detail": {
+        "y": 3.002,
+        "z": -5.080988861615209,
+        "maxStep": 0.15000000000000036,
+        "stick": {
+          "x": 0,
+          "y": -0.8571428571428571
+        }
+      }
+    },
+    {
+      "name": "tablet responsive room camera keeps useful horizontal space",
+      "passed": true,
+      "detail": {
+        "distance": 9.579311717380083,
+        "aspect": 1.3333333333333333,
+        "drawCalls": 100,
+        "triangles": 7071
+      }
+    },
+    {
+      "name": "tablet injected Gamepad API left stick walks downstairs and releases",
+      "passed": true,
+      "detail": {
+        "y": 0.002000000000000014,
+        "z": 4.982485882729555,
+        "maxStep": 0.06215277777777784,
+        "state": {
+          "x": 0,
+          "z": 0,
+          "lookX": 0,
+          "lookY": 0,
+          "command": null
+        }
+      }
+    },
+    {
+      "name": "tablet keyboard walks upstairs through the same controller",
+      "passed": true,
+      "detail": {
+        "y": 3.002,
+        "z": -5.071922262090389
+      }
+    },
+    {
+      "name": "tablet keyboard walks downstairs through the same controller",
+      "passed": true,
+      "detail": {
+        "y": 0.002000000000000014,
+        "z": 4.982485882729556
+      }
+    },
+    {
+      "name": "tablet high stair underside permits passage while low treads retain head collision",
+      "passed": true,
+      "detail": {
+        "r": {
+          "cx": 4,
+          "cz": 0.025000000000000355,
+          "c": 1,
+          "s": 0,
+          "width": 1.6,
+          "length": 9.07439479827881,
+          "rise": 3,
+          "baseY": 0
+        },
+        "rows": [
+          {
+            "z": -2.515830543518067,
+            "x": 3.992622950035447,
+            "y": 0.002000000000000014
+          },
+          {
+            "z": 0.025000000000000355,
+            "x": 2.827897747628605,
+            "y": 0.002000000000000014
+          }
+        ],
+        "stats": {
+          "instances": 1,
+          "cachedTriangles": 5978,
+          "boxes": 7
+        }
+      }
+    },
+    {
+      "name": "tablet no input or camera runtime errors",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium touch emulation, injected standard browser Gamepad API, genuine keyboard events. No physical device/controller test."
+}
