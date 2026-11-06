@@ -1,0 +1,111 @@
+{
+  "phase": "before",
+  "checks": [
+    {
+      "name": "phone-new selects a conservative default or retains explicit quality",
+      "passed": false,
+      "detail": {
+        "quality": "balanced",
+        "coarse": true,
+        "pixelRatio": 1.5,
+        "width": 585,
+        "height": 1266,
+        "shadows": true,
+        "drawCalls": 113,
+        "triangles": 126573,
+        "running": false
+      }
+    },
+    {
+      "name": "tablet-new selects a conservative default or retains explicit quality",
+      "passed": false,
+      "detail": {
+        "quality": "balanced",
+        "coarse": true,
+        "pixelRatio": 1.5,
+        "width": 1536,
+        "height": 1152,
+        "shadows": true,
+        "drawCalls": 183,
+        "triangles": 192034,
+        "running": false
+      }
+    },
+    {
+      "name": "desktop-new selects a conservative default or retains explicit quality",
+      "passed": true,
+      "detail": {
+        "quality": "balanced",
+        "coarse": false,
+        "pixelRatio": 1,
+        "width": 1024,
+        "height": 768,
+        "shadows": true,
+        "drawCalls": 183,
+        "triangles": 192034,
+        "running": false
+      }
+    },
+    {
+      "name": "phone-explicit-balanced selects a conservative default or retains explicit quality",
+      "passed": true,
+      "detail": {
+        "quality": "balanced",
+        "coarse": true,
+        "pixelRatio": 1.5,
+        "width": 585,
+        "height": 1266,
+        "shadows": true,
+        "drawCalls": 113,
+        "triangles": 126573,
+        "running": true
+      }
+    },
+    {
+      "name": "phone-explicit-high selects a conservative default or retains explicit quality",
+      "passed": true,
+      "detail": {
+        "quality": "high",
+        "coarse": true,
+        "pixelRatio": 2,
+        "width": 780,
+        "height": 1688,
+        "shadows": true,
+        "drawCalls": 113,
+        "triangles": 126573,
+        "running": false
+      }
+    },
+    {
+      "name": "phone-denied-storage selects a conservative default or retains explicit quality",
+      "passed": false,
+      "detail": {
+        "quality": "balanced",
+        "coarse": true,
+        "pixelRatio": 1.5,
+        "width": 585,
+        "height": 1266,
+        "shadows": true,
+        "drawCalls": 113,
+        "triangles": 126573,
+        "running": false
+      }
+    },
+    {
+      "name": "phone-invalid-pref selects a conservative default or retains explicit quality",
+      "passed": false,
+      "detail": {
+        "quality": "balanced",
+        "coarse": true,
+        "pixelRatio": 1.5,
+        "width": 585,
+        "height": 1266,
+        "shadows": true,
+        "drawCalls": 113,
+        "triangles": 126573,
+        "running": true
+      }
+    }
+  ],
+  "environment": "Managed Chromium ANGLE SwiftShader, pointer/viewport/DPR emulation. Drawing-buffer/shadow/submission counters only, not physical-device FPS."
+}

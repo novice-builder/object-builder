@@ -1,0 +1,9 @@
+{
+  "sourceCommit": "e4fcdcffe2313ff98ec8a57e745e908a56152ba8",
+  "archiveBytes": 4723463,
+  "archiveSha256": "2b4dea78512a58bd10eb982f13a8a9b4ee7bdbb08fc8559e5971802239c4a303",
+  "accepted": false,
+  "reason": "Extracted runtime reproduced stale contextual interaction after Alderwick-to-lodge map travel; it depended on the next rendered frame.",
+  "preservedLocalCandidate": "/workspace/work/adventures-preview07-rejected",
+  "nextDelivery": "New numbered Preview 08 after correction and verification; Preview 07 archive was not pushed or represented as validated."
+}

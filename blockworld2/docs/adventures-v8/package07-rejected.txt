@@ -1,0 +1,19 @@
+PASS archive CRC
+PASS all build-manifest hashes
+PASS packaged game opens connected vale
+PASS packaged nearby ground targets the ghost before confirmation
+PASS packaged pinned ghost actually renders
+PASS packaged explicit target confirmation keeps exact position
+PASS all 19 packaged catalogue images load
+PASS packaged fresh-world UI loads separate connected layout 5
+PASS packaged visible name edge safely travels
+PASS packaged map travels to meadow in same world
+PASS packaged Alderwick name safely travels into the northern square
+Traceback (most recent call last):
+  File "/workspace/object-builder/blockworld2/tools/adventures/package_check_v7.py", line 19, in <module>
+    page.locator('#minimap').click();page.locator('#mapDestination').select_option('lodge');page.wait_for_selector('#context:visible');check('packaged lodge is present with contextual door',page.evaluate("!!adventure.game.landscape.lodge&&document.getElementById('interact').textContent.includes('Open')"));page.locator('#interact').click();page.wait_for_function('adventure.game.landscape.lodge.open&&Math.abs(adventure.game.landscape.lodge.hinge.rotation.y)>1.5');check('packaged real door opens',page.evaluate('adventure.game.data.doors.lodge===true'))
+                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/object-builder/blockworld2/tools/adventures/package_check_v7.py", line 6, in check
+    assert value,name;result['checks'].append({'name':name,'passed':True});print('PASS',name,flush=True)
+           ^^^^^
+AssertionError: packaged lodge is present with contextual door

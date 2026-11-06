@@ -62,3 +62,44 @@ test("invalid preferences and denied browser storage fall back without blocking 
     running: false,
   });
 });
+test("first-use coarse pointers choose Gentle without changing fine-pointer defaults", () => {
+  for (const storage of [
+    null,
+    { getItem: () => "{bad" },
+    {
+      getItem: () => {
+        throw Error("Denied");
+      },
+    },
+  ]) {
+    assert.deepEqual(readPreferences(storage, true), {
+      quality: "gentle",
+      running: false,
+    });
+    assert.deepEqual(readPreferences(storage, false), {
+      quality: "balanced",
+      running: false,
+    });
+  }
+});
+test("explicit saved graphics choices override pointer defaults and retain running", () => {
+  for (const quality of ["gentle", "balanced", "high"] as const) {
+    const raw = JSON.stringify({ quality, running: true }),
+      storage = { getItem: () => raw };
+    assert.deepEqual(readPreferences(storage, true), {
+      quality,
+      running: true,
+    });
+    assert.deepEqual(readPreferences(storage, false), {
+      quality,
+      running: true,
+    });
+  }
+  assert.deepEqual(
+    readPreferences(
+      { getItem: () => '{"quality":"invalid","running":true}' },
+      true,
+    ),
+    { quality: "gentle", running: true },
+  );
+});

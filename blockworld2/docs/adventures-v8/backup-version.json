@@ -1,0 +1,42 @@
+{
+  "checks": [
+    {
+      "name": "welcome uses shared Preview 08 version",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "menu credits use matching shared preview version",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "actual backup filename matches the delivered preview",
+      "passed": true,
+      "detail": "BlockWorld-Adventures-vale-preview08.bw2"
+    },
+    {
+      "name": "download contains supported current layout and explicit scale",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "backup text fallback equals downloaded data",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "download imports into a distinct retained record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "backup flow has no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader touch emulation with isolated synthetic saved object. Real Blob download event and JSON bytes; no physical-device result.",
+  "downloadBytes": 585,
+  "downloadSha256": "4db6e2178bc3a3ea5acbeb62d9b3ef04d78604f330fa4f421404bb2cc7a1601e"
+}

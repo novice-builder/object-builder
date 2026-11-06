@@ -6,17 +6,19 @@ export interface ControlPreferences {
 export const PREFERENCES_KEY = "blockworld-adventures-controls-v2";
 export function readPreferences(
   storage: Pick<Storage, "getItem"> | null,
+  coarsePointer = false,
 ): ControlPreferences {
+  const fallback = coarsePointer ? "gentle" : "balanced";
   try {
     const value = JSON.parse(storage?.getItem(PREFERENCES_KEY) || "null");
     return {
       quality: ["gentle", "balanced", "high"].includes(value?.quality)
         ? value.quality
-        : "balanced",
+        : fallback,
       running: typeof value?.running === "boolean" ? value.running : false,
     };
   } catch {
-    return { quality: "balanced", running: false };
+    return { quality: fallback, running: false };
   }
 }
 export function writePreferences(

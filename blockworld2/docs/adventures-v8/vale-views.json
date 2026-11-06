@@ -1,0 +1,30 @@
+{
+  "checks": [
+    {
+      "name": "current layout-5 valley arrives with correct Alderwick context",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "full map retains seven actual destinations and northern geometry",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone named-place touch redraws arrival after map viewport resize",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native world/map trip retains its saved-world record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "current scene evidence has no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader, real touch map interaction with RAF deliberately paused; no physical-device result."
+}

@@ -35,6 +35,7 @@ import { readPreferences, writePreferences, type Quality } from "./preferences";
 import { CollisionCache, type OwnedObstacle } from "./collision-cache";
 import { cameraFraction, rayBoxDistance } from "./camera-collision";
 import { groundTarget } from "./ground-target";
+import { PREVIEW_VERSION } from "./version";
 import "./style.css";
 import { installUUIDFallback } from "./ids";
 installUUIDFallback();
@@ -52,7 +53,7 @@ app.innerHTML = `
 <output id="toast" role="status" aria-live="polite" hidden></output><output id="saveState" aria-live="polite">Preparing your world…</output><div id="stats" hidden></div>
 <div id="editBar" hidden><span id="editName">Place object</span><button id="editRotate">↻ <span>Rotate</span></button><button id="editMove">✥ <span>Move</span></button><button id="editRemove">× <span>Remove</span></button><button id="editConfirm" class="primary">✓ <span>Place</span></button><button id="editCancel" aria-label="Cancel editing">✕</button></div>
 <div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle"></div>
-<div id="welcome"><section><div class="eyebrow">A BLOCKWORLD ADVENTURE</div><h1>A little world.<br>A little wonder.</h1><p>Follow a cobbled lane. Find a quiet corner.<br>Make a place of your own.</p><button id="enter" class="primary" disabled>Preparing the valley… <span>→</span></button><div class="loadingTrack"><i id="loadingBar"></i></div><small id="loadingText">Unpacking the village</small><div class="welcomeFoot">FREE TO EXPLORE <span>•</span> SAVED ON YOUR DEVICE</div></section><div class="previewBadge">WILLOW VALE · DEVELOPMENT PREVIEW 07</div></div>
+<div id="welcome"><section><div class="eyebrow">A BLOCKWORLD ADVENTURE</div><h1>A little world.<br>A little wonder.</h1><p>Follow a cobbled lane. Find a quiet corner.<br>Make a place of your own.</p><button id="enter" class="primary" disabled>Preparing the valley… <span>→</span></button><div class="loadingTrack"><i id="loadingBar"></i></div><small id="loadingText">Unpacking the village</small><div class="welcomeFoot">FREE TO EXPLORE <span>•</span> SAVED ON YOUR DEVICE</div></section><div class="previewBadge">WILLOW VALE · DEVELOPMENT PREVIEW ${PREVIEW_VERSION}</div></div>
 <div id="fatal" hidden role="alert"></div>`;
 class AdventureGame {
   library = new AssetLibrary();
@@ -173,6 +174,13 @@ class AdventureGame {
         this.controls?.clear();
         $("modal").inert = busy;
         $("hud").inert = busy;
+        if (this.landscape) this.updateContext();
+        if (!busy && this.worldMap && this.landscape)
+          this.worldMap.update(
+            { x: this.player.x, z: this.player.z, yaw: this.actorYaw },
+            performance.now(),
+            true,
+          );
       },
     );
     this.controls = new AdventureControls(
@@ -227,7 +235,11 @@ class AdventureGame {
     try {
       this.preferenceStorage = localStorage;
     } catch {}
-    const preferences = readPreferences(this.preferenceStorage);
+    const preferences = readPreferences(
+      this.preferenceStorage,
+      typeof matchMedia === "function" &&
+        matchMedia("(pointer: coarse)").matches,
+    );
     this.controls.running = preferences.running;
     $("run").setAttribute("aria-pressed", String(preferences.running));
     this.setQuality(preferences.quality);
@@ -429,6 +441,13 @@ class AdventureGame {
     this.dirty = true;
     this.closeWorldMap();
     this.cameraUpdate(1 / 60);
+    this.updateContext();
+    this.worldMap.update(
+      { x: this.player.x, z: this.player.z, yaw: this.actorYaw },
+      performance.now(),
+      true,
+    );
+    this.renderScene();
     this.toast("Arrived at " + destination.name);
   }
   private refreshMap() {
@@ -450,6 +469,7 @@ class AdventureGame {
     this.cancelEdit();
     this.modalOpen = true;
     this.controls.clear();
+    this.updateContext();
     $("mapOverlay").hidden = false;
     $("mapTitle").textContent = WORLDS.find(
       (w) => w.id === this.data.scene,
@@ -470,6 +490,7 @@ class AdventureGame {
     this.modalOpen = false;
     this.controls.clear();
     $("view").focus();
+    this.updateContext();
   }
   private objectBox(root: T.Object3D, id: string): Obstacle | null {
     if (
@@ -731,6 +752,7 @@ class AdventureGame {
   }
   private updateContext() {
     if (!this.enabled() || this.pending) {
+      this.near = null;
       $("context").hidden = true;
       return;
     }
@@ -835,6 +857,7 @@ class AdventureGame {
       document.body.classList.add("playing");
       $("welcome").hidden = true;
       $("view").focus();
+      this.updateContext();
       this.toast("The world is yours to wander. Follow the old road.");
     };
     $("places").onclick = () => void this.places();
@@ -997,6 +1020,7 @@ class AdventureGame {
     if (this.worldMap.open) this.closeWorldMap();
     this.modalOpen = true;
     this.controls.clear();
+    this.updateContext();
     this.velocity.set(0, 0);
     this.animate("Idle");
     $("modal").innerHTML =
@@ -1013,6 +1037,7 @@ class AdventureGame {
     $("modal").hidden = true;
     this.controls.clear();
     $("view").focus();
+    this.updateContext();
   }
   async places() {
     this.cancelEdit();
@@ -1093,7 +1118,7 @@ class AdventureGame {
   }
   private menu() {
     this.openModal(
-      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick walks; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Run. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview 07. The Meadow Lodge has an opening door and furnished room; original prefab houses remain closed. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
+      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick walks; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Run. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview ${PREVIEW_VERSION}. The Meadow Lodge has an opening door and furnished room; original prefab houses remain closed. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
     );
     $("resume").onclick = () => this.closeModal();
     $("home").onclick = () => {
@@ -1151,7 +1176,7 @@ class AdventureGame {
         url = URL.createObjectURL(blob),
         a = document.createElement("a");
       a.href = url;
-      a.download = `BlockWorld-Adventures-${this.data.scene}-preview04.bw2`;
+      a.download = `BlockWorld-Adventures-${this.data.scene}-preview${PREVIEW_VERSION}.bw2`;
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 60000);
       this.toast("Backup requested. The text is also available below.");
@@ -1273,6 +1298,7 @@ class AdventureGame {
     $("editRemove").hidden = true;
     $("editConfirm").hidden = false;
     this.updateGhost();
+    this.updateContext();
     this.toast("Tap nearby ground to position · Place to keep it");
   }
   private updateGhost() {
@@ -1419,6 +1445,7 @@ class AdventureGame {
     this.selectionOutline.visible = false;
     document.body.classList.remove("editing");
     $("editBar").hidden = true;
+    this.updateContext();
   }
   private tap(x: number, y: number) {
     const ray = new T.Raycaster();

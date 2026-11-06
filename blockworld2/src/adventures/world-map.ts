@@ -218,9 +218,9 @@ export class AdventureMap {
     points.forEach(([x, z], i) => (i ? c.lineTo(x, z) : c.moveTo(x, z)));
     c.stroke();
   }
-  update(pose: MapPose, time: number) {
+  update(pose: MapPose, time: number, force = false) {
     this.pose = pose;
-    if (time - this.lastMini < 80) return;
+    if (!force && time - this.lastMini < 80) return;
     const key = [
       pose.x.toFixed(2),
       pose.z.toFixed(2),

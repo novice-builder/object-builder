@@ -1,0 +1,253 @@
+{
+  "checks": [
+    {
+      "name": "phone arrival selects the actual lodge door immediately",
+      "phase": "before",
+      "passed": false,
+      "detail": {
+        "near": "alderwick",
+        "label": "Alderwick",
+        "action": "Discover E",
+        "mini": {
+          "x": -131,
+          "z": -55,
+          "yaw": 3.141592653589793
+        },
+        "player": {
+          "x": 128,
+          "y": 0,
+          "z": -36,
+          "yaw": 0,
+          "pitch": 0.47,
+          "id": "lodge",
+          "name": "Meadow Lodge"
+        },
+        "renderedFrames": 0
+      }
+    },
+    {
+      "name": "phone minimap position updates at arrival without waiting for a frame",
+      "phase": "before",
+      "passed": false,
+      "detail": {
+        "x": -131,
+        "z": -55,
+        "yaw": 3.141592653589793
+      }
+    },
+    {
+      "name": "phone arrived 3D view renders immediately",
+      "phase": "before",
+      "passed": false,
+      "detail": 0
+    },
+    {
+      "name": "tablet arrival selects the actual lodge door immediately",
+      "phase": "before",
+      "passed": false,
+      "detail": {
+        "near": "alderwick",
+        "label": "Alderwick",
+        "action": "Discover E",
+        "mini": {
+          "x": -131,
+          "z": -55,
+          "yaw": 3.141592653589793
+        },
+        "player": {
+          "x": 128,
+          "y": 0,
+          "z": -36,
+          "yaw": 0,
+          "pitch": 0.47,
+          "id": "lodge",
+          "name": "Meadow Lodge"
+        },
+        "renderedFrames": 0
+      }
+    },
+    {
+      "name": "tablet minimap position updates at arrival without waiting for a frame",
+      "phase": "before",
+      "passed": false,
+      "detail": {
+        "x": -131,
+        "z": -55,
+        "yaw": 3.141592653589793
+      }
+    },
+    {
+      "name": "tablet arrived 3D view renders immediately",
+      "phase": "before",
+      "passed": false,
+      "detail": 0
+    },
+    {
+      "name": "phone arrival selects the actual lodge door immediately",
+      "phase": "after",
+      "passed": true,
+      "detail": {
+        "near": "lodge-door",
+        "label": "The Meadow Lodge",
+        "action": "Open door E",
+        "mini": {
+          "x": 128,
+          "z": -36,
+          "yaw": 3.141592653589793
+        },
+        "player": {
+          "x": 128,
+          "y": 0,
+          "z": -36,
+          "yaw": 0,
+          "pitch": 0.47,
+          "id": "lodge",
+          "name": "Meadow Lodge"
+        },
+        "renderedFrames": 1
+      }
+    },
+    {
+      "name": "phone minimap position updates at arrival without waiting for a frame",
+      "phase": "after",
+      "passed": true,
+      "detail": {
+        "x": 128,
+        "z": -36,
+        "yaw": 3.141592653589793
+      }
+    },
+    {
+      "name": "phone arrived 3D view renders immediately",
+      "phase": "after",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "phone immediate interaction opens real door instead of discovering previous town",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone modal hides and clears stale interaction state synchronously",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone closing modal restores correct interaction without another frame",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone editing clears interaction and prevents remote interaction key",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone cancelling editing restores current door context",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone record replacement refreshes context from the new scene",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone no runtime exceptions",
+      "phase": "after",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet arrival selects the actual lodge door immediately",
+      "phase": "after",
+      "passed": true,
+      "detail": {
+        "near": "lodge-door",
+        "label": "The Meadow Lodge",
+        "action": "Open door E",
+        "mini": {
+          "x": 128,
+          "z": -36,
+          "yaw": 3.141592653589793
+        },
+        "player": {
+          "x": 128,
+          "y": 0,
+          "z": -36,
+          "yaw": 0,
+          "pitch": 0.47,
+          "id": "lodge",
+          "name": "Meadow Lodge"
+        },
+        "renderedFrames": 1
+      }
+    },
+    {
+      "name": "tablet minimap position updates at arrival without waiting for a frame",
+      "phase": "after",
+      "passed": true,
+      "detail": {
+        "x": 128,
+        "z": -36,
+        "yaw": 3.141592653589793
+      }
+    },
+    {
+      "name": "tablet arrived 3D view renders immediately",
+      "phase": "after",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "tablet immediate interaction opens real door instead of discovering previous town",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet modal hides and clears stale interaction state synchronously",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet closing modal restores correct interaction without another frame",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet editing clears interaction and prevents remote interaction key",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet cancelling editing restores current door context",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet record replacement refreshes context from the new scene",
+      "phase": "after",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet no runtime exceptions",
+      "phase": "after",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader touch emulation. RAF paused deliberately; old reference is extracted rejected Preview 07 source e4fcdcf, not a validated release."
+}

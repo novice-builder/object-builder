@@ -1,0 +1,2845 @@
+{
+  "base": "e4fcdcffe2313ff98ec8a57e745e908a56152ba8",
+  "files": [
+    {
+      "path": "BlockWorld_Adaptive_Mesh_Chunking_v1.html",
+      "gitBlob": "9326cd090acded33fa8136344fffca9dc716172c",
+      "bytes": 616803
+    },
+    {
+      "path": "BlockWorld_Auto_House_Generator_v2.html",
+      "gitBlob": "64d0bd7548c4415a64d8739db5f09026c350f1bc",
+      "bytes": 13589
+    },
+    {
+      "path": "BlockWorld_Builder_v17_71_Eight_Quick_Slots.html",
+      "gitBlob": "9b7f4375199bb44cf6c3037e35d8b2d32f15ce50",
+      "bytes": 393658
+    },
+    {
+      "path": "BlockWorld_Builder_v17_74_Selectable_OSM_Maps.html",
+      "gitBlob": "076026669139996f06a8971e6d44e9e4a604b3cf",
+      "bytes": 409761
+    },
+    {
+      "path": "BlockWorld_Builder_v17_75_OSM_Import_Diagnostics.html",
+      "gitBlob": "9751609f05a6e21dbd273d3ce1447acfe478b9d9",
+      "bytes": 411222
+    },
+    {
+      "path": "BlockWorld_Builder_v17_76_OSM_Startup_Fix.html",
+      "gitBlob": "c8c9d6a976e504ba1bf5c4b9184d76f126ece9fd",
+      "bytes": 411370
+    },
+    {
+      "path": "BlockWorld_Builder_v17_77_OSM_Import_Reliability.html",
+      "gitBlob": "1560801dd965329bac4a32007506db66f29510f8",
+      "bytes": 412248
+    },
+    {
+      "path": "BlockWorld_Builder_v17_78_OSM_File_Picker_Visibility.html",
+      "gitBlob": "4f030d05a162c5bc17a74396a650f7680908ce93",
+      "bytes": 413785
+    },
+    {
+      "path": "BlockWorld_Builder_v17_79_OSM_Feature_Layers.html",
+      "gitBlob": "784b8e49daff8f59eb66d139635028d350c96fa0",
+      "bytes": 416862
+    },
+    {
+      "path": "BlockWorld_Builder_v17_80_Map_Picker_and_Visibility_Fix.html",
+      "gitBlob": "9e6e5506f48780c2d83af23da5a1968cce19a240",
+      "bytes": 417580
+    },
+    {
+      "path": "BlockWorld_Builder_v17_81_Clean_OSM_Integration.html",
+      "gitBlob": "cab48ec2bba7a11cd14c592c49f6cd195cf3791c",
+      "bytes": 413417
+    },
+    {
+      "path": "BlockWorld_Builder_v17_82_Map_Activation_and_Fog_Fix.html",
+      "gitBlob": "4142a669f5ef166f3d29254699aeb70ed38c4cf3",
+      "bytes": 413428
+    },
+    {
+      "path": "BlockWorld_Builder_v17_83_Map_Camera_Clipping_Fix.html",
+      "gitBlob": "7740c321e7c903894de3c6d813e6543488d77f91",
+      "bytes": 413408
+    },
+    {
+      "path": "BlockWorld_Builder_v17_84_Adaptive_Recursive_Ground.html",
+      "gitBlob": "63f81c404730405af46a1e99195d70ea40cb9e2b",
+      "bytes": 416688
+    },
+    {
+      "path": "BlockWorld_Builder_v17_85_Batched_Map_Surface_Layers.html",
+      "gitBlob": "ae7b94d5eb3d963172efe3d457cf2320c51d7160",
+      "bytes": 418039
+    },
+    {
+      "path": "BlockWorld_Builder_v17_86_Surface_Priority.html",
+      "gitBlob": "a6e8567da18be05a223dcd8e76e81ad60f15c92a",
+      "bytes": 418043
+    },
+    {
+      "path": "BlockWorld_Builder_v17_87_Composited_Recursive_Ground.html",
+      "gitBlob": "7e3e2bb2d18d99441709079cc0822a27de84d405",
+      "bytes": 423439
+    },
+    {
+      "path": "BlockWorld_Builder_v17_88_Large_Maps_Streaming.html",
+      "gitBlob": "27a5b25055c064c80bfb17e6d3ab31395ba58d7a",
+      "bytes": 427072
+    },
+    {
+      "path": "BlockWorld_Builder_v17_89_Compact_Maps_No_Banner.html",
+      "gitBlob": "3c169ca00d075f05fe4ece6e88158fa6420acbeb",
+      "bytes": 428062
+    },
+    {
+      "path": "BlockWorld_Builder_v17_90_Map_Bounds_Correction.html",
+      "gitBlob": "6a3edc19dea3efe4c7accb538377b4f4574a1553",
+      "bytes": 430041
+    },
+    {
+      "path": "BlockWorld_Builder_v17_91_Map_Crop_Card_Editor.html",
+      "gitBlob": "e05275e3068995a6434bfd38cd9c7591c0a1193f",
+      "bytes": 440530
+    },
+    {
+      "path": "BlockWorld_Builder_v17_92_Compact_Ground_Cards.html",
+      "gitBlob": "265a6087f2b6e9d433dcf2d1c1f07dd89a6797ad",
+      "bytes": 441329
+    },
+    {
+      "path": "BlockWorld_Builder_v17_93_Cloned_Block_Map_Cards.html",
+      "gitBlob": "fddc3473ebe534400b5f9941037e511d77e9a766",
+      "bytes": 442229
+    },
+    {
+      "path": "BlockWorld_Builder_v17_94_Continuous_Map_Editor.html",
+      "gitBlob": "b4881307f0bd1ff0b0ba371ffbf93d1b7380e7fc",
+      "bytes": 444806
+    },
+    {
+      "path": "BlockWorld_Builder_v17_95_Vector_Map_Test.html",
+      "gitBlob": "57782648feec94e278057c18dc907b532655e3d0",
+      "bytes": 446034
+    },
+    {
+      "path": "BlockWorld_Builder_v17_96_Select_First.html",
+      "gitBlob": "6f523698828cfc943babe0a6426a558b0110a351",
+      "bytes": 446073
+    },
+    {
+      "path": "BlockWorld_House_Studio_Workshop_Crosshair_Test_01.html",
+      "gitBlob": "9bc76739738d565e7955dae368571d97faed8229",
+      "bytes": 494902
+    },
+    {
+      "path": "BlockWorld_House_Studio_v1.html",
+      "gitBlob": "19168ccc85abf29a85eb92501a51cfa7bf5d35ff",
+      "bytes": 24859
+    },
+    {
+      "path": "BlockWorld_House_Studio_v2.html",
+      "gitBlob": "75a64c852e828780d52a2eefea2ec0a4eae43bf0",
+      "bytes": 29371
+    },
+    {
+      "path": "BlockWorld_House_Studio_v3.html",
+      "gitBlob": "ae6a0812e9d78942f1e9b9b8d1000c94db0505f8",
+      "bytes": 36737
+    },
+    {
+      "path": "BlockWorld_Layer_Lab_v9.html",
+      "gitBlob": "6a5e4fdcaf030e969e5038ebefbc80cfca64ec0a",
+      "bytes": 66006
+    },
+    {
+      "path": "BlockWorld_Neighborhood_06.html",
+      "gitBlob": "59832b59279595982f924662b72cbbf41781efa0",
+      "bytes": 613126
+    },
+    {
+      "path": "BlockWorld_OSM_Import_Isolated_Test_v1.html",
+      "gitBlob": "03b17fdb11452436893d247f40841ca25d16b92f",
+      "bytes": 12314
+    },
+    {
+      "path": "BlockWorld_OSM_Import_Isolated_Test_v2_Feature_Layers.html",
+      "gitBlob": "1fe118f9f098cf7b3e5220730558db025f00af6b",
+      "bytes": 15945
+    },
+    {
+      "path": "BlockWorld_OSM_Terrain_Explorer_v7.html",
+      "gitBlob": "ae98c0528506b1f564abc525875dcd678a660ba8",
+      "bytes": 59235
+    },
+    {
+      "path": "BlockWorld_PlayLab_1.html",
+      "gitBlob": "72bfefd85bb19f961431ed3f1bd9766fe86a1370",
+      "bytes": 24703
+    },
+    {
+      "path": "BlockWorld_Playable_City_v5_Origin_Chunk_Test.html",
+      "gitBlob": "15c2ff9571efb4ec1182f7f2991acc0744b906b9",
+      "bytes": 199984
+    },
+    {
+      "path": "BlockWorld_Procedural_Town_v10.html",
+      "gitBlob": "b0245445c115e3fdbf4493656d4e5922abf9ff42",
+      "bytes": 76525
+    },
+    {
+      "path": "BlockWorld_Terrain_Walk_v8.html",
+      "gitBlob": "4d5c4936caa22dc36c214afcff6951cd5cedcf42",
+      "bytes": 56942
+    },
+    {
+      "path": "BlockWorld_Workshop_01.html",
+      "gitBlob": "7d17b0533370830bb6888e2a83092999051947a3",
+      "bytes": 448500
+    },
+    {
+      "path": "BlockWorld_Workshop_02.html",
+      "gitBlob": "75722bc9658712cfb310cc8d9ffe259bc68cc98d",
+      "bytes": 455988
+    },
+    {
+      "path": "BlockWorld_Workshop_03.html",
+      "gitBlob": "970735014971ee04f701deda1c96b8cd01b0fc1d",
+      "bytes": 455650
+    },
+    {
+      "path": "House_OSM_Scale_Test.html",
+      "gitBlob": "a90c4e5c73112f8ab87b0d4700f8e6341abb33d4",
+      "bytes": 2234017
+    },
+    {
+      "path": "OSM_Ground_Layer_Studio.html",
+      "gitBlob": "b3c297df885a25deb931f089d04c2062d762801e",
+      "bytes": 55147
+    },
+    {
+      "path": "README.md",
+      "gitBlob": "cbf3ef7571d9537d789f3627c487c370bb9136e2",
+      "bytes": 16
+    },
+    {
+      "path": "blockworld-06-icon.svg",
+      "gitBlob": "788fbbcdd5009e6d3f4db6617af82c13381c85a5",
+      "bytes": 517
+    },
+    {
+      "path": "blockworld-06-sw.js",
+      "gitBlob": "c0b907a2cd440be36cbb48a7c3f71c3f1bbca750",
+      "bytes": 639
+    },
+    {
+      "path": "blockworld-06.webmanifest",
+      "gitBlob": "51a20cb72128198e2b1a925225887a7c44fc50c7",
+      "bytes": 469
+    },
+    {
+      "path": "blockworld2/artifacts/BUILD.json",
+      "gitBlob": "1e1c8e9c39446c9f1038104fae679b3977ef19a1",
+      "bytes": 526
+    },
+    {
+      "path": "blockworld2/artifacts/README.md",
+      "gitBlob": "579a26dbc58e854a3c31613e2b7ec0f611a69549",
+      "bytes": 1240
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v1/BUILD.json",
+      "gitBlob": "81afa5aac4f5b3a052150f921fdaa1d17578f127",
+      "bytes": 14231
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v1/BlockWorld-Adventures-Preview-01.zip",
+      "gitBlob": "0a756dfcfe1932ca8828f76659428f90e60de843",
+      "bytes": 8268320
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v1/BlockWorld-Adventures-Source-Assets-01.zip",
+      "gitBlob": "48716c28ca3e9640d79d8c4d6104a69256cb0fd8",
+      "bytes": 2292360
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v1/CHECKSUMS.sha256",
+      "gitBlob": "3dfe42c089bcd7a8379e893e0a7a28b965f37855",
+      "bytes": 458
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v1/PACKAGE-VERIFICATION.json",
+      "gitBlob": "5ca4397e41a2b9f4c1457a5cc8d8eab7281ccc88",
+      "bytes": 668
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v1/README.txt",
+      "gitBlob": "a037beb4533c42e4912420ad691b5c525f069cc2",
+      "bytes": 2516
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v2/BUILD.json",
+      "gitBlob": "8b25322b13bf9de627167f3a2dea26293180e57e",
+      "bytes": 16790
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v2/BlockWorld-Adventures-Preview-02.zip",
+      "gitBlob": "fe401f01659cfbab06a30e8e03d6342d71ccf372",
+      "bytes": 12336175
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v2/CHECKSUMS.sha256",
+      "gitBlob": "a973730160f4f380a64186e771c367a9f6350621",
+      "bytes": 349
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v2/PACKAGE-VERIFICATION.json",
+      "gitBlob": "85cc66d980ee5491954ee6a51f5ddcebf33d2bfc",
+      "bytes": 1031
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v2/README.txt",
+      "gitBlob": "bf4b0fa42bddd65d39f9f2a3874ece70d24b8d59",
+      "bytes": 2774
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v3/BUILD.json",
+      "gitBlob": "32f17dfee04d6ad86a1d2f4bb9493588b735b682",
+      "bytes": 16791
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v3/BlockWorld-Adventures-Preview-03.zip",
+      "gitBlob": "5be7f28f184281950dd0c8f013395f9d76d41a36",
+      "bytes": 22817772
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v3/CHECKSUMS.sha256",
+      "gitBlob": "433d370e8852b9a62dcffb3f8d0b19f4dbba54fb",
+      "bytes": 103
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v3/PACKAGE-VERIFICATION.json",
+      "gitBlob": "c2432983a042dd21c860f24f9afb5a49e83dd242",
+      "bytes": 1141
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v3/README.txt",
+      "gitBlob": "ffd9257635e2c70b42a2c11d2d698c278f6353df",
+      "bytes": 3290
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v4/BUILD.json",
+      "gitBlob": "f8654ebc31696ac4d21abbdbf3ad6304b3c58e8d",
+      "bytes": 19849
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v4/BlockWorld-Adventures-Preview-04.zip",
+      "gitBlob": "b51eae5b9297f291ef42c3f81c90e70004933c30",
+      "bytes": 3894573
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v4/CHECKSUMS.sha256",
+      "gitBlob": "3592bb1fa29299ab5baf82966f1ecfddd3662d6a",
+      "bytes": 103
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v4/PACKAGE-VERIFICATION.json",
+      "gitBlob": "f9ee0e6011fc7ff3660609afc5b4bdb4e16c050a",
+      "bytes": 1239
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v4/README.txt",
+      "gitBlob": "109386a5f5d1082b90e443ce165b00156474fcde",
+      "bytes": 4065
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v5/BUILD.json",
+      "gitBlob": "e47ffa37ff9c5a1ecdfe3dad09c5179d3cf3757e",
+      "bytes": 19849
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v5/BlockWorld-Adventures-Preview-05.zip",
+      "gitBlob": "f3ae4d08958986bcfb1c42cd5c9e3d54cd7b0873",
+      "bytes": 10346529
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v5/CHECKSUMS.sha256",
+      "gitBlob": "c20d7092b115b92fd373224f129065f818c6bc54",
+      "bytes": 103
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v5/PACKAGE-VERIFICATION.json",
+      "gitBlob": "13e9fd3c8134c68ae6b32d7319d16f411cc80fb9",
+      "bytes": 1440
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v5/README.txt",
+      "gitBlob": "8c6e4f4d525f1efa0d1395fddb26fde9eb63e4e3",
+      "bytes": 4368
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v5/RELEASE.md",
+      "gitBlob": "beeed7cb7be3b596b98c72275b2c562dbf0ff813",
+      "bytes": 1964
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v6/BUILD.json",
+      "gitBlob": "ba14f682a704ae9f1ea647217d92e8b696cd3516",
+      "bytes": 19849
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v6/BlockWorld-Adventures-Preview-06.zip",
+      "gitBlob": "42b27b86ece5afd77a5fcc8754600ec0a44fd896",
+      "bytes": 4765875
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v6/CHECKSUMS.sha256",
+      "gitBlob": "23becc79fdb59720617c47764f9afca88c0cbdff",
+      "bytes": 103
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v6/PACKAGE-VERIFICATION.json",
+      "gitBlob": "a140b0b405844c38c596343758b81ce2f10ce349",
+      "bytes": 1752
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v6/README.txt",
+      "gitBlob": "50b9abd2a235731b4a16a8782e50f1d47e50f10c",
+      "bytes": 4713
+    },
+    {
+      "path": "blockworld2/artifacts/adventures-v6/RELEASE.md",
+      "gitBlob": "0b078504557de137a945d6db112adc4f6ac1f888",
+      "bytes": 2228
+    },
+    {
+      "path": "blockworld2/artifacts/blockworld2-prototype.zip",
+      "gitBlob": "8f695ef1798456932e11ede58fda5a2e8b49fedd",
+      "bytes": 174013
+    },
+    {
+      "path": "blockworld2/artifacts/run1/BUILD.json",
+      "gitBlob": "eb5e30aecca96674c090fdfb77d7d3844a841a2a",
+      "bytes": 1651
+    },
+    {
+      "path": "blockworld2/artifacts/run1/README.md",
+      "gitBlob": "5351b6e2c112448f3bda17f027500dfa46e6a1f4",
+      "bytes": 2212
+    },
+    {
+      "path": "blockworld2/artifacts/run1/blockworld2-run1-preview.zip",
+      "gitBlob": "d7d2606afd86bc5e9c43933b92a4b77a820e5e9e",
+      "bytes": 219889
+    },
+    {
+      "path": "blockworld2/artifacts/run3-initial/BUILD.json",
+      "gitBlob": "be73a349ff34049ddc761140d168affc0b809745",
+      "bytes": 735
+    },
+    {
+      "path": "blockworld2/artifacts/run3-initial/BlockWorld_2_Run3_Standalone.html",
+      "gitBlob": "d9b2a18f0438deb45e5b04f1496ed57bebe61899",
+      "bytes": 811149
+    },
+    {
+      "path": "blockworld2/artifacts/run3-initial/BlockWorld_2_Run3_Website.zip",
+      "gitBlob": "7efb92f4cff1e48f08fb8abb713045946243641c",
+      "bytes": 238879
+    },
+    {
+      "path": "blockworld2/artifacts/run3-initial/CHECKSUMS.sha256",
+      "gitBlob": "3acd557936eae641c34e777882d11a76ac3f61e7",
+      "bytes": 349
+    },
+    {
+      "path": "blockworld2/artifacts/run3-initial/README.md",
+      "gitBlob": "f70af7d0f254199ac0d74ef72f99b573f7889326",
+      "bytes": 1288
+    },
+    {
+      "path": "blockworld2/artifacts/run3-preflight/BUILD.json",
+      "gitBlob": "d99eb4b6bc644f16dd5550be10c99f3eb6d2eda7",
+      "bytes": 735
+    },
+    {
+      "path": "blockworld2/artifacts/run3-preflight/BlockWorld_2_Run3_Standalone.html",
+      "gitBlob": "a1a597408768270087f443ab286947a45e67a090",
+      "bytes": 845322
+    },
+    {
+      "path": "blockworld2/artifacts/run3-preflight/BlockWorld_2_Run3_Website.zip",
+      "gitBlob": "d9e5da4070683a28e898539a8f75f7f1a7af36cf",
+      "bytes": 249361
+    },
+    {
+      "path": "blockworld2/artifacts/run3-preflight/CHECKSUMS.sha256",
+      "gitBlob": "a161fce81811855d9d41af3d01d93bf038c98da9",
+      "bytes": 349
+    },
+    {
+      "path": "blockworld2/artifacts/run3-preflight/README.md",
+      "gitBlob": "f70af7d0f254199ac0d74ef72f99b573f7889326",
+      "bytes": 1288
+    },
+    {
+      "path": "blockworld2/artifacts/run3/BUILD.json",
+      "gitBlob": "1d6b284eb114d484e0c031abf8c96a5f6adfb99d",
+      "bytes": 735
+    },
+    {
+      "path": "blockworld2/artifacts/run3/BlockWorld_2_Run3_Standalone.html",
+      "gitBlob": "a0cf6b2e0af1bbf2ca5a70835b3a41c55bd6738d",
+      "bytes": 845411
+    },
+    {
+      "path": "blockworld2/artifacts/run3/BlockWorld_2_Run3_Website.zip",
+      "gitBlob": "4289fd0ef18d28a0918c2a0d477c2d2ab414cebf",
+      "bytes": 249388
+    },
+    {
+      "path": "blockworld2/artifacts/run3/CHECKSUMS.sha256",
+      "gitBlob": "c535ed14ddf5679cd944175ed8f0fdcc62ad542b",
+      "bytes": 349
+    },
+    {
+      "path": "blockworld2/artifacts/run3/README.md",
+      "gitBlob": "f70af7d0f254199ac0d74ef72f99b573f7889326",
+      "bytes": 1288
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/GALLERY.md",
+      "gitBlob": "860f8dd8c5c07d42c61c0f525097bb1d17c40fea",
+      "bytes": 1700
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/REPORT.md",
+      "gitBlob": "ce8e38ff518d14d6c4d4908951c07314ca953b69",
+      "bytes": 11456
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/browser-checks.txt",
+      "gitBlob": "15ad3bebd3d7a19eb22bc86c1f4f173d9e5ead62",
+      "bytes": 2793
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/build.txt",
+      "gitBlob": "33ce644853ff2fda70ddf21be0bd55ea24ee9900",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/continuation-schedule.json",
+      "gitBlob": "20477b31eece577d1c1f5e91b5d8d9cab478e4c4",
+      "bytes": 627
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/gallery.html",
+      "gitBlob": "d838a639fe6ed607cd9196c8a80fa83c87117dc3",
+      "bytes": 9332
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/preservation.json",
+      "gitBlob": "a0eeef3ed53ab42f659294a621926013debb87f3",
+      "bytes": 3294
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/profile.json",
+      "gitBlob": "726fe0185dfe06377ab9b2ea33a673e401806b8b",
+      "bytes": 4747
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/qa-results.json",
+      "gitBlob": "7671aa2f1dce4bf5c73d6ec15e7b2a79f1bfee10",
+      "bytes": 14547
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/save-regressions.txt",
+      "gitBlob": "8a0bdc80d92e23f5c5fc62b3d5c5352286f8420f",
+      "bytes": 618
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/bridge.png",
+      "gitBlob": "ffbe3a04a22f066cfaeefe71f0908a6b2541bc5f",
+      "bytes": 428083
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/centre.png",
+      "gitBlob": "eea5921305dce88c2f2fd496c4c81db9e90841bf",
+      "bytes": 949756
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/entrance.png",
+      "gitBlob": "b8262be093bd0429630fe81a53b08022da7834bf",
+      "bytes": 373315
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/forest.png",
+      "gitBlob": "e8c1c2932e837554270aacdd770e7aacde610b9a",
+      "bytes": 367010
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/iphone-landscape.png",
+      "gitBlob": "b5cda55c8f3d1de4b6ee22a243b32bf58fc8cbcf",
+      "bytes": 251399
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/iphone-portrait.png",
+      "gitBlob": "67c277ceb736ec96d98c675d98327a5878785288",
+      "bytes": 246079
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/meadow.png",
+      "gitBlob": "9b5f9db8e54a3b8b28a811e64e6d219b3c05722c",
+      "bytes": 490351
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/places.png",
+      "gitBlob": "bf18f4653b0f1c04fd4fe89023e5d0ea97965ca7",
+      "bytes": 290104
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/street.png",
+      "gitBlob": "e46d5f9c6e58742f92a469bc674ad2c280690ab6",
+      "bytes": 487881
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/tablet.png",
+      "gitBlob": "af7a1818fd1bd267f4360411c30cdfa93aa2c311",
+      "bytes": 565286
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/welcome.png",
+      "gitBlob": "6c0964ec512321c4b3d46e14ab96299d7767750f",
+      "bytes": 909628
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/screenshots/woodland.png",
+      "gitBlob": "4d78293c876d90545f30668558e89e31fb7bc73f",
+      "bytes": 725802
+    },
+    {
+      "path": "blockworld2/docs/adventures-v1/unit-tests.txt",
+      "gitBlob": "51c7c3515fdcbafb9dfaf4fbdb05f079d7dba13a",
+      "bytes": 10783
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/GALLERY.md",
+      "gitBlob": "1054d559514f9b6db24ad5e40fbff889f8274df6",
+      "bytes": 2702
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/REPORT.md",
+      "gitBlob": "b8bc1052f552b314aa46766128a037b9dd63550b",
+      "bytes": 9122
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/art-browser.txt",
+      "gitBlob": "111013002e25462c33ec4235a54485cd20dd5e68",
+      "bytes": 624
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/art-build.txt",
+      "gitBlob": "658bfba8f2159b7462592aeac7720fa05124256f",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/art-checks.json",
+      "gitBlob": "bf6497e37c7cd25fa66771df01ac89f5f27e0278",
+      "bytes": 2434
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/art-unit-checks.txt",
+      "gitBlob": "027dee7496e0eec4acf65961e7c76a5c00fa0026",
+      "bytes": 1069
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/base-browser.txt",
+      "gitBlob": "b34657aa065156b3ab0344b7396373d411dc1c0b",
+      "bytes": 2793
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/collision-browser.txt",
+      "gitBlob": "b59ba9629c806f7e7e9d13961dfa754aa3be1c61",
+      "bytes": 457
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/collision-build.txt",
+      "gitBlob": "aa45f60dd894d8f5238bb90dc475606c74060ea3",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/collision-checks.json",
+      "gitBlob": "ed1c7aa5cceb6f3b79b72ce19b4de45102906198",
+      "bytes": 1627
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/collision-unit-checks.txt",
+      "gitBlob": "b642b1120f8a56f9385da699406e7a1616773804",
+      "bytes": 1737
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/continuation-run.json",
+      "gitBlob": "21d2dd9c91cd62b257322469cdff03191074b152",
+      "bytes": 373
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/editor-browser.txt",
+      "gitBlob": "54be5114837ee2fde02e9800d35beb13a8ca7339",
+      "bytes": 1106
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/editor-build.txt",
+      "gitBlob": "1c4f218d456e57f8f679d476134adcb6c0843f6f",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/editor-checks.json",
+      "gitBlob": "8567dd39b95bf989ab8148e4426213dc333a0bdf",
+      "bytes": 3418
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/editor-unit-checks.txt",
+      "gitBlob": "9c377d279d1841b7aa396fd4ffd81cc6448200cf",
+      "bytes": 1345
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/final-preservation.txt",
+      "gitBlob": "a7dcae5364ec6479c945f1a9e3b1861c00b8b0c2",
+      "bytes": 185
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/gallery.html",
+      "gitBlob": "1e35086494395b8681eba4ed3a014675a8abbf51",
+      "bytes": 10976
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/preservation-v2.json",
+      "gitBlob": "502fba66ff1b7324e9343076cc677c0c2d12c545",
+      "bytes": 12641
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/profile-after.json",
+      "gitBlob": "67f1f11ef449b14ae064173e76ef8188638c6c54",
+      "bytes": 7056
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/profile-before.json",
+      "gitBlob": "dc9c79251d3017099ab61aee6ec964da7ef6f8e1",
+      "bytes": 5821
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/qa-results.json",
+      "gitBlob": "93d12d6c2dd6158d4695ffee76a1e657d60eba79",
+      "bytes": 14277
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/bridge.png",
+      "gitBlob": "3289913c0a8a3d82dad897dc86f4cfd7f293aaa8",
+      "bytes": 430889
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/camera-close-wall.png",
+      "gitBlob": "a3b385186c1b58b411640c3cd626380516064fa9",
+      "bytes": 268313
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/catalogue-desktop.png",
+      "gitBlob": "c5ed2aabf53fdb353728fc75e11ecffed21b046f",
+      "bytes": 194417
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/catalogue-phone.png",
+      "gitBlob": "0c0e6a5c6d1f07a7e904e1d013d37ee408ad1bef",
+      "bytes": 73608
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/catalogue-tablet.png",
+      "gitBlob": "d8a1b963f3b84f236d1604c63f9758beca6decf4",
+      "bytes": 228647
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/centre.png",
+      "gitBlob": "c1e3cd84c3a966ca9f65afcd5f26ba94340e16f0",
+      "bytes": 970971
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/entrance.png",
+      "gitBlob": "68aa68db7f4dc4460fccc8800a73a0a3cb0f9a80",
+      "bytes": 376210
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/forest.png",
+      "gitBlob": "8ffd1e30a6c9a423048af9b2de319fb2becf1e29",
+      "bytes": 357633
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/iphone-landscape.png",
+      "gitBlob": "cb0da1e84388c317ff7fcf7bb7919bc11b3ea590",
+      "bytes": 251357
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/iphone-portrait.png",
+      "gitBlob": "15b8e83bbee3d28c07a5b0f38eb556fdc7bce48e",
+      "bytes": 247637
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/meadow-after.png",
+      "gitBlob": "f206f4993c07f67a95bc77805d562dceb9510493",
+      "bytes": 430766
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/meadow.png",
+      "gitBlob": "d81bc3abcdab816974598775bc676048b02af80f",
+      "bytes": 496974
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/placement-phone.png",
+      "gitBlob": "3ca34341ae2aec38a7f22fa364bf607a625d54ff",
+      "bytes": 183823
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/placement-tablet.png",
+      "gitBlob": "47e0932c363c6fb0959d00926881fb8111ab3d80",
+      "bytes": 384184
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/places.png",
+      "gitBlob": "8c4ec7757351617170c58d08e941e0c6e3fb4a71",
+      "bytes": 275845
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/selection-desktop.png",
+      "gitBlob": "48b16d6eecbf8d4a5bf3a86acb69b247407ef28c",
+      "bytes": 302827
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/street.png",
+      "gitBlob": "c5fcb551825e8bf548d0434297be8c09162eb673",
+      "bytes": 492903
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/tablet.png",
+      "gitBlob": "1747530740c0db4a5da00cb61dbd96baa44ae6dd",
+      "bytes": 563143
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/village-after.png",
+      "gitBlob": "f76067ba03485aa8ede1032616c82889f95f20e1",
+      "bytes": 803081
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/welcome.png",
+      "gitBlob": "7235841d9ef43c12d24d948c5bd3382cc3a449ed",
+      "bytes": 905070
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/woodland-after.png",
+      "gitBlob": "e211d6f5cef4950c796d485524a373eb1b8d77c3",
+      "bytes": 545977
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/woodland-before.png",
+      "gitBlob": "02769f6c5778f83ac54349b49926c13b94a64335",
+      "bytes": 576315
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/screenshots/woodland.png",
+      "gitBlob": "40127fb87315e7ed6042f61a46983ca2af08a63f",
+      "bytes": 635206
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/summary.json",
+      "gitBlob": "51e589f07b1f33f5ecd51ec3c3028992e6aa9eda",
+      "bytes": 13462
+    },
+    {
+      "path": "blockworld2/docs/adventures-v2/unit-tests.txt",
+      "gitBlob": "c00c1bdc3b9dc69417e62428c9fb022ab44451ea",
+      "bytes": 11787
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/GALLERY.md",
+      "gitBlob": "509a642ff54e9e3176ca75d689f0eb0e33c86baf",
+      "bytes": 2075
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/REPORT.md",
+      "gitBlob": "74a2c3c40a7f77575e7484877bc031d46926798b",
+      "bytes": 7026
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/art-after-metrics.json",
+      "gitBlob": "1a1c042e06fb5be8ed102c4aa6ff0e44ca393aa8",
+      "bytes": 765
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/art-before-metrics.json",
+      "gitBlob": "fd2122e0e8575aa72cd33b4aa766b324d6f0e669",
+      "bytes": 771
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/art-checks.json",
+      "gitBlob": "64391818aa5c6f9b336e436dedc06fa2aea5757a",
+      "bytes": 1181
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/build-art.txt",
+      "gitBlob": "57249e9250cdd900ff4d5531164773e892008260",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/build-cost.txt",
+      "gitBlob": "b06b37cdd77cf9035aefd9f53e247e49063a998a",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/build-map.txt",
+      "gitBlob": "91eb3c0eb98b0a745232102e5e6075e578a8d7c5",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/build-motion.txt",
+      "gitBlob": "ebaf282407cdfad1a891239b37cfce74f11bd16d",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/build-vale.txt",
+      "gitBlob": "036f05a32a2ccb6c5aef0154a8b4c29553ce54ff",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/collision-checks.json",
+      "gitBlob": "ed1c7aa5cceb6f3b79b72ce19b4de45102906198",
+      "bytes": 1627
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/cost-comparison.json",
+      "gitBlob": "2c07713a15e358f74091c43be5f8d7046377fcf7",
+      "bytes": 1205
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/editor-checks.json",
+      "gitBlob": "ae5ddaa52e56daa3a6a334b82e7179e03befb971",
+      "bytes": 3418
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/focused-cost-tests.txt",
+      "gitBlob": "00733ac15315cd3b7e3fb3fe412f6c9b34a70793",
+      "bytes": 2873
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/focused-map-tests.txt",
+      "gitBlob": "326c763d9f3526c79a8a2adc7de97f0401a135a8",
+      "bytes": 2586
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/focused-motion-tests.txt",
+      "gitBlob": "df2495030a85d41a39649fc238d39bca4f97e26c",
+      "bytes": 3045
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/focused-vale-tests.txt",
+      "gitBlob": "8c868fa4a557b5ace5b3e61436c6d64377c7e67d",
+      "bytes": 2356
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/gallery.html",
+      "gitBlob": "8974c40c6b6a103faa885229879fa5222d712f27",
+      "bytes": 7735
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/map-checks.json",
+      "gitBlob": "55084eeb95396b9d3ffa6e2e5200f5661e21def9",
+      "bytes": 3693
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/motion-after.json",
+      "gitBlob": "ea685372deb43f9b54a4306c864ce4627e96e825",
+      "bytes": 1057
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/motion-before.json",
+      "gitBlob": "022baf0f217128c76c1e1cf9c91ff0d9ecf62631",
+      "bytes": 1060
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/pinch-reference.json",
+      "gitBlob": "417c0534e9ffdce0a4ffb351aaf38f372a33750e",
+      "bytes": 1667
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/preservation-v3.json",
+      "gitBlob": "80bcb348c42a7fccce87662f4f52c8625b2365d6",
+      "bytes": 19263
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/profile-after.json",
+      "gitBlob": "94b06739f5bd3600a1cb011292b5d8ecbaa0beed",
+      "bytes": 4161
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/profile-before.json",
+      "gitBlob": "cd01649d5ff6df9b2c8c97ec47540d092c64f8aa",
+      "bytes": 4159
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/qa-results.json",
+      "gitBlob": "eaf0acf6a8de2bf4c33b690f4adc3421820116fc",
+      "bytes": 14280
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/bridge.png",
+      "gitBlob": "6655db6368d0540eec015d12a529205d43de347a",
+      "bytes": 436111
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/camera-close-wall.png",
+      "gitBlob": "dc25aea3d90bee803df57c44a137839c6297787d",
+      "bytes": 291159
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/catalogue-desktop.png",
+      "gitBlob": "e81f44aab8114a7f82ab415b88fe26cd702bd612",
+      "bytes": 184344
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/catalogue-phone.png",
+      "gitBlob": "08671fc7e4cbc4bfc4a8c79c1c539390b75c244a",
+      "bytes": 73337
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/catalogue-tablet.png",
+      "gitBlob": "06664863bbad4b0f008c5d4546a95263e2d9eefb",
+      "bytes": 231820
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/centre.png",
+      "gitBlob": "444f369ff22e32019cedc8db1729807f8f23bc6a",
+      "bytes": 979279
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/cost-centre-after.png",
+      "gitBlob": "f24faa3929c6c38956f493434465fcc494bd8085",
+      "bytes": 662176
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/cost-centre-before.png",
+      "gitBlob": "1acf39b6f358f73b520fa7e2adb455efe28b84c6",
+      "bytes": 662816
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/cost-hamlet-after.png",
+      "gitBlob": "8762b6a91f353ada3ff8b4203b953dd40f1326b2",
+      "bytes": 455143
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/cost-hamlet-before.png",
+      "gitBlob": "246971c51ccc25dc943c53969d8fd217d55fa8d2",
+      "bytes": 420880
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/cost-road-after.png",
+      "gitBlob": "d59b01d7a512126c9917817a7b17eedf3ab47c57",
+      "bytes": 365026
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/cost-road-before.png",
+      "gitBlob": "75e62d1b6a2000958c80f22b955fd16a6a3d2533",
+      "bytes": 308066
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/cost-woodland-after.png",
+      "gitBlob": "57f85cfb3832ca6f3319a49f80b822c51ad3f0d9",
+      "bytes": 496523
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/cost-woodland-before.png",
+      "gitBlob": "76f677aba184316b7572aa801a618e21dbb3a2ae",
+      "bytes": 476442
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/entrance.png",
+      "gitBlob": "894eb76b31aca2d45dfc00031b43591f80c8f6a6",
+      "bytes": 384154
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/forest.png",
+      "gitBlob": "f0f04b3bc0ca6f5570001eb7c5143179da83ea2e",
+      "bytes": 366442
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/iphone-landscape.png",
+      "gitBlob": "52f30c075fe0b71864a3195d1990b78e1dccb877",
+      "bytes": 248089
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/iphone-portrait.png",
+      "gitBlob": "9b6210c910c928895a5170fa10977197184618c7",
+      "bytes": 254622
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/map-desktop-full.png",
+      "gitBlob": "41fd79a64528879641446758b7c03b98dd0b1ee8",
+      "bytes": 516753
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/map-desktop-mini.png",
+      "gitBlob": "68761f35602cec8597d2e9567dbc4b85da6ecbde",
+      "bytes": 395175
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/map-phone-full.png",
+      "gitBlob": "8dfc7402a179529157f66222ce091540a4d58c3a",
+      "bytes": 132705
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/map-phone-landscape-full.png",
+      "gitBlob": "af85b7b49306197335e754248430c42e5e4ea98c",
+      "bytes": 98372
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/map-phone-landscape-mini.png",
+      "gitBlob": "44fe635abcda10fb955d16c25524ef8e55300a28",
+      "bytes": 183482
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/map-phone-mini.png",
+      "gitBlob": "3d1df1239862eebab90152be74df8423a83a34f2",
+      "bytes": 193067
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/map-tablet-full.png",
+      "gitBlob": "dd9ceff63d533dd47a891dd9543fd27c61b3d0d1",
+      "bytes": 423527
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/map-tablet-mini.png",
+      "gitBlob": "f5b7f378732238e4c6be55221c04b9b82eb998e9",
+      "bytes": 340662
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/meadow-after.png",
+      "gitBlob": "165e8ab8190e5bfb6058551941e4dafd6ab49a34",
+      "bytes": 433416
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/meadow-before.png",
+      "gitBlob": "5edaeac7f1ca73c2fa211b8cf46dd90e52ce9512",
+      "bytes": 430664
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/meadow.png",
+      "gitBlob": "4244555f0750e441dc9093a144ba8859527174d8",
+      "bytes": 508669
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/placement-phone.png",
+      "gitBlob": "4e6ba63b575bb33883fdddaba02f8d3f5802d5f2",
+      "bytes": 194614
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/placement-tablet.png",
+      "gitBlob": "1a625f79df0c6ffe89164f55e89795a40eec7471",
+      "bytes": 396982
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/places.png",
+      "gitBlob": "173a55b62fab642b033814aa132d796f914cf7e5",
+      "bytes": 272531
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/selection-desktop.png",
+      "gitBlob": "45bfb49fe143b4733c8c621f5ba46c24cb727ae6",
+      "bytes": 297214
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/street.png",
+      "gitBlob": "00b84dd748f72fcc691e5f74bd897ef863d114ce",
+      "bytes": 512116
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/tablet.png",
+      "gitBlob": "245d339b162ff71190c4aa57913ed3322111acb9",
+      "bytes": 561687
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/vale-campScale.png",
+      "gitBlob": "619a520af645d8562f2973094e48a06f6ede8288",
+      "bytes": 270363
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/vale-centre.png",
+      "gitBlob": "e01854698d83308bc0f331171054aae649b420cb",
+      "bytes": 787986
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/vale-hamlet.png",
+      "gitBlob": "2e6df92994583db7a4e48f2d2592ec43da3508c1",
+      "bytes": 411720
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/vale-meadow.png",
+      "gitBlob": "f93ef452c594d879dc34fd6cd2962116fd39c719",
+      "bytes": 359071
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/vale-road.png",
+      "gitBlob": "e26048a25de2b54eb7a23f2cf65753a82913683f",
+      "bytes": 306957
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/vale-street.png",
+      "gitBlob": "fa2576e9e60021dc35e0d77693351f8558ab9d88",
+      "bytes": 423866
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/vale-woodland.png",
+      "gitBlob": "ecb04a9adc503aef815fbd77c67a3d79257f02db",
+      "bytes": 473720
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/village-after.png",
+      "gitBlob": "ab70f232b21eba8949ffbaf319bd1fbfbf6eaa59",
+      "bytes": 772112
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/village-before.png",
+      "gitBlob": "dec95abc0aa838d09f1b239185afb013f4e89aff",
+      "bytes": 803011
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/welcome.png",
+      "gitBlob": "1367445b9a4461eb29f3af3e4a8808877842c900",
+      "bytes": 901660
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/woodland-after.png",
+      "gitBlob": "89c68d4393a76fd11dc1ee367e5e4d4313d9482c",
+      "bytes": 561200
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/woodland-before.png",
+      "gitBlob": "c1127f112359f79172ef29ce517b4e4f1ee96cc5",
+      "bytes": 560899
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/screenshots/woodland.png",
+      "gitBlob": "11ef019224cfd41892be7a1ed5c61db84089c3d6",
+      "bytes": 646545
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/stability-checks.json",
+      "gitBlob": "b83350d206bcb891cd261f5377f76cb71e966c3f",
+      "bytes": 8842
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/summary.json",
+      "gitBlob": "661c429fa64680d1bf924ca88a8b5c56396937a7",
+      "bytes": 27158
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/unit-tests.txt",
+      "gitBlob": "856ff07f5a0e1e80b8e5b18c593d71c373514124",
+      "bytes": 12923
+    },
+    {
+      "path": "blockworld2/docs/adventures-v3/vale-checks.json",
+      "gitBlob": "54b4de9db824964c0beeaaaab4220fdb0737f3df",
+      "bytes": 18289
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/GALLERY.md",
+      "gitBlob": "aee8db929b1636ce6343f7608bb56c2c15a3ed2e",
+      "bytes": 695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/REMOTE-PUSH-BLOCKED.md",
+      "gitBlob": "21165d551924965462b5f4cb493d8ca95316dcce",
+      "bytes": 1888
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/REPORT.md",
+      "gitBlob": "ef696396873f281972a030619475bf395e1d9396",
+      "bytes": 8863
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/asset-reproduction.json",
+      "gitBlob": "08612e953831bde6e1810ef2e6b70ed41ee0e603",
+      "bytes": 276
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/build-controller.txt",
+      "gitBlob": "51985b26c8010d4af454e8b8d558baa690498158",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/build-lodge.txt",
+      "gitBlob": "fe81ff88a8dcd0da90fd944c8ed4ab4b83580e4e",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/build-release.txt",
+      "gitBlob": "60b15ba0916357b89eed018fd75927a2ff6b5983",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/compat-checks.json",
+      "gitBlob": "4096a13080c643c8ad9d828a234bea66e0a34bb9",
+      "bytes": 465
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/focused-lodge-tests.txt",
+      "gitBlob": "100885f08f02bd948b38269f7915569fa44b02e4",
+      "bytes": 3255
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/focused-tests.txt",
+      "gitBlob": "a97438d03138cd3b6b7dca2758ce640bc707afdd",
+      "bytes": 3616
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/furniture-checks.json",
+      "gitBlob": "cb5a827cd9c610395425ebe0380b8362e534e248",
+      "bytes": 2141
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/furniture-thumbnails.json",
+      "gitBlob": "6d77f290cc2b10b2268d21c1f75203909aca5a83",
+      "bytes": 1515
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/gallery.html",
+      "gitBlob": "10c5375ce4104a2810251c3afda2d2b60d926559",
+      "bytes": 3726
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/gamepad-checks.json",
+      "gitBlob": "33762c12790338581ff3eae2b8345d8a3d6d523c",
+      "bytes": 3150
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/lodge-checks.json",
+      "gitBlob": "150ba147a5b4dbd01c1bf8aa8d4bc9d78a0d5d2c",
+      "bytes": 3841
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/motion-after.json",
+      "gitBlob": "ea685372deb43f9b54a4306c864ce4627e96e825",
+      "bytes": 1057
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/preservation-v4.json",
+      "gitBlob": "9a6ff13a31a5f1b103a6e13847c5c3bd0b0a87ae",
+      "bytes": 30196
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/profile-release.json",
+      "gitBlob": "11a99ebc3af0d1b3075634e004d2034432918207",
+      "bytes": 10122
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/screenshots/controller-help.png",
+      "gitBlob": "1f208050c3ed3c5a03fb496a5af3afd6664a8d6b",
+      "bytes": 166064
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/screenshots/controller-map.png",
+      "gitBlob": "afd8c2757b062f173ca6496ae3b623af3064adf8",
+      "bytes": 425460
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/screenshots/furniture-phone.png",
+      "gitBlob": "114ee234ec0d427b4900c1186216982dfaa0cc81",
+      "bytes": 79431
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/screenshots/furniture-tablet.png",
+      "gitBlob": "96d937b487529fca99e751ad589796af35058986",
+      "bytes": 100439
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/screenshots/lodge-exterior.png",
+      "gitBlob": "1a420ba275ca8fff9e232c6df95c7371e319726a",
+      "bytes": 219479
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/screenshots/lodge-interior.png",
+      "gitBlob": "2cb069211340e219f8b140cdb1f2b12f1d2370bd",
+      "bytes": 178157
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/screenshots/lodge-phone.png",
+      "gitBlob": "5f1f3a3160169caa99285d11b9d270792ca15ebe",
+      "bytes": 97098
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/screenshots/lodge-tablet.png",
+      "gitBlob": "861f97ad716f5c3142d1e300d0a9be4ae0410356",
+      "bytes": 165525
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/summary.json",
+      "gitBlob": "e02c742dd39e0895dcd18f3e83b21a71a386f472",
+      "bytes": 14802
+    },
+    {
+      "path": "blockworld2/docs/adventures-v4/unit-tests.txt",
+      "gitBlob": "acb17b1b36662e08a88b872e3784f8b23862b553",
+      "bytes": 13467
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/REPORT.md",
+      "gitBlob": "a76f1bd3b05632cb39911b8e872d2b6a5c76f63a",
+      "bytes": 8387
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/build-instances.txt",
+      "gitBlob": "b4b9fd328d5a03c196fd5b3dbad6ea1b0ac4af6a",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/build-map.txt",
+      "gitBlob": "9c15fb2a41e274bcd27db8828e338a84d63bdac4",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/build-release.txt",
+      "gitBlob": "1905c14943ec5091b72b50dd5f6979ddc23ea46a",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/build-touch.txt",
+      "gitBlob": "6dcd27df0a5a0b9a091262561f7073dadf79e262",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/gallery.html",
+      "gitBlob": "a38a0f0d0c641dd6d6780bf1e15c25347e63bb6b",
+      "bytes": 6977
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/instance-checks.json",
+      "gitBlob": "527a88551298fe05e4a5c6833811a95ebe96f3b3",
+      "bytes": 5290
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/instance-comparison.json",
+      "gitBlob": "414a3b18c85f82d80d65ae16f9ff09f8b189a63f",
+      "bytes": 2276
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/instance-cost-after.json",
+      "gitBlob": "06e64808b3de68a5630bbc3362c3da9e057ded60",
+      "bytes": 7684
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/instance-cost-before.json",
+      "gitBlob": "15e1ad91ad453afd4046187719a22e6b88db96fd",
+      "bytes": 6652
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/instance-cost-radial-prototype.json",
+      "gitBlob": "73e251940b6f2d61755408a0ca4cc8c9bc1211cc",
+      "bytes": 7224
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/instance-radial-prototype-differences.json",
+      "gitBlob": "c33a55e9caf059d0508d8d10c52e2e373a6799b7",
+      "bytes": 2525
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/map-targets-after.json",
+      "gitBlob": "e855d0e0826d3e9e7f359892afebc1a6e8d99ca9",
+      "bytes": 8620
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/map-targets-before.json",
+      "gitBlob": "b624f6980bcd63b2e200dedaf1eb3d6e5019097d",
+      "bytes": 646
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/preservation.json",
+      "gitBlob": "ee03be47a20c6b5c895c0ab46987e3f594540da7",
+      "bytes": 64633
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/roads-after.json",
+      "gitBlob": "440cda5babb0439d061a7232ed1a8fb6994b5242",
+      "bytes": 221762
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/roads-before.json",
+      "gitBlob": "31f11631c7d72cdcf0ad26fe378a7e5612ba5ed7",
+      "bytes": 221384
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-campScale-after.png",
+      "gitBlob": "2bebe4c1f4ca4c30c7294b48692037d9cbd2700d",
+      "bytes": 239412
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-campScale-before.png",
+      "gitBlob": "2bebe4c1f4ca4c30c7294b48692037d9cbd2700d",
+      "bytes": 239412
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-centre-after.png",
+      "gitBlob": "be8a52727afcfb9bf020c1d711450c53be109f68",
+      "bytes": 610081
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-centre-before.png",
+      "gitBlob": "db8ba64c9d42a79cc968a03ddb4fb6275bd1e98a",
+      "bytes": 609633
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-hamlet-after.png",
+      "gitBlob": "f0b933fb9719cdaca9f93bae38e8051d770be01f",
+      "bytes": 381200
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-hamlet-before.png",
+      "gitBlob": "7bf78d429cc4552a4dad686e301ab09819fb294f",
+      "bytes": 381215
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-lodge-after.png",
+      "gitBlob": "42e2be3d150c192d32466fcb999ed8656fd301ea",
+      "bytes": 171629
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-lodge-before.png",
+      "gitBlob": "42e2be3d150c192d32466fcb999ed8656fd301ea",
+      "bytes": 171629
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-road-after.png",
+      "gitBlob": "cb7798dc34f2d7d76df49f8f645c468b0b7d2f0a",
+      "bytes": 312183
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-road-before.png",
+      "gitBlob": "cb7798dc34f2d7d76df49f8f645c468b0b7d2f0a",
+      "bytes": 312183
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-woodland-after.png",
+      "gitBlob": "2e108578bf2cec0f4b7ca70da1f083065f37e371",
+      "bytes": 389760
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/instance-woodland-before.png",
+      "gitBlob": "5ee522db25ee3ba921b864075a8d66aec2b36067",
+      "bytes": 389724
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/map-phone-after.png",
+      "gitBlob": "3c90cb6c43d827c5f6879dda6da601414f6ff0a7",
+      "bytes": 96279
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/map-phone-before.png",
+      "gitBlob": "56f7e7a96259cd0ea600ffbfd2e0c44fd25d5d76",
+      "bytes": 96993
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/map-tablet-after.png",
+      "gitBlob": "12b92e4cdfc4544a4daee8a0fb02704645967607",
+      "bytes": 424741
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/map-tablet-before.png",
+      "gitBlob": "1e180b782bc23d67ecfea1403785a7ada9ba88de",
+      "bytes": 425442
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/roads-brookside-after.png",
+      "gitBlob": "bbeaf29e84517ccfff2d6eede98cbffd7e84815e",
+      "bytes": 399717
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/roads-brookside-before.png",
+      "gitBlob": "fd1f99b12c3d95de678fdc94935f383c8fc07492",
+      "bytes": 389018
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/roads-phone-after.png",
+      "gitBlob": "6a9d4ab463be62e789e5f67bec69439486f9bdc3",
+      "bytes": 133639
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/roads-phone-before.png",
+      "gitBlob": "a17458682c6a9d43cc11517abf567fe6ca4a40f4",
+      "bytes": 131203
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/roads-street-after.png",
+      "gitBlob": "002f778b8aa1dd72d8069ca76df0ab8a9c1e5d6a",
+      "bytes": 294688
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/roads-street-before.png",
+      "gitBlob": "4bed6e0c040d370ed168bd8066322139866bb22f",
+      "bytes": 276421
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/touch-phone-after.png",
+      "gitBlob": "9cbffb8da0bc013a490312773abbf95393737aaa",
+      "bytes": 227290
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/touch-phone-landscape-after.png",
+      "gitBlob": "5e7f741201028c7c9764a4769b84b53e649f6518",
+      "bytes": 209154
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/screenshots/touch-tablet-after.png",
+      "gitBlob": "4e00ea825f6c973eb4d1df10f4b0264eea79c44e",
+      "bytes": 408749
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/summary.json",
+      "gitBlob": "34bd8ab7f3c15444b201516fa3441d136d9d574f",
+      "bytes": 38280
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/touch-release-after.json",
+      "gitBlob": "a54e019ac7266aa04a1e192bc1397d727e9549ea",
+      "bytes": 3522
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/touch-release-before.json",
+      "gitBlob": "2090e3019782eaa37354f48fed206de9e6671cca",
+      "bytes": 1889
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/unit-tests-instances.txt",
+      "gitBlob": "f947f4d1329d8fe7bcd38d58c434c0e4287f46c5",
+      "bytes": 14089
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/unit-tests-map.txt",
+      "gitBlob": "de258739017532cbbc755746df5fc3ef79d52a98",
+      "bytes": 13764
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/unit-tests-touch.txt",
+      "gitBlob": "b48fedbfd4965262b4a70d5711200f5ed2edc997",
+      "bytes": 3923
+    },
+    {
+      "path": "blockworld2/docs/adventures-v5/unit-tests.txt",
+      "gitBlob": "4bb5e3d17e3682d271b5dc75d06cb54dc8cdf1d0",
+      "bytes": 14088
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/REPORT.md",
+      "gitBlob": "c1df96deaa511984d2d9c3c7ee5b6b9a69677588",
+      "bytes": 5224
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/build-release.txt",
+      "gitBlob": "fb5944343a058c701ffd6e139055c6c2eea0eac2",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/gallery.html",
+      "gitBlob": "8139e353d73c71c6eb73c63e6e81ee5a0d681624",
+      "bytes": 7221
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/placement-input.json",
+      "gitBlob": "3b8af6d7d94fb82cd720a49c14b9bd87b1e2d604",
+      "bytes": 1057
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/placement-resources.json",
+      "gitBlob": "20688f83d43801a3a7c2f716d679f42031070919",
+      "bytes": 894
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/placement-safety.json",
+      "gitBlob": "e484fac6d54af4a05b6cd79fd0dc5878e1897226",
+      "bytes": 3911
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/placement-targets-after.json",
+      "gitBlob": "5d26e4317cbad245c0039fad2e3046739f233dbe",
+      "bytes": 5072
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/placement-targets-before.json",
+      "gitBlob": "508ac14d53fc823eddc971e517d94c892b40057a",
+      "bytes": 1675
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/preservation.json",
+      "gitBlob": "205d7a9499dcae68abba1be5d72d4f1b2c0f007b",
+      "bytes": 83767
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/placement-interior-phone.png",
+      "gitBlob": "c20d6adc28ea4a1ed7180027b6a253eaebf28637",
+      "bytes": 100743
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/placement-interior-tablet.png",
+      "gitBlob": "63023c34aea79f8e9d3d531a1b8c80ca73df6fb5",
+      "bytes": 168887
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/placement-invalid-path-phone.png",
+      "gitBlob": "4047b71fa14f741cb9ee47f87795f32aba815560",
+      "bytes": 143531
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/placement-invalid-path-tablet.png",
+      "gitBlob": "8c9d2ac228123869b4aeb1b2146303f5748e3a8d",
+      "bytes": 273861
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/placement-phone-after.png",
+      "gitBlob": "1575128aa43f63ca30ae9ee6d7d5b6db53ba30c1",
+      "bytes": 99317
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/placement-phone-before.png",
+      "gitBlob": "b1da2293fb3585939c41dc4992e04221a96af159",
+      "bytes": 97554
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/placement-phone-landscape-after.png",
+      "gitBlob": "2f031024f028fa30f5a5f7f5c598a78960380863",
+      "bytes": 145448
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/placement-phone-landscape-before.png",
+      "gitBlob": "e2098f48f9e28507dfe02b261b07fa914b7a065d",
+      "bytes": 144556
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/placement-side-cutaway-phone.png",
+      "gitBlob": "6cee5c27b507233919a75004d55d0f0b18cf47dc",
+      "bytes": 90569
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/placement-tablet-after.png",
+      "gitBlob": "2acdb43c03ab1e379400a24b0d3a589f2dbf5b80",
+      "bytes": 234347
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/placement-tablet-before.png",
+      "gitBlob": "5e19fd98f7d247eba89a2530810913d986e2155f",
+      "bytes": 232456
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/selection-phone-after.png",
+      "gitBlob": "e5507b9e6c716906f4cb8d8f9946df7b045f2c3d",
+      "bytes": 101325
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/selection-phone-before.png",
+      "gitBlob": "ee9a6c888d4902c2a3528d747b6cb6c033919731",
+      "bytes": 107211
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/selection-tablet-after.png",
+      "gitBlob": "9d74f5bd51d868e5e94c93b82fa1a3f738c279fb",
+      "bytes": 168384
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/screenshots/selection-tablet-before.png",
+      "gitBlob": "f33fc8fbdd5e3a0129125934d5cd087eb341b248",
+      "bytes": 178141
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/selection-cutaway.json",
+      "gitBlob": "098029ad4a5c46d447d7219e9325a97ba13bf569",
+      "bytes": 945
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/summary.json",
+      "gitBlob": "e97ccedbf4f8840da388ee1f8ed58cff70ba247d",
+      "bytes": 30229
+    },
+    {
+      "path": "blockworld2/docs/adventures-v6/unit-tests.txt",
+      "gitBlob": "dbdc53c797f93ffb5cb5b5a0d2d62946349fa667",
+      "bytes": 14537
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/REPORT.md",
+      "gitBlob": "c40264e9bb1473051776475e9137fd2cefbc8152",
+      "bytes": 5971
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/alderwick-checks.json",
+      "gitBlob": "04e230ec7762dcdd3064bcd5ff8a1136b086e284",
+      "bytes": 1991
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/alderwick-first-pass.json",
+      "gitBlob": "1b4667911a9b61df17f7fd4ed9b2c27211e9daca",
+      "bytes": 3507
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/build-release.txt",
+      "gitBlob": "3db15835808affbd26b806ce0bba9c48b5372872",
+      "bytes": 1695
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/compat-checks.json",
+      "gitBlob": "57d00905793a3f4ead3254dacfa3d7a642e47994",
+      "bytes": 1955
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/gallery.html",
+      "gitBlob": "cbf70da64dbd67bff8405222a76a3d6f7422684e",
+      "bytes": 6473
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/places-labels-after.json",
+      "gitBlob": "5483ae602dba85b66003e03469f06d93683cb1e4",
+      "bytes": 2668
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/places-labels-before.json",
+      "gitBlob": "04921bc37abca6de69b83f5268ad564e76ebd6fa",
+      "bytes": 2258
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/preservation.json",
+      "gitBlob": "0e62d2d722eaa884a359f4187bec67c7fec01829",
+      "bytes": 89492
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/profile.json",
+      "gitBlob": "9c031b32d7f7531295e8e4f9f27b681a4cf715e1",
+      "bytes": 5821
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/alderwick-layout-4.png",
+      "gitBlob": "d8e502833bc870df42b39d1f4dc786f3f2833541",
+      "bytes": 277182
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/alderwick-layout-5.png",
+      "gitBlob": "7c3971268760c955e1ee84adcf15d66dd0069b09",
+      "bytes": 483792
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/alderwick-map-phone.png",
+      "gitBlob": "b71457ba0a4c307ea059516a298e586d76e84e8e",
+      "bytes": 96760
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/alderwick-map-tablet.png",
+      "gitBlob": "0c7e391a63157932200f5278ccc27b8a034e92b8",
+      "bytes": 422960
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/alderwick-street-phone.png",
+      "gitBlob": "844a8faa41efa0fcce8994e8122fa5782827047a",
+      "bytes": 142390
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/alderwick-street-tablet.png",
+      "gitBlob": "2d0a3db8b20b46a2a64a1cf1509e28037f075412",
+      "bytes": 300332
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/places-phone-after.png",
+      "gitBlob": "652ca0df2d9832467058636f155c311189adfb3e",
+      "bytes": 70989
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/places-phone-before.png",
+      "gitBlob": "22ffe8a9ea452944ff648ec9ac8ed94854ca3fa2",
+      "bytes": 72882
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/places-phone-landscape-after.png",
+      "gitBlob": "d16243d10d5714f51ed1981422704a7d4fd92ccf",
+      "bytes": 54676
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/places-phone-landscape-before.png",
+      "gitBlob": "d16243d10d5714f51ed1981422704a7d4fd92ccf",
+      "bytes": 54676
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/places-tablet-after.png",
+      "gitBlob": "c8ce8edb1281d64794b5b7023298a977b00092d9",
+      "bytes": 138117
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/screenshots/places-tablet-before.png",
+      "gitBlob": "49d7f84ae68e6e1c2a18709d5d5bb5ab32d800e2",
+      "bytes": 138054
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/summary.json",
+      "gitBlob": "d58eb7de2883bdd97d63ca6a7c1a7324ad311e61",
+      "bytes": 24255
+    },
+    {
+      "path": "blockworld2/docs/adventures-v7/unit-tests.txt",
+      "gitBlob": "79be13b9ca6b6a3096324c61f5c4626b29646efa",
+      "bytes": 15023
+    },
+    {
+      "path": "blockworld2/public/ASSET-CREDITS.txt",
+      "gitBlob": "76e521d0816cc995cbd4d38c826817163319c9d3",
+      "bytes": 1080
+    },
+    {
+      "path": "blockworld2/public/adventures/PROVENANCE.md",
+      "gitBlob": "d2d6df31a97dba2c5b5a3a53e43dee5ddaffb936",
+      "bytes": 10640
+    },
+    {
+      "path": "blockworld2/public/adventures/character/Explorer.glb",
+      "gitBlob": "704cce0571159b2197355b1051d68cf0f078515a",
+      "bytes": 885412
+    },
+    {
+      "path": "blockworld2/public/adventures/furniture/bookcaseopen.glb",
+      "gitBlob": "9a0cce7691e94277f3409719e9e68c910c25aa2c",
+      "bytes": 18020
+    },
+    {
+      "path": "blockworld2/public/adventures/furniture/books.glb",
+      "gitBlob": "615aaa9632cf1b262c257f2cb7c208a6f199ab84",
+      "bytes": 6864
+    },
+    {
+      "path": "blockworld2/public/adventures/furniture/chair.glb",
+      "gitBlob": "2d57af4fef2a32910e3af9283d1e45f177068d63",
+      "bytes": 10756
+    },
+    {
+      "path": "blockworld2/public/adventures/furniture/rugrectangle.glb",
+      "gitBlob": "2ca3bb1a8a54f863d782c62d2bcc32bb15c9a733",
+      "bytes": 3188
+    },
+    {
+      "path": "blockworld2/public/adventures/furniture/table.glb",
+      "gitBlob": "8add1baf8a97bd813524a441c947a9e1457f4b13",
+      "bytes": 8196
+    },
+    {
+      "path": "blockworld2/public/adventures/inventory-v4.json",
+      "gitBlob": "aef3514b52d7733487e5eed52eaeb80784eeae28",
+      "bytes": 3407
+    },
+    {
+      "path": "blockworld2/public/adventures/inventory.json",
+      "gitBlob": "4bab5c1ee5b19f7bad2b96dd3d86a0f0b9d2955b",
+      "bytes": 38600
+    },
+    {
+      "path": "blockworld2/public/adventures/licences/KayKit-Adventurers-CC0.txt",
+      "gitBlob": "877e44735b5869c10e17a59e3b757905aa390626",
+      "bytes": 891
+    },
+    {
+      "path": "blockworld2/public/adventures/licences/KayKit-Medieval-CC0.txt",
+      "gitBlob": "db3b53b5425c48afc0f606bfc0de84e51d834e95",
+      "bytes": 1027
+    },
+    {
+      "path": "blockworld2/public/adventures/licences/Kenney-CC0.txt",
+      "gitBlob": "87fde4aced091c6e191fc86388dc59d570e2562d",
+      "bytes": 510
+    },
+    {
+      "path": "blockworld2/public/adventures/licences/Quaternius-Medieval-CC0.txt",
+      "gitBlob": "0e259d42c996742e9e3cba14c677129b2c1b6311",
+      "bytes": 7048
+    },
+    {
+      "path": "blockworld2/public/adventures/modular/Door_4_Flat.glb",
+      "gitBlob": "d8a669a8b306a3d5d7f793711dc84ede8139959f",
+      "bytes": 70508
+    },
+    {
+      "path": "blockworld2/public/adventures/modular/Floor_WoodDark.glb",
+      "gitBlob": "c09faaa1935d551e944675bb5dbe998331ee387e",
+      "bytes": 3344
+    },
+    {
+      "path": "blockworld2/public/adventures/modular/Roof_Front_Brick4.glb",
+      "gitBlob": "02ee77450529e7456557b5fb7f4c614700cddc27",
+      "bytes": 15328
+    },
+    {
+      "path": "blockworld2/public/adventures/modular/Roof_RoundTiles_4x6.glb",
+      "gitBlob": "8d36a78706dfa035db446bb159f542f9835cd0b5",
+      "bytes": 132200
+    },
+    {
+      "path": "blockworld2/public/adventures/modular/Wall_Plaster_Door_Flat.glb",
+      "gitBlob": "f1571b422cade34630094b14fdaf1a0c2813823c",
+      "bytes": 9972
+    },
+    {
+      "path": "blockworld2/public/adventures/modular/Wall_Plaster_Straight.glb",
+      "gitBlob": "dbe8584d61399917e5e5d1b52cacbb5aa73ac32f",
+      "bytes": 8120
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/campfire-stones.glb",
+      "gitBlob": "3046745a48ccac035391d0cbe2c61c1762dffd7e",
+      "bytes": 17344
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/fence-planks.glb",
+      "gitBlob": "d268dfe7349b65f1135dbe9041d0382833a9a204",
+      "bytes": 7720
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/flower-purplea.glb",
+      "gitBlob": "9a102fdd587ba2c4c345e20ae1721e4753b556eb",
+      "bytes": 7112
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/flower-reda.glb",
+      "gitBlob": "00e9c0627d4de09ec51cfd341fe688e0c85ee1ff",
+      "bytes": 7104
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/flower-yellowa.glb",
+      "gitBlob": "26adf12842ac3cabfc8475e135ae00fbbde49f78",
+      "bytes": 7120
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/grass-large.glb",
+      "gitBlob": "c7c7557cea4e5877f03ccba676c5340d9bde6ced",
+      "bytes": 18504
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/grass.glb",
+      "gitBlob": "d05a177e9eac864c1f3331b45ce49ab9d30544e0",
+      "bytes": 11496
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/lily-small.glb",
+      "gitBlob": "e792ee4d0009118bd470a04a3d2c0397ccf9538a",
+      "bytes": 5664
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/log.glb",
+      "gitBlob": "8d5595e9e6e9e0fca6c7a5aeacf8532a3c5b37ce",
+      "bytes": 14288
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/mushroom-red.glb",
+      "gitBlob": "3420847cd67ed2403a40c78fcacf8b57f8e6c20c",
+      "bytes": 6364
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/plant-bush.glb",
+      "gitBlob": "185be95ecccc59f8edc874587508c44b6a39431b",
+      "bytes": 4396
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/plant-bushsmall.glb",
+      "gitBlob": "fa1defa0f4ab680bc3abe99d89b1e9876b0fbd5e",
+      "bytes": 3212
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/rock-largea.glb",
+      "gitBlob": "40e1365a43b706bd78c2658b48b189c9a35f8923",
+      "bytes": 7552
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/rock-largeb.glb",
+      "gitBlob": "52cdb4c8f63256a9756e9aced040808439c47e5b",
+      "bytes": 8560
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/rock-smalla.glb",
+      "gitBlob": "b23471253cfafcca5916ffddb79853eca7433195",
+      "bytes": 3044
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/sign.glb",
+      "gitBlob": "b1c1fc2883720709ebc3d217cf579887067c444f",
+      "bytes": 5040
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/stone-talla.glb",
+      "gitBlob": "b587df200add5c71f02062a1a9a82c231a4db5ce",
+      "bytes": 11644
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/stump-round.glb",
+      "gitBlob": "5d134a77cd6b1144633702d2a5fb670182afa24e",
+      "bytes": 5644
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/tent-smallopen.glb",
+      "gitBlob": "59e149396aea7bb87784fbef1170e2181b408a02",
+      "bytes": 13604
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/tree-detailed.glb",
+      "gitBlob": "8d59ea41e280a5ea9234ec1e503fb871c55021de",
+      "bytes": 31412
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/tree-fat.glb",
+      "gitBlob": "55862c422bc6aa8f4c7882805c171ef0d8aa2e75",
+      "bytes": 5576
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/tree-oak.glb",
+      "gitBlob": "b136723ada4b5574b71f727120ab21fa579bf2fb",
+      "bytes": 14644
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/tree-pinedefaulta.glb",
+      "gitBlob": "f1217a9ee5b1d8f2027d39fe6bd151d20be5ab84",
+      "bytes": 17220
+    },
+    {
+      "path": "blockworld2/public/adventures/nature/tree-pinedefaultb.glb",
+      "gitBlob": "3ecbf261dbaf7ad183660d1e00e7c941fef6b0de",
+      "bytes": 18180
+    },
+    {
+      "path": "blockworld2/public/adventures/sources/furniture-source-verification.json",
+      "gitBlob": "a619a8269c22a1c51363aa7ffbc8e873ea047410",
+      "bytes": 1017
+    },
+    {
+      "path": "blockworld2/public/adventures/sources/modular-source-verification.json",
+      "gitBlob": "c74327c675dcca0b75e448596bcf612d7de9bf2b",
+      "bytes": 2457
+    },
+    {
+      "path": "blockworld2/public/adventures/sources/prepare_assets.py",
+      "gitBlob": "251f71672c3fb44907eec6dfa6c1ead4c025de5e",
+      "bytes": 6800
+    },
+    {
+      "path": "blockworld2/public/adventures/sources/prepare_modular.py",
+      "gitBlob": "7798969611732cadca728d386531aa66290d55a8",
+      "bytes": 1660
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/barrel.png",
+      "gitBlob": "21ef35dd6dc43eac859374c48cda0c8a2fdea64f",
+      "bytes": 14069
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/building_home_A_blue.png",
+      "gitBlob": "9fcb87bb6e0df24c9f6f43aa5cdecb55b25dbe91",
+      "bytes": 17433
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/building_home_A_green.png",
+      "gitBlob": "c7ead5396f04df0f858f6de79275646ad37c4d4e",
+      "bytes": 16434
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/building_home_B_blue.png",
+      "gitBlob": "8449386e0e8ecd22acd566f050f07bad41c5c84d",
+      "bytes": 21083
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/crate_A_small.png",
+      "gitBlob": "2421e75eb6aa54fc89867cc83e10f31815f2598c",
+      "bytes": 11254
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/flower-purplea.png",
+      "gitBlob": "29fd7492a73b0d2c22c2201bc43ea0214c6fa802",
+      "bytes": 4935
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/flower-reda.png",
+      "gitBlob": "42357da9729fe726298a391d1689bb28d2288b71",
+      "bytes": 4633
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/flower-yellowa.png",
+      "gitBlob": "b5077d00e38e8244017cd2550b15d803391544ed",
+      "bytes": 4991
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/furniture-bookcaseopen.png",
+      "gitBlob": "4ad2476339d5aa0420a5704f955b8806cee03af0",
+      "bytes": 6280
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/furniture-chair.png",
+      "gitBlob": "6e79ce7d1c13ac63a76f6aec8ae4264f70d634b8",
+      "bytes": 5056
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/furniture-rugrectangle.png",
+      "gitBlob": "b7b9fb7d597fac2a221ab59527620470f700c79a",
+      "bytes": 4549
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/furniture-table.png",
+      "gitBlob": "d9c1215daa216a6a88a9d240d233408215a9cbda",
+      "bytes": 5780
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/log.png",
+      "gitBlob": "3676ac09372dd537a57d9dda9f068d55b68534e3",
+      "bytes": 5183
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/manifest.json",
+      "gitBlob": "68c51cbb4c80bcf98c75f8fa928a4056a4376486",
+      "bytes": 6770
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/plant-bush.png",
+      "gitBlob": "124214cf2a41f6b2094054e70d18f499f7ea09c9",
+      "bytes": 4561
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/rock-largea.png",
+      "gitBlob": "c428df8c456473c5395201831571075f220a8e29",
+      "bytes": 4547
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/tent-smallopen.png",
+      "gitBlob": "a1c58e47e25fd0498420794398dbd5a665b064b2",
+      "bytes": 4867
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/tree-oak.png",
+      "gitBlob": "66facaa6ed4eb32d32377fb983ac9e7cacdf91db",
+      "bytes": 5216
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/tree-pinedefaulta.png",
+      "gitBlob": "3c2928172884424abb71b37b3f0af25344c4b598",
+      "bytes": 5568
+    },
+    {
+      "path": "blockworld2/public/adventures/thumbnails/wheelbarrow.png",
+      "gitBlob": "b5308629c721f811e7ed5a04f04ac95e9e997909",
+      "bytes": 12405
+    },
+    {
+      "path": "blockworld2/public/adventures/village/barrel.glb",
+      "gitBlob": "cc33985ba8d20820d4c89d8416cc85178aae5546",
+      "bytes": 32724
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_blacksmith_blue.glb",
+      "gitBlob": "095d47458a3873ec1036b00d0cc5c2d451ce0a94",
+      "bytes": 140252
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_blacksmith_green.glb",
+      "gitBlob": "c07a4fc4946163effeb77a1ea7aafef8075b7252",
+      "bytes": 140252
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_bridge_A.glb",
+      "gitBlob": "77b9a18b53443bf4e995c20677cf36b2cd7498ca",
+      "bytes": 42732
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_bridge_B.glb",
+      "gitBlob": "4f4a501c00b8d4f401701f82ec9bd1297ae7751c",
+      "bytes": 42732
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_church_blue.glb",
+      "gitBlob": "e31b514c4ae7e00e7c73e64dfa7e1440f3d3d29d",
+      "bytes": 106940
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_church_green.glb",
+      "gitBlob": "7bf34fb4f25a7ad34eb69e4223abad80ffa1f9ac",
+      "bytes": 106944
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_home_A_blue.glb",
+      "gitBlob": "3c7515ac689af4ff529ebcc7e82defd6ae3a0865",
+      "bytes": 72552
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_home_A_green.glb",
+      "gitBlob": "30c2fc4227b1651e25dcced4296dacb8eb09b2cf",
+      "bytes": 72556
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_home_B_blue.glb",
+      "gitBlob": "7c9b61a13f584e49dc12bc0115a1b6dfcc1d192f",
+      "bytes": 99324
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_home_B_green.glb",
+      "gitBlob": "9027253c829484d0ec885d399aabd60cd5172df8",
+      "bytes": 99328
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_lumbermill_blue.glb",
+      "gitBlob": "b8e835a6ddad2c83d0bf9fbf10c99fb6bdf6c235",
+      "bytes": 185344
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_lumbermill_green.glb",
+      "gitBlob": "0151d2c531cba001d606188c44453bb31e8017d4",
+      "bytes": 185348
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_market_blue.glb",
+      "gitBlob": "088d08f4d7a40a7daf22cbc500039150e1c8c773",
+      "bytes": 169368
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_market_green.glb",
+      "gitBlob": "73f2c4797bf405bf9b7ad7abcc65f1c1b90cebd5",
+      "bytes": 169368
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_tavern_blue.glb",
+      "gitBlob": "7a4de99bd2445f36401d90be16ba95280e47cef1",
+      "bytes": 188056
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_tavern_green.glb",
+      "gitBlob": "a9d7738da645bec80a939431f5af029eec30d56f",
+      "bytes": 188060
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_tower_A_blue.glb",
+      "gitBlob": "5e171af8993e4c1d7d48d5a622954480723d5dfb",
+      "bytes": 130880
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_tower_A_green.glb",
+      "gitBlob": "ddf7395ab36d9c6d54cb15bcd35f211749f28cd6",
+      "bytes": 130884
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_watermill_blue.glb",
+      "gitBlob": "1b3e82e80674ee99ee81881d8b5aefd92c0ea1f8",
+      "bytes": 129464
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_watermill_green.glb",
+      "gitBlob": "0216f3d7ecffad11645a0acf1c72ebb2cf9e0207",
+      "bytes": 129468
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_well_blue.glb",
+      "gitBlob": "7ffd7dca9aa6927b9eb05b3914e2a41d6873104c",
+      "bytes": 59540
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_well_green.glb",
+      "gitBlob": "8165758f9e02486e79c7fa349e67ea5f098b1a32",
+      "bytes": 59540
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_windmill_blue.glb",
+      "gitBlob": "4440699d210ece5c230373a3d9023c2a616fd10f",
+      "bytes": 160684
+    },
+    {
+      "path": "blockworld2/public/adventures/village/building_windmill_green.glb",
+      "gitBlob": "45f330c644de55b2a4b869e359ac658f563b05f7",
+      "bytes": 160688
+    },
+    {
+      "path": "blockworld2/public/adventures/village/cloud_big.glb",
+      "gitBlob": "998d5f1be428bb47ca1ae2d9d7fe1220fdc20949",
+      "bytes": 32016
+    },
+    {
+      "path": "blockworld2/public/adventures/village/cloud_small.glb",
+      "gitBlob": "eac661ddc7a43c5914ac48b7ccf965511910bb9d",
+      "bytes": 25288
+    },
+    {
+      "path": "blockworld2/public/adventures/village/crate_A_small.glb",
+      "gitBlob": "25ad2dca103d4849c73db830a26ea76752a51a40",
+      "bytes": 24180
+    },
+    {
+      "path": "blockworld2/public/adventures/village/crate_open.glb",
+      "gitBlob": "8708069e4e7c9352dba1bb3e68a42500a380e06c",
+      "bytes": 29236
+    },
+    {
+      "path": "blockworld2/public/adventures/village/fence_stone_straight.glb",
+      "gitBlob": "c14e7a451adf964413a76aeb20986b636645f0be",
+      "bytes": 30992
+    },
+    {
+      "path": "blockworld2/public/adventures/village/fence_stone_straight_gate.glb",
+      "gitBlob": "7c3f61b3485cd160851a1ae4c190e884caca02f6",
+      "bytes": 34224
+    },
+    {
+      "path": "blockworld2/public/adventures/village/fence_wood_straight.glb",
+      "gitBlob": "71fb900dcc31a3071bee1c1a2f56eb9dd02dc15d",
+      "bytes": 32208
+    },
+    {
+      "path": "blockworld2/public/adventures/village/fence_wood_straight_gate.glb",
+      "gitBlob": "359be714733fc5929f54f09bb5bf2862e0b7e285",
+      "bytes": 37496
+    },
+    {
+      "path": "blockworld2/public/adventures/village/flag_green.glb",
+      "gitBlob": "736b4e4e52f8c77cf42500c1a2678dfc6c260634",
+      "bytes": 19616
+    },
+    {
+      "path": "blockworld2/public/adventures/village/hill_single_A.glb",
+      "gitBlob": "b4183444e8378840d0a789128ecb30e7a916d23d",
+      "bytes": 20360
+    },
+    {
+      "path": "blockworld2/public/adventures/village/hills_A.glb",
+      "gitBlob": "4cff05d440cd10384f2eefb7faa4316f90bc56ae",
+      "bytes": 39224
+    },
+    {
+      "path": "blockworld2/public/adventures/village/mountain_A_grass.glb",
+      "gitBlob": "b09c8d4dfa934a67b0f82cc4b0b822a283730a66",
+      "bytes": 32544
+    },
+    {
+      "path": "blockworld2/public/adventures/village/rock_single_A.glb",
+      "gitBlob": "1fe721b7fe992f88bbb7044b8a375bf7980b76ea",
+      "bytes": 18380
+    },
+    {
+      "path": "blockworld2/public/adventures/village/rock_single_B.glb",
+      "gitBlob": "795660ceb127715dac20527df4a5b6d1cd3105b2",
+      "bytes": 18800
+    },
+    {
+      "path": "blockworld2/public/adventures/village/sack.glb",
+      "gitBlob": "0f134570c1d3a0465a7cf98513238408453dfe12",
+      "bytes": 20400
+    },
+    {
+      "path": "blockworld2/public/adventures/village/tent.glb",
+      "gitBlob": "fcd646fe527e24f72ee03e0939fe1bb0a02abf23",
+      "bytes": 23288
+    },
+    {
+      "path": "blockworld2/public/adventures/village/tree_single_A.glb",
+      "gitBlob": "6d0ae3ede0a9be3e0e788d270b86dcd0071e2623",
+      "bytes": 20516
+    },
+    {
+      "path": "blockworld2/public/adventures/village/tree_single_B.glb",
+      "gitBlob": "119e142df7f82afacd3aac6f7b93e4fbf3632167",
+      "bytes": 24544
+    },
+    {
+      "path": "blockworld2/public/adventures/village/waterlily_A.glb",
+      "gitBlob": "5e2ecc5e97b8a1657df3d53d045de4f390497b0f",
+      "bytes": 19768
+    },
+    {
+      "path": "blockworld2/public/adventures/village/waterplant_A.glb",
+      "gitBlob": "0d464b8bef23c6a4adf052114bb19281628bd717",
+      "bytes": 20160
+    },
+    {
+      "path": "blockworld2/public/adventures/village/wheelbarrow.glb",
+      "gitBlob": "ae2b45beb770c6b0d379e2e367ca9043bfd5a338",
+      "bytes": 36200
+    },
+    {
+      "path": "blockworld2/public/icon-180.png",
+      "gitBlob": "2c2c5ee3ec0901d8435e567b190cd0132a788ffa",
+      "bytes": 5685
+    },
+    {
+      "path": "blockworld2/public/icon-192.png",
+      "gitBlob": "aba26d2e432bb3b9db468c5661a3bd4f40dcf3f8",
+      "bytes": 6179
+    },
+    {
+      "path": "blockworld2/public/icon-512.png",
+      "gitBlob": "d64c1eb564108f70e639eaa60440eac55a938f8b",
+      "bytes": 21040
+    },
+    {
+      "path": "blockworld2/public/icon.svg",
+      "gitBlob": "b0291ce81140ce64f5bf4f26c89b5627bc888fbe",
+      "bytes": 325
+    },
+    {
+      "path": "blockworld2/public/licenses/three-MIT.txt",
+      "gitBlob": "d07e209686512b9ac93d7df5481a4a6f622093e7",
+      "bytes": 1081
+    },
+    {
+      "path": "blockworld2/public/licenses/vite-LICENSE.md",
+      "gitBlob": "af33d3a2d2209c9b1d88ca48e116ff2cc851d8b4",
+      "bytes": 115630
+    },
+    {
+      "path": "blockworld2/public/manifest.webmanifest",
+      "gitBlob": "3bd431440cdb178b7c0d8d661ef43563545a84ea",
+      "bytes": 536
+    },
+    {
+      "path": "blockworld2/src/app/clock.ts",
+      "gitBlob": "faa8f0b78454557ff5dc3530ab4091473ad8eea4",
+      "bytes": 785
+    },
+    {
+      "path": "blockworld2/src/app/game.ts",
+      "gitBlob": "95ad58c1b091838e82eea0d8504ede12f658a5a1",
+      "bytes": 46918
+    },
+    {
+      "path": "blockworld2/src/app/interactions.ts",
+      "gitBlob": "61cd3c7390e1437b4987e64e6ee18601cb189c80",
+      "bytes": 654
+    },
+    {
+      "path": "blockworld2/src/app/offline.ts",
+      "gitBlob": "93f8efaafe5e80030adabf0d30a3b8fb46af1bcf",
+      "bytes": 3791
+    },
+    {
+      "path": "blockworld2/src/app/session.ts",
+      "gitBlob": "f13c4bb8141edb067fb823b981cdcd791090e2bf",
+      "bytes": 12373
+    },
+    {
+      "path": "blockworld2/src/build/catalogue.ts",
+      "gitBlob": "e4d778007b32b810b09f85d280ee7f67b3877f87",
+      "bytes": 40
+    },
+    {
+      "path": "blockworld2/src/build/collision-index.ts",
+      "gitBlob": "4e8ba91d6671bf17068b53fab464a31ece76a220",
+      "bytes": 1195
+    },
+    {
+      "path": "blockworld2/src/build/commands.ts",
+      "gitBlob": "cb4cfbd766dae17cad8fc38e20b943eff98dd25b",
+      "bytes": 4869
+    },
+    {
+      "path": "blockworld2/src/build/models.ts",
+      "gitBlob": "d6f0a73da6c1f082e0405764b443b6bb911f0eb7",
+      "bytes": 11023
+    },
+    {
+      "path": "blockworld2/src/build/picking.ts",
+      "gitBlob": "f3ddb26107c8b2b039ae111e97e17e61992664a6",
+      "bytes": 949
+    },
+    {
+      "path": "blockworld2/src/build/registry.ts",
+      "gitBlob": "4703caa493aaf8fe4c18197063685cb5816cf0ed",
+      "bytes": 25132
+    },
+    {
+      "path": "blockworld2/src/build/run2-content.ts",
+      "gitBlob": "be04a32e9165add46f9bfdfe0ada226d22af3a5b",
+      "bytes": 18778
+    },
+    {
+      "path": "blockworld2/src/build/validation.ts",
+      "gitBlob": "26850dc1a3d327ab6122095c9a7239a04bd8cd40",
+      "bytes": 3274
+    },
+    {
+      "path": "blockworld2/src/entities/types.ts",
+      "gitBlob": "757a1f224b80a804f21ea965f948437e7557955d",
+      "bytes": 455
+    },
+    {
+      "path": "blockworld2/src/input/controls.ts",
+      "gitBlob": "70bfaa62e32282b42809de406023e24c70a7789e",
+      "bytes": 3471
+    },
+    {
+      "path": "blockworld2/src/legacy06/build-chunks.js",
+      "gitBlob": "a32b1d6fd79dc73bcb6538bf452b68fe2dcc0ebb",
+      "bytes": 5323
+    },
+    {
+      "path": "blockworld2/src/legacy06/buildings-06.js",
+      "gitBlob": "bc73668be1c01bbfd4717f64778cd3664f32d46d",
+      "bytes": 14097
+    },
+    {
+      "path": "blockworld2/src/legacy06/core.js",
+      "gitBlob": "c3bf1b6efb6602677a5fc16a59d4b3f612adac2c",
+      "bytes": 13391
+    },
+    {
+      "path": "blockworld2/src/legacy06/districts.js",
+      "gitBlob": "c51ce4ee4e324b6c94fa61ca22e903c05b36c0b5",
+      "bytes": 5114
+    },
+    {
+      "path": "blockworld2/src/legacy06/door-geometry.js",
+      "gitBlob": "440d2011802d35e86c63a518874a031a78b1f285",
+      "bytes": 1516
+    },
+    {
+      "path": "blockworld2/src/legacy06/door-render.js",
+      "gitBlob": "093144ef766d09b40758294cb72f278448dcb951",
+      "bytes": 2629
+    },
+    {
+      "path": "blockworld2/src/legacy06/doors.js",
+      "gitBlob": "45b5aab547a4d8b1e126176321df986090f6311c",
+      "bytes": 4764
+    },
+    {
+      "path": "blockworld2/src/legacy06/expansion-05.js",
+      "gitBlob": "f3fdb8b73ad5300152b8d72620b85c5593ae41bb",
+      "bytes": 8531
+    },
+    {
+      "path": "blockworld2/src/legacy06/gamepad.js",
+      "gitBlob": "3286339ed985f33ee4a064f069abd8991b004e90",
+      "bytes": 971
+    },
+    {
+      "path": "blockworld2/src/legacy06/gestures.js",
+      "gitBlob": "8442719b1cc4518eb475fde8093f2cb02a7eec98",
+      "bytes": 2037
+    },
+    {
+      "path": "blockworld2/src/legacy06/parks-06.js",
+      "gitBlob": "06b50fbcbb4567ef4841ed7bac5c2ff355341797",
+      "bytes": 3612
+    },
+    {
+      "path": "blockworld2/src/legacy06/pieces.js",
+      "gitBlob": "bf2c411d5a0c35fd5cf14e8c68dfb09d68c27734",
+      "bytes": 1294
+    },
+    {
+      "path": "blockworld2/src/legacy06/scenery-05.js",
+      "gitBlob": "9f7133a87a3ac34fc94bc605e1378be6a432dbb1",
+      "bytes": 5993
+    },
+    {
+      "path": "blockworld2/src/legacy06/spatial.js",
+      "gitBlob": "8dd168e35b8777aff93784ac7e2a772fea0577ed",
+      "bytes": 1591
+    },
+    {
+      "path": "blockworld2/src/legacy06/textures.js",
+      "gitBlob": "4dd0165d3d6a845df190240453ca72fa9dceef6c",
+      "bytes": 1789
+    },
+    {
+      "path": "blockworld2/src/legacy06/touch-buttons.js",
+      "gitBlob": "0751b12a9ce2a88a7a3bbf858811a7000d6f1adb",
+      "bytes": 2386
+    },
+    {
+      "path": "blockworld2/src/legacy06/town-06.js",
+      "gitBlob": "63fe4c895551432536d01c143425a73761a87919",
+      "bytes": 5246
+    },
+    {
+      "path": "blockworld2/src/legacy06/world-config.js",
+      "gitBlob": "bd187dff5c93b83c16f97bbfd0de62254dc0c5fd",
+      "bytes": 1553
+    },
+    {
+      "path": "blockworld2/src/legacy06/world-render.js",
+      "gitBlob": "a59f715a6b27e6de164fb9e1df64d6d70be5376a",
+      "bytes": 4494
+    },
+    {
+      "path": "blockworld2/src/legacy06/world.js",
+      "gitBlob": "089154da4a90bec8a76c8085dbc0d084763864f0",
+      "bytes": 39862
+    },
+    {
+      "path": "blockworld2/src/main.ts",
+      "gitBlob": "074adc60525867bbe6f506e7a976f4423d74942f",
+      "bytes": 1024
+    },
+    {
+      "path": "blockworld2/src/persistence/schema.ts",
+      "gitBlob": "d495ac8e6d0957e0f9a7bfd08037dd09cf4f5c1b",
+      "bytes": 7788
+    },
+    {
+      "path": "blockworld2/src/persistence/store.ts",
+      "gitBlob": "82be076a1191ff02e8e739c7a66969b315394143",
+      "bytes": 5752
+    },
+    {
+      "path": "blockworld2/src/player/appearance.ts",
+      "gitBlob": "aec129051e9dc15a3c03698cd02312e0f80fae1e",
+      "bytes": 7702
+    },
+    {
+      "path": "blockworld2/src/player/modes.ts",
+      "gitBlob": "e46d6c5d31daf15f387534c93f964303538035e5",
+      "bytes": 2869
+    },
+    {
+      "path": "blockworld2/src/player/physics.js",
+      "gitBlob": "e1645d0579106b78248f887963fb1ec3d90f3aa0",
+      "bytes": 13658
+    },
+    {
+      "path": "blockworld2/src/player/ramp-landing.js",
+      "gitBlob": "7df775d081bf3332b1d31956c599c6feaebc6099",
+      "bytes": 725
+    },
+    {
+      "path": "blockworld2/src/render/bake.ts",
+      "gitBlob": "01dc164e257ec5c8475159908a286fb654231736",
+      "bytes": 1972
+    },
+    {
+      "path": "blockworld2/src/render/renderer.ts",
+      "gitBlob": "275fa29938e74718f34046879fe98c36339e2e09",
+      "bytes": 1045
+    },
+    {
+      "path": "blockworld2/src/simulation/activity.ts",
+      "gitBlob": "d8b37f3331ad870f01ed9a2214f0b5899565aa05",
+      "bytes": 26488
+    },
+    {
+      "path": "blockworld2/src/simulation/aircraft.ts",
+      "gitBlob": "74c72dfef1a4b12994adc059a243d196afadaabb",
+      "bytes": 9259
+    },
+    {
+      "path": "blockworld2/src/simulation/animals.ts",
+      "gitBlob": "9f052ee676f36b19be820039b615e61cf7320813",
+      "bytes": 3860
+    },
+    {
+      "path": "blockworld2/src/simulation/bicycle.ts",
+      "gitBlob": "30fa5e77cc19ac2c495768cecfde20a423e42164",
+      "bytes": 1592
+    },
+    {
+      "path": "blockworld2/src/simulation/navigation.ts",
+      "gitBlob": "37dcb610e36361bdf5d56b4af0c4dfed475456cf",
+      "bytes": 1973
+    },
+    {
+      "path": "blockworld2/src/simulation/play.ts",
+      "gitBlob": "e02e8a35dab6bd33363fba9d26509581acf32d51",
+      "bytes": 997
+    },
+    {
+      "path": "blockworld2/src/simulation/riding.ts",
+      "gitBlob": "c177ee4002b21b44818deab19a05b104db6fc053",
+      "bytes": 1700
+    },
+    {
+      "path": "blockworld2/src/simulation/road-traffic.ts",
+      "gitBlob": "b402559a21bea8af9c54cf5ee21ca6e2314090c3",
+      "bytes": 4084
+    },
+    {
+      "path": "blockworld2/src/simulation/routes.ts",
+      "gitBlob": "632c0a56206ab439f4d314ef5353d7d149f8e301",
+      "bytes": 2020
+    },
+    {
+      "path": "blockworld2/src/ui/catalogue.ts",
+      "gitBlob": "be775dca7bff10c8c65dfc83ab64385a5a405bc4",
+      "bytes": 6866
+    },
+    {
+      "path": "blockworld2/src/ui/controls-menu.ts",
+      "gitBlob": "516b8edcce7c5512e154f42c79b450cdeb1e0138",
+      "bytes": 1776
+    },
+    {
+      "path": "blockworld2/src/ui/map.ts",
+      "gitBlob": "014adc24562ea55eee31e65bc49a2c9f8e4ea942",
+      "bytes": 4613
+    },
+    {
+      "path": "blockworld2/src/ui/pet-menu.ts",
+      "gitBlob": "a9a63a114f776b2e11a3ecf2b0155f0c3dc7788e",
+      "bytes": 1217
+    },
+    {
+      "path": "blockworld2/src/ui/style.css",
+      "gitBlob": "777d4bb18bc358f83e82befd3c265a736ee38037",
+      "bytes": 8468
+    },
+    {
+      "path": "blockworld2/src/ui/wardrobe.ts",
+      "gitBlob": "3b170fa04c9d28524a97a113b3f239618aa91136",
+      "bytes": 2084
+    },
+    {
+      "path": "blockworld2/src/world/airfield.ts",
+      "gitBlob": "91359fd665437b9adbc9dfb78974831afbe45d35",
+      "bytes": 4023
+    },
+    {
+      "path": "blockworld2/src/world/authoring.ts",
+      "gitBlob": "18f6150121de47dc42df3951e7810bc2e9d11bb7",
+      "bytes": 3325
+    },
+    {
+      "path": "blockworld2/src/world/home-square.ts",
+      "gitBlob": "173c81c486132961fe3987b036bcdc89ba11d4ac",
+      "bytes": 6010
+    },
+    {
+      "path": "blockworld2/src/world/props.ts",
+      "gitBlob": "691fff02baaf0949d9230e58d63712042c2d3cab",
+      "bytes": 1261
+    },
+    {
+      "path": "blockworld2/src/world/spawn.ts",
+      "gitBlob": "7a25b9c918c050e9ef07d48ac5727a5c0aeb60ef",
+      "bytes": 1484
+    },
+    {
+      "path": "blockworld2/src/world/sunbeam-county.ts",
+      "gitBlob": "9a3951b96e78da84f4481a10f9fad4ac00398bf5",
+      "bytes": 13254
+    },
+    {
+      "path": "blockworld2/src/world/sunbeam-region.ts",
+      "gitBlob": "e9364e81892ef7607f31a57eae4b3f4c8667af57",
+      "bytes": 12055
+    },
+    {
+      "path": "blockworld2/src/world/sunbeam-town.ts",
+      "gitBlob": "1126bd4e60a8ae16c577cdc45d49b720b0ecc98a",
+      "bytes": 10805
+    },
+    {
+      "path": "blockworld2/src/world/templates.ts",
+      "gitBlob": "1e12a4e38fd0a97fd1e4149ca51ce7eb02f58258",
+      "bytes": 2271
+    },
+    {
+      "path": "index.html",
+      "gitBlob": "f68925417f72fdb9a655b913b3cf29d8a6da1c0e",
+      "bytes": 21731
+    }
+  ]
+}
