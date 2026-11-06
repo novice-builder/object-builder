@@ -1,0 +1,131 @@
+{
+  "archive": "BlockWorld-Adventures-Preview-09.zip",
+  "checks": [
+    {
+      "name": "archive CRC",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "exact verified source checkpoint",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "every packaged runtime file matches its build hash",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "runtime welcome identifies Preview 09",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "retained connected valley and seven map destinations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "packaged exterior has Enter action",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fade completes inside matching room with outdoor group suspended",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "first entry retains original version-1 record in separate copy",
+      "passed": true,
+      "detail": {
+        "different": true,
+        "version": 1,
+        "count": 2
+      }
+    },
+    {
+      "name": "ordinary movement reaches clear stair approach",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "packaged keyboard physically walks upstairs onto actual upper landing",
+      "passed": true,
+      "detail": {
+        "y": 3,
+        "z": -2.6521602748311963,
+        "top": -2.05
+      }
+    },
+    {
+      "name": "actual exported backup filename matches Preview 09",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native downloaded backup contains room identity and upper elevation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "real extracted-package page reload restores correct upper-floor room",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native downloaded backup imports as independent room-enabled record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "packaged keyboard physically walks downstairs",
+      "passed": true,
+      "detail": {
+        "y": 0,
+        "z": 2.573081203988609,
+        "bottom": 2.0999999999999996
+      }
+    },
+    {
+      "name": "exit returns to exact original exterior entrance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "existing real Meadow Lodge door still opens and saves",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "all ten packaged evidence images load",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "gallery enlargement opens",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "gallery enlargement closes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "package has no runtime errors, missing files or external requests",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "missing": [],
+        "external": []
+      }
+    }
+  ],
+  "environment": "Extracted local package, managed Chromium SwiftShader phone touch emulation; no physical device/controller claim.",
+  "sourceCommit": "57f4d0a30d9c2735893f831e00a2d5b8001ca978",
+  "startupBytes": 3669027,
+  "archiveBytes": 5831786,
+  "sha256": "2e566dbd955eb86b22fc1e92e68551978dd2f965b65ad012a86f190003f60a08"
+}
