@@ -215,6 +215,7 @@ export interface LandscapeOptions {
 export class Landscape {
   group = new T.Group();
   obstacles: Obstacle[] = [];
+  cameraBodies: Obstacle[] = [];
   landmarks: Landmark[] = [];
   instances = 0;
   // Resource ownership: only generated buffers/materials/textures belong to this scene.
@@ -1098,6 +1099,7 @@ export class Landscape {
   }
   private flushInstances() {
     for (const { id, matrices } of this.buckets.values()) {
+      this.cameraBodies.push(...this.library.cameraCanopies(id, matrices));
       const source = this.library.models.get(id)!;
       source.updateMatrixWorld(true);
       source.traverse((o) => {
@@ -1137,5 +1139,6 @@ export class Landscape {
     this.group.clear();
     this.assetRoots.length = 0;
     this.obstacles.length = 0;
+    this.cameraBodies.length = 0;
   }
 }

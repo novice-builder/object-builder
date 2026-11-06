@@ -1,5 +1,6 @@
 import * as T from "three";
 import { bakeNature } from "./nature-batch";
+import { treeCanopyBounds, canopyBodies } from "./tree-canopy";
 import {
   GLTFLoader,
   type GLTF,
@@ -90,6 +91,7 @@ export const DEFINITIONS = new Map(ASSETS.map((a) => [a.id, a]));
 export class AssetLibrary {
   models = new Map<string, T.Group>();
   private batchSources = new Map<string, T.Group>();
+  private canopies = new Map<string, T.Box3[]>();
   private natureMaterial = new T.MeshStandardMaterial({
     vertexColors: true,
     roughness: 1,
@@ -102,6 +104,15 @@ export class AssetLibrary {
     cached = bakeNature(original, this.natureMaterial) || original;
     this.batchSources.set(id, cached);
     return cached;
+  }
+  cameraCanopies(id: string, matrices: readonly T.Matrix4[]) {
+    if (!id.startsWith("tree")) return [];
+    let bounds = this.canopies.get(id);
+    if (!bounds) {
+      bounds = treeCanopyBounds(this.models.get(id)!);
+      this.canopies.set(id, bounds);
+    }
+    return matrices.flatMap((matrix) => canopyBodies(bounds!, matrix));
   }
   bounds = new Map<string, T.Box3>();
   character!: GLTF;

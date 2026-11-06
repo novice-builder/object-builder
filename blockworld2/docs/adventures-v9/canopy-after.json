@@ -1,0 +1,274 @@
+{
+  "phase": "after",
+  "checks": [
+    {
+      "name": "tree-oak camera stays outside actual foliage bounds",
+      "passed": true,
+      "detail": {
+        "id": "tree-oak",
+        "player": {
+          "x": 142.43746948212112,
+          "y": 0,
+          "z": -39.35240086118324
+        },
+        "yaw": 0,
+        "pitch": 0.20645156918076968,
+        "camera": {
+          "x": 142.43746948212112,
+          "y": 2.6932002748337673,
+          "z": -32.93897214425857
+        },
+        "leafBounds": {
+          "min": {
+            "x": 140.2784993251374,
+            "y": 2.2082805543255972,
+            "z": -29.74266028184891
+          },
+          "max": {
+            "x": 144.59643963910486,
+            "y": 5.411434318319607,
+            "z": -25.471794368329096
+          }
+        },
+        "insideLeafBounds": false,
+        "actorVisible": true,
+        "cameraDistance": 6.552576202180905
+      }
+    },
+    {
+      "name": "tree-detailed camera stays outside actual foliage bounds",
+      "passed": true,
+      "detail": {
+        "id": "tree-detailed",
+        "player": {
+          "x": -159.08525085566492,
+          "y": 0,
+          "z": -67.5479175274179
+        },
+        "yaw": 3.141592653589793,
+        "pitch": 0.3927447720746233,
+        "camera": {
+          "x": -159.08525085566492,
+          "y": 2.039194403789517,
+          "z": -69.21156500376718
+        },
+        "leafBounds": {
+          "min": {
+            "x": -162.54999352557468,
+            "y": 3.02817888941388,
+            "z": -82.23079174586722
+          },
+          "max": {
+            "x": -155.62050818575514,
+            "y": 8.857236575436218,
+            "z": -75.03773242729818
+          }
+        },
+        "insideLeafBounds": false,
+        "actorVisible": false,
+        "cameraDistance": 1.8007531346017769
+      }
+    },
+    {
+      "name": "tree-pinedefaulta camera stays outside actual foliage bounds",
+      "passed": true,
+      "detail": {
+        "id": "tree-pinedefaulta",
+        "player": {
+          "x": 13.700410842895508,
+          "y": 0,
+          "z": 69.54379766047839
+        },
+        "yaw": 0,
+        "pitch": 0.3194009254792117,
+        "camera": {
+          "x": 13.700410842895508,
+          "y": 4.351268406646598,
+          "z": 78.61862228925422
+        },
+        "leafBounds": {
+          "min": {
+            "x": 12.017872701994463,
+            "y": 2.77149115145491,
+            "z": 79.25434387814192
+          },
+          "max": {
+            "x": 15.382948983796553,
+            "y": 7.464457043332857,
+            "z": 82.61942015994401
+          }
+        },
+        "insideLeafBounds": false,
+        "actorVisible": true,
+        "cameraDistance": 9.558245345866121
+      }
+    },
+    {
+      "name": "tree-pinedefaultb camera stays outside actual foliage bounds",
+      "passed": true,
+      "detail": {
+        "id": "tree-pinedefaultb",
+        "player": {
+          "x": -18.130644526479443,
+          "y": 0.013937326906888769,
+          "z": -74.93873596191406
+        },
+        "yaw": 1.5707963267948966,
+        "pitch": 0.43636097342606006,
+        "camera": {
+          "x": -10.102869360320833,
+          "y": 5.107630477175892,
+          "z": -74.93873596191406
+        },
+        "leafBounds": {
+          "min": {
+            "x": -9.487847330906163,
+            "y": 3.350033679075466,
+            "z": -77.17148685727335
+          },
+          "max": {
+            "x": -5.022345540187587,
+            "y": 9.493428002581936,
+            "z": -72.70598506655477
+          }
+        },
+        "insideLeafBounds": false,
+        "actorVisible": true,
+        "cameraDistance": 8.857788240964219
+      }
+    },
+    {
+      "name": "close obstruction does not fill the view with the character",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "camera probe has no runtime errors",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader. Deterministic valid player/camera fixtures from actual instanced tree transforms; no physical-device result.",
+  "cases": [
+    {
+      "id": "tree-oak",
+      "player": {
+        "x": 142.43746948212112,
+        "y": 0,
+        "z": -39.35240086118324
+      },
+      "yaw": 0,
+      "pitch": 0.20645156918076968,
+      "camera": {
+        "x": 142.43746948212112,
+        "y": 2.6932002748337673,
+        "z": -32.93897214425857
+      },
+      "leafBounds": {
+        "min": {
+          "x": 140.2784993251374,
+          "y": 2.2082805543255972,
+          "z": -29.74266028184891
+        },
+        "max": {
+          "x": 144.59643963910486,
+          "y": 5.411434318319607,
+          "z": -25.471794368329096
+        }
+      },
+      "insideLeafBounds": false,
+      "actorVisible": true,
+      "cameraDistance": 6.552576202180905
+    },
+    {
+      "id": "tree-detailed",
+      "player": {
+        "x": -159.08525085566492,
+        "y": 0,
+        "z": -67.5479175274179
+      },
+      "yaw": 3.141592653589793,
+      "pitch": 0.3927447720746233,
+      "camera": {
+        "x": -159.08525085566492,
+        "y": 2.039194403789517,
+        "z": -69.21156500376718
+      },
+      "leafBounds": {
+        "min": {
+          "x": -162.54999352557468,
+          "y": 3.02817888941388,
+          "z": -82.23079174586722
+        },
+        "max": {
+          "x": -155.62050818575514,
+          "y": 8.857236575436218,
+          "z": -75.03773242729818
+        }
+      },
+      "insideLeafBounds": false,
+      "actorVisible": false,
+      "cameraDistance": 1.8007531346017769
+    },
+    {
+      "id": "tree-pinedefaulta",
+      "player": {
+        "x": 13.700410842895508,
+        "y": 0,
+        "z": 69.54379766047839
+      },
+      "yaw": 0,
+      "pitch": 0.3194009254792117,
+      "camera": {
+        "x": 13.700410842895508,
+        "y": 4.351268406646598,
+        "z": 78.61862228925422
+      },
+      "leafBounds": {
+        "min": {
+          "x": 12.017872701994463,
+          "y": 2.77149115145491,
+          "z": 79.25434387814192
+        },
+        "max": {
+          "x": 15.382948983796553,
+          "y": 7.464457043332857,
+          "z": 82.61942015994401
+        }
+      },
+      "insideLeafBounds": false,
+      "actorVisible": true,
+      "cameraDistance": 9.558245345866121
+    },
+    {
+      "id": "tree-pinedefaultb",
+      "player": {
+        "x": -18.130644526479443,
+        "y": 0.013937326906888769,
+        "z": -74.93873596191406
+      },
+      "yaw": 1.5707963267948966,
+      "pitch": 0.43636097342606006,
+      "camera": {
+        "x": -10.102869360320833,
+        "y": 5.107630477175892,
+        "z": -74.93873596191406
+      },
+      "leafBounds": {
+        "min": {
+          "x": -9.487847330906163,
+          "y": 3.350033679075466,
+          "z": -77.17148685727335
+        },
+        "max": {
+          "x": -5.022345540187587,
+          "y": 9.493428002581936,
+          "z": -72.70598506655477
+        }
+      },
+      "insideLeafBounds": false,
+      "actorVisible": true,
+      "cameraDistance": 8.857788240964219
+    }
+  ]
+}

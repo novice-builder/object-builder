@@ -111,6 +111,7 @@ class AdventureGame {
   private contactShadow: T.Mesh;
   private cameraPosition = new T.Vector3();
   private interiorBodySource?: readonly Obstacle[];
+  private outdoorCameraBodies: readonly Obstacle[] = [];
   private interiorCameraBodies: readonly Obstacle[] = [];
   private dirty = false;
   constructor() {
@@ -656,14 +657,17 @@ class AdventureGame {
       ).multiplyScalar(this.distance),
       desired = target.clone().add(offset);
     const allBodies = this.obstacles();
-    if (inside && this.interiorBodySource !== allBodies) {
+    if (this.interiorBodySource !== allBodies) {
       this.interiorBodySource = allBodies;
-      this.interiorCameraBodies = allBodies.filter(
+      this.outdoorCameraBodies = [...allBodies, ...this.landscape.cameraBodies];
+      this.interiorCameraBodies = this.outdoorCameraBodies.filter(
         (b) =>
           !b.name?.startsWith("lodge") && !b.name?.startsWith("furniture-"),
       );
     }
-    const bodies = inside ? this.interiorCameraBodies : allBodies;
+    const bodies = inside
+      ? this.interiorCameraBodies
+      : this.outdoorCameraBodies;
     const roof = lodge && !inside ? lodge.exteriorCameraBodies : [];
     const fraction = Math.min(
       cameraFraction(target, offset, bodies),
@@ -693,7 +697,8 @@ class AdventureGame {
         .addScaledVector(interpolated, actualFraction);
     this.camera.position.copy(this.cameraPosition);
     this.camera.lookAt(target);
-    this.actor.visible = this.camera.position.distanceTo(target) > 1.1;
+    // A nearby wall or crown can pull the camera beside the face. Keep the view clear.
+    this.actor.visible = this.camera.position.distanceTo(target) > 2.8;
     const focus = this.sun.target.position,
       nx = Math.round(this.player.x / 16) * 16,
       nz = Math.round(this.player.z / 16) * 16;

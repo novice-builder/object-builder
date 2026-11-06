@@ -73,6 +73,7 @@ export class ConnectedLandscape {
   private permanent: Obstacle[] = [];
   group = new T.Group();
   obstacles: Obstacle[] = [];
+  cameraBodies: Obstacle[] = [];
   landmarks: Landmark[] = [];
   paths: { points: number[][]; width: number }[] = [];
   instances = 0;
@@ -106,6 +107,15 @@ export class ConnectedLandscape {
       this.regions.push(land);
       this.obstacles.push(
         ...land.obstacles.map((b) => ({
+          ...b,
+          minX: b.minX + r.x,
+          maxX: b.maxX + r.x,
+          minZ: b.minZ + r.z,
+          maxZ: b.maxZ + r.z,
+        })),
+      );
+      this.cameraBodies.push(
+        ...land.cameraBodies.map((b) => ({
           ...b,
           minX: b.minX + r.x,
           maxX: b.maxX + r.x,
@@ -503,6 +513,7 @@ export class ConnectedLandscape {
       );
     }
     for (const { id, matrices } of buckets.values()) {
+      this.cameraBodies.push(...this.library.cameraCanopies(id, matrices));
       const source = this.library.instancingSource(id);
       source.updateMatrixWorld(true);
       source.traverse((o) => {
@@ -562,5 +573,6 @@ export class ConnectedLandscape {
     for (const m of this.materials) m.dispose();
     this.group.clear();
     this.visibility.length = 0;
+    this.cameraBodies.length = 0;
   }
 }
