@@ -1,0 +1,85 @@
+{
+  "checks": [
+    {
+      "name": "fresh valley uses layout 5 and its northern landmark",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "main settlement routes clear player-radius collision bounds",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "new building footprints do not overlap",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "trees stay clear of northern paths",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "northern neighbourhood includes six homes shops mill and well",
+      "passed": true,
+      "detail": 10
+    },
+    {
+      "name": "walk from Willowmere through old streets and northern road into Alderwick without changing save",
+      "passed": true,
+      "detail": {
+        "failed": null,
+        "frames": 2429,
+        "sameRecord": true,
+        "player": {
+          "x": -131.00229211178117,
+          "y": 0,
+          "z": -54.84469230470329,
+          "yaw": 0,
+          "pitch": 0.47
+        }
+      }
+    },
+    {
+      "name": "actual world map includes northern buildings and one new meaningful destination",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "landmark travel arrives clear in northern square in same world",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone map names stay inside viewport",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium ANGLE SwiftShader with phone/tablet viewport emulation; no physical device claim.",
+  "placementAudit": {
+    "roads": 5,
+    "buildings": 10,
+    "blocked": [],
+    "overlaps": [],
+    "trees": []
+  },
+  "walkRoute": {
+    "failed": null,
+    "frames": 2429,
+    "sameRecord": true,
+    "player": {
+      "x": -131.00229211178117,
+      "y": 0,
+      "z": -54.84469230470329,
+      "yaw": 0,
+      "pitch": 0.47
+    }
+  }
+}

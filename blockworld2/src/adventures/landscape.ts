@@ -1,8 +1,8 @@
 import * as T from "three";
 import { valeGround, valeWalk, valeWater } from "./vale-data";
 import { trailGeometry } from "./trail-geometry";
-export type SceneLayout = 1 | 2 | 3 | 4;
-export const LATEST_LAYOUT: SceneLayout = 4;
+export type SceneLayout = 1 | 2 | 3 | 4 | 5;
+export const LATEST_LAYOUT: SceneLayout = 5;
 import { AssetLibrary, DEFINITIONS } from "./assets";
 export type RegionId = "village" | "woodland" | "meadow";
 export type SceneId = RegionId | "vale";

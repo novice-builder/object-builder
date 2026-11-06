@@ -1,0 +1,81 @@
+{
+  "phase": "before",
+  "checks": [
+    {
+      "name": "phone long saved names and edition labels stay within the modal",
+      "passed": false,
+      "detail": {
+        "width": 360,
+        "scroll": 740,
+        "buttons": [
+          {
+            "text": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW \u00b7 earlier scenery",
+            "left": 37,
+            "right": 754.578125
+          },
+          {
+            "text": "\u25cf The Willow Vale \u00b7 Alderwick",
+            "left": 37,
+            "right": 242.40625
+          }
+        ]
+      }
+    },
+    {
+      "name": "phone saved rows distinguish Alderwick from retained earlier scenery",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape long saved names and edition labels stay within the modal",
+      "passed": true,
+      "detail": {
+        "width": 798,
+        "scroll": 798,
+        "buttons": [
+          {
+            "text": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW \u00b7 earlier scenery",
+            "left": 51,
+            "right": 793
+          },
+          {
+            "text": "\u25cf The Willow Vale \u00b7 Alderwick",
+            "left": 51,
+            "right": 256.40625
+          }
+        ]
+      }
+    },
+    {
+      "name": "phone-landscape saved rows distinguish Alderwick from retained earlier scenery",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet long saved names and edition labels stay within the modal",
+      "passed": true,
+      "detail": {
+        "width": 848,
+        "scroll": 848,
+        "buttons": [
+          {
+            "text": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW \u00b7 earlier scenery",
+            "left": 133,
+            "right": 891
+          },
+          {
+            "text": "\u25cf The Willow Vale \u00b7 Alderwick",
+            "left": 133,
+            "right": 338.40625
+          }
+        ]
+      }
+    },
+    {
+      "name": "tablet saved rows distinguish Alderwick from retained earlier scenery",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "environment": "Managed Chromium touch viewport emulation; isolated records/long imported-name fixture, no physical-device result."
+}

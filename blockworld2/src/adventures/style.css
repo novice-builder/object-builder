@@ -537,6 +537,10 @@ p {
 #savedRows button {
   border: 1px solid #29423925;
   font-size: 12px;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: left;
 }
 .finePrint {
   font-size: 10px !important;

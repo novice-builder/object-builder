@@ -1,4 +1,32 @@
 import * as T from "three";
+/** Join a driveway to the actual curved street rather than an unsmoothed design coordinate. */
+export function closestTrailPoint(point: number[], path: number[][]) {
+  let best = path[0],
+    distance = Infinity;
+  for (let i = 1; i < path.length; i++) {
+    const a = path[i - 1],
+      b = path[i],
+      dx = b[0] - a[0],
+      dz = b[1] - a[1],
+      length = dx * dx + dz * dz,
+      t = length
+        ? Math.max(
+            0,
+            Math.min(
+              1,
+              ((point[0] - a[0]) * dx + (point[1] - a[1]) * dz) / length,
+            ),
+          )
+        : 0,
+      p = [a[0] + dx * t, a[1] + dz * t],
+      d = (p[0] - point[0]) ** 2 + (p[1] - point[1]) ** 2;
+    if (d < distance) {
+      best = p;
+      distance = d;
+    }
+  }
+  return [...best];
+}
 /** A continuous ribbon: adjacent strips share their edge, avoiding stacked discs at bends. */
 export function trailGeometry(
   points: number[][],

@@ -1,6 +1,12 @@
 import * as T from "three";
 import { Lodge } from "./lodge";
 import { StaticInstanceCuller, fogDepthVisible } from "./instance-culling";
+import {
+  ALDERWICK,
+  ALDERWICK_ROADS,
+  ALDERWICK_BUILDINGS,
+  ALDERWICK_GARDENS,
+} from "./alderwick-data";
 import { AssetLibrary } from "./assets";
 import {
   Landscape,
@@ -10,7 +16,7 @@ import {
   type Obstacle,
   type Landmark,
 } from "./landscape";
-import { trailGeometry } from "./trail-geometry";
+import { trailGeometry, closestTrailPoint } from "./trail-geometry";
 import {
   VALE_REGIONS,
   valeGround,
@@ -83,7 +89,7 @@ export class ConnectedLandscape {
   private materials: T.Material[] = [];
   constructor(
     readonly library: AssetLibrary,
-    readonly layout: 3 | 4 = 3,
+    readonly layout: 3 | 4 | 5 = 3,
     doorOpen = false,
   ) {
     this.terrain();
@@ -131,6 +137,7 @@ export class ConnectedLandscape {
       this.mesh(trailGeometry(points, path.width, valeWalk), road);
     }
     this.settlements();
+    if (layout >= 5) this.alderwick();
     if (layout >= 4) {
       this.lodge = new Lodge(library, doorOpen);
       this.group.add(this.lodge.group);
@@ -351,6 +358,52 @@ export class ConnectedLandscape {
         ),
     );
   }
+  private alderwick() {
+    const road = this.regions[0].trailSurface,
+      driveways = road.clone(),
+      street = smoothTrail(ALDERWICK_ROADS[1].points);
+    driveways.name = "Alderwick driveways";
+    driveways.polygonOffset = true;
+    driveways.polygonOffsetFactor = 1;
+    driveways.polygonOffsetUnits = 1;
+    this.materials.push(driveways);
+    for (const [i, path] of ALDERWICK_ROADS.entries()) {
+      const surface = road.clone();
+      surface.name = "Alderwick road " + i;
+      surface.polygonOffset = true;
+      surface.polygonOffsetFactor = -1;
+      surface.polygonOffsetUnits = -i - 1;
+      this.materials.push(surface);
+      const points = smoothTrail(path.points);
+      this.paths.push({ points, width: path.width });
+      this.mesh(trailGeometry(points, path.width, valeWalk), surface);
+    }
+    for (const p of ALDERWICK_BUILDINGS) {
+      const root = this.place(p.asset, p.x, p.z, p.scale, p.yaw);
+      root.userData.settlement = ALDERWICK.id;
+      root.userData.asset = p.asset;
+      if (p.asset === "building_market_blue") continue;
+      const dx = Math.sin(p.yaw),
+        dz = Math.cos(p.yaw),
+        start = [p.x + dx * 3.4, p.z + dz * 3.4];
+      const end =
+        p.asset === "building_windmill_blue"
+          ? [-157, -63]
+          : closestTrailPoint(start, street);
+      const path = { points: [start, end], width: 1.8 };
+      this.paths.push(path);
+      this.mesh(trailGeometry(path.points, path.width, valeWalk), driveways);
+    }
+    this.place("building_well_blue", -136, -58, 4.3);
+    this.place("barrel", -126, -62, 3.8);
+    this.place("crate_A_small", -125, -64, 3.8);
+    this.place("wheelbarrow", -157, -66, 3.7, 0.5);
+    this.landmarks.push({
+      ...ALDERWICK,
+      description:
+        "Alderwick's market square joins a compact neighbourhood to cottage gardens and the mill lane. Follow the south road back to Willowmere. These original prefab shops and houses have closed decorative doors.",
+    });
+  }
   private populate() {
     let seed = 31825;
     const random = () => {
@@ -374,6 +427,21 @@ export class ConnectedLandscape {
       );
       this.instances++;
     };
+    if (this.layout >= 5)
+      for (const [gx, gz] of ALDERWICK_GARDENS)
+        for (let i = 0; i < 12; i++) {
+          const angle = (i * Math.PI * 2) / 12,
+            radius = 0.35 + (i % 3) * 0.3,
+            x = gx + Math.cos(angle) * radius,
+            z = gz + Math.sin(angle) * radius;
+          if (!this.nearPath(x, z, 0.4) && !blocked(x, z, this.obstacles, 0.4))
+            add(
+              ["flower-purplea", "flower-yellowa", "plant-bushsmall"][i % 3],
+              x,
+              z,
+              0.8 + (i % 3) * 0.1,
+            );
+        }
     for (let i = 0; i < 2300; i++) {
       const x = (random() - 0.5) * 358,
         z = (random() - 0.5) * 180;

@@ -1,0 +1,70 @@
+{
+  "checks": [
+    {
+      "name": "village layout 1 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "village layout 1 adds no northern settlement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "woodland layout 2 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "woodland layout 2 adds no northern settlement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 3 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 3 adds no northern settlement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 4 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 4 adds no northern settlement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reloading retained layout-4 last save never silently upgrades its scenery",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fresh-place UI explicitly names new scenery and preserves earlier worlds",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "explicit fresh place creates a separate empty layout-5 record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previous northern site construction reopens unchanged after new town creation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "compatibility pass has no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader. Reference: extracted Preview 06 source c90159e on 5179. No physical-device result."
+}

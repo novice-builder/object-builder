@@ -1,0 +1,144 @@
+{
+  "checks": [
+    {
+      "name": "fresh valley uses layout 5 and its northern landmark",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "main settlement routes clear player-radius collision bounds",
+      "passed": false,
+      "detail": [
+        {
+          "path": 3,
+          "x": -131,
+          "z": -59.70000267526214,
+          "name": "building_market_blue"
+        },
+        {
+          "path": 3,
+          "x": -131,
+          "z": -60.000002675262145,
+          "name": "building_market_blue"
+        },
+        {
+          "path": 3,
+          "x": -131,
+          "z": -60.30000267526214,
+          "name": "building_market_blue"
+        }
+      ]
+    },
+    {
+      "name": "new building footprints do not overlap",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "trees stay clear of northern paths",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "northern neighbourhood includes six homes shops mill and well",
+      "passed": true,
+      "detail": 10
+    },
+    {
+      "name": "walk from Willowmere through old streets and northern road into Alderwick without changing save",
+      "passed": false,
+      "detail": {
+        "failed": {
+          "x": -125,
+          "z": -29,
+          "player": {
+            "x": -125.0602997148681,
+            "y": 0,
+            "z": -3.247955431226002,
+            "yaw": 0,
+            "pitch": 0.47
+          }
+        },
+        "frames": 1175,
+        "sameRecord": true,
+        "player": {
+          "x": -125.0602997148681,
+          "y": 0,
+          "z": -3.247955431226002,
+          "yaw": 0,
+          "pitch": 0.47
+        }
+      }
+    },
+    {
+      "name": "actual world map includes northern buildings and one new meaningful destination",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "landmark travel arrives clear in northern square in same world",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone map names stay inside viewport",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium ANGLE SwiftShader with phone/tablet viewport emulation; no physical device claim.",
+  "placementAudit": {
+    "roads": 5,
+    "buildings": 10,
+    "blocked": [
+      {
+        "path": 3,
+        "x": -131,
+        "z": -59.70000267526214,
+        "name": "building_market_blue"
+      },
+      {
+        "path": 3,
+        "x": -131,
+        "z": -60.000002675262145,
+        "name": "building_market_blue"
+      },
+      {
+        "path": 3,
+        "x": -131,
+        "z": -60.30000267526214,
+        "name": "building_market_blue"
+      }
+    ],
+    "overlaps": [],
+    "trees": []
+  },
+  "walkRoute": {
+    "failed": {
+      "x": -125,
+      "z": -29,
+      "player": {
+        "x": -125.0602997148681,
+        "y": 0,
+        "z": -3.247955431226002,
+        "yaw": 0,
+        "pitch": 0.47
+      }
+    },
+    "frames": 1175,
+    "sameRecord": true,
+    "player": {
+      "x": -125.0602997148681,
+      "y": 0,
+      "z": -3.247955431226002,
+      "yaw": 0,
+      "pitch": 0.47
+    }
+  },
+  "fixtureCorrection": "The first route fixture capped every segment at 600 frames; the 56m legacy street needs more than 1100 walking frames. That premature stop is not accepted as a collision defect. Market access did intersect the prefab stall bounds and is shortened in the corrected source."
+}

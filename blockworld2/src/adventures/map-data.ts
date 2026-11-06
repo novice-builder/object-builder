@@ -1,4 +1,5 @@
 import { worldBounds, valeRivers } from "./vale-data";
+import { ALDERWICK } from "./alderwick-data";
 import {
   riverX,
   WORLDS,
@@ -68,6 +69,11 @@ export function createMapData(
     landscape.landmarks.some((l) => l.id === "lodge-door")
   )
     destinations.push({ id: "lodge", name: "Meadow Lodge", x: 128, z: -36 });
+  if (
+    scene === "vale" &&
+    landscape.landmarks.some((l) => l.id === ALDERWICK.id)
+  )
+    destinations.push({ ...ALDERWICK });
   return {
     scene,
     bounds,
