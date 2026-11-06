@@ -1,0 +1,372 @@
+{
+  "archive": "BlockWorld-Adventures-Preview-16.zip",
+  "checks": [
+    {
+      "name": "archive CRC",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "local launcher uses a separate default address and supports explicit backup migration",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "exact verified source checkpoint",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "every packaged runtime file matches its build hash",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "runtime welcome identifies Preview 16",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "retained connected valley and eleven map destinations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "packaged Run default and Walk/Jump controls are present",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "packaged Space jump rises and lands on clear support",
+      "passed": true,
+      "detail": {
+        "max": 0.6652083333333342,
+        "y": 0.002,
+        "grounded": true
+      }
+    },
+    {
+      "name": "packaged actual touch Jump rises and lands once",
+      "passed": true,
+      "detail": {
+        "max": 0.6672083333333342,
+        "y": 0.002,
+        "grounded": true
+      }
+    },
+    {
+      "name": "packaged keyboard crosses actual aligned northern deck in same world",
+      "passed": true,
+      "detail": {
+        "x": 34.27916356357986,
+        "maxY": 0.442,
+        "aligned": 3
+      }
+    },
+    {
+      "name": "packaged exterior has Enter action",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fade completes inside matching room with outdoor group suspended",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fresh version-4 room entry keeps the current world without an unnecessary copy",
+      "passed": true,
+      "detail": {
+        "different": false,
+        "version": 4,
+        "count": 1
+      }
+    },
+    {
+      "name": "ordinary movement reaches clear stair approach",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "packaged keyboard physically walks upstairs onto actual upper landing",
+      "passed": true,
+      "detail": {
+        "y": 3.002,
+        "z": -3.3134696014776632,
+        "top": -2.66688290387392
+      }
+    },
+    {
+      "name": "packaged standard left bumper jumps while upper-floor backups retain real footing",
+      "passed": true,
+      "detail": {
+        "live": 3.633666666666667,
+        "checkpoint": 3.002,
+        "clip": "Jump_Idle"
+      }
+    },
+    {
+      "name": "actual exported backup filename matches Preview 16",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native downloaded backup contains room identity and upper elevation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "real extracted-package page reload restores correct upper-floor room",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native downloaded backup imports as independent room-enabled record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "packaged keyboard physically walks downstairs",
+      "passed": true,
+      "detail": {
+        "y": 0.002000000000000014,
+        "z": 3.215695231054512,
+        "bottom": 2.7168829038739206
+      }
+    },
+    {
+      "name": "exit returns to exact original exterior entrance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "existing real Meadow Lodge door still opens and saves",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "all 21 actual catalogue renders including necessary bedroom models load",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "packaged bedroom floor transfer uses ordinary stairs, excludes hidden body and confirms same ID",
+      "passed": true,
+      "detail": {
+        "upstairs": true,
+        "downstairs": true,
+        "excluded": true,
+        "floor": 0,
+        "problem": null,
+        "bed": {
+          "id": "bed",
+          "asset": "furniture-bedsingle",
+          "x": -1.75,
+          "z": 2,
+          "y": 0,
+          "yaw": 0,
+          "scale": 1.85
+        },
+        "rooms": 2
+      }
+    },
+    {
+      "name": "packaged native backup retains independent mill/bedroom contents and floor edit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "packaged fresh cottage is a separate furnished single-storey room",
+      "passed": true,
+      "detail": {
+        "levels": 1,
+        "upper": false,
+        "beds": [
+          0
+        ],
+        "rooms": 3
+      }
+    },
+    {
+      "name": "packaged old-world upgrades retain distinct bounded visible copy names and source",
+      "passed": true,
+      "detail": {
+        "first": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL \u00b7 updated adventure",
+        "second": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL \u00b7 updated adventure 2",
+        "distinct": true,
+        "sourceName": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+        "version": 2
+      }
+    },
+    {
+      "name": "packaged windmill fade retains grain loft, separate save identity, exterior heading and clear exit",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "restored": true,
+        "map": {
+          "x": -139.68391580581664,
+          "z": 24,
+          "yaw": 0.7
+        },
+        "clear": true,
+        "id": "building_windmill_blue:-144.000:24.000:1.571"
+      }
+    },
+    {
+      "name": "actual extracted compact room walks both turning flights up and down",
+      "passed": true,
+      "detail": {
+        "up": true,
+        "upper": 3.002000002980232,
+        "down": true,
+        "lower": 0.002,
+        "profile": "compact-windmill",
+        "version": 4
+      }
+    },
+    {
+      "name": "extracted package loads the real attributed animated fox with bounded colour texture",
+      "passed": true,
+      "detail": {
+        "height": 0.62,
+        "texture": 256,
+        "clip": "Survey",
+        "body": 1
+      }
+    },
+    {
+      "name": "packaged map travels safely to the real clearing",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "packaged ranger cottage retains furnished one-floor save and exact clear exterior",
+      "passed": true,
+      "detail": {
+        "inside": true,
+        "retained": true,
+        "clear": true,
+        "same": true
+      }
+    },
+    {
+      "name": "packaged Fox provenance retains all authors and mixed licence disclosure",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "extracted new inn common room has fourteen furnishings and ordinary stairs up/down",
+      "passed": true,
+      "detail": {
+        "count": 14,
+        "up": true,
+        "upper": 3.002,
+        "down": true,
+        "lower": 0.002000000000000014,
+        "serving": true
+      }
+    },
+    {
+      "name": "extracted inn backup retains its new common-room furnishings and earlier independent rooms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "independently packaged Preview15 refuses new layout9 without changing its world or records",
+      "passed": true,
+      "detail": {
+        "refused": true,
+        "same": true,
+        "count": true
+      }
+    },
+    {
+      "name": "extracted map travels to the real clear Oakfield village destination",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "all six extracted Oakfield entrances open independent furnished matching rooms and return safely",
+      "passed": true,
+      "detail": [
+        {
+          "id": "building_home_B_green:127.000:48.000:1.571",
+          "inside": true,
+          "levels": 2,
+          "objects": 7,
+          "same": true,
+          "clear": true
+        },
+        {
+          "id": "building_tavern_blue:151.000:51.000:-1.571",
+          "inside": true,
+          "levels": 2,
+          "objects": 14,
+          "same": true,
+          "clear": true
+        },
+        {
+          "id": "building_home_A_blue:128.000:62.000:1.571",
+          "inside": true,
+          "levels": 1,
+          "objects": 7,
+          "same": true,
+          "clear": true
+        },
+        {
+          "id": "building_home_A_green:151.000:64.000:-1.571",
+          "inside": true,
+          "levels": 1,
+          "objects": 7,
+          "same": true,
+          "clear": true
+        },
+        {
+          "id": "building_blacksmith_blue:139.000:69.000:3.142",
+          "inside": true,
+          "levels": 1,
+          "objects": 5,
+          "same": true,
+          "clear": true
+        },
+        {
+          "id": "building_home_A_green:118.000:62.000:0.000",
+          "inside": true,
+          "levels": 1,
+          "objects": 7,
+          "same": true,
+          "clear": true
+        }
+      ]
+    },
+    {
+      "name": "independently extracted Preview 13 rejects layout-9 backup without changing its world or records",
+      "passed": true,
+      "detail": {
+        "refused": true,
+        "same": true,
+        "count": true
+      }
+    },
+    {
+      "name": "all six packaged actual evidence images load",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "package has no runtime errors, missing files or external requests",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "missing": [],
+        "external": []
+      }
+    }
+  ],
+  "environment": "Extracted local package, managed Chromium SwiftShader phone touch emulation; no physical device/controller claim.",
+  "sourceCommit": "73914dbfc2fa408c950bcbca5765c1c6d798f7ca",
+  "startupBytes": 3927488,
+  "archiveBytes": 6114679,
+  "sha256": "23e0c72f3d0b26980ff2f618ba0481628c0e46cb07fc1bdb4a5083111c1668f3"
+}
