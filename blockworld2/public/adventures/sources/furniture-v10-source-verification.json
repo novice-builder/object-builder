@@ -1,0 +1,31 @@
+{
+  "repository": "https://github.com/Hidencod/tge-assets",
+  "commit": "ea2f2aa1ca8da0898330c97df8a5489976b051d0",
+  "licence": "CC0-1.0, root licence explicitly includes converted Kenney GLBs",
+  "files": [
+    {
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/LICENSE",
+      "bytes": 510,
+      "sha256": "6913dd72bdc20532b7f02d86469058f45d886c9dabf60831275ed16927aa523b"
+    },
+    {
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/README.md",
+      "bytes": 2017,
+      "sha256": "96d8154f29d7f6bd20febf1741d69bd46e1a48d672593d15e125dd97f23dd780"
+    },
+    {
+      "path": "packs/furniture-kit/bedsingle.glb",
+      "url": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/furniture-kit/bedsingle.glb",
+      "bytes": 18636,
+      "sha256": "ca00c63f9a12da3138d902b2f5f18e0360fb6e8a5ac42ccb4bc3f185724b65d1"
+    },
+    {
+      "path": "packs/furniture-kit/cabinetbed.glb",
+      "url": "https://raw.githubusercontent.com/Hidencod/tge-assets/ea2f2aa1ca8da0898330c97df8a5489976b051d0/packs/furniture-kit/cabinetbed.glb",
+      "bytes": 7496,
+      "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d"
+    }
+  ]
+}

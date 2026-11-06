@@ -1,0 +1,543 @@
+{
+  "environment": "Managed Chromium SwiftShader phone/tablet touch emulation; no physical device/controller result.",
+  "checks": [
+    {
+      "name": "cottage has clear compact Enter prompt",
+      "passed": true,
+      "detail": {
+        "entrances": 32,
+        "blockedEntrances": [],
+        "id": "village:building_home_A_blue:-10.000:-10.000:1.571",
+        "prompt": "Enter E",
+        "entry": {
+          "id": "village:building_home_A_blue:-10.000:-10.000:1.571",
+          "name": "Cottage",
+          "kind": "cottage",
+          "x": -110.87685408592225,
+          "z": -10,
+          "yaw": 1.5707963267948966,
+          "width": 5.8,
+          "depth": 6.8
+        }
+      }
+    },
+    {
+      "name": "all supported permanent entrances including the new mill have clear approaches",
+      "passed": true,
+      "detail": {
+        "count": 32,
+        "blocked": []
+      }
+    },
+    {
+      "name": "cottage normal movement reaches furnished upper room with clear landing",
+      "passed": true,
+      "detail": {
+        "walked": true,
+        "y": 3,
+        "beds": [
+          {
+            "id": "bed",
+            "size": {
+              "x": 1.0563500616548427,
+              "y": 0.6937499999999388,
+              "z": 2.0812500000000003
+            }
+          }
+        ],
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.2,
+            "z": -1.2999999999999998,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.2,
+            "z": -0.1499999999999999,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.3499999999999996,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.3499999999999996,
+            "z": 2.7,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -1.7999999999999998,
+            "z": -1.5999999999999999,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -0.6000000000000001,
+            "z": -2.8,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "stats": {
+          "fps": 1,
+          "frameP95Ms": 799.9,
+          "drawCalls": 117,
+          "triangles": 8339,
+          "geometries": 76,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 7,
+          "quality": "gentle"
+        }
+      }
+    },
+    {
+      "name": "cottage appropriate room furnishings are present",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "cottage actual bed model has plausible human scale",
+      "passed": true,
+      "detail": [
+        {
+          "id": "bed",
+          "size": {
+            "x": 1.0563500616548427,
+            "y": 0.6937499999999388,
+            "z": 2.0812500000000003
+          }
+        }
+      ]
+    },
+    {
+      "name": "cottage bed can be moved and confirmed on supported upper floor",
+      "passed": true,
+      "detail": {
+        "problem": null,
+        "bed": {
+          "id": "bed",
+          "asset": "furniture-bedsingle",
+          "x": -1.5499999999999998,
+          "z": -1.5999999999999999,
+          "y": 3,
+          "yaw": 0,
+          "scale": 1.85
+        }
+      }
+    },
+    {
+      "name": "cottage necessary bed and cabinet have actual rendered catalogue thumbnails",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "cottage reload preserves its own furnishings and upper-floor position",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "id": true,
+        "y": 3
+      }
+    },
+    {
+      "name": "cottage walks downstairs around furniture and returns to exit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "cottage exit returns to same outside entrance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "cottage has no missing models, thumbnails or runtime errors",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "missing": []
+      }
+    },
+    {
+      "name": "inn has clear compact Enter prompt",
+      "passed": true,
+      "detail": {
+        "entrances": 32,
+        "blockedEntrances": [],
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "prompt": "Enter E",
+        "entry": {
+          "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+          "name": "Village inn",
+          "kind": "inn",
+          "x": -105,
+          "z": -16.087802600860595,
+          "yaw": 0,
+          "width": 10,
+          "depth": 11.72439479827881
+        }
+      }
+    },
+    {
+      "name": "inn normal movement reaches furnished upper room with clear landing",
+      "passed": true,
+      "detail": {
+        "walked": true,
+        "y": 3,
+        "beds": [
+          {
+            "id": "bed",
+            "size": {
+              "x": 1.0563500616548431,
+              "y": 0.6937499999999388,
+              "z": 2.0812500000000007
+            }
+          },
+          {
+            "id": "guest-bed",
+            "size": {
+              "x": 1.0563500616548427,
+              "y": 0.6937499999999388,
+              "z": 2.0812500000000007
+            }
+          }
+        ],
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -3.3,
+            "z": -3.762197399139405,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -3.3,
+            "z": -2.612197399139405,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.45,
+            "z": -5.2621973991394055,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.45,
+            "z": 5.162197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -3.9,
+            "z": -4.062197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -2.7,
+            "z": -5.2621973991394055,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "guest-bed",
+            "asset": "furniture-bedsingle",
+            "x": -1.7000000000000002,
+            "z": -4.062197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          }
+        ],
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 866.6,
+          "drawCalls": 100,
+          "triangles": 7505,
+          "geometries": 85,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 8,
+          "quality": "gentle"
+        }
+      }
+    },
+    {
+      "name": "inn appropriate room furnishings are present",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "inn actual bed model has plausible human scale",
+      "passed": true,
+      "detail": [
+        {
+          "id": "bed",
+          "size": {
+            "x": 1.0563500616548431,
+            "y": 0.6937499999999388,
+            "z": 2.0812500000000007
+          }
+        },
+        {
+          "id": "guest-bed",
+          "size": {
+            "x": 1.0563500616548427,
+            "y": 0.6937499999999388,
+            "z": 2.0812500000000007
+          }
+        }
+      ]
+    },
+    {
+      "name": "inn bed can be moved and confirmed on supported upper floor",
+      "passed": true,
+      "detail": {
+        "problem": null,
+        "bed": {
+          "id": "bed",
+          "asset": "furniture-bedsingle",
+          "x": -3.65,
+          "z": -4.062197399139405,
+          "y": 3,
+          "yaw": 0,
+          "scale": 1.85
+        }
+      }
+    },
+    {
+      "name": "inn necessary bed and cabinet have actual rendered catalogue thumbnails",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "inn reload preserves its own furnishings and upper-floor position",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "id": true,
+        "y": 3
+      }
+    },
+    {
+      "name": "inn walks downstairs around furniture and returns to exit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "inn exit returns to same outside entrance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "inn has no missing models, thumbnails or runtime errors",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "missing": []
+      }
+    },
+    {
+      "name": "mill has clear compact Enter prompt",
+      "passed": true,
+      "detail": {
+        "entrances": 32,
+        "blockedEntrances": [],
+        "id": "building_watermill_blue:24.800:-66.000:3.142",
+        "prompt": "Enter E",
+        "entry": {
+          "id": "building_watermill_blue:24.800:-66.000:3.142",
+          "name": "The millhouse",
+          "kind": "mill",
+          "x": 24.8,
+          "z": -71.06688290387392,
+          "yaw": 3.141592653589793,
+          "width": 6.825000077486038,
+          "depth": 8.03376580774784
+        }
+      }
+    },
+    {
+      "name": "mill normal movement reaches furnished upper room with clear landing",
+      "passed": true,
+      "detail": {
+        "walked": true,
+        "y": 3,
+        "beds": [],
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.7125000387430191,
+            "z": -1.9168829038739204,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.7125000387430191,
+            "z": -0.7668829038739204,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.8625000387430193,
+            "z": -3.4168829038739204,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "grain",
+            "asset": "crate_A_small",
+            "x": -2.412500038743019,
+            "z": -3.0168829038739204,
+            "y": 3,
+            "yaw": 0,
+            "scale": 4
+          },
+          {
+            "id": "grain-barrel",
+            "asset": "barrel",
+            "x": -2.412500038743019,
+            "z": 3.0168829038739204,
+            "y": 3,
+            "yaw": 0,
+            "scale": 4
+          },
+          {
+            "id": "mill-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.8625000387430193,
+            "z": 0,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "stats": {
+          "fps": 3,
+          "frameP95Ms": 716.6,
+          "drawCalls": 117,
+          "triangles": 8651,
+          "geometries": 67,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 7,
+          "quality": "gentle"
+        }
+      }
+    },
+    {
+      "name": "mill appropriate room furnishings are present",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "mill reload preserves its own furnishings and upper-floor position",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "id": true,
+        "y": 3
+      }
+    },
+    {
+      "name": "mill walks downstairs around furniture and returns to exit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "mill exit returns to same outside entrance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "mill has no missing models, thumbnails or runtime errors",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "missing": []
+      }
+    }
+  ]
+}

@@ -24,24 +24,34 @@ export function freshRoom(entry: BuildingEntry): RoomState {
   add("seat", "furniture-chair", -w + 1.7, -d + 3.25, 0, Math.PI);
   add("shelf", "furniture-bookcaseopen", -w + 0.55, -d + 0.6);
   add("rug", "furniture-rugrectangle", -1, 0, 0, 0, 2);
-  if (entry.kind !== "workshop") {
+  if (
+    entry.kind === "cottage" ||
+    entry.kind === "townhouse" ||
+    entry.kind === "inn"
+  ) {
     add(
       "upstairs-shelf",
       "furniture-bookcaseopen",
       -w + 0.55,
-      -d + 0.7,
+      d - 0.7,
       UPPER_FLOOR,
     );
-    add(
-      "upstairs-table",
-      "furniture-table",
-      -w + 1.6,
-      d - 1.65,
-      UPPER_FLOOR,
-      0,
-      2.5,
-    );
-    add("upstairs-seat", "furniture-chair", -w + 1.6, d - 2.8, UPPER_FLOOR);
+    add("bed", "furniture-bedsingle", -w + 1.1, -d + 1.8, UPPER_FLOOR, 0, 1.85);
+    add("bedside", "furniture-cabinetbed", -w + 2.3, -d + 0.6, UPPER_FLOOR);
+    if (entry.kind === "inn")
+      add(
+        "guest-bed",
+        "furniture-bedsingle",
+        -w + 3.3,
+        -d + 1.8,
+        UPPER_FLOOR,
+        0,
+        1.85,
+      );
+  } else if (entry.kind === "mill") {
+    add("grain", "crate_A_small", -w + 1, -d + 1, UPPER_FLOOR, 0, 4);
+    add("grain-barrel", "barrel", -w + 1, d - 1, UPPER_FLOOR, 0, 4);
+    add("mill-shelf", "furniture-bookcaseopen", -w + 0.55, 0, UPPER_FLOOR);
   } else add("supplies", "crate_A_small", w - 1, -d + 1, 0, 0, 4);
   return { entry: structuredClone(entry), objects };
 }

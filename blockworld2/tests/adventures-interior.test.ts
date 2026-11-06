@@ -156,3 +156,55 @@ test("room recovery preserves a safe upstairs pose, finds clear same-floor footi
   ];
   assert.equal(recoverRoomPose(p, full, 7.2, 9, spawn), null);
 });
+test("new houses have human-scale bedrooms, inns have guest beds, and mills keep a separate working upper floor", () => {
+  const house = freshRoom(entry),
+    inn = freshRoom({ ...entry, id: "inn", kind: "inn", width: 10, depth: 12 }),
+    mill = freshRoom({ ...entry, id: "mill", kind: "mill" });
+  assert.ok(
+    house.objects.some(
+      (p) => p.asset === "furniture-bedsingle" && p.y === 3 && p.scale === 1.85,
+    ),
+  );
+  assert.ok(
+    house.objects.some((p) => p.asset === "furniture-cabinetbed" && p.y === 3),
+  );
+  assert.equal(
+    inn.objects.filter((p) => p.asset === "furniture-bedsingle").length,
+    2,
+  );
+  assert.ok(mill.objects.some((p) => p.asset === "crate_A_small" && p.y === 3));
+  assert.equal(
+    mill.objects.some((p) => p.asset === "furniture-bedsingle"),
+    false,
+  );
+  const old = {
+    ...house,
+    objects: [
+      {
+        id: "old-table",
+        asset: "furniture-table",
+        x: -1,
+        z: 1,
+        y: 3,
+        yaw: 0.5,
+        scale: 2.5,
+      },
+    ],
+  };
+  const s = makeSnapshot(
+    {
+      version: 2,
+      scene: "vale",
+      layout: 5,
+      objects: [],
+      discoveries: [],
+      rooms: { [entry.id]: old },
+    },
+    { x: -105, z: 18, yaw: 0, pitch: 0.47 },
+  );
+  assert.deepEqual(
+    validateAdventure(s).rooms?.[entry.id].objects,
+    old.objects,
+    "opening an existing room never repopulates its template",
+  );
+});

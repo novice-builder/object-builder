@@ -1,0 +1,91 @@
+{
+  "checks": [
+    {
+      "name": "move mode removes hidden source furniture from actual room walking collision",
+      "passed": true,
+      "detail": {
+        "reached": true,
+        "crossed": true,
+        "excluded": true,
+        "hidden": true,
+        "player": {
+          "x": -1.7539573969728202,
+          "y": 3,
+          "z": -1.600796327935237,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        }
+      }
+    },
+    {
+      "name": "cancel while occupying original footprint restores bed and clear same-floor footing without an invalid elevated save",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "y": 3,
+        "restored": true,
+        "visible": true,
+        "saved": true
+      }
+    },
+    {
+      "name": "pinned preview retains its original upper floor while player walks downstairs",
+      "passed": true,
+      "detail": {
+        "pinned": true,
+        "walked": true,
+        "y": 0,
+        "pendingFloor": 3,
+        "ghostFloor": 3,
+        "originalUnchanged": true
+      }
+    },
+    {
+      "name": "actual Aim ahead action follows the player onto the lower floor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "confirmed floor transfer keeps the same object identity and exterior constructions",
+      "passed": true,
+      "detail": {
+        "problem": null,
+        "bed": {
+          "id": "bed",
+          "asset": "furniture-bedsingle",
+          "x": -1.75,
+          "z": 2,
+          "y": 0,
+          "yaw": 0,
+          "scale": 1.85
+        },
+        "outside": []
+      }
+    },
+    {
+      "name": "floor transfer undo, redo and reload preserve room scope and elevation",
+      "passed": true,
+      "detail": {
+        "upper": true,
+        "lower": true,
+        "reloaded": true
+      }
+    },
+    {
+      "name": "any furniture footprint entering reserved exit space is refused",
+      "passed": true,
+      "detail": {
+        "error": "Keep the exit clear",
+        "disabled": true
+      }
+    },
+    {
+      "name": "furniture editor regression has no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader touch browser. Deterministic ordinary movement; engine ray targeting and actual Aim ahead touch button. No physical device claim."
+}

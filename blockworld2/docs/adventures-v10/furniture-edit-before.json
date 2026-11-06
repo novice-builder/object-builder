@@ -1,0 +1,24 @@
+{
+  "hidden": true,
+  "excluded": true,
+  "crossed": false,
+  "stopped": {
+    "x": -1.0709269236345278,
+    "y": 3,
+    "z": -1.6000000000000025,
+    "yaw": 0,
+    "pitch": 0.47,
+    "vy": 0,
+    "grounded": true
+  },
+  "oldBody": {
+    "minX": -2.2481750308274213,
+    "maxX": -1.3518249691725788,
+    "minZ": -2.560625,
+    "maxZ": -0.6393749999999997,
+    "height": 3.693749999999939,
+    "base": 3
+  },
+  "pendingFloor": 3,
+  "ghostFloor": 3
+}

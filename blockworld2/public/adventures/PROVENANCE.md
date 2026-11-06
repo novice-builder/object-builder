@@ -66,3 +66,10 @@ The lodge assembly adds four small generated timber corner posts to close modula
 ## Preview 04 creative catalogue
 
 Four additional transparent 256×192 PNGs render the actual imported table/chair/bookcase/rug geometry through the existing game renderer. They add 21,665 bytes; all 15 prior image bytes and manifest entries are preserved. The manifest now has 19 source-linked entries. Newly placed tents use scale 5.5 (~3.09m shell); existing saved explicit scales remain unchanged. Furniture defaults are checked against actual model dimensions; rugs are decorative walk-through floor objects.
+
+
+## Preview 10 bedroom furnishings
+
+Kenney Furniture Kit single bed and bedside cabinet are copied unchanged from the same CC0 conversion repository, `Hidencod/tge-assets` at `ea2f2aa1ca8da0898330c97df8a5489976b051d0`. Fresh pinned HTTPS reads of both GLBs, the root licence and README matched the research checkout byte for byte. The existing `licences/Kenney-CC0.txt` explicitly includes these conversions and matches the freshly fetched licence. Exact URLs/bytes/SHA-256 are in `sources/furniture-v10-source-verification.json`; geometry counts and scaled dimensions are in `inventory-v10.json`.
+
+The two models add 26,132 uncompressed bytes with no embedded images/textures. The bed is scaled to about 2.08 m long and 1.06 m wide; the cabinet is about 0.51 m high. They support actual new bedrooms and explicit room decoration; old saved furnishings are retained. Existing timber/linen/sage palette adjustments are applied at runtime, preserving the original GLB bytes. No extra generic blocks or materials are introduced. Earlier assets, inventories, thumbnails and archived packages are unchanged.

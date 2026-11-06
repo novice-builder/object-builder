@@ -1,0 +1,97 @@
+{
+  "environment": "Managed Chromium SwiftShader. Identical room dimensions/pose/camera, Gentle. No physical performance claim.",
+  "views": {
+    "preview09": {
+      "cottage": {
+        "stats": {
+          "fps": 3,
+          "frameP95Ms": 866.5,
+          "drawCalls": 97,
+          "triangles": 7547,
+          "geometries": 76,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4307,
+          "objects": 7,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "objects": 7,
+        "beds": 0,
+        "modelCount": 49
+      },
+      "inn": {
+        "stats": {
+          "fps": 3,
+          "frameP95Ms": 866.5,
+          "drawCalls": 85,
+          "triangles": 7323,
+          "geometries": 76,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4307,
+          "objects": 7,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "objects": 7,
+        "beds": 0,
+        "modelCount": 49
+      }
+    },
+    "bedrooms": {
+      "cottage": {
+        "stats": {
+          "fps": 3,
+          "frameP95Ms": 583.2,
+          "drawCalls": 104,
+          "triangles": 7543,
+          "geometries": 85,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 7,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "objects": 7,
+        "beds": 1,
+        "modelCount": 51
+      },
+      "inn": {
+        "stats": {
+          "fps": 3,
+          "frameP95Ms": 583.2,
+          "drawCalls": 99,
+          "triangles": 7503,
+          "geometries": 85,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 8,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "objects": 8,
+        "beds": 2,
+        "modelCount": 51
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "bedroom models add no GPU texture objects in matching room views",
+      "passed": true
+    },
+    {
+      "name": "two small models and code keep sampled startup growth below 50 KB",
+      "passed": true
+    }
+  ],
+  "preview09StartupBytes": 3669027,
+  "bedroomsStartupBytes": 3700849
+}

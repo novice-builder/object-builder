@@ -1,0 +1,1131 @@
+{
+  "deterministicTests": 182,
+  "checks": [
+    {
+      "name": "fresh layout 6 includes the hamlet and eight actual-map destinations",
+      "passed": true,
+      "detail": null,
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "map arrival reaches clear local context in same valley",
+      "passed": true,
+      "detail": null,
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "ordinary movement crosses actual northern bridge without world switch or height jump",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 1281,
+        "maxHeightStep": 0.006910283333154285,
+        "player": {
+          "x": 34.23513210412313,
+          "y": -0.023150516840682582,
+          "z": -52,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      },
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "new countryside route connects bridge to existing meadow and lodge approach",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 6280,
+        "maxHeightStep": 0.003500349890252036,
+        "player": {
+          "x": 118.94240911038854,
+          "y": 0,
+          "z": -10.992793239057402,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      },
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "new route reaches existing functional lodge entirely by walking",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 1920,
+        "maxHeightStep": 0,
+        "player": {
+          "x": 128.00137024970613,
+          "y": 0,
+          "z": -36.06610050279911,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      },
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "smithy lane joins retained foresters settlement by ordinary movement",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 2862,
+        "maxHeightStep": 0,
+        "player": {
+          "x": -22.945979379556462,
+          "y": 0,
+          "z": -37.98563672102101,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      },
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "new main lanes have no tree-trunk or building-footprint intersections",
+      "passed": true,
+      "detail": [],
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "new settlement house reuses independently persistent furnished stair room",
+      "passed": true,
+      "detail": {
+        "id": "building_home_B_blue:4.000:-43.000:1.571",
+        "upper": true,
+        "entry": {
+          "id": "building_home_B_blue:4.000:-43.000:1.571",
+          "name": "Town house",
+          "kind": "townhouse",
+          "x": 8.895280349254609,
+          "z": -43,
+          "yaw": 1.5707963267948966,
+          "width": 6.124497652053833,
+          "depth": 7.690560698509216
+        }
+      },
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "phone map and gameplay overlay fit viewport",
+      "passed": true,
+      "detail": null,
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "new settlement browser pass has no runtime exceptions",
+      "passed": true,
+      "detail": [],
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "village layout 1 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "village layout 1 adds no new riverside settlement",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "woodland layout 2 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "woodland layout 2 adds no new riverside settlement",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 3 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 3 adds no new riverside settlement",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 4 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 4 adds no new riverside settlement",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 5 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 5 adds no new riverside settlement",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "reloading retained layout-5 last save never silently upgrades its scenery",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "fresh-place UI explicitly names new scenery and preserves earlier worlds",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "explicit fresh place creates a separate empty layout-6 record",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "older Preview 09 rejects layout-6 backup without changing current record or creating an import",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "previous riverside site construction reopens unchanged after new town creation",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "compatibility pass has no runtime exceptions",
+      "passed": true,
+      "detail": [],
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "aligned deck exists across the whole actual walking corridor",
+      "passed": true,
+      "evidence": "bridge-surface-aligned.json"
+    },
+    {
+      "name": "walking surface matches actual indexed bridge deck with small foot clearance",
+      "passed": true,
+      "evidence": "bridge-surface-aligned.json"
+    },
+    {
+      "name": "repeated same-view layout 5/6 world replacements plateau uploaded resources",
+      "passed": true,
+      "evidence": "render-cost.json"
+    },
+    {
+      "name": "world expansion adds no external environment model or texture bytes",
+      "passed": true,
+      "evidence": "render-cost.json"
+    },
+    {
+      "name": "cottage has clear compact Enter prompt",
+      "passed": true,
+      "detail": {
+        "entrances": 32,
+        "blockedEntrances": [],
+        "id": "village:building_home_A_blue:-10.000:-10.000:1.571",
+        "prompt": "Enter E",
+        "entry": {
+          "id": "village:building_home_A_blue:-10.000:-10.000:1.571",
+          "name": "Cottage",
+          "kind": "cottage",
+          "x": -110.87685408592225,
+          "z": -10,
+          "yaw": 1.5707963267948966,
+          "width": 5.8,
+          "depth": 6.8
+        }
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "all supported permanent entrances including the new mill have clear approaches",
+      "passed": true,
+      "detail": {
+        "count": 32,
+        "blocked": []
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "cottage normal movement reaches furnished upper room with clear landing",
+      "passed": true,
+      "detail": {
+        "walked": true,
+        "y": 3,
+        "beds": [
+          {
+            "id": "bed",
+            "size": {
+              "x": 1.0563500616548427,
+              "y": 0.6937499999999388,
+              "z": 2.0812500000000003
+            }
+          }
+        ],
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.2,
+            "z": -1.2999999999999998,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.2,
+            "z": -0.1499999999999999,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.3499999999999996,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.3499999999999996,
+            "z": 2.7,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -1.7999999999999998,
+            "z": -1.5999999999999999,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -0.6000000000000001,
+            "z": -2.8,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "stats": {
+          "fps": 1,
+          "frameP95Ms": 799.9,
+          "drawCalls": 117,
+          "triangles": 8339,
+          "geometries": 76,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 7,
+          "quality": "gentle"
+        }
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "cottage appropriate room furnishings are present",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "cottage actual bed model has plausible human scale",
+      "passed": true,
+      "detail": [
+        {
+          "id": "bed",
+          "size": {
+            "x": 1.0563500616548427,
+            "y": 0.6937499999999388,
+            "z": 2.0812500000000003
+          }
+        }
+      ],
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "cottage bed can be moved and confirmed on supported upper floor",
+      "passed": true,
+      "detail": {
+        "problem": null,
+        "bed": {
+          "id": "bed",
+          "asset": "furniture-bedsingle",
+          "x": -1.5499999999999998,
+          "z": -1.5999999999999999,
+          "y": 3,
+          "yaw": 0,
+          "scale": 1.85
+        }
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "cottage necessary bed and cabinet have actual rendered catalogue thumbnails",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "cottage reload preserves its own furnishings and upper-floor position",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "id": true,
+        "y": 3
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "cottage walks downstairs around furniture and returns to exit",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "cottage exit returns to same outside entrance",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "cottage has no missing models, thumbnails or runtime errors",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "missing": []
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "inn has clear compact Enter prompt",
+      "passed": true,
+      "detail": {
+        "entrances": 32,
+        "blockedEntrances": [],
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "prompt": "Enter E",
+        "entry": {
+          "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+          "name": "Village inn",
+          "kind": "inn",
+          "x": -105,
+          "z": -16.087802600860595,
+          "yaw": 0,
+          "width": 10,
+          "depth": 11.72439479827881
+        }
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "inn normal movement reaches furnished upper room with clear landing",
+      "passed": true,
+      "detail": {
+        "walked": true,
+        "y": 3,
+        "beds": [
+          {
+            "id": "bed",
+            "size": {
+              "x": 1.0563500616548431,
+              "y": 0.6937499999999388,
+              "z": 2.0812500000000007
+            }
+          },
+          {
+            "id": "guest-bed",
+            "size": {
+              "x": 1.0563500616548427,
+              "y": 0.6937499999999388,
+              "z": 2.0812500000000007
+            }
+          }
+        ],
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -3.3,
+            "z": -3.762197399139405,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -3.3,
+            "z": -2.612197399139405,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.45,
+            "z": -5.2621973991394055,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.45,
+            "z": 5.162197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -3.9,
+            "z": -4.062197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -2.7,
+            "z": -5.2621973991394055,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "guest-bed",
+            "asset": "furniture-bedsingle",
+            "x": -1.7000000000000002,
+            "z": -4.062197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          }
+        ],
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 866.6,
+          "drawCalls": 100,
+          "triangles": 7505,
+          "geometries": 85,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 8,
+          "quality": "gentle"
+        }
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "inn appropriate room furnishings are present",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "inn actual bed model has plausible human scale",
+      "passed": true,
+      "detail": [
+        {
+          "id": "bed",
+          "size": {
+            "x": 1.0563500616548431,
+            "y": 0.6937499999999388,
+            "z": 2.0812500000000007
+          }
+        },
+        {
+          "id": "guest-bed",
+          "size": {
+            "x": 1.0563500616548427,
+            "y": 0.6937499999999388,
+            "z": 2.0812500000000007
+          }
+        }
+      ],
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "inn bed can be moved and confirmed on supported upper floor",
+      "passed": true,
+      "detail": {
+        "problem": null,
+        "bed": {
+          "id": "bed",
+          "asset": "furniture-bedsingle",
+          "x": -3.65,
+          "z": -4.062197399139405,
+          "y": 3,
+          "yaw": 0,
+          "scale": 1.85
+        }
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "inn necessary bed and cabinet have actual rendered catalogue thumbnails",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "inn reload preserves its own furnishings and upper-floor position",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "id": true,
+        "y": 3
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "inn walks downstairs around furniture and returns to exit",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "inn exit returns to same outside entrance",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "inn has no missing models, thumbnails or runtime errors",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "missing": []
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "mill has clear compact Enter prompt",
+      "passed": true,
+      "detail": {
+        "entrances": 32,
+        "blockedEntrances": [],
+        "id": "building_watermill_blue:24.800:-66.000:3.142",
+        "prompt": "Enter E",
+        "entry": {
+          "id": "building_watermill_blue:24.800:-66.000:3.142",
+          "name": "The millhouse",
+          "kind": "mill",
+          "x": 24.8,
+          "z": -71.06688290387392,
+          "yaw": 3.141592653589793,
+          "width": 6.825000077486038,
+          "depth": 8.03376580774784
+        }
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "mill normal movement reaches furnished upper room with clear landing",
+      "passed": true,
+      "detail": {
+        "walked": true,
+        "y": 3,
+        "beds": [],
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.7125000387430191,
+            "z": -1.9168829038739204,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.7125000387430191,
+            "z": -0.7668829038739204,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.8625000387430193,
+            "z": -3.4168829038739204,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "grain",
+            "asset": "crate_A_small",
+            "x": -2.412500038743019,
+            "z": -3.0168829038739204,
+            "y": 3,
+            "yaw": 0,
+            "scale": 4
+          },
+          {
+            "id": "grain-barrel",
+            "asset": "barrel",
+            "x": -2.412500038743019,
+            "z": 3.0168829038739204,
+            "y": 3,
+            "yaw": 0,
+            "scale": 4
+          },
+          {
+            "id": "mill-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.8625000387430193,
+            "z": 0,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "stats": {
+          "fps": 3,
+          "frameP95Ms": 716.6,
+          "drawCalls": 117,
+          "triangles": 8651,
+          "geometries": 67,
+          "textures": 11,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 7,
+          "quality": "gentle"
+        }
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "mill appropriate room furnishings are present",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "mill reload preserves its own furnishings and upper-floor position",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "id": true,
+        "y": 3
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "mill walks downstairs around furniture and returns to exit",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "mill exit returns to same outside entrance",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "mill has no missing models, thumbnails or runtime errors",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "missing": []
+      },
+      "evidence": "bedrooms.json"
+    },
+    {
+      "name": "Preview 09 furnished upper-floor save imports without replacing decorations or adding a bedroom",
+      "passed": true,
+      "detail": {
+        "objects": "[{\"id\":\"table\",\"asset\":\"furniture-table\",\"x\":-1.2,\"z\":-1.2999999999999998,\"y\":0,\"yaw\":0,\"scale\":2.5},{\"id\":\"seat\",\"asset\":\"furniture-chair\",\"x\":-1.2,\"z\":-0.1499999999999999,\"y\":0,\"yaw\":3.141592653589793,\"scale\":2.2},{\"id\":\"shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.3499999999999996,\"z\":-2.8,\"y\":0,\"yaw\":0,\"scale\":2.2},{\"id\":\"rug\",\"asset\":\"furniture-rugrectangle\",\"x\":-1,\"z\":0,\"y\":0,\"yaw\":0,\"scale\":2},{\"id\":\"upstairs-shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.3499999999999996,\"z\":-2.7,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"keep-old-upstairs-desk\",\"asset\":\"furniture-table\",\"x\":-1.0499999999999998,\"z\":1.75,\"y\":3,\"yaw\":0.3,\"scale\":2.5},{\"id\":\"upstairs-seat\",\"asset\":\"furniture-chair\",\"x\":-1.2999999999999998,\"z\":0.6000000000000001,\"y\":3,\"yaw\":0,\"scale\":2.2}]",
+        "inside": "village:building_home_A_blue:-10.000:-10.000:1.571",
+        "y": 3,
+        "layout": 5,
+        "beds": 0
+      },
+      "evidence": "bedroom-compat.json"
+    },
+    {
+      "name": "revisiting the retained house still uses its saved template and edits",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedroom-compat.json"
+    },
+    {
+      "name": "fresh current house gets a bedroom in an independent world copy",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedroom-compat.json"
+    },
+    {
+      "name": "older Preview 09 refuses new furniture/layout backup without changing source or creating partial import",
+      "passed": true,
+      "detail": null,
+      "evidence": "bedroom-compat.json"
+    },
+    {
+      "name": "move mode removes hidden source furniture from actual room walking collision",
+      "passed": true,
+      "detail": {
+        "reached": true,
+        "crossed": true,
+        "excluded": true,
+        "hidden": true,
+        "player": {
+          "x": -1.7539573969728202,
+          "y": 3,
+          "z": -1.600796327935237,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        }
+      },
+      "evidence": "furniture-edit-after.json"
+    },
+    {
+      "name": "cancel while occupying original footprint restores bed and clear same-floor footing without an invalid elevated save",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "y": 3,
+        "restored": true,
+        "visible": true,
+        "saved": true
+      },
+      "evidence": "furniture-edit-after.json"
+    },
+    {
+      "name": "pinned preview retains its original upper floor while player walks downstairs",
+      "passed": true,
+      "detail": {
+        "pinned": true,
+        "walked": true,
+        "y": 0,
+        "pendingFloor": 3,
+        "ghostFloor": 3,
+        "originalUnchanged": true
+      },
+      "evidence": "furniture-edit-after.json"
+    },
+    {
+      "name": "actual Aim ahead action follows the player onto the lower floor",
+      "passed": true,
+      "detail": null,
+      "evidence": "furniture-edit-after.json"
+    },
+    {
+      "name": "confirmed floor transfer keeps the same object identity and exterior constructions",
+      "passed": true,
+      "detail": {
+        "problem": null,
+        "bed": {
+          "id": "bed",
+          "asset": "furniture-bedsingle",
+          "x": -1.75,
+          "z": 2,
+          "y": 0,
+          "yaw": 0,
+          "scale": 1.85
+        },
+        "outside": []
+      },
+      "evidence": "furniture-edit-after.json"
+    },
+    {
+      "name": "floor transfer undo, redo and reload preserve room scope and elevation",
+      "passed": true,
+      "detail": {
+        "upper": true,
+        "lower": true,
+        "reloaded": true
+      },
+      "evidence": "furniture-edit-after.json"
+    },
+    {
+      "name": "any furniture footprint entering reserved exit space is refused",
+      "passed": true,
+      "detail": {
+        "error": "Keep the exit clear",
+        "disabled": true
+      },
+      "evidence": "furniture-edit-after.json"
+    },
+    {
+      "name": "furniture editor regression has no runtime exceptions",
+      "passed": true,
+      "detail": [],
+      "evidence": "furniture-edit-after.json"
+    },
+    {
+      "name": "bedroom models add no GPU texture objects in matching room views",
+      "passed": true,
+      "evidence": "bedroom-cost.json"
+    },
+    {
+      "name": "two small models and code keep sampled startup growth below 50 KB",
+      "passed": true,
+      "evidence": "bedroom-cost.json"
+    }
+  ],
+  "protectedFiles": 640,
+  "verifiedRemoteCheckpoint": "accdf371bc8d768798fc02965c7cfe5a125ccfa3",
+  "physicalDevicesVerified": false,
+  "newAssets": 2,
+  "galleryImages": 10,
+  "runtimeSourceHashes": {
+    "src/adventures/interior.ts": "025e7dd40af27bbc945bc5d77d34c7bd7879ef81142e5e2a94f570be1d690209",
+    "src/adventures/controls.ts": "4682d1497ad7e8bab14fa5d2d72ba3e656c82abd9b5fe459fcf532131f65a9eb",
+    "src/adventures/ground-target.ts": "8e4be2a28125820137cea0524eff97d97db26665402ff3eb194f25bc728edf45",
+    "src/adventures/tree-canopy.ts": "c22b21e5ad529a10e5599c5f3cc059a54a46e70e725a28a7920d17656fed0546",
+    "src/adventures/lodge.ts": "4366c08de1b96d6d227d2951630fd8e6104258e7b7ffd9c810edcd72983d787e",
+    "src/adventures/placement-ground.ts": "b32d174874465a009deb0cf57935864a9fbeb204a0d8480a49c2432ebebdc540",
+    "src/adventures/trail-geometry.ts": "611003221702cbcf0b106ca4a0606d5dc0728bfadc69edb8d32e1c0e1013b59d",
+    "src/adventures/landscape.ts": "9479d408eab3272ed4dc3137586ff9de12bded068c530359f9f7b8449a1c077a",
+    "src/adventures/crossings.ts": "abccd69d9bfe65ef4653998aff7513d8388ce06886a9938e2a9e925b399e4125",
+    "src/adventures/version.ts": "d87560629232bd5db439251a0c5c3a9c74c58f9fc49bf9d7428f7b7883f02fd5",
+    "src/adventures/connected-landscape.ts": "dd8a1d0894af7c02f3cc46d5b58f72b26fb15f6585bc2c989aac69edac097640",
+    "src/adventures/alderwick-data.ts": "e5781533ecb3012030ff808c956f4dd272051fdfe006166810f5f2a387cc78f1",
+    "src/adventures/bridge-fit.ts": "0ed38021133b024d8eebbbaf150a3799aee7cb92919a71ebefcfb8b38b0702e4",
+    "src/adventures/gamepad.ts": "3c50ce5d65e8dfe2396a76e5bcc7167ccb1e387cc977caf361517e33dc1e8cc4",
+    "src/adventures/interior-physics.ts": "2fb8b818a89034b1cac102a952734b0b11f1fb0d6fe72602e25b2e57ab322215",
+    "src/adventures/catalogue.ts": "02709314a0bd1ff660531dee5883594df5ba2dc6d3dc4e4cf8c7eebe67d302ae",
+    "src/adventures/building-entry.ts": "68518897420922a66e009ce29e5c2cded1ccb3c2048c86a114ce12f7a2b5b939",
+    "src/adventures/assets.ts": "ade1f261090bc4a3a16ea6eaaed039a931742e200e853af6e4ca0cd94212e2e0",
+    "src/adventures/map-targets.ts": "05a44a3e140b46423ef4c5ed2ef83a3237b087956d996c8bba3e23ea02ae6cef",
+    "src/adventures/main.ts": "be4e0aee423054a70e2587e12b23268279ea9772915eb9887a48fd0d7e0467cf",
+    "src/adventures/style.css": "720498a3a57c1ff1d06f53ef14d2ca571eaa3a96a511ecc87a2e9547ebe9091e",
+    "src/adventures/instance-culling.ts": "0b2f19bf0b90ef8bed9245e91c2739410beebaf709ae452112f88fcd74fe1dd3",
+    "src/adventures/collision-cache.ts": "43fffb2515822565db9cacea42f26b191ade88d240520dafebf756685b5fb523",
+    "src/adventures/camera-collision.ts": "c9fac1d7b028886075a49c43422830194cbec68a37527ff8ffa99553776f000b",
+    "src/adventures/ids.ts": "da1780eb5b52c22297206cc436b3dcbf08bc19c29cccbd9e6b73e6ab9d15d006",
+    "src/adventures/vale-data.ts": "978d1f443d986761ff1ccd41f1f2fb14a90699674965dcbbb3a1a570487b9fdd",
+    "src/adventures/preferences.ts": "f24be35ea5762fdb091551d478033606750dff8d623e6c3af9cc10de489933a1",
+    "src/adventures/world-map.ts": "3259a345e463a235d1c32f5766c8e34e6589ec4813319bb8949a971fcd8d0a83",
+    "src/adventures/safe-position.ts": "454c2b211c429ac0c25cabdf3a04da99b84444aa8092b913a368f7fbfad3aa7a",
+    "src/adventures/save.ts": "748a36a8b6dff6a6e0cc1c054d227aa2314911cf7addd51c6bb458535a6b89e4",
+    "src/adventures/map-data.ts": "a231c464aaa9a1c168d6690d0b737aa96fc06a727993c6150772bba4c0046916",
+    "src/adventures/nature-batch.ts": "131aa982755b72e761297c4cb2e2669503796b4bb5b0f8b34f2a162ddd153c80",
+    "src/adventures/reedbank-data.ts": "0555c7ba93be7597a0cbef743fe2e46b6b782f853608179e7d4f4d9dd695932c"
+  },
+  "runtimeBuildHashes": {
+    "icon-512.png": "8b73b545516c83635d913131f35878bfe6592d10b0b54ba33b7aeec377dd74df",
+    "icon.svg": "85e16f8f488b6c1f5046e889efe2c70136349b173e038da530a636362bc2c17d",
+    "adventures.html": "125bb4d44d43f52759e4cda1cdcbfb3bf51fd94129e1ff620b8c4fdabf23e753",
+    "ASSET-CREDITS.txt": "1f40b5775ad47c17483ad9a23c456013329a1e9584bf1d20dc2d9e334b175c20",
+    "icon-192.png": "66151812c5898a88dc29d363ab95ec724ab2dccbc113f2433285bf28c2025efa",
+    "manifest.webmanifest": "bc2929e6979780ebaa629787d0ec3523f788aaa3d9ef47ae1a5965c7e93e8921",
+    "icon-180.png": "40db8916a0ba402401d02c7178f3663e6770971a50e92783534fec8a835a897b",
+    "licenses/vite-LICENSE.md": "c6bfec08b0e78a198c5ec0c579e699d2843fd1bf81243f648620731d03f43593",
+    "licenses/three-MIT.txt": "852e0e8699169bf9f6fdc6bda3e682d078dcbc738b5d33e74df594721bff271d",
+    "adventures/inventory.json": "1f3be20e429618e7cc10e3ff7c8a2f6d39a41a17d00e8dd125a6349750a796c8",
+    "adventures/inventory-v4.json": "51151377f736f56accd768f17c3aa0fc69c701f74a8f0d299932a35084615c08",
+    "adventures/inventory-v10.json": "975cc02decad996e9966c800c33bbf8367dfcf2c7d580ed9151f66bb4f2f8e86",
+    "adventures/PROVENANCE.md": "e3d86edcdcc92c55cf4a008417b1ac2682e9b6ddc946b279358ff18c25c9522b",
+    "assets/adventures-fZ_DCkMQ.js": "811fe188ea2fe6e145c7d2c7ff0423b50d048ae8d177e417a362db2068b9ab0f",
+    "assets/adventures-DjVj_M8w.css": "8dadeba788a293b4394b0b9f3134587432f7550159d5e7d1e21acbdf1b078fa9",
+    "adventures/character/Explorer.glb": "1b5052d743093f457513feae06164d6707adddd170c7023b8d9e87ce1dd8e522",
+    "adventures/furniture/bedsingle.glb": "ca00c63f9a12da3138d902b2f5f18e0360fb6e8a5ac42ccb4bc3f185724b65d1",
+    "adventures/furniture/bookcaseopen.glb": "750702218d68c062b15dfef6ab06a4014d1cfa8bd05f02e57c53b7e13bec157c",
+    "adventures/furniture/rugrectangle.glb": "a989d2d59c04e3071e0c90388b113a9a8f339ce1814ef984c51cb6dcd7c8e0eb",
+    "adventures/furniture/cabinetbed.glb": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d",
+    "adventures/furniture/books.glb": "b8dc56e5d29f6fc1f4727fccb1b9642627fee9942c48060a00034e98df02701c",
+    "adventures/furniture/chair.glb": "c8a11eec93e89e31250ba91afc1b8d56c3bec7ae86640fd1239f595ff4180883",
+    "adventures/furniture/table.glb": "ff1a94498d023957f4bc3ff6f55a7a82977d336dbf01a573b3364f03afe5ff61",
+    "adventures/licences/KayKit-Adventurers-CC0.txt": "ae322141814056dda0deea7540d74c41d87aee1da319977cd1bd84ee5a923629",
+    "adventures/licences/Kenney-CC0.txt": "6913dd72bdc20532b7f02d86469058f45d886c9dabf60831275ed16927aa523b",
+    "adventures/licences/Quaternius-Medieval-CC0.txt": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+    "adventures/licences/KayKit-Medieval-CC0.txt": "881e50d3629fba90629bedc65e9e6f47cfab3609598c296dcb7f70ea83174360",
+    "adventures/sources/prepare_assets.py": "e28f6046979c2c95bce003723099632019d031269bb442ffb9f4c675365aef97",
+    "adventures/sources/modular-source-verification.json": "e5a69679ed6570a31ca1fb0f585c2bf595067c1276f48a5e2753f299e0c59459",
+    "adventures/sources/furniture-v10-source-verification.json": "6d428038d6faedfd1d4aabeb7c43d3d8cb454a9cc2b51f7a22b78b28b1bd148d",
+    "adventures/sources/prepare_modular.py": "a8ebbf3b240c6ef863c31bfdaf5981b7f7ec479cab76a4705c01d6b97c112055",
+    "adventures/sources/furniture-source-verification.json": "a9e13cf0db26ea2d74f70f079b18cc3df79bde597a3a314e8437192995c84f86",
+    "adventures/modular/Wall_Plaster_Door_Flat.glb": "2b2f979f177daa8b531c3935d653d9e93e295b28eaff1caf791ffc68e7fa7ace",
+    "adventures/modular/Floor_WoodDark.glb": "a19c9c690f8ad9153a5648074208ace4cc70b9b9663f9ab05280ee2d56b188c5",
+    "adventures/modular/Wall_Plaster_Straight.glb": "056154335b2e3a1c2bbb9973209cad173b57788976da6511403e6cef0968eb86",
+    "adventures/modular/Roof_Front_Brick4.glb": "bfb34562c7aeefcf30a6bdb338f4743227ec2cd2b93da90c5d6cbfd6fff67de1",
+    "adventures/modular/Door_4_Flat.glb": "5c175d765d53f9fc961ba92a4f956b84bcef89f3a9590b28cb44d8d6280570bf",
+    "adventures/modular/Roof_RoundTiles_4x6.glb": "c304a617e2f79d086f6afa26d8b666ba4f301ab989877f849424e158ef6ee67d",
+    "adventures/thumbnails/tent-smallopen.png": "e5ba49c7318d3f0012cd4249c8720a52d45aff9d1000af3367b1b0bb769d8d12",
+    "adventures/thumbnails/tree-oak.png": "d2defbd7a9370b4f7fb227341bcdec9361035eece6b06bc0d45a94ed676e85c6",
+    "adventures/thumbnails/tree-pinedefaulta.png": "621d0af7ef5dbd7222803d567671efb69fa2f90f664affd2d9021a6a72996c3a",
+    "adventures/thumbnails/building_home_A_green.png": "f498318f4043aafdb4f609a9af8b790f7075bab79ef2e9cb44582ed4cb64eaee",
+    "adventures/thumbnails/wheelbarrow.png": "f162764702addf8d55e1ae1f21bad6739ca15fd8a5a33416250654127c548547",
+    "adventures/thumbnails/furniture-bedsingle.png": "412ebf759571e8c24260c81ff150556049f4324b63c6e2a93a83926c787c8f2e",
+    "adventures/thumbnails/building_home_B_blue.png": "4ddbef220c466fc06453bf96eb21403613126f4ba49c53e5fb5bbefa55d10029",
+    "adventures/thumbnails/barrel.png": "0b718049c845a987b727f7b1bf75f34764b59abc37f65bdd70367735872e247d",
+    "adventures/thumbnails/plant-bush.png": "f743be30c37e5159a2b8135d33e733020ca860ac9b5c95685036c147c8313272",
+    "adventures/thumbnails/furniture-chair.png": "25fa9cb457426012ae33212b45dc7d960aaec60fb2c22fbe585cbb6a11406776",
+    "adventures/thumbnails/rock-largea.png": "b0747087fd79f7bc52d49b99896eb0ab4b42ea6218470c5ba6553aa8c5208d7b",
+    "adventures/thumbnails/furniture-bookcaseopen.png": "81c22df08d539fb694696206378a344ec824c5e04cedc59ac40b1b76fb65cfce",
+    "adventures/thumbnails/crate_A_small.png": "4d6ad6dd8cc482f30429c54a7e47d1b1afd7a50dfee05a73fda6502a67f94d88",
+    "adventures/thumbnails/flower-reda.png": "fad8e5ea468fec75b8bb53dd13a5d131379da3a960e93710c6832639c35e8128",
+    "adventures/thumbnails/building_home_A_blue.png": "5b6dd6999a8d1c85dab2d04da6f5b9d337189e98e0653f93fabff3f3e48816e0",
+    "adventures/thumbnails/manifest-v10.json": "83f5ad27c53b49a857a12f18633d7f8f5d262089c427de79b14d2107cb2cbb23",
+    "adventures/thumbnails/furniture-cabinetbed.png": "c374f1325f81e130f89cf9f472a541a1f7c8e39738f57df18ae295aee0191ff2",
+    "adventures/thumbnails/furniture-table.png": "649d20e1e2d6a3a58e5cdaecfed57e003184fefddbef008f601f7244029c9adc",
+    "adventures/thumbnails/flower-yellowa.png": "110033e5f864eef7f555a5d1a9291792eb79bd266b1f48a461121f3eb89183ce",
+    "adventures/thumbnails/manifest.json": "46ab629b6b1008b405e7b835706a5cf4c47fed757922334c54a2ac0420176049",
+    "adventures/thumbnails/furniture-rugrectangle.png": "c10b71c63dacf181e422fe656e6f2c8ff8c334be95fd30cda5fd31ab92bfcde7",
+    "adventures/thumbnails/flower-purplea.png": "96e5d28270cf52c57f4248fa8f966e0b1e67c677c8f8d894e241d072a2759d22",
+    "adventures/thumbnails/log.png": "1fe1141efae571b5d9a6603f86386dd499c50ab8653f36f42d3f1914ff689bfe",
+    "adventures/nature/flower-reda.glb": "171930b7789ddbf735af3745576b5393750beb9133b9ff4a444bb6bb2986c020",
+    "adventures/nature/tree-pinedefaulta.glb": "60d8f352fa3659ed275e06cbddfecf8f92c8effe2977c2f2d7b29b6c9b582e46",
+    "adventures/nature/campfire-stones.glb": "54869db23243a3f4905bc00bd4cd93b1037b28556ab3ef93e7a893a093791e35",
+    "adventures/nature/tree-oak.glb": "d7fd8773674928c50c11b66d12c636d49bdcc15a8b1c7fbb98e6f63a3439a3f3",
+    "adventures/nature/grass-large.glb": "af49a595624abca7249824eeefb944d4baf974abeeb5b16110d175da3563d6cd",
+    "adventures/nature/rock-largea.glb": "6dd15390fd96501dcd1454765a17ba61dbbd8d47705dfe5149c8dd92b353ce25",
+    "adventures/nature/plant-bushsmall.glb": "a9620a7d1fb165ae68d323676f80dbb2a9e3aafb21110d18d18d90b07026b91d",
+    "adventures/nature/stump-round.glb": "e9b0f385f0ef98493ef716a055aa51e0b99efb8445279be7bb8bd83329a4c4af",
+    "adventures/nature/tree-pinedefaultb.glb": "a752ea5775c6fb17513f764d57ead534f44dfdd85188b842995ac9ba0e7065c1",
+    "adventures/nature/rock-smalla.glb": "df9fff9d711e61370e8df0caa2514c89b8f8a8dc6c6fafaf4eb2ec79c5ae07c1",
+    "adventures/nature/flower-yellowa.glb": "8a3b08cd2ca411c21f9c581d5bda651d78b13c50cba45ad8fa0389398ead6d1d",
+    "adventures/nature/tent-smallopen.glb": "d32c3f7a5926de03521a012774316d38e09c27bd6dbae7cefdb01debe003ecdd",
+    "adventures/nature/rock-largeb.glb": "caa8b025833d4dabf6d98fe2e96cf2fbd886693ac990df0db75f9d827194374b",
+    "adventures/nature/lily-small.glb": "38184c9eeb560acabd4d7f1d16852422df056edf0b318c97854c250e048cad3c",
+    "adventures/nature/sign.glb": "c658c21672ecd63c5d3e53f06f875d68e6509edb1ab7e3b75374df7c61e7dd0c",
+    "adventures/nature/plant-bush.glb": "ae7b1beb39e242b13f5f29e3ec23ef21034b814f82297b8aa00a9bf4e1b09590",
+    "adventures/nature/tree-fat.glb": "84b262c5dda3a91ac6c95f9d8b23a0ebbb1951d678c0e1375d3e32623cc43ee2",
+    "adventures/nature/fence-planks.glb": "2db68f60d24443dbeab05dedd92fcc665d0e21bd261c6a668ea9022a732a06a9",
+    "adventures/nature/tree-detailed.glb": "c041daf2f0fb1d49e4325227cbcd58667adbe51e9b55e8c1f0a94b74cc521b3b",
+    "adventures/nature/stone-talla.glb": "3070bd574104abce19f5e3c82c917cb7f52801720377beba7aad76058408d5db",
+    "adventures/nature/log.glb": "8c8fe8f6adfc03a3c0cd6cb24961ff74be96c2da284d70322f05797d049972d6",
+    "adventures/nature/mushroom-red.glb": "843e2de43dce78920a5675a67bac4b72f500e6220315e713fe08381642cfc571",
+    "adventures/nature/grass.glb": "260e41d3e5f2472492ed7b475c5b92a30b13ce2bad408535b5ff50574d4575e7",
+    "adventures/nature/flower-purplea.glb": "f6fc34c96a03420a74fe36d4c2d0ec88f15204fcad99cd1416c3c4ecb22e48c4",
+    "adventures/village/building_tavern_green.glb": "b3fc0252e9908fe64647a855531b8fb9fce3bd8f81d0bb66247c92dc880d464c",
+    "adventures/village/building_bridge_A.glb": "5d7c38974113725bc84b83ddab1cf80b2037d37e0f81712ba42d774c5de44c7c",
+    "adventures/village/waterplant_A.glb": "6464734656609d5d6ea3644ebfcff283aa0a6e22f70b781f58c035b1d07ecd28",
+    "adventures/village/building_home_B_blue.glb": "3bc83821d2220d5054166a09e34f6cf07cc62bc9db071b0a635c5ccd76f844ce",
+    "adventures/village/building_well_blue.glb": "5a665d0ab641f545a57e02dd22f241daf415c7185c03555cab528f2b970211d2",
+    "adventures/village/building_market_blue.glb": "9a26e2f88c5536da5c16993878bb1467196a4c3f5de29eabd36132cf9111a9b7",
+    "adventures/village/building_watermill_blue.glb": "f47d5e8d659e8335f4deb7f8d288a4682426f8c012a4c8b0b260d0170471a86a",
+    "adventures/village/building_windmill_blue.glb": "dcf053564b3e4b2d6e91224b675b7215a9955db440763901cd51f3951762b2a7",
+    "adventures/village/building_home_A_blue.glb": "aadc8fd5fcbeb24475c65b38a8e638f7f827e5d177282a0a14ebdfba39aa61cd",
+    "adventures/village/hill_single_A.glb": "26a51f22ac55c9c8249a2f8f85fe7e9c285103b311b563c7c0081f0c811f03a3",
+    "adventures/village/tree_single_B.glb": "323a245de3212c221b12e4a92a7137bab55394b61aa8d65abda2f1cafae40756",
+    "adventures/village/fence_stone_straight_gate.glb": "93bc037585d05b1d4c64695d33a938d47949646824b3e23d1ce20185346ffbc2",
+    "adventures/village/building_windmill_green.glb": "6ad3769de4110a77d55dfa0511ac859a4875bde639c810e7420803b4b9f4cabb",
+    "adventures/village/building_church_green.glb": "277316dd68f17fede3394efe101c68cc436cbf14789c8d81de38255f93e2f9bc",
+    "adventures/village/building_lumbermill_blue.glb": "d2821e095778c35bdd47ae168024fbc0577683c38efa85227e3b5c7af7cf346e",
+    "adventures/village/cloud_small.glb": "a2c02bd0b8c87f0f2e6402a4684b2ebca7bad85348098e016ef37a5bd0882c29",
+    "adventures/village/building_blacksmith_green.glb": "29acb844d644f6e35ddeea1bde811d3871d5ecb43841c680232197fd5296b7e9",
+    "adventures/village/building_bridge_B.glb": "c81e57e4ffd0a23e106ce5538d9f4e80a7159a443fbe1965bd44da876fa31b50",
+    "adventures/village/building_tavern_blue.glb": "754d849865cc2e745e37b7f5b81f7ecc04ff8bb8ed3dd2b90c7abc02f6a5495b",
+    "adventures/village/cloud_big.glb": "71b34cbd5a8ef2fea8fc752770de6bebd66df3f24d186870e78ce3e66fe389e0",
+    "adventures/village/rock_single_A.glb": "26aee5e322ce8de7724acc19fd83670a971e78a3ae96c500121b3c65ae10b25a",
+    "adventures/village/building_market_green.glb": "5ee3ae38fd5d98c6ce9af4c74b7666e9a620cefe0e471e7082c37c30e83640ad",
+    "adventures/village/hills_A.glb": "3418a42e197e64e7196e26c3f1edd4dfde3f413d8e435e0d149308a83f9f9337",
+    "adventures/village/building_home_A_green.glb": "c512ae3dc0093cfce036faf6f5e1ca4d3e0a5c28dffec49cf859f49f680b2a24",
+    "adventures/village/barrel.glb": "a5eb9b84ea541f7480e38b2f8e2475437897aaa7b2ce70d44690040186dafa11",
+    "adventures/village/building_tower_A_green.glb": "e1b7f5482ecdd9fb71403a3e58ceccc0994230e2c6680b22721e57554b0ab805",
+    "adventures/village/rock_single_B.glb": "c6831818b3a40b9ab5c69e619dd78d7cf6b8edfde2e66785a02080d4d8749846",
+    "adventures/village/tent.glb": "8f198be54c820bfbb2e58fdb89a73a48d9223eae75bf1b8ef9e8a336af2643d2",
+    "adventures/village/building_home_B_green.glb": "ae29b4149ed7937dc3c0709dc091a72fe19348db234da85d76fc0a65dcb6f609",
+    "adventures/village/mountain_A_grass.glb": "e663fb2e9223c82047a9dbfd773c6d4000a43a5c8b88a43d097360f4b2178d7f",
+    "adventures/village/building_blacksmith_blue.glb": "8af187e0eca988b4d8f7a666533cdba8866760025a9e792e32c9dcde074ab099",
+    "adventures/village/waterlily_A.glb": "c4eb573abf077ff1053584800cd3eb4ad42a2fe6baffb2f5b5fd7a1a7e9952b8",
+    "adventures/village/sack.glb": "97a251c930d56f6229aa413b4c86535f5bd30d5dc1d5bc4599e14ccc8092f0ad",
+    "adventures/village/building_well_green.glb": "ad7144640171cfb440aab1830ff48a0984f37500800953e6c0091cbd50676de8",
+    "adventures/village/building_tower_A_blue.glb": "cd8b58a41b7e6055e0de02ceac512a57b52042a99cb46a01c3a08634901b30f3",
+    "adventures/village/crate_open.glb": "00b10628fc9ca04764f90ea8e0a45957c628134aede28ee091858809a6e62945",
+    "adventures/village/fence_stone_straight.glb": "9c369058e423e2addfa379793de6e45d3031a34f581621fb56032bbcc0cdc521",
+    "adventures/village/building_watermill_green.glb": "0bc465cf64da79928049207b1f9b0ef9f65e019549bda69dad00408ba2c34505",
+    "adventures/village/crate_A_small.glb": "66c8f6430dfdbd7bb4090ab3fce442b0c9550c86eef278dc34d148ca7ec980aa",
+    "adventures/village/wheelbarrow.glb": "415e45d4d1206ffa971917186e9ec1e1be5b1c0ac068f74d315a25ad06f58b99",
+    "adventures/village/fence_wood_straight_gate.glb": "186c0429bae948bb9f0083a5f1a162dafbf25606ba3bc9cf2dd5e5713a2993a3",
+    "adventures/village/building_lumbermill_green.glb": "35f16ef407048a1875bbf68b198a1a0641c57be52e9a43282452516cc7373f58",
+    "adventures/village/building_church_blue.glb": "328547e858578a7e34a87ac9c3aea8e66468240f431ca7c32890187ebdd7f142",
+    "adventures/village/flag_green.glb": "d80718fab315402b98d12f09845a743acd987a71b544459d1996aa39eef36f67",
+    "adventures/village/fence_wood_straight.glb": "ea0e7104d71df45638b233358b04407c59d3b5ee9bf23725bc8459f09da29973",
+    "adventures/village/tree_single_A.glb": "2befae74f3a41b99b4b1851e63fbf0a6e6712c9fc150c414583716751e875dfd"
+  }
+}

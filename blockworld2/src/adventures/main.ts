@@ -128,6 +128,7 @@ class AdventureGame {
   private transitionToken = 0;
   private entryNear: BuildingEntry | null = null;
   private roomSolids: RoomSolid[] = [];
+  private roomBodySource?: readonly Obstacle[];
   private get objects(): Placement[] {
     return this.data.inside
       ? this.data.rooms![this.data.inside.id].objects
@@ -437,7 +438,7 @@ class AdventureGame {
     this.cameraYaw = snapshot.player.yaw;
     this.cameraPitch = T.MathUtils.clamp(snapshot.player.pitch, 0.18, 1.1);
     this.velocity.set(0, 0);
-    this.cancelEdit();
+    this.cancelEdit(false);
     this.history = [];
     this.redoHistory = [];
     if (data.inside) {
@@ -727,7 +728,7 @@ class AdventureGame {
       box.max.z > d - 0.22
     )
       return "Keep furniture inside the room";
-    if (box.min.z > d - 2.1 && box.min.x < 0.9 && box.max.x > -0.9 && y === 0)
+    if (box.max.z > d - 2.1 && box.min.x < 0.9 && box.max.x > -0.9 && y === 0)
       return "Keep the exit clear";
     const overlap = (a: {
       minX: number;
@@ -904,8 +905,18 @@ class AdventureGame {
       this.interior?.obstacles || this.landscape?.obstacles || [],
       built,
     );
-    if (this.interior)
-      this.roomSolids = [...this.interior.solids, ...built.map(obstacleSolid)];
+    this.roomBodySource = undefined;
+    this.refreshRoomPhysics();
+  }
+  private refreshRoomPhysics() {
+    if (!this.interior) return;
+    const bodies = this.obstacles();
+    if (this.roomBodySource === bodies) return;
+    this.roomBodySource = bodies;
+    this.roomSolids = [
+      ...this.interior.solids,
+      ...bodies.filter((b) => b.name !== "room-wall").map(obstacleSolid),
+    ];
   }
   obstacles() {
     return this.collisionCache.view(this.moving);
@@ -962,6 +973,7 @@ class AdventureGame {
       this.rebuildObstacles();
       this.sun.shadow.needsUpdate = true;
     }
+    this.refreshRoomPhysics();
     const previousX = this.player.x,
       previousZ = this.player.z;
     const obs = this.obstacles(),
@@ -1603,7 +1615,7 @@ class AdventureGame {
   private menu() {
     if (this.transitioning) return;
     this.openModal(
-      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick walks; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Run. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview ${PREVIEW_VERSION}. Cottages, town houses, inns and workshops have separate furnished rooms. Houses and inns have walkable stairs. First entry keeps the original world and starts an interior copy; room backups need Preview 09 or later. The Meadow Lodge keeps its opening door. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
+      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick walks; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Run. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview ${PREVIEW_VERSION}. Cottages, town houses, inns, workshops and millhouses have separate furnished rooms. Houses, inns and millhouses have walkable stairs. First entry keeps the original world and starts an interior copy; new bedrooms and Reedbank backups need Preview 10 or later. The Meadow Lodge keeps its opening door. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
     );
     $("resume").onclick = () => this.closeModal();
     $("home").onclick = () => {
@@ -1773,6 +1785,8 @@ class AdventureGame {
           ...(this.interior ? { y: this.player.y > 1.5 ? 3 : 0 } : {}),
         };
     this.moving = existing?.id || null;
+    this.refreshRoomPhysics();
+    this.sun.shadow.needsUpdate = true;
     if (existing) this.userRoots.get(existing.id)!.visible = false;
     this.ghost = this.library.create(asset, this.pending.scale);
     this.ghost.traverse((o) => {
@@ -1803,6 +1817,12 @@ class AdventureGame {
   }
   private updateGhost() {
     if (!this.pending || !this.ghost) return;
+    // Aim-ahead previews follow the current floor once the player reaches a landing.
+    // Pinned previews retain their exact floor until Aim ahead is chosen again.
+    if (this.interior && !this.placementAnchor) {
+      if (this.player.y < 0.1) this.pending.y = 0;
+      else if (this.player.y > 2.9) this.pending.y = 3;
+    }
     const box = this.library.bounds.get(this.pending.asset)!,
       radius =
         (Math.hypot(box.max.x - box.min.x, box.max.z - box.min.z) *
@@ -1916,12 +1936,13 @@ class AdventureGame {
     if (this.moving)
       this.objects = this.objects.filter((p) => p.id !== this.moving);
     this.objects.push({ ...this.pending });
-    this.cancelEdit();
+    this.cancelEdit(false);
     this.renderObjects();
     this.dirty = true;
     this.toast("Placed. Tap your object to edit it.");
   }
-  private cancelEdit() {
+  private cancelEdit(recoverOriginal = true) {
+    const restoring = !!this.moving && recoverOriginal;
     if (this.ghost) {
       this.ghost.removeFromParent();
       this.ghost.traverse((o) => {
@@ -1940,6 +1961,30 @@ class AdventureGame {
     $("editMove").setAttribute("aria-label", "Move selected object");
     $("editMove").querySelector("span")!.textContent = "Move";
     this.moving = null;
+    this.refreshRoomPhysics();
+    this.sun.shadow.needsUpdate = true;
+    if (restoring && this.landscape) {
+      const before = { ...this.player };
+      this.safeSpawn();
+      if (
+        before.x !== this.player.x ||
+        before.y !== this.player.y ||
+        before.z !== this.player.z
+      ) {
+        this.velocity.set(0, 0);
+        this.actor?.position.set(this.player.x, this.player.y, this.player.z);
+        this.contactShadow.position.set(
+          this.player.x,
+          this.player.y + 0.025,
+          this.player.z,
+        );
+        this.cameraPosition.set(0, 0, 0);
+        this.cameraUpdate(1 / 60);
+        this.worldMap.update(this.mapPose(), performance.now(), true);
+        this.renderScene();
+        this.dirty = true;
+      }
+    }
     this.selection = null;
     this.selectionOutline.visible = false;
     document.body.classList.remove("editing");
@@ -2075,7 +2120,7 @@ class AdventureGame {
     }
     this.redoHistory.push(structuredClone(this.objects));
     this.objects = previous;
-    this.cancelEdit();
+    this.cancelEdit(false);
     this.renderObjects();
     this.safeSpawn();
     this.dirty = true;
@@ -2089,7 +2134,7 @@ class AdventureGame {
     }
     this.history.push(structuredClone(this.objects));
     this.objects = next;
-    this.cancelEdit();
+    this.cancelEdit(false);
     this.renderObjects();
     this.safeSpawn();
     this.dirty = true;

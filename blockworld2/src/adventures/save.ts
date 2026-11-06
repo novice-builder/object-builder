@@ -106,7 +106,7 @@ function validateRooms(a: AdventureData, s: Snapshot) {
       ["__proto__", "constructor", "prototype"].includes(id) ||
       !e ||
       e.id !== id ||
-      !["cottage", "townhouse", "inn", "workshop"].includes(e.kind) ||
+      !["cottage", "townhouse", "inn", "workshop", "mill"].includes(e.kind) ||
       typeof e.name !== "string" ||
       e.name.length > 80 ||
       ![e.x, e.z, e.yaw, e.width, e.depth].every(Number.isFinite) ||

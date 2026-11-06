@@ -28,6 +28,26 @@ test("every offered catalogue asset has a real, current PNG render matching its 
       id: a.path.startsWith("furniture/") ? "furniture-" + a.id : a.id,
     })),
   );
+  const bedroom = JSON.parse(
+    readFileSync(
+      new URL("../public/adventures/inventory-v10.json", import.meta.url),
+      "utf8",
+    ),
+  ).assets;
+  inventory.push(
+    ...bedroom.map((a: any) => ({ ...a, id: "furniture-" + a.id })),
+  );
+  manifest.entries.push(
+    ...JSON.parse(
+      readFileSync(
+        new URL(
+          "../public/adventures/thumbnails/manifest-v10.json",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    ).entries,
+  );
   for (const item of BUILD_CHOICES) {
     const entry = manifest.entries.find((e: any) => e.asset === item.id);
     assert.ok(entry, item.id);

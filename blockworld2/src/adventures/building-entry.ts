@@ -1,6 +1,6 @@
 import * as T from "three";
 import type { AssetLibrary } from "./assets";
-export type RoomKind = "cottage" | "townhouse" | "inn" | "workshop";
+export type RoomKind = "cottage" | "townhouse" | "inn" | "workshop" | "mill";
 export interface BuildingEntry {
   id: string;
   name: string;
@@ -16,6 +16,7 @@ export function buildingKind(asset: string): RoomKind | null {
   if (asset.startsWith("building_home_B")) return "townhouse";
   if (asset.startsWith("building_tavern")) return "inn";
   if (asset.startsWith("building_blacksmith")) return "workshop";
+  if (asset.startsWith("building_watermill")) return "mill";
   return null;
 }
 /** Grounded models face +Z, like the existing driveway authoring. IDs do not depend on array order. */
@@ -52,6 +53,7 @@ export function buildingEntry(
       townhouse: "Town house",
       inn: "Village inn",
       workshop: "Smith's workshop",
+      mill: "The millhouse",
     }[kind],
     kind,
     x: x + Math.sin(yaw) * front,

@@ -1,0 +1,39 @@
+{
+  "purpose": "Necessary bedroom furnishings for houses and inn rooms; original meshes copied unchanged, runtime palette matches existing Kenney timber/linen/sage.",
+  "assets": [
+    {
+      "id": "bedsingle",
+      "path": "furniture/bedsingle.glb",
+      "source": "kenney-furniture-kit-cc0-conversion",
+      "licence": "CC0-1.0",
+      "sourceCommit": "ea2f2aa1ca8da0898330c97df8a5489976b051d0",
+      "bytes": 18636,
+      "sha256": "ca00c63f9a12da3138d902b2f5f18e0360fb6e8a5ac42ccb4bc3f185724b65d1",
+      "triangles": 214,
+      "embeddedImages": 0,
+      "suggestedScale": 1.85,
+      "dimensionsMetres": [
+        1.05635,
+        0.69375,
+        2.08125
+      ]
+    },
+    {
+      "id": "cabinetbed",
+      "path": "furniture/cabinetbed.glb",
+      "source": "kenney-furniture-kit-cc0-conversion",
+      "licence": "CC0-1.0",
+      "sourceCommit": "ea2f2aa1ca8da0898330c97df8a5489976b051d0",
+      "bytes": 7496,
+      "sha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d",
+      "triangles": 72,
+      "embeddedImages": 0,
+      "suggestedScale": 2.2,
+      "dimensionsMetres": [
+        0.5852,
+        0.51304,
+        0.473
+      ]
+    }
+  ]
+}

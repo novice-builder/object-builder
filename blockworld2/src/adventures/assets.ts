@@ -39,10 +39,25 @@ export const ASSETS: AssetDefinition[] = [
     scale: 1,
     category: "building" as const,
   })),
-  ...["table", "chair", "bookcaseopen", "books", "rugrectangle"].map((id) => ({
+  ...[
+    "table",
+    "chair",
+    "bookcaseopen",
+    "books",
+    "rugrectangle",
+    "bedsingle",
+    "cabinetbed",
+  ].map((id) => ({
     id: "furniture-" + id,
     path: `furniture/${id}.glb`,
-    scale: id === "table" ? 2.5 : id === "rugrectangle" ? 2 : 2.2,
+    scale:
+      id === "bedsingle"
+        ? 1.85
+        : id === "table"
+          ? 2.5
+          : id === "rugrectangle"
+            ? 2
+            : 2.2,
     solid: id !== "rugrectangle",
     category: "prop" as const,
   })),

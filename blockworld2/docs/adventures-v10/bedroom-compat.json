@@ -1,0 +1,31 @@
+{
+  "checks": [
+    {
+      "name": "Preview 09 furnished upper-floor save imports without replacing decorations or adding a bedroom",
+      "passed": true,
+      "detail": {
+        "objects": "[{\"id\":\"table\",\"asset\":\"furniture-table\",\"x\":-1.2,\"z\":-1.2999999999999998,\"y\":0,\"yaw\":0,\"scale\":2.5},{\"id\":\"seat\",\"asset\":\"furniture-chair\",\"x\":-1.2,\"z\":-0.1499999999999999,\"y\":0,\"yaw\":3.141592653589793,\"scale\":2.2},{\"id\":\"shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.3499999999999996,\"z\":-2.8,\"y\":0,\"yaw\":0,\"scale\":2.2},{\"id\":\"rug\",\"asset\":\"furniture-rugrectangle\",\"x\":-1,\"z\":0,\"y\":0,\"yaw\":0,\"scale\":2},{\"id\":\"upstairs-shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.3499999999999996,\"z\":-2.7,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"keep-old-upstairs-desk\",\"asset\":\"furniture-table\",\"x\":-1.0499999999999998,\"z\":1.75,\"y\":3,\"yaw\":0.3,\"scale\":2.5},{\"id\":\"upstairs-seat\",\"asset\":\"furniture-chair\",\"x\":-1.2999999999999998,\"z\":0.6000000000000001,\"y\":3,\"yaw\":0,\"scale\":2.2}]",
+        "inside": "village:building_home_A_blue:-10.000:-10.000:1.571",
+        "y": 3,
+        "layout": 5,
+        "beds": 0
+      }
+    },
+    {
+      "name": "revisiting the retained house still uses its saved template and edits",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fresh current house gets a bedroom in an independent world copy",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "older Preview 09 refuses new furniture/layout backup without changing source or creating partial import",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader. Independent extracted Preview 09 reference on 5182; no physical device test."
+}

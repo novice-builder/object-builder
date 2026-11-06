@@ -1,0 +1,25 @@
+{
+  "generator": "Actual GLB render via renderCatalogueThumbnail; no remote image service",
+  "entries": [
+    {
+      "asset": "furniture-bedsingle",
+      "file": "furniture-bedsingle.png",
+      "sha256": "412ebf759571e8c24260c81ff150556049f4324b63c6e2a93a83926c787c8f2e",
+      "bytes": 6793,
+      "sourceModelSha256": "ca00c63f9a12da3138d902b2f5f18e0360fb6e8a5ac42ccb4bc3f185724b65d1",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    },
+    {
+      "asset": "furniture-cabinetbed",
+      "file": "furniture-cabinetbed.png",
+      "sha256": "c374f1325f81e130f89cf9f472a541a1f7c8e39738f57df18ae295aee0191ff2",
+      "bytes": 4697,
+      "sourceModelSha256": "b651fafb9e2c8e4adcb8cad3d10dc94404b46fe039b26e66b2c9020df4e5301d",
+      "width": 256,
+      "height": 192,
+      "licence": "CC0-1.0"
+    }
+  ]
+}
