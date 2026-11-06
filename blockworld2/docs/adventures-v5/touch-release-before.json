@@ -1,0 +1,75 @@
+{
+  "phase": "before",
+  "checks": [
+    {
+      "name": "phone sparse release displacement is not an object-selection tap",
+      "passed": false,
+      "detail": [
+        {
+          "x": 258.40000000000003,
+          "y": 354.47999999999996
+        }
+      ]
+    },
+    {
+      "name": "phone remaining thumb orbits after other contact cancellation",
+      "passed": false,
+      "detail": {
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "phone cancelled pinch cannot select an object",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "phone-landscape sparse release displacement is not an object-selection tap",
+      "passed": false,
+      "detail": [
+        {
+          "x": 512.6400000000001,
+          "y": 163.79999999999998
+        }
+      ]
+    },
+    {
+      "name": "phone-landscape remaining thumb orbits after other contact cancellation",
+      "passed": false,
+      "detail": {
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "phone-landscape cancelled pinch cannot select an object",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet sparse release displacement is not an object-selection tap",
+      "passed": false,
+      "detail": [
+        {
+          "x": 613.44,
+          "y": 322.56
+        }
+      ]
+    },
+    {
+      "name": "tablet remaining thumb orbits after other contact cancellation",
+      "passed": false,
+      "detail": {
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "tablet cancelled pinch cannot select an object",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium/SwiftShader with emulated phone/tablet touch. Sparse pointerup and single-contact cancellation are injected after native captured contacts; other contacts use CDP touch. No physical device/controller testing."
+}

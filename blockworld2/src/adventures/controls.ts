@@ -9,6 +9,7 @@ export class AdventureControls {
   private stickOrigin = { x: 0, y: 0 };
   private previousPinch = 0;
   private releaseStick: () => void = () => {};
+  private releaseWorld: () => void = () => {};
   constructor(
     readonly canvas: HTMLCanvasElement,
     readonly enabled: () => boolean,
@@ -67,6 +68,9 @@ export class AdventureControls {
       startX: number;
       startY: number;
     } | null = null;
+    this.releaseWorld = () => {
+      drag = null;
+    };
     canvas.addEventListener("pointerdown", (e) => {
       if (!this.enabled()) return;
       canvas.setPointerCapture(e.pointerId);
@@ -103,11 +107,18 @@ export class AdventureControls {
         this.look(dx, dy);
       }
     });
-    const end = (e: PointerEvent) => {
+    const end = (e: PointerEvent, cancelled = false) => {
+      if (!this.pointers.has(e.pointerId)) return;
       const pinching = this.pointers.size > 1;
       this.pointers.delete(e.pointerId);
       if (drag?.id === e.pointerId) {
-        if (drag.distance < 8 && this.enabled()) this.tap(e.clientX, e.clientY);
+        if (
+          !cancelled &&
+          drag.distance < 8 &&
+          Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY) < 8 &&
+          this.enabled()
+        )
+          this.tap(e.clientX, e.clientY);
         drag = null;
       }
       if (pinching && this.pointers.size === 1) {
@@ -117,12 +128,9 @@ export class AdventureControls {
       }
       if (this.pointers.size === 0) this.previousPinch = 0;
     };
-    canvas.addEventListener("pointerup", end);
+    canvas.addEventListener("pointerup", (e) => end(e));
     for (const event of ["pointercancel", "lostpointercapture"])
-      canvas.addEventListener(event, (e) => {
-        this.pointers.delete((e as PointerEvent).pointerId);
-        if (drag?.id === (e as PointerEvent).pointerId) drag = null;
-      });
+      canvas.addEventListener(event, (e) => end(e as PointerEvent, true));
     canvas.addEventListener(
       "wheel",
       (e) => {
@@ -193,6 +201,7 @@ export class AdventureControls {
   clear() {
     this.gamepad.reset();
     this.releaseStick();
+    this.releaseWorld();
     for (const id of this.pointers.keys())
       if (this.canvas.hasPointerCapture(id))
         this.canvas.releasePointerCapture(id);
