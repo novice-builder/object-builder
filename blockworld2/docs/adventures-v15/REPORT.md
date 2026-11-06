@@ -1,0 +1,13 @@
+# BlockWorld Adventures — Preview 15 active development
+
+Fresh full-sized inns now have a common dining room: two tables with facing chairs, a serving table, provisions and shelving, with a clear centre aisle and access to the actual stairs. Two upstairs beds and their landing remain usable. The 14 furnishings reuse already loaded coherent CC0 assets; table heights are about 0.75m and 0.85m. There are no new catalogue entries, material types, model/image requests or outdoor changes. Small, single-storey and legacy unversioned templates retain their earlier path.
+
+Saved room contents always take precedence. A real edited eight-object inn exported from independently packaged Preview 14 imports with exact full record data; opening another inn creates the new 14-object common room without regenerating the older one. Native backup and reload retain the independent rooms and edits. No save-format or structural geometry change is needed for furnishing-only additions.
+
+The initial milestone passes 216 deterministic tests, 16 phone/tablet browser checks and 7 independent compatibility/cost/resource checks, with a strict 328-input/136-output build receipt. Actual loaded-model bounds find no furniture overlap, wall clipping, floating or burial in both tested exterior-scaled inns. Ordinary keyboard and injected standard gamepad ascend; actual touch/keyboard descend. Real page reload preserves upper-floor support. Serving-table editing retains its ID/floor through undo, redo, save and native backup import. Actual common-room/guest-floor screenshots were inspected.
+
+The measured furniture additions change the sampled ground view 67→73 calls and 6,275→7,265 triangles; upper 94→96 calls and 6,961→7,633 triangles, with the same 53 model/image URLs. Ten alternating old/new inn entry/exit cycles retain both records and plateau at 89 indoor / 88 outdoor geometries, 11 textures and 9 programs after warming. These are managed SwiftShader workload/resource counters, not physical FPS or a total GPU-memory claim.
+
+Next immediately reduce the repeated regular-room stair/rail submission cost using the already validated compact-room joinery batching, preserving actual collision triangles and upper-floor/cutaway visibility. Retain an immutable build of this source for measured comparison. Then continue useful interiors, connected settlement composition and mobile polish. This milestone and later packages do not complete development.
+
+Physical Lenovo/iPhone/Safari/Xbox/Bluetooth testing remains unverified. Existing saved rooms, public site / Run 3, Neighborhood 06, main, Pages, old branches/packages/archives and backups remain protected. No deployment, publishing, merge, automation change or reset redemption.

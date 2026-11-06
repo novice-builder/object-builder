@@ -1,0 +1,760 @@
+{
+  "checks": [
+    {
+      "name": "new furnishing changes leave the entire current outdoor scene, paths, collision, entrances and map exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "new common room adds no model/image download and all sampled ground/upper poses are clear",
+      "passed": true,
+      "detail": {
+        "before": {
+          "ground": {
+            "drawCalls": 67,
+            "triangles": 6275,
+            "geometries": 64,
+            "textures": 11,
+            "programs": 9,
+            "clear": true
+          },
+          "upper": {
+            "drawCalls": 94,
+            "triangles": 6961,
+            "geometries": 73,
+            "textures": 11,
+            "programs": 9,
+            "clear": true
+          }
+        },
+        "after": {
+          "ground": {
+            "drawCalls": 73,
+            "triangles": 7265,
+            "geometries": 64,
+            "textures": 11,
+            "programs": 9,
+            "clear": true
+          },
+          "upper": {
+            "drawCalls": 96,
+            "triangles": 7633,
+            "geometries": 73,
+            "textures": 11,
+            "programs": 9,
+            "clear": true
+          }
+        },
+        "assetUrls": 53
+      }
+    },
+    {
+      "name": "independent Preview14 exports an actually edited older inn room",
+      "passed": true,
+      "detail": {
+        "entry": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "problem": null
+      }
+    },
+    {
+      "name": "current runtime retains every older room edit and full record without new-template regeneration",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "an unvisited inn gets new common-room furniture while the saved older inn remains exact",
+      "passed": true,
+      "detail": {
+        "newCount": 14,
+        "oldExact": true,
+        "rooms": 2
+      }
+    },
+    {
+      "name": "native backup import/reload retains independent eight-object older and fourteen-object new rooms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "ten alternating old/new inn entries retain both records and plateau uploaded room resources",
+      "passed": true,
+      "detail": {
+        "rows": [
+          {
+            "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+            "phase": "inside",
+            "geometries": 83,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+            "phase": "outside",
+            "geometries": 88,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "building_tavern_blue:-157.000:51.000:1.571",
+            "phase": "inside",
+            "geometries": 89,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "building_tavern_blue:-157.000:51.000:1.571",
+            "phase": "outside",
+            "geometries": 88,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+            "phase": "inside",
+            "geometries": 89,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+            "phase": "outside",
+            "geometries": 88,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "building_tavern_blue:-157.000:51.000:1.571",
+            "phase": "inside",
+            "geometries": 89,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "building_tavern_blue:-157.000:51.000:1.571",
+            "phase": "outside",
+            "geometries": 88,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+            "phase": "inside",
+            "geometries": 89,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+            "phase": "outside",
+            "geometries": 88,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "building_tavern_blue:-157.000:51.000:1.571",
+            "phase": "inside",
+            "geometries": 89,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "building_tavern_blue:-157.000:51.000:1.571",
+            "phase": "outside",
+            "geometries": 88,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+            "phase": "inside",
+            "geometries": 89,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+            "phase": "outside",
+            "geometries": 88,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "building_tavern_blue:-157.000:51.000:1.571",
+            "phase": "inside",
+            "geometries": 89,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "building_tavern_blue:-157.000:51.000:1.571",
+            "phase": "outside",
+            "geometries": 88,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+            "phase": "inside",
+            "geometries": 89,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+            "phase": "outside",
+            "geometries": 88,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "building_tavern_blue:-157.000:51.000:1.571",
+            "phase": "inside",
+            "geometries": 89,
+            "textures": 11,
+            "programs": 9
+          },
+          {
+            "id": "building_tavern_blue:-157.000:51.000:1.571",
+            "phase": "outside",
+            "geometries": 88,
+            "textures": 11,
+            "programs": 9
+          }
+        ],
+        "blocked": false,
+        "rooms": 2
+      }
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader; resource/submission samples, not physical-device FPS.",
+  "samples": {
+    "before": {
+      "entry": {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "name": "Village inn",
+        "kind": "inn",
+        "levels": 2,
+        "x": -106.15186457812706,
+        "z": -16.087802600860595,
+        "yaw": 0,
+        "width": 10,
+        "depth": 11.72439479827881,
+        "threshold": {
+          "x": -106.15186457812706,
+          "y": 1.848000099658566,
+          "z": -19.459803104400635
+        }
+      },
+      "objects": [
+        {
+          "id": "table",
+          "asset": "furniture-table",
+          "x": -3.3,
+          "z": -3.762197399139405,
+          "y": 0,
+          "yaw": 0,
+          "scale": 2.5
+        },
+        {
+          "id": "seat",
+          "asset": "furniture-chair",
+          "x": -3.3,
+          "z": -2.612197399139405,
+          "y": 0,
+          "yaw": 3.141592653589793,
+          "scale": 2.2
+        },
+        {
+          "id": "shelf",
+          "asset": "furniture-bookcaseopen",
+          "x": -4.3,
+          "z": -5.2621973991394055,
+          "y": 0,
+          "yaw": 0,
+          "scale": 2.2
+        },
+        {
+          "id": "rug",
+          "asset": "furniture-rugrectangle",
+          "x": -1,
+          "z": 0,
+          "y": 0,
+          "yaw": 0,
+          "scale": 2
+        },
+        {
+          "id": "upstairs-shelf",
+          "asset": "furniture-bookcaseopen",
+          "x": -4.3,
+          "z": 5.162197399139405,
+          "y": 3,
+          "yaw": 0,
+          "scale": 2.2
+        },
+        {
+          "id": "bed",
+          "asset": "furniture-bedsingle",
+          "x": -3.9,
+          "z": -4.062197399139405,
+          "y": 3,
+          "yaw": 0,
+          "scale": 1.85
+        },
+        {
+          "id": "bedside",
+          "asset": "furniture-cabinetbed",
+          "x": -2.7,
+          "z": -5.2621973991394055,
+          "y": 3,
+          "yaw": 0,
+          "scale": 2.2
+        },
+        {
+          "id": "guest-bed",
+          "asset": "furniture-bedsingle",
+          "x": -1.7000000000000002,
+          "z": -4.062197399139405,
+          "y": 3,
+          "yaw": 0,
+          "scale": 1.85
+        }
+      ],
+      "ground": {
+        "drawCalls": 67,
+        "triangles": 6275,
+        "geometries": 64,
+        "textures": 11,
+        "programs": 9,
+        "clear": true
+      },
+      "upper": {
+        "drawCalls": 94,
+        "triangles": 6961,
+        "geometries": 73,
+        "textures": 11,
+        "programs": 9,
+        "clear": true
+      },
+      "assets": [
+        "/adventures/character/Explorer.glb",
+        "/adventures/furniture/bedsingle.glb",
+        "/adventures/furniture/bookcaseopen.glb",
+        "/adventures/furniture/books.glb",
+        "/adventures/furniture/cabinetbed.glb",
+        "/adventures/furniture/chair.glb",
+        "/adventures/furniture/rugrectangle.glb",
+        "/adventures/furniture/table.glb",
+        "/adventures/modular/Door_4_Flat.glb",
+        "/adventures/modular/Floor_WoodDark.glb",
+        "/adventures/modular/Roof_Front_Brick4.glb",
+        "/adventures/modular/Roof_RoundTiles_4x6.glb",
+        "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+        "/adventures/modular/Wall_Plaster_Straight.glb",
+        "/adventures/nature/campfire-stones.glb",
+        "/adventures/nature/flower-purplea.glb",
+        "/adventures/nature/flower-reda.glb",
+        "/adventures/nature/flower-yellowa.glb",
+        "/adventures/nature/grass-large.glb",
+        "/adventures/nature/lily-small.glb",
+        "/adventures/nature/log.glb",
+        "/adventures/nature/mushroom-red.glb",
+        "/adventures/nature/plant-bush.glb",
+        "/adventures/nature/plant-bushsmall.glb",
+        "/adventures/nature/rock-largea.glb",
+        "/adventures/nature/rock-largeb.glb",
+        "/adventures/nature/rock-smalla.glb",
+        "/adventures/nature/sign.glb",
+        "/adventures/nature/stump-round.glb",
+        "/adventures/nature/tent-smallopen.glb",
+        "/adventures/nature/tree-detailed.glb",
+        "/adventures/nature/tree-oak.glb",
+        "/adventures/nature/tree-pinedefaulta.glb",
+        "/adventures/nature/tree-pinedefaultb.glb",
+        "/adventures/village/barrel.glb",
+        "/adventures/village/building_blacksmith_blue.glb",
+        "/adventures/village/building_bridge_A.glb",
+        "/adventures/village/building_church_blue.glb",
+        "/adventures/village/building_home_A_blue.glb",
+        "/adventures/village/building_home_A_green.glb",
+        "/adventures/village/building_home_B_blue.glb",
+        "/adventures/village/building_home_B_green.glb",
+        "/adventures/village/building_market_blue.glb",
+        "/adventures/village/building_tavern_blue.glb",
+        "/adventures/village/building_watermill_blue.glb",
+        "/adventures/village/building_well_blue.glb",
+        "/adventures/village/building_windmill_blue.glb",
+        "/adventures/village/crate_A_small.glb",
+        "/adventures/village/fence_wood_straight.glb",
+        "/adventures/village/sack.glb",
+        "/adventures/village/waterplant_A.glb",
+        "/adventures/village/wheelbarrow.glb",
+        "/adventures/wildlife/Fox.glb"
+      ],
+      "outdoor": "f936b2fcabadb611a5e6cd990543f94d76a7f75ca361c314f806c8c93c5815b3"
+    },
+    "after": {
+      "entry": {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "name": "Village inn",
+        "kind": "inn",
+        "levels": 2,
+        "x": -106.15186457812706,
+        "z": -16.087802600860595,
+        "yaw": 0,
+        "width": 10,
+        "depth": 11.72439479827881,
+        "threshold": {
+          "x": -106.15186457812706,
+          "y": 1.848000099658566,
+          "z": -19.459803104400635
+        }
+      },
+      "objects": [
+        {
+          "id": "rear-table",
+          "asset": "furniture-table",
+          "x": -3.1,
+          "z": -2.862197399139405,
+          "scale": 2.3,
+          "yaw": 0,
+          "y": 0
+        },
+        {
+          "id": "rear-north-seat",
+          "asset": "furniture-chair",
+          "x": -3.1,
+          "z": -3.862197399139405,
+          "scale": 2,
+          "yaw": 0,
+          "y": 0
+        },
+        {
+          "id": "rear-south-seat",
+          "asset": "furniture-chair",
+          "x": -3.1,
+          "z": -1.8621973991394052,
+          "scale": 2,
+          "yaw": 3.141592653589793,
+          "y": 0
+        },
+        {
+          "id": "front-table",
+          "asset": "furniture-table",
+          "x": -3.1,
+          "z": 2.862197399139405,
+          "scale": 2.3,
+          "yaw": 0,
+          "y": 0
+        },
+        {
+          "id": "front-north-seat",
+          "asset": "furniture-chair",
+          "x": -3.1,
+          "z": 1.8621973991394052,
+          "scale": 2,
+          "yaw": 0,
+          "y": 0
+        },
+        {
+          "id": "front-south-seat",
+          "asset": "furniture-chair",
+          "x": -3.1,
+          "z": 3.862197399139405,
+          "scale": 2,
+          "yaw": 3.141592653589793,
+          "y": 0
+        },
+        {
+          "id": "serving-table",
+          "asset": "furniture-table",
+          "x": -0.1,
+          "z": -4.762197399139405,
+          "scale": 2.6,
+          "yaw": 0,
+          "y": 0
+        },
+        {
+          "id": "provisions",
+          "asset": "barrel",
+          "x": 1.55,
+          "z": -4.762197399139405,
+          "scale": 3.4,
+          "yaw": 0,
+          "y": 0
+        },
+        {
+          "id": "common-room-shelf",
+          "asset": "furniture-bookcaseopen",
+          "x": -4.3,
+          "z": -5.162197399139405,
+          "scale": 2.2,
+          "yaw": 0,
+          "y": 0
+        },
+        {
+          "id": "welcome-rug",
+          "asset": "furniture-rugrectangle",
+          "x": 0,
+          "z": 3.762197399139405,
+          "scale": 2.4,
+          "yaw": 0,
+          "y": 0
+        },
+        {
+          "id": "bed",
+          "asset": "furniture-bedsingle",
+          "x": -3.9,
+          "z": -4.062197399139405,
+          "scale": 1.85,
+          "yaw": 0,
+          "y": 3
+        },
+        {
+          "id": "guest-bed",
+          "asset": "furniture-bedsingle",
+          "x": -1.7000000000000002,
+          "z": -4.062197399139405,
+          "scale": 1.85,
+          "yaw": 0,
+          "y": 3
+        },
+        {
+          "id": "bedside",
+          "asset": "furniture-cabinetbed",
+          "x": -2.8,
+          "z": -5.212197399139405,
+          "scale": 2.2,
+          "yaw": 0,
+          "y": 3
+        },
+        {
+          "id": "upstairs-shelf",
+          "asset": "furniture-bookcaseopen",
+          "x": -4.3,
+          "z": 5.162197399139405,
+          "scale": 2.2,
+          "yaw": 0,
+          "y": 3
+        }
+      ],
+      "ground": {
+        "drawCalls": 73,
+        "triangles": 7265,
+        "geometries": 64,
+        "textures": 11,
+        "programs": 9,
+        "clear": true
+      },
+      "upper": {
+        "drawCalls": 96,
+        "triangles": 7633,
+        "geometries": 73,
+        "textures": 11,
+        "programs": 9,
+        "clear": true
+      },
+      "assets": [
+        "/adventures/character/Explorer.glb",
+        "/adventures/furniture/bedsingle.glb",
+        "/adventures/furniture/bookcaseopen.glb",
+        "/adventures/furniture/books.glb",
+        "/adventures/furniture/cabinetbed.glb",
+        "/adventures/furniture/chair.glb",
+        "/adventures/furniture/rugrectangle.glb",
+        "/adventures/furniture/table.glb",
+        "/adventures/modular/Door_4_Flat.glb",
+        "/adventures/modular/Floor_WoodDark.glb",
+        "/adventures/modular/Roof_Front_Brick4.glb",
+        "/adventures/modular/Roof_RoundTiles_4x6.glb",
+        "/adventures/modular/Wall_Plaster_Door_Flat.glb",
+        "/adventures/modular/Wall_Plaster_Straight.glb",
+        "/adventures/nature/campfire-stones.glb",
+        "/adventures/nature/flower-purplea.glb",
+        "/adventures/nature/flower-reda.glb",
+        "/adventures/nature/flower-yellowa.glb",
+        "/adventures/nature/grass-large.glb",
+        "/adventures/nature/lily-small.glb",
+        "/adventures/nature/log.glb",
+        "/adventures/nature/mushroom-red.glb",
+        "/adventures/nature/plant-bush.glb",
+        "/adventures/nature/plant-bushsmall.glb",
+        "/adventures/nature/rock-largea.glb",
+        "/adventures/nature/rock-largeb.glb",
+        "/adventures/nature/rock-smalla.glb",
+        "/adventures/nature/sign.glb",
+        "/adventures/nature/stump-round.glb",
+        "/adventures/nature/tent-smallopen.glb",
+        "/adventures/nature/tree-detailed.glb",
+        "/adventures/nature/tree-oak.glb",
+        "/adventures/nature/tree-pinedefaulta.glb",
+        "/adventures/nature/tree-pinedefaultb.glb",
+        "/adventures/village/barrel.glb",
+        "/adventures/village/building_blacksmith_blue.glb",
+        "/adventures/village/building_bridge_A.glb",
+        "/adventures/village/building_church_blue.glb",
+        "/adventures/village/building_home_A_blue.glb",
+        "/adventures/village/building_home_A_green.glb",
+        "/adventures/village/building_home_B_blue.glb",
+        "/adventures/village/building_home_B_green.glb",
+        "/adventures/village/building_market_blue.glb",
+        "/adventures/village/building_tavern_blue.glb",
+        "/adventures/village/building_watermill_blue.glb",
+        "/adventures/village/building_well_blue.glb",
+        "/adventures/village/building_windmill_blue.glb",
+        "/adventures/village/crate_A_small.glb",
+        "/adventures/village/fence_wood_straight.glb",
+        "/adventures/village/sack.glb",
+        "/adventures/village/waterplant_A.glb",
+        "/adventures/village/wheelbarrow.glb",
+        "/adventures/wildlife/Fox.glb"
+      ],
+      "outdoor": "f936b2fcabadb611a5e6cd990543f94d76a7f75ca361c314f806c8c93c5815b3"
+    }
+  },
+  "cycles": {
+    "rows": [
+      {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "phase": "inside",
+        "geometries": 83,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "phase": "outside",
+        "geometries": 88,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "building_tavern_blue:-157.000:51.000:1.571",
+        "phase": "inside",
+        "geometries": 89,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "building_tavern_blue:-157.000:51.000:1.571",
+        "phase": "outside",
+        "geometries": 88,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "phase": "inside",
+        "geometries": 89,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "phase": "outside",
+        "geometries": 88,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "building_tavern_blue:-157.000:51.000:1.571",
+        "phase": "inside",
+        "geometries": 89,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "building_tavern_blue:-157.000:51.000:1.571",
+        "phase": "outside",
+        "geometries": 88,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "phase": "inside",
+        "geometries": 89,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "phase": "outside",
+        "geometries": 88,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "building_tavern_blue:-157.000:51.000:1.571",
+        "phase": "inside",
+        "geometries": 89,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "building_tavern_blue:-157.000:51.000:1.571",
+        "phase": "outside",
+        "geometries": 88,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "phase": "inside",
+        "geometries": 89,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "phase": "outside",
+        "geometries": 88,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "building_tavern_blue:-157.000:51.000:1.571",
+        "phase": "inside",
+        "geometries": 89,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "building_tavern_blue:-157.000:51.000:1.571",
+        "phase": "outside",
+        "geometries": 88,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "phase": "inside",
+        "geometries": 89,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+        "phase": "outside",
+        "geometries": 88,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "building_tavern_blue:-157.000:51.000:1.571",
+        "phase": "inside",
+        "geometries": 89,
+        "textures": 11,
+        "programs": 9
+      },
+      {
+        "id": "building_tavern_blue:-157.000:51.000:1.571",
+        "phase": "outside",
+        "geometries": 88,
+        "textures": 11,
+        "programs": 9
+      }
+    ],
+    "blocked": false,
+    "rooms": 2
+  }
+}

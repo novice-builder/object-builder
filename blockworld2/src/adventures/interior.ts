@@ -1,3 +1,4 @@
+import { innFurniture } from "./inn-furniture";
 import {
   compactMillFurniture,
   compactMillSolids,
@@ -30,8 +31,10 @@ export function freshRoom(
       yaw = 0,
       scale = 2.2,
     ) => objects.push({ id, asset, x, z, y, yaw, scale });
+  const inn = innFurniture(entry);
   if (entry.profile === "compact-windmill")
     objects.push(...compactMillFurniture());
+  else if (inn) objects.push(...inn);
   else {
     add("table", "furniture-table", -w + 1.7, -d + 2.1, 0, 0, 2.5);
     add("seat", "furniture-chair", -w + 1.7, -d + 3.25, 0, Math.PI);
