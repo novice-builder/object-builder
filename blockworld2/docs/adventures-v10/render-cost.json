@@ -1,0 +1,219 @@
+{
+  "environment": "Managed Chromium SwiftShader. Draw/triangle/resource workloads only; no physical FPS or universal memory claim.",
+  "checks": [
+    {
+      "name": "repeated same-view layout 5/6 world replacements plateau uploaded resources",
+      "passed": true
+    },
+    {
+      "name": "world expansion adds no external environment model or texture bytes",
+      "passed": true
+    }
+  ],
+  "views": {
+    "preview09": {
+      "riverbank": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 966.7,
+          "drawCalls": 107,
+          "triangles": 132156,
+          "geometries": 77,
+          "textures": 12,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4307,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 9,
+        "generatedGeometryBytes": 1401468
+      },
+      "willowmere": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 966.7,
+          "drawCalls": 189,
+          "triangles": 175154,
+          "geometries": 77,
+          "textures": 12,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4307,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 9,
+        "generatedGeometryBytes": 1401468
+      },
+      "meadow": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 966.7,
+          "drawCalls": 200,
+          "triangles": 167302,
+          "geometries": 90,
+          "textures": 13,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4307,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "generatedGeometryBytes": 1401468
+      },
+      "north-road": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 966.7,
+          "drawCalls": 92,
+          "triangles": 135437,
+          "geometries": 90,
+          "textures": 13,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4307,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "generatedGeometryBytes": 1401468
+      }
+    },
+    "current": {
+      "riverbank": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 700,
+          "drawCalls": 136,
+          "triangles": 132455,
+          "geometries": 93,
+          "textures": 12,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 9,
+        "generatedGeometryBytes": 1415940
+      },
+      "willowmere": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 700,
+          "drawCalls": 198,
+          "triangles": 178491,
+          "geometries": 93,
+          "textures": 12,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 9,
+        "generatedGeometryBytes": 1415940
+      },
+      "meadow": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 700,
+          "drawCalls": 225,
+          "triangles": 167515,
+          "geometries": 103,
+          "textures": 13,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "generatedGeometryBytes": 1415940
+      },
+      "north-road": {
+        "stats": {
+          "fps": 2,
+          "frameP95Ms": 700,
+          "drawCalls": 118,
+          "triangles": 136826,
+          "geometries": 103,
+          "textures": 13,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4258,
+          "objects": 0,
+          "quality": "gentle"
+        },
+        "programs": 10,
+        "generatedGeometryBytes": 1415940
+      }
+    }
+  },
+  "preview09StartupBytes": 3669027,
+  "currentStartupBytes": 3673202,
+  "worldSwitches": [
+    {
+      "layout": 5,
+      "geometries": 82,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 6,
+      "geometries": 82,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 5,
+      "geometries": 82,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 6,
+      "geometries": 82,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 5,
+      "geometries": 82,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 6,
+      "geometries": 82,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 5,
+      "geometries": 82,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 6,
+      "geometries": 82,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 5,
+      "geometries": 82,
+      "textures": 11,
+      "programs": 9
+    },
+    {
+      "layout": 6,
+      "geometries": 82,
+      "textures": 11,
+      "programs": 9
+    }
+  ]
+}

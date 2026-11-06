@@ -1,0 +1,85 @@
+{
+  "checks": [
+    {
+      "name": "village layout 1 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "village layout 1 adds no new riverside settlement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "woodland layout 2 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "woodland layout 2 adds no new riverside settlement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 3 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 3 adds no new riverside settlement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 4 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 4 adds no new riverside settlement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 5 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 5 adds no new riverside settlement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reloading retained layout-5 last save never silently upgrades its scenery",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fresh-place UI explicitly names new scenery and preserves earlier worlds",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "explicit fresh place creates a separate empty layout-6 record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "older Preview 09 rejects layout-6 backup without changing current record or creating an import",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "previous riverside site construction reopens unchanged after new town creation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "compatibility pass has no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader. Reference: extracted Preview 09 source 57f4d0a on 5182. No physical-device result."
+}

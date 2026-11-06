@@ -1,0 +1,17 @@
+"""View-specific rendering/startup cost and repeated actual saved-layout switches; no physical FPS claim."""
+import pathlib,json
+from playwright.sync_api import sync_playwright
+OUT=pathlib.Path(__file__).resolve().parents[2]/'docs/adventures-v10';result={'environment':'Managed Chromium SwiftShader. Draw/triangle/resource workloads only; no physical FPS or universal memory claim.','checks':[],'views':{}}
+views={'riverbank':([-18,38,-5],[14,0,-51]),'willowmere':([-120,13,31],[-105,2,-6]),'meadow':([125,12,39],[105,2,8]),'north-road':([56,8,-36],[29,1,-52])}
+with sync_playwright()as p:
+ b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader'])
+ for phase,port in [('preview09',5182),('current',5175)]:
+  g=b.new_page(viewport={'width':1024,'height':768},has_touch=True,is_mobile=True);g.set_default_timeout(120000);g.goto(f'http://127.0.0.1:{port}/adventures.html?test=1');g.wait_for_function('window.adventure?.ready');g.locator('#enter').click();g.evaluate('window.requestAnimationFrame=()=>0');g.wait_for_timeout(100);rows={}
+  for name,(position,target)in views.items():
+   rows[name]=g.evaluate('''({position,target})=>{const g=adventure.game;g.debugCamera=true;g.camera.position.fromArray(position);g.camera.lookAt(g.camera.position.clone().fromArray(target));g.renderScene();const owned=[...g.landscape.geometry,...g.landscape.regions.flatMap(r=>r.geometries)];return{stats:g.stats(),programs:g.renderer.info.programs.length,generatedGeometryBytes:owned.reduce((n,b)=>n+(b.index?.array.byteLength||0)+Object.values(b.attributes).reduce((n,a)=>n+a.array.byteLength,0),0)}}''',{'position':position,'target':target})
+  result['views'][phase]=rows;result[phase+'StartupBytes']=g.evaluate("performance.getEntriesByType('resource').reduce((s,r)=>s+r.encodedBodySize,0)")
+  if phase=='current':
+   cycles=g.evaluate('''async()=>{const g=adventure.game,modern=g.session.current.id,s=g.snapshot();s.world.adventure.layout=5;const old=await g.session.store.create('Prior layout fixture',s),rows=[];for(let i=0;i<10;i++){await g.session.open(i%2?modern:old.id);g.debugCamera=false;g.cameraUpdate(1/60);g.renderScene();rows.push({layout:g.data.layout,geometries:g.stats().geometries,textures:g.stats().textures,programs:g.renderer.info.programs.length});}return rows}''');result['worldSwitches']=cycles;result['checks'].append({'name':'repeated same-view layout 5/6 world replacements plateau uploaded resources','passed':all(len({(r['geometries'],r['textures'],r['programs']) for r in cycles[4:]if r['layout']==layout})==1 for layout in [5,6])})
+  g.close()
+ b.close()
+result['checks'].append({'name':'world expansion adds no external environment model or texture bytes','passed':result['currentStartupBytes']-result['preview09StartupBytes']<15000});(OUT/'render-cost.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2),flush=True);assert all(c['passed']for c in result['checks'])

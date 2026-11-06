@@ -1,0 +1,296 @@
+{
+  "deterministicTests": 180,
+  "checks": [
+    {
+      "name": "fresh layout 6 includes the hamlet and eight actual-map destinations",
+      "passed": true,
+      "detail": null,
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "map arrival reaches clear local context in same valley",
+      "passed": true,
+      "detail": null,
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "ordinary movement crosses actual northern bridge without world switch or height jump",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 1281,
+        "maxHeightStep": 0.006910283333154285,
+        "player": {
+          "x": 34.23513210412313,
+          "y": -0.023150516840682582,
+          "z": -52,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      },
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "new countryside route connects bridge to existing meadow and lodge approach",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 6280,
+        "maxHeightStep": 0.003500349890252036,
+        "player": {
+          "x": 118.94240911038854,
+          "y": 0,
+          "z": -10.992793239057402,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      },
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "new route reaches existing functional lodge entirely by walking",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 1920,
+        "maxHeightStep": 0,
+        "player": {
+          "x": 128.00137024970613,
+          "y": 0,
+          "z": -36.06610050279911,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      },
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "smithy lane joins retained foresters settlement by ordinary movement",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 2862,
+        "maxHeightStep": 0,
+        "player": {
+          "x": -22.945979379556462,
+          "y": 0,
+          "z": -37.98563672102101,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      },
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "new main lanes have no tree-trunk or building-footprint intersections",
+      "passed": true,
+      "detail": [],
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "new settlement house reuses independently persistent furnished stair room",
+      "passed": true,
+      "detail": {
+        "id": "building_home_B_blue:4.000:-43.000:1.571",
+        "upper": true,
+        "entry": {
+          "id": "building_home_B_blue:4.000:-43.000:1.571",
+          "name": "Town house",
+          "kind": "townhouse",
+          "x": 8.895280349254609,
+          "z": -43,
+          "yaw": 1.5707963267948966,
+          "width": 6.124497652053833,
+          "depth": 7.690560698509216
+        }
+      },
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "phone map and gameplay overlay fit viewport",
+      "passed": true,
+      "detail": null,
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "new settlement browser pass has no runtime exceptions",
+      "passed": true,
+      "detail": [],
+      "evidence": "reedbank.json"
+    },
+    {
+      "name": "village layout 1 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "village layout 1 adds no new riverside settlement",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "woodland layout 2 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "woodland layout 2 adds no new riverside settlement",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 3 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 3 adds no new riverside settlement",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 4 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 4 adds no new riverside settlement",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 5 retains exact geometry matrices colours paths collisions and creations",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "vale layout 5 adds no new riverside settlement",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "reloading retained layout-5 last save never silently upgrades its scenery",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "fresh-place UI explicitly names new scenery and preserves earlier worlds",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "explicit fresh place creates a separate empty layout-6 record",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "older Preview 09 rejects layout-6 backup without changing current record or creating an import",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "previous riverside site construction reopens unchanged after new town creation",
+      "passed": true,
+      "detail": null,
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "compatibility pass has no runtime exceptions",
+      "passed": true,
+      "detail": [],
+      "evidence": "compat-checks.json"
+    },
+    {
+      "name": "aligned deck exists across the whole actual walking corridor",
+      "passed": true,
+      "evidence": "bridge-surface-aligned.json"
+    },
+    {
+      "name": "walking surface matches actual indexed bridge deck with small foot clearance",
+      "passed": true,
+      "evidence": "bridge-surface-aligned.json"
+    },
+    {
+      "name": "repeated same-view layout 5/6 world replacements plateau uploaded resources",
+      "passed": true,
+      "evidence": "render-cost.json"
+    },
+    {
+      "name": "world expansion adds no external environment model or texture bytes",
+      "passed": true,
+      "evidence": "render-cost.json"
+    }
+  ],
+  "verifiedBase": "2bfe20c7d7659038c23966341832e5ab2cebbf3b",
+  "physicalDevicesVerified": false,
+  "newModelAssets": 0,
+  "runtimeSourceHashes": {
+    "src/adventures/interior.ts": "75bf33c6e15ede2a66c829bf94fcdd8799639d1e6c13c345b1b5feaccad80f60",
+    "src/adventures/controls.ts": "4682d1497ad7e8bab14fa5d2d72ba3e656c82abd9b5fe459fcf532131f65a9eb",
+    "src/adventures/ground-target.ts": "8e4be2a28125820137cea0524eff97d97db26665402ff3eb194f25bc728edf45",
+    "src/adventures/tree-canopy.ts": "c22b21e5ad529a10e5599c5f3cc059a54a46e70e725a28a7920d17656fed0546",
+    "src/adventures/lodge.ts": "4366c08de1b96d6d227d2951630fd8e6104258e7b7ffd9c810edcd72983d787e",
+    "src/adventures/placement-ground.ts": "b32d174874465a009deb0cf57935864a9fbeb204a0d8480a49c2432ebebdc540",
+    "src/adventures/trail-geometry.ts": "611003221702cbcf0b106ca4a0606d5dc0728bfadc69edb8d32e1c0e1013b59d",
+    "src/adventures/landscape.ts": "9479d408eab3272ed4dc3137586ff9de12bded068c530359f9f7b8449a1c077a",
+    "src/adventures/crossings.ts": "abccd69d9bfe65ef4653998aff7513d8388ce06886a9938e2a9e925b399e4125",
+    "src/adventures/version.ts": "d87560629232bd5db439251a0c5c3a9c74c58f9fc49bf9d7428f7b7883f02fd5",
+    "src/adventures/connected-landscape.ts": "dd8a1d0894af7c02f3cc46d5b58f72b26fb15f6585bc2c989aac69edac097640",
+    "src/adventures/alderwick-data.ts": "e5781533ecb3012030ff808c956f4dd272051fdfe006166810f5f2a387cc78f1",
+    "src/adventures/bridge-fit.ts": "0ed38021133b024d8eebbbaf150a3799aee7cb92919a71ebefcfb8b38b0702e4",
+    "src/adventures/gamepad.ts": "3c50ce5d65e8dfe2396a76e5bcc7167ccb1e387cc977caf361517e33dc1e8cc4",
+    "src/adventures/interior-physics.ts": "2fb8b818a89034b1cac102a952734b0b11f1fb0d6fe72602e25b2e57ab322215",
+    "src/adventures/catalogue.ts": "5ef9c99044086713b885bc3d47a966891d9fb6f122e0e2419677335f18955525",
+    "src/adventures/building-entry.ts": "8bb77279e1ac25f31da5ad5999d09c2f7e9271f8b9e8921a305bce0d5f203482",
+    "src/adventures/assets.ts": "02aca32881093aa5f5269cd6f72cfff14ca1ea88b413677e24fb9bbd2732dfda",
+    "src/adventures/map-targets.ts": "05a44a3e140b46423ef4c5ed2ef83a3237b087956d996c8bba3e23ea02ae6cef",
+    "src/adventures/main.ts": "4b255c4f58825683e0f988c68cb415a88cca207e32bfcc27d14b6e018cde64f2",
+    "src/adventures/style.css": "720498a3a57c1ff1d06f53ef14d2ca571eaa3a96a511ecc87a2e9547ebe9091e",
+    "src/adventures/instance-culling.ts": "0b2f19bf0b90ef8bed9245e91c2739410beebaf709ae452112f88fcd74fe1dd3",
+    "src/adventures/collision-cache.ts": "43fffb2515822565db9cacea42f26b191ade88d240520dafebf756685b5fb523",
+    "src/adventures/camera-collision.ts": "c9fac1d7b028886075a49c43422830194cbec68a37527ff8ffa99553776f000b",
+    "src/adventures/ids.ts": "da1780eb5b52c22297206cc436b3dcbf08bc19c29cccbd9e6b73e6ab9d15d006",
+    "src/adventures/vale-data.ts": "978d1f443d986761ff1ccd41f1f2fb14a90699674965dcbbb3a1a570487b9fdd",
+    "src/adventures/preferences.ts": "f24be35ea5762fdb091551d478033606750dff8d623e6c3af9cc10de489933a1",
+    "src/adventures/world-map.ts": "3259a345e463a235d1c32f5766c8e34e6589ec4813319bb8949a971fcd8d0a83",
+    "src/adventures/safe-position.ts": "454c2b211c429ac0c25cabdf3a04da99b84444aa8092b913a368f7fbfad3aa7a",
+    "src/adventures/save.ts": "a96a01f5b63ab79ec28b2de3aa27a7f853eca68138cfcf089d13b027d6fb43f9",
+    "src/adventures/map-data.ts": "a231c464aaa9a1c168d6690d0b737aa96fc06a727993c6150772bba4c0046916",
+    "src/adventures/nature-batch.ts": "131aa982755b72e761297c4cb2e2669503796b4bb5b0f8b34f2a162ddd153c80",
+    "src/adventures/reedbank-data.ts": "0555c7ba93be7597a0cbef743fe2e46b6b782f853608179e7d4f4d9dd695932c"
+  }
+}

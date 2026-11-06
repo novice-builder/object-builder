@@ -1,3 +1,4 @@
+import { NORTH_CROSSING, fittedBridgeHeight } from "./crossings";
 /** Shared world coordinates used by terrain, walking, navigation and maps. */
 export const VALE_BOUNDS = { minX: -185, maxX: 185, minZ: -98, maxZ: 98 };
 export const VALE_REGIONS = [
@@ -19,6 +20,20 @@ export function valeGround(x: number, z: number) {
   return h;
 }
 export function valeWalk(x: number, z: number, layout = 3) {
+  if (layout >= 6) {
+    const rivers =
+      Math.abs(z - 8) < 2.1
+        ? valeRivers(8)
+        : Math.abs(z - NORTH_CROSSING.z) < 2.1
+          ? [valeRivers(NORTH_CROSSING.z)[1]]
+          : [];
+    for (const river of rivers) {
+      const dx = Math.abs(x - river);
+      if (dx < 5)
+        return Math.max(valeGround(x, z), fittedBridgeHeight(dx) + 0.01);
+    }
+    if (rivers.length) return valeGround(x, z);
+  }
   if (layout >= 4 && x > 124.7 && x < 131.3 && z > -45.3 && z < -38.7)
     return 0.06;
   for (const river of valeRivers(z))
@@ -26,7 +41,13 @@ export function valeWalk(x: number, z: number, layout = 3) {
       return 0.02 + Math.max(0, 1 - Math.abs(x - river) / 5) * 0.4;
   return valeGround(x, z);
 }
-export function valeWater(x: number, z: number) {
+export function valeWater(x: number, z: number, layout = 3) {
+  if (
+    layout >= 6 &&
+    Math.abs(z - NORTH_CROSSING.z) < NORTH_CROSSING.halfWidth &&
+    Math.abs(x - valeRivers(z)[1]) < NORTH_CROSSING.halfLength
+  )
+    return false;
   return (
     Math.abs(z - 8) > 2 && valeRivers(z).some((r) => Math.abs(x - r) < 2.65)
   );

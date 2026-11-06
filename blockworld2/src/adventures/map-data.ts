@@ -1,3 +1,4 @@
+import { REEDBANK } from "./reedbank-data";
 import { worldBounds, valeRivers } from "./vale-data";
 import { ALDERWICK } from "./alderwick-data";
 import {
@@ -74,6 +75,8 @@ export function createMapData(
     landscape.landmarks.some((l) => l.id === ALDERWICK.id)
   )
     destinations.push({ ...ALDERWICK });
+  if (scene === "vale" && landscape.landmarks.some((l) => l.id === REEDBANK.id))
+    destinations.push({ ...REEDBANK });
   return {
     scene,
     bounds,

@@ -1,3 +1,11 @@
+import { fitBridge } from "./bridge-fit";
+import { NORTH_CROSSING } from "./crossings";
+import {
+  REEDBANK,
+  REEDBANK_ROADS,
+  REEDBANK_BUILDINGS,
+  REEDBANK_GARDENS,
+} from "./reedbank-data";
 import * as T from "three";
 import { buildingEntry, type BuildingEntry } from "./building-entry";
 import { Lodge } from "./lodge";
@@ -92,7 +100,7 @@ export class ConnectedLandscape {
   private materials: T.Material[] = [];
   constructor(
     readonly library: AssetLibrary,
-    readonly layout: 3 | 4 | 5 = 3,
+    readonly layout: 3 | 4 | 5 | 6 = 3,
     doorOpen = false,
   ) {
     this.terrain();
@@ -101,6 +109,13 @@ export class ConnectedLandscape {
         terrain: false,
         populate: false,
         fullSizeTents: true,
+        alignedBridge: layout >= 6,
+        reserved:
+          layout >= 6
+            ? (x, z) =>
+                Math.abs(z + r.z - NORTH_CROSSING.z) < 3 &&
+                Math.abs(x + r.x - valeRivers(NORTH_CROSSING.z)[1]) < 8
+            : undefined,
         ground: (x, z) => valeGround(x + r.x, z + r.z),
         walk: (x, z) => valeWalk(x + r.x, z + r.z),
       });
@@ -158,6 +173,7 @@ export class ConnectedLandscape {
     }
     this.settlements();
     if (layout >= 5) this.alderwick();
+    if (layout >= 6) this.reedbank();
     if (layout >= 4) {
       this.lodge = new Lodge(library, doorOpen);
       this.group.add(this.lodge.group);
@@ -426,6 +442,76 @@ export class ConnectedLandscape {
         "Alderwick's market square joins a compact neighbourhood to cottage gardens and the mill lane. Follow the south road back to Willowmere. Look for an Enter prompt at cottage, town-house, inn and workshop entrances.",
     });
   }
+  private reedbank() {
+    const walk = (x: number, z: number) => valeWalk(x, z, this.layout),
+      road = this.regions[0].trailSurface;
+    for (const path of REEDBANK_ROADS) {
+      const points = smoothTrail(path.points);
+      this.paths.push({ points, width: path.width });
+      this.mesh(trailGeometry(points, path.width, walk), road);
+    }
+    const street = smoothTrail(REEDBANK_ROADS[0].points);
+    for (const p of REEDBANK_BUILDINGS) {
+      const root = this.place(p.asset, p.x, p.z, p.scale, p.yaw);
+      root.userData.settlement = REEDBANK.id;
+      const b = this.library.bounds.get(p.asset)!,
+        front = b.max.z * p.scale + 1;
+      const start = [
+        p.x + Math.sin(p.yaw) * front,
+        p.z + Math.cos(p.yaw) * front,
+      ];
+      const points = [
+        start,
+        closestTrailPoint(
+          start,
+          p.asset === "building_blacksmith_blue"
+            ? smoothTrail(REEDBANK_ROADS[1].points)
+            : street,
+        ),
+      ];
+      this.paths.push({ points, width: 1.7 });
+      this.mesh(trailGeometry(points, 1.7, walk), road);
+    }
+    this.place("building_well_blue", 19, -58, 4.2);
+    this.place("barrel", 21, -61, 3.8);
+    this.place("crate_A_small", 22.3, -61, 3.5);
+    this.place("wheelbarrow", -4, -51, 3.8, 0.6);
+    this.place("sign", 12, -32, 2.6, -0.3);
+    const bx = valeRivers(NORTH_CROSSING.z)[1],
+      z = NORTH_CROSSING.z,
+      bridge = fitBridge(this.library.create("building_bridge_A", 1), bx, z);
+    this.group.add(bridge);
+    this.obstacles.push(
+      {
+        minX: bx - 4.8,
+        maxX: bx + 4.8,
+        minZ: z - 2.2,
+        maxZ: z - 1.9,
+        height: 1.2,
+        name: "north-bridge-rail",
+      },
+      {
+        minX: bx - 4.8,
+        maxX: bx + 4.8,
+        minZ: z + 1.9,
+        maxZ: z + 2.2,
+        height: 1.2,
+        name: "north-bridge-rail",
+      },
+    );
+    this.paths.push({
+      points: [
+        [bx - 5, z],
+        [bx + 5, z],
+      ],
+      width: 2.8,
+    });
+    this.landmarks.push({
+      ...REEDBANK,
+      description:
+        "The mill hamlet gathers beside the northern footbridge. Cottage gardens, a smithy yard and the river lane connect the forest to the meadow without changing worlds.",
+    });
+  }
   private populate() {
     let seed = 31825;
     const random = () => {
@@ -450,7 +536,10 @@ export class ConnectedLandscape {
       this.instances++;
     };
     if (this.layout >= 5)
-      for (const [gx, gz] of ALDERWICK_GARDENS)
+      for (const [gx, gz] of [
+        ...ALDERWICK_GARDENS,
+        ...(this.layout >= 6 ? REEDBANK_GARDENS : []),
+      ])
         for (let i = 0; i < 12; i++) {
           const angle = (i * Math.PI * 2) / 12,
             radius = 0.35 + (i % 3) * 0.3,
@@ -476,7 +565,7 @@ export class ConnectedLandscape {
         camp ||
         this.nearPath(x, z, 3.4) ||
         blocked(x, z, this.obstacles, 2.6) ||
-        valeWater(x, z)
+        valeWater(x, z, this.layout)
       )
         continue;
       const id =
@@ -507,7 +596,7 @@ export class ConnectedLandscape {
         !inWorld(x, z, "vale", 2) ||
         this.nearPath(x, z, 0.8) ||
         blocked(x, z, this.obstacles, 0.8) ||
-        valeWater(x, z) ||
+        valeWater(x, z, this.layout) ||
         (x > 82 && x < 130 && z > -24 && z < 24)
       )
         continue;

@@ -1,0 +1,206 @@
+{
+  "environment": "Managed Chromium SwiftShader touch emulation; fixed ordinary movement updates; no physical device claim.",
+  "checks": [
+    {
+      "name": "fresh layout 6 includes the hamlet and eight actual-map destinations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "map arrival reaches clear local context in same valley",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "ordinary movement crosses actual northern bridge without world switch or height jump",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 1281,
+        "maxHeightStep": 0.006910283333154285,
+        "player": {
+          "x": 34.23513210412313,
+          "y": -0.023150516840682582,
+          "z": -52,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      }
+    },
+    {
+      "name": "new countryside route connects bridge to existing meadow and lodge approach",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 6280,
+        "maxHeightStep": 0.003500349890252036,
+        "player": {
+          "x": 118.94240911038854,
+          "y": 0,
+          "z": -10.992793239057402,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      }
+    },
+    {
+      "name": "new route reaches existing functional lodge entirely by walking",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 1920,
+        "maxHeightStep": 0,
+        "player": {
+          "x": 128.00137024970613,
+          "y": 0,
+          "z": -36.06610050279911,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      }
+    },
+    {
+      "name": "smithy lane joins retained foresters settlement by ordinary movement",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "steps": 2862,
+        "maxHeightStep": 0,
+        "player": {
+          "x": -22.945979379556462,
+          "y": 0,
+          "z": -37.98563672102101,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "sameWorld": true
+      }
+    },
+    {
+      "name": "new main lanes have no tree-trunk or building-footprint intersections",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "new settlement house reuses independently persistent furnished stair room",
+      "passed": true,
+      "detail": {
+        "id": "building_home_B_blue:4.000:-43.000:1.571",
+        "upper": true,
+        "entry": {
+          "id": "building_home_B_blue:4.000:-43.000:1.571",
+          "name": "Town house",
+          "kind": "townhouse",
+          "x": 8.895280349254609,
+          "z": -43,
+          "yaw": 1.5707963267948966,
+          "width": 6.124497652053833,
+          "depth": 7.690560698509216
+        }
+      }
+    },
+    {
+      "name": "phone map and gameplay overlay fit viewport",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "new settlement browser pass has no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "routes": [
+    {
+      "name": "north bridge crossing",
+      "ok": true,
+      "steps": 1281,
+      "maxHeightStep": 0.006910283333154285,
+      "player": {
+        "x": 34.23513210412313,
+        "y": -0.023150516840682582,
+        "z": -52,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true,
+        "id": "reedbank",
+        "name": "Reedbank"
+      },
+      "sameWorld": true
+    },
+    {
+      "name": "north meadow route",
+      "ok": true,
+      "steps": 6280,
+      "maxHeightStep": 0.003500349890252036,
+      "player": {
+        "x": 118.94240911038854,
+        "y": 0,
+        "z": -10.992793239057402,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true,
+        "id": "reedbank",
+        "name": "Reedbank"
+      },
+      "sameWorld": true
+    },
+    {
+      "name": "lodge connection",
+      "ok": true,
+      "steps": 1920,
+      "maxHeightStep": 0,
+      "player": {
+        "x": 128.00137024970613,
+        "y": 0,
+        "z": -36.06610050279911,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true,
+        "id": "reedbank",
+        "name": "Reedbank"
+      },
+      "sameWorld": true
+    },
+    {
+      "name": "forest/service lane",
+      "ok": true,
+      "steps": 2862,
+      "maxHeightStep": 0,
+      "player": {
+        "x": -22.945979379556462,
+        "y": 0,
+        "z": -37.98563672102101,
+        "yaw": 0,
+        "pitch": 0.47,
+        "vy": 0,
+        "grounded": true,
+        "id": "reedbank",
+        "name": "Reedbank"
+      },
+      "sameWorld": true
+    }
+  ]
+}

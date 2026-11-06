@@ -391,7 +391,13 @@ class AdventureGame {
         data.scene === "vale"
           ? new ConnectedLandscape(
               this.library,
-              data.layout === 5 ? 5 : data.layout === 4 ? 4 : 3,
+              data.layout === 6
+                ? 6
+                : data.layout === 5
+                  ? 5
+                  : data.layout === 4
+                    ? 4
+                    : 3,
               data.doors?.lodge,
             )
           : new Landscape(this.library, data.scene, data.layout);
@@ -488,7 +494,7 @@ class AdventureGame {
     }
     const safe = (x: number, z: number) =>
       !blocked(x, z, this.obstacles()) &&
-      !waterBlocked(x, z, this.data.scene) &&
+      !waterBlocked(x, z, this.data.scene, this.data.layout) &&
       inWorld(x, z, this.data.scene);
     if (safe(this.player.x, this.player.z)) return;
     const origin = { x: this.player.x, z: this.player.z };
@@ -674,7 +680,7 @@ class AdventureGame {
       target,
       (x, z) =>
         inWorld(x, z, this.data.scene, 1) &&
-        !waterBlocked(x, z, this.data.scene) &&
+        !waterBlocked(x, z, this.data.scene, this.data.layout) &&
         !blocked(x, z, bodies, 0.42),
       destination ? 14 : 3,
     );
@@ -774,7 +780,7 @@ class AdventureGame {
     this.cancelEdit();
     const safe = (x: number, z: number) =>
       inWorld(x, z, this.data.scene, 1) &&
-      !waterBlocked(x, z, this.data.scene) &&
+      !waterBlocked(x, z, this.data.scene, this.data.layout) &&
       !blocked(x, z, this.obstacles(), 0.42);
     const arrival = clearArrival(destination, safe, 14);
     if (!arrival) {
@@ -975,7 +981,7 @@ class AdventureGame {
           dz = this.velocity.y * step;
         const valid = (x: number, z: number) =>
           inWorld(x, z, this.data.scene) &&
-          !waterBlocked(x, z, this.data.scene) &&
+          !waterBlocked(x, z, this.data.scene, this.data.layout) &&
           !blocked(x, z, obs) &&
           Math.abs(
             walkHeight(x, z, this.data.scene, this.data.layout) - this.player.y,
@@ -1521,7 +1527,7 @@ class AdventureGame {
         (a, b) => b.updated - a.updated,
       );
       this.openModal(
-        `<div class="eyebrow">TAKE THE LONG WAY HOME</div><h1 id="modalTitle">Where shall we go?</h1><p>Explore a saved valley, or start a fresh valley with Alderwick. Earlier scenery stays with its saved world.</p><div class="placeCards">${WORLDS.filter(
+        `<div class="eyebrow">TAKE THE LONG WAY HOME</div><h1 id="modalTitle">Where shall we go?</h1><p>Explore a saved valley, or start a fresh valley with Reedbank. Earlier scenery stays with its saved world.</p><div class="placeCards">${WORLDS.filter(
           (w) => w.id === "vale",
         )
           .map(
@@ -1530,7 +1536,7 @@ class AdventureGame {
           )
           .join(
             "",
-          )}</div><div class="savedWorlds"><h2>Your saved worlds & earlier previews</h2><div id="savedRows"></div></div><details class="newPlaces"><summary>Start a fresh place</summary><p>Fresh valleys include Alderwick, the northern market town. Your saved valleys keep their scenery and buildings.</p><div id="newPlaceButtons"></div></details><p class="finePrint">Earlier independent places keep their original scenery and saves. Original BlockWorld worlds remain in the original game.</p>`,
+          )}</div><div class="savedWorlds"><h2>Your saved worlds & earlier previews</h2><div id="savedRows"></div></div><details class="newPlaces"><summary>Start a fresh place</summary><p>Fresh valleys include Reedbank, its mill and northern river crossing, plus Alderwick. Your saved valleys keep their scenery and buildings.</p><div id="newPlaceButtons"></div></details><p class="finePrint">Earlier independent places keep their original scenery and saves. Original BlockWorld worlds remain in the original game.</p>`,
       );
       for (const w of WORLDS.filter((w) => w.id === "vale")) {
         const button = $("modal").querySelector<HTMLButtonElement>(
@@ -1556,7 +1562,7 @@ class AdventureGame {
       }
       for (const w of WORLDS.filter((w) => w.id === "vale")) {
         const fresh = document.createElement("button");
-        fresh.textContent = "New " + w.name + " · Alderwick";
+        fresh.textContent = "New " + w.name + " · Reedbank";
         fresh.dataset.newScene = w.id;
         fresh.onclick = () =>
           void this.session
@@ -1575,7 +1581,11 @@ class AdventureGame {
           const saved = validateAdventure(JSON.parse(r.current.json));
           if (saved.scene === "vale")
             scenery =
-              saved.layout === 5 ? " · Alderwick" : " · earlier scenery";
+              saved.layout === 6
+                ? " · Reedbank"
+                : saved.layout === 5
+                  ? " · Alderwick"
+                  : " · earlier scenery";
         } catch {}
         button.textContent =
           (r.id === this.session.current?.id ? "● " : "") + r.name + scenery;
@@ -1830,7 +1840,8 @@ class AdventureGame {
     if (this.interior) return this.roomPlacementProblem(p, root);
     if (!inWorld(p.x, p.z, this.data.scene, 4))
       return "Keep inside the explored landscape";
-    if (waterBlocked(p.x, p.z, this.data.scene)) return "Keep the water clear";
+    if (waterBlocked(p.x, p.z, this.data.scene, this.data.layout))
+      return "Keep the water clear";
     if (
       this.landscape.nearPath(p.x, p.z, p.asset.startsWith("building") ? 4 : 1)
     )
@@ -1839,7 +1850,7 @@ class AdventureGame {
     if (b) {
       const groundError = footprintGroundProblem(b, root.position.y, {
         inside: (x, z) => inWorld(x, z, this.data.scene, 0.1),
-        water: (x, z) => waterBlocked(x, z, this.data.scene),
+        water: (x, z) => waterBlocked(x, z, this.data.scene, this.data.layout),
         path: (x, z) => this.landscape.nearPath(x, z, 0.35),
         height: (x, z) => walkHeight(x, z, this.data.scene, this.data.layout),
       });

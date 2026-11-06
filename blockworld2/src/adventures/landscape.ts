@@ -1,9 +1,10 @@
+import { fitBridge } from "./bridge-fit";
 import * as T from "three";
 import { buildingEntry, type BuildingEntry } from "./building-entry";
 import { valeGround, valeWalk, valeWater } from "./vale-data";
 import { trailGeometry } from "./trail-geometry";
-export type SceneLayout = 1 | 2 | 3 | 4 | 5;
-export const LATEST_LAYOUT: SceneLayout = 5;
+export type SceneLayout = 1 | 2 | 3 | 4 | 5 | 6;
+export const LATEST_LAYOUT: SceneLayout = 6;
 import { AssetLibrary, DEFINITIONS } from "./assets";
 export type RegionId = "village" | "woodland" | "meadow";
 export type SceneId = RegionId | "vale";
@@ -102,8 +103,13 @@ export function walkHeight(
     return 0.02 + Math.max(0, 1 - Math.abs(x - riverX(z)) / 5) * 0.4;
   return groundHeight(x, z, scene);
 }
-export function waterBlocked(x: number, z: number, scene: SceneId) {
-  if (scene === "vale") return valeWater(x, z);
+export function waterBlocked(
+  x: number,
+  z: number,
+  scene: SceneId,
+  layout: SceneLayout = 1,
+) {
+  if (scene === "vale") return valeWater(x, z, layout);
   return (
     scene !== "meadow" &&
     Math.abs(x - riverX(z)) < 2.65 &&
@@ -214,6 +220,8 @@ export interface LandscapeOptions {
   ground?: (x: number, z: number) => number;
   walk?: (x: number, z: number) => number;
   fullSizeTents?: boolean;
+  alignedBridge?: boolean;
+  reserved?: (x: number, z: number) => boolean;
 }
 export class Landscape {
   group = new T.Group();
@@ -658,7 +666,7 @@ export class Landscape {
         x: 0,
         z: -16,
         description:
-          "A place for travellers and tall tales. These prefab buildings have decorative closed doors; interiors are not included.",
+          "A place for travellers and tall tales. Approach the entrance to explore the inn and its upstairs room.",
       },
       {
         id: "market",
@@ -746,6 +754,12 @@ export class Landscape {
     root.scale.set(4.2 / size.x, 3.0 / size.y, 10 / size.z);
     root.rotation.y = Math.PI / 2;
     root.position.y = -2.45;
+    if (this.options.alignedBridge) {
+      root.removeFromParent();
+      this.group.add(
+        fitBridge(this.library.create("building_bridge_A", 1), riverX(8), 8),
+      );
+    }
     const bx = riverX(8);
     this.obstacles.push(
       { minX: bx - 4.8, maxX: bx + 4.8, minZ: 5.8, maxZ: 6.1, height: 1.2 },
@@ -1098,7 +1112,11 @@ export class Landscape {
       const z = -70 + i * 3.1;
       if (Math.abs(z - 8) < 6) continue;
       const x = riverX(z) + (i % 2 ? 3.55 : -3.55);
-      if (this.nearPath(x, z, 0.8) || blocked(x, z, this.obstacles, 0.7))
+      if (
+        this.options.reserved?.(x, z) ||
+        this.nearPath(x, z, 0.8) ||
+        blocked(x, z, this.obstacles, 0.7)
+      )
         continue;
       this.instance("waterplant_A", x, z, 3.1 + random(), random() * 6.28);
     }
