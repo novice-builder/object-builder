@@ -1,7 +1,7 @@
 """Consolidate connected-world expansion evidence and verify every retained file outside the authorised active code/docs/tests."""
 from pathlib import Path
 import hashlib,html,json,re,subprocess,shutil
-ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'docs/adventures-v12';BASE='5e9753642839faf1ffb9f375683bb23ee7004be5';VERIFIED='c53c82cf6e91fd08b9646031fde22a4640bc22f9'
+ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'docs/adventures-v12';BASE='5e9753642839faf1ffb9f375683bb23ee7004be5';VERIFIED='6487551c14625ef526f3ff9434865cb7da02302a'
 phases=['settlement.json','layout-compat.json','movement-inputs.json','render-cost.json','windmills.json','visual-map.json','road-batch.json']
 expected={'settlement.json':25,'layout-compat.json':4,'movement-inputs.json':14,'render-cost.json':3,'windmills.json':22,'visual-map.json':18,'road-batch.json':6}
 receipt=json.loads((OUT/'BUILD-RECEIPT.json').read_text());assert receipt['returncode']==0

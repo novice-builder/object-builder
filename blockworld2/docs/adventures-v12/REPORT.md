@@ -1,4 +1,6 @@
-# BlockWorld Adventures — Preview 12 active development
+# BlockWorld Adventures — Preview 12
+
+Verified runtime source: `6487551c14625ef526f3ff9434865cb7da02302a`.
 
 Miller’s End extends the existing continuous Willow Vale southwest of Willowmere. A windmill lane and a cottage/garden loop connect to the original village without loading another world. A compact inn/town-house centre, quieter cottages, workshop yard and small market reuse coherent licensed CC0 assets. Six new residential/workshop buildings have independently saved furnished interiors; the inn and town house have real connected upper floors.
 
@@ -17,9 +19,9 @@ Permanent footprints appear only in explicit **new layout 7**, created as a fres
 
 The same 52 model/image URLs load: approximately 3,725,628 encoded startup bytes versus 3,722,595 for extracted Preview 11. The district view adds 15 draw calls and 47 submitted triangles (205/175,786 versus 190/175,739). Four other fixed views range from one to five fewer calls, with changing submitted foliage counts. This is scene workload, not physical mobile FPS or an optimisation claim. Ten actual layout-6/7 switches plateau at 89 uploaded geometries, 11 textures and nine programs in the sampled view. Existing assets/licences/source bytes remain unchanged; no new download or catalogue bulk.
 
-## Continuing work
+## Accepted release and continuing work
 
-This source milestone is not a finished game or accepted Preview 12 package. Immediately continue meaningful connected-world/interior work: make the existing windmill a useful enterable destination using a scale-appropriate furnished room, check navigation direction during room transitions, improve district garden/market detail, then package the coherent release into a NEW version-12 folder after real package verification. More building-specific interiors/activities, settlements and measured rendering improvements remain unfinished. No deployment, main merge, automation change or reset redemption occurred.
+Preview 12 is a local playable release checkpoint, not the end of development. Preserve all v12 evidence/archive and continue in NEW v13 paths. Next priority is a genuinely compact building-specific windmill interior with connected turning stairs and adequate headroom, retaining all existing saved rooms through explicit versioned compatibility. More useful settlements, interiors/activities and measured mobile rendering work remain unfinished. No deployment, main merge, automation change or reset redemption occurred.
 
 ## Validation correction
 
@@ -40,3 +42,7 @@ Next: measure batching the new district’s identical road surfaces against an i
 An independently retained pre-batch build exactly matches verified source `c53c82cf6e91fd08b9646031fde22a4640bc22f9`. Eleven identical-material district road meshes become one. All **330 triangles**, normals and UVs are byte-identical; buffers remain **13,244 bytes**, and paths, collision bounds, trees and entrances have the same full-scene signature. The representative district view falls from **205 to 199 draw calls** (about 2.9% fewer submissions) with 30 more submitted triangles. Willowmere retains 199 calls with 226 more triangles; the river, meadow and northern road sample counts are unchanged. This is a bounded culling tradeoff, not an FPS claim. Both actual before/after views were inspected. Source assets and all earlier layouts remain unchanged.
 
 The strict receipt remains successful after batching. A new Preview 12 package must still be extracted and tested before acceptance; then continue immediately into more accurate compact interiors and useful environment/gameplay work.
+
+## Extracted package acceptance
+
+Archive `artifacts/adventures-v12/BlockWorld-Adventures-Preview-12.zip`, **7,429,998 bytes**, SHA-256 `c25ba0b96d5e5d8812a43f0aad7c4b4eb6fa60ae44d155e69b6c48c966d6ea35`; exact runtime source `6487551c14625ef526f3ff9434865cb7da02302a`. All **131 runtime hashes**, ZIP CRC and **31 actual extracted-package checks** pass. These cover movement/Jump, northern bridge, actual stairs, controller Jump, backup download/import/reload, exact exterior return, retained lodge door, 21 thumbnails, bed floor transfer, single-storey cottage, bounded copy names, windmill identity/facing and older Preview 11 rejection without modifying records. All nine packaged gallery images load, with no missing files, external requests or page exceptions. Actual package phone screenshots were inspected. Physical devices/controllers remain unverified.
