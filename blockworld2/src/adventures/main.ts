@@ -6,6 +6,7 @@ import {
 } from "./building-entry";
 import { Interior, freshRoom } from "./interior";
 import { moveCharacter, recoverCharacter } from "./character-controller";
+import { checkpointFooting } from "./checkpoint-footing";
 import { OutdoorCollision, meshBuilding } from "./outdoor-collision";
 import { CollisionSpace } from "./mesh-collision";
 import { clone as cloneSkeleton } from "three/examples/jsm/utils/SkeletonUtils.js";
@@ -52,13 +53,13 @@ const $ = <E extends HTMLElement = HTMLElement>(id: string) =>
   document.getElementById(id) as E;
 const app = $("app");
 app.innerHTML = `
-<canvas id="view" aria-label="BlockWorld Adventures. Drag to orbit the camera. Use WASD or the touch joystick to walk." tabindex="0"></canvas>
+<canvas id="view" aria-label="BlockWorld Adventures. Drag to orbit the camera. Use WASD or the touch joystick to move." tabindex="0"></canvas>
 <header id="hud"><div class="identity"><span class="brandmark">◇</span><div class="wordmark">BLOCKWORLD<span>ADVENTURES</span></div><span class="identity-divider"></span><div class="location"><strong id="placeName">Willowmere</strong><span id="placeTag">THE VILLAGE</span></div></div><nav><button id="places" title="Choose a place">⌂ <span>Places</span></button><button id="build" title="Build with premade assets">◇ <span>Build</span></button><button id="menu" aria-label="Open menu">☰</button></nav></header>
 <div id="discoveryCount" class="smallPill">♧ <span>Little discoveries</span> <b id="discovered">0 / 5</b></div><div id="compass" aria-label="Camera direction">N <i>↑</i></div><button id="minimap" aria-label="Open world map" title="World map (M)"><canvas id="miniCanvas" aria-hidden="true"></canvas></button>
 <div id="mapOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="mapTitle"><header class="mapHeader"><div><small>THE LONG WAY HOME</small><h1 id="mapTitle">The Willow Vale</h1></div><button id="mapClose" aria-label="Close map">✕</button></header><canvas id="fullMap" tabindex="0" aria-label="World map. Drag to pan, pinch or use plus and minus to zoom. Tap a named place to travel. Keyboard arrows pan."></canvas><div class="mapTools"><button id="mapHome">⌂ Home</button><button id="mapFit" aria-label="Show whole world">⊡</button><button id="mapMinus" aria-label="Zoom map out">−</button><button id="mapPlus" aria-label="Zoom map in">+</button><select id="mapDestination" aria-label="Travel to a landmark"><option value="">Travel to…</option></select></div><p class="mapHint">Drag to explore · pinch to zoom · tap a place to travel</p></div>
-<div id="joystick" role="group" aria-label="Touch movement joystick"><div id="knob"></div></div><button id="run" class="roundControl" aria-label="Toggle running" aria-pressed="false">➟<span>Run</span></button>
+<div id="joystick" role="group" aria-label="Touch movement joystick"><div id="knob"></div></div><button id="run" class="roundControl" aria-label="Use slower walking" aria-pressed="false">➟<span>Walk</span></button><button id="jump" class="roundControl" aria-label="Jump">↑<span>Jump</span></button>
 <div id="context" hidden><span id="contextLabel"></span><button id="interact">Discover <kbd>E</kbd></button></div>
-<div id="bottomHint"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> walk</span><span>drag to look</span><span><kbd>Shift</kbd> run</span></div><div id="touchHint">Left thumb to walk · drag the world to look</div>
+<div id="bottomHint"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> run</span><span>drag to look</span><span><kbd>Space</kbd> jump</span></div><div id="touchHint">Left thumb to move · drag to look · tap ↑ to jump</div>
 <output id="toast" role="status" aria-live="polite" hidden></output><output id="saveState" aria-live="polite">Preparing your world…</output><div id="stats" hidden></div>
 <div id="editBar" hidden><span id="editName">Place object</span><button id="editRotate">↻ <span>Rotate</span></button><button id="editMove">✥ <span>Move</span></button><button id="editRemove">× <span>Remove</span></button><button id="editConfirm" class="primary">✓ <span>Place</span></button><button id="editCancel" aria-label="Cancel editing">✕</button></div>
 <div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle"></div>
@@ -79,7 +80,7 @@ class AdventureGame {
     objects: [],
     discoveries: [],
   };
-  player = { x: 0, y: 0, z: 18, yaw: 0, pitch: 0.47 };
+  player = { x: 0, y: 0, z: 18, yaw: 0, pitch: 0.47, vy: 0, grounded: true };
   cameraYaw = 0;
   cameraPitch = 0.47;
   distance = 12;
@@ -128,6 +129,10 @@ class AdventureGame {
   private transitionToken = 0;
   private entryNear: BuildingEntry | null = null;
   private roomSpace?: CollisionSpace;
+  private lastFooting?: { x: number; y: number; z: number };
+  private jumpActive = false;
+  private landingTime = 0;
+  private upgradingJump = false;
   private outdoorSpace?: CollisionSpace;
   private outdoorCollision = new OutdoorCollision(this.library);
   private roomBodySource?: readonly Obstacle[];
@@ -272,7 +277,7 @@ class AdventureGame {
         matchMedia("(pointer: coarse)").matches,
     );
     this.controls.running = preferences.running;
-    $("run").setAttribute("aria-pressed", String(preferences.running));
+    $("run").setAttribute("aria-pressed", String(!preferences.running));
     this.setQuality(preferences.quality);
     this.bind();
     document.addEventListener("keydown", (e) => {
@@ -324,6 +329,13 @@ class AdventureGame {
     for (const clip of this.library.character.animations)
       this.actions.set(clip.name, this.mixer.clipAction(clip));
     this.animate("Idle");
+    for (const name of ["Jump_Start", "Jump_Land"]) {
+      const a = this.actions.get(name);
+      if (a) {
+        a.setLoop(T.LoopOnce, 1);
+        a.clampWhenFinished = true;
+      }
+    }
     this.actorYaw = Math.PI;
     this.actor.rotation.y = Math.PI;
     await this.session.init();
@@ -380,10 +392,19 @@ class AdventureGame {
     );
   }
   snapshot() {
+    const space = this.interior ? this.roomSpace : this.outdoorSpace;
+    const footing =
+      this.data.version === 3 && space
+        ? checkpointFooting(this.player, space, this.lastFooting)
+        : this.player;
+    if (!footing)
+      throw Error(
+        "No clear checkpoint footing. Return to a safe floor before saving.",
+      );
     return makeSnapshot(this.data, {
-      x: this.player.x,
-      y: this.player.y,
-      z: this.player.z,
+      x: footing.x,
+      y: footing.y,
+      z: footing.z,
       yaw: this.cameraYaw,
       pitch: this.cameraPitch,
     });
@@ -422,6 +443,9 @@ class AdventureGame {
         );
       }
     }
+    this.jumpActive = false;
+    this.landingTime = 0;
+    this.lastFooting = undefined;
     this.transitionToken++;
     this.transitioning = false;
     $("roomFade").hidden = true;
@@ -454,14 +478,17 @@ class AdventureGame {
     this.distance = this.interior ? 8 : 12;
     this.player.y = data.inside
       ? roomArrival!.y
-      : walkHeight(
-          this.player.x,
-          this.player.z,
-          this.data.scene,
-          this.data.layout,
-        );
+      : data.version === 3
+        ? snapshot.player.y
+        : walkHeight(
+            this.player.x,
+            this.player.z,
+            this.data.scene,
+            this.data.layout,
+          );
     this.safeSpawn();
     Object.assign(this.player, { vy: 0, grounded: true });
+    this.lastFooting = { ...this.player };
     this.actor.position.set(this.player.x, this.player.y, this.player.z);
     this.contactShadow.position.set(
       this.player.x,
@@ -556,6 +583,8 @@ class AdventureGame {
     if (this.transitioning || this.busy || this.session.busy) return;
     const token = ++this.transitionToken;
     this.transitioning = true;
+    this.jumpActive = false;
+    this.landingTime = 0;
     this.controls.clear();
     this.velocity.set(0, 0);
     this.cancelEdit();
@@ -580,6 +609,7 @@ class AdventureGame {
       this.history = [];
       this.redoHistory = [];
       this.safeSpawn();
+      this.lastFooting = { ...this.player };
       this.actor.position.set(this.player.x, this.player.y, this.player.z);
       this.contactShadow.position.set(
         this.player.x,
@@ -628,7 +658,7 @@ class AdventureGame {
       this.data.rooms && Object.hasOwn(this.data.rooms, entry.id)
         ? this.data.rooms[entry.id]
         : null;
-    const state = stored || freshRoom(entry);
+    const state = stored || freshRoom(entry, this.library);
     // Construct geometry before retiring the exterior. Source models are already loaded.
     const room = new Interior(this.library, state.entry);
     const arrival = this.prepareRoomPose(room, state.objects, {
@@ -645,7 +675,8 @@ class AdventureGame {
     await this.roomTransition(
       "Stepping inside…",
       () => {
-        this.data.version = 2;
+        this.data.version =
+          state.entry.levels !== undefined || this.data.version === 3 ? 3 : 2;
         this.data.rooms ||= {};
         this.data.rooms[entry.id] = state;
         this.data.inside = { id: entry.id, outside };
@@ -664,8 +695,10 @@ class AdventureGame {
         $("placeTag").textContent = "INSIDE · YOUR OWN ROOM";
       },
       async () => {
-        if (this.data.version === 1) {
-          await this.session.copyForRooms();
+        if (this.data.version < (state.entry.levels !== undefined ? 3 : 2)) {
+          await this.session.copyForRooms(
+            state.entry.levels !== undefined ? 3 : 2,
+          );
           this.toast("Original world kept. Rooms are saved in a new copy.");
         }
       },
@@ -766,7 +799,8 @@ class AdventureGame {
       box.min.x < -w + 0.22 ||
       box.max.x > w - 0.22 ||
       box.min.z < -d + 0.22 ||
-      box.max.z > d - 0.22
+      box.max.z > d - 0.22 ||
+      box.max.y > (room.upstairs ? 6 : 3) - 0.08
     )
       return "Keep furniture inside the room";
     if (box.max.z > d - 2.1 && box.min.x < 0.9 && box.max.x > -0.9 && y === 0)
@@ -788,9 +822,12 @@ class AdventureGame {
     for (const x of [box.min.x, box.max.x])
       for (const z of [box.min.z, box.max.z]) {
         if (
-          !floorSpace.valid(x, z) ||
           !floorSpace.floor(x, z, y + 0.03, y - 0.03) ||
-          !floorSpace.clear({ x, y: y + 0.002, z })
+          !floorSpace.clear(
+            { x, y: y + 0.002, z },
+            0.02,
+            Math.max(0.1, box.max.y - y),
+          )
         )
           return "Choose clear floor space";
       }
@@ -828,7 +865,9 @@ class AdventureGame {
       );
       return;
     }
-    Object.assign(this.player, arrival);
+    Object.assign(this.player, arrival, { vy: 0, grounded: true });
+    this.jumpActive = false;
+    this.landingTime = 0;
     this.player.y = walkHeight(
       arrival.x,
       arrival.z,
@@ -838,6 +877,7 @@ class AdventureGame {
     this.velocity.set(0, 0);
     this.actor.position.set(this.player.x, this.player.y, this.player.z);
     this.controls.clear();
+    this.lastFooting = { ...this.player };
     this.animate("Idle");
     this.cameraPosition.set(0, 0, 0);
     this.debugCamera = false;
@@ -1006,8 +1046,12 @@ class AdventureGame {
     if (this.currentAnimation === name) return;
     const action = this.actions.get(name);
     if (!action) return;
-    this.actions.get(this.currentAnimation)?.fadeOut(0.24);
-    action.reset().fadeIn(0.24).play();
+    const fade =
+      name.startsWith("Jump") || this.currentAnimation.startsWith("Jump")
+        ? 0.1
+        : 0.24;
+    this.actions.get(this.currentAnimation)?.fadeOut(fade);
+    action.reset().fadeIn(fade).play();
     this.currentAnimation = name;
   }
   update(dt: number, input = this.controls.movement()) {
@@ -1034,13 +1078,18 @@ class AdventureGame {
     }
     this.refreshRoomPhysics();
     const previousX = this.player.x,
-      previousZ = this.player.z;
+      previousZ = this.player.z,
+      previousY = this.player.y,
+      jump = this.controls.consumeJump();
+    if (jump && this.player.grounded) this.jumpActive = true;
     moveCharacter(
       this.player,
-      { vx: this.velocity.x, vz: this.velocity.y },
+      { vx: this.velocity.x, vz: this.velocity.y, jump },
       dt,
       (this.interior ? this.roomSpace : this.outdoorSpace)!,
     );
+    if (this.player.grounded) this.lastFooting = { ...this.player };
+    if (this.player.y !== previousY) this.dirty = true;
     this.actor.position.set(this.player.x, this.player.y, this.player.z);
     this.contactShadow.position.set(
       this.player.x,
@@ -1061,7 +1110,23 @@ class AdventureGame {
       this.actor.rotation.y = this.actorYaw;
       this.dirty = true;
     }
-    this.animate(moving ? (input.run ? "Running_A" : "Walking_A") : "Idle");
+    if (this.jumpActive && this.player.grounded) {
+      this.jumpActive = false;
+      this.landingTime = 0.12;
+    }
+    const animation = this.jumpActive
+      ? this.player.vy > 2
+        ? "Jump_Start"
+        : "Jump_Idle"
+      : this.landingTime > 0 && !moving
+        ? "Jump_Land"
+        : moving
+          ? input.run
+            ? "Running_A"
+            : "Walking_A"
+          : "Idle";
+    this.landingTime = Math.max(0, this.landingTime - dt);
+    this.animate(animation);
     this.actions
       .get("Walking_A")
       ?.setEffectiveTimeScale(Math.max(0.7, travelledSpeed / 3.05));
@@ -1392,8 +1457,15 @@ class AdventureGame {
     $("interact").onclick = () => this.discover();
     $("run").onclick = () => {
       this.controls.running = !this.controls.running;
-      $("run").setAttribute("aria-pressed", String(this.controls.running));
+      $("run").setAttribute("aria-pressed", String(!this.controls.running));
       this.storePreferences();
+    };
+    $("jump").addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      void this.requestJump();
+    });
+    $("jump").onclick = (e) => {
+      if (e.detail === 0) void this.requestJump();
     };
     $("editCancel").onclick = () => this.cancelEdit();
     $("editRotate").onclick = () => {
@@ -1435,6 +1507,32 @@ class AdventureGame {
       } else this.moveSelected();
     };
   }
+  private async requestJump() {
+    if (
+      !this.enabled() ||
+      this.pending ||
+      this.upgradingJump ||
+      !this.player.grounded
+    )
+      return;
+    this.upgradingJump = true;
+    try {
+      if (this.data.version < 3) {
+        await this.session.copyForRooms(3);
+        this.data.version = 3;
+        this.data.rooms ||= {};
+        await this.session.save();
+        this.toast(
+          "Original world kept. Movement is saved in an updated copy.",
+        );
+      }
+      this.controls.requestJump();
+    } catch (e) {
+      this.toast(`Jump copy could not be saved: ${(e as Error).message}`);
+    } finally {
+      this.upgradingJump = false;
+    }
+  }
   private key(code: string) {
     if (this.busy || this.transitioning) return;
     if (!this.started) {
@@ -1452,6 +1550,10 @@ class AdventureGame {
     }
     if (code === "PadMap") {
       this.worldMap.open ? this.closeWorldMap() : this.openWorldMap();
+      return;
+    }
+    if (code === "Space" || code === "PadJump") {
+      void this.requestJump();
       return;
     }
     if (code === "PadRun") {
@@ -1656,7 +1758,7 @@ class AdventureGame {
   private menu() {
     if (this.transitioning) return;
     this.openModal(
-      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Walk with WASD or the left joystick. Drag the world to turn the camera. Hold Shift or tap Run to move faster. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick walks; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Run. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview ${PREVIEW_VERSION}. Cottages, town houses, inns, workshops and millhouses have separate furnished rooms. Houses, inns and millhouses have walkable stairs. First entry keeps the original world and starts an interior copy; new bedrooms and Reedbank backups need Preview 10 or later. The Meadow Lodge keeps its opening door. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
+      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Move with WASD or the left joystick. Drag the world to turn the camera. Running is the default. Tap Walk for a slower pace; hold Shift to run while walking. Press Space or tap Jump to jump. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick moves; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Walk; left bumper jumps. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview ${PREVIEW_VERSION}. Cottages, town houses, inns, workshops and millhouses have separate furnished rooms. Town houses, inns and millhouses have walkable stairs. New cottages and workshops have one floor. Older saved upper floors stay intact. Older saved worlds keep their original record when new features need an updated copy. New room templates, movement copies and their backups need Preview 11 or later. The Meadow Lodge keeps its opening door. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
     );
     $("resume").onclick = () => this.closeModal();
     $("home").onclick = () => {

@@ -1,0 +1,298 @@
+{
+  "environment": "Managed Chromium SwiftShader; CPU timings of paused simulation only, not physical mobile FPS.",
+  "checks": [
+    {
+      "name": "ordinary keyboard still crosses northern fitted bridge in the same world",
+      "passed": true,
+      "detail": {
+        "x": 34.27916356357986,
+        "min": -0.08912013521995851,
+        "max": 0.442,
+        "frames": 456,
+        "layout": 6
+      }
+    },
+    {
+      "name": "retained physical lodge door opens under the new controller",
+      "passed": true,
+      "detail": {
+        "open": true,
+        "angle": 1.5707963267948966,
+        "player": {
+          "x": 128,
+          "y": 0.002,
+          "z": -36,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "lodge",
+          "name": "Meadow Lodge"
+        }
+      }
+    },
+    {
+      "name": "ordinary keyboard passes through the real open lodge doorway",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 128,
+          "y": 0.062,
+          "z": -40.52921320661012,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "lodge",
+          "name": "Meadow Lodge"
+        },
+        "inside": true
+      }
+    },
+    {
+      "name": "ordinary keyboard leaves retained lodge safely",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 128,
+          "y": 0.002,
+          "z": -36.49992548879001,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "lodge",
+          "name": "Meadow Lodge"
+        },
+        "inside": false
+      }
+    },
+    {
+      "name": "repeated body rebuilds retain bounded shared model/step caches",
+      "passed": true,
+      "detail": {
+        "rows": [
+          {
+            "simulationMs": 0.06733333334326744,
+            "cameraMs": 0.6369999998807907
+          },
+          {
+            "simulationMs": 0.04533333336313566,
+            "cameraMs": 0.05399999991059303
+          },
+          {
+            "simulationMs": 0.04400000000993411,
+            "cameraMs": 0.05700000002980232
+          },
+          {
+            "simulationMs": 0.16900000000993412,
+            "cameraMs": 0.050999999940395356
+          },
+          {
+            "simulationMs": 0.035666666676600775,
+            "cameraMs": 0.045
+          },
+          {
+            "simulationMs": 0.03699999998013179,
+            "cameraMs": 0.08400000005960465
+          },
+          {
+            "simulationMs": 0.08333333333333333,
+            "cameraMs": 0.39200000002980234
+          }
+        ],
+        "stats": {
+          "instances": 43,
+          "cachedTriangles": 20422,
+          "boxes": 1117
+        },
+        "cacheBefore": {
+          "shapes": 11,
+          "steps": 3
+        },
+        "cacheAfter": {
+          "shapes": 11,
+          "steps": 3
+        },
+        "flights": [
+          {
+            "asset": "building_well_blue",
+            "flights": []
+          },
+          {
+            "asset": "building_home_A_blue",
+            "flights": []
+          },
+          {
+            "asset": "building_home_B_green",
+            "flights": [
+              {
+                "count": 4,
+                "firstY": 0.052502284199000826,
+                "topY": 0.21000227928161763
+              }
+            ]
+          },
+          {
+            "asset": "building_home_A_green",
+            "flights": []
+          },
+          {
+            "asset": "building_home_B_blue",
+            "flights": [
+              {
+                "count": 4,
+                "firstY": 0.052502284199000826,
+                "topY": 0.21000227928161763
+              }
+            ]
+          },
+          {
+            "asset": "building_tavern_blue",
+            "flights": [
+              {
+                "count": 4,
+                "firstY": 0.05250001251692993,
+                "topY": 0.21000001132483703
+              }
+            ]
+          },
+          {
+            "asset": "building_church_blue",
+            "flights": []
+          },
+          {
+            "asset": "building_blacksmith_blue",
+            "flights": []
+          },
+          {
+            "asset": "building_market_blue",
+            "flights": []
+          },
+          {
+            "asset": "building_windmill_blue",
+            "flights": []
+          },
+          {
+            "asset": "building_watermill_blue",
+            "flights": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "bridge/lodge/collision checks have no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "cost": {
+    "rows": [
+      {
+        "simulationMs": 0.06733333334326744,
+        "cameraMs": 0.6369999998807907
+      },
+      {
+        "simulationMs": 0.04533333336313566,
+        "cameraMs": 0.05399999991059303
+      },
+      {
+        "simulationMs": 0.04400000000993411,
+        "cameraMs": 0.05700000002980232
+      },
+      {
+        "simulationMs": 0.16900000000993412,
+        "cameraMs": 0.050999999940395356
+      },
+      {
+        "simulationMs": 0.035666666676600775,
+        "cameraMs": 0.045
+      },
+      {
+        "simulationMs": 0.03699999998013179,
+        "cameraMs": 0.08400000005960465
+      },
+      {
+        "simulationMs": 0.08333333333333333,
+        "cameraMs": 0.39200000002980234
+      }
+    ],
+    "stats": {
+      "instances": 43,
+      "cachedTriangles": 20422,
+      "boxes": 1117
+    },
+    "cacheBefore": {
+      "shapes": 11,
+      "steps": 3
+    },
+    "cacheAfter": {
+      "shapes": 11,
+      "steps": 3
+    },
+    "flights": [
+      {
+        "asset": "building_well_blue",
+        "flights": []
+      },
+      {
+        "asset": "building_home_A_blue",
+        "flights": []
+      },
+      {
+        "asset": "building_home_B_green",
+        "flights": [
+          {
+            "count": 4,
+            "firstY": 0.052502284199000826,
+            "topY": 0.21000227928161763
+          }
+        ]
+      },
+      {
+        "asset": "building_home_A_green",
+        "flights": []
+      },
+      {
+        "asset": "building_home_B_blue",
+        "flights": [
+          {
+            "count": 4,
+            "firstY": 0.052502284199000826,
+            "topY": 0.21000227928161763
+          }
+        ]
+      },
+      {
+        "asset": "building_tavern_blue",
+        "flights": [
+          {
+            "count": 4,
+            "firstY": 0.05250001251692993,
+            "topY": 0.21000001132483703
+          }
+        ]
+      },
+      {
+        "asset": "building_church_blue",
+        "flights": []
+      },
+      {
+        "asset": "building_blacksmith_blue",
+        "flights": []
+      },
+      {
+        "asset": "building_market_blue",
+        "flights": []
+      },
+      {
+        "asset": "building_windmill_blue",
+        "flights": []
+      },
+      {
+        "asset": "building_watermill_blue",
+        "flights": []
+      }
+    ]
+  }
+}

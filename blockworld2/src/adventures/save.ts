@@ -11,7 +11,7 @@ import {
   type SceneId,
 } from "./landscape";
 export interface AdventureData {
-  version: 1 | 2;
+  version: 1 | 2 | 3;
   scene: SceneId;
   /** Missing in preview 01: retain its original permanent scene layout. */
   layout?: SceneLayout;
@@ -34,7 +34,7 @@ export function validateAdventure(s: Snapshot): AdventureData {
   const a = s.world.adventure as AdventureData;
   if (
     !a ||
-    ![1, 2].includes(a.version) ||
+    ![1, 2, 3].includes(a.version) ||
     (a.version === 1 && (a.rooms !== undefined || a.inside !== undefined)) ||
     (a.layout !== undefined &&
       a.layout !== 1 &&
@@ -83,7 +83,7 @@ export function validateAdventure(s: Snapshot): AdventureData {
       throw Error("Invalid imported object. Existing saves are unchanged.");
     ids.add(o.id);
   }
-  if (a.version === 2) validateRooms(a, s);
+  if (a.version >= 2) validateRooms(a, s);
   if (!a.inside && !inWorld(s.player.x, s.player.z, a.scene, -0.001))
     throw Error("Player outside the preview boundary.");
   return { ...structuredClone(a), layout: a.layout ?? 1 };
@@ -115,6 +115,8 @@ function validateRooms(a: AdventureData, s: Snapshot) {
       e.width > 10 ||
       e.depth < 6.8 ||
       e.depth > 12 ||
+      (e.levels !== undefined &&
+        (![1, 2].includes(e.levels) || a.version < 3)) ||
       (e.threshold !== undefined &&
         (!e.threshold ||
           ![e.threshold.x, e.threshold.y, e.threshold.z].every(
@@ -141,7 +143,7 @@ function validateRooms(a: AdventureData, s: Snapshot) {
         Math.abs(p.x) > e.width / 2 ||
         Math.abs(p.z) > e.depth / 2 ||
         ![0, 3].includes(p.y ?? 0) ||
-        (e.kind === "workshop" && (p.y ?? 0) !== 0) ||
+        ((e.kind === "workshop" || e.levels === 1) && (p.y ?? 0) !== 0) ||
         p.scale < 0.2 ||
         p.scale > 14
       )
@@ -166,7 +168,12 @@ function validateRooms(a: AdventureData, s: Snapshot) {
       Math.abs(s.player.x) > room.entry.width / 2 ||
       Math.abs(s.player.z) > room.entry.depth / 2 ||
       s.player.y < 0 ||
-      s.player.y > 3.05
+      s.player.y >
+        (a.version === 3
+          ? room.entry.levels === 1 || room.entry.kind === "workshop"
+            ? 1.3
+            : 4.3
+          : 3.05)
     )
       throw Error("Invalid saved interior location.");
   }
@@ -184,7 +191,10 @@ export function makeSnapshot(
       layout: 1,
       adventure: structuredClone(data),
     },
-    player: { ...pose, y: data.inside ? (pose.y ?? 0) : 0 },
+    player: {
+      ...pose,
+      y: data.inside || data.version === 3 ? (pose.y ?? 0) : 0,
+    },
     preferences: { selected: "hand", avatar: "explorer", camera: "third" },
   };
 }
@@ -217,7 +227,8 @@ export class AdventureSession {
         w.name,
         makeSnapshot(
           {
-            version: 1,
+            version: 3,
+            rooms: {},
             scene: w.id,
             layout: w.id === "vale" ? LATEST_LAYOUT : 3,
             objects: [],
@@ -287,7 +298,8 @@ export class AdventureSession {
       const w = WORLDS.find((w) => w.id === scene)!;
       const snapshot = makeSnapshot(
         {
-          version: 1,
+          version: 3,
+          rooms: {},
           scene,
           layout: w.id === "vale" ? LATEST_LAYOUT : 3,
           objects: [],
@@ -337,14 +349,18 @@ export class AdventureSession {
       this.capture(),
     );
   }
-  /** First interior entry forks an independently stored copy; the version-1 source stays readable by old previews. */
-  copyForRooms() {
+  /** Feature upgrades fork an independently stored copy; older records remain readable by their previews. */
+  copyForRooms(targetVersion: 2 | 3 = 2) {
     return this.change(async () => {
       await this.flush();
       const snapshot = this.capture();
       validateAdventure(snapshot);
-      if ((snapshot.world.adventure as AdventureData).version !== 1) return;
-      const base = `${this.current?.name || "Adventure"} · interiors`,
+      const data = snapshot.world.adventure as AdventureData;
+      if (data.version >= targetVersion) return;
+      data.version = targetVersion;
+      data.rooms ||= {};
+      validateAdventure(snapshot);
+      const base = `${this.current?.name || "Adventure"} · ${targetVersion === 3 ? "updated adventure" : "interiors"}`,
         used = new Set((await this.store.list()).map((r) => r.name));
       let name = base,
         index = 2;
@@ -354,7 +370,7 @@ export class AdventureSession {
       this.current = record;
       this.last = encode(snapshot).json;
       this.blocked = false;
-      this.status("Original world kept · interior copy ready");
+      this.status("Original world kept · updated copy ready");
     });
   }
   recover() {

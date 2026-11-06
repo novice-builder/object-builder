@@ -20,6 +20,7 @@ export const PAD_BUTTONS: readonly [number, string][] = [
   [3, "KeyE"],
   [2, "KeyB"],
   [5, "KeyR"],
+  [4, "PadJump"],
   [10, "PadRun"],
   [12, "PadUp"],
   [13, "PadDown"],

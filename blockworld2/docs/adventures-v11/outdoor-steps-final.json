@@ -1,0 +1,441 @@
+{
+  "environment": "Chromium SwiftShader phone/tablet emulation; injected browser Gamepad API. No physical device/controller tests.",
+  "checks": [
+    {
+      "name": "phone actual oversized prefab has fitted mesh steps and aligned entrance",
+      "passed": true,
+      "detail": {
+        "key": "building_home_B_green:8",
+        "start": {
+          "x": -111.44485449790955,
+          "y": 0,
+          "z": 8.98266025960511
+        },
+        "goal": {
+          "x": -113.86285458803177,
+          "y": 1.512016410827647,
+          "z": 8.98266025960511
+        },
+        "e": {
+          "id": "village:building_home_B_green:-11.000:10.000:1.571",
+          "name": "Town house",
+          "kind": "townhouse",
+          "levels": 2,
+          "x": -110.99485449790954,
+          "z": 8.982660259605108,
+          "yaw": 1.5707963267948966,
+          "width": 6.299483299255371,
+          "depth": 7.910291004180908,
+          "threshold": {
+            "x": -113.86285458803177,
+            "y": 1.512016410827647,
+            "z": 8.98266025960511
+          }
+        },
+        "stats": {
+          "instances": 43,
+          "cachedTriangles": 20422,
+          "boxes": 1117
+        }
+      }
+    },
+    {
+      "name": "phone keyboard ascends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -111.44485449790955,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -113.82657489449224,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.1890020728111268,
+        "remaining": 0.03627969353952665
+      }
+    },
+    {
+      "name": "phone elevated exterior camera and door prompt remain useful",
+      "passed": true,
+      "detail": {
+        "actor": true,
+        "distance": 11.999999999999998,
+        "prompt": true
+      }
+    },
+    {
+      "name": "phone fade from stair threshold returns to same elevated exterior position",
+      "passed": true,
+      "detail": {
+        "inside": true,
+        "outside": true,
+        "position": 0,
+        "dy": 0
+      }
+    },
+    {
+      "name": "phone keyboard descends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -113.82657489449224,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -111.49460904340373,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0,
+        "remaining": 0.04975454549418146
+      }
+    },
+    {
+      "name": "phone touch ascends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -111.44485449790955,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -113.80798983415033,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.1890020728111268,
+        "remaining": 0.05486475388143219
+      }
+    },
+    {
+      "name": "phone touch descends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -113.80798983415033,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -111.49227893736486,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0,
+        "remaining": 0.047424439455312495
+      }
+    },
+    {
+      "name": "phone gamepad ascends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -111.44485449790955,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -113.79817713362854,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.1890020728111268,
+        "remaining": 0.06467745440322403
+      }
+    },
+    {
+      "name": "phone gamepad descends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -113.79817713362854,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -111.48562796488207,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0,
+        "remaining": 0.040773466972524375
+      }
+    },
+    {
+      "name": "phone actual scenery stairs have no browser errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet actual oversized prefab has fitted mesh steps and aligned entrance",
+      "passed": true,
+      "detail": {
+        "key": "building_home_B_green:8",
+        "start": {
+          "x": -111.44485449790955,
+          "y": 0,
+          "z": 8.98266025960511
+        },
+        "goal": {
+          "x": -113.86285458803177,
+          "y": 1.512016410827647,
+          "z": 8.98266025960511
+        },
+        "e": {
+          "id": "village:building_home_B_green:-11.000:10.000:1.571",
+          "name": "Town house",
+          "kind": "townhouse",
+          "levels": 2,
+          "x": -110.99485449790954,
+          "z": 8.982660259605108,
+          "yaw": 1.5707963267948966,
+          "width": 6.299483299255371,
+          "depth": 7.910291004180908,
+          "threshold": {
+            "x": -113.86285458803177,
+            "y": 1.512016410827647,
+            "z": 8.98266025960511
+          }
+        },
+        "stats": {
+          "instances": 43,
+          "cachedTriangles": 20422,
+          "boxes": 1117
+        }
+      }
+    },
+    {
+      "name": "tablet keyboard ascends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -111.44485449790955,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -113.82657489449224,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.1890020728111268,
+        "remaining": 0.03627969353952665
+      }
+    },
+    {
+      "name": "tablet elevated exterior camera and door prompt remain useful",
+      "passed": true,
+      "detail": {
+        "actor": true,
+        "distance": 11.999999999999998,
+        "prompt": true
+      }
+    },
+    {
+      "name": "tablet fade from stair threshold returns to same elevated exterior position",
+      "passed": true,
+      "detail": {
+        "inside": true,
+        "outside": true,
+        "position": 0,
+        "dy": 0
+      }
+    },
+    {
+      "name": "tablet keyboard descends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -113.82657489449224,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -111.49460904340373,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0,
+        "remaining": 0.04975454549418146
+      }
+    },
+    {
+      "name": "tablet touch ascends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -111.44485449790955,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -113.80798983415033,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.1890020728111268,
+        "remaining": 0.05486475388143219
+      }
+    },
+    {
+      "name": "tablet touch descends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -113.80798983415033,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -111.49227893736486,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0,
+        "remaining": 0.047424439455312495
+      }
+    },
+    {
+      "name": "tablet gamepad ascends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -111.44485449790955,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -113.79817713362854,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0.1890020728111268,
+        "remaining": 0.06467745440322403
+      }
+    },
+    {
+      "name": "tablet gamepad descends actual outdoor steps",
+      "passed": true,
+      "detail": {
+        "from": {
+          "x": -113.79817713362854,
+          "y": 1.5140163679122924,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "p": {
+          "x": -111.48562796488207,
+          "y": 0.002,
+          "z": 8.98266025960511,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "maxRise": 0,
+        "remaining": 0.040773466972524375
+      }
+    },
+    {
+      "name": "tablet actual scenery stairs have no browser errors",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}

@@ -3,7 +3,16 @@ export class AdventureControls {
   gamepad = new GamepadInput();
   keys = new Set<string>();
   stick = { x: 0, y: 0 };
-  running = false;
+  running = true;
+  private jumpQueued = false;
+  requestJump() {
+    if (this.enabled()) this.jumpQueued = true;
+  }
+  consumeJump() {
+    const jump = this.jumpQueued;
+    this.jumpQueued = false;
+    return jump;
+  }
   private pointers = new Map<number, { x: number; y: number }>();
   private stickPointer: number | null = null;
   private stickOrigin = { x: 0, y: 0 };
@@ -143,6 +152,7 @@ export class AdventureControls {
     addEventListener("gamepadconnected", () => this.gamepad.reset());
     addEventListener("gamepaddisconnected", (e) => {
       if (this.gamepad.index === e.gamepad.index) {
+        this.jumpQueued = false;
         this.gamepad.sample([]);
         this.padStatus(false);
       }
@@ -193,12 +203,14 @@ export class AdventureControls {
     );
     if (connected !== this.gamepad.connected)
       this.padStatus(this.gamepad.connected);
+    if (connected && !this.gamepad.connected) this.jumpQueued = false;
     if (s.command) this.action(s.command);
     if (this.padOverlay(s.x, s.z, s.lookX, s.lookY, dt)) return;
     if (this.enabled() && (s.lookX || s.lookY))
       this.look(s.lookX * dt * 420, s.lookY * dt * 320);
   }
   clear() {
+    this.jumpQueued = false;
     this.gamepad.reset();
     this.releaseStick();
     this.releaseWorld();

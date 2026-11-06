@@ -231,3 +231,27 @@ test("first room entry keeps a separate version-1 source record and aborts copyi
     f.session.store.db.close();
   }
 });
+
+test("version-3 upgrade keeps an independently recoverable older room record and only copies once", async () => {
+  const f = await fixture();
+  try {
+    const old = initial("village", 6);
+    (old.world.adventure as any).version = 2;
+    (old.world.adventure as any).rooms = {};
+    f.set(old);
+    await f.session.save();
+    const original = f.session.current!.id,
+      before = (await f.session.store.load(original)).snapshot;
+    await f.session.copyForRooms(3);
+    assert.notEqual(f.session.current!.id, original);
+    assert.deepEqual((await f.session.store.load(original)).snapshot, before);
+    const copy = await f.session.store.load(f.session.current!.id);
+    assert.equal((copy.snapshot.world.adventure as any).version, 3);
+    f.set(copy.snapshot);
+    const count = (await f.session.store.list()).length;
+    await f.session.copyForRooms(3);
+    assert.equal((await f.session.store.list()).length, count);
+  } finally {
+    f.session.store.db.close();
+  }
+});

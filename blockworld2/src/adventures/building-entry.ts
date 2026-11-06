@@ -10,6 +10,8 @@ export interface BuildingEntry {
   yaw: number;
   width: number;
   depth: number;
+  /** Missing means the saved legacy room: preserve its original upper floor. */
+  levels?: 1 | 2;
   threshold?: { x: number; y: number; z: number };
 }
 export function entryDistance(
@@ -71,6 +73,7 @@ export function buildingEntry(
       mill: "The millhouse",
     }[kind],
     kind,
+    levels: kind === "cottage" || kind === "workshop" ? 1 : 2,
     x: x + Math.sin(yaw) * front + Math.cos(yaw) * lateral,
     z: z + Math.cos(yaw) * front - Math.sin(yaw) * lateral,
     yaw,

@@ -1,0 +1,555 @@
+{
+  "environment": "Managed Chromium SwiftShader phone/tablet emulation; no physical hardware claim.",
+  "checks": [
+    {
+      "name": "cottage matches exterior storey count and has an independent furnished room",
+      "passed": true,
+      "detail": {
+        "levels": 1,
+        "upstairs": false,
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.2,
+            "z": -1.2999999999999998,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.2,
+            "z": -0.1499999999999999,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.1999999999999997,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "corner-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.1999999999999997,
+            "z": 2.7,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": 1.8499999999999999,
+            "z": -1.5999999999999999,
+            "y": 0,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": 0.6000000000000001,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "version": 3,
+        "rooms": 1
+      }
+    },
+    {
+      "name": "new cottage keeps every furnishing on its only floor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "single-storey furnishings have clear usable placement",
+      "passed": true,
+      "detail": [
+        {
+          "id": "table",
+          "problem": null
+        },
+        {
+          "id": "seat",
+          "problem": null
+        },
+        {
+          "id": "shelf",
+          "problem": null
+        },
+        {
+          "id": "rug",
+          "problem": null
+        },
+        {
+          "id": "corner-shelf",
+          "problem": null
+        },
+        {
+          "id": "bed",
+          "problem": null
+        },
+        {
+          "id": "bedside",
+          "problem": null
+        }
+      ]
+    },
+    {
+      "name": "jumping from furniture respects real single-storey ceiling headroom",
+      "passed": true,
+      "detail": {
+        "max": 1.2486564788380818,
+        "checkpoint": 0.6957499999999388,
+        "blocked": false
+      }
+    },
+    {
+      "name": "cottage reload retains its own furnishings",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "inside": true
+      }
+    },
+    {
+      "name": "cottage exits to its exact clear original entrance",
+      "passed": true,
+      "detail": {
+        "outside": true,
+        "distance": 0
+      }
+    },
+    {
+      "name": "cottage room checks have no browser exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "townhouse matches exterior storey count and has an independent furnished room",
+      "passed": true,
+      "detail": {
+        "levels": 2,
+        "upstairs": true,
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.4497416496276856,
+            "z": -1.855145502090454,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.4497416496276856,
+            "z": -0.705145502090454,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.449741649627686,
+            "z": -3.355145502090454,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.449741649627686,
+            "z": 3.2551455020904543,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -2.0497416496276855,
+            "z": -2.1551455020904537,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -0.8497416496276857,
+            "z": -3.355145502090454,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "version": 3,
+        "rooms": 1
+      }
+    },
+    {
+      "name": "townhouse ordinary movement reaches upper floor around actual stair geometry",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "y": 3.002
+      }
+    },
+    {
+      "name": "townhouse upper-floor jump saves/reloads on the correct upper floor",
+      "passed": true,
+      "detail": {
+        "live": 3.633666666666667,
+        "saved": 3.002,
+        "restored": 3.002,
+        "inside": true
+      }
+    },
+    {
+      "name": "townhouse upper floor retains normal furniture editing",
+      "passed": true,
+      "detail": {
+        "problem": null,
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.4497416496276856,
+            "z": -1.855145502090454,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.4497416496276856,
+            "z": -0.705145502090454,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.449741649627686,
+            "z": -3.355145502090454,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.449741649627686,
+            "z": 3.2551455020904543,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -0.8497416496276857,
+            "z": -3.355145502090454,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -1.8497416496276855,
+            "z": -2.1551455020904537,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          }
+        ]
+      }
+    },
+    {
+      "name": "townhouse walks back downstairs through connected landings",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "y": 0.002000000000000014
+      }
+    },
+    {
+      "name": "townhouse reload retains its own furnishings",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "inside": true
+      }
+    },
+    {
+      "name": "townhouse exits to its exact clear original entrance",
+      "passed": true,
+      "detail": {
+        "outside": true,
+        "distance": 0
+      }
+    },
+    {
+      "name": "townhouse room checks have no browser exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "inn matches exterior storey count and has an independent furnished room",
+      "passed": true,
+      "detail": {
+        "levels": 2,
+        "upstairs": true,
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -3.3,
+            "z": -3.762197399139405,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -3.3,
+            "z": -2.612197399139405,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.3,
+            "z": -5.2621973991394055,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.3,
+            "z": 5.162197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -3.9,
+            "z": -4.062197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -2.7,
+            "z": -5.2621973991394055,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "guest-bed",
+            "asset": "furniture-bedsingle",
+            "x": -1.7000000000000002,
+            "z": -4.062197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          }
+        ],
+        "version": 3,
+        "rooms": 1
+      }
+    },
+    {
+      "name": "inn ordinary movement reaches upper floor around actual stair geometry",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "y": 3.002
+      }
+    },
+    {
+      "name": "inn upper-floor jump saves/reloads on the correct upper floor",
+      "passed": true,
+      "detail": {
+        "live": 3.633666666666667,
+        "saved": 3.002,
+        "restored": 3.002,
+        "inside": true
+      }
+    },
+    {
+      "name": "inn upper floor retains normal furniture editing",
+      "passed": true,
+      "detail": {
+        "problem": null,
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -3.3,
+            "z": -3.762197399139405,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -3.3,
+            "z": -2.612197399139405,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.3,
+            "z": -5.2621973991394055,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.3,
+            "z": 5.162197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -2.7,
+            "z": -5.2621973991394055,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "guest-bed",
+            "asset": "furniture-bedsingle",
+            "x": -1.7000000000000002,
+            "z": -4.062197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -3.6999999999999997,
+            "z": -4.062197399139405,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          }
+        ]
+      }
+    },
+    {
+      "name": "inn walks back downstairs through connected landings",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "y": 0.002000000000000014
+      }
+    },
+    {
+      "name": "inn reload retains its own furnishings",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "inside": true
+      }
+    },
+    {
+      "name": "inn exits to its exact clear original entrance",
+      "passed": true,
+      "detail": {
+        "outside": true,
+        "distance": 0
+      }
+    },
+    {
+      "name": "inn room checks have no browser exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}

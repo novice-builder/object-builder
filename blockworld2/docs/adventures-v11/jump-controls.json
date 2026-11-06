@@ -1,0 +1,326 @@
+{
+  "environment": "Chromium SwiftShader, iPhone/tablet-size emulation, actual touch/keyboard events and injected standard Gamepad API. No physical device/controller test.",
+  "checks": [
+    {
+      "name": "phone fresh runtime defaults to Run with optional Walk",
+      "passed": true,
+      "detail": {
+        "version": 3,
+        "running": true,
+        "walk": "\u279fWalk",
+        "pressed": "false"
+      }
+    },
+    {
+      "name": "phone ordinary input runs by default and Walk provides slower movement",
+      "passed": true,
+      "detail": [
+        5.479172262434535,
+        2.785245900070862
+      ]
+    },
+    {
+      "name": "phone explicit Walk preference survives actual reload",
+      "passed": true,
+      "detail": "{\"quality\":\"gentle\",\"running\":false}"
+    },
+    {
+      "name": "phone Space jumps with authored animation and a grounded checkpoint",
+      "passed": true,
+      "detail": {
+        "live": 0.6336666666666676,
+        "checkpoint": 0.002,
+        "clip": "Jump_Idle"
+      }
+    },
+    {
+      "name": "phone saving during a jump reloads clear grounded support",
+      "passed": true,
+      "detail": {
+        "y": 0.002,
+        "grounded": true,
+        "blocked": false,
+        "active": false
+      }
+    },
+    {
+      "name": "phone multitouch moves and jumps once while the button is held",
+      "passed": true,
+      "detail": {
+        "maxY": 0.6672083333333342,
+        "starts": 1,
+        "p": {
+          "x": -105,
+          "y": 0.002,
+          "z": 12.446430039127858,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "queued": false
+      }
+    },
+    {
+      "name": "phone releasing Jump retains the other movement pointer",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone cancelling remaining touch releases movement and jump",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone held left bumper jumps once through standard Gamepad API",
+      "passed": true,
+      "detail": {
+        "maxY": 0.6672083333333342,
+        "starts": 1,
+        "p": {
+          "x": -105,
+          "y": 0.002,
+          "z": 18,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "queued": false
+      }
+    },
+    {
+      "name": "phone disconnect leaves neutral controls and touch fallback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone map interruption clears an unconsumed jump",
+      "passed": true,
+      "detail": {
+        "maxY": 0.002,
+        "starts": 0,
+        "p": {
+          "x": -105,
+          "y": 0.002,
+          "z": 18,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "queued": false
+      }
+    },
+    {
+      "name": "phone comfortable non-overlapping Jump and Walk targets fit viewport",
+      "passed": true,
+      "detail": {
+        "boxes": {
+          "jump": {
+            "x": 309,
+            "y": 640,
+            "w": 59,
+            "h": 59,
+            "right": 368,
+            "bottom": 699
+          },
+          "run": {
+            "x": 309,
+            "y": 713,
+            "w": 59,
+            "h": 59,
+            "right": 368,
+            "bottom": 772
+          },
+          "joystick": {
+            "x": 22,
+            "y": 678,
+            "w": 116,
+            "h": 116,
+            "right": 138,
+            "bottom": 794
+          },
+          "minimap": {
+            "x": 264,
+            "y": 94,
+            "w": 112,
+            "h": 112,
+            "right": 376,
+            "bottom": 206
+          }
+        },
+        "overflow": false,
+        "overlap": false
+      }
+    },
+    {
+      "name": "landscape phone keeps distinct usable movement buttons",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone jump/input/save checks have no runtime exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet fresh runtime defaults to Run with optional Walk",
+      "passed": true,
+      "detail": {
+        "version": 3,
+        "running": true,
+        "walk": "\u279fWalk",
+        "pressed": "false"
+      }
+    },
+    {
+      "name": "tablet ordinary input runs by default and Walk provides slower movement",
+      "passed": true,
+      "detail": [
+        5.479172262434535,
+        2.785245900070862
+      ]
+    },
+    {
+      "name": "tablet explicit Walk preference survives actual reload",
+      "passed": true,
+      "detail": "{\"quality\":\"gentle\",\"running\":false}"
+    },
+    {
+      "name": "tablet Space jumps with authored animation and a grounded checkpoint",
+      "passed": true,
+      "detail": {
+        "live": 0.6336666666666676,
+        "checkpoint": 0.002,
+        "clip": "Jump_Idle"
+      }
+    },
+    {
+      "name": "tablet saving during a jump reloads clear grounded support",
+      "passed": true,
+      "detail": {
+        "y": 0.002,
+        "grounded": true,
+        "blocked": false,
+        "active": false
+      }
+    },
+    {
+      "name": "tablet multitouch moves and jumps once while the button is held",
+      "passed": true,
+      "detail": {
+        "maxY": 0.6672083333333342,
+        "starts": 1,
+        "p": {
+          "x": -105,
+          "y": 0.002,
+          "z": 12.446430039127858,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "queued": false
+      }
+    },
+    {
+      "name": "tablet releasing Jump retains the other movement pointer",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet cancelling remaining touch releases movement and jump",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet held left bumper jumps once through standard Gamepad API",
+      "passed": true,
+      "detail": {
+        "maxY": 0.6672083333333342,
+        "starts": 1,
+        "p": {
+          "x": -105,
+          "y": 0.002,
+          "z": 18,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "queued": false
+      }
+    },
+    {
+      "name": "tablet disconnect leaves neutral controls and touch fallback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet map interruption clears an unconsumed jump",
+      "passed": true,
+      "detail": {
+        "maxY": 0.002,
+        "starts": 0,
+        "p": {
+          "x": -105,
+          "y": 0.002,
+          "z": 18,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "queued": false
+      }
+    },
+    {
+      "name": "tablet comfortable non-overlapping Jump and Walk targets fit viewport",
+      "passed": true,
+      "detail": {
+        "boxes": {
+          "jump": {
+            "x": 930,
+            "y": 559,
+            "w": 64,
+            "h": 64,
+            "right": 994,
+            "bottom": 623
+          },
+          "run": {
+            "x": 930,
+            "y": 639,
+            "w": 64,
+            "h": 64,
+            "right": 994,
+            "bottom": 703
+          },
+          "joystick": {
+            "x": 35,
+            "y": 599,
+            "w": 124,
+            "h": 124,
+            "right": 159,
+            "bottom": 723
+          },
+          "minimap": {
+            "x": 842,
+            "y": 106,
+            "w": 152,
+            "h": 152,
+            "right": 994,
+            "bottom": 258
+          }
+        },
+        "overflow": false,
+        "overlap": false
+      }
+    },
+    {
+      "name": "tablet jump/input/save checks have no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}

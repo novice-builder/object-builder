@@ -1,0 +1,82 @@
+{
+  "environment": "Chromium SwiftShader; independent extracted Preview 10 on 5183, new runtime on 5175. No physical device result.",
+  "checks": [
+    {
+      "name": "independent Preview 10 fixture physically reaches its decorated upper floor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "old saved cottage retains its actual upper floor, identity and exact furnishings",
+      "passed": true,
+      "detail": {
+        "version": 2,
+        "upper": true,
+        "y": 3,
+        "objects": "[{\"id\":\"table\",\"asset\":\"furniture-table\",\"x\":-1.2,\"z\":-1.2999999999999998,\"y\":0,\"yaw\":0,\"scale\":2.5},{\"id\":\"seat\",\"asset\":\"furniture-chair\",\"x\":-1.2,\"z\":-0.1499999999999999,\"y\":0,\"yaw\":3.141592653589793,\"scale\":2.2},{\"id\":\"shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.3499999999999996,\"z\":-2.8,\"y\":0,\"yaw\":0,\"scale\":2.2},{\"id\":\"rug\",\"asset\":\"furniture-rugrectangle\",\"x\":-1,\"z\":0,\"y\":0,\"yaw\":0,\"scale\":2},{\"id\":\"upstairs-shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.3499999999999996,\"z\":2.7,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"saved-bedroom-do-not-replace\",\"asset\":\"furniture-bedsingle\",\"x\":-1.65,\"z\":-1.5999999999999999,\"y\":3,\"yaw\":0,\"scale\":1.85},{\"id\":\"bedside\",\"asset\":\"furniture-cabinetbed\",\"x\":-0.6000000000000001,\"z\":-2.8,\"y\":3,\"yaw\":0,\"scale\":2.2}]",
+        "entry": "{\"id\":\"village:building_home_A_blue:-10.000:-10.000:1.571\",\"name\":\"Cottage\",\"kind\":\"cottage\",\"x\":-110.87685408592225,\"z\":-10,\"yaw\":1.5707963267948966,\"width\":5.8,\"depth\":6.8}"
+      }
+    },
+    {
+      "name": "first new movement action copies an older room without changing its old record or upstairs edits",
+      "passed": true,
+      "detail": {
+        "original": "7d7df6bb-8276-4313-9058-29811fe26017",
+        "copy": true,
+        "version": 3,
+        "upper": true,
+        "objects": true,
+        "sourceVersion": 2,
+        "sourceObjects": true,
+        "count": 1
+      }
+    },
+    {
+      "name": "repeat jump/reload keeps the same updated copy and retained upper room",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "count": true,
+        "upper": true,
+        "y": 3.002,
+        "objects": "[{\"id\":\"table\",\"asset\":\"furniture-table\",\"x\":-1.2,\"z\":-1.2999999999999998,\"y\":0,\"yaw\":0,\"scale\":2.5},{\"id\":\"seat\",\"asset\":\"furniture-chair\",\"x\":-1.2,\"z\":-0.1499999999999999,\"y\":0,\"yaw\":3.141592653589793,\"scale\":2.2},{\"id\":\"shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.3499999999999996,\"z\":-2.8,\"y\":0,\"yaw\":0,\"scale\":2.2},{\"id\":\"rug\",\"asset\":\"furniture-rugrectangle\",\"x\":-1,\"z\":0,\"y\":0,\"yaw\":0,\"scale\":2},{\"id\":\"upstairs-shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.3499999999999996,\"z\":2.7,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"saved-bedroom-do-not-replace\",\"asset\":\"furniture-bedsingle\",\"x\":-1.65,\"z\":-1.5999999999999999,\"y\":3,\"yaw\":0,\"scale\":1.85},{\"id\":\"bedside\",\"asset\":\"furniture-cabinetbed\",\"x\":-0.6000000000000001,\"z\":-2.8,\"y\":3,\"yaw\":0,\"scale\":2.2}]"
+      }
+    },
+    {
+      "name": "revisiting an old cottage keeps its saved two floors despite the new one-floor default",
+      "passed": true,
+      "detail": {
+        "upstairs": true,
+        "entryLevels": null,
+        "freshLevels": 1,
+        "kept": true
+      }
+    },
+    {
+      "name": "Preview 10 rejects new versioned backups without changing its active world or records",
+      "passed": true,
+      "detail": {
+        "rejected": true,
+        "same": true,
+        "count": true
+      }
+    },
+    {
+      "name": "denied movement upgrade leaves original room and edits intact without a queued jump",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "version": 2,
+        "count": true,
+        "queued": false,
+        "upgrading": false,
+        "objects": "[{\"id\":\"table\",\"asset\":\"furniture-table\",\"x\":-1.2,\"z\":-1.2999999999999998,\"y\":0,\"yaw\":0,\"scale\":2.5},{\"id\":\"seat\",\"asset\":\"furniture-chair\",\"x\":-1.2,\"z\":-0.1499999999999999,\"y\":0,\"yaw\":3.141592653589793,\"scale\":2.2},{\"id\":\"shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.3499999999999996,\"z\":-2.8,\"y\":0,\"yaw\":0,\"scale\":2.2},{\"id\":\"rug\",\"asset\":\"furniture-rugrectangle\",\"x\":-1,\"z\":0,\"y\":0,\"yaw\":0,\"scale\":2},{\"id\":\"upstairs-shelf\",\"asset\":\"furniture-bookcaseopen\",\"x\":-2.3499999999999996,\"z\":2.7,\"y\":3,\"yaw\":0,\"scale\":2.2},{\"id\":\"saved-bedroom-do-not-replace\",\"asset\":\"furniture-bedsingle\",\"x\":-1.65,\"z\":-1.5999999999999999,\"y\":3,\"yaw\":0,\"scale\":1.85},{\"id\":\"bedside\",\"asset\":\"furniture-cabinetbed\",\"x\":-0.6000000000000001,\"z\":-2.8,\"y\":3,\"yaw\":0,\"scale\":2.2}]"
+      }
+    },
+    {
+      "name": "compatibility and upgrade checks have no browser exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}

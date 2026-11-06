@@ -8,7 +8,10 @@ export interface RoomState {
   entry: BuildingEntry;
   objects: Placement[];
 }
-export function freshRoom(entry: BuildingEntry): RoomState {
+export function freshRoom(
+  entry: BuildingEntry,
+  library?: Pick<AssetLibrary, "bounds">,
+): RoomState {
   const w = entry.width / 2,
     d = entry.depth / 2,
     objects: Placement[] = [],
@@ -30,15 +33,30 @@ export function freshRoom(entry: BuildingEntry): RoomState {
     entry.kind === "townhouse" ||
     entry.kind === "inn"
   ) {
+    const floor = entry.levels === 1 ? 0 : UPPER_FLOOR;
     add(
-      "upstairs-shelf",
+      floor ? "upstairs-shelf" : "corner-shelf",
       "furniture-bookcaseopen",
       -w + 0.55,
       d - 0.7,
-      UPPER_FLOOR,
+      floor,
     );
-    add("bed", "furniture-bedsingle", -w + 1.1, -d + 1.8, UPPER_FLOOR, 0, 1.85);
-    add("bedside", "furniture-cabinetbed", -w + 2.3, -d + 0.6, UPPER_FLOOR);
+    add(
+      "bed",
+      "furniture-bedsingle",
+      floor ? -w + 1.1 : w - 1.05,
+      -d + 1.8,
+      floor,
+      0,
+      1.85,
+    );
+    add(
+      "bedside",
+      "furniture-cabinetbed",
+      floor ? -w + 2.3 : w - 2.3,
+      -d + 0.6,
+      floor,
+    );
     if (entry.kind === "inn")
       add(
         "guest-bed",
@@ -54,6 +72,28 @@ export function freshRoom(entry: BuildingEntry): RoomState {
     add("grain-barrel", "barrel", -w + 1, d - 1, UPPER_FLOOR, 0, 4);
     add("mill-shelf", "furniture-bookcaseopen", -w + 0.55, 0, UPPER_FLOOR);
   } else add("supplies", "crate_A_small", w - 1, -d + 1, 0, 0, 4);
+  if (entry.levels !== undefined && library)
+    for (const p of objects) {
+      const bounds = library.bounds.get(p.asset);
+      if (!bounds) throw Error(`Missing furnishing bounds: ${p.asset}`);
+      const matrix = new T.Matrix4().compose(
+          new T.Vector3(),
+          new T.Quaternion().setFromAxisAngle(new T.Vector3(0, 1, 0), p.yaw),
+          new T.Vector3().setScalar(p.scale),
+        ),
+        box = bounds.clone().applyMatrix4(matrix),
+        margin = 0.26;
+      p.x = T.MathUtils.clamp(
+        p.x,
+        -w + margin - box.min.x,
+        w - margin - box.max.x,
+      );
+      p.z = T.MathUtils.clamp(
+        p.z,
+        -d + margin - box.min.z,
+        d - margin - box.max.z,
+      );
+    }
   return { entry: structuredClone(entry), objects };
 }
 /** Separate local-coordinate room. Shared licensed models remain library-owned; only room joinery is disposed. */
@@ -73,7 +113,7 @@ export class Interior {
   ) {
     const w = entry.width / 2,
       d = entry.depth / 2;
-    this.upstairs = entry.kind !== "workshop";
+    this.upstairs = entry.kind !== "workshop" && entry.levels !== 1;
     this.solids = roomStructure(entry.width, entry.depth, this.upstairs);
     this.obstacles = this.solids
       .filter((s) => !s.ramp && s.maxY > (this.upstairs ? 3 : 0))
@@ -168,6 +208,18 @@ export class Interior {
     }
     // Decorative inner exit door corresponds to the exact persisted exterior entrance.
     fit(this.group, "Door_4_Flat", 0, 0, d - 0.09, 1.1, 2.1, 0.12, Math.PI);
+    // The roof is cut away for the player view, while its real underside still limits headroom.
+    const ceiling = fit(
+      this.group,
+      "Floor_WoodDark",
+      0,
+      this.upstairs ? 6 : 3,
+      0,
+      entry.width,
+      0.13,
+      entry.depth,
+    );
+    ceiling.visible = false;
     if (this.upstairs) {
       this.group.add(this.upper);
       for (const s of this.solids.filter((s) => !s.ramp && s.minY === 2.8))

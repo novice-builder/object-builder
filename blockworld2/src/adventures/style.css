@@ -1344,3 +1344,23 @@ body.editing #minimap {
     transition-duration: 1ms;
   }
 }
+
+#jump {
+  bottom: 145px;
+}
+body:not(.playing) #jump {
+  display: none;
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  #jump {
+    bottom: 110px;
+  }
+}
+.roundControl {
+  -webkit-tap-highlight-color: transparent;
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  #context {
+    bottom: 220px;
+  }
+}

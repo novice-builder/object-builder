@@ -120,3 +120,24 @@ test("rounded capsule corners do not turn shallow thin indoor treads into a fals
     assert.ok(p.z > 0.4 && p.y < 0.03, JSON.stringify({ speed, p }));
   }
 });
+
+test("jump uses gravity, lands on real support and respects head clearance", () => {
+  for (const ceiling of [false, true]) {
+    const space = new CollisionSpace();
+    if (ceiling)
+      space.boxes = [
+        { minX: -3, maxX: 3, minZ: -3, maxZ: 3, minY: 1.9, maxY: 2.1 },
+      ];
+    const p = { x: 0, y: 0.002, z: 0, grounded: true, vy: 0 };
+    let max = 0;
+    for (let i = 0; i < 180; i++) {
+      moveCharacter(p, { vx: 0, vz: 0, jump: i === 0 }, 1 / 120, space);
+      max = Math.max(max, p.y);
+    }
+    assert.ok(
+      ceiling ? max < 0.152 : max > 0.64 && max < 0.7,
+      JSON.stringify({ ceiling, max, p }),
+    );
+    assert.ok(p.grounded && p.y < 0.01 && p.vy === 0);
+  }
+});
