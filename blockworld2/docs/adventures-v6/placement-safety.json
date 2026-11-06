@@ -1,0 +1,145 @@
+{
+  "checks": [
+    {
+      "name": "phone indoor cutaway allows a clear supported floor target",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone indoor chair ghost actually renders",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone explicit interior confirmation saves supported furniture",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone tapping real furniture selects its outline and Move action",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone moving furniture retargets precisely and keeps original record untouched before confirm",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone cancelling a targeted move restores original furniture",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone confirmed targeted move remains undoable",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone redo restores exact target and explicit scale",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone tapping a path shows invalid preview and disables confirmation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone invalid path confirmation cannot alter saved objects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone river target stays invalid with water feedback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone target hidden behind closed prefab is rejected with visibility feedback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone cottage ghost with multiple primitives actually renders",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone safety pass has no runtime exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet indoor cutaway allows a clear supported floor target",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet indoor chair ghost actually renders",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet explicit interior confirmation saves supported furniture",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet tapping real furniture selects its outline and Move action",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet moving furniture retargets precisely and keeps original record untouched before confirm",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet cancelling a targeted move restores original furniture",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet confirmed targeted move remains undoable",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet redo restores exact target and explicit scale",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet tapping a path shows invalid preview and disables confirmation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet invalid path confirmation cannot alter saved objects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet river target stays invalid with water feedback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet target hidden behind closed prefab is rejected with visibility feedback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet cottage ghost with multiple primitives actually renders",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet safety pass has no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader phone/tablet touch emulation. Player/camera setup is a fixture; no physical device result."
+}

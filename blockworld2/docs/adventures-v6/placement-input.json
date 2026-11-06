@@ -1,0 +1,40 @@
+{
+  "checks": [
+    {
+      "name": "keyboard still moves player and default aiming ghost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "mouse click targets quarter-metre furniture grid without placing",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "side cutaway supports clear floor targeting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "visible far wall still blocks targeting ground behind it",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "world orbit drag cannot retarget or place a pinned ghost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "cancelled world touch clears ownership without changing target",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "mouse keyboard and occlusion pass has no runtime errors",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader, native emulated mouse/keyboard/touch events; no physical controller/device tests."
+}

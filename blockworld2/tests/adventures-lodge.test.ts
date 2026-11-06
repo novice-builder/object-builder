@@ -1,6 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { lodgeWalls, lodgeDoorBody } from "../src/adventures/lodge";
+import { Lodge, lodgeWalls, lodgeDoorBody } from "../src/adventures/lodge";
+import * as T from "three";
+import type { AssetLibrary } from "../src/adventures/assets";
 import { blocked, walkHeight } from "../src/adventures/landscape";
 import { makeSnapshot, validateAdventure } from "../src/adventures/save";
 import { rayBoxDistance } from "../src/adventures/camera-collision";
@@ -52,4 +54,39 @@ test("camera roof slab keeps its real base above walking space", () => {
       ) - 1.9,
     ) < 1e-9,
   );
+});
+test("interior picking follows each visible cutaway while retaining physical walls and the door", () => {
+  const geometry = new T.BoxGeometry(),
+    material = new T.MeshStandardMaterial({ roughness: 1, metalness: 0 }),
+    library = {
+      create: () => new T.Group().add(new T.Mesh(geometry, material)),
+    } as unknown as AssetLibrary,
+    lodge = new Lodge(library),
+    before = structuredClone(lodge.walls);
+  for (const yaw of [0, Math.PI / 2, Math.PI, -Math.PI / 2]) {
+    lodge.setCutaway({ x: 128, z: -42 }, yaw);
+    const visible = [
+      lodge.left.visible,
+      lodge.right.visible,
+      lodge.back.visible,
+      lodge.front.visible,
+      lodge.front.visible,
+    ];
+    lodge.walls.forEach((wall, i) =>
+      assert.equal(lodge.isVisibleOccluder(wall), visible[i]),
+    );
+    assert.equal(lodge.isVisibleOccluder(lodge.roofBodies[0]), false);
+    assert.equal(
+      lodge.isVisibleOccluder(lodge.cameraBodies[0]),
+      lodge.front.visible,
+    );
+    assert.equal(lodge.isVisibleOccluder(lodge.doorBody()), true);
+    assert.deepEqual(lodge.walls, before);
+  }
+  lodge.setCutaway({ x: 128, z: -35 });
+  for (const body of [...lodge.walls, ...lodge.exteriorCameraBodies])
+    assert.equal(lodge.isVisibleOccluder(body), true);
+  lodge.dispose();
+  geometry.dispose();
+  material.dispose();
 });

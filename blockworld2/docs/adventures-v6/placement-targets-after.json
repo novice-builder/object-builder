@@ -1,0 +1,207 @@
+{
+  "phase": "after",
+  "checks": [
+    {
+      "name": "phone tapping nearby ground positions the ghost before confirmation",
+      "passed": true,
+      "detail": {
+        "screen": {
+          "x": 285.3992521585421,
+          "y": 398.47205828171053
+        },
+        "pending": {
+          "x": 112.5,
+          "z": 13.5
+        }
+      }
+    },
+    {
+      "name": "phone ghost model actually submits visible draw calls",
+      "passed": true,
+      "detail": {
+        "draws": 1,
+        "meshes": 1
+      }
+    },
+    {
+      "name": "phone active edit toolbar stays within viewport",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone target keeps explicit confirmation and safe placement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone rotating and looking preserve the chosen ground target",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone walking out of reach invalidates the pinned preview",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone stale confirm cannot place out of reach",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone existing move button resumes aiming ahead",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone confirmed target becomes one saved object",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone exact target and rotation round-trip as new record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone no runtime exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "phone-landscape tapping nearby ground positions the ghost before confirmation",
+      "passed": true,
+      "detail": {
+        "screen": {
+          "x": 463.7721662817908,
+          "y": 184.12808380316008
+        },
+        "pending": {
+          "x": 112.5,
+          "z": 13.5
+        }
+      }
+    },
+    {
+      "name": "phone-landscape ghost model actually submits visible draw calls",
+      "passed": true,
+      "detail": {
+        "draws": 1,
+        "meshes": 1
+      }
+    },
+    {
+      "name": "phone-landscape active edit toolbar stays within viewport",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape target keeps explicit confirmation and safe placement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape rotating and looking preserve the chosen ground target",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape walking out of reach invalidates the pinned preview",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape stale confirm cannot place out of reach",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape existing move button resumes aiming ahead",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape confirmed target becomes one saved object",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape exact target and rotation round-trip as new record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "phone-landscape no runtime exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "tablet tapping nearby ground positions the ghost before confirmation",
+      "passed": true,
+      "detail": {
+        "screen": {
+          "x": 594.2590351395264,
+          "y": 362.5906881046845
+        },
+        "pending": {
+          "x": 112.5,
+          "z": 13.5
+        }
+      }
+    },
+    {
+      "name": "tablet ghost model actually submits visible draw calls",
+      "passed": true,
+      "detail": {
+        "draws": 1,
+        "meshes": 1
+      }
+    },
+    {
+      "name": "tablet active edit toolbar stays within viewport",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet target keeps explicit confirmation and safe placement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet rotating and looking preserve the chosen ground target",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet walking out of reach invalidates the pinned preview",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet stale confirm cannot place out of reach",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet existing move button resumes aiming ahead",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet confirmed target becomes one saved object",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet exact target and rotation round-trip as new record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tablet no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium/SwiftShader with real emulated touchscreen events; no physical device claim."
+}

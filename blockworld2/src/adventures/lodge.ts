@@ -218,6 +218,17 @@ export class Lodge {
   doorBody() {
     return lodgeDoorBody(this.changing ? false : this.open, this.direction);
   }
+  /** Picking follows the visible cutaway, while walking/placement keep every physical wall. */
+  isVisibleOccluder(body: Obstacle) {
+    const wall = this.walls.indexOf(body);
+    if (wall === 0) return this.left.visible;
+    if (wall === 1) return this.right.visible;
+    if (wall === 2) return this.back.visible;
+    if (wall === 3 || wall === 4) return this.front.visible;
+    if (this.roofBodies.includes(body)) return this.roof.visible;
+    if (this.cameraBodies.includes(body)) return this.front.visible;
+    return true;
+  }
   toggle(
     player: { x: number; z: number },
     built: readonly Obstacle[],

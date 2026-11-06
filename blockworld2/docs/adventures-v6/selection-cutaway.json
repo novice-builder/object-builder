@@ -1,0 +1,33 @@
+{
+  "checks": [
+    {
+      "name": "phone native furniture selection through hidden facing cutaway",
+      "phase": "before",
+      "selected": false,
+      "physicalWallCount": 5,
+      "passed": true
+    },
+    {
+      "name": "tablet native furniture selection through hidden facing cutaway",
+      "phase": "before",
+      "selected": false,
+      "physicalWallCount": 5,
+      "passed": true
+    },
+    {
+      "name": "phone native furniture selection through hidden facing cutaway",
+      "phase": "after",
+      "selected": true,
+      "physicalWallCount": 5,
+      "passed": true
+    },
+    {
+      "name": "tablet native furniture selection through hidden facing cutaway",
+      "phase": "after",
+      "selected": true,
+      "physicalWallCount": 5,
+      "passed": true
+    }
+  ],
+  "environment": "Managed Chromium/SwiftShader touch emulation; chair/player setup is a fixture. Reference is extracted Preview 05, source c113ffc."
+}

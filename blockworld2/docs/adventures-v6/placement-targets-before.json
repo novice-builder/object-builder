@@ -1,0 +1,73 @@
+{
+  "phase": "before",
+  "url": "http://127.0.0.1:5178",
+  "checks": [
+    {
+      "name": "phone tapping nearby ground positions the ghost before confirmation",
+      "passed": false,
+      "detail": {
+        "screen": {
+          "x": 285.3992521585421,
+          "y": 398.47205828171053
+        },
+        "pending": {
+          "x": 111,
+          "z": 14
+        }
+      }
+    },
+    {
+      "name": "phone ghost model actually submits visible draw calls",
+      "passed": false,
+      "detail": {
+        "draws": 0,
+        "meshes": 1
+      }
+    },
+    {
+      "name": "phone-landscape tapping nearby ground positions the ghost before confirmation",
+      "passed": false,
+      "detail": {
+        "screen": {
+          "x": 463.7721662817908,
+          "y": 184.12808380316008
+        },
+        "pending": {
+          "x": 111,
+          "z": 14
+        }
+      }
+    },
+    {
+      "name": "phone-landscape ghost model actually submits visible draw calls",
+      "passed": false,
+      "detail": {
+        "draws": 0,
+        "meshes": 1
+      }
+    },
+    {
+      "name": "tablet tapping nearby ground positions the ghost before confirmation",
+      "passed": false,
+      "detail": {
+        "screen": {
+          "x": 594.2590351395264,
+          "y": 362.5906881046845
+        },
+        "pending": {
+          "x": 111,
+          "z": 14
+        }
+      }
+    },
+    {
+      "name": "tablet ghost model actually submits visible draw calls",
+      "passed": false,
+      "detail": {
+        "draws": 0,
+        "meshes": 1
+      }
+    }
+  ],
+  "environment": "Managed Chromium/SwiftShader with real emulated touchscreen events; no physical device claim."
+}

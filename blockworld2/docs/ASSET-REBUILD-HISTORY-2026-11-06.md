@@ -1,0 +1,120 @@
+# Historical handoff — superseded by ASSET-REBUILD-CONTINUE.md
+
+This preserves the previous cumulative handoff, including resolved historical blockers and older priorities. Follow the current continuation document for active work.
+
+# BlockWorld Adventures — active continuation after Preview 05
+
+## NEWEST delivery checkpoint — Preview 05
+
+Runtime/evidence source `c113ffcbacdc2f247b646ce55737874372879d18` is normally pushed and independently verified. NEW archive `artifacts/adventures-v5/BlockWorld-Adventures-Preview-05.zip`: 10,346,529 bytes, SHA-256 `4bc038c04da6226055226d0fa0a7cc95b777aaa1461a0e3c3c676dfb2f7fbc82`. The separately extracted package passes CRC, every runtime hash and 14 package/browser checks (visible name travel, map/dropdown, functional lodge door, new-record backup import, 19 thumbnails, 12 gallery views, no missing/external requests). Full source suite 153; 64 browser/compatibility/render checks; 390 protected files unchanged. Preview 05 docs/artifacts are now frozen. No deployment or automation change occurred.
+
+Immediately continue in NEW `docs/adventures-v6/` evidence into precise touch/mouse ground targeting for object placement. Preserve the existing follow-camera, keyboard/gamepad, explicit confirmation, collision/path/water, undo and save protections. Add bounded reach, clear occlusion feedback, visible error previews and a simple way to resume aiming ahead. Capture phone/tablet placement screenshots and test both outdoor and real lodge-floor targets. Do not stop after the package push. Later world footprint additions still need an explicit new layout to protect existing constructions. Physical Lenovo/iPhone/Safari/Xbox remain unverified.
+
+Read the authoritative living [standing brief in issue #2](https://github.com/novice-builder/object-builder/issues/2) FIRST, then [BLOCKWORLD-DEVELOPMENT-DIRECTION.md](BLOCKWORLD-DEVELOPMENT-DIRECTION.md) and this handoff. The user updated the assignment during this active run: develop one connected main world, real minimap/full map, safe travel, believable scale, rich settlements and continuing gameplay. Three independent medieval environments are legacy records, not three different themes. Continue useful milestones in the same run; tests, reports and packages are checkpoints, not finish conditions.
+
+## Latest remote recovery — previous blocker resolved
+
+Measured culling milestone `d7ef98d786b4ba7bbfdb3b0efef1a5cf8bba1d3b` is independently pushed/verified; full deterministic suite 153 passes. Continued into Brookside road polish: actual overlapping surfaces had identical y and no priority. One shared earth material with a depth offset now removes driveway shimmer; five browser checks and overhead/street/phone inspection pass with unchanged path/collision/landmark data. Finish NEW Preview 05 package/check/push next (do not overwrite 01–04), then immediately implement/test more precise touch object positioning for furniture/building while keeping confirmation, clear paths, collision, bounded reach and save compatibility. No new geometry footprint/layout migration or assets in this milestone.
+
+Touch milestone `18d7e6bd7657f5494a6874747035d7491edf498f` is independently pushed/verified. Continued into measured Gentle-mode static-instance compaction: six views reduce triangles 17.3–34.4%, with lossless pixels versus full source batches under corrected fog, 11 compatibility/quality/disposal browser checks and three focused regressions. Extra typed-array CPU storage: 407,680 bytes/world; culling costs ~0.3–0.6ms here; variable submission timings do not prove FPS gain. Shadow modes restore all casters. Actual screenshots exposed a radial-distance fog error; forward camera-depth checks now retain peripheral scenery. The rejected radial prototype is explicitly recorded. Next fix visually confirmed Brookside overlapping road-surface shimmer and unify driveway appearance, preserving coordinates/collision/saves. Continue after checkpointing; no release is a stopping condition.
+
+Map milestone `f0728fd934b6c51915927d1abe8ebfa2db847232` was pushed normally and independently verified with `git ls-remote`. Full deterministic suite: 150 passing tests. Continued into world-view touch lifecycle fixes: sparse release no longer selects; cancellation/capture loss resumes remaining-finger orbit; clear discards stale drag ownership. 24 browser checks pass across phone portrait/landscape and tablet, with genuine rendered layout inspection. See v5 report/tools; keep implementing after checkpointing. Next investigate actual character/scene views and choose measured rendering or navigation improvements. No physical Lenovo/iPhone/Safari/controller tests have occurred.
+
+Active Preview 05 work fixes visible map-name hit targets using shared drawing/picking geometry and CSS-pixel input coordinates. Phone/tablet screenshots were rendered and inspected; 18 browser checks pass, including real pinch/remaining-finger pan, cancellation and circle/name safe travel. Three new deterministic layout/picking regressions are included. See `docs/adventures-v5/REPORT.md` and `tools/adventures/map_targets_v5.py`. Continue immediately into world-view sparse-release/cancellation behaviour; do not stop at this checkpoint. Preview 01–04 folders are frozen. New source/evidence/packages belong in v5 folders; physical devices/controllers remain unverified.
+
+On this continuation, the exclusive flock was reacquired (no other writer observed), issue #2 was re-read, and remote was fetched at 304b6dd. A NORMAL fast-forward push of the two preserved local commits succeeded. The independently verified remote is now `8ad0ddf448e908fd6bde9135f22be6b96a198558`; native GitHub reads confirm Preview 04 BUILD/source and ZIP checksum. The historical push-blocker sections below describe the previous run, not a current blocker. Do not reset history or repackage frozen Preview 04. Continue from newest verified tip and NEW v5 evidence.
+
+Preview 04 is now on GitHub: source `9d69a5a57697d688819133466191b9ba6837e7fb`, package/checkpoint `8ad0ddf448e908fd6bde9135f22be6b96a198558`, ZIP SHA-256 `f010649a68737277c75302efb5be9b0e8f8176868d1bc267fd4595e44a66297a`. No rule bypass, force push, deployment, banked reset or automation change was used. Next active implementation is shared full-map label geometry/hit targets, including real phone/tablet reproduction of ignored visible-name taps.
+
+## Safety and writer ownership
+
+Work only in `novice-builder/object-builder` on `codex/blockworld-adventures-asset-rebuild`. Fetch and independently verify GitHub before edits and each push. Check active writers/agents/processes and acquire OS `flock(LOCK_EX|LOCK_NB)` on `/workspace/work/blockworld-adventures-writer.lock`; file existence is not ownership. Skip busy runs. Stop if the remote moves unexpectedly; never force another writer's history. Release the flock and stop owned servers at a real run boundary.
+
+Preserve original website, Neighborhood 06, published Run 3, original native saves, main, other branches, historical archives and Preview 01/02 (and Preview 03 once packaged). No deployment, Pages change, main merge, banked-reset redemption or competing automation. Physical Lenovo/iPhone/Safari testing is unverified. No usage-meter tool is exposed: do not claim full allowance consumption/exhaustion without evidence.
+
+## Verified checkpoint history
+
+Each checkpoint below was pushed and independently verified with `git ls-remote`:
+
+- `5eb28540a788737e660cca559fc2aa8df57d708d`: Preview 01 runtime.
+- `b6546e873dc8bbd1f723ce917fa2a6e43b3bfd7e`: Preview 02 runtime.
+- `9f07d29ae458be7ddba5a88ff81c85aa73172385`: preserved Preview 02 package/checkpoint; starting tip for this run.
+- `ab00eb202ca79b4e47726004b476d3983dabc284`: fresh layout-3 art, continuous trail ribbons; updated user direction recorded.
+- `a94fc7e434dec8a9bfa26144ee441734aff29e7a`: one connected `vale` template with shared terrain/collision, roads/two bridges, Brookside/forester settlements and corrected new-template tents.
+- `821c0e4b73fc388d644711285c84621db06b27c6`: circular live minimap, actual-data full map, touch/keyboard pan/zoom, checked safe landmark travel/Home; 30 map browser checks.
+- `02f2e6a74dd96a098b2df21187552a1c040a8364`: compatible nature batching, conservative full-fog culling, repaired earth material joins.
+
+Input/placement and Preview 03 packaging commits follow these. Always fetch latest; `artifacts/adventures-v3/BUILD.json`, once present, records the package’s exact runtime source rather than a later packaging commit.
+
+## Current implementation
+
+The Willow Vale is one 370×196m playable continuous world. Willowmere, Whispering Wood and Maker’s Meadow retain their strongest scenery, connected by lanes/two streams/bridges. Brookside adds a rural six-building cluster and a market approach; the foresters have two woodland cottages. Region coordinates are x=-105/0/105. `vale-data.ts` drives ground/walk/water/bounds; `connected-landscape.ts` composes compatible region scenery with one terrain and generated vegetation. No scene/save replacement occurs while crossing regions.
+
+New records use explicit `scene: vale, layout: 3`; old independent layouts 1/2 and later standalone layout 3 remain supported. No automatic construction migration is implemented. Six real comparisons against extracted Preview 02 retain geometry, paths, collisions, landmarks and nonempty custom-scale objects. All native persistence/schema code stays unchanged. `AdventureSession` retains isolated database `blockworld-adventures-assets-v1`, serial ownership, quota/conflict protection, export/import-new-copy and recovery.
+
+`map-data.ts` reads real paths, water, tree coordinates and building footprints; `world-map.ts` uses a cached 2D bitmap, no extra WebGL context. Minimap follows position/facing; full map has five named destinations, touch pan/pinch, wheel/buttons/keyboard, Fit and Home. Phone opening focuses around the player, while Fit shows the entire valley. Full map suspends hidden WebGL rendering. `safe-position.ts` checks clear arrivals rather than returning an unchecked blocked fallback. Build thumbnails/selection, 200-object moves, undo/redo and separate graphics/Run preferences remain.
+
+Latest input work releases held pointer ownership on clear, lets the remaining thumb resume orbit after a pinch, uses actual displacement for locomotion animation and validates whole placement footprints against water, paths, slopes and bounds. Stationary ghost validation is cached. Regression evidence includes the original defects, corrected pointer-event reference against Preview 02 and the passing current cases. The initial touch fixture moved the released contact/read a coalesced move too soon; corrected event traces and isolated explicit update probes are retained.
+
+## Evidence and measured limits
+
+`docs/adventures-v3/REPORT.md`, `summary.json`, gallery, raw phase JSON and screenshots contain the completed evidence. **140 deterministic tests and 123 browser/compatibility checks pass** (art 10, connected world 9, map 30, stability 5, motion 4, pinch reference 1, editor 21, collision 8, baseline 35). 154 protected root/archive/native and Preview 01/02 files match 9f07d29 byte-for-byte.
+
+Fixed gentle views reduce draw calls 41–51% (road 539→265, ~357k→260k triangles), adding ~55KB geometry buffers. Nine real baked models retain transformed vertices/triangle totals. CPU submission timings vary; no general CPU or physical FPS gain is claimed. Software rasterisation is not a mobile benchmark. A 24-switch probe warms original/baked buffers in cycle one, then plateaus at 89 geometries/11 textures for its combined-world view. This is not a physical thermal/long-session test. The cached 1536px full-map bitmap costs ~4.7MiB RGBA before other canvases/browser allocations.
+
+The same 71 CC0 model inventory and 15 derived PNGs remain in Preview 03. Source models/licences are unchanged. Seahill and Quaternius Nature downloads remain blocked and are not included. The separate Standard FREE Quaternius Medieval modular mirror was researched earlier; 14 selected source/README/licence files were freshly matched to exact commit `21104b4045261c28fc312360841ed1a7b0ac8782` in `/workspace/work/modular-source-verification.json`. It is NOT yet included/implemented in Preview 03.
+
+## Reproduce
+
+From `blockworld2/` use `npm run test:adventures`, `node --import tsx --test tests/*.test.ts`, and `npm run build:adventures`. Do not run original release helpers via `npm run build`. Serve ignored `adventures-dist` with `python3 -m http.server 5175 --bind 127.0.0.1 --directory adventures-dist`.
+
+Version-3 tools: `qa_v3.py`, `vale_v3.py`, `map_v3.py`, `editor_v3.py`, `collision_v3.py`, `motion_v3.py --phase after`, `pinch_v3.py` (needs extracted Preview 02 on 5177), `stability_v3.py`, `art_v3.py` (also 5177), and `profile_v3.py --phase before|after`. `report_v3.py` requires all nine complete passing phases and the full unit log. `package_v3.py --version 03 --output artifacts/adventures-v3 --qa-dir docs/adventures-v3` refuses nonempty output. Do not rerun into these frozen folders after release: adapt tools to NEW v4 evidence/output folders.
+
+## Next work — continue immediately
+
+1. Verify/extract/package-check Preview 03, push its archive/evidence and independently verify SHA, then continue work; this is not a stopping condition.
+2. Implement a genuinely usable modular building with functional entrance/door and furnished interior using the legally verified free modular source if visually coherent. Preserve existing vale/layout-3 constructions: introduce a new explicit layout/opt-in for new permanent footprints. Do not claim interiors from closed prefab appearances. Keep palette/scale consistent and measure additional bytes/draws. New evidence/packages belong in v4 folders.
+3. More settlement/countryside details, camera canopy/terrain edges, larger creations, robust recovery and mobile controls. Physical hardware tests remain outstanding and cannot be invented here.
+4. Once the main connected world is good, research truly different themed worlds; do not relabel similar medieval scenes as new themes. Choose actual player value rather than feature counts.
+
+The cloud briefly reported no usable execution environment during evidence consolidation, then immediately recovered; the worktree/processes and our PID 14722 flock survived, GitHub was re-fetched at 02f2e6a, and work resumed. No reset or extra automation was used. At a real environment/usage/execution boundary, push all completed work and record an exact remote resume point; do not invent measured usage exhaustion.
+
+## Verified Preview 03 release
+
+`eb7003e7fca9273882e1acf9af798b457a3a4bf5` is the independently pushed/verified runtime and complete evidence checkpoint: **140 deterministic tests, 123 browser checks**. The earlier provisional 124 total was corrected during consolidation: the connected-world phase has nine checks, not ten.
+
+Preview 03 archive: `artifacts/adventures-v3/BlockWorld-Adventures-Preview-03.zip`, 22,817,772 bytes, SHA-256 `6da24107f9209bdbbe571e53233da91b309d322efe0ef3d7008fc282af48b6fe`, source `eb7003e7fca9273882e1acf9af798b457a3a4bf5`. Extracted archive passes CRC, all runtime manifest hashes and **11 package checks**, including actual map travel, 15 thumbnails and 20 gallery images. The README and adjacent BUILD/CHECKSUMS/PACKAGE-VERIFICATION files are authoritative. Preview 03/evidence are now frozen: NEW implementation/evidence should use v4 folders. Continue immediately with the next item; this package is not the end of the assignment.
+
+## Standing issue and active Preview 04
+
+Read the authoritative living [user brief in issue #2](https://github.com/novice-builder/object-builder/issues/2) at each run. Fetched during this active session; updated 2026-11-05T21:04:50Z. It adds standard Xbox/browser Gamepad API support if economical through the existing movement/look/action seam, with deadzones, safe release/disconnect, UI confirm/cancel/map/menu and help; no physical controller result may be invented. This is a modest addition to assess/implement after the current lodge checkpoint, without rewriting the working touch system. Do not alter or disable the user-managed hourly repeating automation; no automation was changed by this run.
+
+`59aba9022fdd21da26c77d1d7a8f2017b425aebb` is the independently verified Preview 03 package checkpoint. Continued immediately into NEW `docs/adventures-v4/` work rather than stopping there. Preview 03 folders remain frozen.
+
+Active layout 4 adds a real furnished Meadow Lodge at (128,-42), with an authored modular doorway/hinged door, floor support, walls and roof, table/chairs/bookcase/books/rug, physical collisions, contextual Open/Close, blocked-sweep protection, persistent door state, guestbook and map destination. The new explicit layout preserves existing vale/layout-3 constructions, including a tested cottage at the new lodge site. Eleven legal CC0 assets add 286,496 bytes; six derived Quaternius Standard FREE modules retain authored geometry with a flat palette and five Kenney furnishings are unchanged source GLBs. Sources/editions/licences and exact hashes are recorded. No blocked Nature or paid pack is included.
+
+Visual inspection caught corner seams, over-cautious door clearance and indoor camera/header obstruction. The lodge now uses generated timber corner joins plus an elevated, orientation-dependent wall/roof cutaway while indoors; physical wall collision remains. Exterior cameras retain header/roof slabs at their actual bases. Test harness resize snapshots now wait for drawing-buffer dimensions and verify nonuniform rendered pixels; a blank frozen-loop resize capture was a harness defect, not accepted as visual evidence. Physical Lenovo/iPhone/Safari remain unverified.
+
+### Lodge checkpoint validation
+
+The current lodge milestone has 22 browser/compatibility checks, a full 143-test pass during implementation and a final 33-test focused pass, strict build/preservation, real phone/tablet interior screenshots and exact regeneration of six modular derivatives. Source/evidence is under `docs/adventures-v4/`; it is not packaged yet. Finish standard Gamepad API input support next through the existing controls seam, verify/push and then produce a NEW Preview 04 package; do not overwrite Preview 03. Indoor cutaways deliberately hide facing walls/roof for camera usability while walking collision stays physical. Remaining original prefab houses have no interior feature.
+
+`2d4bd4fc98183702ef81563bf36260cfb68ea6a3` is the independently verified lodge checkpoint. Standard-mapped Gamepad API support now follows via `gamepad.ts` and the existing controls seam, with radial deadzones, neutral/release gating, one edge command per frame, connection/disconnection events plus polling fallback, shared UI/build/map actions and in-game help. 26 injected-snapshot browser checks pass; full deterministic suite 147 passes. No physical Xbox/Bluetooth/device/Safari result is claimed. Touch/keyboard remain; unsupported/denied API/mappings are ignored safely. Full overlays poll input without hidden 3D rendering; resize/quality changes refresh the static background once. No automation was changed.
+
+Next immediate task selected: furnished-building creative tools. Offer the four existing licensed furniture models with real thumbnails/default human scale, make rugs walk-through and fix new builder tent scale while preserving explicit saved scales. This does not require another scenery layout or any destructive migration. Finish Preview 04 packaging after coherent checks; continue afterward rather than stopping at the archive.
+
+`304b6ddd74a6675d72ebda141fe14df17f679804` is the independently verified controller checkpoint. Creative tools now add four real furniture thumbnails (21,665 bytes, old 15 unchanged), table/chair/shelf/rug at checked default scale, walk-through rugs, short furniture placement and radius-aware large-object move previews. New builder tents are scale 5.5 (~3.09m), while explicit saved 2.5 scales remain ~1.40m. Filter chip transitions were corrected to preserve readable contrast. Furniture and scales round-trip into a new record.
+
+Preview 04 release evidence: 147 deterministic tests; 68 browser/compatibility/resource checks across lodge/old-vale/gamepad/furniture/touch/disposal passes; 237 protected original and Preview 01/02/03 files unchanged. Startup 3,636,551 uncompressed resource bytes; optional 19-image catalogue totals 158,844 bytes. Twelve new lodge-world replacements plateau in the tested view at 52 geometries/10 textures after the initial sample. CPU baseline has 1,230 footprints and variable timings; no physical hardware performance claim.
+
+Package NEW Preview 04 next, verify its extracted archive and remote SHA, then immediately refine map-name touch targets (long landmark labels currently require tapping near their circles) and continue useful world/input/art work. Keep physical-device and Bluetooth tests unverified until actually performed. This remains open-ended; never disable the user-managed hourly automation.
+
+## PUSH BLOCKER — preserve local Preview 04 commits
+
+**Read this before resetting or starting new changes.** Preview 04 source/evidence is committed locally at `9d69a5a57697d688819133466191b9ba6837e7fb` but GitHub rejected TWO normal non-force pushes with `remote: fatal error in commit_refs_rules`. The latest independently verified REMOTE tip remains `304b6ddd74a6675d72ebda141fe14df17f679804` (lodge + controller); do not claim the furniture commit or Preview 04 archive is remotely published. Fetch succeeded, and no other writer/remote movement was observed. The server supplied no more specific rule reason. No branch rule or transport bypass was attempted.
+
+The complete local Preview 04 archive passes CRC, all build-manifest hashes and **12 extracted-package checks** (real door, map travel, 19 catalogue thumbnails, eight gallery images, no missing/external requests). Archive `artifacts/adventures-v4/BlockWorld-Adventures-Preview-04.zip`: 3,894,573 bytes; SHA-256 `f010649a68737277c75302efb5be9b0e8f8176868d1bc267fd4595e44a66297a`; exact runtime source `9d69a5a57697d688819133466191b9ba6837e7fb`. A local packaging/blocker commit follows 9d69a5a; `git rev-parse HEAD` identifies it. Keep both local commits. A recovery bundle is created at `/workspace/work/blockworld-adventures-preview04-unpushed.bundle`, with the verified remote 304b6dd as prerequisite. Do not delete/reset these commits or overwrite the immutable version folder. The package is reviewable locally; it is not on the remote yet.
+
+Resume: acquire exclusive lock, re-read standing issue #2, inspect local HEAD/worktree/bundle, fetch origin and inspect remote SHA. If still 304b6dd, retry a NORMAL fast-forward push of the existing completed commits and independently verify the resulting remote SHA. If remote advanced, preserve the bundle and review ancestry/concurrent work before integrating; never force overwrite. Do not bypass repository rules. If the same server rejection persists, report the blocker and leave work intact for the next hourly invocation. Do not disable, complete or reschedule the recurring automation.
+
+Further coding stopped at this genuine remote checkpoint blocker so completed work would not accumulate unpushed. No usage exhaustion was measured or claimed. The next feature after the push is unblocked remains more forgiving full-map landmark-name touch targets, followed by useful world/navigation/mobile/art improvements. No such next feature is claimed as implemented in Preview 04.
