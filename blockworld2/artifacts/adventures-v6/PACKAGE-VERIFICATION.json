@@ -1,0 +1,78 @@
+{
+  "archive": "BlockWorld-Adventures-Preview-06.zip",
+  "checks": [
+    {
+      "name": "archive CRC",
+      "passed": true
+    },
+    {
+      "name": "all build-manifest hashes",
+      "passed": true
+    },
+    {
+      "name": "packaged game opens connected vale",
+      "passed": true
+    },
+    {
+      "name": "packaged nearby ground targets the ghost before confirmation",
+      "passed": true
+    },
+    {
+      "name": "packaged pinned ghost actually renders",
+      "passed": true
+    },
+    {
+      "name": "packaged explicit target confirmation keeps exact position",
+      "passed": true
+    },
+    {
+      "name": "all 19 packaged catalogue images load",
+      "passed": true
+    },
+    {
+      "name": "packaged fresh-world UI loads connected layout 4",
+      "passed": true
+    },
+    {
+      "name": "packaged visible name edge safely travels",
+      "passed": true
+    },
+    {
+      "name": "packaged map travels to meadow in same world",
+      "passed": true
+    },
+    {
+      "name": "packaged lodge is present with contextual door",
+      "passed": true
+    },
+    {
+      "name": "packaged real door opens",
+      "passed": true
+    },
+    {
+      "name": "packaged live door state imports into a separate record",
+      "passed": true
+    },
+    {
+      "name": "all twelve packaged gallery views load",
+      "passed": true
+    },
+    {
+      "name": "gallery zoom opens",
+      "passed": true
+    },
+    {
+      "name": "gallery zoom closes",
+      "passed": true
+    },
+    {
+      "name": "no runtime errors, missing files or external requests",
+      "passed": true
+    }
+  ],
+  "sourceCommit": "c90159ee50070790d40027166bc99738e000958c",
+  "manifestFiles": 124,
+  "errors": [],
+  "missing": [],
+  "externalRequests": []
+}
