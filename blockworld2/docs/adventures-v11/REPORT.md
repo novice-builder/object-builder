@@ -1,6 +1,6 @@
 # BlockWorld Adventures — Preview 11 movement and room corrections
 
-Preview 11 repairs the user's Preview 10 stair barriers, adds default running and Jump, and introduces single-storey new cottages while retaining every saved older upper floor. Verified final runtime source: `43a0eab38a8f0487adaa1628800b697468af1e93`. The new archive's `BUILD.json` records this exact commit. Baseline: accepted Preview 10 `3dcd4f630006fd00f5631d362ce9cc20da8a595c`; independently verified intermediate repairs: `c4a3701fda19847853eb145a7a232157aec2d6a7` and `41a79fe7c9fdb50d006e24fb53fc81926bf88b2a`.
+Preview 11 repairs the user's Preview 10 stair barriers, adds default running and Jump, and introduces single-storey new cottages while retaining every saved older upper floor. Verified final runtime source: `5930d5ab2bfad26e321a829a2476e1555e349ba1`. The new archive's `BUILD.json` records this exact commit. Baseline: accepted Preview 10 `3dcd4f630006fd00f5631d362ce9cc20da8a595c`; independently verified intermediate repairs: `c4a3701fda19847853eb145a7a232157aec2d6a7` and `41a79fe7c9fdb50d006e24fb53fc81926bf88b2a`.
 
 ## Movement and real collision
 
@@ -50,3 +50,7 @@ That unaccepted archive is preserved at `/workspace/work/preview11-candidate-bef
 ## Riverbank save correction
 
 Extracted-package testing reproduced a negative bridge-bank height rejected by the unchanged native save envelope. Adventures now serializes signed outdoor elevation separately while retaining native nonnegative coordinates. Actual bank footing survives save/reload, deeper banks, fade entry/exit and backup validation. Malformed buried heights are rejected before modifying records. Unsupported imported heights recover to actual ground. `bank-save-before.json` records the failure; `bank-saves.json` contains eight passing real browser regressions. Native persistence remains unchanged. The earlier source-43a candidate is retained locally and is not an accepted release.
+
+## Accepted extracted package
+
+`artifacts/adventures-v11/BlockWorld-Adventures-Preview-11.zip` is 5,465,837 bytes, SHA-256 `0c91372ba382f05ad264e20121b2a715a593e274a0762a33b346876431011e2b`, with exact source `5930d5ab2bfad26e321a829a2476e1555e349ba1`. All 131 runtime file hashes and ZIP CRC pass. **29 actual extracted-package checks** cover keyboard and touch Jump, bridge movement, two-storey stairs, controller Jump, real backup download/import/reload, exact exterior return, physical lodge door, furniture editing/floor transfer, single-storey cottage, distinct long-name upgrades and all nine gallery images. Actual package phone screenshots were inspected. No external runtime requests, missing files or page exceptions. Physical-device tests remain unverified. Development immediately continues in new v12 paths.

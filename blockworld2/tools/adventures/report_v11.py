@@ -1,7 +1,7 @@
 """Consolidate final movement/template evidence and verify every retained file outside the authorised active code/docs/tests."""
 from pathlib import Path
 import hashlib,html,json,re,subprocess,shutil
-ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'docs/adventures-v11';BASE='3dcd4f630006fd00f5631d362ce9cc20da8a595c';VERIFIED='43a0eab38a8f0487adaa1628800b697468af1e93'
+ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'docs/adventures-v11';BASE='3dcd4f630006fd00f5631d362ce9cc20da8a595c';VERIFIED='5930d5ab2bfad26e321a829a2476e1555e349ba1'
 phases=['jump-controls.json','room-templates.json','room-compat.json','movement-inputs-final.json','outdoor-steps-final.json','outdoor-regressions-final.json','render-cost-final.json','furniture-edit-final.json','copy-names.json','bank-saves.json']
 checks=[]
 for name in phases:
