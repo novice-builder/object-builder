@@ -255,3 +255,45 @@ test("version-3 upgrade keeps an independently recoverable older room record and
     f.session.store.db.close();
   }
 });
+
+test("maximum-length upgrade and recovery names remain distinct in real storage while original records stay intact", async () => {
+  const f = await fixture();
+  try {
+    const original = f.session.current!.id,
+      long = "L".repeat(60);
+    await f.session.store.rename(original, f.session.current!.revision, long);
+    await f.session.open(original);
+    const old = f.get();
+    (old.world.adventure as any).version = 2;
+    (old.world.adventure as any).rooms = {};
+    f.set(old);
+    await f.session.save();
+    const source = (await f.session.store.load(original)).snapshot,
+      names = new Set([long]);
+    for (let i = 0; i < 2; i++) {
+      await f.session.open(original);
+      await f.session.copyForRooms(3);
+      const name = f.session.current!.name;
+      assert.ok(
+        name.length <= 60 &&
+          name.includes("updated adventure") &&
+          !names.has(name),
+      );
+      names.add(name);
+    }
+    for (let i = 0; i < 2; i++) {
+      await f.session.open(original);
+      await f.session.recover();
+      const name = f.session.current!.name;
+      assert.ok(
+        name.length <= 60 && name.includes("recovered") && !names.has(name),
+      );
+      names.add(name);
+    }
+    const retained = await f.session.store.load(original);
+    assert.equal(retained.record.name, long);
+    assert.deepEqual(retained.snapshot, source);
+  } finally {
+    f.session.store.db.close();
+  }
+});

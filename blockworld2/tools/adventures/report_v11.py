@@ -1,8 +1,8 @@
 """Consolidate final movement/template evidence and verify every retained file outside the authorised active code/docs/tests."""
 from pathlib import Path
 import hashlib,html,json,re,subprocess,shutil
-ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'docs/adventures-v11';BASE='3dcd4f630006fd00f5631d362ce9cc20da8a595c';VERIFIED='41a79fe7c9fdb50d006e24fb53fc81926bf88b2a'
-phases=['jump-controls.json','room-templates.json','room-compat.json','movement-inputs-final.json','outdoor-steps-final.json','outdoor-regressions-final.json','render-cost-final.json','furniture-edit-final.json']
+ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'docs/adventures-v11';BASE='3dcd4f630006fd00f5631d362ce9cc20da8a595c';VERIFIED='6f8b2b68df29b286dc095a5279686f1da35fb0a2'
+phases=['jump-controls.json','room-templates.json','room-compat.json','movement-inputs-final.json','outdoor-steps-final.json','outdoor-regressions-final.json','render-cost-final.json','furniture-edit-final.json','copy-names.json']
 checks=[]
 for name in phases:
  phase=json.loads((OUT/name).read_text());assert phase['checks']and all(c['passed']for c in phase['checks']),name
@@ -19,8 +19,8 @@ for row in subprocess.check_output(['git','ls-tree','-rz',BASE],cwd=ROOT.parent)
  assert actual==meta.decode().split()[2],name
  protected.append(name)
 source=[*ROOT.glob('src/adventures/*'),*ROOT.glob('public/adventures/**/*'),ROOT/'adventures.html',ROOT/'vite.adventures.config.ts']
-hashes=lambda files:{str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest()for f in sorted(files)if f.is_file()}
-summary={'verifiedRemoteCheckpoint':VERIFIED,'preservedBase':BASE,'deterministicTests':tests,'browserChecks':len(checks),'checks':checks,'protectedFiles':protected,'runtimeSourceHashes':hashes(source),'runtimeBuildHashes':hashes((ROOT/'adventures-dist').rglob('*')),'limitations':['Chromium SwiftShader and touch/Gamepad API emulation only; no physical Lenovo/iPhone/Safari/Xbox/Bluetooth tests.','No FPS improvement or universal mobile performance claim.','Version-3 backups require Preview 11+. Older records remain separately stored.','No automatic CAD import/collision baking UI; arbitrary large custom risers still obey the 0.30m controller limit.','No new deployment or automation change.']}
+hashes=lambda files,base=ROOT:{str(f.relative_to(base)):hashlib.sha256(f.read_bytes()).hexdigest()for f in sorted(files)if f.is_file()}
+summary={'verifiedRemoteCheckpoint':VERIFIED,'preservedBase':BASE,'deterministicTests':tests,'browserChecks':len(checks),'checks':checks,'protectedFiles':protected,'runtimeSourceHashes':hashes(source),'runtimeBuildHashes':hashes((ROOT/'adventures-dist').rglob('*'),ROOT/'adventures-dist'),'limitations':['Chromium SwiftShader and touch/Gamepad API emulation only; no physical Lenovo/iPhone/Safari/Xbox/Bluetooth tests.','No FPS improvement or universal mobile performance claim.','Version-3 backups require Preview 11+. Older records remain separately stored.','No automatic CAD import/collision baking UI; arbitrary large custom risers still obey the 0.30m controller limit.','No new deployment or automation change.']}
 (OUT/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
 shots=[('exterior-stairs-phone-after.png','Real 18.9cm exterior steps and threshold entry'),('phone-movement-inputs-final.png','Phone upper-floor movement'),('tablet-movement-inputs-final.png','Tablet upper-floor movement'),('single-storey-cottage-phone.png','Fresh furnished single-storey cottage'),('townhouse-tablet-template-upper.png','Connected town-house upper floor'),('inn-phone-template-upper.png','Inn guest room'),('jump-phone.png','Phone jump and compact controls'),('jump-tablet.png','Tablet jump and controls'),('jump-controls-phone-landscape.png','Phone landscape controls')]
 for name,_ in shots:assert(OUT/'screenshots'/name).is_file(),name

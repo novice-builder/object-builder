@@ -1,0 +1,72 @@
+{
+  "environment": "Managed Chromium SwiftShader phone emulation, actual IndexedDB and saved-world menu.",
+  "checks": [
+    {
+      "name": "stored upgrade and recovery copies keep visible suffixes and unique bounded names",
+      "passed": true,
+      "detail": {
+        "copies": [
+          {
+            "kind": "upgrade",
+            "id": "ff8ad3f0-8ff4-4e17-9a96-0d63091955c3",
+            "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL \u00b7 updated adventure"
+          },
+          {
+            "kind": "upgrade",
+            "id": "9ae974cc-ea17-4d22-b3d2-7c7587053e8e",
+            "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL \u00b7 updated adventure 2"
+          },
+          {
+            "kind": "recovery",
+            "id": "67e28bb2-d9ac-4e77-99ae-d4551e9b7e9c",
+            "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL \u00b7 recovered"
+          },
+          {
+            "kind": "recovery",
+            "id": "b55488da-3d21-49bd-84df-2d1b844a15c0",
+            "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL \u00b7 recovered 2"
+          }
+        ],
+        "sourceName": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+        "sourceIntact": true,
+        "sourceVersion": 2,
+        "distinct": true
+      }
+    },
+    {
+      "name": "maximum-name copy creation retains original identity, name and exact snapshot",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "actual phone saved-world list shows all distinct suffixes without page overflow",
+      "passed": true,
+      "detail": {
+        "names": [
+          {
+            "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL \u00b7 updated adventure",
+            "visible": true
+          },
+          {
+            "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL \u00b7 updated adventure 2",
+            "visible": true
+          },
+          {
+            "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL \u00b7 recovered",
+            "visible": true
+          },
+          {
+            "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL \u00b7 recovered 2",
+            "visible": true
+          }
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "name": "copy naming checks have no browser exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}

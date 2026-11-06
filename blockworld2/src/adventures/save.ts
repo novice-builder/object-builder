@@ -3,6 +3,7 @@ import { inWorld } from "./vale-data";
 import { WorldStore, type WorldRecord } from "../persistence/store";
 import { type Snapshot, encode, decode } from "../persistence/schema";
 import { DEFINITIONS } from "./assets";
+import { adventureCopyName } from "./copy-name";
 import {
   WORLDS,
   LATEST_LAYOUT,
@@ -360,11 +361,12 @@ export class AdventureSession {
       data.version = targetVersion;
       data.rooms ||= {};
       validateAdventure(snapshot);
-      const base = `${this.current?.name || "Adventure"} · ${targetVersion === 3 ? "updated adventure" : "interiors"}`,
-        used = new Set((await this.store.list()).map((r) => r.name));
-      let name = base,
-        index = 2;
-      while (used.has(name)) name = base + " " + index++;
+      const used = new Set((await this.store.list()).map((r) => r.name)),
+        name = adventureCopyName(
+          this.current?.name || "Adventure",
+          targetVersion === 3 ? "updated adventure" : "interiors",
+          used,
+        );
       const record = await this.store.create(name, snapshot);
       await this.store.select(record.id);
       this.current = record;
@@ -377,10 +379,13 @@ export class AdventureSession {
     return this.change(async () => {
       const snapshot = this.capture();
       validateAdventure(snapshot);
-      const record = await this.store.create(
-        `${this.current?.name || "Adventure"} recovered`,
-        snapshot,
-      );
+      const used = new Set((await this.store.list()).map((r) => r.name)),
+        name = adventureCopyName(
+          this.current?.name || "Adventure",
+          "recovered",
+          used,
+        ),
+        record = await this.store.create(name, snapshot);
       await this.store.select(record.id);
       this.current = record;
       this.last = encode(snapshot).json;
