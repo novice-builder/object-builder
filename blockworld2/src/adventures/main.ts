@@ -684,8 +684,9 @@ class AdventureGame {
   private renderScene() {
     if (this.landscape instanceof ConnectedLandscape)
       this.landscape.updateVisibility(
-        this.camera.position,
+        this.camera,
         (this.scene.fog as T.Fog).far,
+        !this.renderer.shadowMap.enabled,
       );
     this.renderer.render(this.scene, this.camera);
   }

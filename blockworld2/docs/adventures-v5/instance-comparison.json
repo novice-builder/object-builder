@@ -1,0 +1,74 @@
+{
+  "centre": {
+    "callsBefore": 197,
+    "callsAfter": 181,
+    "trianglesBefore": 233601,
+    "trianglesAfter": 181005,
+    "triangleReductionPercent": 22.5,
+    "cullMedianMsBefore": 0,
+    "cullMedianMsAfter": 0.3999999985098839,
+    "submissionMedianMsBefore": 2.2999999970197678,
+    "submissionMedianMsAfter": 5.700000002980232,
+    "pixelsDifferentFromFullBatches": 0
+  },
+  "woodland": {
+    "callsBefore": 170,
+    "callsAfter": 170,
+    "trianglesBefore": 214852,
+    "trianglesAfter": 177758,
+    "triangleReductionPercent": 17.3,
+    "cullMedianMsBefore": 0,
+    "cullMedianMsAfter": 0.5999999940395355,
+    "submissionMedianMsBefore": 4,
+    "submissionMedianMsAfter": 6.100000001490116,
+    "pixelsDifferentFromFullBatches": 0
+  },
+  "road": {
+    "callsBefore": 250,
+    "callsAfter": 245,
+    "trianglesBefore": 250468,
+    "trianglesAfter": 192986,
+    "triangleReductionPercent": 22.9,
+    "cullMedianMsBefore": 0,
+    "cullMedianMsAfter": 0.29999999701976776,
+    "submissionMedianMsBefore": 3.399999998509884,
+    "submissionMedianMsAfter": 2.0999999940395355,
+    "pixelsDifferentFromFullBatches": 0
+  },
+  "hamlet": {
+    "callsBefore": 218,
+    "callsAfter": 205,
+    "trianglesBefore": 262629,
+    "trianglesAfter": 195593,
+    "triangleReductionPercent": 25.5,
+    "cullMedianMsBefore": 0,
+    "cullMedianMsAfter": 0.30000000447034836,
+    "submissionMedianMsBefore": 0.6999999955296516,
+    "submissionMedianMsAfter": 1.1999999955296516,
+    "pixelsDifferentFromFullBatches": 0
+  },
+  "lodge": {
+    "callsBefore": 48,
+    "callsAfter": 41,
+    "trianglesBefore": 110292,
+    "trianglesAfter": 80268,
+    "triangleReductionPercent": 27.2,
+    "cullMedianMsBefore": 0,
+    "cullMedianMsAfter": 0.30000000447034836,
+    "submissionMedianMsBefore": 0.30000000447034836,
+    "submissionMedianMsAfter": 0.7999999970197678,
+    "pixelsDifferentFromFullBatches": 0
+  },
+  "campScale": {
+    "callsBefore": 99,
+    "callsAfter": 85,
+    "trianglesBefore": 165936,
+    "trianglesAfter": 108878,
+    "triangleReductionPercent": 34.4,
+    "cullMedianMsBefore": 0,
+    "cullMedianMsAfter": 0.3999999985098839,
+    "submissionMedianMsBefore": 1.1000000014901161,
+    "submissionMedianMsAfter": 1.7000000029802322,
+    "pixelsDifferentFromFullBatches": 0
+  }
+}

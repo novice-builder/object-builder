@@ -1,0 +1,218 @@
+{
+  "phase": "after",
+  "head": "18d7e6bd7657f5494a6874747035d7491edf498f",
+  "environment": "Managed Chromium ANGLE SwiftShader. Fixed explicit Gentle renders, CPU wall-time trials and submission counters; not physical hardware FPS.",
+  "views": {
+    "centre": {
+      "fps": 2,
+      "frameP95Ms": 716.6,
+      "drawCalls": 170,
+      "triangles": 169783,
+      "geometries": 55,
+      "textures": 11,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle",
+      "cullCpuMs": [
+        0.29999999701976776,
+        0.19999999552965164,
+        0.20000000298023224,
+        0.20000000298023224,
+        0.20000000298023224
+      ],
+      "submissionCpuMs": [
+        1.8000000044703484,
+        1.1000000014901161,
+        2.399999998509884,
+        1.2999999970197678,
+        2.1999999955296516
+      ],
+      "totalStaticInstances": 5096,
+      "instancesInVisibleChunks": 906,
+      "instanceMeshes": 647,
+      "uploadVersion": 453
+    },
+    "woodland": {
+      "fps": 2,
+      "frameP95Ms": 716.6,
+      "drawCalls": 157,
+      "triangles": 163652,
+      "geometries": 79,
+      "textures": 12,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle",
+      "cullCpuMs": [
+        1.6000000014901161,
+        0.3999999985098839,
+        0.20000000298023224,
+        0.10000000149011612,
+        0.30000000447034836
+      ],
+      "submissionCpuMs": [
+        3.899999998509884,
+        3,
+        0.7999999970197678,
+        3.2999999970197678,
+        1.3999999985098839
+      ],
+      "totalStaticInstances": 5096,
+      "instancesInVisibleChunks": 819,
+      "instanceMeshes": 647,
+      "uploadVersion": 778
+    },
+    "road": {
+      "fps": 2,
+      "frameP95Ms": 716.6,
+      "drawCalls": 237,
+      "triangles": 187658,
+      "geometries": 85,
+      "textures": 13,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle",
+      "cullCpuMs": [
+        0.3999999985098839,
+        0.19999999552965164,
+        0.10000000149011612,
+        0.19999999552965164,
+        0.10000000149011612
+      ],
+      "submissionCpuMs": [
+        2.8000000044703484,
+        1.1000000014901161,
+        1.1000000014901161,
+        1.3000000044703484,
+        1.1999999955296516
+      ],
+      "totalStaticInstances": 5096,
+      "instancesInVisibleChunks": 1171,
+      "instanceMeshes": 647,
+      "uploadVersion": 908
+    },
+    "hamlet": {
+      "fps": 2,
+      "frameP95Ms": 716.6,
+      "drawCalls": 194,
+      "triangles": 179471,
+      "geometries": 103,
+      "textures": 13,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle",
+      "cullCpuMs": [
+        0.09999999403953552,
+        0.10000000149011612,
+        0.20000000298023224,
+        0.19999999552965164,
+        0.20000000298023224
+      ],
+      "submissionCpuMs": [
+        1.3000000044703484,
+        0.5999999940395355,
+        0.6000000014901161,
+        0.6000000014901161,
+        0.6000000014901161
+      ],
+      "totalStaticInstances": 5096,
+      "instancesInVisibleChunks": 914,
+      "instanceMeshes": 647,
+      "uploadVersion": 1198
+    },
+    "lodge": {
+      "fps": 2,
+      "frameP95Ms": 716.6,
+      "drawCalls": 41,
+      "triangles": 80268,
+      "geometries": 103,
+      "textures": 13,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle",
+      "cullCpuMs": [
+        0.10000000149011612,
+        0.10000000149011612,
+        0.10000000149011612,
+        1.8999999985098839,
+        0.10000000149011612
+      ],
+      "submissionCpuMs": [
+        0.5,
+        0.3999999985098839,
+        0.19999999552965164,
+        0.5,
+        0.20000000298023224
+      ],
+      "totalStaticInstances": 5096,
+      "instancesInVisibleChunks": 150,
+      "instanceMeshes": 647,
+      "uploadVersion": 1369
+    },
+    "campScale": {
+      "fps": 2,
+      "frameP95Ms": 716.6,
+      "drawCalls": 85,
+      "triangles": 108476,
+      "geometries": 103,
+      "textures": 13,
+      "pixelRatio": 1,
+      "scene": "vale",
+      "natureInstances": 4399,
+      "objects": 0,
+      "quality": "gentle",
+      "cullCpuMs": [
+        0.29999999701976776,
+        0.30000000447034836,
+        0.30000000447034836,
+        0.29999999701976776,
+        0.09999999403953552
+      ],
+      "submissionCpuMs": [
+        3.5,
+        18.19999999552965,
+        0.8999999985098839,
+        0.9000000059604645,
+        7.200000002980232
+      ],
+      "totalStaticInstances": 5096,
+      "instancesInVisibleChunks": 365,
+      "instanceMeshes": 647,
+      "uploadVersion": 1465
+    }
+  },
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "sourceFileHashes": {
+    "src/adventures/controls.ts": "4682d1497ad7e8bab14fa5d2d72ba3e656c82abd9b5fe459fcf532131f65a9eb",
+    "src/adventures/lodge.ts": "1fd3163c94888c9ddcfc37ec3a15b1a0ae6e51c297f34635684b05bba507878e",
+    "src/adventures/placement-ground.ts": "b32d174874465a009deb0cf57935864a9fbeb204a0d8480a49c2432ebebdc540",
+    "src/adventures/trail-geometry.ts": "545e1f9b21d10320ff7a810387cc631d664ff0fb2152ffafca6a68c744815ae5",
+    "src/adventures/landscape.ts": "40429e6931587c45ff44fab69e3ca95a9092cea406b88b6849d2aed0e84aea82",
+    "src/adventures/connected-landscape.ts": "8b5182d2608659634335f9b12c79b37525a8f89f9d7782872cd0984dbd158394",
+    "src/adventures/gamepad.ts": "3c50ce5d65e8dfe2396a76e5bcc7167ccb1e387cc977caf361517e33dc1e8cc4",
+    "src/adventures/catalogue.ts": "5ef9c99044086713b885bc3d47a966891d9fb6f122e0e2419677335f18955525",
+    "src/adventures/assets.ts": "1ea7d81f53b05b47d51fa86ac9f4852761ee99c131ee94aa96f8ed9049c1c6db",
+    "src/adventures/map-targets.ts": "05a44a3e140b46423ef4c5ed2ef83a3237b087956d996c8bba3e23ea02ae6cef",
+    "src/adventures/main.ts": "6f29769a144c15c7c5ccdad4fa2bd7a3e324ffe7353e10be520763561d1bf5df",
+    "src/adventures/instance-culling.ts": "6ae246c36227a307dcea3a132060a30381979ed8099ff97ac0ce04b0c839b4e5",
+    "src/adventures/collision-cache.ts": "43fffb2515822565db9cacea42f26b191ade88d240520dafebf756685b5fb523",
+    "src/adventures/camera-collision.ts": "c9fac1d7b028886075a49c43422830194cbec68a37527ff8ffa99553776f000b",
+    "src/adventures/ids.ts": "da1780eb5b52c22297206cc436b3dcbf08bc19c29cccbd9e6b73e6ab9d15d006",
+    "src/adventures/vale-data.ts": "767dd5e0f55f4477e1596e23ca62a6f62da6717caa89703eadbf3897d61a6d5e",
+    "src/adventures/preferences.ts": "05c4f04a2886ff973180189c0635e0de10880faaec90b8a06ce1e1f5604b4073",
+    "src/adventures/world-map.ts": "55e8c55d8e79fff24e3b39c7fa2b391a010d803bf21a1378c2fa31c81b5cc157",
+    "src/adventures/safe-position.ts": "454c2b211c429ac0c25cabdf3a04da99b84444aa8092b913a368f7fbfad3aa7a",
+    "src/adventures/save.ts": "c0224e52618bf969aaa8a129534f0fcd52e9c773b85de61ffe8aec2a648faed3",
+    "src/adventures/map-data.ts": "ec9aa254abfb8f0fe1f1b54294e92faf919e5d88d76be95adf71fec102a7f8b5",
+    "src/adventures/nature-batch.ts": "131aa982755b72e761297c4cb2e2669503796b4bb5b0f8b34f2a162ddd153c80"
+  }
+}

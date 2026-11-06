@@ -1,6 +1,6 @@
 import * as T from "three";
 import { Lodge } from "./lodge";
-import { fogVisible } from "./nature-batch";
+import { StaticInstanceCuller, fogDepthVisible } from "./instance-culling";
 import { AssetLibrary } from "./assets";
 import {
   Landscape,
@@ -72,7 +72,13 @@ export class ConnectedLandscape {
   instances = 0;
   trees: { x: number; z: number; radius: number }[] = [];
   private regions: Landscape[] = [];
-  private visibility: { mesh: T.Mesh; sphere: T.Sphere }[] = [];
+  private visibility: {
+    mesh: T.Mesh;
+    sphere: T.Sphere;
+    culler?: StaticInstanceCuller;
+  }[] = [];
+  private frustum = new T.Frustum();
+  private projection = new T.Matrix4();
   private geometry: T.BufferGeometry[] = [];
   private materials: T.Material[] = [];
   constructor(
@@ -182,7 +188,14 @@ export class ConnectedLandscape {
         sphere = o.geometry.boundingSphere!.clone();
       }
       sphere.applyMatrix4(o.matrixWorld);
-      this.visibility.push({ mesh: o, sphere });
+      this.visibility.push({
+        mesh: o,
+        sphere,
+        culler:
+          o instanceof T.InstancedMesh
+            ? new StaticInstanceCuller(o)
+            : undefined,
+      });
     });
   }
   private mesh(g: T.BufferGeometry, m: T.Material) {
@@ -444,9 +457,26 @@ export class ConnectedLandscape {
     if (changed) this.obstacles = [...this.permanent, this.lodge.doorBody()];
     return changed;
   }
-  updateVisibility(camera: T.Vector3, far: number) {
-    for (const { mesh, sphere } of this.visibility)
-      mesh.visible = fogVisible(sphere.center, sphere.radius, camera, far);
+  updateVisibility(camera: T.PerspectiveCamera, far: number, compact = true) {
+    camera.updateMatrixWorld();
+    if (compact) {
+      this.projection.multiplyMatrices(
+        camera.projectionMatrix,
+        camera.matrixWorldInverse,
+      );
+      this.frustum.setFromProjectionMatrix(this.projection);
+    }
+    for (const { mesh, sphere, culler } of this.visibility) {
+      mesh.visible = fogDepthVisible(
+        sphere.center,
+        sphere.radius,
+        camera.matrixWorldInverse.elements,
+        far,
+      );
+      if (!compact) culler?.restore();
+      else if (mesh.visible) culler?.update(this.frustum, camera, far);
+      if (culler && culler.mesh.count === 0) mesh.visible = false;
+    }
   }
   dispose() {
     this.group.removeFromParent();

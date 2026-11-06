@@ -1,0 +1,24 @@
+"""World geometry/save compatibility against preserved Preview 04 and quality/disposal regressions."""
+import pathlib,json
+from playwright.sync_api import sync_playwright
+OUT=pathlib.Path(__file__).resolve().parents[2]/'docs/adventures-v5';result={'checks':[],'environment':'Managed Chromium SwiftShader, no physical-device results.'}
+def check(name,ok,detail=None):
+ result['checks'].append({'name':name,'passed':bool(ok),'detail':detail});(OUT/'instance-checks.json').write_text(json.dumps(result,indent=2)+'\n');print('PASS'if ok else'FAIL',name,detail or '',flush=True);assert ok,name
+signature="""()=>{const g=adventure.game,l=g.landscape,parts=[];if(l.visibility)for(const v of l.visibility)v.culler?.restore();const hash=a=>{let h=2166136261;for(const b of new Uint8Array(a.buffer,a.byteOffset,a.byteLength))h=Math.imul(h^b,16777619);return h>>>0};l.group.traverse(o=>{if(!o.isMesh)return;const attrs={};for(const [name,a]of Object.entries(o.geometry.attributes))attrs[name]=[a.count,hash(a.array)];parts.push({attrs,indices:o.geometry.index?.count,local:Array.from(o.matrix.elements),instances:o.isInstancedMesh?hash(o.instanceMatrix.array):null,colors:o.instanceColor?hash(o.instanceColor.array):null});});return{parts,obstacles:l.obstacles,paths:l.paths,landmarks:l.landmarks,objects:g.data.objects,layout:g.data.layout,doors:g.data.doors};}"""
+with sync_playwright()as p:
+ b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']);pages=[];errors=[]
+ for port in [5176,5175]:
+  g=b.new_page(viewport={'width':640,'height':400});g.on('pageerror',lambda e:errors.append(str(e)));g.set_default_timeout(120000);g.add_init_script("localStorage.setItem('blockworld-adventures-controls-v2',JSON.stringify({quality:'gentle',running:false}))");g.goto(f'http://127.0.0.1:{port}/adventures.html?test=1');g.wait_for_function('window.adventure?.ready');g.locator('#enter').click();g.evaluate('()=>{window.requestAnimationFrame=()=>0}');g.wait_for_timeout(100);pages.append(g)
+ old,current=pages
+ for scene,layout in [('village',1),('woodland',2),('vale',3),('vale',4)]:
+  old.evaluate("""([scene,layout])=>{const g=adventure.game,s=g.snapshot();Object.assign(s.world.adventure,{scene,layout,objects:[{id:'keep-scale',asset:'tent-smallopen',x:scene==='vale'?150:60,z:30,yaw:.6,scale:2.5}],doors:layout===4?{lodge:true}:undefined});if(layout===3)s.world.adventure.objects.push({id:'keep-lodge-site',asset:'building_home_A_blue',x:128,z:-42,yaw:.6,scale:7});Object.assign(s.player,{x:scene==='vale'?-105:0,z:18,yaw:0,pitch:.47});g.apply(s)}""",[scene,layout]);before=old.evaluate(signature);text=old.evaluate('adventure.session.export()');current.evaluate('(text)=>adventure.session.import(text)',text)
+  check(f'{scene} layout {layout} retains exact geometry matrices colours collision paths and creations from Preview 04',current.evaluate(signature)==before)
+ samples=[]
+ for i in range(10):
+  current.evaluate("adventure.session.create('vale')");current.evaluate("adventure.view('lodge')");samples.append(current.evaluate("()=>{const g=adventure.game;return {...g.stats(),cullerBytes:g.landscape.visibility.reduce((s,v)=>s+(v.culler?.retainedBytes||0),0)}}"))
+ check('ten replacement worlds plateau geometry/textures after warmup',max(s['geometries']for s in samples[2:])-min(s['geometries']for s in samples[2:])<=1 and len({s['textures']for s in samples[2:]})==1,samples)
+ current.evaluate("adventure.view('centre')");check('Gentle compacts scenery below full capacity',current.evaluate('adventure.game.landscape.visibility.some(v=>v.culler&&v.mesh.count<v.culler.count)'))
+ current.evaluate("adventure.game.setQuality('balanced');adventure.game.renderScene()");check('balanced restores all source instances for offscreen shadow casters',current.evaluate('adventure.game.landscape.visibility.every(v=>!v.culler||v.mesh.count===v.culler.count)'))
+ current.evaluate("adventure.game.setQuality('high');adventure.game.renderScene()");check('high retains all source instances for shadows',current.evaluate('adventure.game.landscape.visibility.every(v=>!v.culler||v.mesh.count===v.culler.count)'))
+ current.evaluate("adventure.game.setQuality('gentle');adventure.game.renderScene()");before=current.evaluate('adventure.game.landscape.visibility.reduce((s,v)=>s+(v.mesh.instanceMatrix?.version||0),0)');current.evaluate('adventure.game.renderScene()');after=current.evaluate('adventure.game.landscape.visibility.reduce((s,v)=>s+(v.mesh.instanceMatrix?.version||0),0)');check('stationary Gentle frames do not re-upload matrices',before==after,{'before':before,'after':after});check('Gentle resumes compaction after shadow modes',current.evaluate('adventure.game.landscape.visibility.some(v=>v.culler&&v.mesh.count<v.culler.count)'))
+ check('no runtime exceptions',not errors,errors);b.close()

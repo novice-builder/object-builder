@@ -1,0 +1,204 @@
+{
+  "checks": [
+    {
+      "name": "village layout 1 retains exact geometry matrices colours collision paths and creations from Preview 04",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "woodland layout 2 retains exact geometry matrices colours collision paths and creations from Preview 04",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 3 retains exact geometry matrices colours collision paths and creations from Preview 04",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "vale layout 4 retains exact geometry matrices colours collision paths and creations from Preview 04",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "ten replacement worlds plateau geometry/textures after warmup",
+      "passed": true,
+      "detail": [
+        {
+          "fps": 3,
+          "frameP95Ms": 566.7,
+          "drawCalls": 44,
+          "triangles": 85918,
+          "geometries": 51,
+          "textures": 10,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4399,
+          "objects": 0,
+          "quality": "gentle",
+          "cullerBytes": 407680
+        },
+        {
+          "fps": 3,
+          "frameP95Ms": 566.7,
+          "drawCalls": 44,
+          "triangles": 85918,
+          "geometries": 51,
+          "textures": 10,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4399,
+          "objects": 0,
+          "quality": "gentle",
+          "cullerBytes": 407680
+        },
+        {
+          "fps": 3,
+          "frameP95Ms": 566.7,
+          "drawCalls": 44,
+          "triangles": 85918,
+          "geometries": 51,
+          "textures": 10,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4399,
+          "objects": 0,
+          "quality": "gentle",
+          "cullerBytes": 407680
+        },
+        {
+          "fps": 3,
+          "frameP95Ms": 566.7,
+          "drawCalls": 44,
+          "triangles": 85918,
+          "geometries": 51,
+          "textures": 10,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4399,
+          "objects": 0,
+          "quality": "gentle",
+          "cullerBytes": 407680
+        },
+        {
+          "fps": 3,
+          "frameP95Ms": 566.7,
+          "drawCalls": 44,
+          "triangles": 85918,
+          "geometries": 51,
+          "textures": 10,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4399,
+          "objects": 0,
+          "quality": "gentle",
+          "cullerBytes": 407680
+        },
+        {
+          "fps": 3,
+          "frameP95Ms": 566.7,
+          "drawCalls": 44,
+          "triangles": 85918,
+          "geometries": 51,
+          "textures": 10,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4399,
+          "objects": 0,
+          "quality": "gentle",
+          "cullerBytes": 407680
+        },
+        {
+          "fps": 3,
+          "frameP95Ms": 566.7,
+          "drawCalls": 44,
+          "triangles": 85918,
+          "geometries": 51,
+          "textures": 10,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4399,
+          "objects": 0,
+          "quality": "gentle",
+          "cullerBytes": 407680
+        },
+        {
+          "fps": 3,
+          "frameP95Ms": 566.7,
+          "drawCalls": 44,
+          "triangles": 85918,
+          "geometries": 51,
+          "textures": 10,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4399,
+          "objects": 0,
+          "quality": "gentle",
+          "cullerBytes": 407680
+        },
+        {
+          "fps": 3,
+          "frameP95Ms": 566.7,
+          "drawCalls": 44,
+          "triangles": 85918,
+          "geometries": 51,
+          "textures": 10,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4399,
+          "objects": 0,
+          "quality": "gentle",
+          "cullerBytes": 407680
+        },
+        {
+          "fps": 3,
+          "frameP95Ms": 566.7,
+          "drawCalls": 44,
+          "triangles": 85918,
+          "geometries": 51,
+          "textures": 10,
+          "pixelRatio": 1,
+          "scene": "vale",
+          "natureInstances": 4399,
+          "objects": 0,
+          "quality": "gentle",
+          "cullerBytes": 407680
+        }
+      ]
+    },
+    {
+      "name": "Gentle compacts scenery below full capacity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "balanced restores all source instances for offscreen shadow casters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "high retains all source instances for shadows",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "stationary Gentle frames do not re-upload matrices",
+      "passed": true,
+      "detail": {
+        "before": 1847,
+        "after": 1847
+      }
+    },
+    {
+      "name": "Gentle resumes compaction after shadow modes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no runtime exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader, no physical-device results."
+}
