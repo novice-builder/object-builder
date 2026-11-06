@@ -29,17 +29,17 @@
         },
         "after": {
           "ground": {
-            "drawCalls": 73,
-            "triangles": 7265,
-            "geometries": 64,
+            "drawCalls": 42,
+            "triangles": 7397,
+            "geometries": 65,
             "textures": 11,
             "programs": 9,
             "clear": true
           },
           "upper": {
-            "drawCalls": 96,
-            "triangles": 7633,
-            "geometries": 73,
+            "drawCalls": 57,
+            "triangles": 8113,
+            "geometries": 75,
             "textures": 11,
             "programs": 9,
             "clear": true
@@ -83,7 +83,7 @@
           {
             "id": "village:building_tavern_blue:0.000:-23.000:0.000",
             "phase": "inside",
-            "geometries": 83,
+            "geometries": 84,
             "textures": 11,
             "programs": 9
           },
@@ -97,7 +97,7 @@
           {
             "id": "building_tavern_blue:-157.000:51.000:1.571",
             "phase": "inside",
-            "geometries": 89,
+            "geometries": 90,
             "textures": 11,
             "programs": 9
           },
@@ -111,7 +111,7 @@
           {
             "id": "village:building_tavern_blue:0.000:-23.000:0.000",
             "phase": "inside",
-            "geometries": 89,
+            "geometries": 90,
             "textures": 11,
             "programs": 9
           },
@@ -125,7 +125,7 @@
           {
             "id": "building_tavern_blue:-157.000:51.000:1.571",
             "phase": "inside",
-            "geometries": 89,
+            "geometries": 90,
             "textures": 11,
             "programs": 9
           },
@@ -139,7 +139,7 @@
           {
             "id": "village:building_tavern_blue:0.000:-23.000:0.000",
             "phase": "inside",
-            "geometries": 89,
+            "geometries": 90,
             "textures": 11,
             "programs": 9
           },
@@ -153,7 +153,7 @@
           {
             "id": "building_tavern_blue:-157.000:51.000:1.571",
             "phase": "inside",
-            "geometries": 89,
+            "geometries": 90,
             "textures": 11,
             "programs": 9
           },
@@ -167,7 +167,7 @@
           {
             "id": "village:building_tavern_blue:0.000:-23.000:0.000",
             "phase": "inside",
-            "geometries": 89,
+            "geometries": 90,
             "textures": 11,
             "programs": 9
           },
@@ -181,7 +181,7 @@
           {
             "id": "building_tavern_blue:-157.000:51.000:1.571",
             "phase": "inside",
-            "geometries": 89,
+            "geometries": 90,
             "textures": 11,
             "programs": 9
           },
@@ -195,7 +195,7 @@
           {
             "id": "village:building_tavern_blue:0.000:-23.000:0.000",
             "phase": "inside",
-            "geometries": 89,
+            "geometries": 90,
             "textures": 11,
             "programs": 9
           },
@@ -209,7 +209,7 @@
           {
             "id": "building_tavern_blue:-157.000:51.000:1.571",
             "phase": "inside",
-            "geometries": 89,
+            "geometries": 90,
             "textures": 11,
             "programs": 9
           },
@@ -538,17 +538,17 @@
         }
       ],
       "ground": {
-        "drawCalls": 73,
-        "triangles": 7265,
-        "geometries": 64,
+        "drawCalls": 42,
+        "triangles": 7397,
+        "geometries": 65,
         "textures": 11,
         "programs": 9,
         "clear": true
       },
       "upper": {
-        "drawCalls": 96,
-        "triangles": 7633,
-        "geometries": 73,
+        "drawCalls": 57,
+        "triangles": 8113,
+        "geometries": 75,
         "textures": 11,
         "programs": 9,
         "clear": true
@@ -616,7 +616,7 @@
       {
         "id": "village:building_tavern_blue:0.000:-23.000:0.000",
         "phase": "inside",
-        "geometries": 83,
+        "geometries": 84,
         "textures": 11,
         "programs": 9
       },
@@ -630,7 +630,7 @@
       {
         "id": "building_tavern_blue:-157.000:51.000:1.571",
         "phase": "inside",
-        "geometries": 89,
+        "geometries": 90,
         "textures": 11,
         "programs": 9
       },
@@ -644,7 +644,7 @@
       {
         "id": "village:building_tavern_blue:0.000:-23.000:0.000",
         "phase": "inside",
-        "geometries": 89,
+        "geometries": 90,
         "textures": 11,
         "programs": 9
       },
@@ -658,7 +658,7 @@
       {
         "id": "building_tavern_blue:-157.000:51.000:1.571",
         "phase": "inside",
-        "geometries": 89,
+        "geometries": 90,
         "textures": 11,
         "programs": 9
       },
@@ -672,7 +672,7 @@
       {
         "id": "village:building_tavern_blue:0.000:-23.000:0.000",
         "phase": "inside",
-        "geometries": 89,
+        "geometries": 90,
         "textures": 11,
         "programs": 9
       },
@@ -686,7 +686,7 @@
       {
         "id": "building_tavern_blue:-157.000:51.000:1.571",
         "phase": "inside",
-        "geometries": 89,
+        "geometries": 90,
         "textures": 11,
         "programs": 9
       },
@@ -700,7 +700,7 @@
       {
         "id": "village:building_tavern_blue:0.000:-23.000:0.000",
         "phase": "inside",
-        "geometries": 89,
+        "geometries": 90,
         "textures": 11,
         "programs": 9
       },
@@ -714,7 +714,7 @@
       {
         "id": "building_tavern_blue:-157.000:51.000:1.571",
         "phase": "inside",
-        "geometries": 89,
+        "geometries": 90,
         "textures": 11,
         "programs": 9
       },
@@ -728,7 +728,7 @@
       {
         "id": "village:building_tavern_blue:0.000:-23.000:0.000",
         "phase": "inside",
-        "geometries": 89,
+        "geometries": 90,
         "textures": 11,
         "programs": 9
       },
@@ -742,7 +742,7 @@
       {
         "id": "building_tavern_blue:-157.000:51.000:1.571",
         "phase": "inside",
-        "geometries": 89,
+        "geometries": 90,
         "textures": 11,
         "programs": 9
       },

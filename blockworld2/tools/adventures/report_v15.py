@@ -6,7 +6,7 @@ receipt=json.loads((OUT/'BUILD-RECEIPT.json').read_text());assert receipt['retur
 for n,h in receipt['inputs'].items():assert hashlib.sha256((ROOT/n).read_bytes()).hexdigest()==h,'Changed build input '+n
 for n,h in receipt['outputs'].items():assert hashlib.sha256((ROOT/'adventures-dist'/n).read_bytes()).hexdigest()==h,'Changed build output '+n
 checks=[]
-for n,count in {'inn-rooms.json':16,'inn-compat-cost.json':7}.items():
+for n,count in {'inn-rooms.json':16,'inn-compat-cost.json':7,'regular-batch.json':7}.items():
  phase=json.loads((OUT/n).read_text());assert len(phase['checks'])==count,(n,len(phase['checks']));assert all(c['passed']for c in phase['checks']),n;checks.extend({**c,'evidence':n}for c in phase['checks'])
 unit=(OUT/'unit-tests.txt').read_text();tests=int(re.search(r'ℹ tests (\d+)',unit)[1]);assert int(re.search(r'ℹ pass (\d+)',unit)[1])==tests and re.search(r'ℹ fail (\d+)',unit)[1]=='0'
 protected=[]
@@ -15,7 +15,7 @@ for row in subprocess.check_output(['git','ls-tree','-rz',BASE],cwd=ROOT.parent)
  meta,raw=row.split(b'\t',1);n=raw.decode()
  if n.startswith(('blockworld2/src/adventures/','blockworld2/tests/adventures'))or n=='blockworld2/docs/ASSET-REBUILD-CONTINUE.md':continue
  data=(ROOT.parent/n).read_bytes();assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()==meta.decode().split()[2],n;protected.append(n)
-summary={'preservedRemoteBase':BASE,'verifiedRemoteCheckpoint':BASE,'runtimeSourceHashes':{n:h for n,h in receipt['inputs'].items()if n.startswith(('src/adventures/','public/adventures/'))or n in ['adventures.html','vite.adventures.config.ts']},'deterministicTests':tests,'browserChecks':len(checks),'checks':checks,'protectedFiles':protected,'runtimeBuildHashes':receipt['outputs'],'limitations':['Managed Chromium SwiftShader and phone/tablet plus standard Gamepad API emulation only; physical hardware unverified.','New full-sized inn furnishings apply only to newly created rooms; saved rooms are never regenerated.','Existing assets reused; no new model/image download or catalogue item.','No deployment, main merge, automation change or reset redemption.']}
+summary={'preservedRemoteBase':BASE,'verifiedRemoteCheckpoint':'1468768ed3052a1973269ef0d9df57996a3319b9','runtimeSourceHashes':{n:h for n,h in receipt['inputs'].items()if n.startswith(('src/adventures/','public/adventures/'))or n in ['adventures.html','vite.adventures.config.ts']},'deterministicTests':tests,'browserChecks':len(checks),'checks':checks,'protectedFiles':protected,'runtimeBuildHashes':receipt['outputs'],'limitations':['Managed Chromium SwiftShader and phone/tablet plus standard Gamepad API emulation only; physical hardware unverified.','New full-sized inn furnishings apply only to newly created rooms; saved rooms are never regenerated.','Existing assets reused; no new model/image download or catalogue item.','No deployment, main merge, automation change or reset redemption.']}
 (OUT/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
 shots=[('inn-common-phone.png','Phone: furnished inn common room'),('inn-common-tablet.png','Tablet: dining groups, serving area and clear stair approach'),('inn-guest-floor-phone.png','Phone: ordinary stair ascent and guest floor'),('inn-guest-floor-tablet.png','Tablet: two upstairs beds and landing')]
 for n,_ in shots:assert(OUT/'screenshots'/n).is_file(),n

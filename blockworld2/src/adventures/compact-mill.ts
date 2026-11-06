@@ -359,7 +359,7 @@ export function compactMillFurniture(): Placement[] {
 }
 
 /** Room-local, static joinery only; borrowed GLBs and upper-floor visibility groups stay separate. */
-function batchJoinery(meshes: T.Mesh[], owned: T.BufferGeometry[]) {
+export function batchJoinery(meshes: T.Mesh[], owned: T.BufferGeometry[]) {
   const groups = new Map<T.Object3D, Map<T.Mesh["material"], T.Mesh[]>>();
   for (const mesh of meshes) {
     const parent = mesh.parent!;
@@ -377,7 +377,7 @@ function batchJoinery(meshes: T.Mesh[], owned: T.BufferGeometry[]) {
       });
       const geometry = mergeGeometries(parts, false);
       for (const part of parts) part.dispose();
-      if (!geometry) throw Error("Compact joinery attributes do not match");
+      if (!geometry) throw Error("Room joinery attributes do not match");
       const batch = new T.Mesh(geometry, material);
       batch.castShadow = list.some((m) => m.castShadow);
       batch.receiveShadow = list.some((m) => m.receiveShadow);

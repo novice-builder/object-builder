@@ -4,6 +4,7 @@ import {
   compactMillSolids,
   compactMillContains,
   buildCompactMill,
+  batchJoinery,
 } from "./compact-mill";
 import * as T from "three";
 import type { AssetLibrary } from "./assets";
@@ -138,6 +139,7 @@ export class Interior {
     const wood = new T.MeshStandardMaterial({ color: 0x896547, roughness: 1 }),
       rail = new T.MeshStandardMaterial({ color: 0x554235, roughness: 1 });
     this.materials.push(wood, rail);
+    const boxes: T.Mesh[] = [];
     const unitBox = new T.BoxGeometry(1, 1, 1);
     this.geometry.push(unitBox);
     const box = (
@@ -156,6 +158,7 @@ export class Interior {
       m.receiveShadow = true;
       m.castShadow = true;
       parent.add(m);
+      boxes.push(m);
       return m;
     };
     // Reuse the existing CC0 plaster wall and floor modules, fitted to the exterior footprint.
@@ -333,6 +336,7 @@ export class Interior {
           );
       }
     }
+    batchJoinery(boxes, this.geometry);
   }
   cutaway(player: { y: number }, yaw: number) {
     let changed = this.upper.visible !== player.y > 1.35;

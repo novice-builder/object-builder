@@ -1,0 +1,1555 @@
+{
+  "checks": [
+    {
+      "name": "retained unbatched build matches independently verified source and every runtime hash",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "before actual room views retain clear support, correct cutaway and no runtime exception",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "views": {
+          "inn": {
+            "ground": {
+              "drawCalls": 73,
+              "triangles": 7265,
+              "geometries": 64,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": false,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            },
+            "upper": {
+              "drawCalls": 96,
+              "triangles": 7633,
+              "geometries": 73,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": true,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            }
+          },
+          "townhouse": {
+            "ground": {
+              "drawCalls": 70,
+              "triangles": 6063,
+              "geometries": 73,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": false,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            },
+            "upper": {
+              "drawCalls": 106,
+              "triangles": 7061,
+              "geometries": 73,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": true,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            }
+          },
+          "cottage": {
+            "ground": {
+              "drawCalls": 30,
+              "triangles": 5883,
+              "geometries": 73,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": false,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "after actual room views retain clear support, correct cutaway and no runtime exception",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "views": {
+          "inn": {
+            "ground": {
+              "drawCalls": 42,
+              "triangles": 7397,
+              "geometries": 65,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": false,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            },
+            "upper": {
+              "drawCalls": 57,
+              "triangles": 8113,
+              "geometries": 75,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": true,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            }
+          },
+          "townhouse": {
+            "ground": {
+              "drawCalls": 28,
+              "triangles": 6063,
+              "geometries": 74,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": false,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            },
+            "upper": {
+              "drawCalls": 43,
+              "triangles": 7061,
+              "geometries": 75,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": true,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            }
+          },
+          "cottage": {
+            "ground": {
+              "drawCalls": 30,
+              "triangles": 5883,
+              "geometries": 73,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": false,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "all room triangle positions/normals/UVs, identities and editable furnishings remain exact at checked precision",
+      "passed": true,
+      "detail": {
+        "inn": {
+          "triangles": 6010,
+          "beforeHash": "bae1f219cc96bb312db47fb354048aa39384e41ecc6d83f225409108b2bceca6",
+          "afterHash": "bae1f219cc96bb312db47fb354048aa39384e41ecc6d83f225409108b2bceca6"
+        },
+        "townhouse": {
+          "triangles": 4442,
+          "beforeHash": "e5b97fc59c383f949b64f309d7e593065e3650ae87e29899ec001975b39dc538",
+          "afterHash": "e5b97fc59c383f949b64f309d7e593065e3650ae87e29899ec001975b39dc538"
+        },
+        "cottage": {
+          "triangles": 2318,
+          "beforeHash": "e2aa1768618d31c073d83241acbc4b9221cac680feab6c3806470bd124e9efab",
+          "afterHash": "e2aa1768618d31c073d83241acbc4b9221cac680feab6c3806470bd124e9efab"
+        }
+      }
+    },
+    {
+      "name": "regular two-storey room ground and upper calls fall by at least thirty percent",
+      "passed": true,
+      "detail": {
+        "inn": {
+          "before": {
+            "ground": {
+              "drawCalls": 73,
+              "triangles": 7265,
+              "geometries": 64,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": false,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            },
+            "upper": {
+              "drawCalls": 96,
+              "triangles": 7633,
+              "geometries": 73,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": true,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            }
+          },
+          "after": {
+            "ground": {
+              "drawCalls": 42,
+              "triangles": 7397,
+              "geometries": 65,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": false,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            },
+            "upper": {
+              "drawCalls": 57,
+              "triangles": 8113,
+              "geometries": 75,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": true,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            }
+          }
+        },
+        "townhouse": {
+          "before": {
+            "ground": {
+              "drawCalls": 70,
+              "triangles": 6063,
+              "geometries": 73,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": false,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            },
+            "upper": {
+              "drawCalls": 106,
+              "triangles": 7061,
+              "geometries": 73,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": true,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            }
+          },
+          "after": {
+            "ground": {
+              "drawCalls": 28,
+              "triangles": 6063,
+              "geometries": 74,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": false,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            },
+            "upper": {
+              "drawCalls": 43,
+              "triangles": 7061,
+              "geometries": 75,
+              "textures": 11,
+              "programs": 9,
+              "clear": true,
+              "supported": true,
+              "upperVisible": true,
+              "walls": [
+                {
+                  "side": "back",
+                  "visible": true
+                },
+                {
+                  "side": "front",
+                  "visible": false
+                },
+                {
+                  "side": "left",
+                  "visible": false
+                },
+                {
+                  "side": "right",
+                  "visible": false
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "batching retains single-storey cottage draw cost and geometry ownership without introducing joinery",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "batching keeps upper/wall cutaway visibility and submitted triangle counts exact",
+      "passed": false,
+      "detail": {
+        "inn": {
+          "boxesBefore": 82,
+          "batchesAfter": 3,
+          "ownedBytesBefore": 840,
+          "ownedBytesAfter": 69720
+        },
+        "townhouse": {
+          "boxesBefore": 66,
+          "batchesAfter": 3,
+          "ownedBytesBefore": 840,
+          "ownedBytesAfter": 56280
+        },
+        "cottage": {
+          "boxesBefore": 0,
+          "batchesAfter": 0,
+          "ownedBytesBefore": 840,
+          "ownedBytesAfter": 840
+        }
+      }
+    }
+  ],
+  "referenceSource": "1468768ed3052a1973269ef0d9df57996a3319b9",
+  "environment": "Managed Chromium SwiftShader. Actual submission/buffer/resource counters, not physical FPS.",
+  "phases": {
+    "before": {
+      "inn": {
+        "triangles": 6010,
+        "hash": "bae1f219cc96bb312db47fb354048aa39384e41ecc6d83f225409108b2bceca6",
+        "boxes": 82,
+        "batches": 0,
+        "entry": {
+          "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+          "name": "Village inn",
+          "kind": "inn",
+          "levels": 2,
+          "x": -106.15186457812706,
+          "z": -16.087802600860595,
+          "yaw": 0,
+          "width": 10,
+          "depth": 11.72439479827881,
+          "threshold": {
+            "x": -106.15186457812706,
+            "y": 1.848000099658566,
+            "z": -19.459803104400635
+          }
+        },
+        "objects": [
+          {
+            "id": "rear-table",
+            "asset": "furniture-table",
+            "x": -3.1,
+            "z": -2.862197399139405,
+            "scale": 2.3,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "rear-north-seat",
+            "asset": "furniture-chair",
+            "x": -3.1,
+            "z": -3.862197399139405,
+            "scale": 2,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "rear-south-seat",
+            "asset": "furniture-chair",
+            "x": -3.1,
+            "z": -1.8621973991394052,
+            "scale": 2,
+            "yaw": 3.141592653589793,
+            "y": 0
+          },
+          {
+            "id": "front-table",
+            "asset": "furniture-table",
+            "x": -3.1,
+            "z": 2.862197399139405,
+            "scale": 2.3,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "front-north-seat",
+            "asset": "furniture-chair",
+            "x": -3.1,
+            "z": 1.8621973991394052,
+            "scale": 2,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "front-south-seat",
+            "asset": "furniture-chair",
+            "x": -3.1,
+            "z": 3.862197399139405,
+            "scale": 2,
+            "yaw": 3.141592653589793,
+            "y": 0
+          },
+          {
+            "id": "serving-table",
+            "asset": "furniture-table",
+            "x": -0.1,
+            "z": -4.762197399139405,
+            "scale": 2.6,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "provisions",
+            "asset": "barrel",
+            "x": 1.55,
+            "z": -4.762197399139405,
+            "scale": 3.4,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "common-room-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.3,
+            "z": -5.162197399139405,
+            "scale": 2.2,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "welcome-rug",
+            "asset": "furniture-rugrectangle",
+            "x": 0,
+            "z": 3.762197399139405,
+            "scale": 2.4,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -3.9,
+            "z": -4.062197399139405,
+            "scale": 1.85,
+            "yaw": 0,
+            "y": 3
+          },
+          {
+            "id": "guest-bed",
+            "asset": "furniture-bedsingle",
+            "x": -1.7000000000000002,
+            "z": -4.062197399139405,
+            "scale": 1.85,
+            "yaw": 0,
+            "y": 3
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -2.8,
+            "z": -5.212197399139405,
+            "scale": 2.2,
+            "yaw": 0,
+            "y": 3
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.3,
+            "z": 5.162197399139405,
+            "scale": 2.2,
+            "yaw": 0,
+            "y": 3
+          }
+        ],
+        "ownedGeometryBytes": 840,
+        "views": {
+          "ground": {
+            "drawCalls": 73,
+            "triangles": 7265,
+            "geometries": 64,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "upperVisible": false,
+            "walls": [
+              {
+                "side": "back",
+                "visible": true
+              },
+              {
+                "side": "front",
+                "visible": false
+              },
+              {
+                "side": "left",
+                "visible": false
+              },
+              {
+                "side": "right",
+                "visible": false
+              }
+            ]
+          },
+          "upper": {
+            "drawCalls": 96,
+            "triangles": 7633,
+            "geometries": 73,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "upperVisible": true,
+            "walls": [
+              {
+                "side": "back",
+                "visible": true
+              },
+              {
+                "side": "front",
+                "visible": false
+              },
+              {
+                "side": "left",
+                "visible": false
+              },
+              {
+                "side": "right",
+                "visible": false
+              }
+            ]
+          }
+        }
+      },
+      "townhouse": {
+        "triangles": 4442,
+        "hash": "e5b97fc59c383f949b64f309d7e593065e3650ae87e29899ec001975b39dc538",
+        "boxes": 66,
+        "batches": 0,
+        "entry": {
+          "id": "village:building_home_B_green:-11.000:10.000:1.571",
+          "name": "Town house",
+          "kind": "townhouse",
+          "levels": 2,
+          "x": -110.99485449790954,
+          "z": 8.982660259605108,
+          "yaw": 1.5707963267948966,
+          "width": 6.299483299255371,
+          "depth": 7.910291004180908,
+          "threshold": {
+            "x": -113.86285458803177,
+            "y": 1.512016410827647,
+            "z": 8.98266025960511
+          }
+        },
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.4497416496276856,
+            "z": -1.855145502090454,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.4497416496276856,
+            "z": -0.705145502090454,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.449741649627686,
+            "z": -3.355145502090454,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.449741649627686,
+            "z": 3.2551455020904543,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -2.0497416496276855,
+            "z": -2.1551455020904537,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -0.8497416496276857,
+            "z": -3.355145502090454,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "ownedGeometryBytes": 840,
+        "views": {
+          "ground": {
+            "drawCalls": 70,
+            "triangles": 6063,
+            "geometries": 73,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "upperVisible": false,
+            "walls": [
+              {
+                "side": "back",
+                "visible": true
+              },
+              {
+                "side": "front",
+                "visible": false
+              },
+              {
+                "side": "left",
+                "visible": false
+              },
+              {
+                "side": "right",
+                "visible": false
+              }
+            ]
+          },
+          "upper": {
+            "drawCalls": 106,
+            "triangles": 7061,
+            "geometries": 73,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "upperVisible": true,
+            "walls": [
+              {
+                "side": "back",
+                "visible": true
+              },
+              {
+                "side": "front",
+                "visible": false
+              },
+              {
+                "side": "left",
+                "visible": false
+              },
+              {
+                "side": "right",
+                "visible": false
+              }
+            ]
+          }
+        }
+      },
+      "cottage": {
+        "triangles": 2318,
+        "hash": "e2aa1768618d31c073d83241acbc4b9221cac680feab6c3806470bd124e9efab",
+        "boxes": 0,
+        "batches": 0,
+        "entry": {
+          "id": "village:building_home_A_blue:-10.000:-10.000:1.571",
+          "name": "Cottage",
+          "kind": "cottage",
+          "levels": 1,
+          "x": -110.87685408592225,
+          "z": -10,
+          "yaw": 1.5707963267948966,
+          "width": 5.8,
+          "depth": 6.8
+        },
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.2,
+            "z": -1.2999999999999998,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.2,
+            "z": -0.1499999999999999,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.1999999999999997,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "corner-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.1999999999999997,
+            "z": 2.7,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": 1.8499999999999999,
+            "z": -1.5999999999999999,
+            "y": 0,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": 0.6000000000000001,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "ownedGeometryBytes": 840,
+        "views": {
+          "ground": {
+            "drawCalls": 30,
+            "triangles": 5883,
+            "geometries": 73,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "upperVisible": false,
+            "walls": [
+              {
+                "side": "back",
+                "visible": true
+              },
+              {
+                "side": "front",
+                "visible": false
+              },
+              {
+                "side": "left",
+                "visible": false
+              },
+              {
+                "side": "right",
+                "visible": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    "after": {
+      "inn": {
+        "triangles": 6010,
+        "hash": "bae1f219cc96bb312db47fb354048aa39384e41ecc6d83f225409108b2bceca6",
+        "boxes": 0,
+        "batches": 3,
+        "entry": {
+          "id": "village:building_tavern_blue:0.000:-23.000:0.000",
+          "name": "Village inn",
+          "kind": "inn",
+          "levels": 2,
+          "x": -106.15186457812706,
+          "z": -16.087802600860595,
+          "yaw": 0,
+          "width": 10,
+          "depth": 11.72439479827881,
+          "threshold": {
+            "x": -106.15186457812706,
+            "y": 1.848000099658566,
+            "z": -19.459803104400635
+          }
+        },
+        "objects": [
+          {
+            "id": "rear-table",
+            "asset": "furniture-table",
+            "x": -3.1,
+            "z": -2.862197399139405,
+            "scale": 2.3,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "rear-north-seat",
+            "asset": "furniture-chair",
+            "x": -3.1,
+            "z": -3.862197399139405,
+            "scale": 2,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "rear-south-seat",
+            "asset": "furniture-chair",
+            "x": -3.1,
+            "z": -1.8621973991394052,
+            "scale": 2,
+            "yaw": 3.141592653589793,
+            "y": 0
+          },
+          {
+            "id": "front-table",
+            "asset": "furniture-table",
+            "x": -3.1,
+            "z": 2.862197399139405,
+            "scale": 2.3,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "front-north-seat",
+            "asset": "furniture-chair",
+            "x": -3.1,
+            "z": 1.8621973991394052,
+            "scale": 2,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "front-south-seat",
+            "asset": "furniture-chair",
+            "x": -3.1,
+            "z": 3.862197399139405,
+            "scale": 2,
+            "yaw": 3.141592653589793,
+            "y": 0
+          },
+          {
+            "id": "serving-table",
+            "asset": "furniture-table",
+            "x": -0.1,
+            "z": -4.762197399139405,
+            "scale": 2.6,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "provisions",
+            "asset": "barrel",
+            "x": 1.55,
+            "z": -4.762197399139405,
+            "scale": 3.4,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "common-room-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.3,
+            "z": -5.162197399139405,
+            "scale": 2.2,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "welcome-rug",
+            "asset": "furniture-rugrectangle",
+            "x": 0,
+            "z": 3.762197399139405,
+            "scale": 2.4,
+            "yaw": 0,
+            "y": 0
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -3.9,
+            "z": -4.062197399139405,
+            "scale": 1.85,
+            "yaw": 0,
+            "y": 3
+          },
+          {
+            "id": "guest-bed",
+            "asset": "furniture-bedsingle",
+            "x": -1.7000000000000002,
+            "z": -4.062197399139405,
+            "scale": 1.85,
+            "yaw": 0,
+            "y": 3
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -2.8,
+            "z": -5.212197399139405,
+            "scale": 2.2,
+            "yaw": 0,
+            "y": 3
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -4.3,
+            "z": 5.162197399139405,
+            "scale": 2.2,
+            "yaw": 0,
+            "y": 3
+          }
+        ],
+        "ownedGeometryBytes": 69720,
+        "views": {
+          "ground": {
+            "drawCalls": 42,
+            "triangles": 7397,
+            "geometries": 65,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "upperVisible": false,
+            "walls": [
+              {
+                "side": "back",
+                "visible": true
+              },
+              {
+                "side": "front",
+                "visible": false
+              },
+              {
+                "side": "left",
+                "visible": false
+              },
+              {
+                "side": "right",
+                "visible": false
+              }
+            ]
+          },
+          "upper": {
+            "drawCalls": 57,
+            "triangles": 8113,
+            "geometries": 75,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "upperVisible": true,
+            "walls": [
+              {
+                "side": "back",
+                "visible": true
+              },
+              {
+                "side": "front",
+                "visible": false
+              },
+              {
+                "side": "left",
+                "visible": false
+              },
+              {
+                "side": "right",
+                "visible": false
+              }
+            ]
+          }
+        }
+      },
+      "townhouse": {
+        "triangles": 4442,
+        "hash": "e5b97fc59c383f949b64f309d7e593065e3650ae87e29899ec001975b39dc538",
+        "boxes": 0,
+        "batches": 3,
+        "entry": {
+          "id": "village:building_home_B_green:-11.000:10.000:1.571",
+          "name": "Town house",
+          "kind": "townhouse",
+          "levels": 2,
+          "x": -110.99485449790954,
+          "z": 8.982660259605108,
+          "yaw": 1.5707963267948966,
+          "width": 6.299483299255371,
+          "depth": 7.910291004180908,
+          "threshold": {
+            "x": -113.86285458803177,
+            "y": 1.512016410827647,
+            "z": 8.98266025960511
+          }
+        },
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.4497416496276856,
+            "z": -1.855145502090454,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.4497416496276856,
+            "z": -0.705145502090454,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.449741649627686,
+            "z": -3.355145502090454,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "upstairs-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.449741649627686,
+            "z": 3.2551455020904543,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": -2.0497416496276855,
+            "z": -2.1551455020904537,
+            "y": 3,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": -0.8497416496276857,
+            "z": -3.355145502090454,
+            "y": 3,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "ownedGeometryBytes": 56280,
+        "views": {
+          "ground": {
+            "drawCalls": 28,
+            "triangles": 6063,
+            "geometries": 74,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "upperVisible": false,
+            "walls": [
+              {
+                "side": "back",
+                "visible": true
+              },
+              {
+                "side": "front",
+                "visible": false
+              },
+              {
+                "side": "left",
+                "visible": false
+              },
+              {
+                "side": "right",
+                "visible": false
+              }
+            ]
+          },
+          "upper": {
+            "drawCalls": 43,
+            "triangles": 7061,
+            "geometries": 75,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "upperVisible": true,
+            "walls": [
+              {
+                "side": "back",
+                "visible": true
+              },
+              {
+                "side": "front",
+                "visible": false
+              },
+              {
+                "side": "left",
+                "visible": false
+              },
+              {
+                "side": "right",
+                "visible": false
+              }
+            ]
+          }
+        }
+      },
+      "cottage": {
+        "triangles": 2318,
+        "hash": "e2aa1768618d31c073d83241acbc4b9221cac680feab6c3806470bd124e9efab",
+        "boxes": 0,
+        "batches": 0,
+        "entry": {
+          "id": "village:building_home_A_blue:-10.000:-10.000:1.571",
+          "name": "Cottage",
+          "kind": "cottage",
+          "levels": 1,
+          "x": -110.87685408592225,
+          "z": -10,
+          "yaw": 1.5707963267948966,
+          "width": 5.8,
+          "depth": 6.8
+        },
+        "objects": [
+          {
+            "id": "table",
+            "asset": "furniture-table",
+            "x": -1.2,
+            "z": -1.2999999999999998,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.5
+          },
+          {
+            "id": "seat",
+            "asset": "furniture-chair",
+            "x": -1.2,
+            "z": -0.1499999999999999,
+            "y": 0,
+            "yaw": 3.141592653589793,
+            "scale": 2.2
+          },
+          {
+            "id": "shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.1999999999999997,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "rug",
+            "asset": "furniture-rugrectangle",
+            "x": -1,
+            "z": 0,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2
+          },
+          {
+            "id": "corner-shelf",
+            "asset": "furniture-bookcaseopen",
+            "x": -2.1999999999999997,
+            "z": 2.7,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          },
+          {
+            "id": "bed",
+            "asset": "furniture-bedsingle",
+            "x": 1.8499999999999999,
+            "z": -1.5999999999999999,
+            "y": 0,
+            "yaw": 0,
+            "scale": 1.85
+          },
+          {
+            "id": "bedside",
+            "asset": "furniture-cabinetbed",
+            "x": 0.6000000000000001,
+            "z": -2.8,
+            "y": 0,
+            "yaw": 0,
+            "scale": 2.2
+          }
+        ],
+        "ownedGeometryBytes": 840,
+        "views": {
+          "ground": {
+            "drawCalls": 30,
+            "triangles": 5883,
+            "geometries": 73,
+            "textures": 11,
+            "programs": 9,
+            "clear": true,
+            "supported": true,
+            "upperVisible": false,
+            "walls": [
+              {
+                "side": "back",
+                "visible": true
+              },
+              {
+                "side": "front",
+                "visible": false
+              },
+              {
+                "side": "left",
+                "visible": false
+              },
+              {
+                "side": "right",
+                "visible": false
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
