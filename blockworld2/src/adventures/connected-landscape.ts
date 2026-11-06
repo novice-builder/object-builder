@@ -280,6 +280,13 @@ export class ConnectedLandscape {
   }
   private settlements() {
     // Rural clusters contrast with Willowmere's dense market square.
+    const driveways = this.regions[0].trailSurface.clone();
+    driveways.name = "Brookside earth driveways";
+    // The main road covers coplanar driveway ends cleanly, without raising walking surfaces.
+    driveways.polygonOffset = true;
+    driveways.polygonOffsetFactor = 1;
+    driveways.polygonOffsetUnits = 1;
+    this.materials.push(driveways);
     for (const [x, z, yaw] of [
       [69, 47, Math.PI / 2],
       [87, 47, -Math.PI / 2],
@@ -297,9 +304,7 @@ export class ConnectedLandscape {
       const end = [x + Math.sin(yaw) * 4, z + Math.cos(yaw) * 4];
       const path = { points: [[78, end[1]], end], width: 1.8 };
       this.paths.push(path);
-      const m = new T.MeshStandardMaterial({ color: 0xb6a079, roughness: 1 });
-      this.materials.push(m);
-      this.mesh(trailGeometry(path.points, path.width, valeWalk), m);
+      this.mesh(trailGeometry(path.points, path.width, valeWalk), driveways);
     }
     const marketPath = {
       points: [
@@ -311,7 +316,7 @@ export class ConnectedLandscape {
     this.paths.push(marketPath);
     this.mesh(
       trailGeometry(marketPath.points, marketPath.width, valeWalk),
-      this.regions[0].trailSurface,
+      driveways,
     );
     this.place("building_market_blue", 96, 56, 6.8, -Math.PI / 2);
     this.place("building_well_blue", 78, 39, 5);
