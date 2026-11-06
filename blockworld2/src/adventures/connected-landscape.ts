@@ -610,6 +610,8 @@ export class ConnectedLandscape {
     });
   }
   private oakfield() {
+    const roadRibbons: T.BufferGeometry[] = [],
+      drivewayRibbons: T.BufferGeometry[] = [];
     const road = this.regions[0].trailSurface;
     const driveways = road.clone();
     driveways.name = "Oakfield garden lanes";
@@ -623,11 +625,10 @@ export class ConnectedLandscape {
     }));
     for (const path of streets) {
       this.paths.push(path);
-      this.mesh(
+      roadRibbons.push(
         trailGeometry(path.points, path.width, (x, z) =>
           valeWalk(x, z, this.layout),
         ),
-        road,
       );
     }
     for (const p of OAKFIELD_BUILDINGS) {
@@ -647,12 +648,21 @@ export class ConnectedLandscape {
         )[0];
       const path = { points: [start, end], width: 1.8 };
       this.paths.push(path);
-      this.mesh(
+      drivewayRibbons.push(
         trailGeometry(path.points, path.width, (x, z) =>
           valeWalk(x, z, this.layout),
         ),
-        driveways,
       );
+    }
+    // Preserve driveway polygon offset separately from the main surface.
+    for (const [ribbons, material] of [
+      [roadRibbons, road],
+      [drivewayRibbons, driveways],
+    ] as const) {
+      const merged = mergeGeometries(ribbons, false);
+      for (const ribbon of ribbons) ribbon.dispose();
+      if (!merged) throw Error("Oakfield ribbon attributes do not match");
+      this.mesh(merged, material).userData.districtRoad = OAKFIELD.id;
     }
     this.place("building_well_blue", 134, 55, 4.5);
     this.place("wheelbarrow", 122, 64, 3.5, -0.4);

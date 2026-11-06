@@ -1,6 +1,6 @@
 {
   "preservedRemoteBase": "dc3b5b7c162e525d30fd70277aa47ab786347353",
-  "verifiedRemoteCheckpoint": "dc3b5b7c162e525d30fd70277aa47ab786347353",
+  "verifiedRemoteCheckpoint": "084b5b8b0f11a690e8562ad83c60e830a7f4394c",
   "runtimeSourceHashes": {
     "adventures.html": "b12c6f35a8b4b57ac1e57ce1ef7633e332c1fba9c5882c44f4c1609026d088e4",
     "public/adventures/PROVENANCE.md": "e3d86edcdcc92c55cf4a008417b1ac2682e9b6ddc946b279358ff18c25c9522b",
@@ -139,7 +139,7 @@
     "src/adventures/checkpoint-footing.ts": "8db4d376ac1ae9c18c073ae3733fc4f3def09bb42e3a48009e8d5591ff805754",
     "src/adventures/collision-cache.ts": "43fffb2515822565db9cacea42f26b191ade88d240520dafebf756685b5fb523",
     "src/adventures/compact-mill.ts": "d139feb877d375722b0688980b1e2430548a4d28ea5094a4c873b929b1f661d4",
-    "src/adventures/connected-landscape.ts": "332cb4842f501eef9336736edc55381bce07d56aa3a21ebdf59024995e406914",
+    "src/adventures/connected-landscape.ts": "f3e6bc3e4c8f91365a4b8c14e6ba45ba1c36b229ec55bbec32aec4d31a36cecb",
     "src/adventures/controls.ts": "e1e60f389b1656a5a83092f57a8f8b90d2b3061cd45f1617ae92063a499c648f",
     "src/adventures/copy-name.ts": "6b2f17ef279a71827d5defb87fb84e0339dbd90345836a34caa12a5680f6433d",
     "src/adventures/crossings.ts": "abccd69d9bfe65ef4653998aff7513d8388ce06886a9938e2a9e925b399e4125",
@@ -178,7 +178,7 @@
     "vite.adventures.config.ts": "4567de70cb94b2f2a431d5bde4d0c4839d6f5ae70930c326c3e0ec8a26938297"
   },
   "deterministicTests": 220,
-  "browserChecks": 73,
+  "browserChecks": 80,
   "checks": [
     {
       "name": "phone actual Oakfield map-label touch travels to a clear village point in the same connected world",
@@ -2378,6 +2378,141 @@
         "requests": 1
       },
       "evidence": "oakfield-compat-cost.json"
+    },
+    {
+      "name": "independently verified pre-merge source and all retained runtime hashes match",
+      "passed": true,
+      "detail": null,
+      "evidence": "oakfield-roads.json"
+    },
+    {
+      "name": "before actual rendered road views have no runtime exceptions",
+      "passed": true,
+      "detail": [],
+      "evidence": "oakfield-roads.json"
+    },
+    {
+      "name": "merged build retains ordinary ground movement through every new road sample",
+      "passed": true,
+      "detail": [
+        {
+          "start": [
+            105,
+            16
+          ],
+          "failed": null,
+          "maxY": 0.002,
+          "clear": true
+        },
+        {
+          "start": [
+            78,
+            52
+          ],
+          "failed": null,
+          "maxY": 0.002,
+          "clear": true
+        },
+        {
+          "start": [
+            138,
+            65
+          ],
+          "failed": null,
+          "maxY": 0.002,
+          "clear": true
+        },
+        {
+          "start": [
+            138,
+            51
+          ],
+          "failed": null,
+          "maxY": 0.002,
+          "clear": true
+        }
+      ],
+      "evidence": "oakfield-roads.json"
+    },
+    {
+      "name": "after actual rendered road views have no runtime exceptions",
+      "passed": true,
+      "detail": [],
+      "evidence": "oakfield-roads.json"
+    },
+    {
+      "name": "all checked ribbon triangles/normals/UVs/material offset, navigation paths, entries and map remain exact",
+      "passed": true,
+      "detail": {
+        "hashBefore": "fad1e1f43ac77edf1feafe4b1727d5fea5085445afbe489ef6aaea0466daadd4",
+        "hashAfter": "fad1e1f43ac77edf1feafe4b1727d5fea5085445afbe489ef6aaea0466daadd4",
+        "triangles": 1450
+      },
+      "evidence": "oakfield-roads.json"
+    },
+    {
+      "name": "new four street/six driveway meshes become two batches with identical total geometry buffer bytes",
+      "passed": true,
+      "detail": {
+        "meshesBefore": 28,
+        "meshesAfter": 20,
+        "bytesBefore": 57532,
+        "bytesAfter": 57532
+      },
+      "evidence": "oakfield-roads.json"
+    },
+    {
+      "name": "both sampled Oakfield views reduce draw calls without any new model/image download",
+      "passed": true,
+      "detail": {
+        "before": {
+          "overview": {
+            "drawCalls": 77,
+            "triangles": 95016,
+            "geometries": 67,
+            "textures": 11,
+            "programs": 8
+          },
+          "lane": {
+            "drawCalls": 90,
+            "triangles": 114123,
+            "geometries": 84,
+            "textures": 12,
+            "programs": 10
+          },
+          "old-market": {
+            "drawCalls": 99,
+            "triangles": 115465,
+            "geometries": 91,
+            "textures": 12,
+            "programs": 11
+          }
+        },
+        "after": {
+          "overview": {
+            "drawCalls": 69,
+            "triangles": 95016,
+            "geometries": 59,
+            "textures": 11,
+            "programs": 8
+          },
+          "lane": {
+            "drawCalls": 86,
+            "triangles": 114229,
+            "geometries": 76,
+            "textures": 12,
+            "programs": 10
+          },
+          "old-market": {
+            "drawCalls": 99,
+            "triangles": 115465,
+            "geometries": 83,
+            "textures": 12,
+            "programs": 11
+          }
+        }
+      },
+      "evidence": "oakfield-roads.json"
     }
   ],
   "protectedFiles": [
@@ -3664,9 +3799,9 @@
     "adventures/wildlife/LICENSE-CC-BY-4.0.txt": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744",
     "adventures/wildlife/PROVENANCE.md": "2c30cb33623f7440a53a970e420d2dad22055e02c77a766fa1730aef2c6726b1",
     "adventures/wildlife/metadata.json": "42c8bb3c1b569cd8f7314ba5c87fdb8431b17d46c73a001508e650b2d084f2eb",
-    "adventures.html": "696ee073bde7c10412a071929756961692de872be95abc81a602260b93bf1581",
-    "assets/adventures-Ce6TbPzz.js": "181eb3c64e9cfb0c24292d5c10014b34c715ad4d1875805dd66e47e9b79534f6",
+    "adventures.html": "7e317766e5602739c74efab94a19f602c4b08cd1b943590470d68a1bdaef98ee",
     "assets/adventures-DidrGuhm.css": "f4051689299273d7a25edc4e9ba681bc91cc8731ecb4912678c76e4808aece95",
+    "assets/adventures-s0tRqfk7.js": "3b97af4cc93edb105dba4f6df4576dd9d935cc7aa9be48a9effbab99df4ff691",
     "icon-180.png": "40db8916a0ba402401d02c7178f3663e6770971a50e92783534fec8a835a897b",
     "icon-192.png": "66151812c5898a88dc29d363ab95ec724ab2dccbc113f2433285bf28c2025efa",
     "icon-512.png": "8b73b545516c83635d913131f35878bfe6592d10b0b54ba33b7aeec377dd74df",

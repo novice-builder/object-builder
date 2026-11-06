@@ -6,7 +6,7 @@ receipt=json.loads((OUT/'BUILD-RECEIPT.json').read_text());assert receipt['retur
 for n,h in receipt['inputs'].items():assert hashlib.sha256((ROOT/n).read_bytes()).hexdigest()==h,'Changed build input '+n
 for n,h in receipt['outputs'].items():assert hashlib.sha256((ROOT/'adventures-dist'/n).read_bytes()).hexdigest()==h,'Changed build output '+n
 checks=[]
-for n,count in {'oakfield.json':50,'oakfield-inputs.json':16,'oakfield-compat-cost.json':7}.items():
+for n,count in {'oakfield.json':50,'oakfield-inputs.json':16,'oakfield-compat-cost.json':7,'oakfield-roads.json':7}.items():
  phase=json.loads((OUT/n).read_text());assert len(phase['checks'])==count,(n,len(phase['checks']));assert all(c['passed']for c in phase['checks']),n;checks.extend({**c,'evidence':n}for c in phase['checks'])
 unit=(OUT/'unit-tests.txt').read_text();tests=int(re.search(r'ℹ tests (\d+)',unit)[1]);assert int(re.search(r'ℹ pass (\d+)',unit)[1])==tests and re.search(r'ℹ fail (\d+)',unit)[1]=='0'
 protected=[]
@@ -15,7 +15,7 @@ for row in subprocess.check_output(['git','ls-tree','-rz',BASE],cwd=ROOT.parent)
  meta,raw=row.split(b'\t',1);n=raw.decode()
  if n.startswith(('blockworld2/src/adventures/','blockworld2/tests/adventures'))or n=='blockworld2/docs/ASSET-REBUILD-CONTINUE.md':continue
  data=(ROOT.parent/n).read_bytes();assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()==meta.decode().split()[2],n;protected.append(n)
-summary={'preservedRemoteBase':BASE,'verifiedRemoteCheckpoint':BASE,'runtimeSourceHashes':{n:h for n,h in receipt['inputs'].items()if n.startswith(('src/adventures/','public/adventures/'))or n in ['adventures.html','vite.adventures.config.ts']},'deterministicTests':tests,'browserChecks':len(checks),'checks':checks,'protectedFiles':protected,'runtimeBuildHashes':receipt['outputs'],'limitations':['Managed Chromium SwiftShader and phone/tablet plus standard Gamepad API emulation only; physical hardware unverified.','Fresh layout9 contains permanent new footprints; previous layouts and records are retained independently.','Existing licensed assets reused; no new model/image download or catalogue bulk.','No deployment, main merge, automation change or reset redemption.']}
+summary={'preservedRemoteBase':BASE,'verifiedRemoteCheckpoint':'084b5b8b0f11a690e8562ad83c60e830a7f4394c','runtimeSourceHashes':{n:h for n,h in receipt['inputs'].items()if n.startswith(('src/adventures/','public/adventures/'))or n in ['adventures.html','vite.adventures.config.ts']},'deterministicTests':tests,'browserChecks':len(checks),'checks':checks,'protectedFiles':protected,'runtimeBuildHashes':receipt['outputs'],'limitations':['Managed Chromium SwiftShader and phone/tablet plus standard Gamepad API emulation only; physical hardware unverified.','Fresh layout9 contains permanent new footprints; previous layouts and records are retained independently.','Existing licensed assets reused; no new model/image download or catalogue bulk.','No deployment, main merge, automation change or reset redemption.']}
 (OUT/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
 shots=[('oakfield-overview-tablet.png','Oakfield: actual new garden-village layout'),('oakfield-street-phone.png','Phone: new street and market'),('oakfield-street-tablet.png','Tablet: village centre'),('oakfield-map-phone.png','Actual map with eleven destinations'),('inn-common-phone.png','Phone: enterable Oakfield inn common room'),('inn-guest-floor-tablet.png','Tablet: physically walked guest-floor landing')]
 for n,_ in shots:assert(OUT/'screenshots'/n).is_file(),n
