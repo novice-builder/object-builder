@@ -7,6 +7,7 @@ import { adventureCopyName } from "./copy-name";
 import {
   WORLDS,
   LATEST_LAYOUT,
+  walkHeight,
   type SceneLayout,
   type Placement,
   type SceneId,
@@ -21,6 +22,8 @@ export interface AdventureData {
   doors?: { lodge?: boolean };
   rooms?: Record<string, RoomState>;
   inside?: { id: string; outside: AdventurePose };
+  /** Signed feet height for riverbanks below the native envelope's zero lower bound. */
+  outdoorElevation?: number;
 }
 export interface AdventurePose {
   x: number;
@@ -85,6 +88,20 @@ export function validateAdventure(s: Snapshot): AdventureData {
     ids.add(o.id);
   }
   if (a.version >= 2) validateRooms(a, s);
+  if (
+    a.outdoorElevation !== undefined &&
+    (a.version !== 3 ||
+      !!a.inside ||
+      s.player.y !== 0 ||
+      !Number.isFinite(a.outdoorElevation) ||
+      a.outdoorElevation >= 0 ||
+      a.outdoorElevation < -3 ||
+      a.outdoorElevation <
+        walkHeight(s.player.x, s.player.z, a.scene, a.layout) - 0.04)
+  )
+    throw Error(
+      "Invalid saved outdoor elevation. Existing saves are unchanged.",
+    );
   if (!a.inside && !inWorld(s.player.x, s.player.z, a.scene, -0.001))
     throw Error("Player outside the preview boundary.");
   return { ...structuredClone(a), layout: a.layout ?? 1 };
@@ -163,7 +180,10 @@ function validateRooms(a: AdventureData, s: Snapshot) {
       !room ||
       !p ||
       ![p.x, p.z, p.yaw, p.pitch].every(Number.isFinite) ||
-      (p.y !== undefined && (!Number.isFinite(p.y) || p.y < 0 || p.y > 26)) ||
+      (p.y !== undefined &&
+        (!Number.isFinite(p.y) ||
+          p.y < (a.version === 3 ? -3 : 0) ||
+          p.y > 26)) ||
       !inWorld(p.x, p.z, a.scene) ||
       (p.facing !== undefined && !Number.isFinite(p.facing)) ||
       Math.abs(s.player.x) > room.entry.width / 2 ||
@@ -183,6 +203,11 @@ export function makeSnapshot(
   data: AdventureData,
   pose: AdventurePose,
 ): Snapshot {
+  const adventure = structuredClone(data),
+    elevation = data.inside || data.version === 3 ? (pose.y ?? 0) : 0;
+  delete adventure.outdoorElevation;
+  if (data.version === 3 && !data.inside && elevation < 0)
+    adventure.outdoorElevation = elevation;
   return {
     schema: 3,
     template: "blank",
@@ -190,11 +215,12 @@ export function makeSnapshot(
       blocks: [],
       doors: {},
       layout: 1,
-      adventure: structuredClone(data),
+      adventure,
     },
     player: {
       ...pose,
-      y: data.inside || data.version === 3 ? (pose.y ?? 0) : 0,
+      y:
+        data.version === 3 && !data.inside ? Math.max(0, elevation) : elevation,
     },
     preferences: { selected: "hand", avatar: "explorer", camera: "third" },
   };

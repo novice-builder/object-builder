@@ -1,6 +1,6 @@
 # BlockWorld Adventures — Preview 11 movement and room corrections
 
-Preview 11 repairs the user's Preview 10 stair barriers, adds default running and Jump, and introduces single-storey new cottages while retaining every saved older upper floor. Verified runtime source: `6f8b2b68df29b286dc095a5279686f1da35fb0a2`. The new archive's `BUILD.json` records this exact commit. Baseline: accepted Preview 10 `3dcd4f630006fd00f5631d362ce9cc20da8a595c`; independently verified intermediate repairs: `c4a3701fda19847853eb145a7a232157aec2d6a7` and `41a79fe7c9fdb50d006e24fb53fc81926bf88b2a`.
+Preview 11 repairs the user's Preview 10 stair barriers, adds default running and Jump, and introduces single-storey new cottages while retaining every saved older upper floor. Verified final runtime source: `43a0eab38a8f0487adaa1628800b697468af1e93`. The new archive's `BUILD.json` records this exact commit. Baseline: accepted Preview 10 `3dcd4f630006fd00f5631d362ce9cc20da8a595c`; independently verified intermediate repairs: `c4a3701fda19847853eb145a7a232157aec2d6a7` and `41a79fe7c9fdb50d006e24fb53fc81926bf88b2a`.
 
 ## Movement and real collision
 
@@ -22,8 +22,8 @@ The main world remains one connected Willow Vale with Willowmere, Whispering Woo
 
 ## Validation and evidence
 
-- **196 passing deterministic tests**, with the complete log in `unit-tests.txt`.
-- **112 passing current browser/render/resource checks** in `summary.json`: 27 Run/Walk/Jump/input/reload/layout; 23 room-template/navigation/furniture; eight older-save/upgrade compatibility; 14 actual indoor keyboard/touch/injected-gamepad movement; 20 exterior steps/camera/elevated fade return; six bridge/lodge/cache; two rendering/world-switch; eight editor move/cancel/floor-transfer/undo/reload checks, plus four maximum-length copy-name/storage/menu checks.
+- **198 passing deterministic tests**, with the complete log in `unit-tests.txt`.
+- **120 passing current browser/render/resource checks** in `summary.json`: 27 Run/Walk/Jump/input/reload/layout; 23 room-template/navigation/furniture; eight older-save/upgrade compatibility; 14 actual indoor keyboard/touch/injected-gamepad movement; 20 exterior steps/camera/elevated fade return; six bridge/lodge/cache; two rendering/world-switch; eight editor move/cancel/floor-transfer/undo/reload checks, plus four maximum-length copy-name/storage/menu checks and eight signed-bank save/reload/transition/recovery checks.
 - Strict typecheck, preservation and separate Adventures production build. **820 retained files** match the accepted Preview 10 base exactly, covering older packages/reports, source GLBs/licences, native movement/persistence, original site and other retained files outside authorised active code/tests/docs.
 - Genuine rendered screenshots were inspected. `gallery.html` selects final phone/tablet/interior/exterior views. Earlier `mesh-rooms.json`, `mesh-inputs.json` and diagnostic shots record the staged movement repair before fresh cottage templates changed; they are historical evidence, not assertions that new cottages have stairs.
 
@@ -46,3 +46,7 @@ Create and verify the new Preview 11 package, push/independently verify its chec
 The first unaccepted Preview 11 candidate (source `6f8b2b68df29b286dc095a5279686f1da35fb0a2`) reproduced a real copy-name defect: a 60-character world name was truncated by the retained native store, losing its updated-copy suffix. IDs/data were independent, but the list showed identical names. `copy-name-before.json` records the reproduction. Upgrade/recovery names now budget the suffix/counter inside the existing 60-unit limit and avoid splitting emoji. Actual storage and the phone list retain distinct visible names; the original record/name/snapshot remain unchanged. Native persistence files are unchanged.
 
 That unaccepted archive is preserved at `/workspace/work/preview11-candidate-before-copy-name-fix/` (SHA-256 `52f1bea70509e2ccc408ba91efc0416b57c35045cc44a91cf0a0ad91b2d71451`), extracted reference on 5184. It was never accepted or pushed as a release. The final source/package supersedes it.
+
+## Riverbank save correction
+
+Extracted-package testing reproduced a negative bridge-bank height rejected by the unchanged native save envelope. Adventures now serializes signed outdoor elevation separately while retaining native nonnegative coordinates. Actual bank footing survives save/reload, deeper banks, fade entry/exit and backup validation. Malformed buried heights are rejected before modifying records. Unsupported imported heights recover to actual ground. `bank-save-before.json` records the failure; `bank-saves.json` contains eight passing real browser regressions. Native persistence remains unchanged. The earlier source-43a candidate is retained locally and is not an accepted release.

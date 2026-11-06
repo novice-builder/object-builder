@@ -1,8 +1,8 @@
 {
-  "verifiedRemoteCheckpoint": "6f8b2b68df29b286dc095a5279686f1da35fb0a2",
+  "verifiedRemoteCheckpoint": "43a0eab38a8f0487adaa1628800b697468af1e93",
   "preservedBase": "3dcd4f630006fd00f5631d362ce9cc20da8a595c",
-  "deterministicTests": 196,
-  "browserChecks": 112,
+  "deterministicTests": 198,
+  "browserChecks": 120,
   "checks": [
     {
       "name": "phone fresh runtime defaults to Run with optional Walk",
@@ -2030,6 +2030,131 @@
       "passed": true,
       "detail": [],
       "evidence": "copy-names.json"
+    },
+    {
+      "name": "ordinary bridge exit saves real negative bank height through the unchanged native bounds",
+      "passed": true,
+      "detail": {
+        "id": "02a7129c-1698-414c-9a21-eb85e474856d",
+        "p": {
+          "x": 34.27916356357986,
+          "y": -0.00662013521996321,
+          "z": -52,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "nativeY": 0,
+        "signed": -0.00662013521996321,
+        "stored": -0.00662013521996321,
+        "blocked": false
+      },
+      "evidence": "bank-saves.json"
+    },
+    {
+      "name": "real page reload restores signed bank footing and the same record without moving to another tile",
+      "passed": true,
+      "detail": {
+        "id": "02a7129c-1698-414c-9a21-eb85e474856d",
+        "p": {
+          "x": 34.27916356357986,
+          "y": -0.00662013521996321,
+          "z": -52,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "blocked": false
+      },
+      "evidence": "bank-saves.json"
+    },
+    {
+      "name": "invalid buried signed-height import keeps the current world and creates no partial record",
+      "passed": true,
+      "detail": {
+        "refused": true,
+        "same": true,
+        "count": true
+      },
+      "evidence": "bank-saves.json"
+    },
+    {
+      "name": "normal movement returns over bridge and follows the real road to the mill entrance",
+      "passed": true,
+      "detail": {
+        "failed": null,
+        "p": {
+          "x": 24.747514371250148,
+          "y": 0.002,
+          "z": -71.08369623864982,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "near": true
+      },
+      "evidence": "bank-saves.json"
+    },
+    {
+      "name": "fade entry/save/reload/exit after a bank crossing retains the exact clear building return",
+      "passed": true,
+      "detail": {
+        "inside": true,
+        "clean": true,
+        "outside": true,
+        "distance": 0,
+        "blocked": false
+      },
+      "evidence": "bank-saves.json"
+    },
+    {
+      "name": "unsupported outdoor import height recovers to real clear ground rather than remaining suspended",
+      "passed": true,
+      "detail": {
+        "y": -0.00662013521996321,
+        "ground": -0.00862013521996321,
+        "rooms": true,
+        "grounded": true
+      },
+      "evidence": "bank-saves.json"
+    },
+    {
+      "name": "deeper actual clear riverbank roundtrips without flattening terrain or floating the player",
+      "passed": true,
+      "detail": {
+        "before": {
+          "x": 34.647513195148676,
+          "y": -0.724000000000001,
+          "z": 42,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "after": {
+          "x": 34.647513195148676,
+          "y": -0.724000000000001,
+          "z": 42,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "nativeY": 0,
+        "signed": -0.724000000000001
+      },
+      "evidence": "bank-saves.json"
+    },
+    {
+      "name": "signed bank/transition/recovery checks have no browser exceptions",
+      "passed": true,
+      "detail": [],
+      "evidence": "bank-saves.json"
     }
   ],
   "protectedFiles": [
@@ -2997,7 +3122,7 @@
     "src/adventures/interior.ts": "88f3c36bb25a2e76d6aa7c2f4f7367781dd85bb26d4fcad3168224331397558c",
     "src/adventures/landscape.ts": "ff5b38dbd102002f0f8e8df689faa0f9359bd91e36a5eacefc840eeb88cffc83",
     "src/adventures/lodge.ts": "4366c08de1b96d6d227d2951630fd8e6104258e7b7ffd9c810edcd72983d787e",
-    "src/adventures/main.ts": "46f07cdeda0627cf627a3da2da4489454b85ff782c640e05a8615f1ff3e1e358",
+    "src/adventures/main.ts": "99a3284819a9d1f29351fd55d171296a3387f1a7da9591df90d1d983a8f9fa05",
     "src/adventures/map-data.ts": "a231c464aaa9a1c168d6690d0b737aa96fc06a727993c6150772bba4c0046916",
     "src/adventures/map-targets.ts": "05a44a3e140b46423ef4c5ed2ef83a3237b087956d996c8bba3e23ea02ae6cef",
     "src/adventures/mesh-collision.ts": "0ab65d6694b84ed3c36e3f8eb645c4d4523f879682d820f4d5b61695ab57a69b",
@@ -3008,7 +3133,7 @@
     "src/adventures/preferences.ts": "511c229642a0f4fed16e228da09d2876470dd3bbbdcb08f93fd3faf4d1caa021",
     "src/adventures/reedbank-data.ts": "0555c7ba93be7597a0cbef743fe2e46b6b782f853608179e7d4f4d9dd695932c",
     "src/adventures/safe-position.ts": "454c2b211c429ac0c25cabdf3a04da99b84444aa8092b913a368f7fbfad3aa7a",
-    "src/adventures/save.ts": "eb96a64430278412c921c7a1fa5c7d9a2d78fbd8d8d787911bfde72711bbfa92",
+    "src/adventures/save.ts": "082d83d1e1b48ebc92ceb73c039a640112e0370fd4ab4c43996fba433bf31949",
     "src/adventures/style.css": "f2431da87cc3e5fe60377eadc9ba3135b6e22734b1c2b7630cd3d04f2f71eb1e",
     "src/adventures/trail-geometry.ts": "611003221702cbcf0b106ca4a0606d5dc0728bfadc69edb8d32e1c0e1013b59d",
     "src/adventures/tree-canopy.ts": "c22b21e5ad529a10e5599c5f3cc059a54a46e70e725a28a7920d17656fed0546",
@@ -3139,9 +3264,9 @@
     "adventures/village/waterlily_A.glb": "c4eb573abf077ff1053584800cd3eb4ad42a2fe6baffb2f5b5fd7a1a7e9952b8",
     "adventures/village/waterplant_A.glb": "6464734656609d5d6ea3644ebfcff283aa0a6e22f70b781f58c035b1d07ecd28",
     "adventures/village/wheelbarrow.glb": "415e45d4d1206ffa971917186e9ec1e1be5b1c0ac068f74d315a25ad06f58b99",
-    "adventures.html": "13bb360deab12ed198bda6b2785d9797cd511abcd20b6b4ac39088d81e1d7fa8",
+    "adventures.html": "3a7f8eda7fac74760e988d3064f7ab1c28897003bb2803a811e9f86f15a56411",
+    "assets/adventures-8SYHwW8w.js": "84aa6c6e30e506291583f515540ddd44acde4d8cfdc6627219e6a87a18df2224",
     "assets/adventures-B085P7Ls.css": "10c6870a74dcd1bf47e559a83862cd15e0de3341f27e01ac1ee4de3510375f46",
-    "assets/adventures-BnVpEGgp.js": "47efb2845e23cb0ccbd6f53109d44f18ee0ca681b173c221ec46a9390dad940e",
     "icon-180.png": "40db8916a0ba402401d02c7178f3663e6770971a50e92783534fec8a835a897b",
     "icon-192.png": "66151812c5898a88dc29d363ab95ec724ab2dccbc113f2433285bf28c2025efa",
     "icon-512.png": "8b73b545516c83635d913131f35878bfe6592d10b0b54ba33b7aeec377dd74df",

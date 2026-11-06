@@ -1,0 +1,17 @@
+{
+  "source": "43a0eab38a8f0487adaa1628800b697468af1e93",
+  "player": {
+    "x": 34.27916356357986,
+    "y": -0.00662013521996321,
+    "z": -52,
+    "yaw": 0,
+    "pitch": 0.47,
+    "vy": 0,
+    "grounded": true,
+    "id": "reedbank",
+    "name": "Reedbank"
+  },
+  "nativeY": -0.00662013521996321,
+  "error": "Player outside supported bounds",
+  "blocked": false
+}

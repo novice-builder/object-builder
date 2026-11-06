@@ -479,7 +479,7 @@ class AdventureGame {
     this.player.y = data.inside
       ? roomArrival!.y
       : data.version === 3
-        ? snapshot.player.y
+        ? (data.outdoorElevation ?? snapshot.player.y)
         : walkHeight(
             this.player.x,
             this.player.z,
@@ -535,12 +535,23 @@ class AdventureGame {
       }) &&
       !waterBlocked(x, z, this.data.scene, this.data.layout) &&
       inWorld(x, z, this.data.scene);
-    if (safe(this.player.x, this.player.z)) return;
+    if (safe(this.player.x, this.player.z)) {
+      Object.assign(this.player, {
+        y: this.outdoorSpace!.ground(this.player.x, this.player.z) + 0.002,
+        vy: 0,
+        grounded: true,
+      });
+      return;
+    }
     const origin = { x: this.player.x, z: this.player.z };
     const home = WORLDS.find((w) => w.id === this.data.scene)!.spawn;
     const clear = clearArrival(origin, safe) || clearArrival(home, safe, 32);
     if (clear) {
-      Object.assign(this.player, clear);
+      Object.assign(this.player, clear, {
+        y: this.outdoorSpace!.ground(clear.x, clear.z) + 0.002,
+        vy: 0,
+        grounded: true,
+      });
       this.toast("Moved to the nearest clear ground");
     }
   }

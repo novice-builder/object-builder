@@ -1,0 +1,122 @@
+{
+  "environment": "Chromium SwiftShader phone emulation, actual keyboard bridge movement and IndexedDB. No physical device result.",
+  "checks": [
+    {
+      "name": "ordinary bridge exit saves real negative bank height through the unchanged native bounds",
+      "passed": true,
+      "detail": {
+        "id": "02a7129c-1698-414c-9a21-eb85e474856d",
+        "p": {
+          "x": 34.27916356357986,
+          "y": -0.00662013521996321,
+          "z": -52,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true,
+          "id": "reedbank",
+          "name": "Reedbank"
+        },
+        "nativeY": 0,
+        "signed": -0.00662013521996321,
+        "stored": -0.00662013521996321,
+        "blocked": false
+      }
+    },
+    {
+      "name": "real page reload restores signed bank footing and the same record without moving to another tile",
+      "passed": true,
+      "detail": {
+        "id": "02a7129c-1698-414c-9a21-eb85e474856d",
+        "p": {
+          "x": 34.27916356357986,
+          "y": -0.00662013521996321,
+          "z": -52,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "blocked": false
+      }
+    },
+    {
+      "name": "invalid buried signed-height import keeps the current world and creates no partial record",
+      "passed": true,
+      "detail": {
+        "refused": true,
+        "same": true,
+        "count": true
+      }
+    },
+    {
+      "name": "normal movement returns over bridge and follows the real road to the mill entrance",
+      "passed": true,
+      "detail": {
+        "failed": null,
+        "p": {
+          "x": 24.747514371250148,
+          "y": 0.002,
+          "z": -71.08369623864982,
+          "yaw": 0,
+          "pitch": 0.47,
+          "vy": 0,
+          "grounded": true
+        },
+        "near": true
+      }
+    },
+    {
+      "name": "fade entry/save/reload/exit after a bank crossing retains the exact clear building return",
+      "passed": true,
+      "detail": {
+        "inside": true,
+        "clean": true,
+        "outside": true,
+        "distance": 0,
+        "blocked": false
+      }
+    },
+    {
+      "name": "unsupported outdoor import height recovers to real clear ground rather than remaining suspended",
+      "passed": true,
+      "detail": {
+        "y": -0.00662013521996321,
+        "ground": -0.00862013521996321,
+        "rooms": true,
+        "grounded": true
+      }
+    },
+    {
+      "name": "deeper actual clear riverbank roundtrips without flattening terrain or floating the player",
+      "passed": true,
+      "detail": {
+        "before": {
+          "x": 34.647513195148676,
+          "y": -0.724000000000001,
+          "z": 42,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "after": {
+          "x": 34.647513195148676,
+          "y": -0.724000000000001,
+          "z": 42,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "nativeY": 0,
+        "signed": -0.724000000000001
+      }
+    },
+    {
+      "name": "signed bank/transition/recovery checks have no browser exceptions",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}
