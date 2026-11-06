@@ -1,0 +1,193 @@
+{
+  "checks": [
+    {
+      "name": "retained Preview 12 creates an actual edited upper-floor rectangular mill backup",
+      "passed": true,
+      "detail": {
+        "room": {
+          "entry": {
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "name": "Old Willow Windmill",
+            "kind": "mill",
+            "levels": 2,
+            "x": -139.68391580581664,
+            "z": 24,
+            "yaw": 1.5707963267948963,
+            "width": 6.532168388366699,
+            "depth": 6.8
+          },
+          "objects": [
+            {
+              "id": "table",
+              "asset": "furniture-table",
+              "x": -1.5660841941833497,
+              "z": -1.2999999999999998,
+              "y": 0,
+              "yaw": 0,
+              "scale": 2.5
+            },
+            {
+              "id": "seat",
+              "asset": "furniture-chair",
+              "x": -1.5660841941833497,
+              "z": -0.1499999999999999,
+              "y": 0,
+              "yaw": 3.141592653589793,
+              "scale": 2.2
+            },
+            {
+              "id": "shelf",
+              "asset": "furniture-bookcaseopen",
+              "x": -2.56608419418335,
+              "z": -2.8,
+              "y": 0,
+              "yaw": 0,
+              "scale": 2.2
+            },
+            {
+              "id": "rug",
+              "asset": "furniture-rugrectangle",
+              "x": -1,
+              "z": 0,
+              "y": 0,
+              "yaw": 0,
+              "scale": 2
+            },
+            {
+              "id": "grain-barrel",
+              "asset": "barrel",
+              "x": -2.2660841941833496,
+              "z": 2.4,
+              "y": 3,
+              "yaw": 0,
+              "scale": 4
+            },
+            {
+              "id": "mill-shelf",
+              "asset": "furniture-bookcaseopen",
+              "x": -2.56608419418335,
+              "z": 0,
+              "y": 3,
+              "yaw": 0,
+              "scale": 2.2
+            },
+            {
+              "id": "grain",
+              "asset": "crate_A_small",
+              "x": -2.2660841941833496,
+              "z": -2.15,
+              "y": 3,
+              "yaw": 0,
+              "scale": 4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "current runtime restores the old room and every saved edit exactly without reinterpretation",
+      "passed": true,
+      "detail": {
+        "version": 3,
+        "flights": 1,
+        "id": "28d4d687-c31c-40eb-89a0-5bd2ac852bc2"
+      }
+    },
+    {
+      "name": "old rectangular stairs remain physically traversable in the new runtime",
+      "passed": true,
+      "detail": {
+        "p": {
+          "x": 0.007769208716028778,
+          "y": 0.002000000000000014,
+          "z": 2.252358797152171,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        },
+        "clear": true
+      }
+    },
+    {
+      "name": "revisiting a saved older windmill keeps its template, edits, record and format",
+      "passed": true,
+      "detail": {
+        "same": true,
+        "version": 3,
+        "profile": null,
+        "objects": true,
+        "flights": 1
+      }
+    },
+    {
+      "name": "first new compact mill forks format 4 while retaining the exact original and its older edited room",
+      "passed": true,
+      "detail": {
+        "different": true,
+        "source": true,
+        "oldVersion": 3,
+        "version": 4,
+        "rooms": [
+          {
+            "id": "building_windmill_blue:-144.000:24.000:1.571",
+            "profile": null,
+            "grain": {
+              "id": "grain",
+              "asset": "crate_A_small",
+              "x": -2.2660841941833496,
+              "z": -2.15,
+              "y": 3,
+              "yaw": 0,
+              "scale": 4
+            }
+          },
+          {
+            "id": "building_windmill_blue:-162.000:-63.000:1.571",
+            "profile": "compact-windmill",
+            "grain": {
+              "id": "grain",
+              "asset": "crate_A_small",
+              "x": -1.8,
+              "z": -0.6,
+              "y": 3,
+              "yaw": 0,
+              "scale": 3.2
+            }
+          }
+        ],
+        "name": "The Willow Vale \u00b7 updated adventure"
+      }
+    },
+    {
+      "name": "accepted Preview 12 refuses format-4 backup without changing its original world or records",
+      "passed": true,
+      "detail": {
+        "refused": true,
+        "same": true,
+        "count": true
+      }
+    },
+    {
+      "name": "malformed compact footprint import is rejected before any record or active scene changes",
+      "passed": true,
+      "detail": {
+        "refused": true,
+        "same": true,
+        "count": true
+      }
+    },
+    {
+      "name": "simulated local-storage upgrade denial keeps the complete original outside scene and record",
+      "passed": true,
+      "detail": {
+        "outside": true,
+        "version": 3,
+        "same": true,
+        "count": true,
+        "transitioning": false
+      }
+    }
+  ],
+  "reference": "Independently extracted accepted Preview 12 on 5188; current build on 5175. Managed Chromium; physical devices unverified."
+}

@@ -12,6 +12,8 @@ export interface BuildingEntry {
   depth: number;
   /** Missing means the saved legacy room: preserve its original upper floor. */
   levels?: 1 | 2;
+  /** Version-4 fresh tower room. Missing preserves the saved rectangular template. */
+  profile?: "compact-windmill";
   threshold?: { x: number; y: number; z: number };
 }
 export function entryDistance(

@@ -401,7 +401,7 @@ class AdventureGame {
   snapshot() {
     const space = this.interior ? this.roomSpace : this.outdoorSpace;
     const footing =
-      this.data.version === 3 && space
+      this.data.version >= 3 && space
         ? checkpointFooting(this.player, space, this.lastFooting)
         : this.player;
     if (!footing)
@@ -487,7 +487,7 @@ class AdventureGame {
     this.distance = this.interior ? 8 : 12;
     this.player.y = data.inside
       ? roomArrival!.y
-      : data.version === 3
+      : data.version >= 3
         ? (data.outdoorElevation ?? snapshot.player.y)
         : walkHeight(
             this.player.x,
@@ -679,6 +679,12 @@ class AdventureGame {
         ? this.data.rooms[entry.id]
         : null;
     const state = stored || freshRoom(entry, this.library);
+    const requiredVersion =
+      state.entry.profile === "compact-windmill"
+        ? 4
+        : state.entry.levels !== undefined
+          ? 3
+          : 2;
     // Construct geometry before retiring the exterior. Source models are already loaded.
     const room = new Interior(this.library, state.entry);
     const arrival = this.prepareRoomPose(room, state.objects, {
@@ -696,7 +702,9 @@ class AdventureGame {
       "Stepping inside…",
       () => {
         this.data.version =
-          state.entry.levels !== undefined || this.data.version === 3 ? 3 : 2;
+          this.data.version >= requiredVersion
+            ? this.data.version
+            : requiredVersion;
         this.data.rooms ||= {};
         this.data.rooms[entry.id] = state;
         this.data.inside = { id: entry.id, outside };
@@ -715,10 +723,8 @@ class AdventureGame {
         $("placeTag").textContent = "INSIDE · YOUR OWN ROOM";
       },
       async () => {
-        if (this.data.version < (state.entry.levels !== undefined ? 3 : 2)) {
-          await this.session.copyForRooms(
-            state.entry.levels !== undefined ? 3 : 2,
-          );
+        if (this.data.version < requiredVersion) {
+          await this.session.copyForRooms(requiredVersion);
           this.toast("Original world kept. Rooms are saved in a new copy.");
         }
       },
@@ -1474,7 +1480,7 @@ class AdventureGame {
     $("places").onclick = () => void this.places();
     $("menu").onclick = () => this.menu();
     $("build").onclick = () => this.catalogue();
-    $("interact").onclick = () => this.discover();
+    bindButton($("interact"), () => this.discover());
     $("run").onclick = () => {
       this.controls.running = !this.controls.running;
       $("run").setAttribute("aria-pressed", String(!this.controls.running));
@@ -1780,7 +1786,7 @@ class AdventureGame {
   private menu() {
     if (this.transitioning) return;
     this.openModal(
-      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Move with WASD or the left joystick. Drag the world to turn the camera. Running is the default. Tap Walk for a slower pace; hold Shift to run while walking. Press Space or tap Jump to jump. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick moves; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Walk; left bumper jumps. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview ${PREVIEW_VERSION}. Cottages, town houses, inns, workshops and millhouses have separate furnished rooms. Town houses, inns and millhouses have walkable stairs. New cottages and workshops have one floor. Older saved upper floors stay intact. Older saved worlds keep their original record when new features need an updated copy. New room templates, movement copies and their backups need Preview 11 or later. The Meadow Lodge keeps its opening door. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
+      `<div class="eyebrow">BLOCKWORLD ADVENTURES</div><h1 id="modalTitle">Make yourself at home.</h1><p>Move with WASD or the left joystick. Drag the world to turn the camera. Running is the default. Tap Walk for a slower pace; hold Shift to run while walking. Press Space or tap Jump to jump. Scroll or pinch to change the camera distance.</p><div class="menuGrid"><button id="resume" class="primary">Back to the world →</button><button id="home">Return to a clear starting point</button><button id="backup">Export backup</button><label class="fileButton">Import backup<input id="import" type="file" accept=".bw2,.json,application/json"></label><button id="recover">Save a new copy</button><button id="undo">Undo last edit</button><button id="redo">Redo edit</button><button id="performance">Show performance</button></div><label class="qualityLabel">Graphics <select id="quality"><option value="gentle">Gentle · fewer pixels, no shadows</option><option value="balanced">Balanced · soft shadows</option><option value="high">High · sharper image</option></select></label><details id="controllerHelp"><summary>Xbox-style controller controls</summary><p>Press a controller button after your browser connects it. Left stick moves; right stick looks. A interacts, selects or places; B goes back. X opens Build; Y interacts; right bumper rotates; left-stick click toggles Walk; left bumper jumps. View opens the map and Menu opens this menu.</p><p>Use the D-pad to move between menu or building buttons, then A to choose. On the map, left stick pans and right stick up/down zooms. The Travel to list changes with D-pad left/right; A travels. Release sticks and buttons after opening a menu or reconnecting. Touch and keyboard remain available.</p></details><details><summary>Backup text and asset credits</summary><p>If a download is unavailable, copy this text to a file and keep it safe.</p><textarea id="backupText" readonly aria-label="Backup JSON text"></textarea><button id="copy">Copy backup text</button><p>Village & character: Kay Lousberg / KayKit. Nature & furniture: Kenney. Meadow Lodge modules: Quaternius (Standard FREE). CC0 public domain. <a href="adventures/PROVENANCE.md" target="_blank">Source and licence details</a>.</p><p>Development preview ${PREVIEW_VERSION}. Cottages, town houses, inns, workshops and millhouses have separate furnished rooms. Town houses, inns and millhouses have walkable stairs. New cottages and workshops have one floor. Older saved upper floors stay intact. Older saved worlds keep their original record when new features need an updated copy. New Preview 13 worlds and compact windmill copies need Preview 13 or later. Existing older rooms stay as saved. The Meadow Lodge keeps its opening door. Physical tablet and iPhone performance has not been tested.</p></details><p id="menuError" role="alert"></p>`,
     );
     $("resume").onclick = () => this.closeModal();
     $("home").onclick = () => {

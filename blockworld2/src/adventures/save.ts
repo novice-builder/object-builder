@@ -1,3 +1,4 @@
+import { COMPACT_MILL_SIZE } from "./compact-mill";
 import type { RoomState } from "./interior";
 import { inWorld } from "./vale-data";
 import { WorldStore, type WorldRecord } from "../persistence/store";
@@ -13,7 +14,7 @@ import {
   type SceneId,
 } from "./landscape";
 export interface AdventureData {
-  version: 1 | 2 | 3;
+  version: 1 | 2 | 3 | 4;
   scene: SceneId;
   /** Missing in preview 01: retain its original permanent scene layout. */
   layout?: SceneLayout;
@@ -38,7 +39,7 @@ export function validateAdventure(s: Snapshot): AdventureData {
   const a = s.world.adventure as AdventureData;
   if (
     !a ||
-    ![1, 2, 3].includes(a.version) ||
+    ![1, 2, 3, 4].includes(a.version) ||
     (a.version === 1 && (a.rooms !== undefined || a.inside !== undefined)) ||
     (a.layout !== undefined &&
       a.layout !== 1 &&
@@ -93,7 +94,7 @@ export function validateAdventure(s: Snapshot): AdventureData {
   if (a.version >= 2) validateRooms(a, s);
   if (
     a.outdoorElevation !== undefined &&
-    (a.version !== 3 ||
+    (a.version < 3 ||
       !!a.inside ||
       s.player.y !== 0 ||
       !Number.isFinite(a.outdoorElevation) ||
@@ -132,10 +133,14 @@ function validateRooms(a: AdventureData, s: Snapshot) {
       e.name.length > 80 ||
       ![e.x, e.z, e.yaw, e.width, e.depth].every(Number.isFinite) ||
       !inWorld(e.x, e.z, a.scene) ||
-      e.width < 5.8 ||
-      e.width > 10 ||
-      e.depth < 6.8 ||
-      e.depth > 12 ||
+      (e.profile === undefined
+        ? e.width < 5.8 || e.width > 10 || e.depth < 6.8 || e.depth > 12
+        : e.profile !== "compact-windmill" ||
+          a.version < 4 ||
+          e.kind !== "mill" ||
+          e.levels !== 2 ||
+          e.width !== COMPACT_MILL_SIZE ||
+          e.depth !== COMPACT_MILL_SIZE) ||
       (e.levels !== undefined &&
         (![1, 2].includes(e.levels) || a.version < 3)) ||
       (e.threshold !== undefined &&
@@ -185,7 +190,7 @@ function validateRooms(a: AdventureData, s: Snapshot) {
       ![p.x, p.z, p.yaw, p.pitch].every(Number.isFinite) ||
       (p.y !== undefined &&
         (!Number.isFinite(p.y) ||
-          p.y < (a.version === 3 ? -3 : 0) ||
+          p.y < (a.version >= 3 ? -3 : 0) ||
           p.y > 26)) ||
       !inWorld(p.x, p.z, a.scene) ||
       (p.facing !== undefined && !Number.isFinite(p.facing)) ||
@@ -193,7 +198,7 @@ function validateRooms(a: AdventureData, s: Snapshot) {
       Math.abs(s.player.z) > room.entry.depth / 2 ||
       s.player.y < 0 ||
       s.player.y >
-        (a.version === 3
+        (a.version >= 3
           ? room.entry.levels === 1 || room.entry.kind === "workshop"
             ? 1.3
             : 4.3
@@ -207,9 +212,9 @@ export function makeSnapshot(
   pose: AdventurePose,
 ): Snapshot {
   const adventure = structuredClone(data),
-    elevation = data.inside || data.version === 3 ? (pose.y ?? 0) : 0;
+    elevation = data.inside || data.version >= 3 ? (pose.y ?? 0) : 0;
   delete adventure.outdoorElevation;
-  if (data.version === 3 && !data.inside && elevation < 0)
+  if (data.version >= 3 && !data.inside && elevation < 0)
     adventure.outdoorElevation = elevation;
   return {
     schema: 3,
@@ -222,8 +227,7 @@ export function makeSnapshot(
     },
     player: {
       ...pose,
-      y:
-        data.version === 3 && !data.inside ? Math.max(0, elevation) : elevation,
+      y: data.version >= 3 && !data.inside ? Math.max(0, elevation) : elevation,
     },
     preferences: { selected: "hand", avatar: "explorer", camera: "third" },
   };
@@ -257,7 +261,7 @@ export class AdventureSession {
         w.name,
         makeSnapshot(
           {
-            version: 3,
+            version: 4,
             rooms: {},
             scene: w.id,
             layout: w.id === "vale" ? LATEST_LAYOUT : 3,
@@ -328,7 +332,7 @@ export class AdventureSession {
       const w = WORLDS.find((w) => w.id === scene)!;
       const snapshot = makeSnapshot(
         {
-          version: 3,
+          version: 4,
           rooms: {},
           scene,
           layout: w.id === "vale" ? LATEST_LAYOUT : 3,
@@ -380,7 +384,7 @@ export class AdventureSession {
     );
   }
   /** Feature upgrades fork an independently stored copy; older records remain readable by their previews. */
-  copyForRooms(targetVersion: 2 | 3 = 2) {
+  copyForRooms(targetVersion: 2 | 3 | 4 = 2) {
     return this.change(async () => {
       await this.flush();
       const snapshot = this.capture();
@@ -393,7 +397,7 @@ export class AdventureSession {
       const used = new Set((await this.store.list()).map((r) => r.name)),
         name = adventureCopyName(
           this.current?.name || "Adventure",
-          targetVersion === 3 ? "updated adventure" : "interiors",
+          targetVersion >= 3 ? "updated adventure" : "interiors",
           used,
         );
       const record = await this.store.create(name, snapshot);

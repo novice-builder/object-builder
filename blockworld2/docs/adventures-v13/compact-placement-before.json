@@ -1,0 +1,47 @@
+{
+  "checks": [
+    {
+      "name": "all fresh ground furnishings fit the actual room and leave collision-clear placement",
+      "passed": false,
+      "detail": [
+        {
+          "id": "worktable",
+          "problem": "Keep the stairs and landings clear",
+          "bounds": {
+            "minX": -2.26,
+            "maxX": -0.7370241119999997,
+            "minZ": -0.867373331,
+            "maxZ": -0.13262666900000003,
+            "height": 0.653467954,
+            "base": 0
+          }
+        },
+        {
+          "id": "seat",
+          "problem": null,
+          "bounds": {
+            "minX": -1.6600000000000001,
+            "maxX": -1.4400000000000002,
+            "minZ": 0.54,
+            "maxZ": 0.7600000000000001,
+            "height": 0.8929999999999999,
+            "base": 0
+          }
+        },
+        {
+          "id": "tool-shelf",
+          "problem": null,
+          "bounds": {
+            "minX": -2.11,
+            "maxX": -1.5899999999999999,
+            "minZ": -1.9825,
+            "maxZ": -1.7175000000000002,
+            "height": 1.4959998912,
+            "base": 0
+          }
+        }
+      ]
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader phone emulation; editor API checks plus ordinary engine movement. No physical-device claim."
+}

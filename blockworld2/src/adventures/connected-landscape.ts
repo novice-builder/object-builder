@@ -578,6 +578,7 @@ export class ConnectedLandscape {
         this.library,
         root,
         position.z > 0 ? "Old Willow Windmill" : "Alderwick Windmill",
+        true,
       );
       if (entry) this.entrances.push(entry);
     });

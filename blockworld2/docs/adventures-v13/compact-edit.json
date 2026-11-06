@@ -1,0 +1,172 @@
+{
+  "checks": [
+    {
+      "name": "all fresh ground furnishings fit the actual room and leave collision-clear placement",
+      "passed": true,
+      "detail": [
+        {
+          "id": "worktable",
+          "problem": null,
+          "bounds": {
+            "minX": -2.26,
+            "maxX": -1.4357786717999996,
+            "minZ": -1.1956367384000002,
+            "maxZ": 0.4956367384000003,
+            "height": 0.7188147494000001,
+            "base": 0
+          }
+        },
+        {
+          "id": "seat",
+          "problem": null,
+          "bounds": {
+            "minX": -1.96,
+            "maxX": -1.7400000000000002,
+            "minZ": 1.04,
+            "maxZ": 1.2599999999999998,
+            "height": 0.8929999999999999,
+            "base": 0
+          }
+        },
+        {
+          "id": "tool-shelf",
+          "problem": null,
+          "bounds": {
+            "minX": -2.11,
+            "maxX": -1.5899999999999999,
+            "minZ": -1.9825,
+            "maxZ": -1.7175000000000002,
+            "height": 1.4959998912,
+            "base": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "ordinary movement reaches the rear work/supply corner through a clear aisle",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "all fresh loft furnishings fit loaded bounds and the real floor",
+      "passed": true,
+      "detail": [
+        {
+          "id": "grain",
+          "problem": null,
+          "bounds": {
+            "minX": -1.9440000009536744,
+            "maxX": -1.6559999990463257,
+            "minZ": -0.7440000009536744,
+            "maxZ": -0.45599999904632565,
+            "height": 3.4480000114448557,
+            "base": 3
+          }
+        },
+        {
+          "id": "grain-barrel",
+          "problem": null,
+          "bounds": {
+            "minX": -2.0222145479917524,
+            "maxX": -1.5777854520082475,
+            "minZ": -2.0222145591676233,
+            "maxZ": -1.5777854408323766,
+            "height": 3.6351362183690092,
+            "base": 3
+          }
+        },
+        {
+          "id": "mill-shelf",
+          "problem": null,
+          "bounds": {
+            "minX": -2.06,
+            "maxX": -1.54,
+            "minZ": 0.6674999999999999,
+            "maxZ": 0.9325,
+            "height": 4.4959998912,
+            "base": 3
+          }
+        }
+      ]
+    },
+    {
+      "name": "loft grain move excludes its hidden body and confirms the same object ID",
+      "passed": true,
+      "detail": {
+        "before": {
+          "id": "grain",
+          "asset": "crate_A_small",
+          "x": -1.8,
+          "z": -0.6,
+          "y": 3,
+          "yaw": 0,
+          "scale": 3.2
+        },
+        "after": {
+          "id": "grain",
+          "asset": "crate_A_small",
+          "x": -1.8,
+          "z": -0.35,
+          "y": 3,
+          "yaw": 0,
+          "scale": 3.2
+        },
+        "problem": null,
+        "excluded": true
+      }
+    },
+    {
+      "name": "compact loft edit undo/redo preserves exact floor, identity and position",
+      "passed": true,
+      "detail": {
+        "after": {
+          "id": "grain",
+          "asset": "crate_A_small",
+          "x": -1.8,
+          "z": -0.35,
+          "y": 3,
+          "yaw": 0,
+          "scale": 3.2
+        },
+        "undo": {
+          "id": "grain",
+          "asset": "crate_A_small",
+          "x": -1.8,
+          "z": -0.6,
+          "y": 3,
+          "yaw": 0,
+          "scale": 3.2
+        },
+        "redo": {
+          "id": "grain",
+          "asset": "crate_A_small",
+          "x": -1.8,
+          "z": -0.35,
+          "y": 3,
+          "yaw": 0,
+          "scale": 3.2
+        }
+      }
+    },
+    {
+      "name": "native backup import creates an independent compact room with exact edits and upper support",
+      "passed": true,
+      "detail": {
+        "different": true,
+        "same": true,
+        "version": 4,
+        "profile": "compact-windmill",
+        "p": {
+          "x": -0.04913057236278768,
+          "y": 3.002000002980232,
+          "z": 2.065773517788778,
+          "yaw": 0,
+          "pitch": 0.8,
+          "vy": 0,
+          "grounded": true
+        }
+      }
+    }
+  ],
+  "environment": "Managed Chromium SwiftShader phone emulation; editor API checks plus ordinary engine movement. No physical-device claim."
+}

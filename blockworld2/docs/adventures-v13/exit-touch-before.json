@@ -1,0 +1,31 @@
+{
+  "trace": [
+    {
+      "type": "pointerdown",
+      "id": "interact",
+      "at": 4877.9000000059605
+    },
+    {
+      "type": "pointerup",
+      "id": "interact",
+      "at": 4878.0999999940395
+    }
+  ],
+  "enabled": true,
+  "inside": true,
+  "transitioning": false,
+  "blocked": false,
+  "busy": 0,
+  "modal": false,
+  "toast": "Controller disconnected. Touch and keyboard are ready.",
+  "save": "\u25e6 Saved on this device",
+  "p": {
+    "x": 0.046363087978303165,
+    "y": 0.002,
+    "z": 1.443927990090489,
+    "yaw": 0,
+    "pitch": 0.8,
+    "vy": 0,
+    "grounded": true
+  }
+}

@@ -1,3 +1,9 @@
+import {
+  compactMillFurniture,
+  compactMillSolids,
+  compactMillContains,
+  buildCompactMill,
+} from "./compact-mill";
 import * as T from "three";
 import type { AssetLibrary } from "./assets";
 import type { BuildingEntry } from "./building-entry";
@@ -24,54 +30,58 @@ export function freshRoom(
       yaw = 0,
       scale = 2.2,
     ) => objects.push({ id, asset, x, z, y, yaw, scale });
-  add("table", "furniture-table", -w + 1.7, -d + 2.1, 0, 0, 2.5);
-  add("seat", "furniture-chair", -w + 1.7, -d + 3.25, 0, Math.PI);
-  add("shelf", "furniture-bookcaseopen", -w + 0.55, -d + 0.6);
-  add("rug", "furniture-rugrectangle", -1, 0, 0, 0, 2);
-  if (
-    entry.kind === "cottage" ||
-    entry.kind === "townhouse" ||
-    entry.kind === "inn"
-  ) {
-    const floor = entry.levels === 1 ? 0 : UPPER_FLOOR;
-    add(
-      floor ? "upstairs-shelf" : "corner-shelf",
-      "furniture-bookcaseopen",
-      -w + 0.55,
-      d - 0.7,
-      floor,
-    );
-    add(
-      "bed",
-      "furniture-bedsingle",
-      floor ? -w + 1.1 : w - 1.05,
-      -d + 1.8,
-      floor,
-      0,
-      1.85,
-    );
-    add(
-      "bedside",
-      "furniture-cabinetbed",
-      floor ? -w + 2.3 : w - 2.3,
-      -d + 0.6,
-      floor,
-    );
-    if (entry.kind === "inn")
+  if (entry.profile === "compact-windmill")
+    objects.push(...compactMillFurniture());
+  else {
+    add("table", "furniture-table", -w + 1.7, -d + 2.1, 0, 0, 2.5);
+    add("seat", "furniture-chair", -w + 1.7, -d + 3.25, 0, Math.PI);
+    add("shelf", "furniture-bookcaseopen", -w + 0.55, -d + 0.6);
+    add("rug", "furniture-rugrectangle", -1, 0, 0, 0, 2);
+    if (
+      entry.kind === "cottage" ||
+      entry.kind === "townhouse" ||
+      entry.kind === "inn"
+    ) {
+      const floor = entry.levels === 1 ? 0 : UPPER_FLOOR;
       add(
-        "guest-bed",
+        floor ? "upstairs-shelf" : "corner-shelf",
+        "furniture-bookcaseopen",
+        -w + 0.55,
+        d - 0.7,
+        floor,
+      );
+      add(
+        "bed",
         "furniture-bedsingle",
-        -w + 3.3,
+        floor ? -w + 1.1 : w - 1.05,
         -d + 1.8,
-        UPPER_FLOOR,
+        floor,
         0,
         1.85,
       );
-  } else if (entry.kind === "mill") {
-    add("grain", "crate_A_small", -w + 1, -d + 1, UPPER_FLOOR, 0, 4);
-    add("grain-barrel", "barrel", -w + 1, d - 1, UPPER_FLOOR, 0, 4);
-    add("mill-shelf", "furniture-bookcaseopen", -w + 0.55, 0, UPPER_FLOOR);
-  } else add("supplies", "crate_A_small", w - 1, -d + 1, 0, 0, 4);
+      add(
+        "bedside",
+        "furniture-cabinetbed",
+        floor ? -w + 2.3 : w - 2.3,
+        -d + 0.6,
+        floor,
+      );
+      if (entry.kind === "inn")
+        add(
+          "guest-bed",
+          "furniture-bedsingle",
+          -w + 3.3,
+          -d + 1.8,
+          UPPER_FLOOR,
+          0,
+          1.85,
+        );
+    } else if (entry.kind === "mill") {
+      add("grain", "crate_A_small", -w + 1, -d + 1, UPPER_FLOOR, 0, 4);
+      add("grain-barrel", "barrel", -w + 1, d - 1, UPPER_FLOOR, 0, 4);
+      add("mill-shelf", "furniture-bookcaseopen", -w + 0.55, 0, UPPER_FLOOR);
+    } else add("supplies", "crate_A_small", w - 1, -d + 1, 0, 0, 4);
+  }
   if (entry.levels !== undefined && library)
     for (const p of objects) {
       const bounds = library.bounds.get(p.asset);
@@ -100,7 +110,8 @@ export function freshRoom(
 export class Interior {
   private shape?: MeshShape;
   group = new T.Group();
-  walls: { group: T.Group; side: string }[] = [];
+  walls: { group: T.Group; side: string; normal?: { x: number; z: number } }[] =
+    [];
   upper = new T.Group();
   solids: RoomSolid[];
   obstacles: Obstacle[];
@@ -114,7 +125,10 @@ export class Interior {
     const w = entry.width / 2,
       d = entry.depth / 2;
     this.upstairs = entry.kind !== "workshop" && entry.levels !== 1;
-    this.solids = roomStructure(entry.width, entry.depth, this.upstairs);
+    this.solids =
+      entry.profile === "compact-windmill"
+        ? compactMillSolids()
+        : roomStructure(entry.width, entry.depth, this.upstairs);
     this.obstacles = this.solids
       .filter((s) => !s.ramp && s.maxY > (this.upstairs ? 3 : 0))
       .map((s) => ({ ...s, base: s.minY, height: s.maxY, name: "room-wall" }));
@@ -165,6 +179,19 @@ export class Interior {
       parent.add(o);
       return o;
     };
+    if (entry.profile === "compact-windmill") {
+      buildCompactMill({
+        group: this.group,
+        upper: this.upper,
+        walls: this.walls,
+        geometry: this.geometry,
+        wood,
+        rail,
+        box,
+        fit,
+      });
+      return;
+    }
     fit(
       this.group,
       "Floor_WoodDark",
@@ -300,8 +327,9 @@ export class Interior {
     const sx = Math.sin(yaw),
       sz = Math.cos(yaw);
     for (const wall of this.walls) {
-      const visible =
-        wall.side === "front"
+      const visible = wall.normal
+        ? wall.normal.x * sx + wall.normal.z * sz < -0.15
+        : wall.side === "front"
           ? sz < -0.15
           : wall.side === "back"
             ? sz > 0.15
@@ -321,8 +349,10 @@ export class Interior {
     const space = new CollisionSpace(
       () => 0,
       (x, z) =>
-        Math.abs(x) <= this.entry.width / 2 - BODY_RADIUS &&
-        Math.abs(z) <= this.entry.depth / 2 - BODY_RADIUS,
+        this.entry.profile === "compact-windmill"
+          ? compactMillContains(x, z, BODY_RADIUS)
+          : Math.abs(x) <= this.entry.width / 2 - BODY_RADIUS &&
+            Math.abs(z) <= this.entry.depth / 2 - BODY_RADIUS,
     );
     space.add(this.shape, undefined, true, "room structure");
     return space;
