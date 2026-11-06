@@ -7,7 +7,7 @@ Permanent footprints appear only in explicit **new layout 7**, created as a fres
 ## Evidence and validation
 
 - **203 passing deterministic tests** and strict separate Adventures build; logs included.
-- **86 passing browser checks**: 25 new-district walking/entry/save/reload/exact-return checks, four actual old-layout comparisons against independently extracted Preview 11, 14 new inn/town-house keyboard/touch/injected-gamepad stairs and camera checks, three rendering/resource checks, 22 windmill entry/stair/save/map-heading checks and 18 phone/tablet visual/map-gesture/control checks.
+- **92 passing browser checks**: 25 new-district walking/entry/save/reload/exact-return checks, four actual old-layout comparisons against independently extracted Preview 11, 14 new inn/town-house keyboard/touch/injected-gamepad stairs and camera checks, three rendering/resource checks, 22 windmill entry/stair/save/map-heading checks and 18 phone/tablet visual/map-gesture/control checks and six independent road-batch preservation/render-cost checks.
 - The initial proposed windmill junction ran into an existing cottage beside an old road. Actual movement exposed the obstruction; the new road now joins the clear village perimeter instead. Both routes and the southern cottage loop are traversed through ordinary movement.
 - Actual layouts 3–6 match the Preview 11 reference exactly for paths, scenery/trees, collision bounds, building entrances, maps and retained construction coordinates. Tests create a new layout-7 record, then reopen the older decorated record unchanged.
 - Every new home/workshop/inn is approached along the ground, entered through the real UI fade, saved/reloaded independently and exited to the exact same clear exterior. Workshop has supplies rather than a bedroom. Touchscreen and injected standard Gamepad API ascend/descend the actual new inn/town-house stairs; keyboard shares the controller.
@@ -34,3 +34,9 @@ The real browser reproduced a map arrow changing from the saved player facing to
 Ten alternating windmill entry/exit cycles retain two independently saved rooms and plateau uploaded resources: 105 geometries indoors, 104 outdoors, 11 textures and ten programs in the sampled final cycle. The mill view submits 72 calls and 7,107 triangles while outdoor rendering is suspended. These are managed-browser workload/resource samples, not physical mobile performance.
 
 Next: measure batching the new district’s identical road surfaces against an independently retained pre-batch build, retain the change only with useful measured cost/visual results, then verify a new Preview 12 package. Continue beyond that release into more accurate compact interiors and useful environment/gameplay work.
+
+## Retained road batching
+
+An independently retained pre-batch build exactly matches verified source `c53c82cf6e91fd08b9646031fde22a4640bc22f9`. Eleven identical-material district road meshes become one. All **330 triangles**, normals and UVs are byte-identical; buffers remain **13,244 bytes**, and paths, collision bounds, trees and entrances have the same full-scene signature. The representative district view falls from **205 to 199 draw calls** (about 2.9% fewer submissions) with 30 more submitted triangles. Willowmere retains 199 calls with 226 more triangles; the river, meadow and northern road sample counts are unchanged. This is a bounded culling tradeoff, not an FPS claim. Both actual before/after views were inspected. Source assets and all earlier layouts remain unchanged.
+
+The strict receipt remains successful after batching. A new Preview 12 package must still be extracted and tested before acceptance; then continue immediately into more accurate compact interiors and useful environment/gameplay work.

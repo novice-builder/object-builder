@@ -1,3 +1,4 @@
+import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { windmillEntry } from "./windmill-entry";
 import {
   MILLERS_END,
@@ -531,12 +532,13 @@ export class ConnectedLandscape {
     });
   }
   private millersEnd() {
+    const ribbons: T.BufferGeometry[] = [];
     const road = this.regions[0].trailSurface,
       walk = (x: number, z: number) => valeWalk(x, z, this.layout),
       streets = MILLERS_END_ROADS.map((p) => smoothTrail(p.points));
     for (const [i, path] of MILLERS_END_ROADS.entries()) {
       this.paths.push({ points: streets[i], width: path.width });
-      this.mesh(trailGeometry(streets[i], path.width, walk), road);
+      ribbons.push(trailGeometry(streets[i], path.width, walk));
     }
     for (const p of MILLERS_END_BUILDINGS) {
       const root = this.place(p.asset, p.x, p.z, p.scale, p.yaw);
@@ -555,8 +557,13 @@ export class ConnectedLandscape {
       )[0];
       const path = { points: [start, end], width: 1.8 };
       this.paths.push(path);
-      this.mesh(trailGeometry(path.points, path.width, walk), road);
+      ribbons.push(trailGeometry(path.points, path.width, walk));
     }
+    // One material and a bounded district: retain exact road triangles while reducing submissions.
+    const merged = mergeGeometries(ribbons, false);
+    for (const ribbon of ribbons) ribbon.dispose();
+    if (!merged) throw Error("District road attributes do not match.");
+    this.mesh(merged, road).userData.districtRoad = MILLERS_END.id;
     this.place("building_well_blue", -141, 71, 4);
     this.place("wheelbarrow", -152, 41, 3.7, 0.5);
     this.place("sack", -152, 43, 3.7);

@@ -1,0 +1,204 @@
+{
+  "checks": [
+    {
+      "name": "retained pre-batch source and every runtime hash match the verified checkpoint",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "before rendered comparison has no browser exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "after rendered comparison has no browser exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "batch retains exact triangle positions, normals and UVs plus all paths, collision bounds, trees and entrances",
+      "passed": true,
+      "detail": {
+        "attributes": {
+          "position": "12baefbbb539268df072f18547b1add29d1a05fe3e6c933273986603f66f5552",
+          "normal": "1c0bd9a7183d2f286bbc021bf0131dc4dddf4d04ea0461dbb19d68e422ca25b0",
+          "uv": "ab4a56d6e6c6801e07a92a59b500dcb0260fb54a64ff88cb0f45cc908c918075"
+        },
+        "triangles": 330,
+        "layoutHash": "1c5778eb9f3a97e13fa9c11d9b230120c9094d87969dfaf8294c9d36860fe897"
+      }
+    },
+    {
+      "name": "district merges eleven road submissions into one without growing geometry buffers",
+      "passed": true,
+      "detail": {
+        "before": 11,
+        "after": 1,
+        "bytesBefore": 13244,
+        "bytesAfter": 13244
+      }
+    },
+    {
+      "name": "district view reduces draw calls while every sampled view stays within five percent additional triangles",
+      "passed": true,
+      "detail": {
+        "before": {
+          "riverbank": {
+            "drawCalls": 137,
+            "triangles": 130573,
+            "geometries": 96,
+            "textures": 12
+          },
+          "willowmere": {
+            "drawCalls": 199,
+            "triangles": 175057,
+            "geometries": 97,
+            "textures": 12
+          },
+          "meadow": {
+            "drawCalls": 222,
+            "triangles": 170071,
+            "geometries": 107,
+            "textures": 13
+          },
+          "north-road": {
+            "drawCalls": 118,
+            "triangles": 134488,
+            "geometries": 107,
+            "textures": 13
+          },
+          "millers-end": {
+            "drawCalls": 205,
+            "triangles": 175786,
+            "geometries": 121,
+            "textures": 13
+          }
+        },
+        "after": {
+          "riverbank": {
+            "drawCalls": 137,
+            "triangles": 130573,
+            "geometries": 97,
+            "textures": 12
+          },
+          "willowmere": {
+            "drawCalls": 199,
+            "triangles": 175283,
+            "geometries": 97,
+            "textures": 12
+          },
+          "meadow": {
+            "drawCalls": 222,
+            "triangles": 170071,
+            "geometries": 107,
+            "textures": 13
+          },
+          "north-road": {
+            "drawCalls": 118,
+            "triangles": 134488,
+            "geometries": 107,
+            "textures": 13
+          },
+          "millers-end": {
+            "drawCalls": 199,
+            "triangles": 175816,
+            "geometries": 115,
+            "textures": 13
+          }
+        }
+      }
+    }
+  ],
+  "referenceSource": "c53c82cf6e91fd08b9646031fde22a4640bc22f9",
+  "environment": "Managed Chromium SwiftShader fixed-camera workloads; not physical-device FPS.",
+  "phases": {
+    "before": {
+      "meshes": 11,
+      "triangles": 330,
+      "bytes": 13244,
+      "attrs": {
+        "position": "12baefbbb539268df072f18547b1add29d1a05fe3e6c933273986603f66f5552",
+        "normal": "1c0bd9a7183d2f286bbc021bf0131dc4dddf4d04ea0461dbb19d68e422ca25b0",
+        "uv": "ab4a56d6e6c6801e07a92a59b500dcb0260fb54a64ff88cb0f45cc908c918075"
+      },
+      "startupBytes": 3726319,
+      "layoutHash": "1c5778eb9f3a97e13fa9c11d9b230120c9094d87969dfaf8294c9d36860fe897",
+      "views": {
+        "riverbank": {
+          "drawCalls": 137,
+          "triangles": 130573,
+          "geometries": 96,
+          "textures": 12
+        },
+        "willowmere": {
+          "drawCalls": 199,
+          "triangles": 175057,
+          "geometries": 97,
+          "textures": 12
+        },
+        "meadow": {
+          "drawCalls": 222,
+          "triangles": 170071,
+          "geometries": 107,
+          "textures": 13
+        },
+        "north-road": {
+          "drawCalls": 118,
+          "triangles": 134488,
+          "geometries": 107,
+          "textures": 13
+        },
+        "millers-end": {
+          "drawCalls": 205,
+          "triangles": 175786,
+          "geometries": 121,
+          "textures": 13
+        }
+      }
+    },
+    "after": {
+      "meshes": 1,
+      "triangles": 330,
+      "bytes": 13244,
+      "attrs": {
+        "position": "12baefbbb539268df072f18547b1add29d1a05fe3e6c933273986603f66f5552",
+        "normal": "1c0bd9a7183d2f286bbc021bf0131dc4dddf4d04ea0461dbb19d68e422ca25b0",
+        "uv": "ab4a56d6e6c6801e07a92a59b500dcb0260fb54a64ff88cb0f45cc908c918075"
+      },
+      "startupBytes": 3726463,
+      "layoutHash": "1c5778eb9f3a97e13fa9c11d9b230120c9094d87969dfaf8294c9d36860fe897",
+      "views": {
+        "riverbank": {
+          "drawCalls": 137,
+          "triangles": 130573,
+          "geometries": 97,
+          "textures": 12
+        },
+        "willowmere": {
+          "drawCalls": 199,
+          "triangles": 175283,
+          "geometries": 97,
+          "textures": 12
+        },
+        "meadow": {
+          "drawCalls": 222,
+          "triangles": 170071,
+          "geometries": 107,
+          "textures": 13
+        },
+        "north-road": {
+          "drawCalls": 118,
+          "triangles": 134488,
+          "geometries": 107,
+          "textures": 13
+        },
+        "millers-end": {
+          "drawCalls": 199,
+          "triangles": 175816,
+          "geometries": 115,
+          "textures": 13
+        }
+      }
+    }
+  }
+}
